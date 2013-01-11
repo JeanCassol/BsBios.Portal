@@ -22,6 +22,7 @@ namespace BsBios.Portal.UI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            IocConfig.RegisterIoc();
             AuthConfig.RegisterAuth();
         }
     }

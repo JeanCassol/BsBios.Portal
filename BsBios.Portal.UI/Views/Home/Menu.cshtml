@@ -1,0 +1,14 @@
+﻿@using BsBios.Portal.Domain.Model
+@model IList<MenuUsuario>
+
+<nav id="menu">
+    <ul>
+
+    @foreach (MenuUsuario menu in Model)
+    {
+        <li>
+            @Html.ActionLink(menu.Titulo,"","")            
+        </li>
+    }
+    </ul>
+</nav>

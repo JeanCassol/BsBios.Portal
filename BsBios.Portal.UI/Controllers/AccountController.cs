@@ -26,6 +26,11 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            return View("Login");
+        }
 
         //
         // POST: /Account/Login
@@ -41,7 +46,7 @@ namespace BsBios.Portal.UI.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", "Usuário ou senha incorreta.");
             return View(model);
         }
 

@@ -40,6 +40,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -167,6 +170,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\IocConfig.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -228,6 +232,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\bg_logo.gif" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -281,6 +286,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Home\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -291,6 +297,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
+      <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
+      <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
+      <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
+      <Name>BsBios.Portal.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra.Factory\BsBios.Portal.Infra.Factory.csproj">
+      <Project>{4DCF00D1-B782-4D10-A569-204AABA0C2E1}</Project>
+      <Name>BsBios.Portal.Infra.Factory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra.IoC\BsBios.Portal.Infra.IoC.csproj">
+      <Project>{9E08CDF6-A6C8-40A8-9482-F279E63988CA}</Project>
+      <Name>BsBios.Portal.Infra.IoC</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
