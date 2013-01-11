@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.IoC", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.BootStrap", "BsBios.Portal.Infra.BootStrap\BsBios.Portal.Infra.BootStrap.csproj", "{79A731B5-65D4-4ED6-A79B-702B52C32608}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.Factory", "BsBios.Portal.Infra.Factory\BsBios.Portal.Infra.Factory.csproj", "{4DCF00D1-B782-4D10-A569-204AABA0C2E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{79A731B5-65D4-4ED6-A79B-702B52C32608}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A731B5-65D4-4ED6-A79B-702B52C32608}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79A731B5-65D4-4ED6-A79B-702B52C32608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCF00D1-B782-4D10-A569-204AABA0C2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCF00D1-B782-4D10-A569-204AABA0C2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCF00D1-B782-4D10-A569-204AABA0C2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCF00D1-B782-4D10-A569-204AABA0C2E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

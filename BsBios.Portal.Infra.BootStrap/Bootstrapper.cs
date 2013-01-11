@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using BsBios.Portal.Infra.Factory;
 using BsBios.Portal.Infra.IoC;
 using StructureMap;
 using StructureMap.Pipeline;
@@ -7,17 +9,12 @@ namespace BsBios.Portal.Infra.BootStrap
 {
     public static class Bootstrapper
     {
-        //static Bootstrapper()
-        //{
-        //    ConfigureContainer();
-        //}
-
         public static void Run()
         {
             ConfigureContainer();
-            IList<IBootstrapperTask> tasks = ObjectFactory.GetAllInstances<IBootstrapperTask>();
+            IList<IBootstrapTask> tasks = ObjectFactory.GetAllInstances<IBootstrapTask>();
 
-            foreach (IBootstrapperTask task in tasks)
+            foreach (IBootstrapTask task in tasks)
             {
                 task.Execute();
             }
@@ -37,18 +34,18 @@ namespace BsBios.Portal.Infra.BootStrap
                                             //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                                             //    .Use<Autenticador>();
 
-                                            x.For<IBootstrapperTask>()
+                                            x.For<IBootstrapTask>()
                                                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest)).
                                                 Add<RegisterControllerFactory> ();
 
 
-                                            x.For<IBootstrapperTask>()
+                                            x.For<IBootstrapTask>()
                                                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest)).
                                                 Add<RegisterRoutes>();
 
-                                            x.For<IBootstrapperTask>()
-                                             .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                                             .Add<ConfigureDataAccess>();
+                                            //x.For<IBootstrapTask>()
+                                            // .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                                            // .Add<ConfigureDataAccess>();
 
                                         });
         }
