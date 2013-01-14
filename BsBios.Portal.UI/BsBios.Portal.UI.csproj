@@ -315,6 +315,10 @@
       <Project>{9E08CDF6-A6C8-40A8-9482-F279E63988CA}</Project>
       <Name>BsBios.Portal.Infra.IoC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra.Services\BsBios.Portal.Infra.Services.csproj">
+      <Project>{331BD1B7-1663-49E1-97AB-6A574EF8FE42}</Project>
+      <Name>BsBios.Portal.Infra.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

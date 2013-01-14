@@ -1,14 +1,19 @@
 ﻿@using BsBios.Portal.Domain.Model
-@model IList<MenuUsuario>
+@model IEnumerable<Menu>
 
 <nav id="menu">
-    <ul>
+    <ul class="menu">
 
-    @foreach (MenuUsuario menu in Model)
-    {
-        <li>
-            @Html.ActionLink(menu.Titulo,"","")            
-        </li>
-    }
+        @foreach (Menu menu in Model)
+        {
+            <li>@menu.Descricao
+                <ul>
+                    @foreach(MenuItem menuItem in menu.Itens)
+                    {
+                        <li>@Html.ActionLink(menuItem.Descricao,menuItem.Action, menuItem.Controller) </li>
+                    }
+                </ul>
+            </li>
+        }
     </ul>
 </nav>

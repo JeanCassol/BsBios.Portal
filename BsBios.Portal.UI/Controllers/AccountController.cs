@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Infra.Services.Contracts;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
+using StructureMap;
 using WebMatrix.WebData;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.UI.Models;
@@ -17,6 +21,13 @@ namespace BsBios.Portal.UI.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private readonly IAuthenticationProvider _authenticationProvider;
+
+        public AccountController(IAuthenticationProvider authenticationProvider)
+        {
+            _authenticationProvider = authenticationProvider;
+        }
+
         //
         // GET: /Account/Login
 
@@ -35,21 +46,38 @@ namespace BsBios.Portal.UI.Controllers
         //
         // POST: /Account/Login
 
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Login(LoginModel model, string returnUrl)
+        //{
+        //    if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+        //    {
+        //        return RedirectToLocal(returnUrl);
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    ModelState.AddModelError("", "Usuário ou senha incorreta.");
+        //    return View(model);
+        //}
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            UsuarioConectado usuarioConectado = _authenticationProvider.Autenticar(model.UserName, model.Password);
+            if (usuarioConectado.Perfil.PermiteLogin)
             {
-                return RedirectToLocal(returnUrl);
-            }
+                Session["UsuarioConectado"] = usuarioConectado;
+                ObjectFactory.Configure(c => c.For<UsuarioConectado>().Use(usuarioConectado));
+                return RedirectToAction("Index", "Home");
+                //return View("~/Views/Home/Index.cshtml", usuarioConectado.Perfil.Menus);
 
-            // If we got this far, something failed, redisplay form
+            }
             ModelState.AddModelError("", "Usuário ou senha incorreta.");
             return View(model);
         }
-
         //
         // POST: /Account/LogOff
 
@@ -73,6 +101,7 @@ namespace BsBios.Portal.UI.Controllers
 
         //
         // POST: /Account/Register
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -100,7 +129,7 @@ namespace BsBios.Portal.UI.Controllers
 
         //
         // POST: /Account/Disassociate
-
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Disassociate(string provider, string providerUserId)
@@ -331,7 +360,7 @@ namespace BsBios.Portal.UI.Controllers
 
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
-        }
+        }*/
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
@@ -353,22 +382,22 @@ namespace BsBios.Portal.UI.Controllers
             RemoveLoginSuccess,
         }
 
-        internal class ExternalLoginResult : ActionResult
-        {
-            public ExternalLoginResult(string provider, string returnUrl)
-            {
-                Provider = provider;
-                ReturnUrl = returnUrl;
-            }
+        //internal class ExternalLoginResult : ActionResult
+        //{
+        //    public ExternalLoginResult(string provider, string returnUrl)
+        //    {
+        //        Provider = provider;
+        //        ReturnUrl = returnUrl;
+        //    }
 
-            public string Provider { get; private set; }
-            public string ReturnUrl { get; private set; }
+        //    public string Provider { get; private set; }
+        //    public string ReturnUrl { get; private set; }
 
-            public override void ExecuteResult(ControllerContext context)
-            {
-                OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
-            }
-        }
+        //    public override void ExecuteResult(ControllerContext context)
+        //    {
+        //        OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
+        //    }
+        //}
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

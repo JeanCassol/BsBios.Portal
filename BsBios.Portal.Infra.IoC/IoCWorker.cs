@@ -14,6 +14,7 @@ namespace BsBios.Portal.Infra.IoC
                 //              .Use<UnitOfWork.UnitOfWork>();
                 x.AddRegistry<AplicationServiceRegistry>();
                 x.AddRegistry<RepositoryRegistry>();
+                x.AddRegistry<InfraServiceRegistry>();
             });
         }
     }

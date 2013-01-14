@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B790B52-C827-486C-B871-1392CFAD1C48}</ProjectGuid>
+    <ProjectGuid>{331BD1B7-1663-49E1-97AB-6A574EF8FE42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BsBios.Portal.Domain</RootNamespace>
-    <AssemblyName>BsBios.Portal.Domain</AssemblyName>
+    <RootNamespace>BsBios.Portal.Infra.Services</RootNamespace>
+    <AssemblyName>BsBios.Portal.Infra.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,10 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Menu.cs" />
-    <Compile Include="Model\Perfil.cs" />
-    <Compile Include="Model\UsuarioConectado.cs" />
+    <Compile Include="Contracts\IAuthenticationProvider.cs" />
+    <Compile Include="Implementations\AuthenticationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
+      <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
+      <Name>BsBios.Portal.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

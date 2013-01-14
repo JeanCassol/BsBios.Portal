@@ -1,17 +1,12 @@
 ﻿using System.Web.Mvc;
 using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.Domain.Model;
+using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
     public class HomeController : Controller
     {
-
-        private readonly IHelloWorld _helloWorld;
-
-        public HomeController(IHelloWorld helloWorld)
-        {
-            _helloWorld = helloWorld;
-        }
 
         public ActionResult Index()
         {
@@ -34,14 +29,10 @@ namespace BsBios.Portal.UI.Controllers
             return View();
         }
 
-        public ContentResult SayHello()
+        public ViewResult Menu()
         {
-            return Content(_helloWorld.SayHello("Mauro Leal"));
-        }
-
-        public ActionResult Menu()
-        {
-            throw new System.NotImplementedException();
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            return View(usuarioConectado.Perfil.Menus);
         }
     }
 }
