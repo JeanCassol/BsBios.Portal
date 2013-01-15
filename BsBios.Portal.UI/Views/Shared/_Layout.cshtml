@@ -20,7 +20,6 @@
                     <div style="left: 300px; width: 650px">
                         @*<hgroup class="title">*@
                         <h1 style="color: green; font-size: 50px; margin-left: 300px; margin-top: 20px; width: 600px;" >Portal de Cotações</h1>
-                        @*                            <h3>Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </h3>*@
                         @*</hgroup>*@
                     </div>
                     <div style="width: 150px">
@@ -32,22 +31,20 @@
                 </div>            
             </div>
         </header>
-        <div style="clear:both"></div>
-        <div id="middle">
-            <div id="menuprincipal" style="display: inline; width: 20%;">
-                @*                @{
+        <div id="middle" style="clear: both">
+            <div id="menuprincipal" style="display: inline-block; width: 15%; border-right: solid 2px gray">
+                @{
                     Html.RenderAction("Menu","Home");
-                }*@
-                Menu
+                }
             </div>
-            <div id="body2" style="width: 75%; display: inline">
+            <div id="body2" style="width: 75%; display: inline-block;">
                 @*<section class="content-wrapper main-content clear-fix">*@
-                    @RenderBody()
+                @RenderBody()
                 @*</section>*@
             </div>
             
         </div>
-@*        <footer>
+        @*        <footer>
             <div class="content-wrapper">
                 <div class="float-left">
                     <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>

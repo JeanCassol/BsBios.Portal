@@ -116,6 +116,7 @@ h5, h6 {
 
 header .content-wrapper {
     padding-top: 20px; 
+    border-bottom: solid 2px gray
 }
 
 footer {
