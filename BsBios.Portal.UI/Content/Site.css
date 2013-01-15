@@ -115,8 +115,9 @@ h5, h6 {
     }
 
 header .content-wrapper {
-    padding-top: 20px; 
-    border-bottom: solid 2px gray
+    padding-top: 20px;
+    border-bottom: solid 2px gray;
+    height: 110px;
 }
 
 footer {
@@ -185,13 +186,13 @@ ul#menu {
     font-weight: 600;
     margin: 0 0 5px;
     padding: 0;
-    text-align: right;
+    text-align: left;
 }
 
     ul#menu li {
-        display: inline;
+        /*display: inline;*/
         list-style: none;
-        padding-left: 15px;
+        padding-left: 5px;
     }
 
         ul#menu li a {

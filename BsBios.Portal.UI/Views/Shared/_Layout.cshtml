@@ -16,31 +16,37 @@
                 <div class="float-left">
                     <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
                 </div>
-                <div style="width: 1000px; display:block" @*class="float-right"*@>
-                    <div style="left: 300px; width: 650px">
-                        @*<hgroup class="title">*@
-                        <h1 style="color: green; font-size: 50px; margin-left: 300px; margin-top: 20px; width: 600px;" >Portal de Cotações</h1>
-                        @*</hgroup>*@
+                <div style="display:block" @*class="float-right"*@>
+                    <div style="left: 300px; width: 650px; display: inline">
+                        <span style="color: green; font-size: 50px; font-weight: bold; margin-left: 200px; margin-top: 20px; width: 600px;" >Portal de Cotações</span>
                     </div>
-                    <div style="width: 150px">
-                        <p style="color: blue">Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </p>
-                    </div>
-                    <div style="width: 50px; float: right">
-                        <p>@Html.ActionLink("Sair", "LogOff","Account")</p>
-                    </div>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div style="width: 50px; display: inline; float: right">
+                            <span>@Html.ActionLink("Sair", "LogOff","Account")</span>
+                        </div>
+                        <div style="width: 150px; display: inline; float: right">
+                            <span style="color: blue">Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </span>
+                        </div>
+                    }
                 </div>            
             </div>
         </header>
-        <div id="middle" style="clear: both">
-            <div id="menuprincipal" style="display: inline-block; width: 15%; border-right: solid 2px gray">
+        <div style="clear: both"></div>
+        <div id="middle">
+            <div id="menuprincipal" style="display: inline; width: 230px; border-right: solid 2px gray">
+                <div style="display: block">
                 @{
                     Html.RenderAction("Menu","Home");
                 }
+                </div>
             </div>
-            <div id="body2" style="width: 75%; display: inline-block;">
-                @*<section class="content-wrapper main-content clear-fix">*@
-                @RenderBody()
-                @*</section>*@
+            <div id="body2" style="width: 75%; display: inline;">
+                <div style="display: block">
+                    <section class="content-wrapper main-content clear-fix">
+                        @RenderBody()
+                    </section>
+                </div>
             </div>
             
         </div>
