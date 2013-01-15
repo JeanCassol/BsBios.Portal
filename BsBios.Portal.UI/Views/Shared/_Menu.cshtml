@@ -1,8 +1,10 @@
 ﻿@using BsBios.Portal.Domain.Model
 @model IEnumerable<Menu>
-
-<nav id="menu">
-    <ul class="menu">
+@{
+    Layout = null;   
+}
+<nav id="menus">
+    <ul id="menu">
 
         @foreach (Menu menu in Model)
         {

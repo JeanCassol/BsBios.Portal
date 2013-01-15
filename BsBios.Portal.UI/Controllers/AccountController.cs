@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -11,6 +10,7 @@ using BsBios.Portal.Infra.Services.Contracts;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using StructureMap;
+using StructureMap.Pipeline;
 using WebMatrix.WebData;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.UI.Models;
@@ -18,7 +18,7 @@ using BsBios.Portal.UI.Models;
 namespace BsBios.Portal.UI.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
+    //[InitializeSimpleMembership]
     public class AccountController : Controller
     {
         private readonly IAuthenticationProvider _authenticationProvider;
@@ -69,8 +69,10 @@ namespace BsBios.Portal.UI.Controllers
             UsuarioConectado usuarioConectado = _authenticationProvider.Autenticar(model.UserName, model.Password);
             if (usuarioConectado.Perfil.PermiteLogin)
             {
-                Session["UsuarioConectado"] = usuarioConectado;
-                ObjectFactory.Configure(c => c.For<UsuarioConectado>().Use(usuarioConectado));
+                //Session["UsuarioConectado"] = usuarioConectado;
+                ObjectFactory.Configure(c => c.For<UsuarioConectado>()
+                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.Singleton)) 
+                    .Use(usuarioConectado));
                 return RedirectToAction("Index", "Home");
                 //return View("~/Views/Home/Index.cshtml", usuarioConectado.Perfil.Menus);
 

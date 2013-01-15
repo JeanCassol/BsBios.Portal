@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using BsBios.Portal.ApplicationServices.Contracts;
 using BsBios.Portal.Domain.Model;
 using StructureMap;
 
@@ -29,10 +28,10 @@ namespace BsBios.Portal.UI.Controllers
             return View();
         }
 
-        public ViewResult Menu()
+        public PartialViewResult Menu()
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            return View(usuarioConectado.Perfil.Menus);
+            return PartialView("_Menu", usuarioConectado.Perfil.Menus);
         }
     }
 }

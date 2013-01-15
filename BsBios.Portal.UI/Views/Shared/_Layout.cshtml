@@ -1,8 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using StructureMap
+@using BsBios.Portal.Domain.Model
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
@@ -14,26 +16,36 @@
                 <div class="float-left">
                     <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
                 </div>
-                <div @*class="float-right"*@>
-                    <hgroup class="title">
-                        <h1 style="color: green; font-size: 50px; margin-left: 40px; margin-top: 20px" >Portal de Cotações</h1>
-                    </hgroup>
+                <div style="width: 1000px; display:block" @*class="float-right"*@>
+                    <div style="left: 300px; width: 650px">
+                        @*<hgroup class="title">*@
+                        <h1 style="color: green; font-size: 50px; margin-left: 300px; margin-top: 20px; width: 600px;" >Portal de Cotações</h1>
+                        @*                            <h3>Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </h3>*@
+                        @*</hgroup>*@
+                    </div>
+                    <div style="width: 150px">
+                        <p style="color: blue">Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </p>
+                    </div>
+                    <div style="width: 50px; float: right">
+                        <p>@Html.ActionLink("Sair", "LogOff","Account")</p>
+                    </div>
                 </div>            
-                <div>
-                    @if (WebSecurity.IsAuthenticated)
-                    {
-                        <p>Bem Vindo @WebSecurity.CurrentUserName </p>
-                    }
-                </div>
             </div>
         </header>
-        <div id="menu" style="float: left; width: 20px;">
-            @RenderSection("Menu")
-        </div>
-        <div id="body">
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+        <div style="clear:both"></div>
+        <div id="middle">
+            <div id="menuprincipal" style="display: inline; width: 20%;">
+                @*                @{
+                    Html.RenderAction("Menu","Home");
+                }*@
+                Menu
+            </div>
+            <div id="body2" style="width: 75%; display: inline">
+                @*<section class="content-wrapper main-content clear-fix">*@
+                    @RenderBody()
+                @*</section>*@
+            </div>
+            
         </div>
 @*        <footer>
             <div class="content-wrapper">
