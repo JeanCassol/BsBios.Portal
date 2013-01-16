@@ -1,27 +1,54 @@
-﻿@model dynamic
+﻿@model IEnumerable<BsBios.Portal.ViewModel.ProdutoCadastroVm>
 
 @{
     ViewBag.Title = "Cadastro de Produtos";
 }
-<div class="cadastro">
-    <div>
-        <label>Produto</label>
-        <input type="text" class="campogrande"/>
+    @*<link rel="stylesheet" type="text/css" href="../shared/example.css" />*@
+@*<div class="listagem">
+    <div class="listagemtitulo">Listagem de Produtos</div>
+    <table class="tablegrid">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Código Sap</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produtoCadastroVm in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.ActionLink("Editar","EditarCadastro","Produto",new{idProduto=produtoCadastroVm.Id},new{@class="link_editar_cadastro"}) 
+                    </th>
+                    <td>@produtoCadastroVm.CodigoSap</td>
+                    <td>@produtoCadastroVm.Descricao</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="pager" class="pager">
+        <br />
+        <img src="../../Content/first.png" class="first" />
+        <img src="../../Content/prev.png" class="prev" />
+        <input type="text" class="pagedisplay" />
+        <img src="../../Content/next.png" class="next" />
+        <img src="../../Content/last.png" class="last" />
+        <select class="pagesize">
+            <option selected="selected" value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">40</option>
+        </select>
     </div>
-    <div>
-        <label>Transportadora</label>
-        <input type="text" class="campogrande"/>    
-    </div>
-    <div>
-        <label>Data</label>
-        <input type="date" class="campopequeno" />
-    </div>
-    <div>
-        <label>Observações</label>
-        <input type="textarea" />
-    </div>
-    <div>
-        <input type="button" value="Cancelar"/>
-        <input type="submit" value="Salvar"/>
-    </div>
-</div>    
+</div>    *@
+<div id="topic-grid"></div>
+@section scripts
+{
+    <script type="text/javascript">
+        var urlGridProdutos = '@Url.Action("Listar","Produto")';
+    </script>
+    <script src="@Url.Content("~/Scripts/Cadastro/gridProduto.js")"></script>
+    
+}

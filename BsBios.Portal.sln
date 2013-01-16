@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Tests", "BsBios.Portal.Tests\BsBios.Portal.Tests.csproj", "{1157FF52-F7A5-4F90-8560-3159EF29AFDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ViewModel", "BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj", "{01C438CD-9055-4299-9F5C-A4086EE1CC00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C438CD-9055-4299-9F5C-A4086EE1CC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C438CD-9055-4299-9F5C-A4086EE1CC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C438CD-9055-4299-9F5C-A4086EE1CC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C438CD-9055-4299-9F5C-A4086EE1CC00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

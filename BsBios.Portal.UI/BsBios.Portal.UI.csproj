@@ -214,6 +214,7 @@
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\bg_logo.gif" />
+    <Content Include="Scripts\Cadastro\gridProduto.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Produto\Cadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,6 +303,10 @@
     <ProjectReference Include="..\BsBios.Portal.Infra.Services\BsBios.Portal.Infra.Services.csproj">
       <Project>{331BD1B7-1663-49E1-97AB-6A574EF8FE42}</Project>
       <Name>BsBios.Portal.Infra.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
+      <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>
+      <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
