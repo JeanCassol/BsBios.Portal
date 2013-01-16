@@ -46,6 +46,7 @@ namespace BsBios.Portal.Domain.Model
         {
             var menuCotacao = new Menu("Cotações");
             menuCotacao.AdicionarItem("Minhas Cotações", "CotacaoFrete", "Index");
+            Menus.Add(menuCotacao);
         }
     }
 

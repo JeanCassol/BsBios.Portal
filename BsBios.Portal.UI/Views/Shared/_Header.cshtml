@@ -1,0 +1,21 @@
+﻿<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
+        </div>
+        <div style="display:block" @*class="float-right"*@>
+            <div style="left: 300px; width: 650px; display: inline">
+                <span style="color: green; font-size: 50px; font-weight: bold; margin-left: 200px; margin-top: 20px; width: 600px;" >Portal de Cotações</span>
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div style="width: 50px; display: inline; float: right">
+                    <span>@Html.ActionLink("Sair", "LogOff","Account")</span>
+                </div>
+                <div style="width: 150px; display: inline; float: right">
+                    <span style="color: blue">Bem Vindo @User.Identity.Name </span>
+                </div>
+            }
+        </div>            
+    </div>
+</header>

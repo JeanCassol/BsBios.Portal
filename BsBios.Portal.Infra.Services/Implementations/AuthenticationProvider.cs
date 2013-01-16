@@ -14,7 +14,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 usuarioConectado = new UsuarioConectado(usuario,new PerfilComprador());
             }
-            if (usuario == "fornecedor" && senha == "123")
+            else if (usuario == "fornecedor" && senha == "123")
             {
                 usuarioConectado = new UsuarioConectado(usuario, new PerfilFornecedor());
             }
@@ -26,8 +26,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 FormsAuthentication.SetAuthCookie(usuario, true);    
             }
-            
-            
+
+            return usuarioConectado;
         }
     }
 }

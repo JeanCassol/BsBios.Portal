@@ -9,7 +9,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
@@ -18,32 +18,34 @@
         @Scripts.Render("~/bundles/jqueryval")
     </head>
     <body>
-    <div id="loginForm" style="width: 30%;margin: auto">
-    @*<h2>Use a local account to log in.</h2>*@
-    @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl })) {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-
-        <fieldset>
-            <legend>Log in Form</legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
-                </li>
-            </ol>
-            <input type="submit" value="Log in" />
-        </fieldset>
+        @Html.Partial("_Header")
+        <div id="loginForm" style="width: 30%;margin: auto">
+            @*<h2>Use a local account to log in.</h2>*@
+            @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl })) {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    <legend>Log in Form</legend>
+                    <ol>
+                        <li>
+                            @Html.LabelFor(m => m.UserName)
+                            @Html.TextBoxFor(m => m.UserName)
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Password)
+                            @Html.PasswordFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </li>
+                    </ol>
+                    @Html.ValidationSummary(true)
+                    <div class="elementosCentralizados">
+                        <input type="submit" value="Log in" />
+                    </div>
+                </fieldset>
         @*<p>
             @Html.ActionLink("Register", "Register") if you don't have an account.
         </p>*@
-    }
-    </div>
+            }
+        </div>
     </body>
 </html>

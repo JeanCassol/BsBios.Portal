@@ -1,6 +1,4 @@
-﻿@using StructureMap
-@using BsBios.Portal.Domain.Model
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -11,37 +9,15 @@
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
-                </div>
-                <div style="display:block" @*class="float-right"*@>
-                    <div style="left: 300px; width: 650px; display: inline">
-                        <span style="color: green; font-size: 50px; font-weight: bold; margin-left: 200px; margin-top: 20px; width: 600px;" >Portal de Cotações</span>
-                    </div>
-                    @if (Request.IsAuthenticated)
-                    {
-                        <div style="width: 50px; display: inline; float: right">
-                            <span>@Html.ActionLink("Sair", "LogOff","Account")</span>
-                        </div>
-                        <div style="width: 150px; display: inline; float: right">
-                            <span style="color: blue">Bem Vindo @(ObjectFactory.GetInstance<UsuarioConectado>().NomeCompleto) </span>
-                        </div>
-                    }
-                </div>            
-            </div>
-        </header>
+        @Html.Partial("_Header")
         <div style="clear: both"></div>
         <div id="middle">
-            <div id="menuprincipal" style="display: inline; width: 230px; border-right: solid 2px gray">
-                <div style="display: block">
+            <div id="menuprincipal" style="width: 230px; border-right: solid 2px gray">
                 @{
                     Html.RenderAction("Menu","Home");
                 }
-                </div>
             </div>
-            <div id="body2" style="width: 75%; display: inline;">
+            <div id="body2">
                 <div style="display: block">
                     <section class="content-wrapper main-content clear-fix">
                         @RenderBody()
