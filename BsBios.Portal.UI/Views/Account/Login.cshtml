@@ -19,7 +19,7 @@
     </head>
     <body>
         @Html.Partial("_Header")
-        <div id="loginForm" style="width: 30%;margin: auto">
+        <div id="loginForm">
             @*<h2>Use a local account to log in.</h2>*@
             @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl })) {
                 @Html.AntiForgeryToken()
@@ -38,9 +38,7 @@
                         </li>
                     </ol>
                     @Html.ValidationSummary(true)
-                    <div class="elementosCentralizados">
-                        <input type="submit" value="Log in" />
-                    </div>
+                    <input type="submit" value="Log in" style="position: relative;  left: 100px;" />
                 </fieldset>
         @*<p>
             @Html.ActionLink("Register", "Register") if you don't have an account.

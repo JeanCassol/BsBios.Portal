@@ -1,19 +1,21 @@
-﻿<header>
+﻿<header >
     <div class="content-wrapper">
-        <div class="float-left">
+        <div class="float-left" style="padding-left: 10px">
             <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
         </div>
-        <div style="display:block" @*class="float-right"*@>
-            <div style="left: 300px; width: 650px; display: inline">
-                <span style="color: green; font-size: 50px; font-weight: bold; margin-left: 200px; margin-top: 20px; width: 600px;" >Portal de Cotações</span>
+        <div style="display:block" >
+            <div style="width: 650px; display: inline">
+                <span style="color: white; font-size: 50px; font-weight: bold; margin-left: 150px; margin-top: 20px; width: 600px;" >Portal BS BIOS</span>
             </div>
             @if (Request.IsAuthenticated)
             {
-                <div style="width: 50px; display: inline; float: right">
-                    <span>@Html.ActionLink("Sair", "LogOff","Account")</span>
-                </div>
-                <div style="width: 150px; display: inline; float: right">
-                    <span style="color: blue">Bem Vindo @User.Identity.Name </span>
+                <div style="width: 200px; display: inline; float: right; margin-right: 10px">
+                    <div style="width: 100%; ">
+                        <p style="color: yellow; font-weight: bold; font-size: 0.9em;text-align: right;margin: 0">Bem Vindo @User.Identity.Name </p>
+                    </div>
+                    <div style="width: 100%">
+                        <p style="text-align: right;margin: 0">@Html.ActionLink("Sair", "LogOff","Account")</p>
+                    </div>
                 </div>
             }
         </div>            

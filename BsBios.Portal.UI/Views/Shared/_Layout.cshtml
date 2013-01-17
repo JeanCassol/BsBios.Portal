@@ -5,20 +5,20 @@
         <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />   
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext-4.1.1a-gpl/resources/css/ext-all.css" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext-4.1.1a-gpl/resources/css/ext-all.css" />
     </head>
     <body>
         @Html.Partial("_Header")
         <div style="clear: both"></div>
         <div id="middle">
-            <div id="menuprincipal" style="width: 230px; border-right: solid 2px gray">
+            <div id="menuprincipal">
                 @{
                     Html.RenderAction("Menu","Home");
                 }
             </div>
-            <div id="body2" style="margin-top: 5px" >
+            <div id="body">
 @*                <div style="display: block">
                     <section class="content-wrapper main-content clear-fix">*@
                         @RenderBody()

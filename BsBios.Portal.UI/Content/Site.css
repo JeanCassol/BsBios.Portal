@@ -1,17 +1,17 @@
 ﻿html {
-    /*background-color: #e2e2e2;*/
+    /*background-color: #efeeef;*/
     margin: 0;
     padding: 0;
 }
 
 body {
     background-color: #fff;
-    border-top: solid 10px #000;
     color: #333;
-    font-size: .85em;
+    /*font-size: .85em;*/
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    width: 1024px
 }
 
 a {
@@ -95,13 +95,14 @@ h5, h6 {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 1260px;
+    max-width: 1024px;
 }
 
 #body {
     background-color: #efeeef;
-    clear: both;
-    padding-bottom: 35px;
+    margin-left: 10px;
+    /*clear: both;
+    padding-bottom: 35px;*/
 }
 
     .main-content {
@@ -115,11 +116,15 @@ h5, h6 {
     }
 
 header .content-wrapper {
-    padding-top: 20px;
-    border-bottom: solid 2px gray;
-    height: 110px;
+    padding-top: 10px;
+    /*border-bottom: solid 2px gray;*/
+    height: 130px !important;
+    background-color: darkcyan
 }
 
+#middle {
+    margin-top: 20px;
+}
 #middle > div {
     float: left;
 }
@@ -185,6 +190,11 @@ footer {
 
 /* menu
 ----------------------------------------------------------*/
+/*
+#menuprincipal {
+    width: 230px;
+    background-color: #FFE4B5;
+}
 ul#menu {
     font-size: 1.3em;
     font-weight: 600;
@@ -194,7 +204,6 @@ ul#menu {
 }
 
     ul#menu li {
-        /*display: inline;*/
         list-style: none;
         padding-left: 5px;
     }
@@ -209,7 +218,48 @@ ul#menu {
             color: #333;
             text-decoration: none;
         }
-
+*/
+#menuprincipal {
+width: 200px;
+padding: 0 0 0 0;
+margin-bottom: 1em;
+font-size: 15px;
+font-weight: normal;
+font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+background-color: #6898d0;
+color: #333;
+}
+#menuprincipal ul {
+list-style: none;
+margin: 0;
+padding: 0;
+border: none;
+font-weight: bold;
+}		
+#menuprincipal li {
+border-top: 1px solid #90bade;
+border-bottom: 1px solid #90bade;
+border-collapse: collapse;
+margin: 0;
+width: auto;
+font-weight: normal
+}
+#menuprincipal li a {
+display: block;
+padding: 3px 0 3px 30px;
+/*border-left: 5px solid #8AA1B6;
+border-right: 5px solid #8AA1B6;*/
+background-color: #6898d0;
+color: #fff;
+text-decoration: none;
+width: auto;
+}
+#menuprincipal li a:hover {
+/*border-left: 5px solid #800000;
+border-right: 5px solid #800000;*/
+background-color: #FF7C3E;
+color: #fff;
+}
 
 /* page elements
 ----------------------------------------------------------*/
@@ -336,10 +386,12 @@ aside {
 
 /* login page */
 #loginForm {
-    width: 30%;
-    margin: auto;
-    padding-left: 5px;
-    background-color: inherit;
+    /*width: 30%;*/
+    margin: 0;
+    padding-left: 40%;
+    /*background-color: inherit;*/
+    background-color: #efeeef;
+
     
     /*border-right: solid 2px #c8c8c8;
     float: left;

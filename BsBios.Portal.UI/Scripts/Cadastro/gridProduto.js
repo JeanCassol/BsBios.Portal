@@ -47,13 +47,12 @@ Ext.onReady(function(){
         height:300,
         title: 'Listagem de Produtos',
         store: store,
-        disableSelection: true,
         loadMask: true,
-        viewConfig: {
-            id: 'gv',
-            trackOver: false,
-            stripeRows: false//,
-        },
+        //viewConfig: {
+        //    id: 'gv',
+        //    trackOver: false,
+        //    stripeRows: true
+        //},
         // grid columns
         columns:[{
             id: 'id',
@@ -70,13 +69,15 @@ Ext.onReady(function(){
         },{
             text: "Descri&ccedil;&atilde;o",
             dataIndex: 'Descricao',
-            width: 300,
+            width: 530,
             sortable: true
         }],
         // paging bar on the bottom
         bbar: Ext.create('Ext.PagingToolbar', {
             store: store,
             displayInfo: true,
+            beforePageText: 'P&aacutegina',
+            afterPageText: 'de {0}',
             displayMsg: 'Mostrando {0} - {1} de {2}',
             emptyMsg: "Nenhum registro encontrado",
             items: ['-', {
