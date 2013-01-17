@@ -6,11 +6,11 @@ namespace BsBios.Portal.ViewModel
     public class ProdutoCadastroVm
     {
         public int? Id { get; set; }
-        [Required(ErrorMessage = "É necessário informar o Código Sap.")]
+        [Required(ErrorMessage = "Código Sap é obrigatório")]
         [Description("Código Sap")]
         [DataType(DataType.Text)]
         public string CodigoSap { get; set;}
-        [Required(ErrorMessage = "É necessário informar a Descrição do Produto.")]
+        [Required(ErrorMessage = "Descrição do Produto é obrigatória")]
         [Description("Descrição")]
         [DataType(DataType.Text)]
         public string Descricao { get; set; }

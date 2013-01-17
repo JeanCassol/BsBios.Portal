@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Cadastro";
+    Layout = null;
 }
 
 <h2>Cadastro de Produtos</h2>
@@ -33,14 +34,20 @@
             @Html.ValidationSummary(true)
         <p>
             <input type="submit" value="Salvar" />
+            <input type="button" id="btnVoltarCadastroProduto" value="Voltar" />
         </p>
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Voltar para Listagem", "Index")
-</div>
 
-@section Scripts {
+@*@section Scripts {*@
     @Scripts.Render("~/bundles/jqueryval")
-}
+    <script type="text/javascript">
+        $(function () {
+            $('#btnVoltarCadastroProduto').click(function() {
+                @*$('#body').load('@Url.Action("Index","Produto")');*@
+                location.href = '@Url.Action("Index","Produto")';
+            });
+        });
+    </script>
+@*}*@

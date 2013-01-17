@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -214,6 +215,11 @@
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\bg_logo.gif" />
+    <Content Include="Images\icons\delete_24.png" />
+    <Content Include="Images\icons\delete_32.png" />
+    <Content Include="Images\icons\editar_22.png" />
+    <Content Include="Images\icons\editar_32.png" />
+    <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
     <Content Include="Scripts\Cadastro\gridProduto.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -272,6 +278,7 @@
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoFrete\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

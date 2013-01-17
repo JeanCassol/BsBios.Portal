@@ -57,11 +57,11 @@ namespace BsBios.Portal.UI.Models
 
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Usuário é obrigatório")]
         [Display(Name = "Usuário")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Senha é obrigatório")]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
         public string Password { get; set; }

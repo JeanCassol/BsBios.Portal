@@ -54,7 +54,37 @@ Ext.onReady(function(){
         //    stripeRows: true
         //},
         // grid columns
-        columns:[{
+        columns: [
+        {
+            xtype: 'actioncolumn',
+            width: 60,
+            sortable: false,
+            items: [
+            {
+                icon: '/Images/icons/editar_22.png',
+                tooltip:'Editar Produto',
+                handler: function (gridProduto, rowIndex) {
+                    var rec = gridProduto.getStore().getAt(rowIndex);
+                    $('#body').load('/Produto/EditarCadastro/?idProduto=' + rec.get('Id'));
+                }
+            }
+            ]
+        },
+        {
+            xtype: 'actioncolumn',
+            width: 60,
+            sortable: false,
+            items: [
+            {
+                icon: '/Images/icons/delete_24.png',
+                tooltip: 'Excluir Produto',
+                handler:function() {
+                    alert('Confirma a exclusão do Item?');
+                }
+            }
+            ]            
+        },
+        {
             id: 'id',
             text: "Topic",
             dataIndex: 'Id',
@@ -69,7 +99,7 @@ Ext.onReady(function(){
         },{
             text: "Descri&ccedil;&atilde;o",
             dataIndex: 'Descricao',
-            width: 530,
+            width: 400,
             sortable: true
         }],
         // paging bar on the bottom
@@ -90,7 +120,7 @@ Ext.onReady(function(){
                 }
             }]
         }),
-        renderTo: 'topic-grid'
+        renderTo: 'gridProdutos'
     });
 
     // trigger the data store load
