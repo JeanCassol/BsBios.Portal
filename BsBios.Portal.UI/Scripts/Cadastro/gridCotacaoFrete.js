@@ -130,7 +130,7 @@ GridCotacaoFrete = {
                         text: 'Adicionar',
                         listeners: {
                             click: function () {
-                                alert('Testando clique');
+                                location.href = '/CotacaoFrete/NovoCadastro';
                             }
                         }
                     }]

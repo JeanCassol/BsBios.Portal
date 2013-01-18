@@ -35,7 +35,7 @@ namespace BsBios.Portal.Domain.Model
 
             var menuCotacao = new Menu("Cotações");
             menuCotacao.AdicionarItem("Cotações de Frete", "CotacaoFrete","Index");
-            menuCotacao.AdicionarItem("Adicionar", "CotacaoFrete", "Adicionar");
+            menuCotacao.AdicionarItem("Adicionar", "CotacaoFrete", "NovoCadastro");
             Menus.Add(menuCotacao);
         }
     }

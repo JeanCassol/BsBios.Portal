@@ -146,6 +146,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
+    <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\CheckHeader.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -219,6 +221,7 @@
     <Content Include="Images\icons\delete_32.png" />
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
+    <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
     <Content Include="Scripts\Cadastro\gridProduto.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -235,6 +238,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\ux\CheckColumn.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -279,6 +283,8 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Index.cshtml" />
+    <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
+    <Content Include="Views\Fornecedor\_selecionarFornecedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

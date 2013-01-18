@@ -1,0 +1,131 @@
+﻿@using BsBios.Portal.ViewModel
+@model CotacaoFreteCadastroVm
+
+@{
+    ViewBag.Title = "Cotação de Frete";
+}
+<div class="paginaCadastro">
+    @using (Html.BeginForm()) {
+
+        <fieldset>
+            <legend>CotacaoFreteCadastroVm</legend>
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div>
+                @Html.LabelFor(model => model.DescricaoStatus)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.DescricaoStatus)
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.IdMaterial)
+            </div>
+            <div>
+                @Html.DropDownList("IdMaterial", 
+                                   ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
+                                       {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
+                @Html.ValidationMessageFor(model => model.IdMaterial)
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.QuantidadeMaterial)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.QuantidadeMaterial)
+                @Html.ValidationMessageFor(model => model.QuantidadeMaterial)
+            </div>
+        
+            <div>
+                    <div class="coluna">
+                        <div>
+                            @Html.LabelFor(model => model.DataInicioLeilao)
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.DataInicioLeilao)
+                            @Html.ValidationMessageFor(model => model.DataInicioLeilao)
+                        </div>
+                    </div>
+
+                    <div class="coluna">
+                        <div>
+                            @Html.LabelFor(model => model.DataTerminoLeilao)
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.DataTerminoLeilao)
+                            @Html.ValidationMessageFor(model => model.DataTerminoLeilao)
+                        </div>
+                    </div>
+            </div>
+
+            <div>
+                <div class="coluna">
+                    <div>
+                        @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
+                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)
+                    </div>
+                </div>
+                <div class="coluna">
+                    <div>
+                        @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
+                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.IdCentro)
+            </div>
+            <div>
+                @Html.DropDownList("IdCentro",((List<CentroCadastroVm>) ViewBag.Centros)
+                                                  .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) , Text =x.Descricao, Selected = Model != null && Model.Id == x.Id}),"Selecione")
+                @Html.ValidationMessageFor(model => model.IdCentro)
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.IdItinerario)
+            </div>
+            <div>
+                @Html.DropDownList("IdItinerario",((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
+                                                      .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) ,Text = x.Descricao ,Selected = Model != null && Model.Id == x.Id}),"Selecione")
+                @Html.ValidationMessageFor(model => model.IdItinerario)
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.Requisitos)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.Requisitos)
+                @Html.ValidationMessageFor(model => model.Requisitos)
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.Observacoes)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.Observacoes)
+                @Html.ValidationMessageFor(model => model.Observacoes)
+            </div>
+            @{
+                Html.RenderAction("Index","Fornecedor");
+            }
+            @Html.ValidationSummary(true)
+
+            <p>
+                <input type="submit" value="Salvar" />
+            </p>
+        </fieldset>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

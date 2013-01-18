@@ -79,7 +79,7 @@ Ext.onReady(function(){
                 icon: '/Images/icons/delete_24.png',
                 tooltip: 'Excluir Produto',
                 handler:function() {
-                    alert('Confirma a exclusão do Item?');
+                    alert('Confirma a exclusão?');
                 }
             }
             ]            
@@ -115,7 +115,7 @@ Ext.onReady(function(){
                 text: 'Adicionar',
                 listeners: {
                     click:function() {
-                        alert('Testando clique');
+                        $('#body').load('/Produto/NovoCadastro');
                     }
                 }
             }]

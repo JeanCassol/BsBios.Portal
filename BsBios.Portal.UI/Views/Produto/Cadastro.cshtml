@@ -5,39 +5,38 @@
     Layout = null;
 }
 
-<h2>Cadastro de Produtos</h2>
+<div class="paginaCadastro">
+    @using (Html.BeginForm()) {
 
-@*<div class="cadastro"></div>*@
-@using (Html.BeginForm()) {
+        <fieldset>
+            <legend>ProdutoCadastroVm</legend>
 
-    <fieldset>
-        <legend>ProdutoCadastroVm</legend>
+            @Html.HiddenFor(model => model.Id)
 
-        @Html.HiddenFor(model => model.Id)
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CodigoSap)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CodigoSap)
+                @Html.ValidationMessageFor(model => model.CodigoSap)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CodigoSap)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.CodigoSap)
-            @Html.ValidationMessageFor(model => model.CodigoSap)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Descricao)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Descricao)
-            @Html.ValidationMessageFor(model => model.Descricao)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Descricao)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Descricao)
+                @Html.ValidationMessageFor(model => model.Descricao)
+            </div>
 
             @Html.ValidationSummary(true)
-        <p>
-            <input type="submit" value="Salvar" />
-            <input type="button" id="btnVoltarCadastroProduto" value="Voltar" />
-        </p>
-    </fieldset>
-}
+            <p>
+                <input type="submit" value="Salvar" />
+                <input type="button" id="btnVoltarCadastroProduto" value="Voltar" />
+            </p>
+        </fieldset>
+    }
+</div>
 
 
 @*@section Scripts {*@

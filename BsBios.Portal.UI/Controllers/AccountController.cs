@@ -71,7 +71,7 @@ namespace BsBios.Portal.UI.Controllers
             {
                 //Session["UsuarioConectado"] = usuarioConectado;
                 ObjectFactory.Configure(c => c.For<UsuarioConectado>()
-                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.Singleton)) 
+                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession)) 
                     .Use(usuarioConectado));
                 return RedirectToAction("Index", "Home");
                 //return View("~/Views/Home/Index.cshtml", usuarioConectado.Perfil.Menus);

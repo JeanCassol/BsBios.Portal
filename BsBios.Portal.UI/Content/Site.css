@@ -1,5 +1,4 @@
-﻿html {
-    /*background-color: #efeeef;*/
+﻿#html {
     margin: 0;
     padding: 0;
 }
@@ -461,9 +460,7 @@ aside {
 fieldset {
     border: none;
     margin: 0;
-    padding: 0;
 }
-
     fieldset legend {
         display: none;
     }
@@ -649,190 +646,33 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
-
-/********************
-*   Mobile Styles   *
-********************/
-@media only screen and (max-width: 850px) {
-
-    /* header
-    ----------------------------------------------------------*/
-    header .float-left,
-    header .float-right {
-        float: none;
-    }
-
-    /* logo */
-    header .site-title {
-        margin: 10px;
-        text-align: center;
-    }
-
-    /* login */
-    #login {
-        font-size: .85em;
-        margin: 0 0 12px;
-        text-align: center;
-    }
-
-        #login ul {
-            margin: 5px 0;
-            padding: 0;
-        }
-
-        #login li {
-            display: inline;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #login a {
-            background: none;
-            color: #999;
-            font-weight: 600;
-            margin: 2px;
-            padding: 0;
-        }
-
-        #login a:hover {
-            color: #333;
-        }
-
-    /* menu */
-    nav {
-        margin-bottom: 5px;
-    }
-
-    ul#menu {
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-        ul#menu li {
-            margin: 0;
-            padding: 0;
-        }
-
-
-    /* main layout
-    ----------------------------------------------------------*/
-    .main-content,
-    .featured + .main-content {
-        background-position: 10px 0;
-    }
-
-    .content-wrapper {
-        padding-right: 10px;
-        padding-left: 10px;
-    }
-
-    .featured .content-wrapper {
-        padding: 10px;
-    }
-
-    /* page content */
-    article, aside {
-        float: none;
-        width: 100%;
-    }
-
-    /* ordered list */
-    ol.round {
-        list-style-type: none;
-        padding-left: 0;
-    }
-
-        ol.round li {
-            padding-left: 10px;
-            margin: 25px 0;
-        }
-
-            ol.round li.zero,
-            ol.round li.one,
-            ol.round li.two,
-            ol.round li.three,
-            ol.round li.four,
-            ol.round li.five,
-            ol.round li.six,
-            ol.round li.seven,
-            ol.round li.eight,
-            ol.round li.nine {
-                background: none;
-            }
-
-     /* features */
-     section.feature {
-        float: none;
-        padding: 10px;
-        width: auto;
-     }
-
-        section.feature img {
-            color: #999;
-            content: attr(alt);
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-    /* forms */
-    input {
-        width: 90%;
-    }
-
-    /* login page */
-    #loginForm {
-        border-right: none;
-        float: none;
-        width: auto;
-    }
-
-        #loginForm .validation-error {
-            display: block;
-            margin-left: 15px;
-        }
-
-    #socialLoginForm {
-        margin-left: 0;
-        float: none;
-        width: auto;
-    }
-
-
-    /* footer
-    ----------------------------------------------------------*/
-    footer .float-left,
-    footer .float-right {
-        float: none;
-    }
-
-    footer {
-        text-align: center;
-        height: auto;
-        padding: 10px 0;
-    }
-
-        footer p {
-            margin: 0;
-       }
 .elementosCentralizados {
     margin: 0 auto;
 }
-.cadastro {
-    width: 600px;
+.paginaCadastro {
+    width: 814px;
+    padding-left: 10px
 }
-.campopequeno {
+.paginaCadastro .coluna {
+    width: 300px;
+    display: inline-block
+}
+.paginaCadastro .campopequeno {
     width: 50px;
 }
-.campomedio {
+.paginaCadastro .campomedio {
     width: 150px;
 } 
-div.campogrande {
+.paginaCadastro .campogrande, select {
     width: 350px;
 }
-/*.linha {
-    width: 60%
-}*/
-
+.paginaCadastro fieldset {
+    padding-left: 5px;
+    padding-right: 100px;
+    border: solid 0.5px cyan
 }
+.paginaCadastro legend .visivel {
+    display: inline
+}
+
+

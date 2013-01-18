@@ -35,8 +35,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />
+    <Compile Include="FornecedorListagemVm.cs" />
+    <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
