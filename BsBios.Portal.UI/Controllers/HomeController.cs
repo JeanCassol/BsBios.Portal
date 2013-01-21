@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Infra.Model;
 using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers

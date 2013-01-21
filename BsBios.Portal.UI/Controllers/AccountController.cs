@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using StructureMap;
 using StructureMap.Pipeline;
@@ -13,11 +13,11 @@ namespace BsBios.Portal.UI.Controllers
     //[InitializeSimpleMembership]
     public class AccountController : Controller
     {
-        private readonly IAuthenticationProvider _authenticationProvider;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAuthenticationProvider authenticationProvider)
+        public AccountController(IAccountService authenticationProvider)
         {
-            _authenticationProvider = authenticationProvider;
+            _accountService = authenticationProvider;
         }
 
         //
@@ -58,10 +58,10 @@ namespace BsBios.Portal.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
-            UsuarioConectado usuarioConectado = _authenticationProvider.Autenticar(model.UserName, model.Password);
+            UsuarioConectado usuarioConectado = _accountService.Login(model.UserName, model.Password);
             if (usuarioConectado.Perfil.PermiteLogin)
             {
-                //Session["UsuarioConectado"] = usuarioConectado;
+                Session["UsuarioConectado"] = usuarioConectado;
                 ObjectFactory.Configure(c => c.For<UsuarioConectado>()
                     .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession)) 
                     .Use(usuarioConectado));

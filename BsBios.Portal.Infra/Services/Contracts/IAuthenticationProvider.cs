@@ -1,9 +1,9 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Infra.Services.Contracts
 {
     public interface IAuthenticationProvider
     {
-        UsuarioConectado Autenticar(string usuario, string senha);
+        void Autenticar(UsuarioConectado usuarioConectado);
     }
 }

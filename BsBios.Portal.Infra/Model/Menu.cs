@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace BsBios.Portal.Domain.Model
+namespace BsBios.Portal.Infra.Model
 {
     public class Menu
     {
         public string Descricao { get; set; }    
         public IList<MenuItem> Itens { get; protected set; }
 
-        internal Menu(string descricao)
+        public Menu(string descricao)
         {
             Descricao = descricao;
             Itens = new List<MenuItem>();

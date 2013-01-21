@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BsBios.Portal.Domain.Model
+namespace BsBios.Portal.Infra.Model
 {
     public class UsuarioConectado
     {
@@ -13,7 +13,7 @@ namespace BsBios.Portal.Domain.Model
             NomeCompleto = nomeCompleto;
             Perfil = perfil;
         }
-
+        
         public string NomeCompleto { get; set; }
         public Perfil Perfil { get; set; }
     }

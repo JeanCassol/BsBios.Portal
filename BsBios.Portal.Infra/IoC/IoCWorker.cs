@@ -13,6 +13,7 @@ namespace BsBios.Portal.Infra.IoC
                 //              .HybridHttpOrThreadLocalScoped()
                 //              .Use<UnitOfWork.UnitOfWork>();
                 x.AddRegistry<AplicationServiceRegistry>();
+                x.AddRegistry<DomainServiceRegistry>();
                 x.AddRegistry<RepositoryRegistry>();
                 x.AddRegistry<InfraServiceRegistry>();
             });

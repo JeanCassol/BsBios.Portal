@@ -292,21 +292,9 @@
       <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
       <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
-      <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
-      <Name>BsBios.Portal.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Infra.Factory\BsBios.Portal.Infra.Factory.csproj">
-      <Project>{4DCF00D1-B782-4D10-A569-204AABA0C2E1}</Project>
-      <Name>BsBios.Portal.Infra.Factory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Infra.IoC\BsBios.Portal.Infra.IoC.csproj">
-      <Project>{9E08CDF6-A6C8-40A8-9482-F279E63988CA}</Project>
-      <Name>BsBios.Portal.Infra.IoC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Infra.Services\BsBios.Portal.Infra.Services.csproj">
-      <Project>{331BD1B7-1663-49E1-97AB-6A574EF8FE42}</Project>
-      <Name>BsBios.Portal.Infra.Services</Name>
+    <ProjectReference Include="..\BsBios.Portal.Infra\BsBios.Portal.Infra.csproj">
+      <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
+      <Name>BsBios.Portal.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
       <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>

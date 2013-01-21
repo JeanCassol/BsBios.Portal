@@ -1,6 +1,4 @@
-﻿using BsBios.Portal.ApplicationServices.Contracts;
-using BsBios.Portal.ApplicationServices.Implementation;
-using BsBios.Portal.Infra.Services.Contracts;
+﻿using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -12,6 +10,9 @@ namespace BsBios.Portal.Infra.IoC
     {
         public InfraServiceRegistry()
         {
+            For<IValidadorUsuario>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ValidadorUsuario>();
             For<IAuthenticationProvider>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AuthenticationProvider>();

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -56,7 +59,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTestClass.cs" />
-    <Compile Include="InfraServices\AuthenticationProviderTests.cs" />
+    <Compile Include="InfraServices\AccountServiceTests.cs" />
+    <Compile Include="InfraServices\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
   </ItemGroup>
@@ -65,13 +69,9 @@
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
       <Name>BsBios.Portal.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Infra.IoC\BsBios.Portal.Infra.IoC.csproj">
-      <Project>{9E08CDF6-A6C8-40A8-9482-F279E63988CA}</Project>
-      <Name>BsBios.Portal.Infra.IoC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.Infra.Services\BsBios.Portal.Infra.Services.csproj">
-      <Project>{331bd1b7-1663-49e1-97ab-6a574ef8fe42}</Project>
-      <Name>BsBios.Portal.Infra.Services</Name>
+    <ProjectReference Include="..\BsBios.Portal.Infra\BsBios.Portal.Infra.csproj">
+      <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
+      <Name>BsBios.Portal.Infra</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.UI\BsBios.Portal.UI.csproj">
       <Project>{ADF235AC-A253-430D-B311-56D46157E3CF}</Project>
@@ -80,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
