@@ -23,7 +23,7 @@ namespace BsBios.Portal.UI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IocConfig.RegisterIoc();
-            AuthConfig.RegisterAuth();
+            //AuthConfig.RegisterAuth();
         }
     }
 }

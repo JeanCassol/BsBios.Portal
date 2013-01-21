@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Services.Contracts;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
 using StructureMap;
 using StructureMap.Pipeline;
 using WebMatrix.WebData;
-using BsBios.Portal.UI.Filters;
 using BsBios.Portal.UI.Models;
 
 namespace BsBios.Portal.UI.Controllers
