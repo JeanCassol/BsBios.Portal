@@ -38,10 +38,15 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
@@ -59,9 +64,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTestClass.cs" />
-    <Compile Include="InfraServices\AccountServiceTests.cs" />
-    <Compile Include="InfraServices\ValidadorUsuarioTests.cs" />
+    <Compile Include="Domain\Model\UsuarioTests.cs" />
+    <Compile Include="InfraServices\Repositories\UnitOfWorkTests.cs" />
+    <Compile Include="InfraServices\Repositories\UsuariosTests.cs" />
+    <Compile Include="InfraServices\Services\AccountServiceTests.cs" />
+    <Compile Include="InfraServices\Services\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +88,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

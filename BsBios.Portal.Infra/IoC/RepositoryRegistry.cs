@@ -1,4 +1,8 @@
-﻿using StructureMap.Configuration.DSL;
+﻿using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories.Implementations;
+using StructureMap;
+using StructureMap.Configuration.DSL;
+using StructureMap.Pipeline;
 
 namespace BsBios.Portal.Infra.IoC
 {
@@ -6,9 +10,9 @@ namespace BsBios.Portal.Infra.IoC
     {
         public RepositoryRegistry()
         {
-            //For<ICorretoras>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<Corretoras>();
+            For<IUsuarios>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<Usuarios>();
 
         }
     }

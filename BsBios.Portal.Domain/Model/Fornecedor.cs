@@ -8,6 +8,8 @@ namespace BsBios.Portal.Domain.Model
 {
     public class Fornecedor
     {
-        public string Nome { get; set; }
+        protected Fornecedor(){}
+        public virtual int Id { get; protected set; }
+        public virtual string Nome { get; protected set; }
     }
 }

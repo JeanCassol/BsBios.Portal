@@ -30,6 +30,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.SysCache2">
+      <HintPath>..\packages\NHibernate.Caches.SysCache2.3.2.0.4000\lib\Net35\NHibernate.Caches.SysCache2.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator">
+      <HintPath>..\packages\NHibernate.Validator.1.3.2.4000\lib\Net35\NHibernate.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator.Specific">
+      <HintPath>..\packages\NHibernate.Validator.1.3.2.4000\lib\Net35\NHibernate.Validator.Specific.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -43,16 +61,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\CascadeConvention.cs" />
+    <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="IoC\AplicationServiceRegistry.cs" />
     <Compile Include="IoC\DomainServiceRegistry.cs" />
     <Compile Include="IoC\InfraServiceRegistry.cs" />
     <Compile Include="IoC\IoCWorker.cs" />
     <Compile Include="IoC\RepositoryRegistry.cs" />
+    <Compile Include="Mappings\FornecedorMap.cs" />
+    <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Perfil.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
+    <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
+    <Compile Include="Repositories\Contracts\IUsuarios.cs" />
+    <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
+    <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
+    <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
+    <Compile Include="Repositories\Implementations\ReadOnlyRepositoryNh.cs" />
+    <Compile Include="Repositories\Implementations\RepositoryNh.cs" />
+    <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
+    <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
     <Compile Include="Services\Contracts\IValidadorUsuario.cs" />
