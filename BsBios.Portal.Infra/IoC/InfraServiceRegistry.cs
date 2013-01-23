@@ -16,6 +16,9 @@ namespace BsBios.Portal.Infra.IoC
             For<IAuthenticationProvider>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AuthenticationProvider>();
+            For<IAccountService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AccountService>();
         }
     }
 }
