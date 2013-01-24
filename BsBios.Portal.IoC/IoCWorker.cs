@@ -2,7 +2,7 @@
 using BsBios.Portal.Infra.Repositories.Implementations;
 using StructureMap;
 
-namespace BsBios.Portal.Infra.IoC
+namespace BsBios.Portal.IoC
 {
     public static class IoCWorker
     {

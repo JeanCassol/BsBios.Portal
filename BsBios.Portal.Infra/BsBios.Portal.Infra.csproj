@@ -61,14 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\MenuUsuarioBuilder.cs" />
     <Compile Include="DataAccess\CascadeConvention.cs" />
     <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
-    <Compile Include="IoC\AplicationServiceRegistry.cs" />
-    <Compile Include="IoC\DomainServiceRegistry.cs" />
-    <Compile Include="IoC\InfraServiceRegistry.cs" />
-    <Compile Include="IoC\IoCWorker.cs" />
-    <Compile Include="IoC\RepositoryRegistry.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\Menu.cs" />
@@ -87,23 +83,24 @@
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
+    <Compile Include="Services\Contracts\IProvedorDeCriptografia.cs" />
+    <Compile Include="Services\Contracts\IProvedorDeMenu.cs" />
     <Compile Include="Services\Contracts\IValidadorUsuario.cs" />
     <Compile Include="Services\Implementations\AccountService.cs" />
     <Compile Include="Services\Implementations\AuthenticationProvider.cs" />
+    <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
     <Compile Include="Services\Implementations\ValidadorUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
-      <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Implementation\BsBios.Portal.ApplicationServices.Implementation.csproj">
-      <Project>{89C88931-2C77-404D-ACFC-B8A0794ED60E}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Implementation</Name>
+    <Folder Include="IoC\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>BsBios.Portal.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>

@@ -63,9 +63,6 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -137,15 +134,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
+    <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\IocConfig.cs" />
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,7 +226,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\ux\CheckColumn.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -282,6 +280,8 @@
     <Folder Include="Builders\" />
     <Folder Include="Controllers\Factory\" />
     <Folder Include="Controllers\ModelBinders\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +295,10 @@
     <ProjectReference Include="..\BsBios.Portal.Infra\BsBios.Portal.Infra.csproj">
       <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
       <Name>BsBios.Portal.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.IoC\BsBios.Portal.IoC.csproj">
+      <Project>{88D87599-D462-4902-8D0B-6348AB8CC620}</Project>
+      <Name>BsBios.Portal.IoC</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
       <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>

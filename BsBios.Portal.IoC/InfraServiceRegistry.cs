@@ -4,7 +4,7 @@ using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
 
-namespace BsBios.Portal.Infra.IoC
+namespace BsBios.Portal.IoC
 {
     public class InfraServiceRegistry : Registry
     {
@@ -19,6 +19,9 @@ namespace BsBios.Portal.Infra.IoC
             For<IAccountService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AccountService>();
+            For<IProvedorDeCriptografia>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProvedorDeCriptografiaMd5>();
         }
     }
 }

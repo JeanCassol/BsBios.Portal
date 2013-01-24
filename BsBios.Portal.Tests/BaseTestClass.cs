@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using BsBios.Portal.Infra.DataAccess;
-using BsBios.Portal.Infra.IoC;
+using BsBios.Portal.IoC;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests

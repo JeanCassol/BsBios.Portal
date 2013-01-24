@@ -1,5 +1,4 @@
-﻿@model BsBios.Portal.UI.Models.LoginModel
-
+﻿@model BsBios.Portal.ViewModel.LoginVm
 @{
     Layout = null;
     ViewBag.Title = "Log in";
@@ -27,14 +26,14 @@
                     <legend>Log in Form</legend>
                     <ol>
                         <li>
-                            @Html.LabelFor(m => m.UserName)
-                            @Html.TextBoxFor(m => m.UserName)
-                            @Html.ValidationMessageFor(m => m.UserName)
+                            @Html.LabelFor(m => m.Usuario)
+                            @Html.TextBoxFor(m => m.Usuario)
+                            @Html.ValidationMessageFor(m => m.Usuario)
                         </li>
                         <li>
-                            @Html.LabelFor(m => m.Password)
-                            @Html.PasswordFor(m => m.Password)
-                            @Html.ValidationMessageFor(m => m.Password)
+                            @Html.LabelFor(m => m.Senha)
+                            @Html.PasswordFor(m => m.Senha)
+                            @Html.ValidationMessageFor(m => m.Senha)
                         </li>
                     </ol>
                     @Html.ValidationSummary(true)

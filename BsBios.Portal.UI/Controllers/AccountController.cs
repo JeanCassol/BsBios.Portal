@@ -1,17 +1,16 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Security;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
-using BsBios.Portal.UI.Filters;
+using BsBios.Portal.ViewModel;
 using StructureMap;
 using StructureMap.Pipeline;
 using WebMatrix.WebData;
-using BsBios.Portal.UI.Models;
 
 namespace BsBios.Portal.UI.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
@@ -57,19 +56,24 @@ namespace BsBios.Portal.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model)
+        public ActionResult Login(LoginVm model)
         {
-            UsuarioConectado usuarioConectado = _accountService.Login(model.UserName, model.Password);
-            if (usuarioConectado.Perfil.PermiteLogin)
+            try
             {
+                UsuarioConectado usuarioConectado = _accountService.Login(model.Usuario, model.Senha);
                 Session["UsuarioConectado"] = usuarioConectado;
                 ObjectFactory.Configure(c => c.For<UsuarioConectado>()
-                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession)) 
+                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession))
                     .Use(usuarioConectado));
                 return RedirectToAction("Index", "Home");
-                //return View("~/Views/Home/Index.cshtml", usuarioConectado.Perfil.Menus);
-
             }
+            catch (UsuarioNaoCadastradoException)
+            {
+                
+                throw;
+            }
+
+
             ModelState.AddModelError("", "Usuário ou senha incorreta.");
             return View(model);
         }
@@ -102,15 +106,15 @@ namespace BsBios.Portal.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(UsuarioVm model)
         {
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.Login, model.Senha);
+                    WebSecurity.Login(model.Login, model.Senha);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -122,7 +126,6 @@ namespace BsBios.Portal.UI.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

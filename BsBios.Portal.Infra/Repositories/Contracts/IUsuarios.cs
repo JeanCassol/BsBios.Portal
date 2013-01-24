@@ -4,7 +4,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
 {
     public interface IUsuarios: ICompleteRepository<Usuario>
     {
-        IUsuarios BuscaPorId(int idUsuario);
-
+        Usuario BuscaPorId(int idUsuario);
+        Usuario BuscaPorLogin(string login);
     }
 }

@@ -4,7 +4,7 @@ using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
 
-namespace BsBios.Portal.Infra.IoC
+namespace BsBios.Portal.IoC
 {
     public class DomainServiceRegistry:  Registry
     {

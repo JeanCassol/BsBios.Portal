@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumeradores.cs" />
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\IAggregateRoot.cs" />
     <Compile Include="Model\Material.cs" />

@@ -1,9 +1,10 @@
-﻿using BsBios.Portal.Infra.Model;
+﻿using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.Tests.InfraServices
+namespace BsBios.Portal.Tests.Infra.Services
 {
     [TestClass]
     public class ValidadorUsuarioTests
@@ -30,11 +31,24 @@ namespace BsBios.Portal.Tests.InfraServices
             Assert.IsInstanceOfType(usuarioConectado.Perfil, typeof(PerfilFornecedor));
         }
 
+        //[TestMethod]
+        //public void QuandoMeAutenticarComCredenciaisInvalidasDeveRetornarPerfilNaoAutorizado()
+        //{
+        //    UsuarioConectado usuarioConectado = _authenticationProvider.Validar("comprador", "1234");
+        //    Assert.IsInstanceOfType(usuarioConectado.Perfil, typeof(PerfilNaoAutorizado));
+        //}
         [TestMethod]
-        public void QuandoMeAutenticarComCredenciaisInvalidasDeveRetornarPerfilNaoAutorizado()
+        [ExpectedException(typeof(UsuarioNaoCadastradoException))]
+        public void QuandoConectarComUsuarioInexistenteDeveRetornarExcecao()
         {
-            UsuarioConectado usuarioConectado = _authenticationProvider.Validar("comprador", "1234");
-            Assert.IsInstanceOfType(usuarioConectado.Perfil, typeof(PerfilNaoAutorizado));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(SenhaIncorretaException))]
+        public void QuandoConectarComSenhaIncorretaDeveRetornarExcecao()
+        {
+        }
+
+
     }
 }

@@ -22,12 +22,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
         public UsuarioConectado Login(string usuario, string senha)
         {
             UsuarioConectado usuarioConectado = _validadorUsuario.Validar(usuario, senha);
-            if (usuarioConectado.Perfil.PermiteLogin)
-            {
-                _authenticationProvider.Autenticar( usuarioConectado);
-                
-            }
-
+            _authenticationProvider.Autenticar( usuarioConectado);
             return usuarioConectado;
         }
 

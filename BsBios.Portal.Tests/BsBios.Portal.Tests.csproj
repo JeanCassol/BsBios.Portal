@@ -63,17 +63,31 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Application\CadastroUsuarioTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Domain\Model\UsuarioTests.cs" />
-    <Compile Include="InfraServices\Repositories\UnitOfWorkTests.cs" />
-    <Compile Include="InfraServices\Repositories\UsuariosTests.cs" />
-    <Compile Include="InfraServices\Services\AccountServiceTests.cs" />
-    <Compile Include="InfraServices\Services\ValidadorUsuarioTests.cs" />
+    <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
+    <Compile Include="Infra\Repositories\UsuariosTests.cs" />
+    <Compile Include="Infra\Services\AccountServiceTests.cs" />
+    <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />
+    <Compile Include="Infra\Services\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
+      <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
+      <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Implementation\BsBios.Portal.ApplicationServices.Implementation.csproj">
+      <Project>{89C88931-2C77-404D-ACFC-B8A0794ED60E}</Project>
+      <Name>BsBios.Portal.ApplicationServices.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>BsBios.Portal.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
       <Name>BsBios.Portal.Domain</Name>
@@ -82,9 +96,17 @@
       <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
       <Name>BsBios.Portal.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.IoC\BsBios.Portal.IoC.csproj">
+      <Project>{88D87599-D462-4902-8D0B-6348AB8CC620}</Project>
+      <Name>BsBios.Portal.IoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.UI\BsBios.Portal.UI.csproj">
       <Project>{ADF235AC-A253-430D-B311-56D46157E3CF}</Project>
       <Name>BsBios.Portal.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
+      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
+      <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

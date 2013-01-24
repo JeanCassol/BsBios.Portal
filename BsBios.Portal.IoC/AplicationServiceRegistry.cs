@@ -4,19 +4,15 @@ using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
 
-namespace BsBios.Portal.Infra.IoC
+namespace BsBios.Portal.IoC
 {
     public class AplicationServiceRegistry : Registry
     {
         public  AplicationServiceRegistry()
         {
-            For<IHelloWorld>()
+            For<ICadastroUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<HelloWorld>();
-            For<ISendMessage>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<SendMessage>();
-
+                .Use<CadastroUsuario>();
         }
     }
 }
