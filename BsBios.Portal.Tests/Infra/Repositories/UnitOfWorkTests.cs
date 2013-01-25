@@ -1,11 +1,12 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
+using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Repositories.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.Tests.InfraServices.Repositories
+namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
     public class UnitOfWorkTests
@@ -18,12 +19,31 @@ namespace BsBios.Portal.Tests.InfraServices.Repositories
         }
 
         [TestMethod]
+        public void QuandoInstancioUnitOfWorkGeneriicaEEspecificaRetornaMesmaInstancia()
+        {
+            var unitOfWorkGenerica = ObjectFactory.GetInstance<IUnitOfWork>();
+            var unitOfWorkEspecifica = ObjectFactory.GetInstance<UnitOfWorkNh>();
+            Assert.AreSame(unitOfWorkEspecifica, unitOfWorkGenerica);
+        }
+
+        //esse teste não devia estar aqui. Só quis ter certeza que cada vez que o StructureMap
+        //instancia um objeto que está configurado para ser instanciado por requisição retornar
+        //objetos diferentes
+        [TestMethod]
+        public void QuandoInstancioDoisServicosNaoRetornaMesmaInstancia()
+        {
+            var servico1 = ObjectFactory.GetInstance<ICadastroUsuario>();
+            var servico2 = ObjectFactory.GetInstance<ICadastroUsuario>();
+            Assert.AreNotSame(servico1, servico2);
+        }
+
+
+        [TestMethod]
         public void ConsigoMeConectarNoBancoDeDados()
         {
             var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
             Assert.AreEqual(ConnectionState.Open, unitOfWorkNh.Session.Connection.State);
         }
-
 
     }
 }

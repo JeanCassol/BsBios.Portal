@@ -72,6 +72,7 @@
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />
     <Compile Include="Infra\Services\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
   </ItemGroup>

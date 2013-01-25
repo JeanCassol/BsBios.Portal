@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
@@ -61,21 +62,19 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 UsuarioConectado usuarioConectado = _accountService.Login(model.Usuario, model.Senha);
-                Session["UsuarioConectado"] = usuarioConectado;
+                //Session["UsuarioConectado"] = usuarioConectado;
                 ObjectFactory.Configure(c => c.For<UsuarioConectado>()
                     .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession))
                     .Use(usuarioConectado));
                 return RedirectToAction("Index", "Home");
             }
-            catch (UsuarioNaoCadastradoException)
+            catch (Exception ex)
             {
-                
-                throw;
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
             }
 
 
-            ModelState.AddModelError("", "Usuário ou senha incorreta.");
-            return View(model);
         }
         //
         // POST: /Account/LogOff

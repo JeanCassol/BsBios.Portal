@@ -20,13 +20,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            RemoverUsuariosCadastrados();
+            Queries.RemoverUsuariosCadastrados();
         }
 
-        private static void RemoverUsuariosCadastrados()
-        {
-            UnitOfWorkNh.Session.CreateSQLQuery("DELETE FROM USUARIO").ExecuteUpdate();
-        }
+
 
 
         [ClassCleanup]

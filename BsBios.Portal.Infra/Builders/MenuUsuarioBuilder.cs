@@ -4,18 +4,20 @@ using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Infra.Builders
 {
-    class MenuUsuarioBuilder
+    public class MenuUsuarioBuilder
     {
         //private readonly Enumeradores.Perfil _perfil;
         private readonly MenuBuilder _builder;
 
-        public MenuUsuarioBuilder(Enumeradores.Perfil perfil)
+        public MenuUsuarioBuilder(int perfil)
         {
-            if (perfil == Enumeradores.Perfil.Comprador)
+            var enumPerfil = (Enumeradores.Perfil) perfil;
+
+            if (enumPerfil == Enumeradores.Perfil.Comprador)
             {
                 _builder = new MenuCompradorBuilder();
             }
-            if (perfil == Enumeradores.Perfil.Fornecedor)
+            if (enumPerfil == Enumeradores.Perfil.Fornecedor)
             {
                 _builder = new MenuFornecedorBuider();
             }

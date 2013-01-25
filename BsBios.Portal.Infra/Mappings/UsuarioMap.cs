@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Model;
 using FluentNHibernate.Mapping;
 
@@ -18,6 +14,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(u => u.Login);
             Map(u => u.Senha);
             Map(u => u.Email);
+            Map(u => u.Perfil).CustomType<Enumeradores.Perfil>();
         }
     }
 }

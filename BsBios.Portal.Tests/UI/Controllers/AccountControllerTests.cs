@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Controllers;
@@ -23,7 +24,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoLogarComCredenciaisValidasDeveRedirecionarParaPaginaInicial()
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
-            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("comprador",new PerfilComprador()));
+            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado(1,"comprador",1));
             var accountController = new AccountController(accountServiceMock.Object);
 
             var result = (RedirectToRouteResult) accountController.Login(new LoginVm(){Usuario  = "comprador",Senha = "123"});
@@ -37,7 +38,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
             accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new UsuarioConectado("nao autorizado",new PerfilNaoAutorizado()));
+                              .Throws(new UsuarioNaoCadastradoException("comprador"));
+                //.Returns(new UsuarioConectado(0,"nao autorizado",0));
             var accountController = new AccountController(accountServiceMock.Object);
 
             accountController.Login(new LoginVm() { Usuario = "comprador", Senha = "1234" });
@@ -45,12 +47,13 @@ namespace BsBios.Portal.Tests.UI.Controllers
         }
 
         [TestMethod]
-        public void QuandoLogarComCredenciaisInvalidasDeveRetonrarParaViewDeLogin()
+        public void QuandoLogarComCredenciaisInvalidasDeveRetornarParaViewDeLogin()
         {
 
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
             accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new UsuarioConectado("nao autorizado",new PerfilNaoAutorizado()));
+                .Throws(new UsuarioNaoCadastradoException("comprador"));
+                //.Returns(new UsuarioConectado(0, "nao autorizado",0));
             var accountController = new AccountController(accountServiceMock.Object);
 
             var result = (ViewResult)accountController.Login(new LoginVm() { Usuario = "comprador", Senha = "1234" });

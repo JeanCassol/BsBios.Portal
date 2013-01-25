@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using BsBios.Portal.Infra.Builders;
 using BsBios.Portal.Infra.Model;
 using StructureMap;
 
@@ -31,7 +32,8 @@ namespace BsBios.Portal.UI.Controllers
         public PartialViewResult Menu()
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            return PartialView("_Menu", usuarioConectado.Perfil.Menus);
+            var menuUsuarioBuilder = new MenuUsuarioBuilder(usuarioConectado.Perfil);
+            return PartialView("_Menu", menuUsuarioBuilder.Construct());
         }
     }
 }
