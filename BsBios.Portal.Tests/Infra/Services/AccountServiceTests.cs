@@ -4,6 +4,7 @@ using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
@@ -33,6 +34,13 @@ namespace BsBios.Portal.Tests.Infra.Services
                                          }
                                      }
                 );
+        }
+
+        [TestMethod]
+        public void ConsigoInstanciarOServiceViaIoC()
+        {
+            var servico = ObjectFactory.GetInstance<IAccountService>();
+            Assert.IsInstanceOfType(servico, typeof(AccountService));
         }
 
         [TestMethod]

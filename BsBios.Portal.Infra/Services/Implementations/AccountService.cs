@@ -28,7 +28,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public void Logout()
         {
-            throw new NotImplementedException();
+            _authenticationProvider.Desconectar();
         }
     }
 }

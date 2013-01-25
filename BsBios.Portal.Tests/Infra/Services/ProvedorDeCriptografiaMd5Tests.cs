@@ -1,9 +1,7 @@
-﻿using System;
-using BsBios.Portal.Infra.Services.Implementations;
+﻿using BsBios.Portal.Infra.Services.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StructureMap;
 
-namespace BsBios.Portal.Tests.InfraServices.Services
+namespace BsBios.Portal.Tests.Infra.Services
 {
     [TestClass]
     public class ProvedorDeCriptografiaMd5Tests

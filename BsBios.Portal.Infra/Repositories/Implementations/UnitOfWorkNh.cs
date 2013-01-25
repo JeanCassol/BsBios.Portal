@@ -4,6 +4,7 @@ using NHibernate;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
+
     public class UnitOfWorkNh: IUnitOfWorkNh
     {
         public ISession Session { get; private set; }
@@ -18,8 +19,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         private ITransaction _transaction;
         public void Dispose()
         {
-            Session.Close();
-            Session = null;
+            if (Session != null && Session.IsOpen)
+            {
+                Session.Clear();
+            }
         }
 
         public void BeginTransaction()

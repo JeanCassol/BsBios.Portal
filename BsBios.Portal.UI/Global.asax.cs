@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
+using StructureMap;
 
 namespace BsBios.Portal.UI
 {
@@ -25,5 +27,21 @@ namespace BsBios.Portal.UI
             IocConfig.RegisterIoc();
             //AuthConfig.RegisterAuth();
         }
+
+        protected void Application_EndRequest()
+        {
+            // Make sure to dispose of NHibernate session if created on this web request
+            ObjectFactory.ReleaseAndDisposeAllHttpScopedObjects();
+        }
+
+        //protected void Session_Start(object sender, EventArgs e)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("Iniciando Sessao");
+        //}
+
+        //protected void Session_End(object sender, EventArgs e)
+        //{
+
+        //}
     }
 }

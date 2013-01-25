@@ -7,6 +7,7 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
+    [Authorize]
     public class ProdutoController : Controller
     {
         private readonly IList<ProdutoCadastroVm> _produtos; 

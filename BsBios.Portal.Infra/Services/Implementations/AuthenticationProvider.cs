@@ -8,7 +8,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
     {
         public void Autenticar(UsuarioConectado usuarioConectado)
         {
-            FormsAuthentication.SetAuthCookie(usuarioConectado.NomeCompleto, true);    
+            //Se o parâmetro createPersistentCookie for setado para true tem que criar 
+            //um novo filtro de autorização, que deve levar em contato se a sessão já expirou ou não.
+            FormsAuthentication.SetAuthCookie(usuarioConectado.NomeCompleto, false);    
+        }
+
+        public void Desconectar()
+        {
+            FormsAuthentication.SignOut();
         }
     }
 }
