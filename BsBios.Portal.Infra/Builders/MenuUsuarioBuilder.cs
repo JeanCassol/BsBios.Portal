@@ -41,7 +41,7 @@ namespace BsBios.Portal.Infra.Builders
         {
             var menus = new List<Menu>();
             var menuCadastro = new Menu("Cadastros");
-            menuCadastro.AdicionarItem("Produtos", "Produto", "Index");
+            menuCadastro.AdicionarItem("Produtos", "Produto", "IndexKendo");
             menuCadastro.AdicionarItem("Fornecedores", "Fornecedor", "Index");
             menuCadastro.AdicionarItem("Centros", "Centro", "Index");
             menuCadastro.AdicionarItem("Itinerários", "Itinerario", "Index");

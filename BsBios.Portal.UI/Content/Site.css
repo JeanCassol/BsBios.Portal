@@ -674,5 +674,9 @@ tr.pager td {
 .paginaCadastro legend .visivel {
     display: inline
 }
+a .editarRegistro {
+    background:  url(/Images/icons/editar_32.png) center right no-repeat;
+    line-height: 32px;
+}
 
 

@@ -41,6 +41,7 @@
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="LoginVm.cs" />
+    <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioVm.cs" />

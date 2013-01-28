@@ -1,0 +1,107 @@
+﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
+
+@{
+    ViewBag.Title = "Cadastro de Produtos";
+}
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="clientsDb">
+        <h2>Produtos</h2>
+        <div id="produtosFiltros">
+            @Html.Label("Código SAP:")
+            @Html.TextBox("CodigoSap")
+            @Html.Label("Descrição")
+            @Html.TextBox("Descricao")
+        </div>
+        <div id="grid" style="height: 380px"></div>
+
+    </div>
+
+    <style scoped>
+        #clientsDb {
+            width: 700px;
+            height: 380px;
+            /*margin: 30px auto;
+            padding: 51px 4px 0 4px;*/
+            /*background: url('../../content/web/grid/clientsDb.png') no-repeat 0 0;*/
+        }
+    </style>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Id: {
+                                    type: "number"
+                                },
+                                Descricao: {
+                                    type: "string"
+                                },
+                                CodigoSap: {
+                                    type: "string"
+                                }
+                            }
+                        },
+                        total: 'totalCount',
+                        type: 'json'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Listar", "Produto")',
+                            type: 'GET',
+                            cache: false
+                        }
+                    },
+                    pageSize: 5
+                },
+                groupable: false,
+                sortable: true,
+                pageable:
+                {
+                    refresh: true,
+                    pageSizes: true
+                },
+                selectable: 'row',
+                columns: [
+                    {
+                        field: 'Id',
+                        title: 'Editar',
+                        width:60,
+                        template: '<a class="editarRegistro1" href="@Url.Action("EditarCadastro")/?idProduto=${Id}"><img src=@Url.Content("~/Images/icons/editar_32.png")></img> </a>',
+                        click: function (e) {
+                            e.preventDefault();
+                            alert('Ola');
+                        }
+                    },
+                    {
+                        field: "Id",
+                        width: 90,
+                        title: "Id"
+                    }, {
+                        field: "Descricao",
+                        width: 300,
+                        title: "Produto"
+                    }, {
+                        width: 150,
+                        field: "CodigoSap",
+                        title: "Código Sap"
+                    }
+                ]
+            });
+
+        });
+    </script>
+    
+}

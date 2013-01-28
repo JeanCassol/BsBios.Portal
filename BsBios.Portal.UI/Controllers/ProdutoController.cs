@@ -38,6 +38,18 @@ namespace BsBios.Portal.UI.Controllers
                     Descricao = "Farelo de Soja" ,
                     Id = 4000
                 });
+            _produtos.Add(new ProdutoCadastroVm()
+            {
+                CodigoSap = "SAP5000",
+                Descricao = "Produto 5",
+                Id = 5000
+            });
+            _produtos.Add(new ProdutoCadastroVm()
+            {
+                CodigoSap = "SAP6000",
+                Descricao = "Produto 6",
+                Id = 6000
+            });
         }
 
         //
@@ -47,6 +59,11 @@ namespace BsBios.Portal.UI.Controllers
         {
 
             return View(_produtos);
+        }
+
+        public ActionResult IndexKendo()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -63,9 +80,15 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar()
+        public JsonResult Listar(PaginacaoVm paginacao)
         {
-            return Json(new {registros = _produtos, totalCount = _produtos.Count},JsonRequestBehavior.AllowGet);
+            int skip = (paginacao.Page - 1) * paginacao.PageSize;
+            return Json(new {registros = _produtos.Skip(skip).Take(paginacao.Take), totalCount = _produtos.Count},JsonRequestBehavior.AllowGet);
         }
+        //[HttpGet]
+        //public JsonResult ListarKendo()
+        //{
+        //    return Json(new { registros = _produtos, totalCount = _produtos.Count }, JsonRequestBehavior.AllowGet);
+        //}
     }
 }
