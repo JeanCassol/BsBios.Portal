@@ -14,7 +14,7 @@ namespace BsBios.Portal.UI.Controllers
 {
     //Não pode ter SecurityFilter no controller. Colocar apenas nas Actions que for necessário
     //[SecurityFilter]
-    public class AccountController : Controller
+    public class AccountController:Controller
     {
         private readonly IAccountService _accountService;
 

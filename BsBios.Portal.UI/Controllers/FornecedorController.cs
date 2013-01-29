@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
+    [SecurityFilter]
     public class FornecedorController : Controller
     {
         private  readonly IList<FornecedorListagemVm> _fornecedores;

@@ -9,13 +9,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
     {
         public void Autenticar(UsuarioConectado usuarioConectado)
         {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                Desconectar();
-            }
+            //if (HttpContext.Current.User.Identity.IsAuthenticated)
+            //{
+            //    Desconectar();
+            //}
             //Se o parâmetro createPersistentCookie for setado para true tem que criar 
             //um novo filtro de autorização, que deve levar em contato se a sessão já expirou ou não.
-            FormsAuthentication.SetAuthCookie(usuarioConectado.NomeCompleto, false);    
+            FormsAuthentication.SetAuthCookie(usuarioConectado.NomeCompleto, false);
+            HttpContext.Current.Session["UsuarioConectado"] = usuarioConectado;
         }
 
         public void Desconectar()

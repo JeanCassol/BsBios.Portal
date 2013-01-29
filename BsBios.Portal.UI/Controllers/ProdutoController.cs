@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
-    [Authorize]
+    [SecurityFilter]
     public class ProdutoController : Controller
     {
         private readonly IList<ProdutoCadastroVm> _produtos; 
@@ -80,10 +82,19 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacao)
+        public JsonResult Listar(PaginacaoVm paginacao, ProdutoCadastroVm filtro)
         {
+            IQueryable<ProdutoCadastroVm> retorno =  _produtos.AsQueryable();
+            if (!string.IsNullOrEmpty(filtro.CodigoSap))
+            {
+                retorno = retorno.Where(p => p.CodigoSap == filtro.CodigoSap);
+            }
+            if (!string.IsNullOrEmpty(filtro.Descricao))
+            {
+                retorno = retorno.Where(p => p.Descricao.ToLower().Contains(filtro.Descricao.ToLower()));
+            }
             int skip = (paginacao.Page - 1) * paginacao.PageSize;
-            return Json(new {registros = _produtos.Skip(skip).Take(paginacao.Take), totalCount = _produtos.Count},JsonRequestBehavior.AllowGet);
+            return Json(new {registros = retorno.Skip(skip).Take(paginacao.Take).ToList(), totalCount = retorno.Count()},JsonRequestBehavior.AllowGet);
         }
         //[HttpGet]
         //public JsonResult ListarKendo()

@@ -21,11 +21,12 @@
                 }
             </div>
             <div id="body">
-@*                <div style="display: block">
-                    <section class="content-wrapper main-content clear-fix">*@
-                        @RenderBody()
-@*                    </section>
-                </div>*@
+                <div id="tituloPagina">
+                    @ViewBag.TituloDaPagina
+                </div>
+                <div id="conteudoPrincipal">
+                    @RenderBody()
+                </div>
             </div>
             
         </div>

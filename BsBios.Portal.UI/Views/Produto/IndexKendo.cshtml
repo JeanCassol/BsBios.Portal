@@ -1,27 +1,37 @@
 ﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
-
 @{
-    ViewBag.Title = "Cadastro de Produtos";
+    ViewBag.TituloDaPagina = "Produtos";
 }
+
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
     <div id="clientsDb">
-        <h2>Produtos</h2>
-        <div id="produtosFiltros">
-            @Html.Label("Código SAP:")
-            @Html.TextBox("CodigoSap")
-            @Html.Label("Descrição")
-            @Html.TextBox("Descricao")
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="coluna">
+                    @Html.Label("Código SAP")
+                    @Html.TextBox("CodigoSap","", new{@class="campopequeno"})
+                </div>
+                <div class="coluna">
+                    @Html.Label("Descrição")
+                    @Html.TextBox("Descricao","", new{@class="campogrande"})
+                </div>
+                <div class="divBotao" >
+                    <input id="btnPesquisar" type="button" value="Pesquisar"/>
+                    <input id="btnLimpar" type="button" value="Limpar"/>
+                </div>
+            </fieldset>
         </div>
-        <div id="grid" style="height: 380px"></div>
+        <div id="grid"></div>
 
     </div>
 
     <style scoped>
         #clientsDb {
-            width: 700px;
-            height: 380px;
-            /*margin: 30px auto;
+            width: 750px;
+            /*height: 380px;
+            margin: 30px auto;
             padding: 51px 4px 0 4px;*/
             /*background: url('../../content/web/grid/clientsDb.png') no-repeat 0 0;*/
         }
@@ -32,7 +42,6 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
-
         $(document).ready(function() {
             $("#grid").kendoGrid({
                 dataSource: {
@@ -61,7 +70,13 @@
                         read: {
                             url: '@Url.Action("Listar", "Produto")',
                             type: 'GET',
-                            cache: false
+                            cache: false,
+                            data: function() {
+                                return {
+                                    CodigoSap: $('#CodigoSap').val(),
+                                    Descricao: $('#Descricao').val()
+                                };
+                            }
                         }
                     },
                     pageSize: 5
@@ -77,13 +92,10 @@
                 columns: [
                     {
                         field: 'Id',
-                        title: 'Editar',
-                        width:60,
-                        template: '<a class="editarRegistro1" href="@Url.Action("EditarCadastro")/?idProduto=${Id}"><img src=@Url.Content("~/Images/icons/editar_32.png")></img> </a>',
-                        click: function (e) {
-                            e.preventDefault();
-                            alert('Ola');
-                        }
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 60,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit" data-idproduto="${Id}"></input>'
                     },
                     {
                         field: "Id",
@@ -101,6 +113,20 @@
                 ]
             });
 
+            $('#btnPesquisar').click(function () {
+                $("#grid").data("kendoGrid").dataSource.read();
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#divFiltros input[type!=button]').val('');
+            });
+
+            $('.button_edit').die("click");
+            $('.button_edit').live("click", function (e) {
+                e.preventDefault();
+                alert('clique no botão');
+            });
+            
         });
     </script>
     

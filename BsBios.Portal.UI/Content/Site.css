@@ -98,8 +98,9 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    /*background-color: #efeeef;*/
     margin-left: 10px;
+    width: 814px;
     /*clear: both;
     padding-bottom: 35px;*/
 }
@@ -461,18 +462,18 @@ fieldset {
     border: none;
     margin: 0;
 }
-    fieldset legend {
-        display: none;
-    }
+fieldset legend {
+    display: none;
+}
 
-    fieldset ol {
-        padding: 0;
-        list-style: none;
-    }
+fieldset ol {
+    padding: 0;
+    list-style: none;
+}
 
-        fieldset ol li {
-            padding-bottom: 5px;
-        }
+    fieldset ol li {
+        padding-bottom: 5px;
+    }
 
 label {
     display: block;
@@ -509,9 +510,9 @@ textarea {
         width: auto;
     }
 
-    input[type="submit"],
-    input[type="button"],
-    button {
+.divBotao input[type="submit"],
+.divBotao input[type="button"],
+.divBotao button {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
@@ -520,7 +521,7 @@ textarea {
         padding: 7px;
         margin-right: 8px;
         width: auto;
-    }
+}
 
     td input[type="submit"],
     td input[type="button"],
@@ -650,20 +651,20 @@ tr.pager td {
     margin: 0 auto;
 }
 .paginaCadastro {
-    width: 814px;
+    width: 804px;
     padding-left: 10px
 }
-.paginaCadastro .coluna {
+/*.paginaCadastro*/ .coluna {
     width: 300px;
     display: inline-block
 }
-.paginaCadastro .campopequeno {
-    width: 50px;
-}
-.paginaCadastro .campomedio {
+/*.paginaCadastro*/ .campopequeno {
     width: 150px;
+}
+/*.paginaCadastro*/ .campomedio {
+    width: 250px;
 } 
-.paginaCadastro .campogrande, select {
+/*.paginaCadastro*/ .campogrande, select {
     width: 350px;
 }
 .paginaCadastro fieldset {
@@ -674,9 +675,31 @@ tr.pager td {
 .paginaCadastro legend .visivel {
     display: inline
 }
-a .editarRegistro {
-    background:  url(/Images/icons/editar_32.png) center right no-repeat;
-    line-height: 32px;
+.button_edit{
+    background-image: url(/images/icons/editar_32.png); /* 32px x 32px */
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0 0;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 32px;           /* make this the size of your image */
+    width: 32px;
+    padding-left: 32px;     /* make text start to the right of the image */
+    vertical-align: middle; /* align the text vertically centered */
 }
+#tituloPagina {
+    background-color: blue;
+    color: white;
+    /*margin: 10px;*/
+    font-weight: bold;
+    font-size: 25px;
+}
+#conteudoPrincipal {
+    background-color: #efeeef
+}
+#divFiltros {
+    padding: 10px 0 0 10px;
+}
+
 
 
