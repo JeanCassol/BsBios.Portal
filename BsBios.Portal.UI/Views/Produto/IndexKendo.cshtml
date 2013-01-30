@@ -17,9 +17,9 @@
                     @Html.Label("Descrição")
                     @Html.TextBox("Descricao","", new{@class="campogrande"})
                 </div>
-                <div class="divBotao" >
-                    <input id="btnPesquisar" type="button" value="Pesquisar"/>
-                    <input id="btnLimpar" type="button" value="Limpar"/>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
                 </div>
             </fieldset>
         </div>
@@ -29,7 +29,7 @@
 
     <style scoped>
         #clientsDb {
-            width: 750px;
+            width: 810px;
             /*height: 380px;
             margin: 30px auto;
             padding: 51px 4px 0 4px;*/
@@ -86,10 +86,21 @@
                 pageable:
                 {
                     refresh: true,
-                    pageSizes: true
+                    pageSizes: true,
+                    messages: {
+                        display: '{0} - {1} de {2} registros',
+                        empty: 'Nenhum registro encontrado',
+                        itemsPerPage: 'registros por página',
+                        first: 'Ir para a primeira página',
+                        previous: 'Ir para a página anterior',
+                        next: 'Ir para a próxima página',
+                        last: 'Ir para a última página',
+                        refresh: 'Atualizar'
+                    }
                 },
                 selectable: 'row',
-                columns: [
+                columns:
+                [
                     {
                         field: 'Id',
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
@@ -113,7 +124,7 @@
                 ]
             });
 
-            $('#btnPesquisar').click(function () {
+            $('#btnPesquisar').click(function() {
                 $("#grid").data("kendoGrid").dataSource.read();
             });
 
@@ -122,11 +133,11 @@
             });
 
             $('.button_edit').die("click");
-            $('.button_edit').live("click", function (e) {
+            $('.button_edit').live("click", function(e) {
                 e.preventDefault();
                 alert('clique no botão');
             });
-            
+
         });
     </script>
     

@@ -2,126 +2,86 @@
 @model CotacaoFreteCadastroVm
 
 @{
-    ViewBag.Title = "Cotação de Frete";
+    ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
 }
 <div class="paginaCadastro">
     @using (Html.BeginForm()) {
 
         <fieldset>
-            <legend>CotacaoFreteCadastroVm</legend>
+            <legend></legend>
 
             @Html.HiddenFor(model => model.Id)
 
             <div>
-                @Html.LabelFor(model => model.DescricaoStatus)
-            </div>
-            <div>
+                @Html.Label("Status:",new{@class="labelNaLinha"})
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
-
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.IdMaterial)
-            </div>
-            <div>
                 @Html.DropDownList("IdMaterial", 
-                                   ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
-                                       {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
+                                    ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
+                                        {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
                 @Html.ValidationMessageFor(model => model.IdMaterial)
             </div>
-
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.QuantidadeMaterial)
-            </div>
-            <div>
                 @Html.EditorFor(model => model.QuantidadeMaterial)
                 @Html.ValidationMessageFor(model => model.QuantidadeMaterial)
             </div>
+            <div class="coluna">
+                @Html.LabelFor(model => model.DataInicioLeilao)
+                @Html.EditorFor(model => model.DataInicioLeilao)
+                @Html.ValidationMessageFor(model => model.DataInicioLeilao)
+            </div>
+
+            <div class="coluna">
+                @Html.LabelFor(model => model.DataTerminoLeilao)
+                @Html.EditorFor(model => model.DataTerminoLeilao)
+                @Html.ValidationMessageFor(model => model.DataTerminoLeilao)
+            </div>
+
+            <div class="coluna">
+                @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
+                @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
+                @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
+                @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
+                @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
+            </div>
         
-            <div>
-                    <div class="coluna">
-                        <div>
-                            @Html.LabelFor(model => model.DataInicioLeilao)
-                        </div>
-                        <div>
-                            @Html.EditorFor(model => model.DataInicioLeilao)
-                            @Html.ValidationMessageFor(model => model.DataInicioLeilao)
-                        </div>
-                    </div>
-
-                    <div class="coluna">
-                        <div>
-                            @Html.LabelFor(model => model.DataTerminoLeilao)
-                        </div>
-                        <div>
-                            @Html.EditorFor(model => model.DataTerminoLeilao)
-                            @Html.ValidationMessageFor(model => model.DataTerminoLeilao)
-                        </div>
-                    </div>
-            </div>
-
-            <div>
-                <div class="coluna">
-                    <div>
-                        @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
-                    </div>
-                    <div>
-                        @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
-                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)
-                    </div>
-                </div>
-                <div class="coluna">
-                    <div>
-                        @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
-                    </div>
-                    <div>
-                        @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
-                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
-                    </div>
-                </div>
-
-            </div>
-
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.IdCentro)
-            </div>
-            <div>
                 @Html.DropDownList("IdCentro",((List<CentroCadastroVm>) ViewBag.Centros)
                                                   .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) , Text =x.Descricao, Selected = Model != null && Model.Id == x.Id}),"Selecione")
                 @Html.ValidationMessageFor(model => model.IdCentro)
             </div>
 
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.IdItinerario)
-            </div>
-            <div>
                 @Html.DropDownList("IdItinerario",((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
                                                       .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) ,Text = x.Descricao ,Selected = Model != null && Model.Id == x.Id}),"Selecione")
                 @Html.ValidationMessageFor(model => model.IdItinerario)
             </div>
-
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.Requisitos)
-            </div>
-            <div>
-                @Html.EditorFor(model => model.Requisitos)
+                @Html.TextAreaFor(model => model.Requisitos,new{@class="campogrande", rows="5"})
                 @Html.ValidationMessageFor(model => model.Requisitos)
             </div>
-
-            <div>
+            <div class="coluna">
                 @Html.LabelFor(model => model.Observacoes)
-            </div>
-            <div>
-                @Html.EditorFor(model => model.Observacoes)
+                @Html.TextAreaFor(model => model.Observacoes,new{@class="campogrande", rows="5"})
                 @Html.ValidationMessageFor(model => model.Observacoes)
             </div>
-            @{
+@*            @{
                 Html.RenderAction("Index","Fornecedor");
-            }
+            }*@
             @Html.ValidationSummary(true)
 
-            <p>
-                <input type="submit" value="Salvar" />
-            </p>
+        <div class="divBotao">
+            <input type="submit" value="Salvar" class="blue" />
+        </div>
         </fieldset>
     }
 </div>

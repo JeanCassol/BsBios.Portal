@@ -459,12 +459,12 @@ aside {
 
 /* forms */
 fieldset {
-    border: none;
+    /*border: none;*/
     margin: 0;
 }
-fieldset legend {
+/*fieldset legend {
     display: none;
-}
+}*/
 
 fieldset ol {
     padding: 0;
@@ -492,44 +492,91 @@ input, textarea {
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    /*width: 300px;*/
 }
 
 textarea {
-    font-family: inherit;
-    width: 500px;
+    width: 300px;
 }
 
-    input:focus, textarea:focus {
-        border: 1px solid #7ac0da;
-    }
+input:focus, textarea:focus {
+    border: 1px solid #7ac0da;
+}
 
-    input[type="checkbox"] {
-        background: transparent;
-        border: inherit;
-        width: auto;
-    }
+input[type="checkbox"] {
+    background: transparent;
+    border: inherit;
+    width: auto;
+}
 
+.divBotao {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
 .divBotao input[type="submit"],
 .divBotao input[type="button"],
 .divBotao button {
-        background-color: #d3dce0;
+        /*background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
         font-size: 1.2em;
         font-weight: 600;
         padding: 7px;
         margin-right: 8px;
-        width: auto;
+        width: 110px;*/
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    width: 110px;
 }
 
-    td input[type="submit"],
-    td input[type="button"],
-    td button {
-        font-size: 1em;
-        padding: 4px;
-        margin-right: 4px;
-    }
+.divBotao .button:hover {
+	text-decoration: none;
+}
+.divBotao .button:active {
+	position: relative;
+	top: 1px;
+}
+
+.blue {
+	color: #d9eef7;
+	border: solid 1px #0076a3;
+	background: #0095cd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+}
+.blue:hover {
+	background: #007ead;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
+.blue:active {
+	color: #80bed6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
+
+td input[type="submit"],
+td input[type="button"],
+td button {
+    font-size: 1em;
+    padding: 4px;
+    margin-right: 4px;
+}
 
 /* info and errors */
 .message-info {
@@ -591,7 +638,7 @@ input[type="checkbox"].input-validation-error {
 table {
     border-collapse: collapse;
     border-spacing: 0;
-    margin-top: 0.75em;
+    /*margin-top: 0.75em;*/
     border: 0 none;
 }
 
@@ -652,11 +699,11 @@ tr.pager td {
 }
 .paginaCadastro {
     width: 804px;
-    padding-left: 10px
 }
 /*.paginaCadastro*/ .coluna {
-    width: 300px;
-    display: inline-block
+    width: 380px;
+    display: inline-block;
+    float: left;
 }
 /*.paginaCadastro*/ .campopequeno {
     width: 150px;
@@ -668,27 +715,27 @@ tr.pager td {
     width: 350px;
 }
 .paginaCadastro fieldset {
-    padding-left: 5px;
-    padding-right: 100px;
-    border: solid 0.5px cyan
+    margin-left: 1px;
+    padding-right: 1px;
+    /*border: solid 0.5px gray*/
 }
 .paginaCadastro legend .visivel {
     display: inline
 }
 .button_edit{
-    background-image: url(/images/icons/editar_32.png); /* 32px x 32px */
+    background-image: url(/images/icons/editar_16.png); /* 32px x 32px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 32px;           /* make this the size of your image */
-    width: 32px;
+    height: 16px;           /* make this the size of your image */
+    width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
 #tituloPagina {
-    background-color: blue;
+    background-color: #0095cd;
     color: white;
     /*margin: 10px;*/
     font-weight: bold;
@@ -697,9 +744,11 @@ tr.pager td {
 #conteudoPrincipal {
     background-color: #efeeef
 }
-#divFiltros {
+/*#divFiltros {
     padding: 10px 0 0 10px;
+}*/
+.labelNaLinha {
+    display: inline;
 }
-
 
 

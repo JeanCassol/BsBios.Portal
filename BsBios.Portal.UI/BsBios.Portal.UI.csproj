@@ -314,6 +314,7 @@
     <Content Include="Images\bg_logo.gif" />
     <Content Include="Images\icons\delete_24.png" />
     <Content Include="Images\icons\delete_32.png" />
+    <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
