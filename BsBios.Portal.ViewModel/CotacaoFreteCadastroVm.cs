@@ -22,7 +22,8 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Data de Início do Leilão é obrigatório")]
         [Display(Name = "Início do Leilão")]
         [DataType(DataType.Date)]
-        public DateTime DataInicioLeilao { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? DataInicioLeilao { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Término do Leilão")]
@@ -30,7 +31,7 @@ namespace BsBios.Portal.ViewModel
         public DateTime DataTerminoLeilao { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Data Inicialde Validade da Cotação é obrigatório")]
+        [Required(ErrorMessage = "Data Inicialde de Validade da Cotação é obrigatório")]
         [Display(Name = "Data Inicial de Validade" )]
         public DateTime DataValidadeCotacaoInicial { get; set; }
 

@@ -16,63 +16,84 @@
                 @Html.Label("Status:",new{@class="labelNaLinha"})
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.IdMaterial)
-                @Html.DropDownList("IdMaterial", 
-                                    ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
-                                        {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
-                @Html.ValidationMessageFor(model => model.IdMaterial)
-            </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.QuantidadeMaterial)
-                @Html.EditorFor(model => model.QuantidadeMaterial)
-                @Html.ValidationMessageFor(model => model.QuantidadeMaterial)
-            </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.DataInicioLeilao)
-                @Html.EditorFor(model => model.DataInicioLeilao)
-                @Html.ValidationMessageFor(model => model.DataInicioLeilao)
-            </div>
-
-            <div class="coluna">
-                @Html.LabelFor(model => model.DataTerminoLeilao)
-                @Html.EditorFor(model => model.DataTerminoLeilao)
-                @Html.ValidationMessageFor(model => model.DataTerminoLeilao)
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(model => model.IdMaterial)
+                    @Html.DropDownList("IdMaterial", 
+                                       ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
+                                           {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
+                    @Html.ValidationMessageFor(model => model.IdMaterial)
+                </div>
+                <div class="coluna">
+                    @Html.LabelFor(model => model.QuantidadeMaterial)
+                    @Html.EditorFor(model => model.QuantidadeMaterial)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(model => model.QuantidadeMaterial)    
+                    </p>
+                </div>
             </div>
 
-            <div class="coluna">
-                @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
-                @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
-                @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(model => model.DataInicioLeilao)
+                    @Html.TextBoxFor(model => model.DataInicioLeilao)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(model => model.DataInicioLeilao)    
+                    </p>
+                </div>
+                <div class="coluna">
+                    @Html.LabelFor(model => model.DataTerminoLeilao)
+                    @Html.EditorFor(model => model.DataTerminoLeilao)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(model => model.DataTerminoLeilao)                    
+                    </p>
+                </div>
             </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
-                @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
-                @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
+            
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
+                    @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)    
+                    </p>
+                </div>
+                <div class="coluna">
+                    @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
+                    @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
+                    </p>
+                </div>
             </div>
         
-            <div class="coluna">
-                @Html.LabelFor(model => model.IdCentro)
-                @Html.DropDownList("IdCentro",((List<CentroCadastroVm>) ViewBag.Centros)
-                                                  .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) , Text =x.Descricao, Selected = Model != null && Model.Id == x.Id}),"Selecione")
-                @Html.ValidationMessageFor(model => model.IdCentro)
-            </div>
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(model => model.IdCentro)
+                    @Html.DropDownList("IdCentro",((List<CentroCadastroVm>) ViewBag.Centros)
+                                                      .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) , Text =x.Descricao, Selected = Model != null && Model.Id == x.Id}),"Selecione")
+                    @Html.ValidationMessageFor(model => model.IdCentro)
+                </div>
 
-            <div class="coluna">
-                @Html.LabelFor(model => model.IdItinerario)
-                @Html.DropDownList("IdItinerario",((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
-                                                      .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) ,Text = x.Descricao ,Selected = Model != null && Model.Id == x.Id}),"Selecione")
-                @Html.ValidationMessageFor(model => model.IdItinerario)
+                <div class="coluna">
+                    @Html.LabelFor(model => model.IdItinerario)
+                    @Html.DropDownList("IdItinerario",((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
+                                                          .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) ,Text = x.Descricao ,Selected = Model != null && Model.Id == x.Id}),"Selecione")
+                    @Html.ValidationMessageFor(model => model.IdItinerario)
+                </div>
             </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.Requisitos)
-                @Html.TextAreaFor(model => model.Requisitos,new{@class="campogrande", rows="5"})
-                @Html.ValidationMessageFor(model => model.Requisitos)
-            </div>
-            <div class="coluna">
-                @Html.LabelFor(model => model.Observacoes)
-                @Html.TextAreaFor(model => model.Observacoes,new{@class="campogrande", rows="5"})
-                @Html.ValidationMessageFor(model => model.Observacoes)
+            
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(model => model.Requisitos)
+                    @Html.TextAreaFor(model => model.Requisitos,new{@class="campogrande", rows="5"})
+                    @Html.ValidationMessageFor(model => model.Requisitos)
+                </div>
+                <div class="coluna">
+                    @Html.LabelFor(model => model.Observacoes)
+                    @Html.TextAreaFor(model => model.Observacoes,new{@class="campogrande", rows="5"})
+                    @Html.ValidationMessageFor(model => model.Observacoes)
+                </div>
             </div>
 @*            @{
                 Html.RenderAction("Index","Fornecedor");
@@ -88,4 +109,27 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $.validator.methods["date"] = function(value, element) {
+            var shortDateFormat = "dd/mm/yy";
+            var res = true;
+            try {
+                $.datepicker.parseDate(shortDateFormat, value);
+            } catch(error) {
+                res = false;
+            }
+            return res;
+        };
+        $(function () {
+            /*var language = navigator.language ? navigator.userLanguage: navigator.language;*/
+            $.datepicker.setDefaults($.datepicker.regional["pt-BR"]);
+            $.datepicker.setDefaults({
+                changeYear: true,
+                gotoCurrent: true,
+                dateFormat: "dd/mm/yy",
+                defaultDate: null
+            });
+            $('#DataInicioLeilao').datepicker();
+        })
+    </script>
 }

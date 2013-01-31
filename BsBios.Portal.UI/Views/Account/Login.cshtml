@@ -19,29 +19,22 @@
     <body>
         @Html.Partial("_Header")
         <div id="loginForm">
-            @*<h2>Use a local account to log in.</h2>*@
             @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl })) {
                 @Html.AntiForgeryToken()
-                <fieldset>
-                    <legend>Log in Form</legend>
-                    <ol>
-                        <li>
-                            @Html.LabelFor(m => m.Usuario)
-                            @Html.TextBoxFor(m => m.Usuario)
-                            @Html.ValidationMessageFor(m => m.Usuario)
-                        </li>
-                        <li>
-                            @Html.LabelFor(m => m.Senha)
-                            @Html.PasswordFor(m => m.Senha)
-                            @Html.ValidationMessageFor(m => m.Senha)
-                        </li>
-                    </ol>
+                <div class="elementosCentralizados">
+                    <div style="width: 265px" class="elementosCentralizados">
+                        @Html.LabelFor(m => m.Usuario, new{@class="labelEsquerda"})
+                        @Html.TextBoxFor(m => m.Usuario)
+                        @Html.ValidationMessageFor(m => m.Usuario)
+                        @Html.LabelFor(m => m.Senha, new { @class = "labelEsquerda" })
+                        @Html.PasswordFor(m => m.Senha)
+                        @Html.ValidationMessageFor(m => m.Senha)
+                    </div>
                     @Html.ValidationSummary(true)
-                    <input type="submit" value="Log in" style="position: relative;  left: 100px;" />
-                </fieldset>
-        @*<p>
-            @Html.ActionLink("Register", "Register") if you don't have an account.
-        </p>*@
+                </div>
+                <div class="divBotao">
+                    <input type="submit" value="Log in" class="blue"/>
+                </div>
             }
         </div>
     </body>
