@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
 @model CotacaoFreteCadastroVm
 
 @{
@@ -16,34 +17,29 @@
                 @Html.Label("Status:",new{@class="labelNaLinha"})
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(model => model.IdMaterial)
-                    @Html.DropDownList("IdMaterial", 
-                                       ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
-                                           {Text = x.Descricao,Value = Convert.ToString(x.Id.Value),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>")
-                    @Html.ValidationMessageFor(model => model.IdMaterial)
-                </div>
-                <div class="coluna">
-                    @Html.LabelFor(model => model.QuantidadeMaterial)
-                    @Html.EditorFor(model => model.QuantidadeMaterial)
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(model => model.QuantidadeMaterial)    
-                    </p>
-                </div>
-            </div>
+            
+            @Html.LinhaComDuasColunas(new Coluna(Html.LabelFor(model => model.IdMaterial),
+            Html.DropDownList("IdMaterial", 
+                ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
+                    {Text = x.Descricao,Value = Convert.ToString(x.Id),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>"),
+                    Html.ValidationMessageFor(model => model.IdMaterial)), 
+            new Coluna(Html.LabelFor(model => model.QuantidadeMaterial),
+                Html.EditorFor(model => model.QuantidadeMaterial),
+                Html.ValidationMessageFor(model => model.QuantidadeMaterial))
+            )
+
 
             <div class="linha">
                 <div class="coluna">
                     @Html.LabelFor(model => model.DataInicioLeilao)
-                    @Html.TextBoxFor(model => model.DataInicioLeilao)
+                    @Html.TextBoxFor(model => model.DataInicioLeilao, new{@class="campoDatePicker"})
                     <p class="mensagemErro">
                         @Html.ValidationMessageFor(model => model.DataInicioLeilao)    
                     </p>
                 </div>
                 <div class="coluna">
                     @Html.LabelFor(model => model.DataTerminoLeilao)
-                    @Html.EditorFor(model => model.DataTerminoLeilao)
+                    @Html.TextBoxFor(model => model.DataTerminoLeilao, new{@class="campoDatePicker"})
                     <p class="mensagemErro">
                         @Html.ValidationMessageFor(model => model.DataTerminoLeilao)                    
                     </p>
@@ -109,27 +105,10 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $.validator.methods["date"] = function(value, element) {
-            var shortDateFormat = "dd/mm/yy";
-            var res = true;
-            try {
-                $.datepicker.parseDate(shortDateFormat, value);
-            } catch(error) {
-                res = false;
-            }
-            return res;
-        };
-        $(function () {
-            /*var language = navigator.language ? navigator.userLanguage: navigator.language;*/
-            $.datepicker.setDefaults($.datepicker.regional["pt-BR"]);
-            $.datepicker.setDefaults({
-                changeYear: true,
-                gotoCurrent: true,
-                dateFormat: "dd/mm/yy",
-                defaultDate: null
-            });
+    @*    <script type="text/javascript">
+        $(function() {
             $('#DataInicioLeilao').datepicker();
-        })
-    </script>
+        });
+    </script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
 }

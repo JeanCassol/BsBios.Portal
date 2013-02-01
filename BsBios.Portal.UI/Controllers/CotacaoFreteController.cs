@@ -103,7 +103,9 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.Itinerarios = _itinerarios;
             ViewBag.Centros = _centros;
             
-            return View("Cadastro", new CotacaoFreteCadastroVm(){DescricaoStatus = "ABERTO"});
+            return View("Cadastro", new CotacaoFreteCadastroVm 
+            {DescricaoStatus = "ABERTO",
+            DataInicioLeilao = DateTime.Today.ToShortDateString()});
         }
 
         [HttpPost]

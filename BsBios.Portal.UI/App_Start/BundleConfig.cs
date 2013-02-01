@@ -13,7 +13,8 @@ namespace BsBios.Portal.UI
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js",
-                        "~/Scripts/jquery-ui-i18n.js"));
+                        "~/Scripts/jquery-ui-i18n.js",
+                        "~/Scripts/jquery-ui-extension.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
