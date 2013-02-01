@@ -17,17 +17,14 @@
                 @Html.Label("Status:",new{@class="labelNaLinha"})
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
+
             
             @Html.LinhaComDuasColunas(new Coluna(Html.LabelFor(model => model.IdMaterial),
             Html.DropDownList("IdMaterial", 
                 ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
                     {Text = x.Descricao,Value = Convert.ToString(x.Id),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>"),
                     Html.ValidationMessageFor(model => model.IdMaterial)), 
-            new Coluna(Html.LabelFor(model => model.QuantidadeMaterial),
-                Html.EditorFor(model => model.QuantidadeMaterial),
-                Html.ValidationMessageFor(model => model.QuantidadeMaterial))
-            )
-
+            model => model.QuantidadeMaterial )
 
             <div class="linha">
                 <div class="coluna">

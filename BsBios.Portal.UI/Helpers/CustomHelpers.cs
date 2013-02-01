@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.ViewModel;
@@ -32,9 +33,18 @@ namespace BsBios.Portal.UI.Helpers
                 "</div>";
                 return new HtmlString(retorno);
         }
+
+        public static IHtmlString LinhaComDuasColunas<TModel, TValue>(this HtmlHelper<TModel> html, Coluna coluna1, Expression<Func<TModel, TValue>> expressao)
+        {
+            var coluna2 = new Coluna(System.Web.Mvc.Html.LabelExtensions.LabelFor(html, expressao),
+                                    System.Web.Mvc.Html.EditorExtensions.EditorFor(html, expressao),
+                                    System.Web.Mvc.Html.ValidationExtensions.ValidationMessageFor(html, expressao));
+
+            return LinhaComDuasColunas(html, coluna1, coluna2);
+        }
     }
 
-    public class Coluna
+    public class Coluna//<T> where T:IViewModel
     {
         public MvcHtmlString Label { get; protected set; }
         public MvcHtmlString Campo { get; protected set; }
@@ -46,5 +56,8 @@ namespace BsBios.Portal.UI.Helpers
             Campo = campo;
             MensagemDeValidacao = mensagemDeValidacao;
         }
+        //public Coluna (Func<T, TProperty> funcao )
+        //{
+        //}
     }
 }

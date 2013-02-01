@@ -40,6 +40,7 @@
     <Compile Include="CotacaoFreteListagemVm.cs" />
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
+    <Compile Include="IViewModel.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />

@@ -104,8 +104,10 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.Centros = _centros;
             
             return View("Cadastro", new CotacaoFreteCadastroVm 
-            {DescricaoStatus = "ABERTO",
-            DataInicioLeilao = DateTime.Today.ToShortDateString()});
+            {
+                DescricaoStatus = "ABERTO",
+                QuantidadeMaterial = 10,
+                DataInicioLeilao = DateTime.Today.ToShortDateString()});
         }
 
         [HttpPost]
