@@ -143,6 +143,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\IocConfig.cs" />
+    <Compile Include="Helpers\Coluna.cs" />
     <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

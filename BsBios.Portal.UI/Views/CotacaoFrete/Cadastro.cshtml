@@ -18,77 +18,40 @@
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
 
-            
-            @Html.LinhaComDuasColunas(new Coluna(Html.LabelFor(model => model.IdMaterial),
-            Html.DropDownList("IdMaterial", 
-                ((List<ProdutoCadastroVm> ) ViewBag.Materiais).Select(x => new SelectListItem()
-                    {Text = x.Descricao,Value = Convert.ToString(x.Id),Selected = Model != null && x.Id == Model.IdMaterial}),"Selecione >>"),
-                    Html.ValidationMessageFor(model => model.IdMaterial)), 
-            model => model.QuantidadeMaterial )
+            @{ var comboMaterial = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdMaterial, 
+                ((List<ProdutoCadastroVm>) ViewBag.Materiais)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Id), Selected = Model != null && x.Id == Model.IdMaterial}),
+                "IdMaterial");
 
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(model => model.DataInicioLeilao)
-                    @Html.TextBoxFor(model => model.DataInicioLeilao, new{@class="campoDatePicker"})
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(model => model.DataInicioLeilao)    
-                    </p>
-                </div>
-                <div class="coluna">
-                    @Html.LabelFor(model => model.DataTerminoLeilao)
-                    @Html.TextBoxFor(model => model.DataTerminoLeilao, new{@class="campoDatePicker"})
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(model => model.DataTerminoLeilao)                    
-                    </p>
-                </div>
-            </div>
+                var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(Html, x => x.QuantidadeMaterial);
+            }
             
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(model => model.DataValidadeCotacaoInicial)
-                    @Html.EditorFor(model => model.DataValidadeCotacaoInicial)
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoInicial)    
-                    </p>
-                </div>
-                <div class="coluna">
-                    @Html.LabelFor(model => model.DataValidadeCotacaoFinal)
-                    @Html.EditorFor(model => model.DataValidadeCotacaoFinal)
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(model => model.DataValidadeCotacaoFinal)
-                    </p>
-                </div>
-            </div>
-        
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(model => model.IdCentro)
-                    @Html.DropDownList("IdCentro",((List<CentroCadastroVm>) ViewBag.Centros)
-                                                      .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) , Text =x.Descricao, Selected = Model != null && Model.Id == x.Id}),"Selecione")
-                    @Html.ValidationMessageFor(model => model.IdCentro)
-                </div>
+            @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataInicioLeilao, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataTerminoLeilao, "campoDatePicker"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
-                <div class="coluna">
-                    @Html.LabelFor(model => model.IdItinerario)
-                    @Html.DropDownList("IdItinerario",((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
-                                                          .Select(x => new SelectListItem(){Value = Convert.ToString(x.Id) ,Text = x.Descricao ,Selected = Model != null && Model.Id == x.Id}),"Selecione")
-                    @Html.ValidationMessageFor(model => model.IdItinerario)
-                </div>
-            </div>
+            @{
+            var comboCentro = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdCentro, 
+                        ((List<CentroCadastroVm>)ViewBag.Centros)
+                        .Select(x => new SelectListItem() { Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id }),
+                        "IdCentro");
+
+            var comboItinerario = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdItinerario, 
+                ((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
+                    .Select(x => new SelectListItem() {Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id}),
+                "IdItinerario");                   
+            }
             
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(model => model.Requisitos)
-                    @Html.TextAreaFor(model => model.Requisitos,new{@class="campogrande", rows="5"})
-                    @Html.ValidationMessageFor(model => model.Requisitos)
-                </div>
-                <div class="coluna">
-                    @Html.LabelFor(model => model.Observacoes)
-                    @Html.TextAreaFor(model => model.Observacoes,new{@class="campogrande", rows="5"})
-                    @Html.ValidationMessageFor(model => model.Observacoes)
-                </div>
-            </div>
-@*            @{
+            @Html.LinhaComDuasColunas(comboCentro, comboItinerario)
+
+            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoFreteCadastroVm, string>( Html, x => x.Requisitos),
+            new ColunaComTextArea<CotacaoFreteCadastroVm, string>(Html, x => x.Observacoes))
+
+            @*            @{
                 Html.RenderAction("Index","Fornecedor");
             }*@
             @Html.ValidationSummary(true)
@@ -102,10 +65,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @*    <script type="text/javascript">
-        $(function() {
-            $('#DataInicioLeilao').datepicker();
-        });
-    </script>*@
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
 }
