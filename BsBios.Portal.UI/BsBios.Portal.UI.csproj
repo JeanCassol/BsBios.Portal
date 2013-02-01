@@ -796,6 +796,7 @@
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Fornecedor\_selecionarFornecedor.cshtml" />
     <Content Include="Views\Produto\IndexKendo.cshtml" />
+    <Content Include="Scripts\jquery.validate_extension.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

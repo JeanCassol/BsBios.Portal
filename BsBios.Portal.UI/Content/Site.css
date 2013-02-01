@@ -613,9 +613,6 @@ input[type="checkbox"].input-validation-error {
 .labelEsquerda {
     text-align:left
 }
-.paginaCadastro {
-    width: 804px;
-}
 .linha {
     clear: both;
 }
@@ -633,14 +630,18 @@ input[type="checkbox"].input-validation-error {
 .campogrande, select {
     width: 350px;
 }
+.paginaCadastro {
+    width: 814px;
+}
+
 .paginaCadastro fieldset {
     margin-left: 1px;
     padding-right: 1px;
     /*border: solid 0.5px gray*/
 }
-.paginaCadastro legend .visivel {
+/*.paginaCadastro legend .visivel {
     display: inline
-}
+}*/
 .button_edit{
     background-image: url(/images/icons/editar_16.png); /* 32px x 32px */
     background-color: transparent; /* make the button transparent */
