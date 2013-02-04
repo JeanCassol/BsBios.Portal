@@ -137,6 +137,7 @@
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeilaoController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -329,7 +330,7 @@
     <Content Include="Images\icons\editar_32.png" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
-    <Content Include="Scripts\Cadastro\gridProduto.js" />
+    <None Include="Properties\PublishProfiles\BsBios.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />

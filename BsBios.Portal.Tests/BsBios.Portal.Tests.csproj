@@ -75,6 +75,7 @@
     <Compile Include="Queries.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
+    <Compile Include="UI\Controllers\UsuarioControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
