@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Web.Http;
 using System.Web.Mvc;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Factory;
@@ -18,6 +19,9 @@ namespace BsBios.Portal.UI
                                           .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                                           .Use<StructureMapControllerFactory>());
             ControllerBuilder.Current.SetControllerFactory(ObjectFactory.GetInstance<IControllerFactory>());
+
+            var container = ObjectFactory.Container;
+            GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(container);
         }
     }
 }

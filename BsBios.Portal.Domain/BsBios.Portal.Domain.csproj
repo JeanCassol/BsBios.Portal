@@ -43,6 +43,7 @@
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\IAggregateRoot.cs" />
     <Compile Include="Model\Material.cs" />
+    <Compile Include="Model\Produto.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Contracts\ISelecionaFornecedor.cs" />

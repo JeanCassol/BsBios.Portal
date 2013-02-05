@@ -27,12 +27,20 @@ namespace BsBios.Portal.ApplicationServices.Implementation
 
         public void Novo(UsuarioVm usuarioVm)
         {
-            _unitOfWork.BeginTransaction();
-            string senhaCriptografada = _provedorDeCriptografia.Criptografar(usuarioVm.Senha);
-            var novoUsuario = new Usuario(usuarioVm.Nome, usuarioVm.Login, senhaCriptografada
-                , usuarioVm.Email, (Enumeradores.Perfil) Enum.Parse(typeof(Enumeradores.Perfil),Convert.ToString(usuarioVm.CodigoPerfil) ));
-            _usuarios.Save(novoUsuario);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                string senhaCriptografada = _provedorDeCriptografia.Criptografar(usuarioVm.Senha);
+                var novoUsuario = new Usuario(usuarioVm.Nome, usuarioVm.Login, senhaCriptografada
+                    , usuarioVm.Email, (Enumeradores.Perfil)Enum.Parse(typeof(Enumeradores.Perfil), Convert.ToString(usuarioVm.CodigoPerfil)));
+                _usuarios.Save(novoUsuario);
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
         }
     }
 }

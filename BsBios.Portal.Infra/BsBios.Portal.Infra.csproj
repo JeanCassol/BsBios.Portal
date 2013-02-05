@@ -53,7 +53,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,18 +67,22 @@
     <Compile Include="DataAccess\CascadeConvention.cs" />
     <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
+    <Compile Include="Factory\StructureMapDependencyResolver.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
+    <Compile Include="Mappings\ProdutoMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Perfil.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Contracts\IProdutos.cs" />
     <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
     <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
     <Compile Include="Repositories\Contracts\IUsuarios.cs" />
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
     <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
+    <Compile Include="Repositories\Implementations\Produtos.cs" />
     <Compile Include="Repositories\Implementations\ReadOnlyRepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\RepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />

@@ -4,6 +4,7 @@ using BsBios.Portal.ApplicationServices.Implementation;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -28,9 +29,7 @@ namespace BsBios.Portal.Tests.Application
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
             _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
 
-            _unitOfWorkNhMock = new Mock<IUnitOfWorkNh>(MockBehavior.Strict);
-            _unitOfWorkNhMock.Setup(x => x.BeginTransaction());
-            _unitOfWorkNhMock.Setup(x => x.Commit());
+            _unitOfWorkNhMock = DefaultRepository.GetDefaultMockUnitOfWork();
 
             _cadastroUsuario = new CadastroUsuario(_unitOfWorkNhMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object);
 
@@ -67,6 +66,23 @@ namespace BsBios.Portal.Tests.Application
             _cadastroUsuario.Novo(_usuarioPadrao);
             _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
             _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Once());
+        }
+
+        [TestMethod]
+        public void QuandoOcorreAlgumaExcecaoFazRollback()
+        {
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>())).Throws(new Exception("Ocorreu um erro ao cadastrar o usuário"));
+            try
+            {
+                _cadastroUsuario.Novo(_usuarioPadrao);
+
+            }
+            catch
+            {
+            }
+            _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
+            _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
+            _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
         }
     }
 }

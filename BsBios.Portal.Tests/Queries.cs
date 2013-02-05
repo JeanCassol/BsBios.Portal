@@ -22,5 +22,10 @@ namespace BsBios.Portal.Tests
         {
             UnitOfWork.Session.CreateSQLQuery("DELETE FROM USUARIO").ExecuteUpdate();
         }
+
+        public static void RemoverProdutosCadastrados()
+        {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTO").ExecuteUpdate();
+        }
     }
 }
