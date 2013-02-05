@@ -8,8 +8,12 @@ namespace BsBios.Portal.UI
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //para resolver o problema de compatibilidade do kendo UI versão 2012.3.1114 com o 
+            //jQuery 1.9.0 foi adicionado o "~/Scripts/jquery-migrate-{version}.js".
+            //Quando sair uma nova versão do kendo UI talvez este pacote possa ser removido
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-migrate-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js",
