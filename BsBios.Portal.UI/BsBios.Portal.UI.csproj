@@ -140,6 +140,7 @@
     <Compile Include="Controllers\LeilaoController.cs" />
     <Compile Include="Controllers\ProdutoApiController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
+    <Compile Include="Filters\ApiAuthorizationFilter.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

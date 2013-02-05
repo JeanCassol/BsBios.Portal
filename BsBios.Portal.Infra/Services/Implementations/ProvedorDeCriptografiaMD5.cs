@@ -19,8 +19,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             //return md5Hash;
 
             string hash = Convert.ToBase64String(
-              System.Security.Cryptography.MD5.Create()
-              .ComputeHash(Encoding.UTF8.GetBytes(dado))
+                MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(dado))
             );
 
             return hash;

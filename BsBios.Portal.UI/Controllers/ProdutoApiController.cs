@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
+    [ApiAuthorizationFilter]
     public class ProdutoApiController : ApiController
     {
         private readonly ICadastroProduto _cadastroProduto;
