@@ -4,6 +4,7 @@ using BsBios.Portal.ApplicationServices.Implementation;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -71,18 +72,17 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoOcorreAlgumaExcecaoFazRollback()
         {
-            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>())).Throws(new Exception("Ocorreu um erro ao cadastrar o usuário"));
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>())).Throws(new ExcecaoDeTeste("Ocorreu um erro ao cadastrar o usuário"));
             try
             {
                 _cadastroUsuario.Novo(_usuarioPadrao);
-
             }
-            catch
+            catch(ExcecaoDeTeste)
             {
+                _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
+                _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
+                _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
             }
-            _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
         }
     }
 }

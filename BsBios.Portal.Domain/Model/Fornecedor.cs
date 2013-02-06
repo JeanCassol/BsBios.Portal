@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace BsBios.Portal.Domain.Model
 {
-    public class Fornecedor
+    public class Fornecedor:IAggregateRoot
     {
-        protected Fornecedor(){}
         public virtual int Id { get; protected set; }
+        public virtual string CodigoSap { get; protected set; }
         public virtual string Nome { get; protected set; }
+
+        protected Fornecedor() { }
+
+        public Fornecedor(string codigoSap, string nome)
+        {
+            CodigoSap = codigoSap;
+            Nome = nome;
+        }
     }
 }

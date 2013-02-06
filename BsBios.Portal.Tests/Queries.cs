@@ -27,5 +27,10 @@ namespace BsBios.Portal.Tests
         {
             UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTO").ExecuteUpdate();
         }
+
+        public static void RemoverFornecedoresCadastrados()
+        {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM FORNECEDOR").ExecuteUpdate();
+        }
     }
 }

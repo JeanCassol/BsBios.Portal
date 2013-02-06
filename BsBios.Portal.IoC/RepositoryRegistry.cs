@@ -16,6 +16,9 @@ namespace BsBios.Portal.IoC
             For<IProdutos>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Produtos>();
+            For<IFornecedores>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<Fornecedores>();
         }
     }
 }

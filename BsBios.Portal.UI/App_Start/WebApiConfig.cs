@@ -19,6 +19,13 @@ namespace BsBios.Portal.UI
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.Formatters.XmlFormatter.UseXmlSerializer = true;
+        }
+
+        public static void Configure()
+        {
+            
         }
     }
 }

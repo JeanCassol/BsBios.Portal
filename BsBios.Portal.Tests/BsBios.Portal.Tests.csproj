@@ -68,12 +68,16 @@
   <ItemGroup>
     <Compile Include="Application\CadastroUsuarioTests.cs" />
     <Compile Include="Application\CadastroProdutoTests.cs" />
+    <Compile Include="Application\CadastroFornecedorTests.cs" />
     <Compile Include="BaseTestClass.cs" />
+    <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Model\ProdutoTests.cs" />
+    <Compile Include="Domain\Model\FornecedorTests.cs" />
     <Compile Include="Domain\Model\UsuarioTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
     <Compile Include="Infra\Repositories\ProdutosTests.cs" />
+    <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Infra\Services\AccountServiceTests.cs" />
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />

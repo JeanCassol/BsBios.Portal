@@ -1,9 +1,9 @@
 ﻿using System;
 using BsBios.Portal.ApplicationServices.Contracts;
 using BsBios.Portal.ApplicationServices.Implementation;
-using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,7 +40,7 @@ namespace BsBios.Portal.Tests.Application
         }
 
         [TestMethod]
-        public void QuandoCadastroUmNovoUsuarioComSucessoFazCommitNaTransacao()
+        public void QuandoCadastroUmNovoProdutoComSucessoFazCommitNaTransacao()
         {
             _cadastroProduto.Novo(_produtoPadrao);
             _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
@@ -50,19 +50,19 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoOcorreAlgumExcecaoFazRollback()
         {
-            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Throws(new Exception("Ocorreu um erro ao cadastrar o produto"));
+            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Throws(new ExcecaoDeTeste("Ocorreu um erro ao cadastrar o produto"));
             try
             {
                 _cadastroProduto.Novo(_produtoPadrao);
+                Assert.Fail("Deveria ter gerado excessão");
                 
             }
-            catch
+            catch(ExcecaoDeTeste)
             {
+                _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
+                _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
+                _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
             }
-            _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
-
         }
     }
 }

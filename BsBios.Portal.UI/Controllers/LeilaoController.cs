@@ -27,6 +27,16 @@ namespace BsBios.Portal.UI.Controllers
             return new Mensagem(){Status = "OK", Descricao = "Hello World"};
         }
 
+        [HttpGet]
+        public IList<Mensagem> GetMensagens()
+        {
+            return new List<Mensagem>()
+                {
+                    new Mensagem(){Status="OK", Descricao = "Status OK"},
+                    new Mensagem(){Status = "Erro", Descricao = "Status Erro"}
+                };
+        }
+
         // POST api/<controller>
         public HttpResponseMessage Post(Mensagem mensagem)
         {
