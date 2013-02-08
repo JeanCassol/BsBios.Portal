@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using BsBios.Portal.ApplicationServices.Contracts;
-using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,9 +48,48 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var resposta = produtoApiController.Post(produtoCadastroVm);
 
             Assert.AreEqual(HttpStatusCode.InternalServerError, resposta.StatusCode);
-            //Assert.AreEqual("Ocorreu um erro ao cadastrar o Produto", resposta.Content);
+            //Assert.AreEqual("Ocorreu um erro ao cadastrar o Produto", resposta.RequestMessage.Content);
 
             cadastroProdutoMock.Verify(x => x.Novo(It.IsAny<ProdutoCadastroVm>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void QuandoAtualizarUmaListaDeProdutosComSucessoDeveRetornarStatusOk()
+        {
+            var cadastroProdutoMock = new Mock<ICadastroProduto>(MockBehavior.Strict);
+            cadastroProdutoMock.Setup(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()));
+            var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
+            var produtoCadastroVm = new ProdutoCadastroVm()
+            {
+                CodigoSap = "SAP 0001",
+                Descricao = "PRODUTO 0001"
+            };
+            produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
+
+            var resposta = produtoApiController.PostMultiplo(new List<ProdutoCadastroVm>(){produtoCadastroVm});
+
+            Assert.AreEqual(HttpStatusCode.OK, resposta.StatusCode);
+            cadastroProdutoMock.Verify(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()), Times.Once());            
+        }
+
+        [TestMethod]
+        public void QuandoOcorrerErroAoAtualizarUmaListaDeProdutosDeveRetornarStatusDeErro()
+        {
+            var cadastroProdutoMock = new Mock<ICadastroProduto>(MockBehavior.Strict);
+            cadastroProdutoMock.Setup(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()))
+                .Throws(new Exception("Ocorreu um erro ao atualizar os produtos"));
+            var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
+            var produtoCadastroVm = new ProdutoCadastroVm()
+            {
+                CodigoSap = "SAP 0001",
+                Descricao = "PRODUTO 0001"
+            };
+            produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
+
+            var resposta = produtoApiController.PostMultiplo(new List<ProdutoCadastroVm>() { produtoCadastroVm });
+
+            Assert.AreEqual(HttpStatusCode.InternalServerError, resposta.StatusCode);
+            cadastroProdutoMock.Verify(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()), Times.Once());
         }
     }
 }

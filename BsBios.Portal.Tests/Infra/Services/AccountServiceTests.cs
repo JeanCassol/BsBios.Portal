@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common.Exceptions;
+﻿using System;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
@@ -69,9 +70,17 @@ namespace BsBios.Portal.Tests.Infra.Services
             
             var accountService = new AccountService(_authenticationProviderMock.Object, _validadorUsuarioMock.Object);
 
-            accountService.Login("naoautorizado", "123");
+            try
+            {
+                accountService.Login("naoautorizado", "123");
+                Assert.Fail("Deveria ter gerado exceção");
 
-            _authenticationProviderMock.Verify(x => x.Autenticar(It.IsAny<UsuarioConectado>()), Times.Never());
+            }
+            catch (UsuarioNaoCadastradoException)
+            {
+                _authenticationProviderMock.Verify(x => x.Autenticar(It.IsAny<UsuarioConectado>()), Times.Never());
+            }
+
 
             
 

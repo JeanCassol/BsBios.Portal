@@ -7,14 +7,9 @@ using StructureMap;
 namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
-    public class Produtos: RepositoryTest
+    public class ProdutosTests: RepositoryTest
     {
         private static IProdutos _produtos;
-
-        //public Produtos()
-        //{
-        //    _produtos = ObjectFactory.GetInstance<IProdutos>();
-        //}
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)

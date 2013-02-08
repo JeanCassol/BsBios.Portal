@@ -15,5 +15,13 @@ namespace BsBios.Portal.Tests.Domain.Model
             Assert.AreEqual("Produto de Teste", produto.Descricao);
             Assert.AreEqual(0, produto.Id);
         }
+
+        [TestMethod]
+        public void QuandoAtualizarDescricaoDeveAcessarNovoValor()
+        {
+            var produto = new Produto("SAP0001", "Produto de Teste");
+            produto.AtualizaDescricao("Produto de Teste atualizado" );
+            Assert.AreEqual("Produto de Teste atualizado", produto.Descricao);
+        }
     }
 }

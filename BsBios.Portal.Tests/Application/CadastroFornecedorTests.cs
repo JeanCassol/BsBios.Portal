@@ -15,17 +15,17 @@ namespace BsBios.Portal.Tests.Application
     [TestClass]
     public class CadastroFornecedorTests
     {
-        private readonly Mock<IUnitOfWorkNh> _unitOfWorkNhMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IFornecedores> _fornecedoresMock; 
         private readonly FornecedorCadastroVm _fornecedorCadastroVm;
         private readonly ICadastroFornecedor _cadastroFornecedor;
          
         public CadastroFornecedorTests()
         {
-            _unitOfWorkNhMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
             _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>()));
-            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkNhMock.Object, _fornecedoresMock.Object);
+            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object);
 
             _fornecedorCadastroVm = new FornecedorCadastroVm()
                 {
@@ -44,9 +44,9 @@ namespace BsBios.Portal.Tests.Application
         public void QuandoCadastroUmNovoFornecedorComSucessoERealizadoCommit()
         {
             _cadastroFornecedor.Novo(_fornecedorCadastroVm);
-            _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.Commit(),Times.Once());
-            _unitOfWorkNhMock.Verify(x =>x.RollBack(), Times.Never());
+            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+            _unitOfWorkMock.Verify(x => x.Commit(),Times.Once());
+            _unitOfWorkMock.Verify(x =>x.RollBack(), Times.Never());
         }
         [TestMethod]
         public void QuandoOcorreAlgumaExcecaoEhRealizadoRollback()
@@ -61,10 +61,23 @@ namespace BsBios.Portal.Tests.Application
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
+                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
             }
         }
+
+        [TestMethod]
+        public void QuandoReceberUmFornecedorExistenteDeveAtualizar()
+        {
+            Assert.Fail();
+        }
+        [TestMethod]
+        public void QuandoReceberUmFornecedorNovoDeveAdicionar()
+        {
+            Assert.Fail();
+        }
+
     }
+
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BsBios.Portal.ViewModel
+﻿namespace BsBios.Portal.ViewModel
 {
     public class CotacaoFreteListagemVm
     {

@@ -37,11 +37,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CentroCadastroVm.cs" />
+    <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />
     <Compile Include="FornecedorCadastroVm.cs" />
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
+    <Compile Include="IvaCadastroVm.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />

@@ -10,9 +10,9 @@ namespace BsBios.Portal.Tests.DefaultProvider
 {
     public static class DefaultRepository
     {
-        public static Mock<IUnitOfWorkNh> GetDefaultMockUnitOfWork()
+        public static Mock<IUnitOfWork> GetDefaultMockUnitOfWork()
         {
-            var unitOfWorkNhMock = new Mock<IUnitOfWorkNh>(MockBehavior.Strict);
+            var unitOfWorkNhMock = new Mock<IUnitOfWork>(MockBehavior.Strict);
             unitOfWorkNhMock.Setup(x => x.BeginTransaction());
             unitOfWorkNhMock.Setup(x => x.Commit());
             unitOfWorkNhMock.Setup(x => x.RollBack());

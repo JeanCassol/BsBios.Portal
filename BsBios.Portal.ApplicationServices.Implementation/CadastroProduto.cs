@@ -21,13 +21,45 @@ namespace BsBios.Portal.ApplicationServices.Implementation
             _produtos = produtos;
         }
 
+        private void AtualizarProduto(ProdutoCadastroVm produtoCadastroVm)
+        {
+            Produto produto = _produtos.BuscaPorCodigoSap(produtoCadastroVm.CodigoSap);
+            if (produto != null)
+            {
+                produto.AtualizaDescricao(produtoCadastroVm.Descricao);
+            }
+            else
+            {
+                produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao);
+            }
+
+            _produtos.Save(produto);
+        }
+
         public void Novo(ProdutoCadastroVm produtoCadastroVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                var produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao);
-                _produtos.Save(produto);
+                AtualizarProduto(produtoCadastroVm);
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
+        public void AtualizarProdutos(IList<ProdutoCadastroVm> produtos)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                foreach (var produtoCadastroVm in produtos)
+                {
+                    AtualizarProduto(produtoCadastroVm);
+                }
                 _unitOfWork.Commit();
             }
             catch (Exception)

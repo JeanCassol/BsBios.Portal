@@ -30,7 +30,7 @@ namespace BsBios.Portal.UI.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
@@ -41,9 +41,15 @@ namespace BsBios.Portal.UI.Controllers
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
         public HttpResponseMessage PostMultiplo([FromBody] IList<ProdutoCadastroVm> produtos)
         {
-            var resposta = Request.CreateResponse(HttpStatusCode.OK);
-            resposta.Content = new StringContent("Recebidos " + produtos.Count + " produtos.");
-            return resposta;
+            try
+            {
+                _cadastroProduto.AtualizarProdutos(produtos);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
     }
 }

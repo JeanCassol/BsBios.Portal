@@ -32,5 +32,15 @@ namespace BsBios.Portal.Tests
         {
             UnitOfWork.Session.CreateSQLQuery("DELETE FROM FORNECEDOR").ExecuteUpdate();
         }
+
+        public static void RemoverCondicoesDePagamentoCadastradas()
+        {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM CONDICAOPAGAMENTO").ExecuteUpdate();
+        }
+
+        public static void RemoverIvasCadastrados()
+        {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM IVA").ExecuteUpdate();
+        }
     }
 }

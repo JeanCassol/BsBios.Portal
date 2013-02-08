@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CadastroCondicaoPagamento.cs" />
     <Compile Include="CadastroFornecedor.cs" />
+    <Compile Include="CadastroIva.cs" />
     <Compile Include="CadastroProduto.cs" />
     <Compile Include="CadastroUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

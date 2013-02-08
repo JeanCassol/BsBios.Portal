@@ -17,7 +17,7 @@ namespace BsBios.Portal.Tests.Application
     {
         private readonly Mock<IProvedorDeCriptografia> _provedorDeCriptografiaMock;
         private readonly Mock<IUsuarios> _usuariosMock;
-        private readonly Mock<IUnitOfWorkNh> _unitOfWorkNhMock; 
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock; 
         private readonly ICadastroUsuario _cadastroUsuario;
         private readonly UsuarioVm _usuarioPadrao;
 
@@ -30,9 +30,9 @@ namespace BsBios.Portal.Tests.Application
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
             _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
 
-            _unitOfWorkNhMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
 
-            _cadastroUsuario = new CadastroUsuario(_unitOfWorkNhMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object);
+            _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object);
 
             _usuarioPadrao = new UsuarioVm()
                 {
@@ -65,8 +65,8 @@ namespace BsBios.Portal.Tests.Application
         public void QuandoCadastroUmNovoUsuarioExisteControleDeTransacao()
         {
             _cadastroUsuario.Novo(_usuarioPadrao);
-            _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Once());
+            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
         }
 
         [TestMethod]
@@ -79,9 +79,9 @@ namespace BsBios.Portal.Tests.Application
             }
             catch(ExcecaoDeTeste)
             {
-                _unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
+                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
             }
         }
     }

@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumeradores.cs" />
+    <Compile Include="Model\CondicaoDePagamento.cs" />
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\IAggregateRoot.cs" />
+    <Compile Include="Model\Iva.cs" />
     <Compile Include="Model\Material.cs" />
     <Compile Include="Model\Produto.cs" />
     <Compile Include="Model\Usuario.cs" />
