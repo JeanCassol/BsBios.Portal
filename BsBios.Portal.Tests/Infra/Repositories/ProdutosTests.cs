@@ -9,18 +9,19 @@ namespace BsBios.Portal.Tests.Infra.Repositories
     [TestClass]
     public class Produtos: RepositoryTest
     {
-        private readonly IProdutos _produtos;
+        private static IProdutos _produtos;
 
-        public Produtos()
-        {
-            _produtos = ObjectFactory.GetInstance<IProdutos>();
-        }
+        //public Produtos()
+        //{
+        //    _produtos = ObjectFactory.GetInstance<IProdutos>();
+        //}
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
             Queries.RemoverProdutosCadastrados();
+            _produtos = ObjectFactory.GetInstance<IProdutos>();
         }
         [ClassCleanup]
         public static void Finalizar()

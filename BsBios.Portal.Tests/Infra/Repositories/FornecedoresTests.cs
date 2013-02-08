@@ -9,18 +9,19 @@ namespace BsBios.Portal.Tests.Infra.Repositories
     [TestClass]
     public class FornecedoresTests:RepositoryTest
     {
-        private readonly IFornecedores _fornecedores;
+        private static IFornecedores _fornecedores;
 
-        public FornecedoresTests()
-        {
-            _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-        }
+        //public FornecedoresTests()
+        //{
+        //    _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+        //}
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
             Queries.RemoverFornecedoresCadastrados();
+            _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
         }
         [ClassCleanup]
         public static void Finalizar()
@@ -30,10 +31,11 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmFornecedorComSucessoConsigoConsultarPosteriormente()
         {
-            var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001");
-
             UnitOfWorkNh.BeginTransaction();
+
+            var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001");
             _fornecedores.Save(fornecedor);
+
             UnitOfWorkNh.Commit();
 
             Fornecedor fornecedorConsulta = _fornecedores.BuscaPeloCodigoSap("FORNEC0001");

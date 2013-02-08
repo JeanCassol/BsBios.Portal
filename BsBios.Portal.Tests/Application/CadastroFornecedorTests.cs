@@ -65,8 +65,6 @@ namespace BsBios.Portal.Tests.Application
                 _unitOfWorkNhMock.Verify(x => x.RollBack(), Times.Once());
                 _unitOfWorkNhMock.Verify(x => x.Commit(), Times.Never());
             }
-
-
         }
     }
 }

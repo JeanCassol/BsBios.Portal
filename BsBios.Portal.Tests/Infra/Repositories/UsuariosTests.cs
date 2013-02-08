@@ -9,22 +9,20 @@ namespace BsBios.Portal.Tests.Infra.Repositories
     [TestClass]
     public class UsuariosTests: RepositoryTest
     {
-        private readonly IUsuarios _usuarios;
+        private static IUsuarios _usuarios;
 
-        public UsuariosTests()
-        {
-            _usuarios = ObjectFactory.GetInstance<IUsuarios>(); ;
-        }
+        //public UsuariosTests()
+        //{
+        //    _usuarios = ObjectFactory.GetInstance<IUsuarios>(); ;
+        //}
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
             Queries.RemoverUsuariosCadastrados();
+            _usuarios = ObjectFactory.GetInstance<IUsuarios>();
         }
-
-
-
 
         [ClassCleanup]
         public static void Finalizar()
@@ -61,9 +59,15 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoBuscarUsuarioPorLoginComLoginExistenteDeveRetornarUsuario()
         {
-            Usuario usuario = _usuarios.BuscaPorLogin("mauroscl");
+            UnitOfWorkNh.BeginTransaction();
+
+            var usuarioNovo = new Usuario("Usuario Padrao", "usuario", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+            _usuarios.Save(usuarioNovo);
+
+            UnitOfWorkNh.Commit();
+            Usuario usuario = _usuarios.BuscaPorLogin("usuario");
             Assert.IsNotNull(usuario);
-            Assert.AreEqual("mauroscl",usuario.Login);
+            Assert.AreEqual("usuario",usuario.Login);
         }
     }
 }
