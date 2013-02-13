@@ -16,7 +16,7 @@ namespace BsBios.Portal.Domain.Model
             Nome = nome;
             Fornecedores = new List<Fornecedor>();
         }
-        public void AdicionarFornecedor(Fornecedor fornecedor)
+        public virtual void AdicionarFornecedor(Fornecedor fornecedor)
         {
             Fornecedores.Add(fornecedor);
         } 

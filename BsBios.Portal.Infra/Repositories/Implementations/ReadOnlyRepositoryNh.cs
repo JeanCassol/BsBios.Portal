@@ -20,5 +20,27 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault();
         }
+
+        public int Count()
+        {
+            return Query.Count();
+        }
+
+        public IReadOnlyRepository<TEntity> Skip(int times)
+        {
+            Query = Query.Skip(times);
+            return this;
+        }
+
+        public IReadOnlyRepository<TEntity> Take(int quantity)
+        {
+            Query = Query.Take(quantity);
+            return this;
+        }
+
+        public IQueryable<TEntity> GetQuery()
+        {
+            return Query;
+        }
     }
 }

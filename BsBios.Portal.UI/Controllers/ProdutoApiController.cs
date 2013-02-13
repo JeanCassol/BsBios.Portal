@@ -26,11 +26,10 @@ namespace BsBios.Portal.UI.Controllers
             {
                 _cadastroProduto.Novo(produtoCadastroVm);
                 return Request.CreateResponse(HttpStatusCode.OK);
-
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -44,7 +43,7 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _cadastroProduto.AtualizarProdutos(produtos);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, new ResponseMessageVm(){retCodigo = "200", retTexto = produtos.Count +  " produtos atualizados"});
             }
             catch (Exception ex)
             {

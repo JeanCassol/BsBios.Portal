@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Cotações de Frete";
+}
+@*<style type="text/css">
+    .x-grid-row-alt .x-grid-row-alt {
+        background-color: #e2ffe2 !important;
+    }    
+</style>*@
+
+<div id="gridCotacaoFrete"></div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Cadastro/gridCotacaoFrete.js")"></script>
+    <script type="text/javascript">
+        var urlGridCotacaoFrete = '@Url.Action("Listar","CotacaoFrete")';
+        GridCotacaoFrete.Inicializar(urlGridCotacaoFrete);
+        GridCotacaoFrete.CarregarGrid();
+    </script>
+    
+}

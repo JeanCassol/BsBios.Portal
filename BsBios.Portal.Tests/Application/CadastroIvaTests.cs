@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.Application
                 };
 
             _ivaMock = new Mock<Iva>(MockBehavior.Strict);
-            _ivaMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()))
+            _ivaMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()));
         }
 
         [TestMethod]

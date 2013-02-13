@@ -35,6 +35,7 @@ namespace BsBios.Portal.IoC
                  .Use(ctx => ctx.GetInstance<UnitOfWorkNh>());
 
                 x.AddRegistry<AplicationServiceRegistry>();
+                x.AddRegistry<QueriesRegistry>();
                 x.AddRegistry<DomainServiceRegistry>();
                 x.AddRegistry<RepositoryRegistry>();
                 x.AddRegistry<InfraServiceRegistry>();

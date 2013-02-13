@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using BsBios.Portal.Domain.Model;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
@@ -7,5 +10,9 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         IList<TEntidade> List();
         TEntidade Single();
+        int Count();
+        IReadOnlyRepository<TEntidade> Skip(int count);
+        IReadOnlyRepository<TEntidade> Take(int count);
+        IQueryable<TEntidade> GetQuery();
     }
 }

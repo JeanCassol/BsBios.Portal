@@ -21,5 +21,8 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Descrição")]
         [DataType(DataType.Text)]
         public string Descricao { get; set; }
+
+        [DataMember]
+        public string Tipo { get; set; }
     }
 }
