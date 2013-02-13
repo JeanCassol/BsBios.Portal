@@ -54,16 +54,7 @@ namespace BsBios.Portal.UI.Controllers
             });
         }
 
-        //
-        // GET: /Produto/
-
         public ActionResult Index()
-        {
-
-            return View(_produtos);
-        }
-
-        public ActionResult IndexKendo()
         {
             return View();
         }
@@ -96,10 +87,5 @@ namespace BsBios.Portal.UI.Controllers
             int skip = (paginacao.Page - 1) * paginacao.PageSize;
             return Json(new {registros = retorno.Skip(skip).Take(paginacao.Take).ToList(), totalCount = retorno.Count()},JsonRequestBehavior.AllowGet);
         }
-        //[HttpGet]
-        //public JsonResult ListarKendo()
-        //{
-        //    return Json(new { registros = _produtos, totalCount = _produtos.Count }, JsonRequestBehavior.AllowGet);
-        //}
     }
 }

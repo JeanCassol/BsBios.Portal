@@ -1,9 +1,9 @@
 ﻿@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
-@model CotacaoFreteCadastroVm
+@model CotacaoMaterialCadastroVm
 
 @{
-    ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
+    ViewBag.TituloDaPagina = "Cotação de Material - Editar";
 }
 <div class="paginaCadastro">
     @using (Html.BeginForm()) {
@@ -18,42 +18,26 @@
                 @Html.DisplayFor(model => model.DescricaoStatus)
             </div>
 
-            @{ var comboMaterial = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdMaterial, 
+            @{ var comboMaterial = new ColunaComDropDown<CotacaoMaterialCadastroVm, int>(Html, x => x.IdMaterial, 
                 ((List<ProdutoCadastroVm>) ViewBag.Materiais)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Id), Selected = Model != null && x.Id == Model.IdMaterial}),
                 "IdMaterial");
 
-                var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(Html, x => x.QuantidadeMaterial);
+               var quantidadeMaterial = new ColunaComEditor<CotacaoMaterialCadastroVm, int>(Html, x => x.QuantidadeMaterial);
             }
             
             @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataInicioLeilao, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataTerminoLeilao, "campoDatePicker"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataInicioLeilao, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataTerminoLeilao, "campoDatePicker"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
-            @{
-            var comboCentro = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdCentro, 
-                        ((List<CentroCadastroVm>)ViewBag.Centros)
-                        .Select(x => new SelectListItem() { Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id }),
-                        "IdCentro");
-
-            var comboItinerario = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdItinerario, 
-                ((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
-                    .Select(x => new SelectListItem() {Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id}),
-                "IdItinerario");                   
-            }
+            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoMaterialCadastroVm, string>( Html, x => x.Requisitos),
+            new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(Html, x => x.Observacoes))
             
-            @Html.LinhaComDuasColunas(comboCentro, comboItinerario)
-
-            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoFreteCadastroVm, string>( Html, x => x.Requisitos),
-            new ColunaComTextArea<CotacaoFreteCadastroVm, string>(Html, x => x.Observacoes))
-
-            @*            @{
-                Html.RenderAction("Index","Fornecedor");
-            }*@
+            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("IdCotacao",1)})
             @Html.ValidationSummary(true)
 
         <div class="divBotao">

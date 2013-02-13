@@ -28,8 +28,8 @@ CREATE SEQUENCE BSBIOS.USUARIO_ID_SEQUENCE
 /
 
 INSERT INTO USUARIO
-(Id, Nome, Login, Senha, Email)
-SELECT usuario_id_sequence.NEXTVAL, 'Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br'
+(Id, Nome, Login, Senha, Email, Perfil)
+SELECT usuario_id_sequence.NEXTVAL, 'Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1
 FROM DUAL
 /
 CREATE TABLE BSBIOS.PRODUTO

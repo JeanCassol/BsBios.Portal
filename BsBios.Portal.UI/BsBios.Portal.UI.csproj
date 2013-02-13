@@ -137,6 +137,7 @@
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
+    <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -374,17 +375,19 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_Menu.cshtml" />
-    <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Index.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Fornecedor\_selecionarFornecedor.cshtml" />
-    <Content Include="Views\Produto\IndexKendo.cshtml" />
+    <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
     <Content Include="Views\CondicaoPagamento\Index.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
+    <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
+    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoMaterial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

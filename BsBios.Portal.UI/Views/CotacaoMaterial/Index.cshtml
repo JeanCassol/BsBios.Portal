@@ -1,45 +1,17 @@
-﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
-@{
-    ViewBag.TituloDaPagina = "Produtos";
+﻿@{
+    ViewBag.TituloDaPagina = "Cotações de Material";
 }
-
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-    <div id="cadastroProdutos">
-        <div id="divFiltros">
-            <fieldset>
-                <legend>Filtros</legend>
-                <div class="coluna">
-                    @Html.Label("Código SAP")
-                    @Html.TextBox("CodigoSap","", new{@class="campopequeno"})
-                </div>
-                <div class="coluna">
-                    @Html.Label("Descrição")
-                    @Html.TextBox("Descricao","", new{@class="campogrande"})
-                </div>
-                <div class="divBotao">
-                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-                </div>
-            </fieldset>
-        </div>
-        <div id="grid"></div>
 
-    </div>
-
-    <style scoped>
-        #cadastroProdutos {
-            width: 810px;
-        }
-    </style>
-
+<div id="gridCotacaoMaterial"></div>
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
         $(document).ready(function() {
-            $("#grid").kendoGrid({
+            $("#gridCotacaoMaterial").kendoGrid({
                 dataSource: {
                     schema: {
                         data: 'registros',
@@ -49,10 +21,25 @@
                                 Id: {
                                     type: "number"
                                 },
-                                Descricao: {
+                                CodigoMaterialSap: {
                                     type: "string"
                                 },
-                                CodigoSap: {
+                                Material: {
+                                    type: "string"
+                                },
+                                Quantidade: {
+                                    type: "number"
+                                },
+                                Unidade: {
+                                    type: "string"
+                                },
+                                Status: {
+                                    type: "string"
+                                },
+                                DataInicio: {
+                                    type: "string"
+                                },
+                                DataTermino: {
                                     type: "string"
                                 }
                             }
@@ -64,15 +51,9 @@
                     serverPaging: true,
                     transport: {
                         read: {
-                            url: '@Url.Action("Listar", "Produto")',
+                            url: '@Url.Action("Listar", "CotacaoMaterial")',
                             type: 'GET',
-                            cache: false,
-                            data: function() {
-                                return {
-                                    CodigoSap: $('#CodigoSap').val(),
-                                    Descricao: $('#Descricao').val()
-                                };
-                            }
+                            cache: false
                         }
                     },
                     pageSize: 5
@@ -100,41 +81,54 @@
                     {
                         field: 'Id',
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 60,
+                        width: 40,
                         sortable: false,
                         template: '<input type="button" class="button_edit" data-idproduto="${Id}"></input>'
                     },
                     {
-                        field: "Id",
+                        field: "CodigoMaterialSap",
                         width: 90,
-                        title: "Id"
+                        title: "Codigo"
                     }, {
-                        field: "Descricao",
-                        width: 300,
-                        title: "Produto"
-                    }, {
+                        field: "Material",
                         width: 150,
-                        field: "CodigoSap",
-                        title: "Código Sap"
+                        title: "Material"
+                    },
+                    {
+                        width: 100,
+                        field: "Quantidade",
+                        title: "Quantidade"
+                    },
+                    {
+                        width: 100,
+                        field: "Unidade",
+                        title: "Unidade"
+                    },
+                    {
+                        width: 100,
+                        field: "Status",
+                        title: "Status"
+                    },
+                    {
+                        width: 110,
+                        field: "DataInicio",
+                        title: "Início"
+                    },
+                    {
+                        width: 110,
+                        field: "DataTermino",
+                        title: "Término"
                     }
                 ]
-            });
-
-            $('#btnPesquisar').click(function() {
-                $("#grid").data("kendoGrid").dataSource.read();
-            });
-
-            $('#btnLimpar').click(function() {
-                $('#divFiltros input[type!=button]').val('');
             });
 
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                alert('clique no botão');
+                location.href= '@Url.Action("Editar","CotacaoMaterial")';
             });
 
         });
     </script>
-    
+
 }
