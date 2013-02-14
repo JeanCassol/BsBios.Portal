@@ -13,7 +13,7 @@
             Descricao = descricao;
         }
 
-        public void AtualizaDescricao(string novaDescricao)
+        public virtual void AtualizaDescricao(string novaDescricao)
         {
             Descricao = novaDescricao;
         }

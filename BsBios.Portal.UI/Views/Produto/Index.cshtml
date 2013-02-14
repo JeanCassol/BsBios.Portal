@@ -1,54 +1,140 @@
-﻿@model IEnumerable<BsBios.Portal.ViewModel.ProdutoCadastroVm>
-
+﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
 @{
-    ViewBag.Title = "Cadastro de Produtos";
+    ViewBag.TituloDaPagina = "Produtos";
 }
-    @*<link rel="stylesheet" type="text/css" href="../shared/example.css" />*@
-@*<div class="listagem">
-    <div class="listagemtitulo">Listagem de Produtos</div>
-    <table class="tablegrid">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Código Sap</th>
-                <th>Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var produtoCadastroVm in Model)
-            {
-                <tr>
-                    <th>
-                        @Html.ActionLink("Editar","EditarCadastro","Produto",new{idProduto=produtoCadastroVm.Id},new{@class="link_editar_cadastro"}) 
-                    </th>
-                    <td>@produtoCadastroVm.CodigoSap</td>
-                    <td>@produtoCadastroVm.Descricao</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div id="pager" class="pager">
-        <br />
-        <img src="../../Content/first.png" class="first" />
-        <img src="../../Content/prev.png" class="prev" />
-        <input type="text" class="pagedisplay" />
-        <img src="../../Content/next.png" class="next" />
-        <img src="../../Content/last.png" class="last" />
-        <select class="pagesize">
-            <option selected="selected" value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">40</option>
-        </select>
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="cadastroProdutos">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="coluna">
+                    @Html.Label("Código SAP")
+                    @Html.TextBox("CodigoSap","", new{@class="campopequeno"})
+                </div>
+                <div class="coluna">
+                    @Html.Label("Descrição")
+                    @Html.TextBox("Descricao","", new{@class="campogrande"})
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="grid"></div>
+
     </div>
-</div>    *@
-<div id="gridProdutos"></div>
+
+    <style scoped>
+        #cadastroProdutos {
+            width: 810px;
+        }
+    </style>
+
 @section scripts
 {
-    <script type="text/javascript">
-        var urlGridProdutos = '@Url.Action("Listar","Produto")';
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Id: {
+                                    type: "number"
+                                },
+                                Descricao: {
+                                    type: "string"
+                                },
+                                CodigoSap: {
+                                    type: "string"
+                                }
+                            }
+                        },
+                        total: 'totalCount',
+                        type: 'json'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Listar", "Produto")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    CodigoSap: $('#CodigoSap').val(),
+                                    Descricao: $('#Descricao').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                groupable: false,
+                sortable: true,
+                pageable:
+                {
+                    refresh: true,
+                    pageSizes: true,
+                    messages: {
+                        display: '{0} - {1} de {2} registros',
+                        empty: 'Nenhum registro encontrado',
+                        itemsPerPage: 'registros por página',
+                        first: 'Ir para a primeira página',
+                        previous: 'Ir para a página anterior',
+                        next: 'Ir para a próxima página',
+                        last: 'Ir para a última página',
+                        refresh: 'Atualizar'
+                    }
+                },
+                selectable: 'row',
+                columns:
+                [
+                    {
+                        field: 'Id',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 60,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit" data-idproduto="${Id}"></input>'
+                    },
+                    {
+                        field: "Id",
+                        width: 90,
+                        title: "Id"
+                    }, {
+                        field: "Descricao",
+                        width: 300,
+                        title: "Produto"
+                    }, {
+                        width: 150,
+                        field: "CodigoSap",
+                        title: "Código Sap"
+                    }
+                ]
+            });
+
+            $('#btnPesquisar').click(function() {
+                $("#grid").data("kendoGrid").dataSource.read();
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#divFiltros input[type!=button]').val('');
+            });
+
+            $('.button_edit').die("click");
+            $('.button_edit').live("click", function(e) {
+                e.preventDefault();
+                alert('clique no botão');
+            });
+
+        });
     </script>
-    <script src="@Url.Content("~/Scripts/Cadastro/gridProduto.js")"></script>
     
 }

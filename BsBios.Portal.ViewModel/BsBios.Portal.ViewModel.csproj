@@ -38,9 +38,12 @@
   <ItemGroup>
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
+    <Compile Include="CotacaoMaterialCadastroVm.cs" />
+    <Compile Include="CotacaoMaterialListagemVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />
     <Compile Include="FornecedorCadastroVm.cs" />
+    <Compile Include="FornecedorCotacaoVm.cs" />
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="IvaCadastroVm.cs" />

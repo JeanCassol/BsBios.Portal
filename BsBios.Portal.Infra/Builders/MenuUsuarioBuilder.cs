@@ -41,14 +41,14 @@ namespace BsBios.Portal.Infra.Builders
         {
             var menus = new List<Menu>();
             var menuCadastro = new Menu("Cadastros");
-            menuCadastro.AdicionarItem("Produtos", "Produto", "IndexKendo");
+            menuCadastro.AdicionarItem("Produtos", "Produto", "Index");
             menuCadastro.AdicionarItem("Fornecedores", "Fornecedor", "Index");
             menuCadastro.AdicionarItem("Centros", "Centro", "Index");
             menuCadastro.AdicionarItem("Itinerários", "Itinerario", "Index");
             menus.Add(menuCadastro);
 
             var menuCotacao = new Menu("Cotações");
-            menuCotacao.AdicionarItem("Cotações de Frete", "CotacaoFrete", "Index");
+            menuCotacao.AdicionarItem("Cotações de Material", "CotacaoMaterial", "Index");
             menuCotacao.AdicionarItem("Adicionar", "CotacaoFrete", "NovoCadastro");
             menus.Add(menuCotacao);
 

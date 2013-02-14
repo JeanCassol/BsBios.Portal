@@ -1,0 +1,76 @@
+﻿<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+<div id="gridCotacaoFornecedor" style="clear: both"></div>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script>
+    //$(document).ready(function() {
+        $("#gridCotacaoFornecedor").kendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'registros',
+                    model: {
+                        id: 'Id',
+                        fields: {
+                            Codigo: {
+                                type: "string"
+                            },
+                            Cnpj:{
+                                type:"string"
+                            },
+                            
+                            Nome: {
+                                type: "string"
+                            },
+                            Selecionado: {
+                                type: "bool"
+                            }
+                        }
+                    },
+                    //total: 'totalCount',
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("ListarFornecedores", "CotacaoMaterial",new{idCotacao = ViewData["IdCotacao"]})',
+                        type: 'GET',
+                        cache: false
+                    }
+                },
+                pageSize: 5
+            },
+            groupable: false,
+            sortable: true,
+            selectable: 'row',
+            columns:
+            [
+                {
+                    width: 100,
+                    field: "Codigo",
+                    title: "Código"
+                },
+                {
+                    field: "Nome",
+                    width: 200,
+                    title: "Nome"
+                },
+                {
+                    field: "Cnpj",
+                    width: 200,
+                    title: "CNPJ"
+                },
+                {
+                    field: 'Selecionado',
+                    title: 'Selecionado?',
+                    width: 100,
+                    sortable: false,
+                    template: '<input type="checkbox" data-idfornecedor="${Codigo}"></input>'
+                }]
+        });
+
+    //});
+</script>
