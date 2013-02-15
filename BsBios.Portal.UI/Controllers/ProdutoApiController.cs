@@ -51,11 +51,35 @@ namespace BsBios.Portal.UI.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
+
+                string mensagemProdutos = "";
+                if (produtos == null)
+                {
+                    mensagemProdutos = "A lista de produtos esta nula";
+                }
+                else if (produtos.Count == 0)
+                {
+                    mensagemProdutos = "A lista de produtos esta vazia";
+                }
+                else
+                {
+                    for (int i = 0; i < produtos.Count; i++)
+                    {
+                        mensagemProdutos += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].CodigoSap)
+                                                ? "nulo"
+                                                : produtos[i].CodigoSap)
+                                                  + " - Tipo: ";
+                    }
+                }
+                }
+
                 var retornoPortal = new mt_cadMaterial_portal_ret()
                     {
-                        retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno"}
+                        retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno. Mensagem: " + ex.Message 
+                            + ( ex.InnerException != null ? " - Excecao Interna: " + ex.InnerException.Message : "")
+                            + " - Pilha de Execucao: " + ex.StackTrace }
 
                     };
 
