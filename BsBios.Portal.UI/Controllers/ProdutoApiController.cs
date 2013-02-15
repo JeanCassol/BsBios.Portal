@@ -20,7 +20,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]ProdutoCadastroVm produtoCadastroVm)
+        public HttpResponseMessage Post([FromBody] ProdutoCadastroVm produtoCadastroVm)
         {
             try
             {
@@ -38,14 +38,15 @@ namespace BsBios.Portal.UI.Controllers
         //ser serializadas devem ser decoradas com a propriedade "[DataMember]"
         //Se na origem da requisição o dado for um json isto não é necessário.
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
-        public HttpResponseMessage PostMultiplo([FromBody] IList<ProdutoCadastroVm> produtos)
+        public HttpResponseMessage PostMultiplo([FromBody] /*IList<ProdutoCadastroVm>*/ ListaProdutos produtos)
         {
             try
             {
                 _cadastroProduto.AtualizarProdutos(produtos);
                 var retornoPortal = new mt_cadMaterial_portal_ret()
                     {
-                        retorno = new retorno() { retCodigo = "200", retTexto = produtos.Count + " produtos atualizados" }
+                        retorno = new retorno() {retCodigo = "200", retTexto = produtos.Count + " produtos atualizados"}
+                        //retorno = new retorno() { retCodigo = "200", retTexto =    produtos.Produtos.Count + " produtos atualizados" }
                     };
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
@@ -53,13 +54,33 @@ namespace BsBios.Portal.UI.Controllers
             catch (Exception)
             {
                 var retornoPortal = new mt_cadMaterial_portal_ret()
-                {
-                    retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno"}
-                            
-                };
+                    {
+                        retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno"}
+
+                    };
 
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
+        }
+
+        [HttpGet]
+        public ListaProdutos GetProdutos()
+        {
+            return new ListaProdutos()
+                {
+                    new ProdutoCadastroVm()
+                        {
+                            CodigoSap = "SAP1000",
+                            Descricao = "Bio Diesel",
+                            Tipo = "1"
+                        },
+                    new ProdutoCadastroVm()
+                        {
+                            CodigoSap = "SAP2000",
+                            Descricao = "Soja",
+                            Tipo = "2"
+                        }
+                };
         }
     }
 }

@@ -137,7 +137,6 @@
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
-    <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

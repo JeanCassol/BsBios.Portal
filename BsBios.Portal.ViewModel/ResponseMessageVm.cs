@@ -13,7 +13,7 @@ namespace BsBios.Portal.ViewModel
         public string retTexto { get; set; }
     }
 
-    [DataContract(Namespace = "http://portal.bsbios.com.br/")]
+    //[DataContract(Namespace = "http://portal.bsbios.com.br/")]
     public class mt_cadMaterial_portal_ret
     {
         public retorno retorno { get; set; }

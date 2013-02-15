@@ -103,7 +103,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.Itinerarios = _itinerarios;
             ViewBag.Centros = _centros;
             
-            return View("Cadastro", new CotacaoFreteCadastroVm 
+            return View("Cadastro", new CotacaoMaterialCadastroVm 
             {
                 DescricaoStatus = "ABERTO",
                 QuantidadeMaterial = 10,
