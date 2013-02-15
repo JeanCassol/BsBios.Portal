@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
 
 namespace BsBios.Portal.UI.Controllers
@@ -54,9 +55,12 @@ namespace BsBios.Portal.UI.Controllers
         }
     }
 
+    [DataContract(Name = "msg")]
     public class Mensagem
     {
+        [DataMember(Name = "sts")]    
         public String Status { get; set; }
+        [DataMember(Name = "dsc")]
         public String Descricao { get; set; }
     }
 

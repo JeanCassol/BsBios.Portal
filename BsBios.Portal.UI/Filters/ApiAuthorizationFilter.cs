@@ -1,17 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
+using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace BsBios.Portal.UI.Filters
 {
     public class ApiAuthorizationFilter: AuthorizationFilterAttribute
     {
-        public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
+        private void SetResponseUsuarioNaoAutorizado(HttpActionContext actionContext)
         {
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+            {
+                Content = new StringContent("Usuário não autorizado")
+            };
+            
+        }
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if (actionContext.Request.Headers.Authorization == null)
+            {
+                SetResponseUsuarioNaoAutorizado(actionContext);
+                return;
+            }
             string encodedParameter = actionContext.Request.Headers.Authorization.Parameter;
             byte[] decodedParameterArray = Convert.FromBase64String(encodedParameter);
             string decodedParameter = System.Text.Encoding.ASCII.GetString(decodedParameterArray);
@@ -21,10 +32,7 @@ namespace BsBios.Portal.UI.Filters
 
             if (usuario != "sap" || senha != "123")
             {
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                    {
-                        Content = new StringContent("Usuário não autorizado")
-                    };
+                SetResponseUsuarioNaoAutorizado(actionContext);
             }
         }
     }

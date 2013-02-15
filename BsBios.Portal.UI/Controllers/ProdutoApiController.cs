@@ -43,11 +43,22 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _cadastroProduto.AtualizarProdutos(produtos);
-                return Request.CreateResponse(HttpStatusCode.OK, new ResponseMessageVm(){retCodigo = "200", retTexto = produtos.Count +  " produtos atualizados"});
+                var retornoPortal = new mt_cadMaterial_portal_ret()
+                    {
+                        retorno = new retorno() { retCodigo = "200", retTexto = produtos.Count + " produtos atualizados" }
+                    };
+                return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
-            catch (Exception ex)
+
+            catch (Exception)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                var retornoPortal = new mt_cadMaterial_portal_ret()
+                {
+                    retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno"}
+                            
+                };
+
+                return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
         }
     }
