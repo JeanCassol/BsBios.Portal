@@ -1,0 +1,97 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+<<<<<<< HEAD
+@model CotacaoFreteCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
+=======
+@model CotacaoMaterialCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Cotação de Material - Editar";
+>>>>>>> b651f1363b422a33354ebef50642b7e9c93d20a6
+}
+<div class="paginaCadastro">
+    @using (Html.BeginForm()) {
+
+        <fieldset>
+            <legend></legend>
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div>
+                @Html.Label("Status:",new{@class="labelNaLinha"})
+                @Html.DisplayFor(model => model.DescricaoStatus)
+            </div>
+
+<<<<<<< HEAD
+            @{ var comboMaterial = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdMaterial, 
+=======
+            @{ var comboMaterial = new ColunaComDropDown<CotacaoMaterialCadastroVm, int>(Html, x => x.IdMaterial, 
+>>>>>>> b651f1363b422a33354ebef50642b7e9c93d20a6
+                ((List<ProdutoCadastroVm>) ViewBag.Materiais)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Id), Selected = Model != null && x.Id == Model.IdMaterial}),
+                "IdMaterial");
+
+<<<<<<< HEAD
+                var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(Html, x => x.QuantidadeMaterial);
+=======
+               var quantidadeMaterial = new ColunaComEditor<CotacaoMaterialCadastroVm, int>(Html, x => x.QuantidadeMaterial);
+>>>>>>> b651f1363b422a33354ebef50642b7e9c93d20a6
+            }
+            
+            @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
+            
+<<<<<<< HEAD
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataInicioLeilao, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataTerminoLeilao, "campoDatePicker"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(Html, x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+
+            @{
+            var comboCentro = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdCentro, 
+                        ((List<CentroCadastroVm>)ViewBag.Centros)
+                        .Select(x => new SelectListItem() { Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id }),
+                        "IdCentro");
+
+            var comboItinerario = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(Html, x => x.IdItinerario, 
+                ((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
+                    .Select(x => new SelectListItem() {Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id}),
+                "IdItinerario");                   
+            }
+            
+            @Html.LinhaComDuasColunas(comboCentro, comboItinerario)
+
+            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoFreteCadastroVm, string>( Html, x => x.Requisitos),
+            new ColunaComTextArea<CotacaoFreteCadastroVm, string>(Html, x => x.Observacoes))
+
+            @*            @{
+                Html.RenderAction("Index","Fornecedor");
+            }*@
+=======
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataInicioLeilao, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataTerminoLeilao, "campoDatePicker"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(Html, x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+
+            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoMaterialCadastroVm, string>( Html, x => x.Requisitos),
+            new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(Html, x => x.Observacoes))
+            
+            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("IdCotacao",1)})
+>>>>>>> b651f1363b422a33354ebef50642b7e9c93d20a6
+            @Html.ValidationSummary(true)
+
+        <div class="divBotao">
+            <input type="submit" value="Salvar" class="blue" />
+        </div>
+        </fieldset>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+}
