@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
 
 namespace BsBios.Portal.UI.Controllers
@@ -28,13 +29,19 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public IList<Mensagem> GetMensagens()
+        public /*IList<Mensagem>*/ ListaMensagens GetMensagens()
         {
-            return new List<Mensagem>()
+            //return new List<Mensagem>()
+            //    {
+            //        new Mensagem(){Status="OK", Descricao = "Status OK"},
+            //        new Mensagem(){Status = "Erro", Descricao = "Status Erro"}
+            //    };
+            return new ListaMensagens()
                 {
                     new Mensagem(){Status="OK", Descricao = "Status OK"},
                     new Mensagem(){Status = "Erro", Descricao = "Status Erro"}
                 };
+
         }
 
         // POST api/<controller>
@@ -54,10 +61,16 @@ namespace BsBios.Portal.UI.Controllers
         }
     }
 
+    [DataContract(Name = "msg")]
     public class Mensagem
     {
+        [DataMember(Name = "sts")]    
         public String Status { get; set; }
+        [DataMember(Name = "dsc")]
         public String Descricao { get; set; }
     }
+
+    [CollectionDataContract(Name = "items", Namespace = "http://portal.bsbios.com.br/")]
+    public class ListaMensagens : List<Mensagem> { }
 
 }

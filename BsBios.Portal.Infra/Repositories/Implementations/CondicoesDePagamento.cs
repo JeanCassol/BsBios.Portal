@@ -14,5 +14,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.CodigoSap == codigoSap);
         }
+
+        public ICondicoesDePagamento FiltraPelaDescricao(string descricao)
+        {
+            Query = Query.Where(x => x.Descricao.ToLower().Contains(descricao.ToLower()));
+            return this;
+        }
     }
 }

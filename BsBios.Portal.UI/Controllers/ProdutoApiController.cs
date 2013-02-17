@@ -20,17 +20,16 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]ProdutoCadastroVm produtoCadastroVm)
+        public HttpResponseMessage Post([FromBody] ProdutoCadastroVm produtoCadastroVm)
         {
             try
             {
                 _cadastroProduto.Novo(produtoCadastroVm);
                 return Request.CreateResponse(HttpStatusCode.OK);
-
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -39,17 +38,73 @@ namespace BsBios.Portal.UI.Controllers
         //ser serializadas devem ser decoradas com a propriedade "[DataMember]"
         //Se na origem da requisição o dado for um json isto não é necessário.
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
-        public HttpResponseMessage PostMultiplo([FromBody] IList<ProdutoCadastroVm> produtos)
+        public HttpResponseMessage PostMultiplo([FromBody] /*IList<ProdutoCadastroVm>*/ ListaProdutos produtos)
         {
             try
             {
                 _cadastroProduto.AtualizarProdutos(produtos);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                var retornoPortal = new mt_cadMaterial_portal_ret()
+                    {
+                        retorno = new retorno() {retCodigo = "200", retTexto = produtos.Count + " produtos atualizados"}
+                        //retorno = new retorno() { retCodigo = "200", retTexto =    produtos.Produtos.Count + " produtos atualizados" }
+                    };
+                return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
+
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+
+                string mensagemProdutos = "";
+                if (produtos == null)
+                {
+                    mensagemProdutos = "A lista de produtos esta nula";
+                }
+                else if (produtos.Count == 0)
+                {
+                    mensagemProdutos = "A lista de produtos esta vazia";
+                }
+                else
+                {
+                    for (int i = 0; i < produtos.Count; i++)
+                    {
+                        mensagemProdutos += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].CodigoSap)
+                                                ? "nulo"
+                                                : produtos[i].CodigoSap)
+                                                  + " - Tipo: ";
+                    }
+                }
+                }
+
+                var retornoPortal = new mt_cadMaterial_portal_ret()
+                    {
+                        retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno. Mensagem: " + ex.Message 
+                            + ( ex.InnerException != null ? " - Excecao Interna: " + ex.InnerException.Message : "")
+                            + " - Pilha de Execucao: " + ex.StackTrace }
+
+                    };
+
+                return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
+        }
+
+        [HttpGet]
+        public ListaProdutos GetProdutos()
+        {
+            return new ListaProdutos()
+                {
+                    new ProdutoCadastroVm()
+                        {
+                            CodigoSap = "SAP1000",
+                            Descricao = "Bio Diesel",
+                            Tipo = "1"
+                        },
+                    new ProdutoCadastroVm()
+                        {
+                            CodigoSap = "SAP2000",
+                            Descricao = "Soja",
+                            Tipo = "2"
+                        }
+                };
         }
     }
 }

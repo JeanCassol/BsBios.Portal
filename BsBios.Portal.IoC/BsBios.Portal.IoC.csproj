@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AplicationServiceRegistry.cs" />
+    <Compile Include="QueriesRegistry.cs" />
     <Compile Include="DomainServiceRegistry.cs" />
     <Compile Include="InfraServiceRegistry.cs" />
     <Compile Include="IoCWorker.cs" />
@@ -53,6 +54,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj">
+      <Project>{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}</Project>
+      <Name>Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
       <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
       <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
