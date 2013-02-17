@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Hosting;
 using BsBios.Portal.ApplicationServices.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
@@ -44,6 +46,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/Post");
+            produtoApiController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
 
             var resposta = produtoApiController.Post(produtoCadastroVm);
 
@@ -65,8 +68,9 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
+            produtoApiController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
 
-            var resposta = produtoApiController.PostMultiplo(new List<ProdutoCadastroVm>(){produtoCadastroVm});
+            var resposta = produtoApiController.PostMultiplo(new ListaProdutos(){produtoCadastroVm});
 
             Assert.AreEqual(HttpStatusCode.OK, resposta.StatusCode);
             cadastroProdutoMock.Verify(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()), Times.Once());            
@@ -85,10 +89,13 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
+            produtoApiController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
 
-            var resposta = produtoApiController.PostMultiplo(new List<ProdutoCadastroVm>() { produtoCadastroVm });
+            var resposta = produtoApiController.PostMultiplo(new ListaProdutos() { produtoCadastroVm });
+            var apiResponseMessage =  (ApiResponseMessage) ((ObjectContent) (resposta.Content)).Value;
 
-            Assert.AreEqual(HttpStatusCode.InternalServerError, resposta.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, resposta.StatusCode);
+            Assert.AreEqual("500", apiResponseMessage.Retorno.Codigo);
             cadastroProdutoMock.Verify(x => x.AtualizarProdutos(It.IsAny<IList<ProdutoCadastroVm>>()), Times.Once());
         }
     }

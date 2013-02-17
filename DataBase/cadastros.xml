@@ -9,3 +9,18 @@ Basic bWF1cm8ubGVhbDpmdXNpb24xMjM=
 Basic bWF1cm8ubGVhbDpmdXNpb24xMjM0
 
 mauro.leal:fusion1234
+
+
+
+<mt_cadMaterial_portal xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<item>
+		<maktx>PRODUTO 0003</maktx>
+		<matnr>SAP0003</matnr>
+		<mtart>3</mtart>
+	</item>
+	<item>
+		<maktx>PRODUTO 0006</maktx>
+		<matnr>SAP0006</matnr>
+		<mtart>6</mtart>
+	</item>
+</mt_cadMaterial_portal>

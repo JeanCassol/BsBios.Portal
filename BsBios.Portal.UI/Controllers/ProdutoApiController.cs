@@ -40,12 +40,13 @@ namespace BsBios.Portal.UI.Controllers
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
         public HttpResponseMessage PostMultiplo([FromBody] /*IList<ProdutoCadastroVm>*/ ListaProdutos produtos)
         {
+            ApiResponseMessage retornoPortal;
             try
             {
                 _cadastroProduto.AtualizarProdutos(produtos);
-                var retornoPortal = new mt_cadMaterial_portal_ret()
+                retornoPortal = new ApiResponseMessage()
                     {
-                        retorno = new retorno() {retCodigo = "200", retTexto = produtos.Count + " produtos atualizados"}
+                        Retorno = new Retorno() {Codigo = "200", Texto = produtos.Count + " produtos atualizados"}
                         //retorno = new retorno() { retCodigo = "200", retTexto =    produtos.Produtos.Count + " produtos atualizados" }
                     };
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
@@ -54,40 +55,40 @@ namespace BsBios.Portal.UI.Controllers
             catch (Exception ex)
             {
 
-                string mensagemProdutos = "";
+                string detalhes = "";
                 if (produtos == null)
                 {
-                    mensagemProdutos = "A lista de produtos esta nula";
+                    detalhes = "A lista de produtos esta nula";
                 }
                 else if (produtos.Count == 0)
                 {
-                    mensagemProdutos = "A lista de produtos esta vazia";
+                    detalhes = "A lista de produtos esta vazia";
                 }
                 else
                 {
                     for (int i = 0; i < produtos.Count; i++)
                     {
-                        mensagemProdutos += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].CodigoSap)
-                                                ? "nulo"
-                                                : produtos[i].CodigoSap)
-                                                  + " - Tipo: ";
+                        detalhes += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].CodigoSap)
+                                                ? "nulo" : produtos[i].CodigoSap)
+                                                  + " - Tipo: " + (string.IsNullOrEmpty(produtos[i].Tipo)
+                                                  ? "nulo" : produtos[i].Tipo
+                                                  + " - Descricao: "  +  (string.IsNullOrEmpty(produtos[i].Descricao)
+                                                  ? "nulo": produtos[i].Descricao));
                     }
                 }
-                }
 
-                var retornoPortal = new mt_cadMaterial_portal_ret()
+                retornoPortal = new ApiResponseMessage()
                     {
-                        retorno = new retorno() {retCodigo = "500", retTexto = "Erro interno. Mensagem: " + ex.Message 
+                        Retorno = new Retorno() {Codigo = "500", Texto = "Erro interno. Mensagem: " + ex.Message 
                             + ( ex.InnerException != null ? " - Excecao Interna: " + ex.InnerException.Message : "")
-                            + " - Pilha de Execucao: " + ex.StackTrace }
+                            + " - Pilha de Execucao: " + ex.StackTrace + " - Detalhes: " + detalhes  }
 
                     };
-
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
         }
 
-        [HttpGet]
+        //[HttpGet]
         public ListaProdutos GetProdutos()
         {
             return new ListaProdutos()

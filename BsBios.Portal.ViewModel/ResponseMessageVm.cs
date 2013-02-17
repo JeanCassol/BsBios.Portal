@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
 {
-    public class retorno
+
+    public class Retorno
     {
-        public string retCodigo { get; set; }
-        public string retTexto { get; set; }
+        [DataMember(Name = "retCodigo")]
+        public string Codigo { get; set; }
+        [DataMember(Name = "retTexto")]
+        public string Texto { get; set; }
     }
 
     //[DataContract(Namespace = "http://portal.bsbios.com.br/")]
-    public class mt_cadMaterial_portal_ret
+    [DataContract(Name = "mt_cadMaterial_portal_ret")]
+    public class ApiResponseMessage
     {
-        public retorno retorno { get; set; }
+        [DataMember(Name = "retorno")]
+        public Retorno Retorno { get; set; }
     }
 }
