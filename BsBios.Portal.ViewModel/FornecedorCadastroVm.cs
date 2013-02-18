@@ -9,5 +9,8 @@ namespace BsBios.Portal.ViewModel
         public string CodigoSap { get; set; }
         [DataMember]
         public string Nome { get; set; }
+
+        [DataMember]
+        public string Email { get; set; }
     }
 }

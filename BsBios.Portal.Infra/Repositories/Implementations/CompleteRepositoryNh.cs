@@ -11,7 +11,8 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public void Save(TEntity entidade)
         {
-            UnitOfWorkNh.Session.SaveOrUpdate(entidade);
+            //UnitOfWorkNh.Session.SaveOrUpdate(entidade);
+            UnitOfWorkNh.Session.Save(entidade);
         }
 
         public void Delete(TEntity entidade)

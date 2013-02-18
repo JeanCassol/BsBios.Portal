@@ -9,7 +9,8 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("Fornecedor");
             Id(x => x.Codigo);
-            Map(x => x.Nome).Column("Nome");
+            Map(x => x.Nome);
+            Map(x => x.Email);
         }
     }
 }

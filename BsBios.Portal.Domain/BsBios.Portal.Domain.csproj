@@ -48,10 +48,16 @@
     <Compile Include="Model\Produto.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Contracts\IAtualizadorProduto.cs" />
     <Compile Include="Services\Contracts\ISelecionaFornecedor.cs" />
     <Compile Include="Services\Implementations\SelecionaFornecedor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
+      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
+      <Name>BsBios.Portal.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
