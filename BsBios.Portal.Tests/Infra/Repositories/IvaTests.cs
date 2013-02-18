@@ -33,7 +33,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             Iva ivaConsultado = _ivas.BuscaPeloCodigoSap("01");
             Assert.IsNotNull(ivaConsultado);
-            Assert.AreEqual(iva.Id, ivaConsultado.Id);
+            Assert.AreEqual(iva.Codigo, ivaConsultado.Codigo);
         }
 
         [TestMethod]

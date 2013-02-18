@@ -58,19 +58,16 @@ namespace BsBios.Portal.UI.Controllers
             {
                 CodigoSap = "SAP1000",
                 Descricao = "Bio Diesel",
-                Id = 1000
             });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP2000",
                 Descricao = "Soja",
-                Id = 2000
             });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP3000",
                 Descricao = "Milho",
-                Id = 3000
             });
 
             _itinerarios = new List<ItinerarioCadastroVm>();

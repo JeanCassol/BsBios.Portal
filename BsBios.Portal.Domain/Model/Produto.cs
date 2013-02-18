@@ -2,17 +2,16 @@
 {
     public class Produto: IAggregateRoot
     {
-        public virtual int Id { get; protected set; }
-        public virtual string CodigoSap { get; protected set; }
+        public virtual string Codigo { get; protected set; }
         public virtual string Descricao { get; protected set; }
 
         protected Produto()
         {
         }
 
-        public Produto(string codigoSap, string descricao)
+        public Produto(string codigo, string descricao)
         {
-            CodigoSap = codigoSap;
+            Codigo = codigo;
             Descricao = descricao;
         }
 

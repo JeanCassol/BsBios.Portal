@@ -36,7 +36,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             CondicaoDePagamento condicaoDePagamentoConsulta = _condicoesDePagamento.BuscaPeloCodigoSap("C001");
 
             Assert.IsNotNull(condicaoDePagamentoConsulta);
-            Assert.AreEqual("C001", condicaoDePagamentoConsulta.CodigoSap);
+            Assert.AreEqual("C001", condicaoDePagamentoConsulta.Codigo);
         }
 
         [TestMethod]

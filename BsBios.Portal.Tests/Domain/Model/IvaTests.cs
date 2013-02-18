@@ -10,7 +10,7 @@ namespace BsBios.Portal.Tests.Domain.Model
         public void QuandoCrioUmIvaConsigoAcessarAsPropriedades()
         {
             var iva = new Iva("01", "IVA 01");
-            Assert.AreEqual("01", iva.CodigoSap);
+            Assert.AreEqual("01", iva.Codigo);
             Assert.AreEqual("IVA 01", iva.Descricao);
         }
     }

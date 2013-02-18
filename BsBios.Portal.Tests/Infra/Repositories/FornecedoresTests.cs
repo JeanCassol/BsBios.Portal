@@ -41,7 +41,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Fornecedor fornecedorConsulta = _fornecedores.BuscaPeloCodigoSap("FORNEC0001");
 
             Assert.IsNotNull(fornecedorConsulta);
-            Assert.AreEqual(fornecedor.Id, fornecedorConsulta.Id);
+            Assert.AreEqual(fornecedor.Codigo, fornecedorConsulta.Codigo);
         }
 
         [TestMethod]

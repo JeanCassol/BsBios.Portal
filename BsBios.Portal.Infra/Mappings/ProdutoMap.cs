@@ -8,8 +8,7 @@ namespace BsBios.Portal.Infra.Mappings
         public ProdutoMap()
         {
             Table("Produto");
-            Id(x => x.Id).GeneratedBy.Sequence("PRODUTO_ID_SEQUENCE");
-            Map(x => x.CodigoSap);
+            Id(x => x.Codigo);
             Map(x => x.Descricao);
         }
     }

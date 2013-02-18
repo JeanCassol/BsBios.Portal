@@ -20,37 +20,31 @@ namespace BsBios.Portal.UI.Controllers
             {
                 CodigoSap = "SAP1000",
                 Descricao = "Bio Diesel",
-                Id = 1000
             });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP2000",
                 Descricao = "Soja",
-                Id = 2000
             });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP3000",
                 Descricao = "Milhos",
-                Id = 3000
             });
             _produtos.Add(new ProdutoCadastroVm()
                 {
                     CodigoSap =  "SAP4000",
                     Descricao = "Farelo de Soja" ,
-                    Id = 4000
                 });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP5000",
                 Descricao = "Produto 5",
-                Id = 5000
             });
             _produtos.Add(new ProdutoCadastroVm()
             {
                 CodigoSap = "SAP6000",
                 Descricao = "Produto 6",
-                Id = 6000
             });
         }
 
@@ -66,9 +60,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ViewResult EditarCadastro(int idProduto)
+        public ViewResult EditarCadastro(string codigoProduto)
         {
-            var produtoCadastroVm = _produtos.Single(p => p.Id == idProduto);
+            var produtoCadastroVm = _produtos.Single(p => p.CodigoSap == codigoProduto);
             return View("Cadastro", produtoCadastroVm);
         }
 

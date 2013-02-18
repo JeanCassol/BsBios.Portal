@@ -13,8 +13,8 @@ namespace BsBios.Portal.Infra.Mappings
         public CondicaoDePagamentoMap()
         {
             Table("CONDICAOPAGAMENTO");
-            Id(x => x.Id).GeneratedBy.Sequence("CONDICAOPAGAMENTO_ID_SEQUENCE");
-            Map(x => x.CodigoSap);
+            Id(x => x.Codigo);
+            //Map(x => x.Codigo);
             Map(x => x.Descricao);
         }
     }

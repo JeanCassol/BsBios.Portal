@@ -8,15 +8,14 @@ namespace BsBios.Portal.Domain.Model
 {
     public class Fornecedor:IAggregateRoot
     {
-        public virtual int Id { get; protected set; }
-        public virtual string CodigoSap { get; protected set; }
+        public virtual string Codigo { get; protected set; }
         public virtual string Nome { get; protected set; }
 
         protected Fornecedor() { }
 
-        public Fornecedor(string codigoSap, string nome)
+        public Fornecedor(string codigo, string nome)
         {
-            CodigoSap = codigoSap;
+            Codigo = codigo;
             Nome = nome;
         }
     }

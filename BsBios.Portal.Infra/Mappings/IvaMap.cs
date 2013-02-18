@@ -8,8 +8,7 @@ namespace BsBios.Portal.Infra.Mappings
         public IvaMap()
         {
             Table("IVA");
-            Id(x => x.Id).GeneratedBy.Sequence("IVA_ID_SEQUENCE");
-            Map(x => x.CodigoSap);
+            Id(x => x.Codigo);
             Map(x => x.Descricao);
         }
     }

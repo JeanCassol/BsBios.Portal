@@ -37,7 +37,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Produto produtoConsulta = _produtos.BuscaPorCodigoSap("SAP0001");
 
             Assert.IsNotNull(produtoConsulta);
-            Assert.AreEqual("SAP0001", produtoConsulta.CodigoSap);
+            Assert.AreEqual("SAP0001", produtoConsulta.Codigo);
         }
 
         [TestMethod]

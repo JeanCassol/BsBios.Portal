@@ -21,8 +21,7 @@ namespace Application.Queries.Builders
         {
             return condicoesDePagamento.Select(condicaoDePagamento => new CondicaoDePagamentoCadastroVm()
                 {
-                    Id = condicaoDePagamento.Id, 
-                    CodigoSap = condicaoDePagamento.CodigoSap, 
+                    CodigoSap = condicaoDePagamento.Codigo, 
                     Descricao = condicaoDePagamento.Descricao
                 }).ToList();
         }

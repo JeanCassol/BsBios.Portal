@@ -2,14 +2,13 @@
 {
     public class Iva:IAggregateRoot
     {
-        public virtual int Id { get; protected set; }
-        public virtual string CodigoSap { get; protected set; }
+        public virtual string Codigo { get; protected set; }
         public virtual string Descricao { get; protected set;}
 
         protected Iva(){}
-        public Iva(string codigoSap, string descricao)
+        public Iva(string codigo, string descricao)
         {
-            CodigoSap = codigoSap;
+            Codigo = codigo;
             Descricao = descricao;
         }
 

@@ -8,8 +8,7 @@ namespace BsBios.Portal.Infra.Mappings
         public FornecedorMap()
         {
             Table("Fornecedor");
-            Id(x => x.Id).GeneratedBy.Sequence("FORNECEDOR_ID_SEQUENCE");
-            Map(x => x.CodigoSap);
+            Id(x => x.Codigo);
             Map(x => x.Nome).Column("Nome");
         }
     }

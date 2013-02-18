@@ -11,9 +11,8 @@ namespace BsBios.Portal.Tests.Domain.Model
         public void QuandoCrioUmProdutoConsigoAcessarAsPropriedades()
         {
             var produto = new Produto("SAP0001", "Produto de Teste");
-            Assert.AreEqual("SAP0001", produto.CodigoSap);
+            Assert.AreEqual("SAP0001", produto.Codigo);
             Assert.AreEqual("Produto de Teste", produto.Descricao);
-            Assert.AreEqual(0, produto.Id);
         }
 
         [TestMethod]
