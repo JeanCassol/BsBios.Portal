@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Hosting;
-using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

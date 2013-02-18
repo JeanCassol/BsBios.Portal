@@ -1,5 +1,5 @@
-﻿using BsBios.Portal.ApplicationServices.Contracts;
-using BsBios.Portal.ApplicationServices.Implementation;
+﻿using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 

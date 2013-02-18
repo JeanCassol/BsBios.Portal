@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.ApplicationServices.Contracts;
+using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
-namespace BsBios.Portal.ApplicationServices.Implementation
+namespace BsBios.Portal.Application.Services.Implementations
 {
     public class CadastroCondicaoPagamento: ICadastroCondicaoPagamento
     {

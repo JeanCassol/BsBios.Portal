@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Application.Queries.Contracts;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 

@@ -104,13 +104,9 @@
     <Compile Include="UI\Controllers\UsuarioControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
-      <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Implementation\BsBios.Portal.ApplicationServices.Implementation.csproj">
-      <Project>{89C88931-2C77-404D-ACFC-B8A0794ED60E}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Implementation</Name>
+    <ProjectReference Include="..\BsBios.Portal.Application\BsBios.Portal.Application.csproj">
+      <Project>{A2DA2E00-3386-4EC4-8D95-D98C5052F636}</Project>
+      <Name>BsBios.Portal.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
       <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>

@@ -1,5 +1,5 @@
-﻿using Application.Queries.Contracts;
-using Application.Queries.Implementations;
+﻿using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Application.Queries.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;

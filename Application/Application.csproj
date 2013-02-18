@@ -44,6 +44,16 @@
     <Compile Include="Queries\Builders\ListagemBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
+    <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
+    <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />
+    <Compile Include="Services\Contracts\ICadastroIva.cs" />
+    <Compile Include="Services\Contracts\ICadastroProduto.cs" />
+    <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
+    <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
+    <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
+    <Compile Include="Services\Implementations\CadastroIva.cs" />
+    <Compile Include="Services\Implementations\CadastroProduto.cs" />
+    <Compile Include="Services\Implementations\CadastroUsuario.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

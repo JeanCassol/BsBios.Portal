@@ -54,17 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj">
-      <Project>{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}</Project>
-      <Name>Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj">
-      <Project>{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BsBios.Portal.ApplicationServices.Implementation\BsBios.Portal.ApplicationServices.Implementation.csproj">
-      <Project>{89C88931-2C77-404D-ACFC-B8A0794ED60E}</Project>
-      <Name>BsBios.Portal.ApplicationServices.Implementation</Name>
+    <ProjectReference Include="..\BsBios.Portal.Application\BsBios.Portal.Application.csproj">
+      <Project>{A2DA2E00-3386-4EC4-8D95-D98C5052F636}</Project>
+      <Name>BsBios.Portal.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>

@@ -1,6 +1,6 @@
 ﻿using BsBios.Portal.ViewModel;
 
-namespace BsBios.Portal.ApplicationServices.Contracts
+namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface ICadastroCondicaoPagamento
     {

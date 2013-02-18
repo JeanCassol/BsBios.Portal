@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.ApplicationServices.Contracts;
+﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Infra.Model;

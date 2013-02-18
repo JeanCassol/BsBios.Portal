@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.UI", "BsBios.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Domain", "BsBios.Portal.Domain\BsBios.Portal.Domain.csproj", "{2B790B52-C827-486C-B871-1392CFAD1C48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ApplicationServices.Implementation", "BsBios.Portal.ApplicationServices.Implementation\BsBios.Portal.ApplicationServices.Implementation.csproj", "{89C88931-2C77-404D-ACFC-B8A0794ED60E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ApplicationServices.Contracts", "BsBios.Portal.ApplicationServices.Contracts\BsBios.Portal.ApplicationServices.Contracts.csproj", "{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Tests", "BsBios.Portal.Tests\BsBios.Portal.Tests.csproj", "{1157FF52-F7A5-4F90-8560-3159EF29AFDF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ViewModel", "BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj", "{01C438CD-9055-4299-9F5C-A4086EE1CC00}"
@@ -19,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.IoC", "BsBios
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Common", "BsBios.Portal.Common\BsBios.Portal.Common.csproj", "{52496AC5-D00F-4AE4-84B9-06AD65DADB47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Application", "BsBios.Portal.Application\BsBios.Portal.Application.csproj", "{A2DA2E00-3386-4EC4-8D95-D98C5052F636}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +31,6 @@ Global
 		{2B790B52-C827-486C-B871-1392CFAD1C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B790B52-C827-486C-B871-1392CFAD1C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B790B52-C827-486C-B871-1392CFAD1C48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89C88931-2C77-404D-ACFC-B8A0794ED60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89C88931-2C77-404D-ACFC-B8A0794ED60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89C88931-2C77-404D-ACFC-B8A0794ED60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89C88931-2C77-404D-ACFC-B8A0794ED60E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE1E2F40-C07F-439C-8232-0344E2F1BE7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1157FF52-F7A5-4F90-8560-3159EF29AFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,10 +51,10 @@ Global
 		{52496AC5-D00F-4AE4-84B9-06AD65DADB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52496AC5-D00F-4AE4-84B9-06AD65DADB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52496AC5-D00F-4AE4-84B9-06AD65DADB47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC3B1733-FBC7-4B67-BA2D-8ACEF9BB30D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

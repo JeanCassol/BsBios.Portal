@@ -1,5 +1,5 @@
-﻿using BsBios.Portal.ApplicationServices.Contracts;
-using BsBios.Portal.ApplicationServices.Implementation;
+﻿using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Application.Services.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;

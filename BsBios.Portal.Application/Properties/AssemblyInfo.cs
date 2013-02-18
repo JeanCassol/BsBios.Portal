@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BsBios.Portal.AplicationServices.Contracts")]
+[assembly: AssemblyTitle("BsBios.Portal.Application")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BsBios.Portal.AplicationServices.Contracts")]
+[assembly: AssemblyProduct("BsBios.Portal.Application")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0e1cbf03-2a6c-494a-8538-ca41f1ec4319")]
+[assembly: Guid("95cd9fce-0d06-4cc5-999b-dda17f036eab")]
 
 // Version information for an assembly consists of the following four values:
 //
