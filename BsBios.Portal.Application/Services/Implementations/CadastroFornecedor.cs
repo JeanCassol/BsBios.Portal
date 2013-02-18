@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -30,6 +31,14 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.RollBack();
                 throw;
+            }
+        }
+
+        public void AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores)
+        {
+            foreach (var fornecedorCadastroVm in fornecedores)
+            {
+                
             }
         }
     }
