@@ -10,6 +10,7 @@ namespace BsBios.Portal.Infra.Mappings
             Table("Produto");
             Id(x => x.Codigo);
             Map(x => x.Descricao);
+            Map(x => x.Tipo);
         }
     }
 }

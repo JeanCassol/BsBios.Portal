@@ -3,9 +3,9 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Services.Contracts
 {
-    public interface IAtualizadorProduto
+    public interface ICadastroProdutoOperacao
     {
-        Produto Novo(ProdutoCadastroVm produtoCadastroVm);
+        Produto Criar(ProdutoCadastroVm produtoCadastroVm);
         void Atualizar(Produto produto, ProdutoCadastroVm novosDados);
     }
 }

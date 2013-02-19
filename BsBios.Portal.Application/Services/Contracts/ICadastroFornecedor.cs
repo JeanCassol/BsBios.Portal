@@ -7,6 +7,6 @@ namespace BsBios.Portal.Application.Services.Contracts
     public interface ICadastroFornecedor
     {
         void Novo(FornecedorCadastroVm fornecedorCadastroVm);
-        IList<Fornecedor> AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores);
+        void AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores);
     }
 }

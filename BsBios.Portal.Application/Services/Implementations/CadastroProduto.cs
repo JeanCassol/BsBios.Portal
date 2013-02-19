@@ -13,9 +13,9 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProdutos _produtos;
-        private readonly IAtualizadorProduto _atualizadorProduto;
+        private readonly ICadastroProdutoOperacao _atualizadorProduto;
 
-        public CadastroProduto(IUnitOfWork unitOfWork, IProdutos produtos, IAtualizadorProduto atualizadorProduto)
+        public CadastroProduto(IUnitOfWork unitOfWork, IProdutos produtos, ICadastroProdutoOperacao atualizadorProduto)
         {
             _unitOfWork = unitOfWork;
             _produtos = produtos;
@@ -33,7 +33,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             else
             {
                 //produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao);
-                produto = _atualizadorProduto.Novo(produtoCadastroVm);
+                produto = _atualizadorProduto.Criar(produtoCadastroVm);
             }
 
             _produtos.Save(produto);

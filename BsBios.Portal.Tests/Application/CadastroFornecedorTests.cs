@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -20,7 +19,8 @@ namespace BsBios.Portal.Tests.Application
         private readonly Mock<IFornecedores> _fornecedoresMock; 
         private readonly FornecedorCadastroVm _fornecedorCadastroVm;
         private readonly ICadastroFornecedor _cadastroFornecedor;
-        private readonly Mock<Fornecedor> _fornecedorMock; 
+        private readonly Mock<Fornecedor> _fornecedorMock;
+        private readonly Mock<ICadastroFornecedorOperacao> _cadastroFornecedorOperacao;
          
         public CadastroFornecedorTests()
         {
@@ -32,7 +32,11 @@ namespace BsBios.Portal.Tests.Application
             _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>()));
             _fornecedoresMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>())).Returns((string f) => f == "FORNEC0001" ? _fornecedorMock.Object : null);
 
-            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object);
+            _cadastroFornecedorOperacao = new Mock<ICadastroFornecedorOperacao>();
+            _cadastroFornecedorOperacao.Setup(x => x.Criar(It.IsAny<FornecedorCadastroVm>()));
+            _cadastroFornecedorOperacao.Setup(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()));
+
+            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object, _cadastroFornecedorOperacao.Object);
 
             _fornecedorCadastroVm = new FornecedorCadastroVm()
                 {
@@ -78,7 +82,7 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoReceberUmFornecedorExistenteDeveAtualizar()
         {
-            IList<Fornecedor> fornecedoresAtualizados = _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
+            _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
                 {
                     new FornecedorCadastroVm()
                         {
@@ -87,20 +91,22 @@ namespace BsBios.Portal.Tests.Application
                             Email = "emailatualizado@empresa.com.br"
                         }
                 });
-             _fornecedorMock.Verify(x => x.Atualizar(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(fornecedoresAtualizados.Count));
+
+            _cadastroFornecedorOperacao.Verify(x => x.Criar(It.IsAny<FornecedorCadastroVm>()), Times.Never());
+            _cadastroFornecedorOperacao.Verify(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()), Times.Once());
 
             //_fornecedorMock.SetupGet(x => x.Codigo).Returns("FORNEC0001");
             
-            var fornecedorAtualizado = fornecedoresAtualizados.First();
-            Assert.AreEqual("FORNEC0001", fornecedorAtualizado.Codigo);
-            Assert.AreEqual("FORNECEDOR 0001 ATUALIZADO", fornecedorAtualizado.Nome);
-            Assert.AreEqual("emailatualizado@empresa.com.br",fornecedorAtualizado.Email);
+            //var fornecedorAtualizado = fornecedoresAtualizados.First();
+            //Assert.AreEqual("FORNEC0001", fornecedorAtualizado.Codigo);
+            //Assert.AreEqual("FORNECEDOR 0001 ATUALIZADO", fornecedorAtualizado.Nome);
+            //Assert.AreEqual("emailatualizado@empresa.com.br",fornecedorAtualizado.Email);
 
         }
         [TestMethod]
         public void QuandoReceberUmFornecedorNovoDeveAdicionar()
         {
-            IList<Fornecedor> fornecedoresAtualizados = _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
+            _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
                 {
                     new FornecedorCadastroVm()
                         {
@@ -109,12 +115,16 @@ namespace BsBios.Portal.Tests.Application
                             Email = "fornecedor0002@empresa.com.br"
                         }
                 });
-            _fornecedorMock.Verify(x => x.Atualizar(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
 
-            var fornecedorAtualizado = fornecedoresAtualizados.First();
-            Assert.AreEqual("FORNEC0002", fornecedorAtualizado.Codigo);
-            Assert.AreEqual("FORNECEDOR 0002", fornecedorAtualizado.Nome);
-            Assert.AreEqual("fornecedor0002@empresa.com.br",fornecedorAtualizado.Email);
+            _cadastroFornecedorOperacao.Verify(x => x.Criar(It.IsAny<FornecedorCadastroVm>()), Times.Once());
+            _cadastroFornecedorOperacao.Verify(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()),Times.Never());
+
+            //_fornecedorMock.Verify(x => x.Atualizar(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+
+            //var fornecedorAtualizado = fornecedoresAtualizados.First();
+            //Assert.AreEqual("FORNEC0002", fornecedorAtualizado.Codigo);
+            //Assert.AreEqual("FORNECEDOR 0002", fornecedorAtualizado.Nome);
+            //Assert.AreEqual("fornecedor0002@empresa.com.br",fornecedorAtualizado.Email);
         }
 
     }

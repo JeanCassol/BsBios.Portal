@@ -29,7 +29,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             UnitOfWorkNh.BeginTransaction();
 
-            var produto = new Produto("SAP0001", "PRODUTO 0001");
+            var produto = new Produto("SAP0001", "PRODUTO 0001", "01");
             _produtos.Save(produto);
 
             UnitOfWorkNh.Commit();

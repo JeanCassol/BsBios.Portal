@@ -81,6 +81,8 @@
     <Compile Include="Domain\Model\ProdutoTests.cs" />
     <Compile Include="Domain\Model\FornecedorTests.cs" />
     <Compile Include="Domain\Model\UsuarioTests.cs" />
+    <Compile Include="Domain\Services\CadastroProdutoOperacaoTests.cs" />
+    <Compile Include="Domain\Services\CadastroFornecedorOperacaoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\IvaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\ProdutoApiTests.cs" />
     <Compile Include="UI\Controllers\UsuarioControllerTests.cs" />
+    <Compile Include="UI\Controllers\FornecedorApiTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Application\BsBios.Portal.Application.csproj">
@@ -131,9 +134,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
