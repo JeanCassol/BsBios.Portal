@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
+    <Compile Include="CotacaoInicioVm.cs" />
     <Compile Include="CotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoMaterialListagemVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
@@ -52,8 +53,10 @@
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />
+    <Compile Include="ProdutoFornecedorVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseMessageVm.cs" />
+    <Compile Include="UsuarioCadastroVm.cs" />
     <Compile Include="UsuarioVm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

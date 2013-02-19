@@ -17,9 +17,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<CondicaoDePagamentoCadastroVm> Listar(PaginacaoVm paginacaoVm, CondicaoDePagamentoCadastroVm filtro)
         {
-            if (!string.IsNullOrEmpty(filtro.CodigoSap))
+            if (!string.IsNullOrEmpty(filtro.Codigo))
             {
-                _condicoesDePagamento.BuscaPeloCodigoSap(filtro.CodigoSap);
+                _condicoesDePagamento.BuscaPeloCodigoSap(filtro.Codigo);
 
             }
 

@@ -28,7 +28,7 @@ namespace BsBios.Portal.Tests.Application
             //_produtoMock = new Mock<Produto>(MockBehavior.Strict);
             //_produtoMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()));
             _produtosMock = new Mock<IProdutos>(MockBehavior.Strict);
-            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>()));
+            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) => Assert.IsNotNull(produto));
             _produtosMock.Setup(x => x.BuscaPorCodigoSap(It.IsAny<string>())).Returns((string p) => p == "PROD0001" ? 
                 new Produto("PROD0001", "PRODUTO 0001","01") : null);
 
@@ -158,7 +158,6 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoReceberUmProdutoNovoDeveAdicionar()
         {
-            //var cadastroProduto = new CadastroProduto(_unitOfWorkMock.Object, _produtosMock.Object);
             _cadastroProduto.AtualizarProdutos(new List<ProdutoCadastroVm>()
                 {
                     new ProdutoCadastroVm()
@@ -171,13 +170,10 @@ namespace BsBios.Portal.Tests.Application
             //para criar uma nova instância
             //_produtoMock.Verify(x => x.AtualizaDescricao(It.IsAny<string>()), Times.Never());
             _atualizadorProdutoMock.Verify(x => x.Criar(It.IsAny<ProdutoCadastroVm>()),Times.Once());
-            //var produtoAtualizado = produtosAtualizados.First();
-
-            //Assert.IsNotNull(produtoAtualizado);
-            //Assert.AreEqual("PROD0002", produtoAtualizado.Codigo);
-            //Assert.AreEqual("PRODUTO 0002", produtoAtualizado.Descricao);
 
         }
+
+
 
     }
 }

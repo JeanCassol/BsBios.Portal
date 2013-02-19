@@ -10,8 +10,8 @@ namespace BsBios.Portal.Tests.Domain.Model
         [TestMethod]
         public void QuandoCrioUmaCondicaoDePagamentoConsigoAcessarAsPropriedades()
         {
-            var condiaoDePagamento = new CondicaoDePagamento("COND0001", "CONDICAO 0001");
-            Assert.AreEqual("COND0001", condiaoDePagamento.Codigo);
+            var condiaoDePagamento = new CondicaoDePagamento("C001", "CONDICAO 0001");
+            Assert.AreEqual("C001", condiaoDePagamento.Codigo);
             Assert.AreEqual("CONDICAO 0001", condiaoDePagamento.Descricao);
         }
     }

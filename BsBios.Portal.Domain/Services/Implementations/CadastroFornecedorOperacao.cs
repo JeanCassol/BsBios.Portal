@@ -8,7 +8,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
     {
         public Fornecedor Criar(FornecedorCadastroVm fornecedorCadastroVm)
         {
-            var fornecedor = new Fornecedor(fornecedorCadastroVm.CodigoSap, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
+            var fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
             return fornecedor;
         }
 

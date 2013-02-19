@@ -27,7 +27,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                var fornecedor = new Fornecedor(fornecedorCadastroVm.CodigoSap, fornecedorCadastroVm.Nome,fornecedorCadastroVm.Email);
+                var fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome,fornecedorCadastroVm.Email);
                 _fornecedores.Save(fornecedor);
                 _unitOfWork.Commit();
             }
@@ -38,13 +38,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        private Fornecedor AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
+        private void AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
         {
-            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigoSap(fornecedorCadastroVm.CodigoSap);
+            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigoSap(fornecedorCadastroVm.Codigo);
 
             if (fornecedor == null)
             {
-                _cadastroFornecedorOperacao.Criar(fornecedorCadastroVm);
+                fornecedor = _cadastroFornecedorOperacao.Criar(fornecedorCadastroVm);
             }
             else
             {
@@ -52,7 +52,6 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
                              
             _fornecedores.Save(fornecedor);
-            return fornecedor;
         }
 
         public void AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores)

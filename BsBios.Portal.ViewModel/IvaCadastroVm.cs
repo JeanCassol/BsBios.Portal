@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -6,8 +7,11 @@ namespace BsBios.Portal.ViewModel
     public  class IvaCadastroVm
     {
         [DataMember]
-        public string CodigoSap { get; set; }
+        public string Codigo { get; set; }
         [DataMember]
         public string Descricao { get; set; }
     }
+
+    [CollectionDataContract]
+    public class ListaIva: List<IvaCadastroVm>{}
 }

@@ -23,7 +23,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var fornecedorApiController = new FornecedorApiController(cadastroFornecedorMock.Object);
             var fornecedorCadastroVm = new FornecedorCadastroVm()
             {
-                CodigoSap = "FORNEC0001",
+                Codigo = "FORNEC0001",
                 Nome = "PRODUTO 0001",
                 Email = "fornecedor@empresa.com.br"
 
@@ -46,7 +46,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var produtoApiController = new FornecedorApiController(cadastroFornecedorMock.Object);
             var fornecedorCadastroVm = new FornecedorCadastroVm()
             {
-                CodigoSap = "FORNEC0001",
+                Codigo = "FORNEC0001",
                 Nome = "FORNECEDOR 0001",
                 Email = "fornecedor@empresa.com.br"
             };

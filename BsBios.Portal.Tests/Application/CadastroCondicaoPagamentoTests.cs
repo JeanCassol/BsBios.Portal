@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Model;
@@ -9,6 +12,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.Application
 {
@@ -26,22 +30,26 @@ namespace BsBios.Portal.Tests.Application
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _condicoesDePagamentoMock = new Mock<ICondicoesDePagamento>(MockBehavior.Strict);
-            _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>()));
+            _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>())).Callback((CondicaoDePagamento condicaoDePagamento) => Assert.IsNotNull(condicaoDePagamento));
             _condicoesDePagamentoMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>()))
                                      .Returns((string c) => c == "C001" ? new CondicaoDePagamento("C001", "CONDICAO 001") : null);
 
-            _cadastroCondicaoPagamentoOperacaoMock = new Mock<ICadastroCondicaoPagamentoOperacao>();
+            _cadastroCondicaoPagamentoOperacaoMock = new Mock<ICadastroCondicaoPagamentoOperacao>(MockBehavior.Strict);
+            _cadastroCondicaoPagamentoOperacaoMock.Setup(x => x.Criar(It.IsAny<CondicaoDePagamentoCadastroVm>()))
+                                                  .Returns(new CondicaoDePagamento("C002", "CONDICAO 002"));
+            _cadastroCondicaoPagamentoOperacaoMock.Setup(
+                x => x.Alterar(It.IsAny<CondicaoDePagamento>(), It.IsAny<CondicaoDePagamentoCadastroVm>()));
 
             _cadastroCondicaoPagamento = new CadastroCondicaoPagamento(_unitOfWorkMock.Object, _condicoesDePagamentoMock.Object, _cadastroCondicaoPagamentoOperacaoMock.Object);
             _condicaoPagamento01 = new CondicaoDePagamentoCadastroVm()
                 {
-                    CodigoSap = "C001",
+                    Codigo = "C001",
                     Descricao = "CONDICAO 001" 
                 };
 
             _condicaoPagamento02 = new CondicaoDePagamentoCadastroVm()
                 {
-                    CodigoSap = "C002",
+                    Codigo = "C002",
                     Descricao = "CONDICAO 002"
                 };
 
@@ -99,6 +107,22 @@ namespace BsBios.Portal.Tests.Application
             _cadastroCondicaoPagamento.AtualizarCondicoesDePagamento(new List<CondicaoDePagamentoCadastroVm>() { _condicaoPagamento02 });
             _cadastroCondicaoPagamentoOperacaoMock.Verify(x => x.Alterar(It.IsAny<CondicaoDePagamento>(), It.IsAny<CondicaoDePagamentoCadastroVm>()), Times.Never());
             _cadastroCondicaoPagamentoOperacaoMock.Verify(x => x.Criar(It.IsAny<CondicaoDePagamentoCadastroVm>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestRegister()
+        {
+            const string @namespace = "BsBios.Portal.Application.Services.Contracts";
+
+            var query = from t in Assembly.GetExecutingAssembly().GetTypes()
+                    where t.IsInterface && t.Namespace == @namespace
+                    select t;
+
+            foreach (Type tipo in query)
+            {
+                var objeto = ObjectFactory.GetInstance(tipo);
+                Assert.IsNotNull(objeto);
+            }
         }
     }
 }

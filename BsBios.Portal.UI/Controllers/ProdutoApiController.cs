@@ -37,7 +37,7 @@ namespace BsBios.Portal.UI.Controllers
         //ser serializadas devem ser decoradas com a propriedade "[DataMember]"
         //Se na origem da requisição o dado for um json isto não é necessário.
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
-        public HttpResponseMessage PostMultiplo([FromBody] /*IList<ProdutoCadastroVm>*/ ListaProdutos produtos)
+        public HttpResponseMessage PostMultiplo([FromBody] ListaProdutos produtos)
         {
             ApiResponseMessage retornoPortal;
             try
@@ -85,6 +85,11 @@ namespace BsBios.Portal.UI.Controllers
                     };
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
+        }
+
+        public HttpResponseMessage AtualizarFornecedores([FromBody] ListaProdutoFornecedor produtoFornecedores)
+        {
+            throw  new NotImplementedException();
         }
 
         //[HttpGet]

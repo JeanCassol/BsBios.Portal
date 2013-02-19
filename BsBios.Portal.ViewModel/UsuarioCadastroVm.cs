@@ -4,10 +4,10 @@ using System.Runtime.Serialization;
 namespace BsBios.Portal.ViewModel
 {
     [DataContract]
-    public class FornecedorCadastroVm
+    public class UsuarioCadastroVm
     {
         [DataMember]
-        public string Codigo { get; set; }
+        public string Login { get; set; }
         [DataMember]
         public string Nome { get; set; }
         [DataMember]
@@ -15,5 +15,5 @@ namespace BsBios.Portal.ViewModel
     }
 
     [CollectionDataContract]
-    public class ListaFornecedores:List<FornecedorCadastroVm>{}
+    public class ListaUsuario:List<UsuarioCadastroVm>{}
 }

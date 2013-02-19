@@ -19,6 +19,12 @@ namespace BsBios.Portal.IoC
             For<ICadastroFornecedor>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroFornecedor>();
+            For<ICadastroCondicaoPagamento>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroCondicaoPagamento>();
+            For<ICadastroIva>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroIva>();
         }
     }
 }

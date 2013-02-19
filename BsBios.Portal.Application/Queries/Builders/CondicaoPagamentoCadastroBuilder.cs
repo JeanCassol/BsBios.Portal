@@ -21,7 +21,7 @@ namespace BsBios.Portal.Application.Queries.Builders
         {
             return condicoesDePagamento.Select(condicaoDePagamento => new CondicaoDePagamentoCadastroVm()
                 {
-                    CodigoSap = condicaoDePagamento.Codigo, 
+                    Codigo = condicaoDePagamento.Codigo, 
                     Descricao = condicaoDePagamento.Descricao
                 }).ToList();
         }

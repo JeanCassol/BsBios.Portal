@@ -8,6 +8,8 @@ namespace BsBios.Portal.Domain.Model
 {
     public class Fornecedor:IAggregateRoot
     {
+
+
         public virtual string Codigo { get; protected set; }
         public virtual string Nome { get; protected set; }
         public virtual string Email { get; protected set; }
@@ -26,5 +28,24 @@ namespace BsBios.Portal.Domain.Model
             Nome = novoNome;
             Email = novoEmail;
         }
+
+        #region override
+        protected bool Equals(Fornecedor other)
+        {
+            return string.Equals(Codigo, other.Codigo);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Codigo != null ? Codigo.GetHashCode() : 0);
+        }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Fornecedor) obj);
+        }
+        #endregion
     }
 }

@@ -1,17 +1,21 @@
-﻿namespace BsBios.Portal.Domain.Model
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace BsBios.Portal.Domain.Model
 {
     public class Produto: IAggregateRoot
     {
         public virtual string Codigo { get; protected set; }
         public virtual string Descricao { get; protected set; }
-
-        public virtual string Tipo { get; set; }
+        public virtual string Tipo { get; protected set; }
+        public virtual IList<Fornecedor> Fornecedores { get; protected set; }
 
         protected Produto()
         {
+            Fornecedores = new List<Fornecedor>();
         }
 
-        public Produto(string codigo, string descricao, string tipo)
+        public Produto(string codigo, string descricao, string tipo):this()
         {
             Codigo = codigo;
             Descricao = descricao;
@@ -24,5 +28,9 @@
             Tipo = novoTipo;
         }
 
+        public virtual void AdicionarFornecedores(IList<Fornecedor> fornecedores)
+        {
+             Fornecedores = Fornecedores.Union(fornecedores).ToList();
+        }
     }
 }

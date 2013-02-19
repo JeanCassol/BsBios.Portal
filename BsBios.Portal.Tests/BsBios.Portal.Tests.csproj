@@ -38,6 +38,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
@@ -73,6 +76,7 @@
     <Compile Include="Application\CadastroFornecedorTests.cs" />
     <Compile Include="Application\CadastroCondicaoPagamentoTests.cs" />
     <Compile Include="Application\CadastroIvaTests.cs" />
+    <Compile Include="Application\CadastroProdutoFornecedorTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
@@ -83,6 +87,8 @@
     <Compile Include="Domain\Model\UsuarioTests.cs" />
     <Compile Include="Domain\Services\CadastroProdutoOperacaoTests.cs" />
     <Compile Include="Domain\Services\CadastroFornecedorOperacaoTests.cs" />
+    <Compile Include="Domain\Services\CadastroIvaOperacaoTests.cs" />
+    <Compile Include="Domain\Services\CadastroCondicaoPagamentoOperacaoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\IvaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
@@ -96,6 +102,8 @@
     <Compile Include="Queries.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
+    <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
+    <Compile Include="UI\Controllers\IvaApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoApiTests.cs" />
     <Compile Include="UI\Controllers\UsuarioControllerTests.cs" />
     <Compile Include="UI\Controllers\FornecedorApiTests.cs" />

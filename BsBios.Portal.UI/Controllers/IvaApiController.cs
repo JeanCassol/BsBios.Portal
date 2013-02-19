@@ -9,13 +9,13 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.UI.Controllers
 {
     [ApiAuthorizationFilter]
-    public class FornecedorApiController : ApiController
+    public class IvaApiController : ApiController
     {
-        private readonly ICadastroFornecedor _cadastroFornecedor;
+        private readonly ICadastroIva _cadastroIva;
 
-        public FornecedorApiController(ICadastroFornecedor cadastroFornecedor)
+        public IvaApiController(ICadastroIva cadastroIva)
         {
-            _cadastroFornecedor = cadastroFornecedor;
+            _cadastroIva = cadastroIva;
         }
 
         //para funcionar o binding de um xml para um array ou list a classe correspondente ao parâmetro 
@@ -23,15 +23,15 @@ namespace BsBios.Portal.UI.Controllers
         //ser serializadas devem ser decoradas com a propriedade "[DataMember]"
         //Se na origem da requisição o dado for um json isto não é necessário.
         //Ver explicação em: http://www.asp.net/web-api/overview/formats-and-model-binding/json-and-xml-serialization
-        public HttpResponseMessage PostMultiplo([FromBody] ListaFornecedores fornecedores)
+        public HttpResponseMessage PostMultiplo([FromBody] ListaIva ivas)
         {
             ApiResponseMessage retornoPortal;
             try
             {
-                _cadastroFornecedor.AtualizarFornecedores(fornecedores);
+                _cadastroIva.AtualizarIvas(ivas);
                 retornoPortal = new ApiResponseMessage()
                     {
-                        Retorno = new Retorno() {Codigo = "200", Texto = fornecedores.Count + " fornecedores atualizados"}
+                        Retorno = new Retorno() {Codigo = "200", Texto = ivas.Count + " Ivas atualizados"}
                     };
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }

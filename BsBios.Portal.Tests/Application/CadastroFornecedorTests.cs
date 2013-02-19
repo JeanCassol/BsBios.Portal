@@ -29,18 +29,19 @@ namespace BsBios.Portal.Tests.Application
             _fornecedorMock.Setup(x => x.Atualizar(It.IsAny<string>(), It.IsAny<string>()));
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
-            _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>()));
+            _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>())).Callback((Fornecedor fornecedor) => Assert.IsNotNull(fornecedor));
             _fornecedoresMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>())).Returns((string f) => f == "FORNEC0001" ? _fornecedorMock.Object : null);
 
-            _cadastroFornecedorOperacao = new Mock<ICadastroFornecedorOperacao>();
-            _cadastroFornecedorOperacao.Setup(x => x.Criar(It.IsAny<FornecedorCadastroVm>()));
+            _cadastroFornecedorOperacao = new Mock<ICadastroFornecedorOperacao>(MockBehavior.Strict);
+            _cadastroFornecedorOperacao.Setup(x => x.Criar(It.IsAny<FornecedorCadastroVm>()))
+                .Returns(new Fornecedor("FORNEC002", "FORNECEDOR 0002", "fornecedor2@empresa.com.br"));
             _cadastroFornecedorOperacao.Setup(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()));
 
             _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object, _cadastroFornecedorOperacao.Object);
 
             _fornecedorCadastroVm = new FornecedorCadastroVm()
                 {
-                    CodigoSap = "FORNEC0001",
+                    Codigo = "FORNEC0001",
                     Nome = "FORNECEDOR 0001",
                     Email = "fornecedor@empresa.com.br"
                 };
@@ -86,7 +87,7 @@ namespace BsBios.Portal.Tests.Application
                 {
                     new FornecedorCadastroVm()
                         {
-                            CodigoSap ="FORNEC0001" ,
+                            Codigo ="FORNEC0001" ,
                             Nome = "FORNECEDOR 0001 ATUALIZADO" ,
                             Email = "emailatualizado@empresa.com.br"
                         }
@@ -110,7 +111,7 @@ namespace BsBios.Portal.Tests.Application
                 {
                     new FornecedorCadastroVm()
                         {
-                            CodigoSap = "FORNEC0002" ,
+                            Codigo = "FORNEC0002" ,
                             Nome =  "FORNECEDOR 0002",
                             Email = "fornecedor0002@empresa.com.br"
                         }

@@ -11,5 +11,10 @@
             Codigo = codigo;
             Descricao = descricao;
         }
+
+        public virtual void AtualizarDescricao(string descricao)
+        {
+            Descricao = descricao;
+        }
     }
 }

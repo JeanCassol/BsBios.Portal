@@ -48,11 +48,14 @@
     <Compile Include="Model\Produto.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Contracts\ICadastroIvaOperacao.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamentoOperacao.cs" />
     <Compile Include="Services\Contracts\ICadastroFornecedorOperacao.cs" />
     <Compile Include="Services\Contracts\ICadastroProdutoOperacao.cs" />
     <Compile Include="Services\Contracts\ISelecionaFornecedor.cs" />
+    <Compile Include="Services\Implementations\CadastroCondicaoPagamentoOperacao.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedorOperacao.cs" />
+    <Compile Include="Services\Implementations\CadastroIvaOperacao.cs" />
     <Compile Include="Services\Implementations\CadastroProdutoOperacao.cs" />
     <Compile Include="Services\Implementations\SelecionaFornecedor.cs" />
   </ItemGroup>

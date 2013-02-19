@@ -8,4 +8,5 @@ namespace BsBios.Portal.Domain.Services.Contracts
         Fornecedor Criar(FornecedorCadastroVm fornecedorCadastroVm);
         void Atualizar(Fornecedor fornecedor, FornecedorCadastroVm novosDados);
     }
+
 }

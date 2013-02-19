@@ -14,7 +14,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         {
             var fornecedorCadastroVm = new FornecedorCadastroVm()
                 {
-                    CodigoSap = "FORNEC0001",
+                    Codigo = "FORNEC0001",
                     Nome = "FORNECEDOR 0001",
                     Email = "fornecedor@empresa.com.br"
                 };
@@ -33,7 +33,7 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             var fornecedorCadastroVm = new FornecedorCadastroVm()
             {
-                CodigoSap = "FORNEC0001",
+                Codigo = "FORNEC0001",
                 Nome = "FORNECEDOR 0001 ALTERADO",
                 Email = "fornecedoralterado@empresa.com.br"
             };
