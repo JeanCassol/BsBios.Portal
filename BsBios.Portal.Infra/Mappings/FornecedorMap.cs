@@ -11,6 +11,10 @@ namespace BsBios.Portal.Infra.Mappings
             Id(x => x.Codigo);
             Map(x => x.Nome);
             Map(x => x.Email);
+            HasManyToMany(x => x.Produtos)
+                .Cascade.All()
+                .Table("ProdutoFornecedor").ParentKeyColumn("CodigoFornecedor").ChildKeyColumn("CodigoProduto");
+
         }
     }
 }

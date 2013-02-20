@@ -25,11 +25,13 @@ namespace BsBios.Portal.Tests
 
         public static void RemoverProdutosCadastrados()
         {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTOFORNECEDOR").ExecuteUpdate();
             UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTO").ExecuteUpdate();
         }
 
         public static void RemoverFornecedoresCadastrados()
         {
+            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTOFORNECEDOR").ExecuteUpdate();
             UnitOfWork.Session.CreateSQLQuery("DELETE FROM FORNECEDOR").ExecuteUpdate();
         }
 

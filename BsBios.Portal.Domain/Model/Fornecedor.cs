@@ -13,10 +13,14 @@ namespace BsBios.Portal.Domain.Model
         public virtual string Codigo { get; protected set; }
         public virtual string Nome { get; protected set; }
         public virtual string Email { get; protected set; }
+        public virtual IList<Produto>  Produtos { get; protected set; }
 
-        protected Fornecedor() { }
+        protected Fornecedor()
+        {
+            Produtos = new List<Produto>();
+        }
 
-        public Fornecedor(string codigo, string nome, string email)
+        public Fornecedor(string codigo, string nome, string email):this()
         {
             Codigo = codigo;
             Nome = nome;
