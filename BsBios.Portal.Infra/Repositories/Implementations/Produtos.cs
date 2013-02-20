@@ -14,7 +14,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
         }
 
-        public Produto BuscaPorCodigoSap(string codigoSap)
+        public Produto BuscaPeloCodigo(string codigoSap)
         {
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
         }

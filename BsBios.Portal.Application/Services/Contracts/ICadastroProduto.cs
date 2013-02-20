@@ -12,7 +12,5 @@ namespace BsBios.Portal.Application.Services.Contracts
         /// </summary>
         /// <param name="produtos">lista de produtos</param>
         void AtualizarProdutos(IList<ProdutoCadastroVm> produtos);
-
-        void AtualizarFornecedoresDoProduto(string codigoProduto, string[] codigoDosFornecedores);
     }
 }

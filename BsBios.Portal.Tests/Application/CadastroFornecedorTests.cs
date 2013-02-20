@@ -30,7 +30,7 @@ namespace BsBios.Portal.Tests.Application
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
             _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>())).Callback((Fornecedor fornecedor) => Assert.IsNotNull(fornecedor));
-            _fornecedoresMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>())).Returns((string f) => f == "FORNEC0001" ? _fornecedorMock.Object : null);
+            _fornecedoresMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>())).Returns((string f) => f == "FORNEC0001" ? _fornecedorMock.Object : null);
 
             _cadastroFornecedorOperacao = new Mock<ICadastroFornecedorOperacao>(MockBehavior.Strict);
             _cadastroFornecedorOperacao.Setup(x => x.Criar(It.IsAny<FornecedorCadastroVm>()))
@@ -96,13 +96,6 @@ namespace BsBios.Portal.Tests.Application
             _cadastroFornecedorOperacao.Verify(x => x.Criar(It.IsAny<FornecedorCadastroVm>()), Times.Never());
             _cadastroFornecedorOperacao.Verify(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()), Times.Once());
 
-            //_fornecedorMock.SetupGet(x => x.Codigo).Returns("FORNEC0001");
-            
-            //var fornecedorAtualizado = fornecedoresAtualizados.First();
-            //Assert.AreEqual("FORNEC0001", fornecedorAtualizado.Codigo);
-            //Assert.AreEqual("FORNECEDOR 0001 ATUALIZADO", fornecedorAtualizado.Nome);
-            //Assert.AreEqual("emailatualizado@empresa.com.br",fornecedorAtualizado.Email);
-
         }
         [TestMethod]
         public void QuandoReceberUmFornecedorNovoDeveAdicionar()
@@ -120,12 +113,6 @@ namespace BsBios.Portal.Tests.Application
             _cadastroFornecedorOperacao.Verify(x => x.Criar(It.IsAny<FornecedorCadastroVm>()), Times.Once());
             _cadastroFornecedorOperacao.Verify(x => x.Atualizar(It.IsAny<Fornecedor>(), It.IsAny<FornecedorCadastroVm>()),Times.Never());
 
-            //_fornecedorMock.Verify(x => x.Atualizar(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-
-            //var fornecedorAtualizado = fornecedoresAtualizados.First();
-            //Assert.AreEqual("FORNEC0002", fornecedorAtualizado.Codigo);
-            //Assert.AreEqual("FORNECEDOR 0002", fornecedorAtualizado.Nome);
-            //Assert.AreEqual("fornecedor0002@empresa.com.br",fornecedorAtualizado.Email);
         }
 
     }

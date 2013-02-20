@@ -14,9 +14,15 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
         }
 
-        public Fornecedor BuscaPeloCodigoSap(string codigoSap)
+        public Fornecedor BuscaPeloCodigo(string codigoSap)
         {
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
+        }
+
+        public IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores)
+        {
+            Query = Query.Where(x => codigoDosFornecedores.Contains(x.Codigo));
+            return this;
         }
     }
 }

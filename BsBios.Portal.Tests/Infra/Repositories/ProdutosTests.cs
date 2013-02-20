@@ -34,7 +34,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             UnitOfWorkNh.Commit();
 
-            Produto produtoConsulta = _produtos.BuscaPorCodigoSap("SAP0001");
+            Produto produtoConsulta = _produtos.BuscaPeloCodigo("SAP0001");
 
             Assert.IsNotNull(produtoConsulta);
             Assert.AreEqual("SAP0001", produtoConsulta.Codigo);
@@ -43,7 +43,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmProdutoComCodigoSapInexistenteDeveRetornarNull()
         {
-            Produto produto = _produtos.BuscaPorCodigoSap("SAP0002");
+            Produto produto = _produtos.BuscaPeloCodigo("SAP0002");
             Assert.IsNull(produto);
         }
     }

@@ -40,7 +40,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
         {
-            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigoSap(fornecedorCadastroVm.Codigo);
+            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigo(fornecedorCadastroVm.Codigo);
 
             if (fornecedor == null)
             {

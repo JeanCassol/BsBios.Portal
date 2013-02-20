@@ -4,6 +4,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
 {
     public interface IProdutos : ICompleteRepository<Produto>
     {
-        Produto BuscaPorCodigoSap(string codigoSap);
+        Produto BuscaPeloCodigo(string codigoSap);
     }
 }

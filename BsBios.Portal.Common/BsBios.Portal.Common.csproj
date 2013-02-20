@@ -39,9 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ExceptionUtil.cs" />
     <Compile Include="Exceptions\SenhaIncorretaException.cs" />
     <Compile Include="Exceptions\UsuarioNaoCadastradoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
+      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
+      <Name>BsBios.Portal.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -38,13 +39,7 @@ namespace BsBios.Portal.UI.Controllers
 
             catch (Exception ex)
             {
-                retornoPortal = new ApiResponseMessage()
-                    {
-                        Retorno = new Retorno() {Codigo = "500", Texto = "Erro interno. Mensagem: " + ex.Message 
-                            + ( ex.InnerException != null ? " - Excecao Interna: " + ex.InnerException.Message : "")
-                            + " - Pilha de Execucao: " + ex.StackTrace}
-
-                    };
+                retornoPortal = ExceptionUtil.GeraExecaoDeErroParaWebApi(ex); 
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
         }

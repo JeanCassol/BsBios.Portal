@@ -29,7 +29,7 @@ namespace BsBios.Portal.Tests.Application
             //_produtoMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()));
             _produtosMock = new Mock<IProdutos>(MockBehavior.Strict);
             _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) => Assert.IsNotNull(produto));
-            _produtosMock.Setup(x => x.BuscaPorCodigoSap(It.IsAny<string>())).Returns((string p) => p == "PROD0001" ? 
+            _produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>())).Returns((string p) => p == "PROD0001" ? 
                 new Produto("PROD0001", "PRODUTO 0001","01") : null);
 
             _atualizadorProdutoMock  = new Mock<ICadastroProdutoOperacao>(MockBehavior.Strict);
@@ -108,7 +108,7 @@ namespace BsBios.Portal.Tests.Application
         public void QuandoCadastrarUmaListaDeProdutosDeveSalvarTodosOsRegistros()
         {
             _cadastroProduto.AtualizarProdutos(_produtosPadrao);
-            _produtosMock.Verify(x => x.BuscaPorCodigoSap(It.IsAny<string>()), Times.Exactly(_produtosPadrao.Count));
+            _produtosMock.Verify(x => x.BuscaPeloCodigo(It.IsAny<string>()), Times.Exactly(_produtosPadrao.Count));
             _produtosMock.Verify(x => x.Save(It.IsAny<Produto>()),Times.Exactly(_produtosPadrao.Count));
         }
 

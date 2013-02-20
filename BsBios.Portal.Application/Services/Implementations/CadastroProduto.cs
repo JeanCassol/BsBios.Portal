@@ -24,7 +24,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarProduto(ProdutoCadastroVm produtoCadastroVm)
         {
-            Produto produto = _produtos.BuscaPorCodigoSap(produtoCadastroVm.CodigoSap);
+            Produto produto = _produtos.BuscaPeloCodigo(produtoCadastroVm.CodigoSap);
             if (produto != null)
             {
                 //produto.AtualizaDescricao(produtoCadastroVm.Descricao);

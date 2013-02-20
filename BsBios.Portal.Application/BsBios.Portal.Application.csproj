@@ -48,11 +48,13 @@
     <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />
     <Compile Include="Services\Contracts\ICadastroIva.cs" />
     <Compile Include="Services\Contracts\ICadastroProduto.cs" />
+    <Compile Include="Services\Contracts\ICadastroProdutoFornecedor.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroIva.cs" />
     <Compile Include="Services\Implementations\CadastroProduto.cs" />
+    <Compile Include="Services\Implementations\CadastroProdutoFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />
   </ItemGroup>
   <ItemGroup>

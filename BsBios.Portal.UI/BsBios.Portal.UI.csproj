@@ -135,6 +135,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
+    <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />
     <Compile Include="Controllers\IvaApiController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoApiController.cs" />
     <Compile Include="Controllers\FornecedorApiController.cs" />
