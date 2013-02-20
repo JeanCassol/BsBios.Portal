@@ -55,6 +55,7 @@
     <Compile Include="ProdutoCadastroVm.cs" />
     <Compile Include="ProdutoFornecedorVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequisicaoDeCompraVm.cs" />
     <Compile Include="ResponseMessageVm.cs" />
     <Compile Include="UsuarioCadastroVm.cs" />
     <Compile Include="UsuarioVm.cs" />
