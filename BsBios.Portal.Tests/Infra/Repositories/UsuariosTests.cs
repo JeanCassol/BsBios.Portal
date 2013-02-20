@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain;
+﻿using System;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,17 +37,33 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmUsuarioComSucessoPossoConsultarOMesmoUsuario()
         {
-            UnitOfWorkNh.BeginTransaction();
 
-            var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
-            _usuarios.Save(usuarioNovo);
 
-            UnitOfWorkNh.Commit();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            Usuario usuarioConsulta = _usuarios.BuscaPorId(usuarioNovo.Id);
+                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                _usuarios.Save(usuarioNovo);
+
+                UnitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();
+                throw;
+            }
+
+            Usuario usuarioConsulta = _usuarios.BuscaPorLogin("mauroscl");
 
             Assert.IsNotNull(usuarioConsulta);
-            Assert.AreEqual(usuarioNovo.Id, usuarioConsulta.Id);
+            Assert.AreEqual("mauroscl", usuarioConsulta.Login);
+            Assert.AreEqual("Mauro Leal", usuarioConsulta.Nome);
+            Assert.AreEqual("123", usuarioConsulta.Senha);
+            Assert.AreEqual("mauro.leal@fusionconsultoria.com.br", usuarioConsulta.Email);
+            Assert.AreEqual(Enumeradores.Perfil.Comprador, usuarioConsulta.Perfil);
+
         }
 
         [TestMethod]
@@ -59,12 +76,21 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoBuscarUsuarioPorLoginComLoginExistenteDeveRetornarUsuario()
         {
-            UnitOfWorkNh.BeginTransaction();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            var usuarioNovo = new Usuario("Usuario Padrao", "usuario", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
-            _usuarios.Save(usuarioNovo);
+                var usuarioNovo = new Usuario("Mauro Leal", "usuario", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                _usuarios.Save(usuarioNovo);
 
-            UnitOfWorkNh.Commit();
+                UnitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                    
+                throw;
+            }
             Usuario usuario = _usuarios.BuscaPorLogin("usuario");
             Assert.IsNotNull(usuario);
             Assert.AreEqual("usuario",usuario.Login);

@@ -31,12 +31,20 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmProdutoComSucessoConsigoConsultarPosteriormente()
         {
-            UnitOfWorkNh.BeginTransaction();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            var produto = new Produto("SAP0001", "PRODUTO 0001", "01");
-            _produtos.Save(produto);
+                var produto = new Produto("SAP0001", "PRODUTO 0001", "01");
+                _produtos.Save(produto);
 
-            UnitOfWorkNh.Commit();
+                UnitOfWorkNh.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
 
             Produto produtoConsulta = _produtos.BuscaPeloCodigo("SAP0001");
 
@@ -56,23 +64,31 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             Queries.RemoverProdutosCadastrados();
             Queries.RemoverFornecedoresCadastrados();
-            UnitOfWorkNh.BeginTransaction();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            var produto = new Produto("PROD0001", "Produto de Teste", "01");
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");
-            _fornecedores.Save(fornecedor1);
-            _fornecedores.Save(fornecedor2);
-            var fornecedores = new List<Fornecedor>()
+                var produto = new Produto("PROD0001", "Produto de Teste", "01");
+                var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
+                var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");
+                _fornecedores.Save(fornecedor1);
+                _fornecedores.Save(fornecedor2);
+                var fornecedores = new List<Fornecedor>()
                 {
                     fornecedor1 , fornecedor2
                 };
 
-            produto.AdicionarFornecedores(fornecedores);
+                produto.AdicionarFornecedores(fornecedores);
 
-            _produtos.Save(produto);
+                _produtos.Save(produto);
 
-            UnitOfWorkNh.Commit();
+                UnitOfWorkNh.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
 
             Produto produtoConsultado = _produtos.BuscaPeloCodigo("PROD0001");
 

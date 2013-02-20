@@ -27,7 +27,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                                      {
                                          if (u == "comprador" && s == "123")
                                          {
-                                             return new UsuarioConectado(1, "Comprador", 1);
+                                             return new UsuarioConectado("user001", "Comprador", 1);
                                          }
                                          else
                                          {

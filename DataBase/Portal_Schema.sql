@@ -1,14 +1,11 @@
 CREATE TABLE BSBIOS.USUARIO
   (
-  Id NUMBER NOT NULL,
+  Login VARCHAR2 (12) NOT NULL,
   Nome VARCHAR2 (80) NOT NULL,
-  Login VARCHAR2 (20) NOT NULL,
   Senha VARCHAR2 (24) NOT NULL,
-  Email VARCHAR2 (100) NOT NULL,
+  Email VARCHAR2 (241) NULL,
   Perfil INT NOT NULL
  )
-;
-COMMENT ON COLUMN BSBIOS.USUARIO.Id IS 'Chave da Tabela'
 ;
 COMMENT ON COLUMN BSBIOS.USUARIO.Email IS 'E-mail utilizado para entrar em contato com o usuário'
 ;
@@ -16,21 +13,15 @@ COMMENT ON COLUMN BSBIOS.USUARIO.Perfil IS '1 - Comprador; 2 = Fornecedor'
 ;
 ALTER TABLE BSBIOS.USUARIO ADD CONSTRAINT PK_USUARIO
   PRIMARY KEY (
-  ID
+  Login
 )
  ENABLE 
  VALIDATE 
 ;
-CREATE SEQUENCE BSBIOS.USUARIO_ID_SEQUENCE
- START WITH  1
- INCREMENT BY  1
- MINVALUE  1
-;
-
 INSERT INTO USUARIO
-(Id, Nome, Login, Senha, Email, Perfil)
-SELECT usuario_id_sequence.NEXTVAL, 'Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1
-FROM DUAL
+(Nome, Login, Senha, Email, Perfil)
+VALUES
+('Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1)
 ;
 CREATE TABLE BSBIOS.PRODUTO
 (

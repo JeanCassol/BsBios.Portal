@@ -23,22 +23,22 @@ namespace BsBios.Portal.Tests.Infra.Services
             Queries.RemoverUsuariosCadastrados();
             _cadastroUsuario = ObjectFactory.GetInstance<ICadastroUsuario>();
             var usuarioCompradorVm = 
-            new UsuarioVm()
+            new UsuarioCadastroVm()
                 {
-                    CodigoPerfil = 1,
+                    //CodigoPerfil = 1,
                     Nome = "Usuário Comprador",
                     Login = "comprador",
-                    Senha = "123",
+                    //Senha = "123",
                     Email = "comprador@bsbios.com"
                 };
             _cadastroUsuario.Novo(usuarioCompradorVm);
 
-            var usuarioFornecedorVm = new UsuarioVm()
+            var usuarioFornecedorVm = new UsuarioCadastroVm()
                 {
-                    CodigoPerfil = 2,
+                    //CodigoPerfil = 2,
                     Nome = "Usuário Fornecedor",
                     Login = "fornecedor",
-                    Senha = "456",
+                    //Senha = "456",
                     Email = "fornecedor@transportadora.com.br"
                 };
 
@@ -57,7 +57,7 @@ namespace BsBios.Portal.Tests.Infra.Services
         [TestMethod]
         public void QuandoMeAutenticarComUmFornecedorDeveRetornarPerfilFornecedor()
         {
-            UsuarioConectado usuarioConectado = _validadorUsuario.Validar("fornecedor", "456");
+            UsuarioConectado usuarioConectado = _validadorUsuario.Validar("fornecedor", "123");
             Assert.AreEqual(Enumeradores.Perfil.Fornecedor, (Enumeradores.Perfil)usuarioConectado.Perfil);
         }
 

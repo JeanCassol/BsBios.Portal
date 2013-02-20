@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using System;
+using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -26,12 +27,21 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmaCondicaoDePagamentoComSucessoConsigoConsultarPosteriormente()
         {
-            UnitOfWorkNh.BeginTransaction();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            var condicaoDePagamento = new CondicaoDePagamento("C001", "CONDICAO 0001");
-            _condicoesDePagamento.Save(condicaoDePagamento);
+                var condicaoDePagamento = new CondicaoDePagamento("C001", "CONDICAO 0001");
+                _condicoesDePagamento.Save(condicaoDePagamento);
 
-            UnitOfWorkNh.Commit();
+                UnitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();
+                throw;
+            }
 
             CondicaoDePagamento condicaoDePagamentoConsulta = _condicoesDePagamento.BuscaPeloCodigoSap("C001");
 
@@ -40,7 +50,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         }
 
         [TestMethod]
-        public void QuandoConsultoUmCondicaoDePagamentoComCodigoSapInexistenteDeveRetornarNull()
+        public void QuandoConsultoUmaCondicaoDePagamentoComCodigoSapInexistenteDeveRetornarNull()
         {
             CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigoSap("C002");
             Assert.IsNull(condicaoDePagamento);

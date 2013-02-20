@@ -20,29 +20,78 @@ namespace BsBios.Portal.Tests
 
         public static void RemoverUsuariosCadastrados()
         {
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM USUARIO").ExecuteUpdate();
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Usuario");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();                
+                throw;
+            }
         }
 
         public static void RemoverProdutosCadastrados()
         {
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTOFORNECEDOR").ExecuteUpdate();
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTO").ExecuteUpdate();
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Produto");
+                UnitOfWork.Commit();
+
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();                
+                throw;
+            }
         }
 
         public static void RemoverFornecedoresCadastrados()
         {
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM PRODUTOFORNECEDOR").ExecuteUpdate();
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM FORNECEDOR").ExecuteUpdate();
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Fornecedor");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
         }
 
         public static void RemoverCondicoesDePagamentoCadastradas()
         {
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM CONDICAOPAGAMENTO").ExecuteUpdate();
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from CondicaoDePagamento");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
         }
 
         public static void RemoverIvasCadastrados()
         {
-            UnitOfWork.Session.CreateSQLQuery("DELETE FROM IVA").ExecuteUpdate();
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Iva");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();                
+                throw;
+            }
         }
     }
 }

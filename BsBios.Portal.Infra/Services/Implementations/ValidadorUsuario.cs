@@ -32,7 +32,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
             if (usuario.Senha == senhaCriptografada)
             {
-                return new UsuarioConectado(usuario.Id, usuario.Nome,(int) usuario.Perfil);
+                return new UsuarioConectado(usuario.Login, usuario.Nome,(int) usuario.Perfil);
                     
             }
             throw new SenhaIncorretaException();

@@ -1,6 +1,9 @@
-﻿using BsBios.Portal.Application.Services.Contracts;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
@@ -18,7 +21,8 @@ namespace BsBios.Portal.Tests.Application
         private readonly Mock<IUsuarios> _usuariosMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock; 
         private readonly ICadastroUsuario _cadastroUsuario;
-        private readonly UsuarioVm _usuarioPadrao;
+        private readonly UsuarioCadastroVm _usuarioPadrao;
+        private readonly Mock<ICadastroUsuarioOperacao> _cadastroUsuarioOperacaoMock;
 
 
         public CadastroUsuarioTests()
@@ -27,37 +31,66 @@ namespace BsBios.Portal.Tests.Application
             _provedorDeCriptografiaMock.Setup(x => x.Criptografar(It.IsAny<string>())).Returns("criptografado");
 
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
-            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()))
+                .Callback((Usuario usuario) => Assert.IsNotNull(usuario) );
+            _usuariosMock.Setup(x => x.BuscaPorLogin(It.IsAny<string>()))
+                         .Returns(
+                             (string login) =>
+                             login == "USER001"
+                                 ? new Usuario("USUARIO 001", "USER001", "123", "", Enumeradores.Perfil.Comprador)
+                                 : null);
 
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
 
-            _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object);
+            _cadastroUsuarioOperacaoMock = new Mock<ICadastroUsuarioOperacao>(MockBehavior.Strict);
+            _cadastroUsuarioOperacaoMock.Setup(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>()))
+                                    .Returns(new Usuario("USER0001", "user", "123", "user@empresa.com.br", Enumeradores.Perfil.Comprador));
+            _cadastroUsuarioOperacaoMock.Setup(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()));
 
-            _usuarioPadrao = new UsuarioVm()
+            _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object,_cadastroUsuarioOperacaoMock.Object);
+
+            _usuarioPadrao = new UsuarioCadastroVm()
                 {
                     Nome = "Mauro Leal",
                     Login =  "mauroscl",
-                    Senha = "123" ,
+                    //Senha = "123" ,
                     Email = "mauro.leal@fusionconsultoria.com.br" ,
-                    CodigoPerfil = 1
+                    //CodigoPerfil = 1
                 };
+
+
         }
 
         
 
         [TestMethod]
-        public void QuandoCadastroUmNovoUsuarioASenhaEcriptografada()
+        public void QuandoCadastroUmaListaDeUsuariosASenhaEcriptografada()
         {
-            _cadastroUsuario.Novo(_usuarioPadrao);
+            _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>(){_usuarioPadrao});
             _provedorDeCriptografiaMock.Verify(x => x.Criptografar(It.IsAny<string>()),Times.Once());
                
         }
 
         [TestMethod]
-        public void QuandoCadastroUmNovoUsuarioEPersistidoNoBanco()
+        public void QuandoCadastroUmaListaDeUsuariosEPersistidoNoBanco()
         {
-            _cadastroUsuario.Novo(_usuarioPadrao);
-            _usuariosMock.Verify(x=> x.Save(It.IsAny<Usuario>()), Times.Once());
+            var usuarios = new List<UsuarioCadastroVm>()
+                {
+                    new UsuarioCadastroVm()
+                        {
+                            Nome = "USUARIO 001",
+                            Login =  "USER001",
+                            Email = "usuario001@fusionconsultoria.com.br" ,
+                        },
+                    new UsuarioCadastroVm()
+                        {
+                            Nome = "USUARIO 002",
+                            Login =  "USER002",
+                            Email = "usuario002@fusionconsultoria.com.br" ,
+                        }
+                };
+            _cadastroUsuario.AtualizarUsuarios(usuarios);
+            _usuariosMock.Verify(x=> x.Save(It.IsAny<Usuario>()), Times.Exactly(usuarios.Count));
         }
 
         [TestMethod]
@@ -66,6 +99,7 @@ namespace BsBios.Portal.Tests.Application
             _cadastroUsuario.Novo(_usuarioPadrao);
             _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
             _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
+            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
         }
 
         [TestMethod]
@@ -83,5 +117,41 @@ namespace BsBios.Portal.Tests.Application
                 _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
             }
         }
+
+        [TestMethod]
+        public void QuandoReceberUmFornecedorExistenteDeveAtualizar()
+        {
+            _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>()
+                {
+                    new UsuarioCadastroVm()
+                        {
+                            Login = "USER001" ,
+                            Nome = "USUARIO 001" ,
+                            Email = "user001@empresa.com.br"
+                        }
+                });
+
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>() ),Times.Never());
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()), Times.Once());
+
+        }
+        [TestMethod]
+        public void QuandoReceberUmFornecedorNovoDeveAdicionar()
+        {
+            _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>()
+                {
+                    new UsuarioCadastroVm()
+                        {
+                            Login = "USER002" ,
+                            Nome = "USUARIO 002" ,
+                            Email = "user002@empresa.com.br"
+                        }
+                });
+
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>()), Times.Once());
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()), Times.Never());
+
+        }
+
     }
 }

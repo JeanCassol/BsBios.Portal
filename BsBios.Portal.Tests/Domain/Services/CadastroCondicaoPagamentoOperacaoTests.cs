@@ -19,9 +19,9 @@ namespace BsBios.Portal.Tests.Domain.Services
                 };
 
             var cadastroCondicaoPagamentoOperacao = new CadastroCondicaoPagamentoOperacao();
-            var fornecedor = cadastroCondicaoPagamentoOperacao.Criar(condicaoPagamentoCadastroVm);
-            Assert.AreEqual("C001", fornecedor.Codigo);
-            Assert.AreEqual("CONDICAO 001", fornecedor.Descricao);
+            var condicaoPagamento = cadastroCondicaoPagamentoOperacao.Criar(condicaoPagamentoCadastroVm);
+            Assert.AreEqual("C001", condicaoPagamento.Codigo);
+            Assert.AreEqual("CONDICAO 001", condicaoPagamento.Descricao);
         }
 
         [TestMethod]

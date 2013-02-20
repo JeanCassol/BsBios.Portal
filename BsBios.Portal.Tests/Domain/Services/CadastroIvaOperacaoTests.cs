@@ -19,9 +19,9 @@ namespace BsBios.Portal.Tests.Domain.Services
                 };
 
             var cadastroIvaOperacao = new CadastroIvaOperacao();
-            var fornecedor = cadastroIvaOperacao.Criar(ivaCadastroVm);
-            Assert.AreEqual("01", fornecedor.Codigo);
-            Assert.AreEqual("IVA 01", fornecedor.Descricao);
+            var iva = cadastroIvaOperacao.Criar(ivaCadastroVm);
+            Assert.AreEqual("01", iva.Codigo);
+            Assert.AreEqual("IVA 01", iva.Descricao);
         }
 
         [TestMethod]

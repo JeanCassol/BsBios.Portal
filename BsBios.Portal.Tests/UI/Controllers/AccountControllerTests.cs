@@ -21,7 +21,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoLogarComCredenciaisValidasDeveRedirecionarParaPaginaInicial()
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
-            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado(1,"comprador",1));
+            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001","comprador",1));
             var accountController = new AccountController(accountServiceMock.Object);
 
             var result = (RedirectToRouteResult) accountController.Login(new LoginVm(){Usuario  = "comprador",Senha = "123"},"");
@@ -34,7 +34,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoLogarComUrlDeRetornoDeveRetornarParaUrlDeRetorno()
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
-            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado(1, "comprador", 1));
+            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001", "comprador", 1));
             var accountController = new AccountController(accountServiceMock.Object);
 
             var routes = new RouteCollection();

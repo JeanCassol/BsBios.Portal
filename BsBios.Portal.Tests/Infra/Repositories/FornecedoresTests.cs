@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -16,7 +17,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            Queries.RemoverFornecedoresCadastrados();
             _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
         }
         [ClassCleanup]
@@ -24,16 +24,38 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             Cleanup();
         }
+
+        [TestInitialize]
+        public void InitializeTests()
+        {
+            //Queries.RemoverFornecedoresCadastrados();
+            UnitOfWorkNh.BeginTransaction();
+            var fornecedores = _fornecedores.List();
+            foreach (var fornecedor in fornecedores)
+            {
+                _fornecedores.Delete(fornecedor);
+            }
+            UnitOfWorkNh.Commit();
+        }
+
         [TestMethod]
         public void QuandoPersistoUmFornecedorComSucessoConsigoConsultarPosteriormente()
         {
-            UnitOfWorkNh.BeginTransaction();
+            //Queries.RemoverFornecedoresCadastrados();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
-            _fornecedores.Save(fornecedor);
+                var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
+                _fornecedores.Save(fornecedor);
 
-            UnitOfWorkNh.Commit();
-
+                UnitOfWorkNh.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
 
             Fornecedor fornecedorConsulta = fornecedores.BuscaPeloCodigo("FORNEC0001");
@@ -48,17 +70,35 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoAlterarUmFornecedorCadastrado()
         {
-            UnitOfWorkNh.BeginTransaction();
-            var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
-            _fornecedores.Save(fornecedor);
-            UnitOfWorkNh.Commit();
+            //Queries.RemoverFornecedoresCadastrados();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
+                var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
+                _fornecedores.Save(fornecedor);
+                UnitOfWorkNh.Commit();
 
-            var fornecedorConsulta = _fornecedores.BuscaPeloCodigo("FORNEC0003");
-            fornecedorConsulta.Atualizar("FORNECEDOR 0003 ALTERADO", "fornecedoralterado@empresa.com.br");
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
+                var fornecedorConsulta = _fornecedores.BuscaPeloCodigo("FORNEC0003");
+                fornecedorConsulta.Atualizar("FORNECEDOR 0003 ALTERADO", "fornecedoralterado@empresa.com.br");
 
-            UnitOfWorkNh.BeginTransaction();
-            _fornecedores.Save(fornecedorConsulta);
-            UnitOfWorkNh.Commit();
+                _fornecedores.Save(fornecedorConsulta);
+                UnitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
 
             var fornecedorConsultaAtualizacao = _fornecedores.BuscaPeloCodigo("FORNEC0003");
             Assert.AreEqual("FORNEC0003", fornecedorConsultaAtualizacao.Codigo);
@@ -70,27 +110,37 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmFornecedorComCodigoSapInexistenteDeveRetornarNulo()
         {
+            //Queries.RemoverFornecedoresCadastrados();
             var fornecedor = _fornecedores.BuscaPeloCodigo("FORNEC0002");
             Assert.IsNull(fornecedor);
         }
 
+
+
         [TestMethod]
         public void QuandoCarregarPorListaDeCodigosTemQueCarregarFornecedoresEQuivalentesALista()
         {
+            //Queries.RemoverFornecedoresCadastrados();
+            try
+            {
+                UnitOfWorkNh.BeginTransaction();
 
-            Queries.RemoverFornecedoresCadastrados();
+                var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
+                var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0003", "fornecedor02@empresa.com.br");
+                var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor03@empresa.com.br");
 
-            UnitOfWorkNh.BeginTransaction();
+                _fornecedores.Save(fornecedor1);
+                _fornecedores.Save(fornecedor2);
+                _fornecedores.Save(fornecedor3);
 
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0003", "fornecedor02@empresa.com.br");
-            var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor03@empresa.com.br");
+                UnitOfWorkNh.Commit();
 
-            _fornecedores.Save(fornecedor1);
-            _fornecedores.Save(fornecedor2);
-            _fornecedores.Save(fornecedor3);
-
-            UnitOfWorkNh.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWorkNh.RollBack();                
+                throw;
+            }
 
             var codigoDosFornecedores = new[] {"FORNEC0001", "FORNEC0002"};
             IList < Fornecedor > fornecedores = _fornecedores.BuscaListaPorCodigo(codigoDosFornecedores).List();

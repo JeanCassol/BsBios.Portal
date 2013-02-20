@@ -42,13 +42,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             var iva = _ivas.BuscaPeloCodigoSap("02");
             Assert.IsNull(iva);
         }
-        [TestMethod]
-        public void Testeprodutofornecedor()
-        {
-            var _produtos = ObjectFactory.GetInstance<IProdutos>();
-            Produto produto = _produtos.BuscaPeloCodigo("PROD0001");
-            Assert.AreEqual(2, produto.Fornecedores.Count);
-        }
+
     }
 
 }

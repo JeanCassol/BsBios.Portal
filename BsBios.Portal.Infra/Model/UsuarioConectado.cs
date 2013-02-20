@@ -9,12 +9,12 @@ namespace BsBios.Portal.Infra.Model
 {
     public class UsuarioConectado
     {
-        public int Id { get; set; }
+        public string Login { get; set; }
         public string NomeCompleto { get; set; }
         public int Perfil { get; set; }
-        public UsuarioConectado(int id, string nomeCompleto, int perfil)
+        public UsuarioConectado(string login, string nomeCompleto, int perfil)
         {
-            Id = id;
+            Login = login;
             NomeCompleto = nomeCompleto;
             Perfil = perfil;
         }
