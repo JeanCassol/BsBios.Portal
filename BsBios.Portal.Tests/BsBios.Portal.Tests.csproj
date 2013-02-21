@@ -83,11 +83,15 @@
     <Compile Include="Application\ComunicacaoSapTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
+    <Compile Include="DefaultProvider\DefaultObjects.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Model\CondicaoDePagamentoTests.cs" />
     <Compile Include="Domain\Model\IvaTests.cs" />
+    <Compile Include="Domain\Model\PedidoDeCotacao.cs" />
     <Compile Include="Domain\Model\ProdutoTests.cs" />
     <Compile Include="Domain\Model\FornecedorTests.cs" />
+    <Compile Include="Domain\Model\RequisicaoDeCompraTests.cs" />
+    <Compile Include="Domain\Model\PedidoDeCotacaoTests.cs" />
     <Compile Include="Domain\Model\UsuarioTests.cs" />
     <Compile Include="Domain\Services\CadastroProdutoOperacaoTests.cs" />
     <Compile Include="Domain\Services\CadastroFornecedorOperacaoTests.cs" />

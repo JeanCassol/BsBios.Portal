@@ -1,6 +1,7 @@
 ﻿using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Domain.Services.Implementations;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

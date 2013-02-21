@@ -145,7 +145,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
 
         [TestMethod]
-        public void QuandoCarregarPorListaDeCodigosTemQueCarregarFornecedoresEQuivalentesALista()
+        public void QuandoCarregarPorListaDeCodigosTemQueCarregarFornecedoresEquivalentesALista()
         {
             //Queries.RemoverFornecedoresCadastrados();
             try

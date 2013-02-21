@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.ValueObjects;
+
+namespace BsBios.Portal.Tests.DefaultProvider
+{
+    public static class DefaultObjects
+    {
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
+        {
+            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", null, Enumeradores.Perfil.Comprador);
+            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", null, Enumeradores.Perfil.Comprador);
+            var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
+            var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
+            var dataDeRemessa = DateTime.Today.AddDays(-2);
+            var dataDeLiberacao = DateTime.Today.AddDays(-1);
+            var dataDeSolicitacao = DateTime.Today;
+
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, usuarioRequisitante, fornecedorPretendido,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "CENTRO", "UNT", 1000,
+                material, "Requisição de Compra enviada pelo SAP", "ITEM001", "REQ0001");
+            
+            return requisicaoDeCompra;
+        }
+    }
+}

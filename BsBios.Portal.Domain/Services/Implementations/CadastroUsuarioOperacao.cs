@@ -1,5 +1,6 @@
 ﻿using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Domain.Services.Contracts;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Services.Implementations

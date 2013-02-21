@@ -1,6 +1,7 @@
 ﻿using System;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;

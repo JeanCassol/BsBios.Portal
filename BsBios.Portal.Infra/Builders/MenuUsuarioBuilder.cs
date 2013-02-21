@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Domain;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Infra.Builders

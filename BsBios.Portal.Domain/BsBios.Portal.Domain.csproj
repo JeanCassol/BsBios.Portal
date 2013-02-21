@@ -39,13 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumeradores.cs" />
     <Compile Include="Model\CondicaoDePagamento.cs" />
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\IAggregateRoot.cs" />
     <Compile Include="Model\Iva.cs" />
     <Compile Include="Model\Material.cs" />
     <Compile Include="Model\Produto.cs" />
+    <Compile Include="Model\RequisicaoDeCompra.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuarioOperacao.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Services\Implementations\CadastroProdutoOperacao.cs" />
     <Compile Include="Services\Implementations\CadastroUsuarioOperacao.cs" />
     <Compile Include="Services\Implementations\SelecionaFornecedor.cs" />
+    <Compile Include="ValueObjects\Enumeradores.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
@@ -67,6 +68,7 @@
       <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
