@@ -23,6 +23,7 @@ INSERT INTO USUARIO
 VALUES
 ('Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1)
 ;
+COMMIT;
 CREATE TABLE BSBIOS.PRODUTO
 (
     Codigo VARCHAR2(18) NOT NULL,

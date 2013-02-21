@@ -13,7 +13,10 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Email);
             HasManyToMany(x => x.Produtos)
                 .Cascade.All()
-                .Table("ProdutoFornecedor").ParentKeyColumn("CodigoFornecedor").ChildKeyColumn("CodigoProduto");
+                .Table("ProdutoFornecedor").ParentKeyColumn("CodigoFornecedor").ChildKeyColumn("CodigoProduto")
+                .Fetch.Join()
+                .ExtraLazyLoad();
+
 
         }
     }

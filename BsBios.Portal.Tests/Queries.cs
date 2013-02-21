@@ -33,36 +33,46 @@ namespace BsBios.Portal.Tests
             }
         }
 
-        public static void RemoverProdutosCadastrados()
-        {
-            try
-            {
-                UnitOfWork.BeginTransaction();
-                UnitOfWork.Session.Delete("from Produto");
-                UnitOfWork.Commit();
+        //public static void RemoverProdutosCadastrados()
+        //{
+        //    try
+        //    {
+        //        var produtos = ObjectFactory.GetInstance<IProdutos>();
+        //        UnitOfWork.BeginTransaction();
+        //        var todosProdutos = produtos.List();
+        //        foreach (var produto in todosProdutos)
+        //        {
+        //            produtos.Delete(produto);
+        //        }
+        //        UnitOfWork.Commit();
 
-            }
-            catch (Exception)
-            {
-                UnitOfWork.RollBack();                
-                throw;
-            }
-        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        UnitOfWork.RollBack();                
+        //        throw;
+        //    }
+        //}
 
-        public static void RemoverFornecedoresCadastrados()
-        {
-            try
-            {
-                UnitOfWork.BeginTransaction();
-                UnitOfWork.Session.Delete("from Fornecedor");
-                UnitOfWork.Commit();
-            }
-            catch (Exception)
-            {
-                UnitOfWork.RollBack();
-                throw;
-            }
-        }
+        //public static void RemoverFornecedoresCadastrados()
+        //{
+        //    try
+        //    {
+        //        var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+        //        UnitOfWork.BeginTransaction();
+        //        var todosFornecedores = fornecedores.List();
+        //        foreach (var fornecedor in todosFornecedores)
+        //        {
+        //            fornecedores.Delete(fornecedor);
+        //        } 
+        //        UnitOfWork.Commit();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        UnitOfWork.RollBack();
+        //        throw;
+        //    }
+        //}
 
         public static void RemoverCondicoesDePagamentoCadastradas()
         {

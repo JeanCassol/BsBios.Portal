@@ -15,14 +15,9 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Tipo);
             HasManyToMany(x => x.Fornecedores)
                 .Cascade.All()
-                .Table("ProdutoFornecedor").ParentKeyColumn("CodigoProduto").ChildKeyColumn("CodigoFornecedor");
-            //Bag(x => x. , collectionMapping =>
-            //{
-            //    collectionMapping.Table("TagPosts");
-            //    collectionMapping.Cascade(Cascade.None);
-            //    collectionMapping.Key(k => k.Column("TagID"));
-            //},
-            //                map => map.ManyToMany(p => p.Column("PostID")));
+                .Table("ProdutoFornecedor").ParentKeyColumn("CodigoProduto").ChildKeyColumn("CodigoFornecedor")
+                .Fetch.Join()
+                .ExtraLazyLoad();
         }
     }
 }

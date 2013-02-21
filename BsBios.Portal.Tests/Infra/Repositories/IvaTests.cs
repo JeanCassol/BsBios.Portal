@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using System.Linq;
+using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -42,6 +43,20 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             var iva = _ivas.BuscaPeloCodigoSap("02");
             Assert.IsNull(iva);
         }
+
+        //[TestMethod]
+        //public void Teste()
+        //{
+        //    var produtos = ObjectFactory.GetInstance<IProdutos>();
+        //    Produto produtoConsultado = produtos.BuscaPeloCodigo("PROD0001");
+
+        //    Assert.AreEqual(2, produtoConsultado.Fornecedores.Count);
+
+        //    Assert.IsNotNull(produtoConsultado.Fornecedores);
+
+        //    var fornecedor1 = produtoConsultado.Fornecedores.FirstOrDefault(f => f.Codigo == "FORNEC0001");
+        //    Assert.IsNotNull(fornecedor1);
+        //}
 
     }
 

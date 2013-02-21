@@ -17,7 +17,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            Queries.RemoverProdutosCadastrados();
+            //Queries.RemoverProdutosCadastrados();
             _produtos = ObjectFactory.GetInstance<IProdutos>();
             _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
 
@@ -28,13 +28,32 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Cleanup();
         }
 
+        private void RemoverFornecedoresCadastrados()
+        {
+            var fornecedores = _fornecedores.List();
+            foreach (var fornecedor in fornecedores)
+            {
+                _fornecedores.Delete(fornecedor);
+            }
+
+        }
+
+        private void RemoverProdutosCadastrados()
+        {
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            var todosProdutos = produtos.List();
+            foreach (var produto in todosProdutos)
+            {
+                produtos.Delete(produto);
+            }
+        }
         [TestMethod]
         public void QuandoPersistoUmProdutoComSucessoConsigoConsultarPosteriormente()
         {
             try
             {
                 UnitOfWorkNh.BeginTransaction();
-
+                RemoverProdutosCadastrados();
                 var produto = new Produto("SAP0001", "PRODUTO 0001", "01");
                 _produtos.Save(produto);
 
@@ -62,12 +81,11 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmProdutoComFornecedoresConsigoConsultarOsFornecedoresPosteriormente()
         {
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverFornecedoresCadastrados();
             try
             {
                 UnitOfWorkNh.BeginTransaction();
-
+                RemoverProdutosCadastrados();
+                RemoverFornecedoresCadastrados();
                 var produto = new Produto("PROD0001", "Produto de Teste", "01");
                 var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
                 var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");

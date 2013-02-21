@@ -1,5 +1,5 @@
 ﻿using System;
-using BsBios.Portal.Tests.ServiceReference1;
+//using BsBios.Portal.Tests.ServiceReference1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Application
