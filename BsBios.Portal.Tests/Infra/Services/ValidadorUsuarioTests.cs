@@ -1,10 +1,7 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common.Exceptions;
-using BsBios.Portal.Domain;
-using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Model;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

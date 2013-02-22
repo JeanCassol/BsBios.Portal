@@ -72,6 +72,7 @@
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IvaMap.cs" />
     <Compile Include="Mappings\ProdutoMap.cs" />
+    <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Perfil.cs" />
@@ -80,7 +81,9 @@
     <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
     <Compile Include="Repositories\Contracts\IFornecedores.cs" />
     <Compile Include="Repositories\Contracts\IIvas.cs" />
+    <Compile Include="Repositories\Contracts\IProcessosDeCotacaoDeMaterial.cs" />
     <Compile Include="Repositories\Contracts\IProdutos.cs" />
+    <Compile Include="Repositories\Contracts\IRequisicoesDeCompra.cs" />
     <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
     <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
     <Compile Include="Repositories\Contracts\IUsuarios.cs" />
@@ -89,6 +92,8 @@
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
     <Compile Include="Repositories\Implementations\Fornecedores.cs" />
+    <Compile Include="Repositories\Implementations\ProcessosDeCotacaoDeMaterial.cs" />
+    <Compile Include="Repositories\Implementations\RequisicoesDeCompra.cs" />
     <Compile Include="Repositories\Implementations\Ivas.cs" />
     <Compile Include="Repositories\Implementations\Produtos.cs" />
     <Compile Include="Repositories\Implementations\ReadOnlyRepositoryNh.cs" />

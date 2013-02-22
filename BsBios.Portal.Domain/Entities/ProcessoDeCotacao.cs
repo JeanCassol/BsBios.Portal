@@ -6,6 +6,7 @@ namespace BsBios.Portal.Domain.Entities
 {
     public abstract class ProcessoDeCotacao : IAggregateRoot
     {
+        public virtual int Id { get; protected set; }
         public virtual Enumeradores.StatusPedidoCotacao Status { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual IList<Fornecedor> Fornecedores { get; protected set; }

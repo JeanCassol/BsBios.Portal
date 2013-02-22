@@ -84,6 +84,7 @@
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
+    <Compile Include="DefaultProvider\DefaultPersistedObjects.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Entities\CondicaoDePagamentoTests.cs" />
     <Compile Include="Domain\Entities\IvaTests.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Infra\Repositories\ProdutosTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
     <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
+    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Infra\Services\AccountServiceTests.cs" />
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />
