@@ -7,9 +7,9 @@ namespace BsBios.Portal.Domain.Services.Implementations
 {
     public class CadastroUsuarioOperacao : ICadastroUsuarioOperacao
     {
-        public Usuario Criar(UsuarioCadastroVm usuarioCadastroVm, string senhaCriptografada)
+        public Usuario Criar(UsuarioCadastroVm usuarioCadastroVm)
         {
-            var usuario = new Usuario(usuarioCadastroVm.Nome, usuarioCadastroVm.Login, senhaCriptografada,
+            var usuario = new Usuario(usuarioCadastroVm.Nome, usuarioCadastroVm.Login,
                                       usuarioCadastroVm.Email, Enumeradores.Perfil.Comprador);
             return usuario;
         }

@@ -12,8 +12,8 @@ namespace BsBios.Portal.Tests.Domain.Model
         [TestMethod]
         public void QuandoCrioUmaRequisicaoAsPropriedadesFicamCorretas()
         {
-            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", null, Enumeradores.Perfil.Comprador);
-            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", null, Enumeradores.Perfil.Comprador);
+            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", Enumeradores.Perfil.Comprador);
+            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", Enumeradores.Perfil.Comprador);
             var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);

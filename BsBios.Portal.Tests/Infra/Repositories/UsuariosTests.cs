@@ -44,7 +44,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 UnitOfWorkNh.BeginTransaction();
 
-                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
                 _usuarios.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();
@@ -61,7 +61,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.IsNotNull(usuarioConsulta);
             Assert.AreEqual("mauroscl", usuarioConsulta.Login);
             Assert.AreEqual("Mauro Leal", usuarioConsulta.Nome);
-            Assert.AreEqual("123", usuarioConsulta.Senha);
+            Assert.IsNull(usuarioConsulta.Senha);
             Assert.AreEqual("mauro.leal@fusionconsultoria.com.br", usuarioConsulta.Email);
             Assert.AreEqual(Enumeradores.Perfil.Comprador, usuarioConsulta.Perfil);
 
@@ -81,7 +81,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 UnitOfWorkNh.BeginTransaction();
 
-                var usuarioNovo = new Usuario("Mauro Leal", "usuario", "123", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                var usuarioNovo = new Usuario("Mauro Leal", "usuario", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
                 _usuarios.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();

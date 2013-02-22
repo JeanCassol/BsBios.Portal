@@ -12,8 +12,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
     {
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
         {
-            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", null, Enumeradores.Perfil.Comprador);
-            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", null, Enumeradores.Perfil.Comprador);
+            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", Enumeradores.Perfil.Comprador);
+            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", Enumeradores.Perfil.Comprador);
             var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);
@@ -25,6 +25,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 material, "Requisição de Compra enviada pelo SAP", "ITEM001", "REQ0001");
             
             return requisicaoDeCompra;
+        }
+
+        public static Usuario ObtemUsuarioPadrao()
+        {
+            var usuario = new Usuario("Usuario 0001", "usuario0001", "usuario0001@empresa.com.br", Enumeradores.Perfil.Comprador);
+            return usuario;
         }
     }
 }

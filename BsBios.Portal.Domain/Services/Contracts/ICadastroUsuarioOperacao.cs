@@ -5,7 +5,7 @@ namespace BsBios.Portal.Domain.Services.Contracts
 {
     public interface ICadastroUsuarioOperacao
     {
-        Usuario Criar(UsuarioCadastroVm usuarioCadastroVm, string senhaCriptografada);
+        Usuario Criar(UsuarioCadastroVm usuarioCadastroV);
         void Alterar(Usuario usuario, UsuarioCadastroVm usuarioCadastroVm);
     }
 }

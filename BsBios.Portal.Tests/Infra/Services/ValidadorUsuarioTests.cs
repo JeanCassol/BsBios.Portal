@@ -1,8 +1,10 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain;
+using BsBios.Portal.Domain.Model;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +25,7 @@ namespace BsBios.Portal.Tests.Infra.Services
 
             Queries.RemoverUsuariosCadastrados();
             _cadastroUsuario = ObjectFactory.GetInstance<ICadastroUsuario>();
-            var usuarioCompradorVm = 
+            var usuarioCompradorVm =
             new UsuarioCadastroVm()
                 {
                     //CodigoPerfil = 1,
@@ -33,6 +35,8 @@ namespace BsBios.Portal.Tests.Infra.Services
                     Email = "comprador@bsbios.com"
                 };
             _cadastroUsuario.Novo(usuarioCompradorVm);
+
+            _cadastroUsuario.CriarSenha("comprador", "123");
 
             var usuarioFornecedorVm = new UsuarioCadastroVm()
                 {
@@ -80,6 +84,18 @@ namespace BsBios.Portal.Tests.Infra.Services
         public void QuandoConectarComSenhaIncorretaDeveRetornarExcecao()
         {
             _validadorUsuario.Validar("comprador", "456");
+        }
+
+        [TestMethod]
+        public void NaoConsigoMeAutenticarComUsuarioSemSenha()
+        {
+            Assert.Fail();   
+        }
+
+        [TestMethod]
+        public void NaoConsigoMeAutenticarComUsuarioDesabilitado()
+        {
+            Assert.Fail();   
         }
 
     }

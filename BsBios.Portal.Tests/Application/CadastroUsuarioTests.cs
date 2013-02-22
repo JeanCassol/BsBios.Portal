@@ -38,14 +38,14 @@ namespace BsBios.Portal.Tests.Application
                          .Returns(
                              (string login) =>
                              login == "USER001"
-                                 ? new Usuario("USUARIO 001", "USER001", "123", "", Enumeradores.Perfil.Comprador)
+                                 ? new Usuario("USUARIO 001", "USER001", "", Enumeradores.Perfil.Comprador)
                                  : null);
 
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
 
             _cadastroUsuarioOperacaoMock = new Mock<ICadastroUsuarioOperacao>(MockBehavior.Strict);
-            _cadastroUsuarioOperacaoMock.Setup(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>()))
-                                    .Returns(new Usuario("USER0001", "user", "123", "user@empresa.com.br", Enumeradores.Perfil.Comprador));
+            _cadastroUsuarioOperacaoMock.Setup(x => x.Criar(It.IsAny<UsuarioCadastroVm>()))
+                                    .Returns(new Usuario("USER0001", "user", "user@empresa.com.br", Enumeradores.Perfil.Comprador));
             _cadastroUsuarioOperacaoMock.Setup(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()));
 
             _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object,_cadastroUsuarioOperacaoMock.Object);
@@ -62,15 +62,8 @@ namespace BsBios.Portal.Tests.Application
 
         }
 
-        
+        #region cadastro de usuários
 
-        [TestMethod]
-        public void QuandoCadastroUmaListaDeUsuariosASenhaEcriptografada()
-        {
-            _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>(){_usuarioPadrao});
-            _provedorDeCriptografiaMock.Verify(x => x.Criptografar(It.IsAny<string>()),Times.Once());
-               
-        }
 
         [TestMethod]
         public void QuandoCadastroUmaListaDeUsuariosEPersistidoNoBanco()
@@ -120,7 +113,7 @@ namespace BsBios.Portal.Tests.Application
         }
 
         [TestMethod]
-        public void QuandoReceberUmFornecedorExistenteDeveAtualizar()
+        public void QuandoReceberUmUsuarioExistenteDeveAtualizar()
         {
             _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>()
                 {
@@ -132,12 +125,12 @@ namespace BsBios.Portal.Tests.Application
                         }
                 });
 
-            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>() ),Times.Never());
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>()),Times.Never());
             _cadastroUsuarioOperacaoMock.Verify(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()), Times.Once());
 
         }
         [TestMethod]
-        public void QuandoReceberUmFornecedorNovoDeveAdicionar()
+        public void QuandoReceberUmUsuarioNovoDeveAdicionar()
         {
             _cadastroUsuario.AtualizarUsuarios(new List<UsuarioCadastroVm>()
                 {
@@ -149,10 +142,18 @@ namespace BsBios.Portal.Tests.Application
                         }
                 });
 
-            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>(), It.IsAny<string>()), Times.Once());
+            _cadastroUsuarioOperacaoMock.Verify(x => x.Criar(It.IsAny<UsuarioCadastroVm>()), Times.Once());
             _cadastroUsuarioOperacaoMock.Verify(x => x.Alterar(It.IsAny<Usuario>(), It.IsAny<UsuarioCadastroVm>()), Times.Never());
 
         }
+
+        #endregion
+
+        #region criar senha
+        [TestMethod]
+        public void AoCriarUmaSenhaPara
+        #endregion
+
 
     }
 }

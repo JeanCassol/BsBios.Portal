@@ -32,6 +32,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 _fornecedores.Delete(fornecedor);
             }
+            //UnitOfWorkNh.Session.Flush();
             
         }
 
@@ -42,7 +43,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             foreach (var produto in todosProdutos)
             {
                 produtos.Delete(produto);
-            }            
+            }        
+            //UnitOfWorkNh.Session.Flush();
         }
 
 
@@ -70,7 +72,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 RemoverProdutosCadastrados();
                 var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
                 _fornecedores.Save(fornecedor);
-
                 UnitOfWorkNh.Commit();
             }
             catch (Exception)
@@ -98,6 +99,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 UnitOfWorkNh.BeginTransaction();
                 RemoverFornecedoresCadastrados();
                 RemoverProdutosCadastrados();
+                UnitOfWorkNh.Commit();
+
+                UnitOfWorkNh.BeginTransaction();
                 var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
                 _fornecedores.Save(fornecedor);
                 Console.WriteLine("INSERIDO FORNEC0003");

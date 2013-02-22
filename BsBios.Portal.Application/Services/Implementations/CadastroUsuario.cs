@@ -32,8 +32,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                string senhaCriptografada = _provedorDeCriptografia.Criptografar("123");
-                var novoUsuario = new Usuario(usuarioVm.Nome, usuarioVm.Login, senhaCriptografada
+                var novoUsuario = new Usuario(usuarioVm.Nome, usuarioVm.Login
                     , usuarioVm.Email, Enumeradores.Perfil.Comprador);
                 _usuarios.Save(novoUsuario);
                 _unitOfWork.Commit();
@@ -54,8 +53,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
             else
             {
-                string senhaCriptografada = _provedorDeCriptografia.Criptografar("123");
-                usuario = _cadastroUsuarioOperacao.Criar(usuarioCadastroVm, senhaCriptografada);
+                usuario = _cadastroUsuarioOperacao.Criar(usuarioCadastroVm);
             }
             _usuarios.Save(usuario);
         }
@@ -69,6 +67,26 @@ namespace BsBios.Portal.Application.Services.Implementations
                 {
                     AtualizarUsuario(usuarioCadastroVm);
                 }
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
+        public void CriarSenha(string login, string senha)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                Usuario usuario = _usuarios.BuscaPorLogin(login);
+                string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
+                usuario.CriarSenha(senhaCriptografada);
+                _usuarios.Save(usuario);
 
                 _unitOfWork.Commit();
             }
