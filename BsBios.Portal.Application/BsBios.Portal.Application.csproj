@@ -50,6 +50,7 @@
     <Compile Include="Services\Contracts\ICadastroProduto.cs" />
     <Compile Include="Services\Contracts\ICadastroProdutoFornecedor.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
+    <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroIva.cs" />

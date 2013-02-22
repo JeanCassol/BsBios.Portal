@@ -10,11 +10,10 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Email { get; protected set; }
         public virtual Enumeradores.Perfil Perfil { get; set; }
 
-        public Usuario(string nome, string login, string senha, string email, Enumeradores.Perfil perfil)
+        public Usuario(string nome, string login, string email, Enumeradores.Perfil perfil)
         {
             Nome = nome;
             Login = login;
-            Senha = senha;
             Email = email;
             Perfil = perfil;
         }
@@ -26,6 +25,11 @@ namespace BsBios.Portal.Domain.Entities
         {
             Nome = nome;
             Email = email;
+        }
+
+        public virtual void CriarSenha(string senhaCriptografada)
+        {
+            Senha = senhaCriptografada;
         }
     }
 }

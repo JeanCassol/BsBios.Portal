@@ -21,7 +21,7 @@ namespace BsBios.Portal.Tests.Domain.Services
                 };
 
             var cadastroUsuarioOperacao = new CadastroUsuarioOperacao();
-            var usuario = cadastroUsuarioOperacao.Criar(usuarioCadastroVm,"123");
+            var usuario = cadastroUsuarioOperacao.Criar(usuarioCadastroVm);
             Assert.AreEqual("USER001", usuario.Login);
             Assert.AreEqual("USUARIO 001", usuario.Nome);
             Assert.AreEqual("user01@empresa.com.br", usuario.Email);
@@ -30,7 +30,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         [TestMethod]
         public void QuandoAtualizarIvaDeveAtualizarAsPropriedades()
         {
-            var usuario = new Usuario("USUARIO 001","USER001","123", "user001@empresa.com.br",Enumeradores.Perfil.Comprador);
+            var usuario = new Usuario("USUARIO 001","USER001", "user001@empresa.com.br",Enumeradores.Perfil.Comprador);
 
             var usuarioCadastroVm = new UsuarioCadastroVm()
             {

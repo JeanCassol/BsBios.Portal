@@ -97,11 +97,13 @@
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
+    <Compile Include="Services\Contracts\IGeradorDeSenha.cs" />
     <Compile Include="Services\Contracts\IProvedorDeCriptografia.cs" />
     <Compile Include="Services\Contracts\IProvedorDeMenu.cs" />
     <Compile Include="Services\Contracts\IValidadorUsuario.cs" />
     <Compile Include="Services\Implementations\AccountService.cs" />
     <Compile Include="Services\Implementations\AuthenticationProvider.cs" />
+    <Compile Include="Services\Implementations\GeradorDeSenha.cs" />
     <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
     <Compile Include="Services\Implementations\ValidadorUsuario.cs" />
   </ItemGroup>

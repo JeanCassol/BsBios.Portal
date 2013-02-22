@@ -107,6 +107,7 @@
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Infra\Services\AccountServiceTests.cs" />
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />
+    <Compile Include="Infra\Services\GeradorDeSenhaTests.cs" />
     <Compile Include="Infra\Services\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries.cs" />
