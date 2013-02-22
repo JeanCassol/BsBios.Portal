@@ -1,10 +1,10 @@
 ﻿using System;
-using BsBios.Portal.Domain;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Domain.Model
+namespace BsBios.Portal.Tests.Domain.Entities
 {
     [TestClass]
     public class RequisicaoDeCompraTests
@@ -38,6 +38,15 @@ namespace BsBios.Portal.Tests.Domain.Model
             Assert.AreEqual("REQ0001", requisicaoDeCompra.Numero);
             Assert.AreEqual("ITEM001", requisicaoDeCompra.NumeroItem);
 
+        }
+
+        [TestMethod]
+        public void QuandoGeroUmProcessoDeCotacaoAtravesDaRequisicaoDeCompraOProcessoFicaVinculadoComARequisicao()
+        {
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            var processoDeCotacao = (ProcessoDeCotacaoDeMaterial) requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
+            Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
         }
     }
 }

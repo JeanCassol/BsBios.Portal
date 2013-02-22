@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace BsBios.Portal.Domain.Model
+namespace BsBios.Portal.Domain.Entities
 {
     public class Fornecedor:IAggregateRoot
     {

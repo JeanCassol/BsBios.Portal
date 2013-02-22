@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 using NHibernate.Mapping;
 //using NHibernate.Mapping.ByCode;

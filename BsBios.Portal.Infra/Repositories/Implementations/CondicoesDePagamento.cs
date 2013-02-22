@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations

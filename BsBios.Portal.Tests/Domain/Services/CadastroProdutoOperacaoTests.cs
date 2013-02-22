@@ -1,5 +1,5 @@
 ﻿using System;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Services.Contracts

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BsBios.Portal.Domain.Model
+namespace BsBios.Portal.Domain.Entities
 {
     public class RequisicaoDeCompra: IAggregateRoot
     {
@@ -43,6 +39,12 @@ namespace BsBios.Portal.Domain.Model
             Descricao = descricao;
             NumeroItem = numeroItem;
             Numero = numero;
+        }
+
+        public virtual ProcessoDeCotacao GerarProcessoDeCotacaoDeMaterial()
+        {
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this);
+            return processoDeCotacao;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BsBios.Portal.Domain.Model
+﻿namespace BsBios.Portal.Domain.Entities
 {
     public interface IAggregateRoot
     {

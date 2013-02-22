@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Domain.Model

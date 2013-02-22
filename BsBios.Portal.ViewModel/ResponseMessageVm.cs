@@ -1,19 +1,22 @@
-﻿namespace BsBios.Portal.ViewModel
-{
+﻿using System;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
+namespace BsBios.Portal.ViewModel
+{
+    //[Serializable, DataContract]
     public class Retorno
     {
-        //[DataMember(Name = "retCodigo")]
+        //[DataMember]
         public string Codigo { get; set; }
-        //[DataMember(Name = "retTexto")]
+        //[DataMember]
         public string Texto { get; set; }
     }
 
-    //[DataContract(Namespace = "http://portal.bsbios.com.br/")]
-    //[DataContract(Name = "mt_cadMaterial_portal_ret")]
+    [XmlRoot(Namespace = "http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel")]
     public class ApiResponseMessage
     {
-        //[DataMember(Name = "retorno")]
+        [DataMember]
         public Retorno Retorno { get; set; }
     }
 }

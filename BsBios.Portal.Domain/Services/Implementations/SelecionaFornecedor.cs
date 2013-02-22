@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Contracts;
 
 namespace BsBios.Portal.Domain.Services.Implementations

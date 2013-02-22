@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
 
 namespace BsBios.Portal.Tests.DefaultProvider
@@ -25,6 +25,19 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 material, "Requisição de Compra enviada pelo SAP", "ITEM001", "REQ0001");
             
             return requisicaoDeCompra;
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialPadrao()
+        {
+            var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra);
+            return processoDeCotacao;
+        }
+
+        public static Fornecedor ObtemFornecedorPadrao()
+        {
+            var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 001", "fornecedor0001@empresa.com.br");
+            return fornecedor;
         }
     }
 }

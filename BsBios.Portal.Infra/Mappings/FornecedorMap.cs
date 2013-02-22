@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings

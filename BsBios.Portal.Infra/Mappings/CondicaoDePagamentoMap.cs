@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings

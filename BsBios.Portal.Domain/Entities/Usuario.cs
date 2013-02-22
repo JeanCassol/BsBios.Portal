@@ -1,6 +1,6 @@
 ﻿using BsBios.Portal.Domain.ValueObjects;
 
-namespace BsBios.Portal.Domain.Model
+namespace BsBios.Portal.Domain.Entities
 {
     public class Usuario : IAggregateRoot
     {

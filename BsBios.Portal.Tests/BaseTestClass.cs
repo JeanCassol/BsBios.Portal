@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Web.Http;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.IoC;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

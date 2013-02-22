@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Domain.Model;
+﻿using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
 {

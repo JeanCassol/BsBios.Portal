@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BsBios.Portal.Domain.Model;
+using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
 {
