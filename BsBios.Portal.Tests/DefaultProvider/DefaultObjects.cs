@@ -39,10 +39,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 001", "fornecedor0001@empresa.com.br");
             return fornecedor;
         }
+
         public static Usuario ObtemUsuarioPadrao()
         {
-            var usuario = new Usuario("Usuario 0001", "usuario0001", "usuario0001@empresa.com.br", Enumeradores.Perfil.Comprador);
+            var usuario = new Usuario("Usuario 0001", "usuario0001", "usuario0001@empresa.com.br",
+                                      Enumeradores.Perfil.Comprador);
             return usuario;
-        
+        }
     }
 }

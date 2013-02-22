@@ -151,7 +151,10 @@ namespace BsBios.Portal.Tests.Application
 
         #region criar senha
         [TestMethod]
-        public void AoCriarUmaSenhaPara
+        public void UmaNovaSenhaCriadaParaOUsarioECriptografada()
+        {
+            Assert.Fail();
+        }
         #endregion
 
 
