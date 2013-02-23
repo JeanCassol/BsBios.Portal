@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -13,13 +11,11 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProdutos _produtos;
-        private readonly ICadastroProdutoOperacao _atualizadorProduto;
 
-        public CadastroProduto(IUnitOfWork unitOfWork, IProdutos produtos, ICadastroProdutoOperacao atualizadorProduto)
+        public CadastroProduto(IUnitOfWork unitOfWork, IProdutos produtos)
         {
             _unitOfWork = unitOfWork;
             _produtos = produtos;
-            _atualizadorProduto = atualizadorProduto;
         }
 
         private void AtualizarProduto(ProdutoCadastroVm produtoCadastroVm)
@@ -27,15 +23,12 @@ namespace BsBios.Portal.Application.Services.Implementations
             Produto produto = _produtos.BuscaPeloCodigo(produtoCadastroVm.CodigoSap);
             if (produto != null)
             {
-                //produto.AtualizaDescricao(produtoCadastroVm.Descricao);
-                _atualizadorProduto.Atualizar(produto,produtoCadastroVm);
+                produto.Atualizar(produtoCadastroVm.Descricao, produtoCadastroVm.Tipo);
             }
             else
             {
-                //produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao);
-                produto = _atualizadorProduto.Criar(produtoCadastroVm);
+                produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao, produtoCadastroVm.Tipo);
             }
-
             _produtos.Save(produto);
         }
 

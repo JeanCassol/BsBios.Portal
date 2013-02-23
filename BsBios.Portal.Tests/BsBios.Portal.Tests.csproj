@@ -94,11 +94,7 @@
     <Compile Include="Domain\Entities\ProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Domain\Entities\CotacaoTests.cs" />
     <Compile Include="Domain\Entities\UsuarioTests.cs" />
-    <Compile Include="Domain\Services\CadastroProdutoOperacaoTests.cs" />
-    <Compile Include="Domain\Services\CadastroFornecedorOperacaoTests.cs" />
-    <Compile Include="Domain\Services\CadastroIvaOperacaoTests.cs" />
-    <Compile Include="Domain\Services\CadastroCondicaoPagamentoOperacaoTests.cs" />
-    <Compile Include="Domain\Services\CadastroUsuarioOperacaoTests.cs" />
+    <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\IvaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
@@ -159,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -16,15 +14,12 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsuarios _usuarios;
         private readonly IProvedorDeCriptografia _provedorDeCriptografia;
-        private readonly ICadastroUsuarioOperacao _cadastroUsuarioOperacao;
 
-        public CadastroUsuario(IUnitOfWork unitOfWork, IUsuarios usuarios, IProvedorDeCriptografia provedorDeCriptografia
-            , ICadastroUsuarioOperacao cadastroUsuarioOperacao)
+        public CadastroUsuario(IUnitOfWork unitOfWork, IUsuarios usuarios, IProvedorDeCriptografia provedorDeCriptografia)
         {
             _unitOfWork = unitOfWork;
             _usuarios = usuarios;
             _provedorDeCriptografia = provedorDeCriptografia;
-            _cadastroUsuarioOperacao = cadastroUsuarioOperacao;
         }
 
         public void Novo(UsuarioCadastroVm usuarioVm)
@@ -49,11 +44,12 @@ namespace BsBios.Portal.Application.Services.Implementations
             Usuario usuario = _usuarios.BuscaPorLogin(usuarioCadastroVm.Login);
             if (usuario != null)
             {
-                _cadastroUsuarioOperacao.Alterar(usuario,usuarioCadastroVm);
+                usuario.Alterar(usuarioCadastroVm.Nome, usuarioCadastroVm.Email);
             }
             else
             {
-                usuario = _cadastroUsuarioOperacao.Criar(usuarioCadastroVm);
+                usuario = new Usuario(usuarioCadastroVm.Nome, usuarioCadastroVm.Login,
+                                      usuarioCadastroVm.Email, Enumeradores.Perfil.Comprador);
             }
             _usuarios.Save(usuario);
         }

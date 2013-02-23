@@ -2,7 +2,6 @@
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -17,7 +16,6 @@ namespace BsBios.Portal.Tests.Application
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IIvas> _ivasMock;
-        private readonly Mock<ICadastroIvaOperacao> _cadastroIvaOperacaoMock;
         private readonly ICadastroIva _cadastroIva;
         private readonly IvaCadastroVm _ivaPadrao;
         private readonly IList<IvaCadastroVm> _listaIvas;
@@ -30,13 +28,9 @@ namespace BsBios.Portal.Tests.Application
             _ivasMock = new Mock<IIvas>(MockBehavior.Strict);
             _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) => Assert.IsNotNull(iva));
             _ivasMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>()))
-                     .Returns((string i) => i == "01" ? new Iva("01", "IVA 01") : null);
+                     .Returns((string i) => i == "01" ? new IvaParaAtualizacao("01", "IVA 01") : null);
 
-            _cadastroIvaOperacaoMock = new Mock<ICadastroIvaOperacao>(MockBehavior.Strict);
-            _cadastroIvaOperacaoMock.Setup(x => x.Criar(It.IsAny<IvaCadastroVm>()))
-                                    .Returns(new Iva("02", "IVA 02"));
-            _cadastroIvaOperacaoMock.Setup(x => x.Alterar(It.IsAny<Iva>(), It.IsAny<IvaCadastroVm>()));
-            _cadastroIva = new CadastroIva(_unitOfWorkMock.Object, _ivasMock.Object, _cadastroIvaOperacaoMock.Object);
+            _cadastroIva = new CadastroIva(_unitOfWorkMock.Object, _ivasMock.Object);
             _ivaPadrao = new IvaCadastroVm()
                 {
                     Codigo = "01",
@@ -86,16 +80,47 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoReceberUmIvaExistenteDeveAtualizar()
         {
-            _cadastroIva.AtualizarIvas(_listaIvas);
-            _cadastroIvaOperacaoMock.Verify(x => x.Alterar(It.IsAny<Iva>(), It.IsAny<IvaCadastroVm>()), Times.Once());
-            _cadastroIvaOperacaoMock.Verify(x => x.Criar(It.IsAny<IvaCadastroVm>()),Times.Never());
+            _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) =>
+            {
+                Assert.IsNotNull(iva);
+                Assert.IsInstanceOfType(iva, typeof(IvaParaAtualizacao));
+                //próximos asserts garantem que a atualização das propriedades foi feita corretamente dentro do método de atualização
+                Assert.AreEqual("01", iva.Codigo);
+                Assert.AreEqual("IVA 01 ALTERADO", iva.Descricao);
+            });               
+            _cadastroIva.AtualizarIvas(new List<IvaCadastroVm>()
+                {
+                    new IvaCadastroVm()
+                        {
+                            Codigo = "01",
+                            Descricao = "IVA 01 ALTERADO"
+                        }
+                });
         }
         [TestMethod]
         public void QuandoReceberUmIvaNovoDeveAdicionar()
         {
+            _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) =>
+            {
+                //garanto que foi passada um objeto instancia para o método Save
+                Assert.IsNotNull(iva);
+                //Garanto que que a instância da classe utilizada no momento de salvar o Iva não é do tipo IvaParaAtualizacao,
+                //que é utilizada apenas no update
+                Assert.IsNotInstanceOfType(iva, typeof(IvaParaAtualizacao));
+                //próximos asserts garantem que a criação do objeto foi feita corretamente dentro do método de criação
+                Assert.AreEqual("02", iva.Codigo);
+                Assert.AreEqual("IVA 02", iva.Descricao);
+            });               
+
             _cadastroIva.AtualizarIvas(new List<IvaCadastroVm>(){new IvaCadastroVm(){Codigo = "02", Descricao = "IVA 02"}});
-            _cadastroIvaOperacaoMock.Verify(x => x.Alterar(It.IsAny<Iva>(), It.IsAny<IvaCadastroVm>()), Times.Never());
-            _cadastroIvaOperacaoMock.Verify(x => x.Criar(It.IsAny<IvaCadastroVm>()), Times.Once());
+        }
+    }
+
+    //IvaParaAtualizacao é o tipo criado para ser utilizado na operação de atualização de cadastro e poder diferir da classe utilizada para inserção
+    public class IvaParaAtualizacao: Iva
+    {
+        public IvaParaAtualizacao(string codigo, string descricao) : base(codigo, descricao)
+        {
         }
     }
 }

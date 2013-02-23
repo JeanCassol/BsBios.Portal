@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -12,13 +11,11 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICondicoesDePagamento _condicoesDePagamento;
-        private readonly ICadastroCondicaoPagamentoOperacao _cadastroCondicaoPagamentoOperacao;
 
-        public CadastroCondicaoPagamento(IUnitOfWork unitOfWork, ICondicoesDePagamento condicoesDePagamento, ICadastroCondicaoPagamentoOperacao cadastroCondicaoPagamentoOperacao)
+        public CadastroCondicaoPagamento(IUnitOfWork unitOfWork, ICondicoesDePagamento condicoesDePagamento)
         {
             _unitOfWork = unitOfWork;
             _condicoesDePagamento = condicoesDePagamento;
-            _cadastroCondicaoPagamentoOperacao = cadastroCondicaoPagamentoOperacao;
         }
 
         //public void Novo(CondicaoDePagamentoCadastroVm condicaoDePagamentoCadastroVm)
@@ -42,11 +39,12 @@ namespace BsBios.Portal.Application.Services.Implementations
             CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigoSap(condicaoDePagamentoCadastroVm.Codigo);
             if (condicaoDePagamento != null)
             {
-                _cadastroCondicaoPagamentoOperacao.Alterar(condicaoDePagamento, condicaoDePagamentoCadastroVm);
+                condicaoDePagamento.AtualizarDescricao(condicaoDePagamentoCadastroVm.Descricao);
             }
             else
             {
-                condicaoDePagamento = _cadastroCondicaoPagamentoOperacao.Criar(condicaoDePagamentoCadastroVm);
+                condicaoDePagamento = new CondicaoDePagamento(condicaoDePagamentoCadastroVm.Codigo,
+                                                              condicaoDePagamentoCadastroVm.Descricao);
             }
             _condicoesDePagamento.Save(condicaoDePagamento);
         }

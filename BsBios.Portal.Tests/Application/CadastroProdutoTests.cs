@@ -2,7 +2,6 @@
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -20,22 +19,15 @@ namespace BsBios.Portal.Tests.Application
         private readonly Mock<IProdutos> _produtosMock;
         private readonly ProdutoCadastroVm _produtoPadrao;
         private readonly IList<ProdutoCadastroVm> _produtosPadrao;
-        //private readonly Mock<Produto> _produtoMock;
-        private readonly Mock<ICadastroProdutoOperacao> _atualizadorProdutoMock; 
         public CadastroProdutoTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
-            //_produtoMock = new Mock<Produto>(MockBehavior.Strict);
-            //_produtoMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()));
             _produtosMock = new Mock<IProdutos>(MockBehavior.Strict);
             _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) => Assert.IsNotNull(produto));
             _produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>())).Returns((string p) => p == "PROD0001" ? 
-                new Produto("PROD0001", "PRODUTO 0001","01") : null);
+                new ProdutoParaAtualizacao("PROD0001", "PRODUTO 0001","01") : null);
 
-            _atualizadorProdutoMock  = new Mock<ICadastroProdutoOperacao>(MockBehavior.Strict);
-            _atualizadorProdutoMock.Setup(x => x.Atualizar(It.IsAny<Produto>(), It.IsAny<ProdutoCadastroVm>()));
-            _atualizadorProdutoMock.Setup(x => x.Criar(It.IsAny<ProdutoCadastroVm>())).Returns(new Produto("PROD0002", "PRODUTO 0002","02"));
-            _cadastroProduto = new CadastroProduto(_unitOfWorkMock.Object, _produtosMock.Object,_atualizadorProdutoMock.Object);
+            _cadastroProduto = new CadastroProduto(_unitOfWorkMock.Object, _produtosMock.Object);
 
             _produtoPadrao = new ProdutoCadastroVm()
                 {
@@ -135,45 +127,56 @@ namespace BsBios.Portal.Tests.Application
         [TestMethod]
         public void QuandoReceberUmProdutoExistenteDeveAtualizar()
         {
+            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) =>
+                {
+                    Assert.IsNotNull(produto);
+                    Assert.IsInstanceOfType(produto, typeof(ProdutoParaAtualizacao));
+                    Assert.AreEqual("PROD0001", produto.Codigo);
+                    Assert.AreEqual("PRODUTO 0001 Atualizado",produto.Descricao);
+                    Assert.AreEqual("03", produto.Tipo);
+                });
 
-            //var cadastroProduto = new CadastroProduto(_unitOfWorkMock.Object, _produtosMock.Object);
             _cadastroProduto.AtualizarProdutos(new List<ProdutoCadastroVm>()
                 {
                     new ProdutoCadastroVm()
                         {
                             CodigoSap = "PROD0001"  ,
-                            Descricao = "PRODUTO 0001 Atualizado"
+                            Descricao = "PRODUTO 0001 Atualizado",
+                            Tipo = "03"
                         }
                 });
 
-            _atualizadorProdutoMock.Verify(x => x.Atualizar(It.IsAny<Produto>(),It.IsAny<ProdutoCadastroVm>()),Times.Once());
-
-            //_produtoMock.Verify(x => x.AtualizaDescricao(It.IsAny<string>()), Times.Once());
-
-            //var produtoAtualizado = produtosAtualizados.First();
-            //Assert.AreEqual("PROD0001", produtoAtualizado.Codigo);
-            //Assert.AreEqual("PRODUTO 0001 Atualizado", produtoAtualizado.Codigo);
         }
 
         [TestMethod]
         public void QuandoReceberUmProdutoNovoDeveAdicionar()
         {
+
+            _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) =>
+            {
+                Assert.IsNotNull(produto);
+                Assert.IsNotInstanceOfType(produto, typeof(ProdutoParaAtualizacao));
+                Assert.AreEqual("PROD0002", produto.Codigo);
+                Assert.AreEqual("PRODUTO 0002", produto.Descricao);
+                Assert.AreEqual("02", produto.Tipo);
+            });
+
             _cadastroProduto.AtualizarProdutos(new List<ProdutoCadastroVm>()
                 {
                     new ProdutoCadastroVm()
                         {
                             CodigoSap = "PROD0002",
-                            Descricao = "PRODUTO 0002"
+                            Descricao = "PRODUTO 0002",
+                            Tipo = "02"
                         }
                 });
-            //garanto que adicionou porque não chamou o método de atualizar. Isto significa que foi chamado o construtor 
-            //para criar uma nova instância
-            //_produtoMock.Verify(x => x.AtualizaDescricao(It.IsAny<string>()), Times.Never());
-            _atualizadorProdutoMock.Verify(x => x.Criar(It.IsAny<ProdutoCadastroVm>()),Times.Once());
-
         }
+    }
 
-
-
+    public class ProdutoParaAtualizacao: Produto
+    {
+        public ProdutoParaAtualizacao(string codigo, string descricao, string tipo) : base(codigo, descricao, tipo)
+        {
+        }
     }
 }

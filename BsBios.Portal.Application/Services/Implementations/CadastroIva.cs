@@ -12,12 +12,10 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIvas _ivas;
-        private readonly ICadastroIvaOperacao _cadastroIvaOperacao;
-        public CadastroIva(IUnitOfWork unitOfWork, IIvas ivas, ICadastroIvaOperacao cadastroIvaOperacao)
+        public CadastroIva(IUnitOfWork unitOfWork, IIvas ivas)
         {
             _unitOfWork = unitOfWork;
             _ivas = ivas;
-            _cadastroIvaOperacao = cadastroIvaOperacao;
         }
 
         //public void Novo(IvaCadastroVm ivaCadastroVm)
@@ -41,11 +39,11 @@ namespace BsBios.Portal.Application.Services.Implementations
             Iva iva = _ivas.BuscaPeloCodigoSap(ivaCadastroVm.Codigo);
             if (iva != null)
             {
-                _cadastroIvaOperacao.Alterar(iva,ivaCadastroVm);
+                iva.AtualizaDescricao(ivaCadastroVm.Descricao);
             }
             else
             {
-                iva = _cadastroIvaOperacao.Criar(ivaCadastroVm);
+                iva = new Iva(ivaCadastroVm.Codigo, ivaCadastroVm.Descricao);
             }
             _ivas.Save(iva);
         }
