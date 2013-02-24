@@ -24,3 +24,55 @@ mauro.leal:fusion1234
 		<mtart>6</mtart>
 	</item>
 </mt_cadMaterial_portal>
+
+<RequisicaoDeCompraVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Centro>C001</Centro>
+	<Criador>comprador</Criador>
+	<DataDeLiberacao>23/02/2013</DataDeLiberacao>
+	<DataDeRemessa>22/02/2013</DataDeRemessa>
+	<DataDeSolicitacao>21/02/2013</DataDeSolicitacao>
+	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
+	<FornecedorPretendido>FORNEC0001</FornecedorPretendido>
+	<Material>PROD0001</Material>
+	<NumeroItem>00002</NumeroItem>
+	<NumeroRequisicao>REQ0002</NumeroRequisicao>
+	<Quantidade>100.258</Quantidade>
+	<Requisitante>fornecedor</Requisitante>
+	<UnidadeMedida>UND</UnidadeMedida>
+</RequisicaoDeCompraVm>
+
+<RequisicaoDeCompraCopiaVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Centro>C0001</Centro>
+	<Criador>criador</Criador>
+	<DataDeLiberacao>23/02/2013</DataDeLiberacao>
+	<DataDeRemessa>22/02/2013</DataDeRemessa>
+	<DataDeSolicitacao>21/02/2013</DataDeSolicitacao>
+	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
+	<FornecedorPretendido>fpret</FornecedorPretendido>
+	<Material>MAT0001</Material>
+	<NumeroItem>00002</NumeroItem>
+	<NumeroRequisicao>REQ0002</NumeroRequisicao>
+	<Quantidade>100</Quantidade>
+	<Requisitante>requisitante</Requisitante>
+	<UnidadeMedida>UND</UnidadeMedida>
+</RequisicaoDeCompraCopiaVm>
+
+<RequisicaoDeCompraCopiaVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Centro>C0001</Centro>
+	<Criador>criador</Criador>
+	<DataDeLiberacao>2013/02/23</DataDeLiberacao>
+	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
+	<FornecedorPretendido>fpret</FornecedorPretendido>
+	<Material>MAT0001</Material>
+	<NumeroItem>00002</NumeroItem>
+	<NumeroRequisicao>REQ0002</NumeroRequisicao>
+	<Quantidade>100</Quantidade>
+	<Requisitante>requisitante</Requisitante>
+	<UnidadeMedida>UND</UnidadeMedida>
+</RequisicaoDeCompraCopiaVm>
+
+
+<LoginVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Usuario>Mauro</Usuario>
+	<Senha>123</Senha>
+</LoginVm>

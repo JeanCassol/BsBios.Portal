@@ -31,7 +31,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialPadrao()
         {
             var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra);
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra, requisicaoDeCompra.Material, 100);
             return processoDeCotacao;
         }
 
@@ -46,6 +46,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var usuario = new Usuario("Usuario 0001", "usuario0001", "usuario0001@empresa.com.br",
                                       Enumeradores.Perfil.Comprador);
             return usuario;
+        }
+
+        public static Produto ObtemProdutoPadrao()
+        {
+            var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
+            return produto;
         }
     }
 }

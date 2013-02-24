@@ -4,6 +4,7 @@ namespace BsBios.Portal.Domain.Entities
 {
     public class RequisicaoDeCompra: IAggregateRoot
     {
+
         public virtual int Id { get; protected set; }
         public virtual string Numero { get; protected set; }
         public virtual string NumeroItem { get; protected set; }
@@ -43,8 +44,32 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual ProcessoDeCotacao GerarProcessoDeCotacaoDeMaterial()
         {
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this);
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this, Material, Quantidade);
             return processoDeCotacao;
         }
+
+        #region Equals
+
+        protected bool Equals(RequisicaoDeCompra other)
+        {
+            return string.Equals(NumeroItem, other.NumeroItem) && string.Equals(Numero, other.Numero);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (NumeroItem.GetHashCode() * 397) ^ Numero.GetHashCode();
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((RequisicaoDeCompra) obj);
+        }
+        #endregion
     }
 }

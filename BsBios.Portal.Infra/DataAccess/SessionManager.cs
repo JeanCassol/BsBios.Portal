@@ -106,7 +106,7 @@ namespace BsBios.Portal.Infra.DataAccess
             var configure = new NHibernate.Validator.Cfg.Loquacious.FluentConfiguration();
             configure.Register(
                 Assembly.GetExecutingAssembly().GetTypes()
-                    .Where(t => t.Namespace.Equals("BsBios.Portal.Domain.Model"))
+                    .Where(t => t.Namespace != null && t.Namespace.Equals("BsBios.Portal.Domain.Entities"))
                     .ValidationDefinitions())
                 .SetDefaultValidatorMode(ValidatorMode.UseAttribute)
                 .IntegrateWithNHibernate.ApplyingDDLConstraints().And.RegisteringListeners();

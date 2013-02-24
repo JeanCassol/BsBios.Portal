@@ -28,6 +28,9 @@ namespace BsBios.Portal.IoC
             For<ICadastroIva>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroIva>();
+            For<ICadastroRequisicaoCompra>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroRequisicaoCompra>();
         }
     }
 }

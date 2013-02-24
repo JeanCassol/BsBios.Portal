@@ -19,5 +19,10 @@ namespace BsBios.Portal.Domain.ValueObjects
             Fechado = 3,
             Cancelado = 4
         }
+        public enum TipoDeCotacao
+        {
+            Material = 1,
+            Frete = 2
+        }
     }
 }

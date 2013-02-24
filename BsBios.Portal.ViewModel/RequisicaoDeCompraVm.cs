@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
@@ -9,7 +10,7 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string NumeroRequisicao { get; set; }
         [DataMember]
-        public int NumeroItem { get; set; }
+        public string NumeroItem { get; set; }
         [DataMember]
         public string Descricao { get; set; }
         [DataMember]
@@ -21,11 +22,11 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string Centro { get; set; }
         [DataMember]
-        public DateTime DataDeSolicitacao { get; set; }
+        public string DataDeSolicitacao { get; set; }
         [DataMember]
-        public DateTime DataDeLiberacao { get; set; }
+        public string DataDeLiberacao { get; set; }
         [DataMember]
-        public DateTime DataDeRemessa { get; set; }
+        public string DataDeRemessa { get; set; }
         [DataMember]
         public string FornecedorPretendido { get; set; }
         [DataMember]
@@ -33,4 +34,5 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string Criador { get; set; }
     }
+
 }

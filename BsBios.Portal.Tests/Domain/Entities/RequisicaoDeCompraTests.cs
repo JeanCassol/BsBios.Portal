@@ -48,5 +48,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
         }
+
+        [TestMethod]
+        public void TestData()
+        {
+            DateTime date = Convert.ToDateTime("22/02/2013");
+            Console.WriteLine(date);
+        }
     }
 }

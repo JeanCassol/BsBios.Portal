@@ -81,6 +81,7 @@
     <Compile Include="Application\CadastroIvaTests.cs" />
     <Compile Include="Application\CadastroProdutoFornecedorTests.cs" />
     <Compile Include="Application\ComunicacaoSapTests.cs" />
+    <Compile Include="Application\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
+    <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />
     <Compile Include="UI\Controllers\UsuarioApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />
     <Compile Include="UI\Controllers\IvaApiTests.cs" />

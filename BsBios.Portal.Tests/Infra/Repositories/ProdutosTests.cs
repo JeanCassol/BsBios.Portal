@@ -83,9 +83,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
+                Queries.RemoverProdutosCadastrados();
+                Queries.RemoverFornecedoresCadastrados();
                 UnitOfWorkNh.BeginTransaction();
-                RemoverProdutosCadastrados();
-                RemoverFornecedoresCadastrados();
                 var produto = new Produto("PROD0001", "Produto de Teste", "01");
                 var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
                 var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");

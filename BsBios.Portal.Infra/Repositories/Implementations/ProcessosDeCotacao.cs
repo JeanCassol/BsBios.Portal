@@ -4,9 +4,9 @@ using BsBios.Portal.Infra.Repositories.Contracts;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
-    public class ProcessosDeCotacaoDeMaterial : CompleteRepositoryNh<ProcessoDeCotacao>, IProcessosDeCotacaoDeMaterial
+    public class ProcessosDeCotacao : CompleteRepositoryNh<ProcessoDeCotacao>, IProcessosDeCotacao
     {
-        public ProcessosDeCotacaoDeMaterial(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
+        public ProcessosDeCotacao(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
 
@@ -14,5 +14,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.Id == id);
         }
+
+
     }
 }

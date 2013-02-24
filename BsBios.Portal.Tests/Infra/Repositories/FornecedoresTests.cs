@@ -96,11 +96,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoAlterarUmFornecedorCadastrado()
         {
-            //Queries.RemoverFornecedoresCadastrados();
             try
             {
-                RemoverFornecedoresCadastrados();
-                RemoverProdutosCadastrados();
+                Queries.RemoverFornecedoresCadastrados();
+                Queries.RemoverProdutosCadastrados();
 
                 UnitOfWorkNh.BeginTransaction();
                 var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");

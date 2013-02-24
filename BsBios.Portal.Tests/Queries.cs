@@ -22,6 +22,9 @@ namespace BsBios.Portal.Tests
         {
             try
             {
+                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverRequisicoesDeCompraCadastradas();
+
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Usuario");
                 UnitOfWork.Commit();
@@ -38,6 +41,8 @@ namespace BsBios.Portal.Tests
         {
             try
             {
+                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverRequisicoesDeCompraCadastradas();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Produto");
                 UnitOfWork.Commit();
@@ -54,6 +59,8 @@ namespace BsBios.Portal.Tests
         {
             try
             {
+                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverRequisicoesDeCompraCadastradas();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Fornecedor");
                 UnitOfWork.Commit();

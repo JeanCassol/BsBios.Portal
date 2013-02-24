@@ -28,6 +28,11 @@ namespace BsBios.Portal.IoC
             For<IRequisicoesDeCompra>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RequisicoesDeCompra>();
+            For<IProcessosDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessosDeCotacao>();
+
+
         }
     }
 }
