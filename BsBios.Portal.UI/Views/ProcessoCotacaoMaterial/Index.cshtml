@@ -7,11 +7,12 @@
 <div id="gridCotacaoMaterial"></div>
 @section scripts
 {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
         $(document).ready(function() {
-            $("#gridCotacaoMaterial").kendoGrid({
+            $("#gridCotacaoMaterial").kendoCustomGrid({
                 dataSource: {
                     schema: {
                         data: 'registros',
@@ -21,7 +22,7 @@
                                 Id: {
                                     type: "number"
                                 },
-                                CodigoMaterialSap: {
+                                CodigoMaterial: {
                                     type: "string"
                                 },
                                 Material: {
@@ -30,13 +31,10 @@
                                 Quantidade: {
                                     type: "number"
                                 },
-                                Unidade: {
+                                UnidadeDeMedida: {
                                     type: "string"
                                 },
                                 Status: {
-                                    type: "string"
-                                },
-                                DataInicio: {
                                     type: "string"
                                 },
                                 DataTermino: {
@@ -47,35 +45,14 @@
                         total: 'totalCount',
                         type: 'json'
                     },
-                    serverFiltering: true,
-                    serverPaging: true,
                     transport: {
                         read: {
-                            url: '@Url.Action("Listar", "CotacaoMaterial")',
+                            url: '@Url.Action("Listar", "ProcessoCotacaoMaterial")',
                             type: 'GET',
                             cache: false
                         }
-                    },
-                    pageSize: 5
-                },
-                groupable: false,
-                sortable: true,
-                pageable:
-                {
-                    refresh: true,
-                    pageSizes: true,
-                    messages: {
-                        display: '{0} - {1} de {2} registros',
-                        empty: 'Nenhum registro encontrado',
-                        itemsPerPage: 'registros por página',
-                        first: 'Ir para a primeira página',
-                        previous: 'Ir para a página anterior',
-                        next: 'Ir para a próxima página',
-                        last: 'Ir para a última página',
-                        refresh: 'Atualizar'
                     }
                 },
-                selectable: 'row',
                 columns:
                 [
                     {
@@ -86,7 +63,7 @@
                         template: '<input type="button" class="button_edit" data-idproduto="${Id}"></input>'
                     },
                     {
-                        field: "CodigoMaterialSap",
+                        field: "CodigoMaterial",
                         width: 90,
                         title: "Codigo"
                     }, {
@@ -101,18 +78,13 @@
                     },
                     {
                         width: 100,
-                        field: "Unidade",
+                        field: "UnidadeDeMedida",
                         title: "Unidade"
                     },
                     {
                         width: 100,
                         field: "Status",
                         title: "Status"
-                    },
-                    {
-                        width: 110,
-                        field: "DataInicio",
-                        title: "Início"
                     },
                     {
                         width: 110,
@@ -125,7 +97,7 @@
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                location.href= '@Url.Action("Editar","CotacaoMaterial")';
+                location.href= '@Url.Action("Editar","ProcessoCotacaoMaterial")';
             });
 
         });

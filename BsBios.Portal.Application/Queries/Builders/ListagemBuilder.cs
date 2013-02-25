@@ -9,13 +9,13 @@ namespace BsBios.Portal.Application.Queries.Builders
         //{
         //}
 
-        public ListagemVm<TViewModel> Build(IQueryable<TEntidade> queryable )
-        {
-            return new ListagemVm<TViewModel>()
-                {
-                    TotalDeRegistros = queryable.Count(),
-        //            Registros = 
-                };
-        }
+        //public ListagemVm<TViewModel> Build(IQueryable<TEntidade> queryable )
+        //{
+        //    return new ListagemVm<TViewModel>()
+        //        {
+        //            TotalDeRegistros = queryable.Count(),
+        ////            Registros = 
+        //        };
+        //}
     }
 }

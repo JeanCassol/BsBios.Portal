@@ -141,7 +141,7 @@
     <Compile Include="Controllers\IvaApiController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoApiController.cs" />
     <Compile Include="Controllers\FornecedorApiController.cs" />
-    <Compile Include="Controllers\CotacaoMaterialController.cs" />
+    <Compile Include="Controllers\ProcessoCotacaoMaterialController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
@@ -388,12 +388,11 @@
     <Content Include="Views\Fornecedor\_selecionarFornecedor.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
-    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
     <Content Include="Views\CondicaoPagamento\Index.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
-    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
-    <Content Include="Views\CotacaoMaterial\Index.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

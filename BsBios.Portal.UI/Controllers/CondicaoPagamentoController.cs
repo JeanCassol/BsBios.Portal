@@ -25,7 +25,7 @@ namespace BsBios.Portal.UI.Controllers
         public JsonResult Listar(PaginacaoVm paginacao, CondicaoDePagamentoCadastroVm filtro)
         {
             IList<CondicaoDePagamentoCadastroVm> registros = _consultaCondicaoPagamento.Listar(paginacao, filtro);
-            return Json(new { registros, totalCount = paginacao.TotalRecords }, JsonRequestBehavior.AllowGet);
+            return Json(new { registros, totalCount = 10 }, JsonRequestBehavior.AllowGet);
         }
     }
 }

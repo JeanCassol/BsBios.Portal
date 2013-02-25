@@ -74,14 +74,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Application\CadastroUsuarioTests.cs" />
-    <Compile Include="Application\CadastroProdutoTests.cs" />
-    <Compile Include="Application\CadastroFornecedorTests.cs" />
-    <Compile Include="Application\CadastroCondicaoPagamentoTests.cs" />
-    <Compile Include="Application\CadastroIvaTests.cs" />
-    <Compile Include="Application\CadastroProdutoFornecedorTests.cs" />
-    <Compile Include="Application\ComunicacaoSapTests.cs" />
-    <Compile Include="Application\CadastroDeRequisicaoDeCompraTests.cs" />
+    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
+    <Compile Include="Application\Services\CadastroProdutoTests.cs" />
+    <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
+    <Compile Include="Application\Services\CadastroCondicaoPagamentoTests.cs" />
+    <Compile Include="Application\Services\CadastroIvaTests.cs" />
+    <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
+    <Compile Include="Application\Services\ComunicacaoSapTests.cs" />
+    <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />

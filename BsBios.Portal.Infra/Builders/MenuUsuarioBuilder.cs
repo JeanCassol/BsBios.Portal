@@ -49,7 +49,7 @@ namespace BsBios.Portal.Infra.Builders
             menus.Add(menuCadastro);
 
             var menuCotacao = new Menu("Cotações");
-            menuCotacao.AdicionarItem("Cotações de Material", "CotacaoMaterial", "Index");
+            menuCotacao.AdicionarItem("Cotações de Material", "ProcessoCotacaoMaterial", "Index");
             menuCotacao.AdicionarItem("Adicionar", "CotacaoFrete", "NovoCadastro");
             menus.Add(menuCotacao);
 

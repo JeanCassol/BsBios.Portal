@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class CotacaoMaterialController : Controller
+    public class ProcessoCotacaoMaterialController : Controller
     {
         private readonly IList<CotacaoFreteListagemVm> _cotacoesDeFrete ;
         private readonly IList<ProdutoCadastroVm> _produtos;
         private readonly IList<ItinerarioCadastroVm> _itinerarios ;
         private readonly IList<CentroCadastroVm> _centros;
+        private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
 
-        public CotacaoMaterialController()
+        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
         {
+            _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _cotacoesDeFrete = new List<CotacaoFreteListagemVm>();
             _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()
                 {
@@ -88,9 +91,10 @@ namespace BsBios.Portal.UI.Controllers
             return View();
         }
         [HttpGet]
-        public JsonResult Listar()
+        public JsonResult Listar(PaginacaoVm paginacaoVm)
         {
-            return Json(new { registros = _cotacoesDeFrete.OrderByDescending(x => x.DataTermino), totalCount = _cotacoesDeFrete.Count }, JsonRequestBehavior.AllowGet);
+            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, null);
+            return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

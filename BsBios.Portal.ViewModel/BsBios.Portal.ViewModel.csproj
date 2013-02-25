@@ -39,6 +39,10 @@
   <ItemGroup>
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
+    <Compile Include="KendoGridVm.cs" />
+    <Compile Include="ListagemVm.cs" />
+    <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
+    <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
     <Compile Include="CotacaoInicioVm.cs" />
     <Compile Include="CotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoMaterialListagemVm.cs" />
@@ -49,7 +53,7 @@
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="IvaCadastroVm.cs" />
-    <Compile Include="ListagemVm.cs" />
+    <Compile Include="ListagemVmOld.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />

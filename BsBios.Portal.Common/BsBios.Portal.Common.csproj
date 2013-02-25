@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumExtension.cs" />
     <Compile Include="Exceptions\ExceptionUtil.cs" />
     <Compile Include="Exceptions\SenhaIncorretaException.cs" />
     <Compile Include="Exceptions\UsuarioNaoCadastradoException.cs" />

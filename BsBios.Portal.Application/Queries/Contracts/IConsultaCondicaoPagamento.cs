@@ -3,8 +3,8 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Contracts
 {
-    public interface IConsultaCondicaoPagamento
+    public interface IConsultaProcessoDeCotacaoDeMaterial
     {
-        IList<CondicaoDePagamentoCadastroVm> Listar(PaginacaoVm paginacaoVm, CondicaoDePagamentoCadastroVm filtro);
+        KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro);
     }
 }

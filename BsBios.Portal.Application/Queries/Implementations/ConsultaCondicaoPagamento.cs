@@ -29,7 +29,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
             int skip = (paginacaoVm.Page - 1) * paginacaoVm.PageSize;
 
-            paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
+            //paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
 
             var builder = new CondicaoPagamentoCadastroBuilder();
             return builder.BuildList(_condicoesDePagamento.Skip(skip).Take(paginacaoVm.Take).List());
