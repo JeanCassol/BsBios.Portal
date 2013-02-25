@@ -25,31 +25,31 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Cleanup();
         }
 
-        private void RemoverFornecedoresCadastrados()
-        {
-            UnitOfWorkNh.BeginTransaction();
-            var fornecedores = _fornecedores.List();
-            foreach (var fornecedor in fornecedores)
-            {
-                _fornecedores.Delete(fornecedor);
-            }
-            //UnitOfWorkNh.Session.Flush();
-            UnitOfWorkNh.Commit();
-            UnitOfWorkNh.Session.Clear();
-        }
+       // private void RemoverFornecedoresCadastrados()
+       // {
+       //     UnitOfWorkNh.BeginTransaction();
+       //     var fornecedores = _fornecedores.List();
+       //     foreach (var fornecedor in fornecedores)
+       //     {
+       //         _fornecedores.Delete(fornecedor);
+       //     }
+       //     //UnitOfWorkNh.Session.Flush();
+       //     UnitOfWorkNh.Commit();
+       //     UnitOfWorkNh.Session.Clear();
+       // }
 
-        private void RemoverProdutosCadastrados()
-        {
-            UnitOfWorkNh.BeginTransaction();
-            var produtos = ObjectFactory.GetInstance<IProdutos>();
-            var todosProdutos = produtos.List();
-            foreach (var produto in todosProdutos)
-            {
-                produtos.Delete(produto);
-            }        
-            UnitOfWorkNh.Commit();
-            UnitOfWorkNh.Session.Clear();
-       }
+       // private void RemoverProdutosCadastrados()
+       // {
+       //     UnitOfWorkNh.BeginTransaction();
+       //     var produtos = ObjectFactory.GetInstance<IProdutos>();
+       //     var todosProdutos = produtos.List();
+       //     foreach (var produto in todosProdutos)
+       //     {
+       //         produtos.Delete(produto);
+       //     }        
+       //     UnitOfWorkNh.Commit();
+       //     UnitOfWorkNh.Session.Clear();
+       //}
 
 
         //[TestInitialize]
@@ -70,9 +70,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
-                RemoverFornecedoresCadastrados();
-                RemoverProdutosCadastrados();
+                Queries.RemoverFornecedoresCadastrados();
+                Queries.RemoverProdutosCadastrados();
                 UnitOfWorkNh.BeginTransaction();
+                UnitOfWorkNh.Session.Clear();
                 var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
                 _fornecedores.Save(fornecedor);
                 UnitOfWorkNh.Commit();
@@ -85,7 +86,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
 
             Fornecedor fornecedorConsulta = fornecedores.BuscaPeloCodigo("FORNEC0001");
-
 
             Assert.IsNotNull(fornecedorConsulta);
             Assert.AreEqual("FORNEC0001", fornecedorConsulta.Codigo);
@@ -139,7 +139,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmFornecedorComCodigoSapInexistenteDeveRetornarNulo()
         {
-            RemoverFornecedoresCadastrados();
+            Queries.RemoverFornecedoresCadastrados();
             var fornecedor = _fornecedores.BuscaPeloCodigo("FORNEC0002");
             Assert.IsNull(fornecedor);
         }
@@ -149,9 +149,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
-                RemoverFornecedoresCadastrados();
-                RemoverProdutosCadastrados();
+                Queries.RemoverFornecedoresCadastrados();
+                Queries.RemoverProdutosCadastrados();
                 UnitOfWorkNh.BeginTransaction();
+                UnitOfWorkNh.Session.Clear();
                 var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
                 var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0003", "fornecedor02@empresa.com.br");
                 var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor03@empresa.com.br");

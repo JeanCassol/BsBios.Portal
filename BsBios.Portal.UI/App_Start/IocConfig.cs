@@ -13,7 +13,7 @@ namespace BsBios.Portal.UI
     {
         public static void RegisterIoc()
         {
-            SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBiosTesteUnitario"].ConnectionString);
+            SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBios"].ConnectionString);
             IoCWorker.Configure();
             ObjectFactory.Configure(x => x.For<IControllerFactory>()
                                           .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))

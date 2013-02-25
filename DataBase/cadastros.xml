@@ -3,15 +3,6 @@
 <Descricao>PRODUTO 0003</Descricao>
 </ProdutoCadastroVm>
 
-
-Basic bWF1cm8ubGVhbDpmdXNpb24xMjM0
-Basic bWF1cm8ubGVhbDpmdXNpb24xMjM=
-Basic bWF1cm8ubGVhbDpmdXNpb24xMjM0
-
-mauro.leal:fusion1234
-
-
-
 <mt_cadMaterial_portal xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
 	<item>
 		<maktx>PRODUTO 0003</maktx>
@@ -32,7 +23,7 @@ mauro.leal:fusion1234
 	<DataDeRemessa>22/02/2013</DataDeRemessa>
 	<DataDeSolicitacao>21/02/2013</DataDeSolicitacao>
 	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
-	<FornecedorPretendido>FORNEC0001</FornecedorPretendido>
+	<FornecedorPretendido>fpret</FornecedorPretendido>
 	<Material>PROD0001</Material>
 	<NumeroItem>00002</NumeroItem>
 	<NumeroRequisicao>REQ0002</NumeroRequisicao>
@@ -41,38 +32,65 @@ mauro.leal:fusion1234
 	<UnidadeMedida>UND</UnidadeMedida>
 </RequisicaoDeCompraVm>
 
-<RequisicaoDeCompraCopiaVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
-	<Centro>C0001</Centro>
-	<Criador>criador</Criador>
-	<DataDeLiberacao>23/02/2013</DataDeLiberacao>
-	<DataDeRemessa>22/02/2013</DataDeRemessa>
-	<DataDeSolicitacao>21/02/2013</DataDeSolicitacao>
-	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
-	<FornecedorPretendido>fpret</FornecedorPretendido>
-	<Material>MAT0001</Material>
-	<NumeroItem>00002</NumeroItem>
-	<NumeroRequisicao>REQ0002</NumeroRequisicao>
-	<Quantidade>100</Quantidade>
-	<Requisitante>requisitante</Requisitante>
-	<UnidadeMedida>UND</UnidadeMedida>
-</RequisicaoDeCompraCopiaVm>
-
-<RequisicaoDeCompraCopiaVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
-	<Centro>C0001</Centro>
-	<Criador>criador</Criador>
-	<DataDeLiberacao>2013/02/23</DataDeLiberacao>
-	<Descricao>Requisição de Teste Criada Pelo Mauro</Descricao>
-	<FornecedorPretendido>fpret</FornecedorPretendido>
-	<Material>MAT0001</Material>
-	<NumeroItem>00002</NumeroItem>
-	<NumeroRequisicao>REQ0002</NumeroRequisicao>
-	<Quantidade>100</Quantidade>
-	<Requisitante>requisitante</Requisitante>
-	<UnidadeMedida>UND</UnidadeMedida>
-</RequisicaoDeCompraCopiaVm>
+<ListaFornecedores xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<FornecedorCadastroVm>
+		<Codigo>FORNEC005</Codigo>
+		<Email>fornecedor0005@empresa.com.br</Email>
+		<Nome>FORNECEDOR 0005</Nome>
+	</FornecedorCadastroVm>
+	<FornecedorCadastroVm>
+		<Codigo>FORNEC0006</Codigo>
+		<Email>fornecedor0006@empresa.com.br</Email>
+		<Nome>FORNECEDOR 0006</Nome>
+	</FornecedorCadastroVm>
+</ListaFornecedores>
 
 
-<LoginVm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
-	<Usuario>Mauro</Usuario>
-	<Senha>123</Senha>
-</LoginVm>
+<ListaCondicaoPagamento xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<CondicaoDePagamentoCadastroVm>
+		<Codigo>C005</Codigo>
+		<Descricao>CONDIÇÃO 0005</Descricao>
+	</CondicaoDePagamentoCadastroVm>
+	<CondicaoDePagamentoCadastroVm>
+		<Codigo>C006</Codigo>
+		<Descricao>CONDIÇÃO 0006</Descricao>
+	</CondicaoDePagamentoCadastroVm>
+</ListaCondicaoPagamento>
+
+http://localhost:3905/api/IvaApi/PostMultiplo
+<ListaIva xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<IvaCadastroVm>
+		<Codigo>05</Codigo>
+		<Descricao>IVA 05</Descricao>
+	</IvaCadastroVm>
+	<IvaCadastroVm>
+		<Codigo>06</Codigo>
+		<Descricao>IVA 06</Descricao>
+	</IvaCadastroVm>
+</ListaIva>
+
+http://localhost:3905/api/ProdutoFornecedorApi/AtualizaFornecedoresDoProduto
+<ListaProdutoFornecedor xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ProdutoFornecedorCadastroVm>
+		<CodigoFornecedor>FORNEC0001</CodigoFornecedor>
+		<CodigoProduto>PROD0001</CodigoProduto>
+	</ProdutoFornecedorCadastroVm>
+	<ProdutoFornecedorCadastroVm>
+		<CodigoFornecedor>FORNEC0002</CodigoFornecedor>
+		<CodigoProduto>PROD0001</CodigoProduto>
+	</ProdutoFornecedorCadastroVm>
+</ListaProdutoFornecedor>
+
+http://localhost:3905/api/UsuarioApi/PostMultiplo
+<ListaUsuario xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<UsuarioCadastroVm>
+		<Email>user005@empresa.com.br</Email>
+		<Login>USER005</Login>
+		<Nome>USUARIO 005</Nome>
+	</UsuarioCadastroVm>
+	<UsuarioCadastroVm>
+		<Email>user006@empresa.com.br</Email>
+		<Login>USER006</Login>
+		<Nome>USUARIO 006</Nome>
+	</UsuarioCadastroVm>
+</ListaUsuario>
