@@ -393,6 +393,7 @@
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\Index.cshtml" />
+    <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

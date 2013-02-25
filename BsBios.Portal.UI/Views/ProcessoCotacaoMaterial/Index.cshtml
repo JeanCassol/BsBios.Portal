@@ -60,7 +60,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 40,
                         sortable: false,
-                        template: '<input type="button" class="button_edit" data-idproduto="${Id}"></input>'
+                        template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
                     },
                     {
                         field: "CodigoMaterial",
@@ -97,7 +97,7 @@
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                location.href= '@Url.Action("Editar","ProcessoCotacaoMaterial")';
+                location.href = '@Url.Action("EditarCadastro","ProcessoCotacaoMaterial")' + '/?idProcessoCotacao=' + $(this)[0].dataset.idprocessocotacao ;
             });
 
         });

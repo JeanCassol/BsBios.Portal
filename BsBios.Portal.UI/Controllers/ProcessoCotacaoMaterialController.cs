@@ -118,7 +118,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ViewResult EditarCadastro(int idCotacaoFrete)
+        public ViewResult EditarCadastro(int idProcessoCotacao)
         {
             return View("Cadastro");
         }

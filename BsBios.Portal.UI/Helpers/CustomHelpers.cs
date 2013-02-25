@@ -11,18 +11,28 @@ namespace BsBios.Portal.UI.Helpers
 
         private static string GeraColuna<TModel, TValue>(Coluna<TModel, TValue> coluna)
         {
+            string html = @coluna.GeraLabel().ToHtmlString() +
+                          @coluna.GeraInput().ToHtmlString();
+
+            if (coluna.ExibirMensagemDeValidacao)
+            {
+                html +=
+                "<p class=\"mensagemErro\">" +
+                @coluna.GeraMensagemDeValidacao() +
+                "</p>";
+
+            }
+
             return
                 "<div class=\"coluna\">" +
-                    @coluna.GeraLabel() +
-                    @coluna.GeraInput() +
-                    "<p class=\"mensagemErro\">" +
-                        @coluna.GeraMensagemDeValidacao() +
-                    "</p>" +
+                    html +
                 "</div>";
         }
 
-        public static IHtmlString LinhaComDuasColunas<TModel, TValue>(this HtmlHelper html, Coluna<TModel, TValue> coluna1, Coluna<TModel, TValue> coluna2)
+        public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html, Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
         {
+            coluna1.HtmlHelper = html;
+            coluna2.HtmlHelper = html; 
             string retorno =
                 "<div class=\"linha\"> " +
                     GeraColuna(coluna1) +

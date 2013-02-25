@@ -8,17 +8,18 @@ namespace BsBios.Portal.UI.Helpers
     public abstract class Coluna<TModel, TValue>
     {
         protected readonly Expression<Func<TModel, TValue>> Expressao;
-        protected readonly HtmlHelper<TModel> HtmlHelper;
+        public HtmlHelper<TModel> HtmlHelper { get; set; }
         protected readonly string InputClass;
+        public bool ExibirMensagemDeValidacao { get; protected set; }
 
-        protected Coluna(Expression<Func<TModel, TValue>> expressao, HtmlHelper<TModel> htmlHelper, string inputClass)
+        protected Coluna(Expression<Func<TModel, TValue>> expressao, string inputClass, bool exibirMensagemDeValidacao)
         {
             Expressao = expressao;
-            HtmlHelper = htmlHelper;
             InputClass = inputClass;
+            ExibirMensagemDeValidacao = exibirMensagemDeValidacao;
         }
 
-        public  MvcHtmlString GeraLabel()
+        public MvcHtmlString GeraLabel()
         {
             return System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao);
         }
@@ -30,10 +31,11 @@ namespace BsBios.Portal.UI.Helpers
 
         public abstract MvcHtmlString GeraInput();
     }
+
     public class ColunaComEditor<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComEditor(HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, htmlHelper, "")
+        public ColunaComEditor(Expression<Func<TModel, TValue>> expressao)
+            : base(expressao, "", true)
         {
         }
 
@@ -45,34 +47,36 @@ namespace BsBios.Portal.UI.Helpers
 
     public class ColunaComTextBox<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComTextBox(HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expressao, string inputClass)
-            : base(expressao, htmlHelper, inputClass)
+        public ColunaComTextBox( Expression<Func<TModel, TValue>> expressao,
+                                string inputClass)
+            : base(expressao, inputClass, true)
         {
         }
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, new { @class = InputClass });
+            return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, new {@class = InputClass});
         }
     }
 
     public class ColunaComTextArea<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComTextArea(HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, htmlHelper, "")
+        public ColunaComTextArea(Expression<Func<TModel, TValue>> expressao)
+            : base(expressao, "", true)
         {
         }
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.TextAreaExtensions.TextAreaFor(HtmlHelper, Expressao, new { @rows = "5" });
+            return System.Web.Mvc.Html.TextAreaExtensions.TextAreaFor(HtmlHelper, Expressao, new {@rows = "5"});
         }
     }
+
     public class ColunaComDropDown<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComDropDown(HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expressao,
-            IEnumerable<SelectListItem> items, string nome, string inputClass = "")
-            : base(expressao, htmlHelper, inputClass)
+        public ColunaComDropDown(Expression<Func<TModel, TValue>> expressao,
+                                 IEnumerable<SelectListItem> items, string nome, string inputClass = "")
+            : base(expressao, inputClass, true)
         {
             _items = items;
             _nome = nome;
@@ -84,6 +88,19 @@ namespace BsBios.Portal.UI.Helpers
         public override MvcHtmlString GeraInput()
         {
             return System.Web.Mvc.Html.SelectExtensions.DropDownList(HtmlHelper, _nome, _items, "Selecione >>");
+        }
+    }
+    
+    public class ColunaComLabel<TModel, TValue> : Coluna<TModel, TValue>
+    {
+        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao, string inputClass) 
+            : base(expressao, inputClass, false)
+        {
+        }
+
+        public override MvcHtmlString GeraInput()
+        {
+            return System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao);
         }
     }
 }
