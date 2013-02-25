@@ -104,6 +104,7 @@ namespace BsBios.Portal.UI.Controllers
             {
                 DescricaoStatus = "ABERTO",
                 QuantidadeMaterial = 10,
+                RequisicaoDeCompraVm = new RequisicaoDeCompraVm(){NumeroItem = "00001" , NumeroRequisicao = "REQ0001"},
                 DataInicioLeilao = DateTime.Today.ToShortDateString()});
         }
 

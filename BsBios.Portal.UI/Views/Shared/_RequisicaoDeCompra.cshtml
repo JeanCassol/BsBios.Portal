@@ -1,5 +1,18 @@
 ﻿@using BsBios.Portal.UI.Helpers
-@model BsBios.Portal.ViewModel.RequisicaoDeCompraVm
+@using BsBios.Portal.ViewModel
+@model RequisicaoDeCompraVm
 <div id="divRequisicaoCompra">
-    @Html.LinhaComDuasColunas(new ColunaComLabel())
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.NumeroRequisicao),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.NumeroItem))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Criador),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Requisitante))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Centro),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeSolicitacao))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeRemessa),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeLiberacao))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.FornecedorPretendido),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Material))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, decimal>(x => x.Quantidade),
+        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.UnidadeMedida))
+    
 </div>

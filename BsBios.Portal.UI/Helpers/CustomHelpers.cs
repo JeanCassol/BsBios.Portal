@@ -29,7 +29,8 @@ namespace BsBios.Portal.UI.Helpers
                 "</div>";
         }
 
-        public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html, Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
+        public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html, 
+            Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
         {
             coluna1.HtmlHelper = html;
             coluna2.HtmlHelper = html; 

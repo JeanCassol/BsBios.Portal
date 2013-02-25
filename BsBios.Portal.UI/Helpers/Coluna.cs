@@ -10,18 +10,20 @@ namespace BsBios.Portal.UI.Helpers
         protected readonly Expression<Func<TModel, TValue>> Expressao;
         public HtmlHelper<TModel> HtmlHelper { get; set; }
         protected readonly string InputClass;
+        protected readonly string LabelClass;
         public bool ExibirMensagemDeValidacao { get; protected set; }
 
-        protected Coluna(Expression<Func<TModel, TValue>> expressao, string inputClass, bool exibirMensagemDeValidacao)
+        protected Coluna(Expression<Func<TModel, TValue>> expressao, string inputClass, string labelClass, bool exibirMensagemDeValidacao)
         {
             Expressao = expressao;
             InputClass = inputClass;
+            LabelClass = labelClass;
             ExibirMensagemDeValidacao = exibirMensagemDeValidacao;
         }
 
         public MvcHtmlString GeraLabel()
         {
-            return System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao);
+            return System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao, string.IsNullOrEmpty(LabelClass) ? null : new { @class = LabelClass });
         }
 
         public MvcHtmlString GeraMensagemDeValidacao()
@@ -35,7 +37,7 @@ namespace BsBios.Portal.UI.Helpers
     public class ColunaComEditor<TModel, TValue> : Coluna<TModel, TValue>
     {
         public ColunaComEditor(Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, "", true)
+            : base(expressao, "","", true)
         {
         }
 
@@ -49,7 +51,7 @@ namespace BsBios.Portal.UI.Helpers
     {
         public ColunaComTextBox( Expression<Func<TModel, TValue>> expressao,
                                 string inputClass)
-            : base(expressao, inputClass, true)
+            : base(expressao, inputClass,"", true)
         {
         }
 
@@ -62,7 +64,7 @@ namespace BsBios.Portal.UI.Helpers
     public class ColunaComTextArea<TModel, TValue> : Coluna<TModel, TValue>
     {
         public ColunaComTextArea(Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, "", true)
+            : base(expressao, "","", true)
         {
         }
 
@@ -76,7 +78,7 @@ namespace BsBios.Portal.UI.Helpers
     {
         public ColunaComDropDown(Expression<Func<TModel, TValue>> expressao,
                                  IEnumerable<SelectListItem> items, string nome, string inputClass = "")
-            : base(expressao, inputClass, true)
+            : base(expressao, inputClass,"", true)
         {
             _items = items;
             _nome = nome;
@@ -93,14 +95,14 @@ namespace BsBios.Portal.UI.Helpers
     
     public class ColunaComLabel<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao, string inputClass) 
-            : base(expressao, inputClass, false)
+        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao) 
+            : base(expressao, "","labelNaLinha", false)
         {
         }
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao);
+            return System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass });
         }
     }
 }

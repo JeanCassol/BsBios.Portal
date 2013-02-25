@@ -45,5 +45,7 @@ namespace BsBios.Portal.ViewModel
         [DataType(DataType.MultilineText)]
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }
+
+        public RequisicaoDeCompraVm RequisicaoDeCompraVm { get; set; }
     }
 }

@@ -12,6 +12,8 @@
             <legend></legend>
 
             @Html.HiddenFor(model => model.Id)
+            
+            @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
 
             <div>
                 @Html.Label("Status:",new{@class="labelNaLinha"})
