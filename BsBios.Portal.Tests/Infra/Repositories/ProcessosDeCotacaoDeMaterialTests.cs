@@ -61,10 +61,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             UnitOfWorkNh.Session.Clear();
 
-            var processoConsultado = (ProcessoDeCotacaoDeMaterial) processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id);
+            var processoConsultado = (ProcessoDeCotacaoDeMaterial) processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();
 
             Assert.IsNotNull(processoConsultado);
-            Assert.AreEqual(Enumeradores.StatusPedidoCotacao.NaoIniciado, processoConsultado.Status);
+            Assert.AreEqual(Enumeradores.StatusProcessoCotacao.NaoIniciado, processoConsultado.Status);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id ,processoConsultado.Id);
             Assert.IsNull(processoConsultado.DataLimiteDeRetorno);
             Assert.IsFalse(NHibernateUtil.IsInitialized(processoConsultado.RequisicaoDeCompra));

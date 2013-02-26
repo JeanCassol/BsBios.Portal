@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -7,7 +6,7 @@ using StructureMap;
 namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
-    public class IvaTests: RepositoryTest
+    public class IvasTests: RepositoryTest
     {
         private static IIvas _ivas;
 
@@ -32,7 +31,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             _ivas.Save(iva);
             UnitOfWorkNh.Commit();
 
-            Iva ivaConsultado = _ivas.BuscaPeloCodigoSap("01");
+            Iva ivaConsultado = _ivas.BuscaPeloCodigo("01");
             Assert.IsNotNull(ivaConsultado);
             Assert.AreEqual(iva.Codigo, ivaConsultado.Codigo);
         }
@@ -40,7 +39,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmIvaComCodigoSapInexistenteDeveRetornarNulo()
         {
-            var iva = _ivas.BuscaPeloCodigoSap("02");
+            var iva = _ivas.BuscaPeloCodigo("02");
             Assert.IsNull(iva);
         }
 

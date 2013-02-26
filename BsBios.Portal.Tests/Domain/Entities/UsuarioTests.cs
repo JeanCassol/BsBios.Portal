@@ -1,11 +1,9 @@
-﻿using System;
-using BsBios.Portal.Domain;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Domain.Model
+namespace BsBios.Portal.Tests.Domain.Entities
 {
     [TestClass]
     public class UsuarioTests

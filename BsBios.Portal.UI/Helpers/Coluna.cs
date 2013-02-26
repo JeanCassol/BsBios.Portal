@@ -10,7 +10,7 @@ namespace BsBios.Portal.UI.Helpers
         protected readonly Expression<Func<TModel, TValue>> Expressao;
         public HtmlHelper<TModel> HtmlHelper { get; set; }
         protected readonly string InputClass;
-        protected readonly string LabelClass;
+        public string LabelClass { get; set; }
         public bool ExibirMensagemDeValidacao { get; protected set; }
 
         protected Coluna(Expression<Func<TModel, TValue>> expressao, string inputClass, string labelClass, bool exibirMensagemDeValidacao)

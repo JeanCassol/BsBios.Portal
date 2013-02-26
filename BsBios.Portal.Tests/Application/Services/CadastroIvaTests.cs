@@ -9,7 +9,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace BsBios.Portal.Tests.Application
+namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
     public class CadastroIvaTests
@@ -19,7 +19,6 @@ namespace BsBios.Portal.Tests.Application
         private readonly ICadastroIva _cadastroIva;
         private readonly IvaCadastroVm _ivaPadrao;
         private readonly IList<IvaCadastroVm> _listaIvas;
-        private readonly Mock<Iva> _ivaMock; 
 
 
         public CadastroIvaTests()
@@ -27,7 +26,7 @@ namespace BsBios.Portal.Tests.Application
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _ivasMock = new Mock<IIvas>(MockBehavior.Strict);
             _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) => Assert.IsNotNull(iva));
-            _ivasMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>()))
+            _ivasMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                      .Returns((string i) => i == "01" ? new IvaParaAtualizacao("01", "IVA 01") : null);
 
             _cadastroIva = new CadastroIva(_unitOfWorkMock.Object, _ivasMock.Object);
@@ -37,8 +36,6 @@ namespace BsBios.Portal.Tests.Application
                     Descricao = "IVA 01"
                 };
             _listaIvas = new List<IvaCadastroVm>(){_ivaPadrao};
-            _ivaMock = new Mock<Iva>(MockBehavior.Strict);
-            _ivaMock.Setup(x => x.AtualizaDescricao(It.IsAny<string>()));
         }
 
         [TestMethod]

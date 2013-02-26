@@ -11,7 +11,7 @@ namespace BsBios.Portal.Infra.Mappings
             Table("ProcessoCotacao");
             Id(x => x.Id).GeneratedBy.Sequence("PROCESSOCOTACAO_ID_SEQUENCE");
             References(x => x.Produto).Column("CodigoProduto");
-            Map(x => x.Status).CustomType<Enumeradores.StatusPedidoCotacao>();
+            Map(x => x.Status).CustomType<Enumeradores.StatusProcessoCotacao>();
             Map(x => x.Quantidade);
             Map(x => x.DataLimiteDeRetorno).Column("DataLimiteRetorno");
 

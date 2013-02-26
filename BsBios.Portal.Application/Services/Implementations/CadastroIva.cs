@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -36,7 +35,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarIva(IvaCadastroVm ivaCadastroVm)
         {
-            Iva iva = _ivas.BuscaPeloCodigoSap(ivaCadastroVm.Codigo);
+            Iva iva = _ivas.BuscaPeloCodigo(ivaCadastroVm.Codigo);
             if (iva != null)
             {
                 iva.AtualizaDescricao(ivaCadastroVm.Descricao);

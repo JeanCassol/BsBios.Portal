@@ -1,8 +1,7 @@
-﻿
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Domain.Model
+namespace BsBios.Portal.Tests.Domain.Entities
 {
     [TestClass]
     public class FornecedorTests

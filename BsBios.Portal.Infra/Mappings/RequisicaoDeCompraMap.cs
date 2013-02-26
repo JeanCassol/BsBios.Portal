@@ -18,9 +18,9 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Material).Column("CodigoMaterial");
             References(x => x.FornecedorPretendido).Column("CodigoFornecedorPretendido");
             References(x => x.Criador).Column("LoginCriador");
-            References(x => x.Requisitante).Column("LoginRequisitante");
 
             Map(x => x.Centro);
+            Map(x => x.Requisitante);
             Map(x => x.DataDeLiberacao).Column("DataLiberacao");
             Map(x => x.DataDeRemessa).Column("DataRemessa");
             Map(x => x.DataDeSolicitacao).Column("DataSolicitacao");

@@ -13,19 +13,18 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoCrioUmaRequisicaoAsPropriedadesFicamCorretas()
         {
             var usuarioCriador = new Usuario("Usuario Criador", "criador", "", Enumeradores.Perfil.Comprador);
-            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", "", Enumeradores.Perfil.Comprador);
             var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
             var dataDeSolicitacao = DateTime.Today;
 
-            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, usuarioRequisitante,fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao,dataDeSolicitacao,"CENTRO","UNT",1000,
                 material, "Requisição de Compra enviada pelo SAP","ITEM001", "REQ0001");
 
             Assert.AreEqual("criador",requisicaoDeCompra.Criador.Login);
-            Assert.AreEqual("requisitante", requisicaoDeCompra.Requisitante.Login);
+            Assert.AreEqual("requisitante", requisicaoDeCompra.Requisitante);
             Assert.AreEqual("fpret", requisicaoDeCompra.FornecedorPretendido.Codigo);
             Assert.AreEqual("MAT0001",requisicaoDeCompra.Material.Codigo);
             Assert.AreEqual(dataDeRemessa, requisicaoDeCompra.DataDeRemessa);
@@ -49,11 +48,5 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
         }
 
-        [TestMethod]
-        public void TestData()
-        {
-            DateTime date = Convert.ToDateTime("22/02/2013");
-            Console.WriteLine(date);
-        }
     }
 }

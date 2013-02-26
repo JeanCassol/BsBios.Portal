@@ -43,6 +43,7 @@
     <Compile Include="Entities\Cotacao.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
+    <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\Iva.cs" />
     <Compile Include="Entities\Material.cs" />
     <Compile Include="Entities\ProcessoDeCotacao.cs" />
@@ -55,6 +56,10 @@
     <Compile Include="ValueObjects\Enumeradores.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>BsBios.Portal.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
       <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
       <Name>BsBios.Portal.ViewModel</Name>

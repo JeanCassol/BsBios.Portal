@@ -55,7 +55,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static void PersistirRequisicaoDeCompra(RequisicaoDeCompra requisicaoDeCompra)
         {
             Queries.RemoverRequisicoesDeCompraCadastradas();
-            PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador, requisicaoDeCompra.Requisitante});
+            PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador});
             PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
             PersistirProduto(requisicaoDeCompra.Material);
 

@@ -94,3 +94,15 @@ http://localhost:3905/api/UsuarioApi/PostMultiplo
 		<Nome>USUARIO 006</Nome>
 	</UsuarioCadastroVm>
 </ListaUsuario>
+
+http://localhost:3905/api/IncotermApi/PostMultiplo
+<ListaIncoterm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<IncotermCadastroVm>
+		<Codigo>005</Codigo>
+		<Descricao>Incoterm 005</Descricao>
+	</IncotermCadastroVm>
+	<IncotermCadastroVm>
+		<Codigo>006</Codigo>
+		<Descricao>Incoterm 006</Descricao>
+	</IncotermCadastroVm>
+</ListaIncoterm>

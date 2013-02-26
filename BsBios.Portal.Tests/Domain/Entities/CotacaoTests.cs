@@ -1,9 +1,8 @@
-﻿using System;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Domain.Model
+namespace BsBios.Portal.Tests.Domain.Entities
 {
     [TestClass]
     public class CotacaoTests
@@ -18,7 +17,7 @@ namespace BsBios.Portal.Tests.Domain.Model
             var processoDeCotacaoDeMaterial = (ProcessoDeCotacaoDeMaterial) cotacao.ProcessoDeCotacao;
 
             Assert.AreEqual("REQ0001", processoDeCotacaoDeMaterial.RequisicaoDeCompra.Numero);
-            Assert.AreEqual("ITEM001", processoDeCotacaoDeMaterial.RequisicaoDeCompra.NumeroItem);
+            Assert.AreEqual("00001", processoDeCotacaoDeMaterial.RequisicaoDeCompra.NumeroItem);
             Assert.AreEqual("FORNEC0001", cotacao.Fornecedor.Codigo);
             Assert.IsNull(cotacao.ValorUnitario);
             Assert.IsNull(cotacao.QuantidadeAdquirida);

@@ -5,7 +5,7 @@ namespace BsBios.Portal.ViewModel
     public class ProcessoCotacaoMaterialCadastroVm
     {
         public int? Id { get; set; }
-        [Display(Name = "Status")]
+        [Display(Name = "Status: ")]
         public string DescricaoStatus { get; set; }
 
         //[Required(ErrorMessage="Material é obrigatório")]

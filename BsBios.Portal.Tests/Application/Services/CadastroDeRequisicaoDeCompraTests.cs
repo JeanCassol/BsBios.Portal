@@ -10,7 +10,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace BsBios.Portal.Tests.Application
+namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
     public class CadastroDeRequisicaoDeCompraTests
@@ -122,7 +122,7 @@ namespace BsBios.Portal.Tests.Application
         public void QuandoCadastroUmaRequisicaoDeCompraERealizadoConsultaNosRepositorios()
         {
             _cadastroRequisicao.NovaRequisicao(_requisicaoDeCompraVm);
-            _usuariosMock.Verify(x => x.BuscaPorLogin(It.IsAny<string>()), Times.Exactly(2));            
+            _usuariosMock.Verify(x => x.BuscaPorLogin(It.IsAny<string>()), Times.Once());            
             _fornecedoresMock.Verify(x => x.BuscaPeloCodigo(It.IsAny<string>()), Times.Once());
             _produtosMock.Verify(x => x.BuscaPeloCodigo(It.IsAny<string>()), Times.Once());
         }
@@ -135,7 +135,7 @@ namespace BsBios.Portal.Tests.Application
                                         {
                                             Assert.IsNotNull(requisicaoDeCompra);
                                             Assert.AreEqual("criador", requisicaoDeCompra.Criador.Login);
-                                            Assert.AreEqual("requisitante", requisicaoDeCompra.Requisitante.Login);
+                                            Assert.AreEqual("requisitante", requisicaoDeCompra.Requisitante);
                                             Assert.AreEqual("FORNEC0001", requisicaoDeCompra.FornecedorPretendido.Codigo);
                                             Assert.AreEqual("PROD0001", requisicaoDeCompra.Material.Codigo);
                                             Assert.AreEqual(Convert.ToDateTime(_requisicaoDeCompraVm.DataDeRemessa), requisicaoDeCompra.DataDeRemessa);

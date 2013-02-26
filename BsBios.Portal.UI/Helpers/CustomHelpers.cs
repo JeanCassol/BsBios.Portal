@@ -9,7 +9,7 @@ namespace BsBios.Portal.UI.Helpers
     public static class CustomHelpers
     {
 
-        private static string GeraColuna<TModel, TValue>(Coluna<TModel, TValue> coluna)
+        private static string GeraColuna<TModel, TValue>(Coluna<TModel, TValue> coluna, string divColunaClass)
         {
             string html = @coluna.GeraLabel().ToHtmlString() +
                           @coluna.GeraInput().ToHtmlString();
@@ -24,8 +24,19 @@ namespace BsBios.Portal.UI.Helpers
             }
 
             return
-                "<div class=\"coluna\">" +
+                "<div" + (string.IsNullOrEmpty(divColunaClass) ? "": " class=\"" +  divColunaClass + "\"" )  + ">" +
                     html +
+                "</div>";
+        }
+
+
+        private static string GeraColunaComUmaLinha<TModel, TValue>(Coluna<TModel, TValue> coluna)
+        {
+            coluna.LabelClass = "labelNaLinha";
+            return
+                "<div>" +
+                    @coluna.GeraLabel() +
+                    @coluna.GeraInput() +
                 "</div>";
         }
 
@@ -36,11 +47,23 @@ namespace BsBios.Portal.UI.Helpers
             coluna2.HtmlHelper = html; 
             string retorno =
                 "<div class=\"linha\"> " +
-                    GeraColuna(coluna1) +
-                    GeraColuna(coluna2) +
+                    GeraColuna(coluna1,"coluna") +
+                    GeraColuna(coluna2,"coluna") +
                 "</div>";
             return new HtmlString(retorno);
         }
+
+        public static IHtmlString LinhaComUmaColuna<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, 
+                                                                    Coluna<TModel, TValue> coluna)
+        {
+            coluna.HtmlHelper = htmlHelper;
+            string retorno =
+                "<div class=\"linha\"> " +
+                    GeraColuna(coluna,"") +
+                "</div>";
+            return new HtmlString(retorno);
+        }
+
     }
 
 

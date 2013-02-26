@@ -75,8 +75,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              processo.RequisicaoDeCompra.DataDeRemessa,
                                              processo.RequisicaoDeCompra.DataDeSolicitacao,
                                              FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
-                                             Criador = processo.RequisicaoDeCompra.Criador.Nome,
-                                             Requisitante = processo.RequisicaoDeCompra.Requisitante.Nome,
+                                             Criador = processo.RequisicaoDeCompra.Criador.Nome, 
+                                             processo.RequisicaoDeCompra.Requisitante,
                                              processo.RequisicaoDeCompra.UnidadeMedida
                                          }).Single();
 

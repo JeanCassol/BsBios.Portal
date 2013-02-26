@@ -1,17 +1,12 @@
 ﻿using System;
-//using BsBios.Portal.Tests.ServiceReference1;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Application
+namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
     public class ComunicacaoSapTests

@@ -11,7 +11,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace BsBios.Portal.Tests.Application
+namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
     public class CadastroUsuarioTests

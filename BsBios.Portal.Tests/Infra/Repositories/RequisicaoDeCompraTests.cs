@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Queries.RemoverRequisicoesDeCompraCadastradas();
 
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            DefaultPersistedObjects.PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador, requisicaoDeCompra.Requisitante});
+            DefaultPersistedObjects.PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador});
             DefaultPersistedObjects.PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
             DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
 
@@ -40,7 +40,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.IsNotNull(requisicaoConsultada);
 
             Assert.AreEqual("criador", requisicaoConsultada.Criador.Login);
-            Assert.AreEqual("requisitante", requisicaoConsultada.Requisitante.Login);
+            Assert.AreEqual("requisitante", requisicaoConsultada.Requisitante);
             Assert.AreEqual("fpret", requisicaoConsultada.FornecedorPretendido.Codigo);
             Assert.AreEqual("MAT0001", requisicaoConsultada.Material.Codigo);
             Assert.AreEqual(DateTime.Today.AddDays(-2), requisicaoConsultada.DataDeRemessa);
@@ -53,5 +53,40 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual("REQ0001", requisicaoConsultada.Numero);
             Assert.AreEqual("00001", requisicaoConsultada.NumeroItem);            
         }
+
+        [TestMethod]
+        public void ConsigoPersistirEConsultarUmaRequisicaoDeCompraSemInformarRequisitanteEFornecedorPretendido()
+        {
+            Queries.RemoverRequisicoesDeCompraCadastradas();
+
+            var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraSemRequisitanteEFornecedor();
+            DefaultPersistedObjects.PersistirUsuarios(new List<Usuario>() { requisicaoDeCompra.Criador });
+            DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
+
+            UnitOfWorkNh.BeginTransaction();
+
+            _requisicoesDeCompra.Save(requisicaoDeCompra);
+            UnitOfWorkNh.Commit();
+
+            UnitOfWorkNh.Session.Clear();
+            RequisicaoDeCompra requisicaoConsultada = _requisicoesDeCompra.BuscaPeloId(requisicaoDeCompra.Id);
+
+            Assert.IsNotNull(requisicaoConsultada);
+
+            Assert.AreEqual("criador", requisicaoConsultada.Criador.Login);
+            Assert.IsNull(requisicaoConsultada.Requisitante);
+            Assert.IsNull(requisicaoConsultada.FornecedorPretendido);
+            Assert.AreEqual("MAT0001", requisicaoConsultada.Material.Codigo);
+            Assert.AreEqual(DateTime.Today.AddDays(-2), requisicaoConsultada.DataDeRemessa);
+            Assert.AreEqual(DateTime.Today.AddDays(-1), requisicaoConsultada.DataDeLiberacao);
+            Assert.AreEqual(DateTime.Today, requisicaoConsultada.DataDeSolicitacao);
+            Assert.AreEqual("C001", requisicaoConsultada.Centro);
+            Assert.AreEqual("UNT", requisicaoConsultada.UnidadeMedida);
+            Assert.AreEqual(1000, requisicaoConsultada.Quantidade);
+            Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
+            Assert.AreEqual("REQ0001", requisicaoConsultada.Numero);
+            Assert.AreEqual("00001", requisicaoConsultada.NumeroItem);
+        }
+
     }
 }

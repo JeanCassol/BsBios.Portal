@@ -102,6 +102,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 Queries.RemoverProdutosCadastrados();
 
                 UnitOfWorkNh.BeginTransaction();
+                UnitOfWorkNh.Session.Clear();
                 var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
                 _fornecedores.Save(fornecedor);
                 Console.WriteLine("INSERIDO FORNEC0003");

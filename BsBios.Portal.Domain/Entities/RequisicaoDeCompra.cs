@@ -17,12 +17,12 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime DataDeLiberacao { get; protected set; }
         public virtual DateTime DataDeRemessa { get; protected set; }
         public virtual Fornecedor FornecedorPretendido { get; protected set; }
-        public virtual Usuario Requisitante { get; protected set; }
+        public virtual string Requisitante { get; protected set; }
         public virtual Usuario Criador { get; protected set; }
 
         protected RequisicaoDeCompra(){}
 
-        public RequisicaoDeCompra(Usuario criador, Usuario requisitante, Fornecedor fornecedorPretendido, 
+        public RequisicaoDeCompra(Usuario criador, string requisitante, Fornecedor fornecedorPretendido, 
             DateTime dataDeRemessa, DateTime dataDeLiberacao, DateTime dataDeSolicitacao, string centro, 
             string unidadeMedida, decimal quantidade, Produto material, string descricao, string numeroItem, 
             string numero)

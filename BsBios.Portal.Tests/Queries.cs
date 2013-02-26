@@ -137,5 +137,21 @@ namespace BsBios.Portal.Tests
                 throw;
             }
         }
+
+        public static void RemoverIncotermsCadastrados()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Incoterm");
+        
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace BsBios.Portal.IoC
             For<IIvas>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Ivas>();
+            For<IIncoterms>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<Incoterms>();
             For<IRequisicoesDeCompra>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RequisicoesDeCompra>();

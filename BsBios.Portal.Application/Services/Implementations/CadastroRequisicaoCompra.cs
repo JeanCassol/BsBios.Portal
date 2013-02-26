@@ -33,10 +33,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                 
                 _unitOfWork.BeginTransaction();
                 Usuario criador = _usuarios.BuscaPorLogin(requisicaoDeCompraVm.Criador);
-                Usuario requisitante = _usuarios.BuscaPorLogin(requisicaoDeCompraVm.Requisitante);
                 Fornecedor fornecedorPretendido = _fornecedores.BuscaPeloCodigo(requisicaoDeCompraVm.FornecedorPretendido);
                 Produto material = _produtos.BuscaPeloCodigo(requisicaoDeCompraVm.Material);
-                var requisicaoDeCompra = new RequisicaoDeCompra(criador, requisitante, fornecedorPretendido,
+                var requisicaoDeCompra = new RequisicaoDeCompra(criador, requisicaoDeCompraVm.Requisitante, fornecedorPretendido,
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeRemessa),
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeLiberacao),
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeSolicitacao),

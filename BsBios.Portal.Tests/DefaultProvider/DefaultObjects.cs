@@ -13,7 +13,6 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
         {
             var usuarioCriador = new Usuario("Usuario Criador", "criador", null, Enumeradores.Perfil.Comprador);
-            var usuarioRequisitante = new Usuario("Usuario Requisitante", "requisitante", null, Enumeradores.Perfil.Comprador);
             var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
 
@@ -21,12 +20,29 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
             var dataDeSolicitacao = DateTime.Today;
 
-            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, usuarioRequisitante, fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", "UNT", 1000,
                 material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001");
             
             return requisicaoDeCompra;
         }
+
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemRequisitanteEFornecedor()
+        {
+            var usuarioCriador = new Usuario("Usuario Criador", "criador", null, Enumeradores.Perfil.Comprador);
+            var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
+
+            var dataDeRemessa = DateTime.Today.AddDays(-2);
+            var dataDeLiberacao = DateTime.Today.AddDays(-1);
+            var dataDeSolicitacao = DateTime.Today;
+
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, null, null,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", "UNT", 1000,
+                material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001");
+
+            return requisicaoDeCompra;
+        }
+
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialPadrao()
         {
@@ -53,5 +69,6 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
             return produto;
         }
+
     }
 }

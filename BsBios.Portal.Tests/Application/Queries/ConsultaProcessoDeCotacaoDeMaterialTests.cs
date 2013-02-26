@@ -15,7 +15,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void GetDescriptionFromEnum()
         {
-            Assert.AreEqual("Não Iniciado", Enumeradores.StatusPedidoCotacao.NaoIniciado.Descricao());
+            Assert.AreEqual("Não Iniciado", Enumeradores.StatusProcessoCotacao.NaoIniciado.Descricao());
         }
 
         [TestMethod]

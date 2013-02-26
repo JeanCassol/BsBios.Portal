@@ -10,8 +10,8 @@
         new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeSolicitacao))
     @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeRemessa),
         new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.DataDeLiberacao))
-    @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.FornecedorPretendido),
-        new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Material))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.FornecedorPretendido))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.Material))
     @Html.LinhaComDuasColunas(new ColunaComLabel<RequisicaoDeCompraVm, decimal>(x => x.Quantidade),
         new ColunaComLabel<RequisicaoDeCompraVm, string>(x => x.UnidadeMedida))
     

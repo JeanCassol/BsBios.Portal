@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Domain.Model
+namespace BsBios.Portal.Tests.Domain.Entities
 {
     [TestClass]
     public class ProdutoTests

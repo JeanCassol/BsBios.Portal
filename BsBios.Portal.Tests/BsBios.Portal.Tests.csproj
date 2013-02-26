@@ -83,12 +83,14 @@
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
     <Compile Include="Application\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
+    <Compile Include="Application\Services\CadastroIncotermTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
     <Compile Include="DefaultProvider\DefaultPersistedObjects.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Entities\CondicaoDePagamentoTests.cs" />
+    <Compile Include="Domain\Entities\IncotermTests.cs" />
     <Compile Include="Domain\Entities\IvaTests.cs" />
     <Compile Include="Domain\Entities\ProdutoTests.cs" />
     <Compile Include="Domain\Entities\FornecedorTests.cs" />
@@ -98,7 +100,8 @@
     <Compile Include="Domain\Entities\UsuarioTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
-    <Compile Include="Infra\Repositories\IvaTests.cs" />
+    <Compile Include="Infra\Repositories\IncotermsTests.cs" />
+    <Compile Include="Infra\Repositories\IvasTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
     <Compile Include="Infra\Repositories\ProdutosTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
+    <Compile Include="UI\Controllers\IncotermApiTests.cs" />
     <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />
     <Compile Include="UI\Controllers\UsuarioApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />

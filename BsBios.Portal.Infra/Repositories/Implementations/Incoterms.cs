@@ -8,15 +8,16 @@ using BsBios.Portal.Infra.Repositories.Contracts;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
-    public class Ivas:CompleteRepositoryNh<Iva>, IIvas
+    public class Incoterms: CompleteRepositoryNh<Incoterm>, IIncoterms
     {
-        public Ivas(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
+        public Incoterms(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
 
-        public Iva BuscaPeloCodigo(string codigoSap)
+        public IIncoterms BuscaPeloCodigo(string codigo)
         {
-            return Query.SingleOrDefault(x => x.Codigo == codigoSap);
+            Query = Query.Where(x => x.Codigo == codigo);
+            return this;
         }
     }
 }

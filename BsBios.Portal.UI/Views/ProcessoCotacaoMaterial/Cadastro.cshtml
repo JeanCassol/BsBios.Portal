@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
 @model ProcessoCotacaoMaterialCadastroVm
 
 @{
@@ -14,20 +15,8 @@
             
             @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
             
-            <div class="linha">
-                <div>
-@*                    @Html.Label("Status:",new{@class="labelNaLinha"})*@
-                    @Html.LabelFor(x => x.DescricaoStatus)
-                    @Html.DisplayFor(model => model.DescricaoStatus)
-                </div>
-            </div>
-            <div class="linha">
-                <div>
-                    @Html.LabelFor(x => x.DataTerminoLeilao)
-                    @Html.LabelFor(x => x.DataTerminoLeilao)
-                    @Html.ValidationMessageFor(x => x.DataTerminoLeilao)
-                </div>
-            </div>
+            @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DescricaoStatus))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataTerminoLeilao,"campoDatePicker"))
 
 
             @*            @{ var comboMaterial = new ColunaComDropDown<ProcessoCotacaoMaterialCadastroVm, string>(x => x.CodigoMaterial, 

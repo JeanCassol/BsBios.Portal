@@ -4,6 +4,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
 {
     public interface IIvas: ICompleteRepository<Iva>
     {
-        Iva BuscaPeloCodigoSap(string codigoSap);
+        Iva BuscaPeloCodigo(string codigoSap);
     }
 }

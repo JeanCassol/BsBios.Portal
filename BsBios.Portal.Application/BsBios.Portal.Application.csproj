@@ -46,6 +46,7 @@
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
+    <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />
     <Compile Include="Services\Contracts\ICadastroIva.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Services\Implementations\CadastroProdutoFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroRequisicaoCompra.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />
+    <Compile Include="Services\Implementations\CadastroIncoterm.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

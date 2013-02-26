@@ -12,7 +12,7 @@ namespace BsBios.Portal.Domain.ValueObjects
             Fornecedor = 2
         }
 
-        public enum StatusPedidoCotacao
+        public enum StatusProcessoCotacao
         {
             [Description("Não Iniciado")]
             NaoIniciado = 1,
