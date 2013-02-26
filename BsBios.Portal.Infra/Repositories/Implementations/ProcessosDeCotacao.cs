@@ -10,9 +10,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
         }
 
-        public ProcessoDeCotacao BuscaPorId(int id)
+        public IProcessosDeCotacao BuscaPorId(int id)
         {
-            return Query.SingleOrDefault(x => x.Id == id);
+            Query = Query.Where(x => x.Id == id);
+            return this;
         }
 
 

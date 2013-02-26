@@ -44,12 +44,12 @@
     <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
     <Compile Include="CotacaoInicioVm.cs" />
-    <Compile Include="CotacaoMaterialCadastroVm.cs" />
+    <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoMaterialListagemVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />
     <Compile Include="FornecedorCadastroVm.cs" />
-    <Compile Include="FornecedorCotacaoVm.cs" />
+    <Compile Include="ProcessoCotacaoFornecedorVm.cs" />
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="IvaCadastroVm.cs" />

@@ -17,15 +17,15 @@
                             Codigo: {
                                 type: "string"
                             },
-                            Cnpj:{
-                                type:"string"
-                            },
-                            
                             Nome: {
                                 type: "string"
                             },
+                            Preco: {
+                                type: "number"
+                            },
+
                             Selecionado: {
-                                type: "bool"
+                                type: "string"
                             }
                         }
                     },
@@ -36,7 +36,7 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarFornecedores", "CotacaoMaterial",new{idCotacao = ViewData["IdCotacao"]})',
+                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
@@ -59,16 +59,14 @@
                     title: "Nome"
                 },
                 {
-                    field: "Cnpj",
+                    field: "Preco",
                     width: 200,
-                    title: "CNPJ"
+                    title: "Preço"
                 },
                 {
                     field: 'Selecionado',
                     title: 'Selecionado?',
-                    width: 100,
-                    sortable: false,
-                    template: '<input type="checkbox" data-idfornecedor="${Codigo}"></input>'
+                    width: 100
                 }]
         });
 

@@ -544,6 +544,10 @@ input[type="checkbox"] {
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 
+.botaoGrande {
+    width: 200px!important
+}
+
 td input[type="submit"],
 td input[type="button"],
 td button {

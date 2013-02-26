@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
@@ -53,6 +53,55 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             return kendoGridVm;
 
+        }
+
+        public ProcessoCotacaoMaterialCadastroVm ConsultaProcesso(int idProcessoCotacaoMaterial)
+        {
+             _processosDeCotacao.BuscaPorId(idProcessoCotacaoMaterial);
+            var processoDeCotacao = (from p in _processosDeCotacao.GetQuery()
+                                     let processo = (ProcessoDeCotacaoDeMaterial) p
+                                     select new
+                                         {
+                                             processo.Id,
+                                             DataTerminoLeilao = p.DataLimiteDeRetorno,
+                                             processo.Status,
+                                             processo.RequisicaoDeCompra.Numero,
+                                             processo.RequisicaoDeCompra.NumeroItem,
+                                             processo.RequisicaoDeCompra.Centro,
+                                             Material = processo.Produto.Descricao,
+                                             processo.RequisicaoDeCompra.Descricao,
+                                             processo.Quantidade,
+                                             processo.RequisicaoDeCompra.DataDeLiberacao,
+                                             processo.RequisicaoDeCompra.DataDeRemessa,
+                                             processo.RequisicaoDeCompra.DataDeSolicitacao,
+                                             FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
+                                             Criador = processo.RequisicaoDeCompra.Criador.Nome,
+                                             Requisitante = processo.RequisicaoDeCompra.Requisitante.Nome,
+                                             processo.RequisicaoDeCompra.UnidadeMedida
+                                         }).Single();
+
+            return new ProcessoCotacaoMaterialCadastroVm()
+                {
+                    Id = processoDeCotacao.Id,
+                    DataTerminoLeilao = processoDeCotacao.DataTerminoLeilao.ToString(),
+                    DescricaoStatus = processoDeCotacao.Status.Descricao(),
+                    RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
+                        {
+                            Centro = processoDeCotacao.Centro,
+                            Criador = processoDeCotacao.Criador,
+                            DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
+                            DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
+                            DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
+                            Descricao = processoDeCotacao.Descricao,
+                            FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
+                            Material = processoDeCotacao.Material,
+                            NumeroItem = processoDeCotacao.NumeroItem,
+                            NumeroRequisicao = processoDeCotacao.Numero,
+                            Quantidade = processoDeCotacao.Quantidade,
+                            Requisitante = processoDeCotacao.Requisitante,
+                            UnidadeMedida = processoDeCotacao.UnidadeMedida
+                        }
+                };
         }
     }
 }

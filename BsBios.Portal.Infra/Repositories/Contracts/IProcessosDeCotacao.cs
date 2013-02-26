@@ -4,6 +4,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
 {
     public interface IProcessosDeCotacao:ICompleteRepository<ProcessoDeCotacao>
     {
-        ProcessoDeCotacao BuscaPorId(int id);
+        IProcessosDeCotacao BuscaPorId(int id);
     }
 }

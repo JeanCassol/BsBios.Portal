@@ -29,7 +29,7 @@ namespace BsBios.Portal.ViewModel
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Data Inicialde de Validade da Cotação é obrigatório")]
-        [Display(Name = "Data Inicial de Validade" )]
+        [Display(Name = "Data Inicial de Validade")]
         public string DataValidadeCotacaoInicial { get; set; }
 
         [DataType(DataType.Date)]

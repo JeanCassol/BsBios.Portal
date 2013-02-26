@@ -1,6 +1,5 @@
-﻿@using BsBios.Portal.UI.Helpers
-@using BsBios.Portal.ViewModel
-@model CotacaoMaterialCadastroVm
+﻿@using BsBios.Portal.ViewModel
+@model ProcessoCotacaoMaterialCadastroVm
 
 @{
     ViewBag.TituloDaPagina = "Cotação de Material - Editar";
@@ -12,37 +11,55 @@
             <legend></legend>
 
             @Html.HiddenFor(model => model.Id)
-
-            <div>
-                @Html.Label("Status:",new{@class="labelNaLinha"})
-                @Html.DisplayFor(model => model.DescricaoStatus)
+            
+            @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
+            
+            <div class="linha">
+                <div>
+@*                    @Html.Label("Status:",new{@class="labelNaLinha"})*@
+                    @Html.LabelFor(x => x.DescricaoStatus)
+                    @Html.DisplayFor(model => model.DescricaoStatus)
+                </div>
+            </div>
+            <div class="linha">
+                <div>
+                    @Html.LabelFor(x => x.DataTerminoLeilao)
+                    @Html.LabelFor(x => x.DataTerminoLeilao)
+                    @Html.ValidationMessageFor(x => x.DataTerminoLeilao)
+                </div>
             </div>
 
-            @{ var comboMaterial = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>( x => x.CodigoMaterial, 
+
+            @*            @{ var comboMaterial = new ColunaComDropDown<ProcessoCotacaoMaterialCadastroVm, string>(x => x.CodigoMaterial, 
                 ((List<ProdutoCadastroVm>) ViewBag.Materiais)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoSap), Selected = Model != null && x.CodigoSap == Model.CodigoMaterial}),
                 "IdMaterial");
 
-               var quantidadeMaterial = new ColunaComEditor<CotacaoMaterialCadastroVm, int>(x => x.QuantidadeMaterial);
+               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoMaterialCadastroVm, int>(x => x.QuantidadeMaterial);
             }
             
             @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DataInicioLeilao, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DataTerminoLeilao, "campoDatePicker"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataInicioLeilao, "campoDatePicker"),
+            new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataTerminoLeilao, "campoDatePicker"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
-            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(x => x.Requisitos),
-            new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(x => x.Observacoes))
+            @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos),
+            new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Observacoes))*@
+            <div class="divBotao">
+                <input type="button" value="Fornecedores" class="blue" style="width: 130px"/>
+            </div>
             
-            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("IdCotacao",1)})
+            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao",Model.Id)})
             @Html.ValidationSummary(true)
 
-        <div class="divBotao">
-            <input type="submit" value="Salvar" class="blue" />
-        </div>
+            <div class="divBotao">
+                <input type="button" id="btnIniciarProcesso" value="Iniciar" class="blue" />
+                <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+                <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
+            </div>
         </fieldset>
     }
 </div>
@@ -50,4 +67,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+    <script type="text/javascript">
+                
+    </script>
 }
