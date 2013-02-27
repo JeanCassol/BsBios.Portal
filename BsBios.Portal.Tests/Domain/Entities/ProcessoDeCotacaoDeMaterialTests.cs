@@ -154,6 +154,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void SeTentarInformarUmaCotacaoParaUmProcessoQueNaoEstejaAbertoDeveGerarExcecao()
         {
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            processoDeCotacaoDeMaterial.AtualizarCotacao("FORNEC0001", 100, 50, new Incoterm("001", "INCOTERM 001"),
+                                                         "Descrição do Incoterm");
             Assert.Fail();
         }
 

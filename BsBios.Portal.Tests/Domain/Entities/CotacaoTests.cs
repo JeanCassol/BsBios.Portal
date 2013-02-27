@@ -21,6 +21,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual("FORNEC0001", cotacao.Fornecedor.Codigo);
             Assert.IsNull(cotacao.ValorUnitario);
             Assert.IsNull(cotacao.QuantidadeAdquirida);
+            Assert.IsNull(cotacao.Incoterm);
+            Assert.IsNull(cotacao.DescricaoIncoterm);
+        }
+
+        [TestMethod]
+        public void QuandoAtualizarUmaCotacaoAsPropriedadesSaoAtualizadas()
+        {
+            
         }
 
         
