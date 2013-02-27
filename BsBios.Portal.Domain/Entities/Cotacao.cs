@@ -9,9 +9,11 @@ namespace BsBios.Portal.Domain.Entities
     public class Cotacao
     {
         public virtual ProcessoDeCotacao ProcessoDeCotacao { get; protected set; }
-        public virtual Fornecedor Fornecedor { get; set; }
-        public virtual decimal? ValorUnitario { get; set; }
-        public virtual decimal? QuantidadeAdquirida { get; set; }
+        public virtual Fornecedor Fornecedor { get; protected set; }
+        public virtual decimal? ValorUnitario { get; protected set; }
+        public virtual decimal? QuantidadeAdquirida { get; protected set; }
+        public virtual Incoterm Incoterm { get; protected set; }
+        public virtual string DescricaoIncoterm{ get; protected set; }
 
         protected Cotacao(){}
 
@@ -19,8 +21,17 @@ namespace BsBios.Portal.Domain.Entities
         {
             ProcessoDeCotacao = processoDeCotacao;
             Fornecedor = fornecedor;
-            //QuantidadeAdquirida = 0;
         }
+
+        public virtual void Atualizar(decimal valorUnitario, decimal quantidadeAdquirida, Incoterm incoterm, string descricaoIncoterm)
+        {
+            ValorUnitario = valorUnitario;
+            QuantidadeAdquirida = quantidadeAdquirida;
+            Incoterm = incoterm;
+            DescricaoIncoterm = descricaoIncoterm;
+
+        }
+
     }
 
    
