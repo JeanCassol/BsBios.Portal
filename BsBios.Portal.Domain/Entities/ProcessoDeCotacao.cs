@@ -15,10 +15,12 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal Quantidade { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual IList<Fornecedor> Fornecedores { get; protected set; }
+        public virtual IList<Cotacao> Cotacoes { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
             Fornecedores = new List<Fornecedor>();
+            Cotacoes = new List<Cotacao>();
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
 
@@ -37,17 +39,13 @@ namespace BsBios.Portal.Domain.Entities
             DataLimiteDeRetorno = dataLimiteDeRetorno;
         }
 
-        public virtual void Abrir()
-        {
-            if (!DataLimiteDeRetorno.HasValue)
-            {
-                throw new ProcessoDeCotacaoSemDataLimiteRetornoException();
-            }
-            Status = Enumeradores.StatusProcessoCotacao.Aberto;
-        }
 
         public virtual void AdicionarFornecedor(Fornecedor fornecedor)
         {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw  new ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException(Status.Descricao());
+            }
             var fornecedorConsulta = Fornecedores.SingleOrDefault(x => x.Codigo == fornecedor.Codigo);
             if (fornecedorConsulta != null)
             {
@@ -57,6 +55,10 @@ namespace BsBios.Portal.Domain.Entities
         }
         public virtual void RemoverFornecedor(string codigoFornecedor)
         {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw new ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException(Status.Descricao());
+            }
             var fornecedor = Fornecedores.SingleOrDefault(x => x.Codigo == codigoFornecedor);
             if (fornecedor == null)
             {
@@ -65,8 +67,58 @@ namespace BsBios.Portal.Domain.Entities
             Fornecedores.Remove(fornecedor);
         }
 
+        public virtual void Abrir()
+        {
+            if (!DataLimiteDeRetorno.HasValue)
+            {
+                throw new ProcessoDeCotacaoSemDataLimiteRetornoException();
+            }
+            if (Fornecedores.Count == 0)
+            {
+                throw new ProcessoDeCotacaoSemFornecedoresException();
+            }
+
+            foreach (var fornecedor in Fornecedores)
+            {
+                var cotacao = new Cotacao(fornecedor);
+                Cotacoes.Add(cotacao);
+            }
+
+            Status = Enumeradores.StatusProcessoCotacao.Aberto;
+        }
+
+        public virtual void AtualizarCotacao(string codigoFornecedor, decimal valorUnitario, Incoterm incoterm, string descricaoDoIncoterm)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoAtualizacaoCotacaoException();
+            }
+            if (DateTime.Today > DataLimiteDeRetorno)
+            {
+                throw new ProcessoDeCotacaoDataLimiteExpiradaException(DataLimiteDeRetorno.Value);
+            }
+            //busca a cotação do fornecedor
+            Cotacao cotacao = Cotacoes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+
+            cotacao.Atualizar(valorUnitario, incoterm, descricaoDoIncoterm);
+        }
+
+        public virtual void SelecionarCotacao(string codigoFornecedor, decimal quantidadeAdquirida, Iva iva, CondicaoDePagamento condicaoDePagamento)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
+            }
+            Cotacao cotacao = Cotacoes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+            cotacao.Selecionar(quantidadeAdquirida, iva,condicaoDePagamento);
+        }
+
         public virtual void Fechar()
         {
+            if (Cotacoes.Count(x => x.Selecionada) == 0)
+            {
+                throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
+            }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
         }
         

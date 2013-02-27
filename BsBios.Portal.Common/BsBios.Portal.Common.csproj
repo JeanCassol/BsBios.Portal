@@ -40,9 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoFechadoSelecaoCotacaoException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoDataLimiteExpiradaException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoFechadoAtualizacaoCotacaoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException.cs" />
     <Compile Include="Exceptions\ExceptionUtil.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoIniciadoAtualizacaoDadosException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoFecharSemCotacaoSelecionadaException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemDataLimiteRetornoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemFornecedoresException.cs" />
     <Compile Include="Exceptions\SenhaIncorretaException.cs" />

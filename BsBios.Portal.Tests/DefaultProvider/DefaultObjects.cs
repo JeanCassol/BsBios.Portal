@@ -51,6 +51,25 @@ namespace BsBios.Portal.Tests.DefaultProvider
             return processoDeCotacao;
         }
 
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialPadrao();
+            Fornecedor fornecedor = ObtemFornecedorPadrao();
+            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
+            processoDeCotacao.AdicionarFornecedor(fornecedor);
+            processoDeCotacao.Abrir();
+            return processoDeCotacao;
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
+            processoDeCotacao.AtualizarCotacao("FORNEC0001",125, ObtemIncotermPadrao(),"Descrição do Incotem");
+            processoDeCotacao.SelecionarCotacao("FORNEC0001", 100, ObtemIvaPadrao(), ObtemCondicaoDePagamentoPadrao());
+            processoDeCotacao.Fechar();
+            return processoDeCotacao;
+        }
+
         public static Fornecedor ObtemFornecedorPadrao()
         {
             var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 001", "fornecedor0001@empresa.com.br");
@@ -70,5 +89,19 @@ namespace BsBios.Portal.Tests.DefaultProvider
             return produto;
         }
 
+        public static Incoterm ObtemIncotermPadrao()
+        {
+            return new Incoterm("001", "INCOTERM 001");
+        }
+
+        public static Iva ObtemIvaPadrao()
+        {
+            return new Iva("01", "IVA 01");
+        }
+
+        public static CondicaoDePagamento ObtemCondicaoDePagamentoPadrao()
+        {
+            return new CondicaoDePagamento("C001", "CONDIÇÃO 001");
+        }
     }
 }

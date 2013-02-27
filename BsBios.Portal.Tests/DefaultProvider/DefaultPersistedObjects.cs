@@ -12,7 +12,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
     public static class DefaultPersistedObjects
     {
         private static readonly IUnitOfWorkNh UnitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
-        public static void PersisteUsuario(Usuario usuario)
+        public static void PersistirUsuario(Usuario usuario)
         {
             Queries.RemoverUsuariosCadastrados();
             UnitOfWorkNh.BeginTransaction();
@@ -21,25 +21,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
             UnitOfWorkNh.Commit();
         }
 
-        public static void PersistirUsuarios(IList<Usuario> usuariosCriados)
-        {
-            Queries.RemoverUsuariosCadastrados();
-            UnitOfWorkNh.BeginTransaction();
-            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
-            foreach (var usuarioCriado in usuariosCriados)
-            {
-                usuarios.Save(usuarioCriado);
-            }
-
-            UnitOfWorkNh.Commit();
-        }
-
         public static void PersistirFornecedor(Fornecedor fornecedor)
         {
             Queries.RemoverFornecedoresCadastrados();
             UnitOfWorkNh.BeginTransaction();
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-            fornecedores.Save(  fornecedor);
+            fornecedores.Save(fornecedor);
             UnitOfWorkNh.Commit();
         }
 
@@ -55,7 +42,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static void PersistirRequisicaoDeCompra(RequisicaoDeCompra requisicaoDeCompra)
         {
             Queries.RemoverRequisicoesDeCompraCadastradas();
-            PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador});
+            PersistirUsuario(requisicaoDeCompra.Criador);
             PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
             PersistirProduto(requisicaoDeCompra.Material);
 

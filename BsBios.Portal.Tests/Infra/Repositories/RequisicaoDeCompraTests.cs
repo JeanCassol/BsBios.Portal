@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Queries.RemoverRequisicoesDeCompraCadastradas();
 
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            DefaultPersistedObjects.PersistirUsuarios(new List<Usuario>(){requisicaoDeCompra.Criador});
+            DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
             DefaultPersistedObjects.PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
             DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
 
@@ -60,7 +60,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Queries.RemoverRequisicoesDeCompraCadastradas();
 
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraSemRequisitanteEFornecedor();
-            DefaultPersistedObjects.PersistirUsuarios(new List<Usuario>() { requisicaoDeCompra.Criador });
+            DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
             DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
 
             UnitOfWorkNh.BeginTransaction();
