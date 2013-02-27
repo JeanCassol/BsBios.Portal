@@ -14,7 +14,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         private static readonly IUnitOfWorkNh UnitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
         public static void PersistirUsuario(Usuario usuario)
         {
-            Queries.RemoverUsuariosCadastrados();
+            //Queries.RemoverUsuariosCadastrados();
             UnitOfWorkNh.BeginTransaction();
             var usuarios = ObjectFactory.GetInstance<IUsuarios>();
             usuarios.Save(usuario);
@@ -23,7 +23,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static void PersistirFornecedor(Fornecedor fornecedor)
         {
-            Queries.RemoverFornecedoresCadastrados();
+            //Queries.RemoverFornecedoresCadastrados();
             UnitOfWorkNh.BeginTransaction();
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
             fornecedores.Save(fornecedor);
@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static void PersistirProduto(Produto produto)
         {
-            Queries.RemoverProdutosCadastrados();
+            //Queries.RemoverProdutosCadastrados();
             UnitOfWorkNh.BeginTransaction();
             var produtos = ObjectFactory.GetInstance<IProdutos>();
             produtos.Save(produto);

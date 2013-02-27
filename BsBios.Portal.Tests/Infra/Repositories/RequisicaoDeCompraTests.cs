@@ -23,16 +23,26 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public void DepoisDePersistirUmaRequisicaoDeCompraConsigoConsultar()
         {
             Queries.RemoverRequisicoesDeCompraCadastradas();
-
-            var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
-            DefaultPersistedObjects.PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
-            DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
+            Queries.RemoverFornecedoresCadastrados();
+            Queries.RemoverProdutosCadastrados();
+            Queries.RemoverUsuariosCadastrados();
 
             UnitOfWorkNh.BeginTransaction();
-
+            UnitOfWorkNh.Session.Clear();
+            var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            UnitOfWorkNh.Session.Save(requisicaoDeCompra.Criador);
+            UnitOfWorkNh.Session.Save(requisicaoDeCompra.FornecedorPretendido);
+            UnitOfWorkNh.Session.Save(requisicaoDeCompra.Material);
             _requisicoesDeCompra.Save(requisicaoDeCompra);
             UnitOfWorkNh.Commit();
+
+            //DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
+            //DefaultPersistedObjects.PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
+            //DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
+
+            //UnitOfWorkNh.BeginTransaction();
+            //_requisicoesDeCompra.Save(requisicaoDeCompra);
+            //UnitOfWorkNh.Commit();
             
             UnitOfWorkNh.Session.Clear();
             RequisicaoDeCompra requisicaoConsultada = _requisicoesDeCompra.BuscaPeloId(requisicaoDeCompra.Id);
@@ -58,6 +68,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public void ConsigoPersistirEConsultarUmaRequisicaoDeCompraSemInformarRequisitanteEFornecedorPretendido()
         {
             Queries.RemoverRequisicoesDeCompraCadastradas();
+            Queries.RemoverFornecedoresCadastrados();
+            Queries.RemoverProdutosCadastrados();
+            Queries.RemoverUsuariosCadastrados();
 
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraSemRequisitanteEFornecedor();
             DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
