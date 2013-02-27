@@ -16,6 +16,9 @@ namespace BsBios.Portal.IoC
             For<IConsultaProcessoDeCotacaoDeMaterial>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaProcessoDeCotacaoDeMaterial>();
+            For<IConsultaFornecedor>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaFornecedor>();
         }
     }
 }

@@ -386,7 +386,6 @@
     <Content Include="Views\Produto\Cadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Index.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
-    <Content Include="Views\Fornecedor\_selecionarFornecedor.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
@@ -395,6 +394,7 @@
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\Index.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

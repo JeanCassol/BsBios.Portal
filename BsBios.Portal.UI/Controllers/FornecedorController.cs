@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -11,44 +13,29 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class FornecedorController : Controller
     {
-        private  readonly IList<FornecedorListagemVm> _fornecedores;
-        //
-        // GET: /Fornecedor/
-        public FornecedorController()
+        private readonly IConsultaFornecedor _consultaFornecedor;
+        public FornecedorController(IConsultaFornecedor consultaFornecedor)
         {
-            _fornecedores = new List<FornecedorListagemVm>();
-            _fornecedores.Add(new FornecedorListagemVm()
-                {
-                    Id = 1,
-                    Nome = "Transporta Cometa"
-                });
-            _fornecedores.Add(new FornecedorListagemVm()
-            {
-                Id = 2,
-                Nome = "Transporta Vapt Vupt"
-            });
-            _fornecedores.Add(new FornecedorListagemVm()
-            {
-                Id = 3,
-                Nome = "Transporta Centenária"
-            });
-            _fornecedores.Add(new FornecedorListagemVm()
-            {
-                Id = 4,
-                Nome = "Transporta Mercúrio"
-            });
+            _consultaFornecedor = consultaFornecedor;
         }
 
-        [HttpGet]
-        public JsonResult Listar()
-        {
-            return Json(new { registros = _fornecedores.OrderBy(x => x.Nome), totalCount = _fornecedores.Count }, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public PartialViewResult Index()
-        {
-            return PartialView("_selecionarFornecedor");
-        }
+        //[HttpGet]
+        //public JsonResult Listar(PaginacaoVm paginacaoVm)
+        //{
+        //    KendoGridVm kendoGridVm = _consultaFornecedor
+        //    return Json(new { registros = , totalCount =  }, JsonRequestBehavior.AllowGet);
+        //}
+        //[HttpGet]
+        //public PartialViewResult Index()
+        //{
+        //    return View();
+        //}
 
+        [HttpGet]
+        public JsonResult FornecedoresDoProduto(string codigoProduto)
+        {
+            KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresDoProduto(codigoProduto);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -12,6 +12,7 @@
             <legend></legend>
 
             @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.CodigoMaterial)
             
             @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
             
@@ -38,7 +39,7 @@
             @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos),
             new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Observacoes))*@
             <div class="divBotao">
-                <input type="button" value="Fornecedores" class="blue" style="width: 130px"/>
+                <input type="button" id="btnSelecionarFornecedores" value="Fornecedores" class="blue" style="width: 130px"/>
             </div>
             
             @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao",Model.Id)})
@@ -51,12 +52,37 @@
             </div>
         </fieldset>
     }
+    <div id="divSelecionarFornecedores"></div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script type="text/javascript">
-                
+        $(function () {
+
+            $('#divSelecionarFornecedores').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Selecionar Fornecedores',
+                modal: true,
+                buttons: {
+                    "Confirmar": function() {
+                          
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $('#btnSelecionarFornecedores').click(function() {
+                $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")" + "/", 
+                    function (response, status, xhr) {
+                        $('#divSelecionarFornecedores').dialog('open');
+                    });   
+            });                 
+        });
     </script>
 }

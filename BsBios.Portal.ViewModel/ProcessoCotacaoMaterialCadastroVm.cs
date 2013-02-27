@@ -8,9 +8,9 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Status: ")]
         public string DescricaoStatus { get; set; }
 
-        //[Required(ErrorMessage="Material é obrigatório")]
+        //[Required(ErrorMessage = "Material é obrigatório")]
         //[Display(Name = "Material")]
-        //public string CodigoMaterial { get; set; }
+        public string CodigoMaterial { get; set; }
         //public string DescricaoMaterial { get; set; }
 
         //[Display(Name = "Quantidade")]

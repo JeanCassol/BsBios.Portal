@@ -1,0 +1,99 @@
+﻿<div id="divFornecedores">
+    @Html.Hidden("CodigoProduto", ViewBag.CodigoMaterial)
+    <ul>
+        <li>
+            <a href="#divFornecedoresDoProduto">Fornecedores do Produto</a>
+        </li>
+        <li>
+            <a href="#divFornecedoresGerais">Fornecedores Gerais</a>
+        </li>
+    </ul>
+    <div id="divFornecedoresDoProduto" style="color:red;">
+        <div id="divGridFornecedoresDoProduto"></div>
+    </div>
+    <div id="divFornecedoresGerais" style="color:green;">
+        <div id="divGridFornecedoresGerais"></div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#divGridFornecedoresDoProduto").kendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        id: 'Codigo',
+                        fields: {
+                            Codigo: {type: "string"},
+                            Descricao: {type: "string"},
+                            Email: {type: "string"}
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros',
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("FornecedoresDoProduto", "Fornecedor")',
+                        type: 'GET',
+                        cache: false,
+                        data: function () {
+                            return {
+                                codigoProduto: $("CodigoProduto").val()
+                            };
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            groupable: false,
+            sortable: true,
+            pageable:
+            {
+                refresh: true,
+                pageSizes: true,
+                messages: {
+                    display: '{0} - {1} de {2} registros',
+                    empty: 'Nenhum registro encontrado',
+                    itemsPerPage: 'registros por página',
+                    first: 'Ir para a primeira página',
+                    previous: 'Ir para a página anterior',
+                    next: 'Ir para a próxima página',
+                    last: 'Ir para a última página',
+                    refresh: 'Atualizar'
+                }
+            },
+            selectable: 'row',
+            columns:
+            [
+                {
+                    field: 'Id',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 60,
+                    sortable: false,
+                    template: '<input type="button" class="button_edit" data-codigofornecedor="${Codigo}"></input>'
+                },
+                {
+                    field: "Codigo",
+                    width: 90,
+                    title: "Codigo"
+                }, {
+                    field: "Descricao",
+                    width: 300,
+                    title: "Nome"
+                }, {
+                    width: 150,
+                    field: "Email",
+                    title: "E-mail"
+                }
+            ]
+        });
+
+        $('#divFornecedores').tabs();
+    });
+</script>

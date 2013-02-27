@@ -68,6 +68,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              processo.RequisicaoDeCompra.Numero,
                                              processo.RequisicaoDeCompra.NumeroItem,
                                              processo.RequisicaoDeCompra.Centro,
+                                             CodigoMaterial = processo.Produto.Codigo,
                                              Material = processo.Produto.Descricao,
                                              processo.RequisicaoDeCompra.Descricao,
                                              processo.Quantidade,
@@ -85,6 +86,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Id = processoDeCotacao.Id,
                     DataTerminoLeilao = processoDeCotacao.DataTerminoLeilao.ToString(),
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
+                    CodigoMaterial = processoDeCotacao.CodigoMaterial,
                     RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
                         {
                             Centro = processoDeCotacao.Centro,
