@@ -87,6 +87,7 @@
     <Compile Include="Application\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoServiceTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />

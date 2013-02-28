@@ -50,7 +50,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void DepoisDePersistirUmProcessoDeCotacaoDeMaterialConsigoConsultar()
         {
-            Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
             var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
             DefaultPersistedObjects.PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
 
@@ -69,7 +68,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.IsNull(processoConsultado.DataLimiteDeRetorno);
             Assert.IsFalse(NHibernateUtil.IsInitialized(processoConsultado.RequisicaoDeCompra));
             Assert.AreEqual(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Id, processoConsultado.RequisicaoDeCompra.Id);
-
         }
+
     }
 }

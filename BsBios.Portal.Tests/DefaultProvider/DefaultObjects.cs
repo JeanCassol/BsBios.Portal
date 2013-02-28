@@ -10,11 +10,18 @@ namespace BsBios.Portal.Tests.DefaultProvider
 {
     public static class DefaultObjects
     {
+        private static int _contadorFornecedores = 0;
+        private static int _contadorProdutos = 0;
+        private static int _contadorCondicoesDePagamento = 0;
+        private static int _contadorIvas = 0;
+        private static int _contadorIncoterms = 0;
+        private static int _contadorUsuarios = 0;
+
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
         {
-            var usuarioCriador = new Usuario("Usuario Criador", "criador", null, Enumeradores.Perfil.Comprador);
-            var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
-            var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
+            var usuarioCriador = ObtemUsuarioPadrao();
+            var fornecedorPretendido = ObtemFornecedorPadrao();
+            var material = ObtemProdutoPadrao();
 
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
@@ -29,8 +36,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemRequisitanteEFornecedor()
         {
-            var usuarioCriador = new Usuario("Usuario Criador", "criador", null, Enumeradores.Perfil.Comprador);
-            var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
+            var usuarioCriador = ObtemUsuarioPadrao();
+            var material = ObtemProdutoPadrao();
 
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
@@ -64,44 +71,53 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
-            processoDeCotacao.AtualizarCotacao("FORNEC0001",125, ObtemIncotermPadrao(),"Descrição do Incotem");
-            processoDeCotacao.SelecionarCotacao("FORNEC0001", 100, ObtemIvaPadrao(), ObtemCondicaoDePagamentoPadrao());
+            var codigoFornecedor = processoDeCotacao.Fornecedores.First().Codigo;
+            processoDeCotacao.AtualizarCotacao(codigoFornecedor,125, ObtemIncotermPadrao(),"Descrição do Incotem");
+            processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, ObtemIvaPadrao(), ObtemCondicaoDePagamentoPadrao());
             processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
 
         public static Fornecedor ObtemFornecedorPadrao()
         {
-            var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 001", "fornecedor0001@empresa.com.br");
+            _contadorFornecedores++;
+            var fornecedor = new Fornecedor("FORNEC000" + _contadorFornecedores, "FORNECEDOR 000" + _contadorFornecedores, 
+                "fornecedor000" + _contadorFornecedores + "@empresa.com.br");
             return fornecedor;
         }
 
         public static Usuario ObtemUsuarioPadrao()
         {
-            var usuario = new Usuario("Usuario 0001", "usuario0001", "usuario0001@empresa.com.br",
-                                      Enumeradores.Perfil.Comprador);
+            _contadorUsuarios++;
+            var usuario = new Usuario("Usuario 000" + _contadorUsuarios, "usuario000" + _contadorUsuarios, 
+                "usuario000" + _contadorUsuarios + "@empresa.com.br", Enumeradores.Perfil.Comprador);
             return usuario;
         }
 
         public static Produto ObtemProdutoPadrao()
         {
-            var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
+            _contadorProdutos++;
+            var produto = new Produto("PROD000" + _contadorProdutos, "PRODUTO 000" + _contadorProdutos, "01");
             return produto;
         }
 
         public static Incoterm ObtemIncotermPadrao()
         {
-            return new Incoterm("001", "INCOTERM 001");
+            _contadorIncoterms ++;
+            return new Incoterm("0" + _contadorIncoterms, "INCOTERM 0" + _contadorIncoterms);
         }
 
         public static Iva ObtemIvaPadrao()
         {
-            return new Iva("01", "IVA 01");
+            _contadorIvas++;
+            return new Iva(Convert.ToString(_contadorIvas), "IVA " + _contadorIvas);
         }
 
         public static CondicaoDePagamento ObtemCondicaoDePagamentoPadrao()
         {
-            return new CondicaoDePagamento("C001", "CONDIÇÃO 001");
+            _contadorCondicoesDePagamento++;
+            return new CondicaoDePagamento("C"+ _contadorCondicoesDePagamento , "CONDIÇÃO 00" + _contadorCondicoesDePagamento);
         }
+        
     }
 }

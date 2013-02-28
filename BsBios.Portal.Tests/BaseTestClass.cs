@@ -14,6 +14,14 @@ namespace BsBios.Portal.Tests
         {
             SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBiosTesteUnitario"].ConnectionString);
             IoCWorker.Configure();
+            Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+            Queries.RemoverRequisicoesDeCompraCadastradas();
+            Queries.RemoverFornecedoresCadastrados();
+            Queries.RemoverProdutosCadastrados();
+            Queries.RemoverUsuariosCadastrados();
+            Queries.RemoverCondicoesDePagamentoCadastradas();
+            Queries.RemoverIvasCadastrados();
+            Queries.RemoverIncotermsCadastrados();
         }
     }
 }
