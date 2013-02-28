@@ -46,9 +46,11 @@
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
+    <Compile Include="Queries\Contracts\IConsultaProduto.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
+    <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />

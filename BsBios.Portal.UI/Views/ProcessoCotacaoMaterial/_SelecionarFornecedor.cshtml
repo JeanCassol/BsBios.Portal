@@ -1,32 +1,166 @@
-﻿<div id="divFornecedores">
-    @{
-        string codigoProduto = ViewBag.CodigoProduto;
-    }
-    @Html.Hidden("CodigoProduto",codigoProduto)
-    <ul>
-        <li>
-            <a href="#divFornecedoresDoProduto">Fornecedores do Produto</a>
-        </li>
-        <li>
-            <a href="#divFornecedoresGerais">Fornecedores Gerais</a>
-        </li>
-    </ul>
-    <div id="divFornecedoresDoProduto" style="color:red;">
-        <div id="divGridFornecedoresDoProduto"></div>
+﻿<style type="text/css">
+     .separador {
+        background-color: #0095cd;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+     }
+ </style>
+<div id="divFornecedores" style="font:75% Arial,Helvetica,sans-serif;">
+    @Html.Hidden("CodigoProduto",ViewData["CodigoProduto"])
+    @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
+    <div id="divFornecedoresParaSelecionar">
+        <ul>
+            <li>
+                <a href="#divFornecedoresDoProduto">Fornecedores do Produto</a>
+            </li>
+            <li>
+                <a href="#divFornecedoresGerais">Fornecedores Gerais</a>
+            </li>
+        </ul>
+       
+        <div id="divFornecedoresDoProduto" style="color:red;">
+            <div id="divGridFornecedoresDoProduto"></div>
+        </div>
+        <div id="divFornecedoresGerais" style="color:green;">
+            <div id="divGridFornecedoresGerais"></div>
+        </div>
     </div>
-    <div id="divFornecedoresGerais" style="color:green;">
-        <div id="divGridFornecedoresGerais"></div>
+    <div id="divFornecedoresSelecionados">
+        <div class="separador">Fornecedores Selecionados</div>
+        <div id="divGridFornecedoresSelecionados">
+        </div>
     </div>
+
 </div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script src="@Url.Content("~/Scripts/Cadastro/gridFornecedor.js")"></script>
 <script type="text/javascript">
+
+    var fornecedoresSelecionados = [];
+    var contadorDeRegistros = 0;
+    function removerFornecedor(codigoFornecedor) {
+        for (var i = 0; i < fornecedoresSelecionados.length; i++) {
+            var fornecedor = fornecedoresSelecionados[i];
+            if (fornecedor.Codigo == codigoFornecedor) {
+                fornecedoresSelecionados.splice(i,1);
+                break;
+            }
+        }
+    }
+    
+    function adicionarFornecedor(fornecedor) {
+        if (fornecedorSelecionado(fornecedor)) {
+            return;
+        }
+        fornecedoresSelecionados.push(fornecedor);
+    }
+    
+    function fornecedorSelecionado(fornecedor) {
+        for (var i = 0; i < fornecedoresSelecionados.length; i++) {
+            var fornecedorSelecionado = fornecedoresSelecionados[i];
+            if (fornecedorSelecionado.Codigo == fornecedor.Codigo) {
+                return  true;
+            }
+        }
+        return false;
+    }
     $(document).ready(function () {
+        
+        function atualizaGrid() {
+            var grid = $("#divGridFornecedoresSelecionados").data("kendoGrid");
+            grid.dataSource.read();
+
+        }
+    
+        function selecionarFornecedorDoGrid(idDivGrid) {
+            var grid = $(idDivGrid).data("kendoGrid");
+            var dataItem = grid.dataItem(grid.select());
+            adicionarFornecedor({ Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email });
+            atualizaGrid();
+        }
+
+        $('#divGridFornecedoresDoProduto').find('.button_add').die("click");
+        $('#divGridFornecedoresDoProduto').find('.button_add').live("click", function () {
+            selecionarFornecedorDoGrid('#divGridFornecedoresDoProduto');
+        });
+
+        $('#divGridFornecedoresGerais').find('.button_add').die("click");
+        $('#divGridFornecedoresGerais').find('.button_add').live("click", function () {
+            selecionarFornecedorDoGrid('#divGridFornecedoresGerais');
+        });
+
+        $('#divGridFornecedoresSelecionados').find('.button_remove').die('click');
+        $('#divGridFornecedoresSelecionados').find('.button_remove').live('click', function () {
+            var codigoFornecedor = $(this).attr('data-codigofornecedor');
+            removerFornecedor(codigoFornecedor);
+            atualizaGrid();
+        });
+
         var codigoProduto = $('#CodigoProduto').val();
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Fornecedor")');
+        var idProcessoCotacao = $('#IdProcessoCotacao').val();
+        $.ajax({
+            url: '@Url.Action("ListarFornecedores","ProcessoCotacaoMaterial")',
+            type: 'GET',
+            cache:false,
+            data: {
+                idProcessoCotacao: idProcessoCotacao
+            },
+            dataType: 'json',
+            success: function (data) {
+                $.each(data.registros, function (indexInArray, valueOfElement) {
+                    fornecedoresSelecionados.push(valueOfElement);
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+            }
+        });
+
+        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")');
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")');
-        $('#divFornecedores').tabs();
+        $('#divFornecedoresParaSelecionar').tabs();
+        $('#divGridFornecedoresSelecionados').kendoGrid({
+            dataSource: {
+                schema: {
+                    data: function () { return fornecedoresSelecionados; },
+                    model: {
+                        id: 'Codigo',
+                        fields: {
+                            Codigo: { type: "string" },
+                            Nome: { type: "string" },
+                            Email: { type: "string" }
+                        }
+                    }
+                }
+            },
+            sortable: false,
+            selectable: 'row',
+            columns:
+            [
+                {
+                    field: 'Codigo',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 40,
+                    sortable: false,
+                    template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
+                },
+                {
+                    field: "Codigo",
+                    width: 90,
+                    title: "Código"
+                }, {
+                    field: "Nome",
+                    width: 200,
+                    title: "Nome"
+                }, {
+                    width: 250,
+                    field: "Email",
+                    title: "E-mail"
+                }
+            ]
+        });
     });
 </script>

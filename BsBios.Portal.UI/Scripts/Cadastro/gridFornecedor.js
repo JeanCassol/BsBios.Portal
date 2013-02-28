@@ -56,7 +56,7 @@
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 60,
                     sortable: false,
-                    template: '<input type="button" class="button_edit" data-codigofornecedor="${Codigo}"></input>'
+                    template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
                 },
                 {
                     field: "Codigo",

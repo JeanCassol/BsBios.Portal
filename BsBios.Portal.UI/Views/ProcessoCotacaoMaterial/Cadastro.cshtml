@@ -78,11 +78,13 @@
             });
 
             $('#btnSelecionarFornecedores').click(function() {
-                $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")" + "/?codigoProduto=" + $('#CodigoMaterial').val(), 
+                $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")"
+                    + "/?codigoProduto=" + $('#CodigoMaterial').val()
+                    + "&idProcessoCotacao=" + $('#Id').val(),
                     function (response, status, xhr) {
                         $('#divSelecionarFornecedores').dialog('open');
                     });
-@*                $('#divSelecionarFornecedores').html(@Html.Partial("_SelecionarFornecedor", new ViewDataDictionary()
+                @*                $('#divSelecionarFornecedores').html(@Html.Partial("_SelecionarFornecedor", new ViewDataDictionary()
                                                           {
                                                               {"codigoProduto", Model.CodigoMaterial}
                                                           }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -12,9 +13,11 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class ProdutoController : Controller
     {
+        private readonly IConsultaProduto _consultaProduto;
         private readonly IList<ProdutoCadastroVm> _produtos; 
-        public ProdutoController()
+        public ProdutoController(IConsultaProduto consultaProduto)
         {
+            _consultaProduto = consultaProduto;
             _produtos = new List<ProdutoCadastroVm>();
             _produtos.Add(new ProdutoCadastroVm()
             {
@@ -81,5 +84,13 @@ namespace BsBios.Portal.UI.Controllers
             int skip = (paginacao.Page - 1) * paginacao.PageSize;
             return Json(new {registros = retorno.Skip(skip).Take(paginacao.Take).ToList(), totalCount = retorno.Count()},JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult FornecedoresDoProduto(string codigoProduto)
+        {
+            KendoGridVm kendoGridVm = _consultaProduto.FornecedoresDoProduto(codigoProduto);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

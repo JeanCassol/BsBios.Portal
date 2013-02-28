@@ -120,10 +120,12 @@ namespace BsBios.Portal.UI.Controllers
             return Json(new {registros = new List<ProcessoCotacaoFornecedorVm>(), totalCount = 0}, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SelecionarFornecedores(string codigoProduto)
+        public ActionResult SelecionarFornecedores(int idProcessoCotacao, string codigoProduto)
         {
-            ViewBag.CodigoProduto = codigoProduto;
+            ViewData["CodigoProduto"] = codigoProduto;
+            ViewData["IdProcessoCotacao"] = idProcessoCotacao; 
             return PartialView("_SelecionarFornecedor");
         }
+
     }
 }

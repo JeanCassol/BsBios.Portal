@@ -77,6 +77,7 @@
     <Compile Include="Application\Builders\FornecedorCadastroBuilderTests.cs" />
     <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
+    <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
