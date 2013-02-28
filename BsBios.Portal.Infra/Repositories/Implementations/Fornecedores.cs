@@ -24,5 +24,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => codigoDosFornecedores.Contains(x.Codigo));
             return this;
         }
+
+        public IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto)
+        {
+            Query = Query.Where(fornecedor => fornecedor.Produtos.All(produto => produto.Codigo != codigoProduto));
+            return this;
+        }
     }
 }

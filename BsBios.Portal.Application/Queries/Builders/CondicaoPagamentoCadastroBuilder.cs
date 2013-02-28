@@ -5,17 +5,16 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
-    public class CondicaoPagamentoCadastroBuilder
+    public class CondicaoPagamentoCadastroBuilder : IBuilder<CondicaoDePagamento, CondicaoDePagamentoCadastroVm>
     {
-        //public CondicaoDePagamentoCadastroVm BuildSingle(CondicaoDePagamento condicaoDePagamento)
-        //{
-        //    return new CondicaoDePagamentoCadastroVm()
-        //        {
-        //            Id = condicaoDePagamento.Id,
-        //            CodigoSap = condicaoDePagamento.CodigoSap,
-        //            Descricao = condicaoDePagamento.Descricao
-        //        };
-        //}
+        public CondicaoDePagamentoCadastroVm BuildSingle(CondicaoDePagamento condicaoDePagamento)
+        {
+            return new CondicaoDePagamentoCadastroVm()
+                {
+                    Codigo = condicaoDePagamento.Codigo,
+                    Descricao = condicaoDePagamento.Descricao
+                };
+        }
 
         public IList<CondicaoDePagamentoCadastroVm> BuildList(IList<CondicaoDePagamento> condicoesDePagamento)
         {

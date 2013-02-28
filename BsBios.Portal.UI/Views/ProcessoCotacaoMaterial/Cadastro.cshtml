@@ -78,11 +78,17 @@
             });
 
             $('#btnSelecionarFornecedores').click(function() {
-                $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")" + "/", 
+                $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")" + "/?codigoProduto=" + $('#CodigoMaterial').val(), 
                     function (response, status, xhr) {
                         $('#divSelecionarFornecedores').dialog('open');
-                    });   
-            });                 
+                    });
+@*                $('#divSelecionarFornecedores').html(@Html.Partial("_SelecionarFornecedor", new ViewDataDictionary()
+                                                          {
+                                                              {"codigoProduto", Model.CodigoMaterial}
+                                                          }
+                                                          ).ToHtmlString());
+                $('#divSelecionarFornecedores').dialog('open');*@
+            });
         });
     </script>
 }

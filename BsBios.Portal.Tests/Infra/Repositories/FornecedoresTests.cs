@@ -25,44 +25,11 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Cleanup();
         }
 
-       // private void RemoverFornecedoresCadastrados()
-       // {
-       //     UnitOfWorkNh.BeginTransaction();
-       //     var fornecedores = _fornecedores.List();
-       //     foreach (var fornecedor in fornecedores)
-       //     {
-       //         _fornecedores.Delete(fornecedor);
-       //     }
-       //     //UnitOfWorkNh.Session.Flush();
-       //     UnitOfWorkNh.Commit();
-       //     UnitOfWorkNh.Session.Clear();
-       // }
-
-       // private void RemoverProdutosCadastrados()
-       // {
-       //     UnitOfWorkNh.BeginTransaction();
-       //     var produtos = ObjectFactory.GetInstance<IProdutos>();
-       //     var todosProdutos = produtos.List();
-       //     foreach (var produto in todosProdutos)
-       //     {
-       //         produtos.Delete(produto);
-       //     }        
-       //     UnitOfWorkNh.Commit();
-       //     UnitOfWorkNh.Session.Clear();
-       //}
-
-
-        //[TestInitialize]
+        [TestInitialize]
         public void InitializeTests()
         {
-            //Queries.RemoverFornecedoresCadastrados();
-            //UnitOfWorkNh.BeginTransaction();
-            //var fornecedores = _fornecedores.List();
-            //foreach (var fornecedor in fornecedores)
-            //{
-            //    _fornecedores.Delete(fornecedor);
-            //}
-            //UnitOfWorkNh.Commit();
+            Queries.RemoverFornecedoresCadastrados();
+            Queries.RemoverProdutosCadastrados();
         }
 
         [TestMethod]
@@ -70,8 +37,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
-                Queries.RemoverFornecedoresCadastrados();
-                Queries.RemoverProdutosCadastrados();
                 UnitOfWorkNh.BeginTransaction();
                 UnitOfWorkNh.Session.Clear();
                 var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
@@ -98,9 +63,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
-                Queries.RemoverFornecedoresCadastrados();
-                Queries.RemoverProdutosCadastrados();
-
                 UnitOfWorkNh.Session.Clear();
                 UnitOfWorkNh.BeginTransaction();
                 var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
@@ -140,7 +102,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmFornecedorComCodigoSapInexistenteDeveRetornarNulo()
         {
-            Queries.RemoverFornecedoresCadastrados();
             var fornecedor = _fornecedores.BuscaPeloCodigo("FORNEC0002");
             Assert.IsNull(fornecedor);
         }
@@ -150,8 +111,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             try
             {
-                Queries.RemoverFornecedoresCadastrados();
-                Queries.RemoverProdutosCadastrados();
                 UnitOfWorkNh.BeginTransaction();
                 UnitOfWorkNh.Session.Clear();
                 var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
@@ -178,6 +137,33 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 Assert.IsNotNull(fornecedores.SingleOrDefault(x => x.Codigo == codigoDoFornecedor));
             }
+
+        }
+
+        [TestMethod]
+        public void QuandoConsultarFornecedoresNaoVinculadosAoProdutoNenhumDosFornecedoresRetornadosEstaVinculadoAoProduto()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
+            //CRIA 4 FORNECEDORES
+            var fornecedor01 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br");
+            var fornecedor02 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0002@empresa.com.br");
+            var fornecedor03 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br");
+            var fornecedor04 = new Fornecedor("FORNEC0004", "FORNECEDOR 0004", "fornecedor0004@empresa.com.br");
+            //VINCULA FORNECEDORES 1 E 2 AO PRODUTO. OS FORNECEDORES 3 E 4 NÃO SERÃO VINCULADOS
+            produto.AdicionarFornecedores(new List<Fornecedor> { fornecedor01, fornecedor02 });
+            UnitOfWorkNh.Session.Save(produto);
+            UnitOfWorkNh.Session.Save(fornecedor03);
+            UnitOfWorkNh.Session.Save(fornecedor04);
+            UnitOfWorkNh.Commit();
+
+            UnitOfWorkNh.Session.Clear();
+
+            _fornecedores.FornecedoresNaoVinculadosAoProduto("PROD0001");
+            Assert.AreEqual(2, _fornecedores.Count());
+            IList < Fornecedor > fornecedoresNaoVinculados = _fornecedores.List();
+            Assert.AreEqual(1,fornecedoresNaoVinculados.Count(x => x.Codigo == "FORNEC0003") );
+            Assert.AreEqual(1, fornecedoresNaoVinculados.Count(x => x.Codigo == "FORNEC0004"));
 
         }
     }

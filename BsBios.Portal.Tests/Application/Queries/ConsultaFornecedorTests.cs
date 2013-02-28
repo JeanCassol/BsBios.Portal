@@ -9,7 +9,7 @@ using StructureMap;
 namespace BsBios.Portal.Tests.Application.Queries
 {
     [TestClass]
-    public class ConsultaFornecedoresTests: RepositoryTest
+    public class ConsultaFornecedorTests: RepositoryTest
     {
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
@@ -21,14 +21,20 @@ namespace BsBios.Portal.Tests.Application.Queries
         {
             Cleanup();
         }
-        [TestMethod]
-        public void QuandoConsultarFornecedoresDoProdutoRetornaListaDeFornecedores()
+
+        [TestInitialize]
+        public void InicializarTeste()
         {
             //excluindo registros existentes
             Tests.Queries.RemoverRequisicoesDeCompraCadastradas();
             Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
             Tests.Queries.RemoverProdutosCadastrados();
             Tests.Queries.RemoverFornecedoresCadastrados();
+        }
+
+        [TestMethod]
+        public void QuandoConsultarFornecedoresDoProdutoRetornaListaDeFornecedores()
+        {
             //preparando o cenários
 
             UnitOfWorkNh.BeginTransaction();
@@ -55,5 +61,40 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual("fornecedor0001@empresa.com.br", fornecedor01Vm.Email);
 
         }
+
+
+        [TestMethod]
+        public void QuandoConsultarFornecedoresNaoVinculadosAoProdutoNenhumDosFornecedoresRetornadosEstaVinculadoAoProduto()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
+            var fornecedor01 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br");
+            var fornecedor02 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0002@empresa.com.br");
+            var fornecedor03 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br");
+            var fornecedor04 = new Fornecedor("FORNEC0004", "FORNECEDOR 0004", "fornecedor0004@empresa.com.br");
+            produto.AdicionarFornecedores(new List<Fornecedor> { fornecedor01, fornecedor02 });
+            UnitOfWorkNh.Session.Save(produto);
+            UnitOfWorkNh.Session.Save(fornecedor03);
+            UnitOfWorkNh.Session.Save(fornecedor04);
+            UnitOfWorkNh.Commit();
+
+            UnitOfWorkNh.Session.Clear();
+
+            var consultaFornecedores = ObjectFactory.GetInstance<IConsultaFornecedor>();
+
+            var kendoGridVm = consultaFornecedores.FornecedoresNaoVinculadosAoProduto("PROD0001");
+
+            Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
+            //FIZ O ASSERT DE APENAS UM DOS FORNECEDORES PARA VERIFICAR SE A CONSTRUÇÃO DA VM ESTÁ CORRETA.
+            //O MAIS CORRETO ERA FAZER UM BUILDER E TESTAR ISTO ISOLADAMENTE (O BUILDER RECEBERIA UM OBJETO DO TIPO
+            //FORNECEDOR E RETORNAR UM OBJETO DO TIPO FornecedorCadastroVm.
+            var fornecedor01Vm = (FornecedorCadastroVm)kendoGridVm.Registros.First();
+            Assert.AreEqual("FORNEC0003", fornecedor01Vm.Codigo);
+            Assert.AreEqual("FORNECEDOR 0003", fornecedor01Vm.Nome);
+            Assert.AreEqual("fornecedor0003@empresa.com.br", fornecedor01Vm.Email);
+            
+        }
+
+
     }
 }

@@ -270,6 +270,7 @@
     <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
+    <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
     <None Include="Properties\PublishProfiles\bsbios - casa.pubxml" />

@@ -41,7 +41,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\ListagemBuilder.cs" />
+    <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />

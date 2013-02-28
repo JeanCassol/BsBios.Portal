@@ -37,5 +37,11 @@ namespace BsBios.Portal.UI.Controllers
             KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresDoProduto(codigoProduto);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult FornecedoresGerais(string codigoProduto)
+        {
+            KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresNaoVinculadosAoProduto(codigoProduto);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
     }
 }

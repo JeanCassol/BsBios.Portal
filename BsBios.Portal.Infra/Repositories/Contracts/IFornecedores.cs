@@ -6,5 +6,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         Fornecedor BuscaPeloCodigo(string codigo);
         IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores);
+        IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
     }
 }

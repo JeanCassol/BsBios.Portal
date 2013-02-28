@@ -36,7 +36,7 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idCotacao = ViewData["IdProcessoCotacao"]})',
+                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
