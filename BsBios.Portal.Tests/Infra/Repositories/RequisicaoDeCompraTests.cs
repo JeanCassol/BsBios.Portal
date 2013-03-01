@@ -22,37 +22,30 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void DepoisDePersistirUmaRequisicaoDeCompraConsigoConsultar()
         {
-            Queries.RemoverRequisicoesDeCompraCadastradas();
-            Queries.RemoverFornecedoresCadastrados();
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverUsuariosCadastrados();
-
-            UnitOfWorkNh.BeginTransaction();
-            UnitOfWorkNh.Session.Clear();
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            UnitOfWorkNh.Session.Save(requisicaoDeCompra.Criador);
-            UnitOfWorkNh.Session.Save(requisicaoDeCompra.FornecedorPretendido);
-            UnitOfWorkNh.Session.Save(requisicaoDeCompra.Material);
-            _requisicoesDeCompra.Save(requisicaoDeCompra);
-            UnitOfWorkNh.Commit();
-
-            //DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
-            //DefaultPersistedObjects.PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
-            //DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
-
-            //UnitOfWorkNh.BeginTransaction();
-            //_requisicoesDeCompra.Save(requisicaoDeCompra);
-            //UnitOfWorkNh.Commit();
+            try
+            {
+                Session.BeginTransaction();
+                Session.Save(requisicaoDeCompra.Criador);
+                Session.Save(requisicaoDeCompra.FornecedorPretendido);
+                Session.Save(requisicaoDeCompra.Material);
+                Session.Save(requisicaoDeCompra);
+                Session.Transaction.Commit();
+            }
+            catch (Exception)
+            {
+                Session.Transaction.Rollback();                
+                throw;
+            }
             
-            UnitOfWorkNh.Session.Clear();
             RequisicaoDeCompra requisicaoConsultada = _requisicoesDeCompra.BuscaPeloId(requisicaoDeCompra.Id);
 
             Assert.IsNotNull(requisicaoConsultada);
 
-            Assert.AreEqual("criador", requisicaoConsultada.Criador.Login);
+            Assert.AreEqual(requisicaoDeCompra.Criador.Login, requisicaoConsultada.Criador.Login);
             Assert.AreEqual("requisitante", requisicaoConsultada.Requisitante);
-            Assert.AreEqual("fpret", requisicaoConsultada.FornecedorPretendido.Codigo);
-            Assert.AreEqual("MAT0001", requisicaoConsultada.Material.Codigo);
+            Assert.AreEqual(requisicaoDeCompra.FornecedorPretendido.Codigo, requisicaoConsultada.FornecedorPretendido.Codigo);
+            Assert.AreEqual(requisicaoDeCompra.Material.Codigo, requisicaoConsultada.Material.Codigo);
             Assert.AreEqual(DateTime.Today.AddDays(-2), requisicaoConsultada.DataDeRemessa);
             Assert.AreEqual(DateTime.Today.AddDays(-1), requisicaoConsultada.DataDeLiberacao);
             Assert.AreEqual(DateTime.Today, requisicaoConsultada.DataDeSolicitacao);
@@ -60,18 +53,13 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual("UNT", requisicaoConsultada.UnidadeMedida);
             Assert.AreEqual(1000, requisicaoConsultada.Quantidade);
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
-            Assert.AreEqual("REQ0001", requisicaoConsultada.Numero);
-            Assert.AreEqual("00001", requisicaoConsultada.NumeroItem);            
+            Assert.AreEqual(requisicaoDeCompra.Numero, requisicaoConsultada.Numero);
+            Assert.AreEqual(requisicaoDeCompra.NumeroItem, requisicaoConsultada.NumeroItem);            
         }
 
         [TestMethod]
         public void ConsigoPersistirEConsultarUmaRequisicaoDeCompraSemInformarRequisitanteEFornecedorPretendido()
         {
-            Queries.RemoverRequisicoesDeCompraCadastradas();
-            Queries.RemoverFornecedoresCadastrados();
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverUsuariosCadastrados();
-
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraSemRequisitanteEFornecedor();
             DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
             DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
@@ -86,10 +74,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             Assert.IsNotNull(requisicaoConsultada);
 
-            Assert.AreEqual("criador", requisicaoConsultada.Criador.Login);
+            Assert.AreEqual(requisicaoDeCompra.Criador.Login, requisicaoConsultada.Criador.Login);
             Assert.IsNull(requisicaoConsultada.Requisitante);
             Assert.IsNull(requisicaoConsultada.FornecedorPretendido);
-            Assert.AreEqual("MAT0001", requisicaoConsultada.Material.Codigo);
+            Assert.AreEqual(requisicaoDeCompra.Material.Codigo, requisicaoConsultada.Material.Codigo);
             Assert.AreEqual(DateTime.Today.AddDays(-2), requisicaoConsultada.DataDeRemessa);
             Assert.AreEqual(DateTime.Today.AddDays(-1), requisicaoConsultada.DataDeLiberacao);
             Assert.AreEqual(DateTime.Today, requisicaoConsultada.DataDeSolicitacao);

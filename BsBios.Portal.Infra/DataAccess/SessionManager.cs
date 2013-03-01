@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Reflection;
-
 using BsBios.Portal.Infra.Mappings;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -34,8 +33,6 @@ namespace BsBios.Portal.Infra.DataAccess
 
         private static void ConfigureDataAccess(ConfigurationExpression i, string connString)
         {
-
-            //Configura a conexao com o banco de dados especificamente para o sql server 2008 e tambem faz configurações de cache
             ConfigureDataAccess(i,OracleClientConfiguration.Oracle10.ConnectionString( c=> c.Is(connString)).ShowSql());
 
         }

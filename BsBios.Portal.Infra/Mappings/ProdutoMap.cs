@@ -10,7 +10,7 @@ namespace BsBios.Portal.Infra.Mappings
         public ProdutoMap()
         {
             Table("Produto");
-            Id(x => x.Codigo);
+            Id(x => x.Codigo).GeneratedBy.Assigned();
             Map(x => x.Descricao);
             Map(x => x.Tipo);
             HasManyToMany(x => x.Fornecedores)

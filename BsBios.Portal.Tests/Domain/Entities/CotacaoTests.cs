@@ -44,7 +44,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Cotacao cotacao = processoDeCotacao.Cotacoes.First();
             Assert.IsNotNull(cotacao);
             Assert.AreEqual(new decimal(150.20), cotacao.ValorUnitario);
-            Assert.AreEqual("001", cotacao.Incoterm.Codigo);
+            Assert.AreEqual(incoterm.Codigo, cotacao.Incoterm.Codigo);
             Assert.AreEqual("Descrição do Incoterm", cotacao.DescricaoIncoterm);
 
         }
@@ -67,8 +67,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Assert.IsTrue(cotacao.Selecionada);
             Assert.AreEqual(new decimal(120.00), cotacao.QuantidadeAdquirida);
-            Assert.AreEqual("01", cotacao.Iva.Codigo);
-            Assert.AreEqual("C001",cotacao.CondicaoDePagamento.Codigo);
+            Assert.AreEqual(iva.Codigo, cotacao.Iva.Codigo);
+            Assert.AreEqual(condicaoDePagamento.Codigo,cotacao.CondicaoDePagamento.Codigo);
 
         }
 

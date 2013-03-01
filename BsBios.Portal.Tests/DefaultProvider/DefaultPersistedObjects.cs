@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using NHibernate;
 using StructureMap;
 
 namespace BsBios.Portal.Tests.DefaultProvider
@@ -12,6 +9,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
     public static class DefaultPersistedObjects
     {
         private static readonly IUnitOfWorkNh UnitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+        private static ISession _session = ObjectFactory.GetInstance<ISession>();
         public static void PersistirUsuario(Usuario usuario)
         {
             //Queries.RemoverUsuariosCadastrados();
@@ -32,16 +30,28 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static void PersistirProduto(Produto produto)
         {
-            //Queries.RemoverProdutosCadastrados();
-            UnitOfWorkNh.BeginTransaction();
-            var produtos = ObjectFactory.GetInstance<IProdutos>();
-            produtos.Save(produto);
-            UnitOfWorkNh.Commit();
+            try
+            {
+                _session.BeginTransaction();
+                _session.Save(produto);
+                if (_session.Transaction.IsActive)
+                {
+                    _session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                if (_session.Transaction.IsActive)
+                {
+                    _session.Transaction.Rollback();
+                }
+                throw;
+            }
         }
 
         public static void PersistirRequisicaoDeCompra(RequisicaoDeCompra requisicaoDeCompra)
         {
-            Queries.RemoverRequisicoesDeCompraCadastradas();
             PersistirUsuario(requisicaoDeCompra.Criador);
             PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
             PersistirProduto(requisicaoDeCompra.Material);
@@ -49,6 +59,14 @@ namespace BsBios.Portal.Tests.DefaultProvider
             UnitOfWorkNh.BeginTransaction();
             var requisicoesDeCompra = ObjectFactory.GetInstance<IRequisicoesDeCompra>();
             requisicoesDeCompra.Save(requisicaoDeCompra);
+            UnitOfWorkNh.Commit();
+        }
+
+        public static void PersistirProcessoDeCotacaoDeMaterial(ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial)
+        {
+            PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
+            UnitOfWorkNh.BeginTransaction();
+            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial);
             UnitOfWorkNh.Commit();
         }
     }

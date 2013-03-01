@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Domain.Entities;
+using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -8,7 +9,7 @@ namespace BsBios.Portal.Infra.Mappings
         public FornecedorMap()
         {
             Table("Fornecedor");
-            Id(x => x.Codigo);
+            Id(x => x.Codigo).GeneratedBy.Assigned();
             Map(x => x.Nome);
             Map(x => x.Email);
             HasManyToMany(x => x.Produtos)
@@ -17,7 +18,7 @@ namespace BsBios.Portal.Infra.Mappings
                 .Fetch.Join()
                 .ExtraLazyLoad();
 
-
+            
         }
     }
 }

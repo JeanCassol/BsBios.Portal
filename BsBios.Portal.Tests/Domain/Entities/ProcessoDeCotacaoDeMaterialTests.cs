@@ -18,9 +18,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Produto produto = DefaultObjects.ObtemProdutoPadrao();
             var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra, produto, 100);
             
-            Assert.AreEqual("REQ0001", processoDeCotacao.RequisicaoDeCompra.Numero);
-            Assert.AreEqual("00001", processoDeCotacao.RequisicaoDeCompra.NumeroItem);
-            Assert.AreEqual("PROD0001", processoDeCotacao.Produto.Codigo);
+            Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
+            Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
+            Assert.AreEqual(requisicaoDeCompra.Material.Codigo, processoDeCotacao.Produto.Codigo);
             Assert.AreEqual(100, processoDeCotacao.Quantidade);
 
             Assert.AreEqual(0, processoDeCotacao.Fornecedores.Count);
@@ -202,7 +202,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             Iva iva = DefaultObjects.ObtemIvaPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacaoDeMaterial.SelecionarCotacao("FORNEC0001", 100,iva, condicaoDePagamento);
+            processoDeCotacaoDeMaterial.SelecionarCotacao(processoDeCotacaoDeMaterial.Fornecedores.First().Codigo, 100,iva, condicaoDePagamento);
             processoDeCotacaoDeMaterial.Fechar();
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
         }

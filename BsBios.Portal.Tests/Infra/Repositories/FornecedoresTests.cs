@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -11,13 +12,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
     [TestClass]
     public class FornecedoresTests:RepositoryTest
     {
-        private static IFornecedores _fornecedores;
-
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
         }
         [ClassCleanup]
         public static void Finalizar()
@@ -25,50 +23,45 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Cleanup();
         }
 
-        [TestInitialize]
-        public void InitializeTests()
-        {
-            Queries.RemoverFornecedoresCadastrados();
-            Queries.RemoverProdutosCadastrados();
-        }
-
         [TestMethod]
         public void QuandoPersistoUmFornecedorComSucessoConsigoConsultarPosteriormente()
         {
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            Fornecedor fornecedor;
             try
             {
-                UnitOfWorkNh.BeginTransaction();
-                UnitOfWorkNh.Session.Clear();
-                var fornecedor = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br");
-                _fornecedores.Save(fornecedor);
-                UnitOfWorkNh.Commit();
+                Session.BeginTransaction();
+                fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+
+                Session.Save(fornecedor);
+                Session.Transaction.Commit();
             }
             catch (Exception)
             {
                 UnitOfWorkNh.RollBack();                
                 throw;
             }
-            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-
-            Fornecedor fornecedorConsulta = fornecedores.BuscaPeloCodigo("FORNEC0001");
+            Fornecedor fornecedorConsulta = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
 
             Assert.IsNotNull(fornecedorConsulta);
-            Assert.AreEqual("FORNEC0001", fornecedorConsulta.Codigo);
-            Assert.AreEqual("FORNECEDOR 0001", fornecedorConsulta.Nome);
-            Assert.AreEqual("fornecedor@empresa.com.br", fornecedorConsulta.Email);
+            Assert.AreEqual(fornecedor.Codigo, fornecedorConsulta.Codigo);
+            Assert.AreEqual("FORNECEDOR " + fornecedor.Codigo, fornecedorConsulta.Nome);
+            Assert.AreEqual("fornecedor"+ fornecedor.Codigo +  "@empresa.com.br", fornecedorConsulta.Email);
         }
 
         [TestMethod]
         public void ConsigoAlterarUmFornecedorCadastrado()
         {
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            string codigoFornedor;
             try
             {
-                UnitOfWorkNh.Session.Clear();
-                UnitOfWorkNh.BeginTransaction();
-                var fornecedor = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor@empresa.com.br");
-                _fornecedores.Save(fornecedor);
-                Console.WriteLine("INSERIDO FORNEC0003");
-                UnitOfWorkNh.Commit();
+                Session.BeginTransaction();
+                var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+
+                codigoFornedor = fornecedor.Codigo;
+                Session.Save(fornecedor);
+                Session.Transaction.Commit();
 
             }
             catch (Exception)
@@ -79,10 +72,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             try
             {
                 UnitOfWorkNh.BeginTransaction();
-                var fornecedorConsulta = _fornecedores.BuscaPeloCodigo("FORNEC0003");
-                fornecedorConsulta.Atualizar("FORNECEDOR 0003 ALTERADO", "fornecedoralterado@empresa.com.br");
+                var fornecedorConsulta = fornecedores.BuscaPeloCodigo(codigoFornedor);
+                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br");
 
-                _fornecedores.Save(fornecedorConsulta);
+                fornecedores.Save(fornecedorConsulta);
                 UnitOfWorkNh.Commit();
 
             }
@@ -92,9 +85,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
-            var fornecedorConsultaAtualizacao = _fornecedores.BuscaPeloCodigo("FORNEC0003");
-            Assert.AreEqual("FORNEC0003", fornecedorConsultaAtualizacao.Codigo);
-            Assert.AreEqual("FORNECEDOR 0003 ALTERADO", fornecedorConsultaAtualizacao.Nome);
+            var fornecedorConsultaAtualizacao = fornecedores.BuscaPeloCodigo(codigoFornedor);
+            Assert.AreEqual(codigoFornedor, fornecedorConsultaAtualizacao.Codigo);
+            Assert.AreEqual("FORNECEDOR ALTERADO", fornecedorConsultaAtualizacao.Nome);
             Assert.AreEqual("fornecedoralterado@empresa.com.br", fornecedorConsultaAtualizacao.Email);
 
         }
@@ -102,40 +95,42 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmFornecedorComCodigoSapInexistenteDeveRetornarNulo()
         {
-            var fornecedor = _fornecedores.BuscaPeloCodigo("FORNEC0002");
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            var fornecedor = fornecedores.BuscaPeloCodigo("__FORNEC0002");
             Assert.IsNull(fornecedor);
         }
 
         [TestMethod]
         public void QuandoCarregarPorListaDeCodigosTemQueCarregarFornecedoresEquivalentesALista()
         {
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            string[] codigoDosFornecedores;
             try
             {
-                UnitOfWorkNh.BeginTransaction();
-                UnitOfWorkNh.Session.Clear();
-                var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
-                var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0003", "fornecedor02@empresa.com.br");
-                var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor03@empresa.com.br");
+                Session.BeginTransaction();
+                Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+                Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+                Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
 
-                _fornecedores.Save(fornecedor1);
-                _fornecedores.Save(fornecedor2);
-                _fornecedores.Save(fornecedor3);
+                Session.Save(fornecedor1);
+                Session.Save(fornecedor2);
+                Session.Save(fornecedor3);
 
-                UnitOfWorkNh.Commit();
+                codigoDosFornecedores = new[] { fornecedor1.Codigo, fornecedor2.Codigo };
 
+                Session.Transaction.Commit();
             }
             catch (Exception)
             {
                 UnitOfWorkNh.RollBack();                
                 throw;
             }
-
-            var codigoDosFornecedores = new[] {"FORNEC0001", "FORNEC0002"};
-            IList < Fornecedor > fornecedores = _fornecedores.BuscaListaPorCodigo(codigoDosFornecedores).List();
-            Assert.AreEqual(codigoDosFornecedores.Length, fornecedores.Count);
+            
+            IList <Fornecedor> fornecedoresConsulta = fornecedores.BuscaListaPorCodigo(codigoDosFornecedores).List();
+            Assert.AreEqual(codigoDosFornecedores.Length, fornecedoresConsulta.Count);
             foreach (var codigoDoFornecedor in codigoDosFornecedores)
             {
-                Assert.IsNotNull(fornecedores.SingleOrDefault(x => x.Codigo == codigoDoFornecedor));
+                Assert.IsNotNull(fornecedoresConsulta.SingleOrDefault(x => x.Codigo == codigoDoFornecedor));
             }
 
         }
@@ -143,27 +138,30 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultarFornecedoresNaoVinculadosAoProdutoNenhumDosFornecedoresRetornadosEstaVinculadoAoProduto()
         {
-            UnitOfWorkNh.BeginTransaction();
-            var produto = new Produto("PROD0001", "PRODUTO 0001", "01");
+            Queries.RemoverProdutosCadastrados();
+            Queries.RemoverFornecedoresCadastrados();
+            Session.BeginTransaction();
+            var produto = DefaultObjects.ObtemProdutoPadrao();
             //CRIA 4 FORNECEDORES
-            var fornecedor01 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br");
-            var fornecedor02 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0002@empresa.com.br");
-            var fornecedor03 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br");
-            var fornecedor04 = new Fornecedor("FORNEC0004", "FORNECEDOR 0004", "fornecedor0004@empresa.com.br");
+            var fornecedor01 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor02 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor03 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor04 = DefaultObjects.ObtemFornecedorPadrao();
             //VINCULA FORNECEDORES 1 E 2 AO PRODUTO. OS FORNECEDORES 3 E 4 NÃO SERÃO VINCULADOS
             produto.AdicionarFornecedores(new List<Fornecedor> { fornecedor01, fornecedor02 });
-            UnitOfWorkNh.Session.Save(produto);
-            UnitOfWorkNh.Session.Save(fornecedor03);
-            UnitOfWorkNh.Session.Save(fornecedor04);
-            UnitOfWorkNh.Commit();
+            Session.Save(produto);
+            Session.Save(fornecedor03);
+            Session.Save(fornecedor04);
+            Session.Transaction.Commit();
 
             UnitOfWorkNh.Session.Clear();
 
-            _fornecedores.FornecedoresNaoVinculadosAoProduto("PROD0001");
-            Assert.AreEqual(2, _fornecedores.Count());
-            IList < Fornecedor > fornecedoresNaoVinculados = _fornecedores.List();
-            Assert.AreEqual(1,fornecedoresNaoVinculados.Count(x => x.Codigo == "FORNEC0003") );
-            Assert.AreEqual(1, fornecedoresNaoVinculados.Count(x => x.Codigo == "FORNEC0004"));
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            fornecedores.FornecedoresNaoVinculadosAoProduto(produto.Codigo);
+            Assert.AreEqual(2, fornecedores.Count());
+            IList < Fornecedor > fornecedoresNaoVinculados = fornecedores.List();
+            Assert.AreEqual(1,fornecedoresNaoVinculados.Count(x => x.Codigo == fornecedor03.Codigo) );
+            Assert.AreEqual(1, fornecedoresNaoVinculados.Count(x => x.Codigo == fornecedor04.Codigo));
 
         }
     }
