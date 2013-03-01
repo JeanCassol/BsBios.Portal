@@ -50,7 +50,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void DepoisDePersistirUmProcessoDeCotacaoDeMaterialConsigoConsultar()
         {
-            var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             DefaultPersistedObjects.PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
 
             UnitOfWorkNh.BeginTransaction();

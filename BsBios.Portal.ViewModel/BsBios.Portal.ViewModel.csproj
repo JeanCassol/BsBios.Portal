@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtualizacaoDosFornecedoresDoProcessoDeCotacaoVm.cs" />
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
     <Compile Include="IncotermCadastroVm.cs" />

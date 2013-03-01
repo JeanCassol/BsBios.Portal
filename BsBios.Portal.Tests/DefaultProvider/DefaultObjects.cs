@@ -66,7 +66,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         }
 
 
-        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialPadrao()
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialNaoIniciado()
         {
             var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
             var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra, requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade);
@@ -75,7 +75,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacao.AdicionarFornecedor(fornecedor);

@@ -136,6 +136,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\IncotermApiController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />
@@ -400,7 +401,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Builders\" />
     <Folder Include="Controllers\Factory\" />
     <Folder Include="Controllers\ModelBinders\" />
     <Folder Include="Models\" />

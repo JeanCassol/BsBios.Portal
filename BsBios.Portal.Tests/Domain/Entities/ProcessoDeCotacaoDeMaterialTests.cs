@@ -15,13 +15,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoCrioUmProcessoDeCotacaoAsPropriedadesFicamCorretas()
         {
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            Produto produto = DefaultObjects.ObtemProdutoPadrao();
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra, produto, 100);
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial() ;
             
             Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
             Assert.AreEqual(requisicaoDeCompra.Material.Codigo, processoDeCotacao.Produto.Codigo);
-            Assert.AreEqual(100, processoDeCotacao.Quantidade);
+            Assert.AreEqual(requisicaoDeCompra.Quantidade, processoDeCotacao.Quantidade);
 
             Assert.AreEqual(0, processoDeCotacao.Fornecedores.Count);
             Assert.IsNull(processoDeCotacao.DataLimiteDeRetorno);
@@ -39,7 +38,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAtualizoDadosComplementaresDeUmProcessoDeCotacaoAsPropriedadesSaoAlteradas()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             Assert.AreEqual(DateTime.Today.AddDays(10), processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
         }
@@ -49,7 +48,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
 
             Assert.IsNotNull(processoDeCotacaoDeMaterial.Fornecedores.SingleOrDefault(x => x.Codigo == "FORNEC0001"));
@@ -61,7 +60,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             Assert.AreEqual(1, processoDeCotacaoDeMaterial.Fornecedores.Count);
@@ -74,7 +73,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");
             var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornec0003@empresa.com.br");
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor3);
@@ -88,7 +87,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoSemDataLimiteRetornoException))]
         public void NaoEPossivelAbrirOProcessoDeCotacaoSeADataLimiteDeRetornoNaoEstiverPreenchida()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Abrir();
         }
 
@@ -96,7 +95,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoSemFornecedoresException))]
         public void NaoEPossivelAbrirOProcessoDeCotacaoSeNaoHouverFornecedoresVinculados()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacaoDeMaterial.Abrir();
         }
@@ -104,7 +103,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAbroOProcessoDeCotacaoOStatusPassaParaAberto()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             processoDeCotacaoDeMaterial.Abrir();
@@ -115,7 +114,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoIniciadoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAtualizarOsDadosComplementares()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             processoDeCotacaoDeMaterial.Abrir();
@@ -126,7 +125,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAdicionarFornecedores()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
@@ -141,7 +140,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelRemoverFornecedores()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
             var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");
@@ -166,7 +165,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoDataLimiteExpiradaException))]
         public void SeTentarInformarUmaCotacaoAposADataLimiteDeRetornoDeveGerarExcecao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(-1));
             processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             processoDeCotacaoDeMaterial.Abrir();
@@ -176,7 +175,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAbrirOProcessoDeCotacaoDeveCriarUmaCotacaoParaCadaUmDosFornecedoresEscolhidosParaParticiparDoProcesso()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
             var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
             var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");

@@ -12,7 +12,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAbroUmProcessoDeCotacaoACotacaoEhCriadaCorretamenteCorretamente()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacao.AdicionarFornecedor(fornecedor);
@@ -33,7 +33,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAtualizarUmaCotacaoAsPropriedadesSaoAtualizadas()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacao.AdicionarFornecedor(fornecedor);
@@ -52,7 +52,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoSelecionaUmFornecedorACotacaoFicaMarcadaComoSelecionadaQuantidadeAdquiridaCondicaoPagamentoIvaSaoPreenchidos()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacao.AdicionarFornecedor(fornecedor);

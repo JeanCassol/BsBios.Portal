@@ -60,6 +60,8 @@
     <Compile Include="Services\Contracts\ICadastroRequisicaoCompra.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroIva.cs" />

@@ -42,7 +42,7 @@ namespace BsBios.Portal.Domain.Entities
             Numero = numero;
         }
 
-        public virtual ProcessoDeCotacao GerarProcessoDeCotacaoDeMaterial()
+        public virtual ProcessoDeCotacaoDeMaterial GerarProcessoDeCotacaoDeMaterial()
         {
             var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this, Material, Quantidade);
             return processoDeCotacao;
