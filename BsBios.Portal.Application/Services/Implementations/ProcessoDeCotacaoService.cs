@@ -26,7 +26,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction(); 
                 var processoDeCotacaoDeMaterial = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(atualizacaoDosFornecedoresVm.IdProcessoCotacao).Single();
-                string[] codigoDosFonecedoresAtuais = processoDeCotacaoDeMaterial.Fornecedores.Select(x => x.Codigo).ToArray();
+                string[] codigoDosFonecedoresAtuais = processoDeCotacaoDeMaterial.FornecedoresParticipantes.Select(x => x.Fornecedor.Codigo).ToArray();
                 IList<string> codigoDosFornecedoresQueDevemSerRemovidos =
                     codigoDosFonecedoresAtuais.Except(atualizacaoDosFornecedoresVm.CodigoFornecedoresSelecionados).ToList();
 

@@ -29,9 +29,9 @@ namespace BsBios.Portal.Tests.Application.Services
                                        (ProcessoDeCotacao processoDeCotacao) =>
                                            {
                                                Assert.IsNotNull(processoDeCotacao);
-                                               foreach (var fornecedor in processoDeCotacao.Fornecedores)
+                                               foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
                                                {
-                                                   Assert.IsNotNull(fornecedor);
+                                                   Assert.IsNotNull(fornecedorParticipante);
                                                }
                                            });
 
@@ -105,9 +105,9 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Callback((ProcessoDeCotacao processoDeCotacao) =>
                                        {
                                            Assert.IsNotNull(processoDeCotacao);
-                                           Assert.AreEqual(2, processoDeCotacao.Fornecedores.Count);
-                                           Assert.AreEqual(1,processoDeCotacao.Fornecedores.Count(x => x.Codigo == "FORNEC0001"));
-                                           Assert.AreEqual(1,processoDeCotacao.Fornecedores.Count(x => x.Codigo == "FORNEC0003"));
+                                           Assert.AreEqual(2, processoDeCotacao.FornecedoresParticipantes.Count);
+                                           Assert.AreEqual(1,processoDeCotacao.FornecedoresParticipantes.Count(x => x.Fornecedor.Codigo == "FORNEC0001"));
+                                           Assert.AreEqual(1,processoDeCotacao.FornecedoresParticipantes.Count(x => x.Fornecedor.Codigo == "FORNEC0003"));
                                        });
 
             _processoDeCotacaoService.AtualizarFornecedores(_atualizacaoDosFornecedoresVm);

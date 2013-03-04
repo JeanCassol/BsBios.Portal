@@ -2,8 +2,9 @@
 {
     public class Cotacao
     {
-        //public virtual ProcessoDeCotacao ProcessoDeCotacao { get; protected set; }
-        public virtual Fornecedor Fornecedor { get; protected set; }
+        //private int IdFornecedorParticipante { get; set; }
+        public virtual  int Id { get; protected set; }
+        //public virtual FornecedorParticipante FornecedorParticipante { get; protected set; }
         public virtual bool Selecionada { get; protected set; }
         public virtual decimal? ValorUnitario { get; protected set; }
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
@@ -12,14 +13,18 @@
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm{ get; protected set; }
 
-        protected Cotacao(){}
-
-        public Cotacao(/*ProcessoDeCotacao processoDeCotacao, */Fornecedor fornecedor)
+        public Cotacao()
         {
-            //ProcessoDeCotacao = processoDeCotacao;
-            Fornecedor = fornecedor;
             Selecionada = false;
         }
+        
+
+        //public Cotacao(FornecedorParticipante fornecedorParticipante)
+        //{
+        //    //IdFornecedorParticipante = fornecedorParticipante.Id;
+        //    //FornecedorParticipante = fornecedorParticipante;
+            
+        //}
 
         public virtual void Atualizar(decimal valorUnitario, Incoterm incoterm, string descricaoIncoterm)
         {
@@ -34,7 +39,6 @@
             Iva = iva;
             CondicaoDePagamento = condicaoDePagamento;
         }
-
     }
 
    

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AplicationServiceRegistry.cs" />
+    <Compile Include="BuildersRegistry.cs" />
     <Compile Include="QueriesRegistry.cs" />
     <Compile Include="DomainServiceRegistry.cs" />
     <Compile Include="InfraServiceRegistry.cs" />

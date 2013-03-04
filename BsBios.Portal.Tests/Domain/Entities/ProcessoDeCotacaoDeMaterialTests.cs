@@ -22,7 +22,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(requisicaoDeCompra.Material.Codigo, processoDeCotacao.Produto.Codigo);
             Assert.AreEqual(requisicaoDeCompra.Quantidade, processoDeCotacao.Quantidade);
 
-            Assert.AreEqual(0, processoDeCotacao.Fornecedores.Count);
+            Assert.AreEqual(0, processoDeCotacao.FornecedoresParticipantes.Count);
             Assert.IsNull(processoDeCotacao.DataLimiteDeRetorno);
 
         }
@@ -51,7 +51,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
 
-            Assert.IsNotNull(processoDeCotacaoDeMaterial.Fornecedores.SingleOrDefault(x => x.Codigo == "FORNEC0001"));
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == "FORNEC0001"));
 
         }
 
@@ -63,7 +63,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
-            Assert.AreEqual(1, processoDeCotacaoDeMaterial.Fornecedores.Count);
+            Assert.AreEqual(1, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count);
             
         }
 
@@ -78,9 +78,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor3);
 
-            Assert.AreEqual(3, processoDeCotacaoDeMaterial.Fornecedores.Count);
+            Assert.AreEqual(3, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count);
 
             processoDeCotacaoDeMaterial.RemoverFornecedor("FORNEC0002");
+
+            Assert.AreEqual(2, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count);
         }
 
         [TestMethod]
@@ -182,9 +184,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
             processoDeCotacaoDeMaterial.Abrir();
-            Assert.AreEqual(2, processoDeCotacaoDeMaterial.Cotacoes.Count);
-            Assert.IsNotNull(processoDeCotacaoDeMaterial.Cotacoes.First(x => x.Fornecedor.Codigo == "FORNEC0001"));
-            Assert.IsNotNull(processoDeCotacaoDeMaterial.Cotacoes.First(x => x.Fornecedor.Codigo == "FORNEC0002"));
+            Assert.AreEqual(2, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count(x => x.Cotacao != null));
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == "FORNEC0001").Cotacao);
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == "FORNEC0002").Cotacao);
         }
 
         [TestMethod]
@@ -201,7 +203,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             Iva iva = DefaultObjects.ObtemIvaPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacaoDeMaterial.SelecionarCotacao(processoDeCotacaoDeMaterial.Fornecedores.First().Codigo, 100,iva, condicaoDePagamento);
+            processoDeCotacaoDeMaterial.SelecionarCotacao(processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo, 100,iva, condicaoDePagamento);
             processoDeCotacaoDeMaterial.Fechar();
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
         }

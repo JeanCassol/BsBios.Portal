@@ -86,7 +86,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
-            var codigoFornecedor = processoDeCotacao.Fornecedores.First().Codigo;
+            var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             processoDeCotacao.AtualizarCotacao(codigoFornecedor,125, ObtemIncotermPadrao(),"Descrição do Incotem");
             processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, ObtemIvaPadrao(), ObtemCondicaoDePagamentoPadrao());
             processoDeCotacao.Fechar();

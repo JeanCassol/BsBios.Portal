@@ -14,13 +14,13 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Produto Produto { get; protected set; }
         public virtual decimal Quantidade { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
-        public virtual IList<Fornecedor> Fornecedores { get; protected set; }
-        public virtual IList<Cotacao> Cotacoes { get; protected set; }
+        public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
+        //public virtual IList<Cotacao> Cotacoes { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
-            Fornecedores = new List<Fornecedor>();
-            Cotacoes = new List<Cotacao>();
+            FornecedoresParticipantes = new List<FornecedorParticipante>();
+            //Cotacoes = new List<Cotacao>();
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
 
@@ -46,12 +46,13 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw  new ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException(Status.Descricao());
             }
-            var fornecedorConsulta = Fornecedores.SingleOrDefault(x => x.Codigo == fornecedor.Codigo);
+            var fornecedorConsulta = FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == fornecedor.Codigo);
             if (fornecedorConsulta != null)
             {
                 return;
             }
-            Fornecedores.Add(fornecedor);
+            var fornecedorParticipante = new FornecedorParticipante(this, fornecedor);
+            FornecedoresParticipantes.Add(fornecedorParticipante);
         }
         public virtual void RemoverFornecedor(string codigoFornecedor)
         {
@@ -59,12 +60,12 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException(Status.Descricao());
             }
-            var fornecedor = Fornecedores.SingleOrDefault(x => x.Codigo == codigoFornecedor);
-            if (fornecedor == null)
+            var fornecedorParticipante = FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == codigoFornecedor);
+            if (fornecedorParticipante == null)
             {
                 return;
             }
-            Fornecedores.Remove(fornecedor);
+            FornecedoresParticipantes.Remove(fornecedorParticipante);
         }
 
         public virtual void Abrir()
@@ -73,15 +74,14 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoSemDataLimiteRetornoException();
             }
-            if (Fornecedores.Count == 0)
+            if (FornecedoresParticipantes.Count == 0)
             {
                 throw new ProcessoDeCotacaoSemFornecedoresException();
             }
 
-            foreach (var fornecedor in Fornecedores)
+            foreach (var fornecedorParticipante in FornecedoresParticipantes)
             {
-                var cotacao = new Cotacao(fornecedor);
-                Cotacoes.Add(cotacao);
+                fornecedorParticipante.CriarCotacao();
             }
 
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
@@ -98,7 +98,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoDataLimiteExpiradaException(DataLimiteDeRetorno.Value);
             }
             //busca a cotação do fornecedor
-            Cotacao cotacao = Cotacoes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
 
             cotacao.Atualizar(valorUnitario, incoterm, descricaoDoIncoterm);
         }
@@ -109,13 +109,13 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
-            Cotacao cotacao = Cotacoes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
             cotacao.Selecionar(quantidadeAdquirida, iva,condicaoDePagamento);
         }
 
         public virtual void Fechar()
         {
-            if (Cotacoes.Count(x => x.Selecionada) == 0)
+            if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Selecionada) == 0)
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }

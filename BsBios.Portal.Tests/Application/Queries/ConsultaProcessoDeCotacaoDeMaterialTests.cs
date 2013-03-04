@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
@@ -15,7 +16,7 @@ namespace BsBios.Portal.Tests.Application.Queries
     public class ConsultaProcessoDeCotacaoDeMaterialTests
     {
         [TestMethod]
-        public void ConsultaRetornaObjetoEsperado()
+        public void ConsultaListagemDeProcessosRetornaObjetoEsperado()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
@@ -30,6 +31,27 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(1000, processoListagem.Quantidade);
             Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNull(processoListagem.DataTermino);
+        }
+
+        [TestMethod]
+        public void ConsultaFornecedoresParticipantesRetornaObjetoEsperado()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
+
+            Console.WriteLine("INICIANDO CONSULTA");
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.FornecedoresParticipantes(processoDeCotacaoDeMaterial.Id);
+            Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
+            IList<FornecedorCadastroVm> viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor1.Codigo));
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor2.Codigo));
+
+
         }
     }
 }

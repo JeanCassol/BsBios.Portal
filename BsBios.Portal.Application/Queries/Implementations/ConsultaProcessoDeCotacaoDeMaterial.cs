@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -10,10 +13,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaProcessoDeCotacaoDeMaterial : IConsultaProcessoDeCotacaoDeMaterial
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builder;  
 
-        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao)
+
+        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builder)
         {
             _processosDeCotacao = processosDeCotacao;
+            _builder = builder;
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
@@ -104,6 +110,23 @@ namespace BsBios.Portal.Application.Queries.Implementations
                             UnidadeMedida = processoDeCotacao.UnidadeMedida
                         }
                 };
+        }
+
+        public KendoGridVm FornecedoresParticipantes(int idProcessoCotacao)
+        {
+            IList<Fornecedor> fornecedoresParticipantes = (from p in
+                                                               _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+                                                           from fp in p.FornecedoresParticipantes
+                                                           select fp.Fornecedor).ToList();
+
+            var kendoGridVm = new KendoGridVm()
+                {
+                    QuantidadeDeRegistros = fornecedoresParticipantes.Count,
+                    Registros = _builder.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
+                };
+
+            return kendoGridVm;
+
         }
     }
 }

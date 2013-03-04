@@ -69,6 +69,8 @@
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\CotacaoMap.cs" />
+    <Compile Include="Mappings\FornecedorParticipanteMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IvaMap.cs" />

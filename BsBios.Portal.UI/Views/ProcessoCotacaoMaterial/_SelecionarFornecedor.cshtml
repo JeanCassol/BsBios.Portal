@@ -67,6 +67,8 @@
         }
         return false;
     }
+    
+
     $(document).ready(function () {
         
         function atualizaGrid() {
@@ -110,9 +112,10 @@
             },
             dataType: 'json',
             success: function (data) {
-                $.each(data.registros, function (indexInArray, valueOfElement) {
+                $.each(data.Registros, function (indexInArray, valueOfElement) {
                     fornecedoresSelecionados.push(valueOfElement);
                 });
+                carregarGridDosFornecedoresSelecionados();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
@@ -121,46 +124,51 @@
 
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")');
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")');
-        $('#divFornecedoresParaSelecionar').tabs();
-        $('#divGridFornecedoresSelecionados').kendoGrid({
-            dataSource: {
-                schema: {
-                    data: function () { return fornecedoresSelecionados; },
-                    model: {
-                        id: 'Codigo',
-                        fields: {
-                            Codigo: { type: "string" },
-                            Nome: { type: "string" },
-                            Email: { type: "string" }
+        
+        function carregarGridDosFornecedoresSelecionados() {
+            $('#divFornecedoresParaSelecionar').tabs();
+            $('#divGridFornecedoresSelecionados').kendoGrid({
+                dataSource: {
+                    schema: {
+                        data: function () { return fornecedoresSelecionados; },
+                        model: {
+                            id: 'Codigo',
+                            fields: {
+                                Codigo: { type: "string" },
+                                Nome: { type: "string" },
+                                Email: { type: "string" }
+                            }
                         }
                     }
-                }
-            },
-            sortable: false,
-            selectable: 'row',
-            columns:
-            [
-                {
-                    field: 'Codigo',
-                    title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 40,
-                    sortable: false,
-                    template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
                 },
-                {
-                    field: "Codigo",
-                    width: 90,
-                    title: "Código"
-                }, {
-                    field: "Nome",
-                    width: 200,
-                    title: "Nome"
-                }, {
-                    width: 250,
-                    field: "Email",
-                    title: "E-mail"
-                }
-            ]
-        });
+                sortable: false,
+                selectable: 'row',
+                columns:
+                [
+                    {
+                        field: 'Codigo',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
+                    },
+                    {
+                        field: "Codigo",
+                        width: 90,
+                        title: "Código"
+                    }, {
+                        field: "Nome",
+                        width: 200,
+                        title: "Nome"
+                    }, {
+                        width: 250,
+                        field: "Email",
+                        title: "E-mail"
+                    }
+                ]
+            });
+
+        }
+
     });
 </script>

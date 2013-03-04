@@ -42,6 +42,7 @@
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\Cotacao.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
+    <Compile Include="Entities\FornecedorParticipante.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\Iva.cs" />

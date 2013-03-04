@@ -60,7 +60,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script type="text/javascript">
         $(function () {
-
+            var idProcessoCotacao = $('#Id').val();
             $('#divSelecionarFornecedores').dialog({
                 autoOpen: false,
                 width: 800,
@@ -68,7 +68,35 @@
                 title: 'Selecionar Fornecedores',
                 modal: true,
                 buttons: {
-                    "Confirmar": function() {
+                    "Confirmar": function () {
+                        var codigosDosFornecedoresSelecionados = new Array();
+                        $.each(fornecedoresSelecionados, function(indice, fornecedorSelecionado) {
+                            codigosDosFornecedoresSelecionados.push(fornecedorSelecionado.Codigo);
+                        });
+                        
+                        
+                        $.ajax({
+                            url: '@Url.Action("AtualizarFornecedores","ProcessoDeCotacao")',
+                            type: 'POST',
+                            cache: false,
+                            data: JSON.stringify( {
+                                IdProcessoCotacao: idProcessoCotacao,
+                                CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
+                            }),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.Sucesso) {
+                                    $('#divSelecionarFornecedores').dialog('close');
+                                } else {
+                                    alert(data.Mensagem);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                            }
+        });
+
                           
                     },
                     "Cancelar": function () {

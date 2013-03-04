@@ -23,5 +23,13 @@ namespace BsBios.Portal.Tests
         {
             UnitOfWorkNh.Dispose();
         }
+
+        public static void RollbackSessionTransaction()
+        {
+            if (Session.Transaction != null && Session.Transaction.IsActive)
+            {
+                Session.Transaction.Rollback();
+            }
+        }
     }
 }

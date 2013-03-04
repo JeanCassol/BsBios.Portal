@@ -117,7 +117,9 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public JsonResult ListarFornecedores(int idProcessoCotacao)
         {
-            return Json(new {registros = new List<ProcessoCotacaoFornecedorVm>(), totalCount = 0}, JsonRequestBehavior.AllowGet);
+            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.FornecedoresParticipantes(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+            
         }
 
         public ActionResult SelecionarFornecedores(int idProcessoCotacao, string codigoProduto)
