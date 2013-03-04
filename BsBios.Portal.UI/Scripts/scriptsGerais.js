@@ -1,4 +1,14 @@
-﻿$(function() {
+﻿Mensagem = {
+    ExibirMensagemDeErro: function (mensagem) {
+        alert(mensagem);
+    },
+
+    ExibirMensagemDeSucesso: function (mensagem) {
+        alert(mensagem);
+    }
+};
+
+$(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
     $('.campoDatePicker').datepicker();
     
@@ -27,4 +37,6 @@
         
         this.kendoGrid(c);
     };
+    
+
 });

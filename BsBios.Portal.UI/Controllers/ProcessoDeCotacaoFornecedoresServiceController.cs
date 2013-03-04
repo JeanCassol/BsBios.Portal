@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
-    public class ProcessoDeCotacaoController : Controller
+    public class ProcessoDeCotacaoFornecedoresServiceController : Controller
     {
-        private readonly IProcessoDeCotacaoService _processoDeCotacaoService;
+        private readonly IProcessoDeCotacaoFornecedoresService _processoDeCotacaoFornecedoresService;
 
-        public ProcessoDeCotacaoController(IProcessoDeCotacaoService processoDeCotacaoService)
+        public ProcessoDeCotacaoFornecedoresServiceController(IProcessoDeCotacaoFornecedoresService processoDeCotacaoFornecedoresService)
         {
-            _processoDeCotacaoService = processoDeCotacaoService;
+            _processoDeCotacaoFornecedoresService = processoDeCotacaoFornecedoresService;
         }
 
         [HttpPost]
@@ -23,7 +19,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                _processoDeCotacaoService.AtualizarFornecedores(atualizacaoDosFornecedoresVm);
+                _processoDeCotacaoFornecedoresService.AtualizarFornecedores(atualizacaoDosFornecedoresVm);
                 return Json(new { Sucesso = true, Mensagem = "Atualização dos Fornecedores do Processo de Cotação realizada com sucesso." });
 
             }

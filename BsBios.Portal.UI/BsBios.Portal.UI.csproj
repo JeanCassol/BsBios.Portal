@@ -135,8 +135,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoFornecedoresServiceController.cs" />
     <Compile Include="Controllers\IncotermApiController.cs" />
-    <Compile Include="Controllers\ProcessoDeCotacaoController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoStatusServiceController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />

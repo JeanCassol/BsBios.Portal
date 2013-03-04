@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Infra.Repositories.Contracts;
+﻿using BsBios.Portal.Infra.Repositories.Contracts;
 using Moq;
 
 namespace BsBios.Portal.Tests.DefaultProvider
@@ -14,8 +9,14 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             var unitOfWorkNhMock = new Mock<IUnitOfWork>(MockBehavior.Strict);
             unitOfWorkNhMock.Setup(x => x.BeginTransaction());
-            unitOfWorkNhMock.Setup(x => x.Commit());
-            unitOfWorkNhMock.Setup(x => x.RollBack());
+
+            //callback garante que a transação sempre é iniciada (BeginTran) antes de fazer Commit
+            unitOfWorkNhMock.Setup(x => x.Commit())
+                .Callback(() => unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once()));
+
+            //callback garante que a transação sempre é iniciada (BeginTran) antes de fazer Rollback
+            unitOfWorkNhMock.Setup(x => x.RollBack())
+                .Callback(() => unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once()));
 
             return unitOfWorkNhMock;
         }

@@ -90,7 +90,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return new ProcessoCotacaoMaterialCadastroVm()
                 {
                     Id = processoDeCotacao.Id,
-                    DataTerminoLeilao = processoDeCotacao.DataTerminoLeilao.ToString(),
+                    DataLimiteRetorno = processoDeCotacao.DataTerminoLeilao.HasValue ? processoDeCotacao.DataTerminoLeilao.Value.ToShortDateString(): null,
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
                     CodigoMaterial = processoDeCotacao.CodigoMaterial,
                     RequisicaoDeCompraVm = new RequisicaoDeCompraVm()

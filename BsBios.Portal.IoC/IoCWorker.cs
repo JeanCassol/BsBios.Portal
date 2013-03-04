@@ -36,6 +36,7 @@ namespace BsBios.Portal.IoC
 
                 x.AddRegistry<AplicationServiceRegistry>();
                 x.AddRegistry<QueriesRegistry>();
+                x.AddRegistry<BuildersRegistry>();
                 x.AddRegistry<DomainServiceRegistry>();
                 x.AddRegistry<RepositoryRegistry>();
                 x.AddRegistry<InfraServiceRegistry>();

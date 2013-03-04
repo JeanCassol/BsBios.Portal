@@ -24,9 +24,23 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _condicoesDePagamentoMock = new Mock<ICondicoesDePagamento>(MockBehavior.Strict);
-            _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>())).Callback((CondicaoDePagamento condicaoDePagamento) => Assert.IsNotNull(condicaoDePagamento));
+            _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>()))
+                .Callback((CondicaoDePagamento condicaoDePagamento) =>
+                    {
+                        Assert.IsNotNull(condicaoDePagamento);
+                        //callback assegura que a transação foi iniciada  e não foi fechada antes de salvar
+                        _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                        _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                    });
             _condicoesDePagamentoMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>()))
-                                     .Returns((string c) => c == "C001" ? new CondicaoDePagamentoParaAtualizacao("C001", "CONDICAO 001") : null);
+                //callback assegura que a transação foi iniciada e não foi fechada antes de consultar
+                .Callback((string codigo) =>
+                    {
+                        _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                        _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                    })
+
+                .Returns((string c) => c == "C001" ? new CondicaoDePagamentoParaAtualizacao("C001", "CONDICAO 001") : null);
 
             _cadastroCondicaoPagamento = new CadastroCondicaoPagamento(_unitOfWorkMock.Object, _condicoesDePagamentoMock.Object);
             _condicaoPagamento01 = new CondicaoDePagamentoCadastroVm()

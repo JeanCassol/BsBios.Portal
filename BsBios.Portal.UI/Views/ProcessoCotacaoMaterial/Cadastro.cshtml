@@ -6,7 +6,8 @@
     ViewBag.TituloDaPagina = "Cotação de Material - Editar";
 }
 <div class="paginaCadastro">
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("AtualizarProcesso", "ProcessoDeCotacaoService"))
+    {
 
         <fieldset>
             <legend></legend>
@@ -14,10 +15,13 @@
             @Html.HiddenFor(model => model.Id)
             @Html.HiddenFor(model => model.CodigoMaterial)
             
-            @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
+            @if (Model != null && Model.RequisicaoDeCompraVm != null)
+            {
+                @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
+            }
             
             @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DescricaoStatus))
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataTerminoLeilao,"campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
 
 
             @*            @{ var comboMaterial = new ColunaComDropDown<ProcessoCotacaoMaterialCadastroVm, string>(x => x.CodigoMaterial, 
@@ -42,7 +46,15 @@
                 <input type="button" id="btnSelecionarFornecedores" value="Fornecedores" class="blue" style="width: 130px"/>
             </div>
             
-            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao",Model.Id)})
+            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0)})
+            
+            <div class="error">
+                @if (ViewData["erro"] != null)
+                {
+                    @ViewData["erro"]
+                }
+            </div>
+
             @Html.ValidationSummary(true)
 
             <div class="divBotao">
@@ -59,7 +71,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             var idProcessoCotacao = $('#Id').val();
             $('#divSelecionarFornecedores').dialog({
                 autoOpen: false,
@@ -68,38 +80,37 @@
                 title: 'Selecionar Fornecedores',
                 modal: true,
                 buttons: {
-                    "Confirmar": function () {
+                    "Confirmar": function() {
                         var codigosDosFornecedoresSelecionados = new Array();
                         $.each(fornecedoresSelecionados, function(indice, fornecedorSelecionado) {
                             codigosDosFornecedoresSelecionados.push(fornecedorSelecionado.Codigo);
                         });
-                        
-                        
+
                         $.ajax({
-                            url: '@Url.Action("AtualizarFornecedores","ProcessoDeCotacao")',
+                            url: '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")',
                             type: 'POST',
                             cache: false,
-                            data: JSON.stringify( {
+                            data: JSON.stringify({
                                 IdProcessoCotacao: idProcessoCotacao,
                                 CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
                             }),
                             contentType: "application/json; charset=utf-8",
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 if (data.Sucesso) {
                                     $('#divSelecionarFornecedores').dialog('close');
                                 } else {
-                                    alert(data.Mensagem);
+                                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
                                 }
                             },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
                             }
-        });
+                        });
 
-                          
+
                     },
-                    "Cancelar": function () {
+                    "Cancelar": function() {
                         $(this).dialog("close");
                     }
                 }
@@ -109,15 +120,57 @@
                 $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")"
                     + "/?codigoProduto=" + $('#CodigoMaterial').val()
                     + "&idProcessoCotacao=" + $('#Id').val(),
-                    function (response, status, xhr) {
+                    function(response, status, xhr) {
                         $('#divSelecionarFornecedores').dialog('open');
                     });
-                @*                $('#divSelecionarFornecedores').html(@Html.Partial("_SelecionarFornecedor", new ViewDataDictionary()
+                                @*                $('#divSelecionarFornecedores').html(@Html.Partial("_SelecionarFornecedor", new ViewDataDictionary()
                                                           {
                                                               {"codigoProduto", Model.CodigoMaterial}
                                                           }
                                                           ).ToHtmlString());
                 $('#divSelecionarFornecedores').dialog('open');*@
+            });
+
+            $('#btnIniciarProcesso').click(function() {
+                $.ajax({
+                    url: '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoStatusService")',
+                    type: 'POST',
+                    cache: false,
+                    data: {idProcessoCotacao: $('#Id').val()},
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao abrir o Processo. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+
+            });
+
+            $('#btnFecharProcesso').click(function() {
+                $.ajax({
+                    url: '@Url.Action("FecharProcesso", "ProcessoDeCotacaoStatusService")',
+                    type: 'POST',
+                    cache: false,
+                    data: { idProcessoCotacao: $('#Id').val() },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao fechar o Processo. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+
             });
         });
     </script>

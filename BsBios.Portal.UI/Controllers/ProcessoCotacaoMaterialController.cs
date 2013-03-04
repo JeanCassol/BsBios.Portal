@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
@@ -110,8 +111,16 @@ namespace BsBios.Portal.UI.Controllers
 
         public ViewResult EditarCadastro(int idProcessoCotacao)
         {
-            ProcessoCotacaoMaterialCadastroVm cadastro = _consultaProcessoDeCotacaoDeMaterial.ConsultaProcesso(idProcessoCotacao);
-            return View("Cadastro", cadastro);
+            try
+            {
+                ProcessoCotacaoMaterialCadastroVm cadastro = _consultaProcessoDeCotacaoDeMaterial.ConsultaProcesso(idProcessoCotacao);
+                return View("Cadastro", cadastro);
+            }
+            catch (Exception ex)
+            {
+                ViewData["erro"] = ex.Message;
+                return View("Cadastro");
+            }
         }
 
         [HttpGet]

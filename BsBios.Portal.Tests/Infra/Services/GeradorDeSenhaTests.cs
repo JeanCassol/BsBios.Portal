@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             IList<string> senhasGeradas = new List<string>();
             for (int i = 0; i < 1000; i++)
             {
-                var senha = geradorDeSenha.GerarGuid(5);
+                var senha = geradorDeSenha.GerarGuid(8);
                 Console.WriteLine(senha);
                 Assert.IsFalse(senhasGeradas.Contains(senha));
                 senhasGeradas.Add(senha);

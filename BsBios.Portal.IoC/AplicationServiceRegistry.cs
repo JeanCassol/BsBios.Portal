@@ -40,9 +40,12 @@ namespace BsBios.Portal.IoC
             For<IProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoService>();
-            For<IBuilder<Fornecedor, FornecedorCadastroVm>>()
+            For<IProcessoDeCotacaoFornecedoresService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<FornecedorCadastroBuilder>();
+                .Use<ProcessoDeCotacaoFornecedoresService>();
+            For<IProcessoDeCotacaoStatusService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoStatusService>();
         }
     }
 }

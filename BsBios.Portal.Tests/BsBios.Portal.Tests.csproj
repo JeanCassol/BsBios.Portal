@@ -89,6 +89,9 @@
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoServiceTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoStatusServiceTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
+    <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
@@ -123,9 +126,12 @@
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoDeCotacaoStatusServiceControllerTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoDeCotacaoFornecedoresServiceControllerTests.cs" />
     <Compile Include="UI\Controllers\IncotermApiTests.cs" />
     <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />
-    <Compile Include="UI\Controllers\ProcessoDeCotacaoControllerTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoDeCotacaoServiceControllerTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoCotacaoMaterialTests.cs" />
     <Compile Include="UI\Controllers\UsuarioApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />
     <Compile Include="UI\Controllers\IvaApiTests.cs" />

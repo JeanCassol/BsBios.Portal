@@ -51,6 +51,8 @@
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
+    <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />
@@ -60,7 +62,10 @@
     <Compile Include="Services\Contracts\ICadastroRequisicaoCompra.cs" />
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\AtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
@@ -70,6 +75,7 @@
     <Compile Include="Services\Implementations\CadastroRequisicaoCompra.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroIncoterm.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoStatusService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

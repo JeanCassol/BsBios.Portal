@@ -16,8 +16,27 @@ namespace BsBios.Portal.Tests.Application.Queries
     public class ConsultaProcessoDeCotacaoDeMaterialTests
     {
         [TestMethod]
+        public void ConsultaProcessoRetornaObjetoEsperado()
+        {
+            Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            ProcessoCotacaoMaterialCadastroVm processoCotacaoMaterialCadastroVm = consultaProcesso.ConsultaProcesso(processoDeCotacaoDeMaterial.Id);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoCotacaoMaterialCadastroVm.Id);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Codigo,processoCotacaoMaterialCadastroVm.CodigoMaterial);
+            Assert.IsTrue(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.HasValue);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoCotacaoMaterialCadastroVm.DataLimiteRetorno);
+            Assert.AreEqual("Não Iniciado",processoCotacaoMaterialCadastroVm.DescricaoStatus);
+        }
+
+        [TestMethod]
         public void ConsultaListagemDeProcessosRetornaObjetoEsperado()
         {
+            Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
@@ -50,7 +69,6 @@ namespace BsBios.Portal.Tests.Application.Queries
             IList<FornecedorCadastroVm> viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();
             Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor1.Codigo));
             Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor2.Codigo));
-
 
         }
     }

@@ -24,8 +24,8 @@ namespace BsBios.Portal.ViewModel
 
         [DataType(DataType.Date)]
         [Display(Name = "Término do Leilão")]
-        [Required(ErrorMessage = "Data de Término do Leilão é obrigatório")]
-        public string DataTerminoLeilao { get; set; }
+        [Required(ErrorMessage = "Data Limite de Retorno é obrigatória")]
+        public string DataLimiteRetorno { get; set; }
 
         //[DataType(DataType.Date)]
         //[Required(ErrorMessage = "Data Inicial de Validade da Cotação é obrigatório")]
