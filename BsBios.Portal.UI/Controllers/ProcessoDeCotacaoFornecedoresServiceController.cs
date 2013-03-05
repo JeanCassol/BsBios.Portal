@@ -15,7 +15,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AtualizarFornecedores(AtualizacaoDosFornecedoresDoProcessoDeCotacaoVm atualizacaoDosFornecedoresVm)
+        public JsonResult AtualizarFornecedores(ProcessoDeCotacaoFornecedoresAtualizarVm atualizacaoDosFornecedoresVm)
         {
             try
             {

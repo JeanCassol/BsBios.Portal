@@ -87,7 +87,7 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
         }
 
-        public virtual void AtualizarCotacao(string codigoFornecedor, decimal valorUnitario, Incoterm incoterm, string descricaoDoIncoterm)
+        public virtual void AtualizarCotacao(int idCotacao, decimal valorUnitario, CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoDoIncoterm)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
@@ -98,7 +98,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoDataLimiteExpiradaException(DataLimiteDeRetorno.Value);
             }
             //busca a cotação do fornecedor
-            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
+            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Cotacao.Id == idCotacao).Cotacao;
 
             cotacao.Atualizar(valorUnitario, incoterm, descricaoDoIncoterm);
         }

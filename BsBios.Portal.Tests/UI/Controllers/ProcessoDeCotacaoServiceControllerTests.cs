@@ -16,27 +16,27 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoAtualizaOProcessoComSucessoDeveIrParaPaginaDeListagem()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<AtualizacaoDoProcessoDeCotacaoVm>()));
+            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            var redirectResult = (RedirectToRouteResult) processoDeCotacaoController.AtualizarProcesso(new AtualizacaoDoProcessoDeCotacaoVm());
+            var redirectResult = (RedirectToRouteResult) processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
 
             Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
             Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
             
-            processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<AtualizacaoDoProcessoDeCotacaoVm>()), Times.Once());
+            processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
         }
 
         [TestMethod]
         public void QuandoOcorreErroAoAtualizarProcessoRetornarParaPaginaDeCadastro()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<AtualizacaoDoProcessoDeCotacaoVm>()))
+            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()))
                 .Throws(new ExcecaoDeTeste("Erro ao Atualizar Processo de Cotação"));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
             var redirectResult = (RedirectToRouteResult)processoDeCotacaoController.AtualizarProcesso(
-                new AtualizacaoDoProcessoDeCotacaoVm()
+                new ProcessoDeCotacaoAtualizarVm()
                     {
                         Id = 10,
                         DataLimiteRetorno = DateTime.Today
@@ -48,7 +48,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             Assert.IsNotNull(processoDeCotacaoController.ViewData["erro"]);
             Assert.AreEqual("Erro ao Atualizar Processo de Cotação", processoDeCotacaoController.ViewData["erro"]);
 
-            processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<AtualizacaoDoProcessoDeCotacaoVm>()), Times.Once());
+            processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
             
         }
 

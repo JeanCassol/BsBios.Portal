@@ -2,6 +2,9 @@
 
 namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// Classe utilizada na tela detalhe de cotação de materiais
+    /// </summary>
     public class ProcessoCotacaoMaterialCadastroVm
     {
         public int? Id { get; set; }
@@ -23,7 +26,7 @@ namespace BsBios.Portal.ViewModel
         //public string DataInicioLeilao { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Término do Leilão")]
+        [Display(Name = "Data Limite de Retorno")]
         [Required(ErrorMessage = "Data Limite de Retorno é obrigatória")]
         public string DataLimiteRetorno { get; set; }
 

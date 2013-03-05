@@ -2,8 +2,8 @@
 {
     public class Cotacao
     {
+        public virtual int Id { get; protected set; }
         //private int IdFornecedorParticipante { get; set; }
-        public virtual  int Id { get; protected set; }
         //public virtual FornecedorParticipante FornecedorParticipante { get; protected set; }
         public virtual bool Selecionada { get; protected set; }
         public virtual decimal? ValorUnitario { get; protected set; }

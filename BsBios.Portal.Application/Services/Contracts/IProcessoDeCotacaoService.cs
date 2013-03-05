@@ -4,7 +4,7 @@ namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface IProcessoDeCotacaoService
     {
-        void AtualizarProcesso(AtualizacaoDoProcessoDeCotacaoVm atualizacaoDoProcessoDeCotacaoVm);
+        void AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm);
     }
 
 }

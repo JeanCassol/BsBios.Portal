@@ -20,7 +20,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AtualizarProcesso(AtualizacaoDoProcessoDeCotacaoVm atualizacaoDoProcessoDeCotacaoVm)
+        public ActionResult AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
         {
             try
             {

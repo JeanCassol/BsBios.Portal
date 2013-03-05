@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// Utilizada para receber a requisição de compra do SAP e também na partial view que mostra os dados da requisição para o usuário comprador
+    /// </summary>
     [DataContract]
     public class RequisicaoDeCompraVm
     {

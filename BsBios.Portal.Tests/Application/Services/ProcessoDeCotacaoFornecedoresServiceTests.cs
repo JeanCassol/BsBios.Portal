@@ -18,7 +18,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly Mock<IFornecedores> _fornecedoresMock;
-        private readonly AtualizacaoDosFornecedoresDoProcessoDeCotacaoVm _atualizacaoDosFornecedoresVm;
+        private readonly ProcessoDeCotacaoFornecedoresAtualizarVm _atualizacaoDosFornecedoresVm;
         private readonly IProcessoDeCotacaoFornecedoresService _processoDeCotacaoFornecedoresService;
 
         public ProcessoDeCotacaoFornecedoresServiceTests()
@@ -54,7 +54,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                  });
 
             _processoDeCotacaoFornecedoresService = new ProcessoDeCotacaoFornecedoresService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object, _fornecedoresMock.Object);
-            _atualizacaoDosFornecedoresVm = new AtualizacaoDosFornecedoresDoProcessoDeCotacaoVm()
+            _atualizacaoDosFornecedoresVm = new ProcessoDeCotacaoFornecedoresAtualizarVm()
             {
                 IdProcessoCotacao = 1,
                 CodigoFornecedoresSelecionados = new[] { "FORNEC0001", "FORNEC0003" }

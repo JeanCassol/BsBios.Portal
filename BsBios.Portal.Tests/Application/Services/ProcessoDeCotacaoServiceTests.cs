@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Application.Services
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
-        private readonly AtualizacaoDoProcessoDeCotacaoVm _atualizacaoDoProcessoDeCotacaoVm;
+        private readonly ProcessoDeCotacaoAtualizarVm _atualizacaoDoProcessoDeCotacaoVm;
         private readonly IProcessoDeCotacaoService _processoDeCotacaoService;
 
         public ProcessoDeCotacaoServiceTests()
@@ -44,7 +44,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Returns(processoDeCotacaoDeMaterial);
 
             _processoDeCotacaoService = new ProcessoDeCotacaoService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object);
-            _atualizacaoDoProcessoDeCotacaoVm = new AtualizacaoDoProcessoDeCotacaoVm()
+            _atualizacaoDoProcessoDeCotacaoVm = new ProcessoDeCotacaoAtualizarVm()
                 {
                     Id = 1,
                     DataLimiteRetorno = DateTime.Today.AddDays(10)

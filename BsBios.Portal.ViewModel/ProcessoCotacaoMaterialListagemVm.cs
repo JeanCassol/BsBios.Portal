@@ -1,5 +1,8 @@
 ﻿namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// Classe utilizada no grid de processo de cotação de material
+    /// </summary>
     public class ProcessoCotacaoMaterialListagemVm: ListagemVm
     {
         public int Id { get; set; }

@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// Classe utilizada para enviar dados para o SAP quando os fornecedore são selecionados e o processo de cotação é iniciado.
+    /// </summary>
     [DataContract]
     public class CotacaoInicioVm
     {

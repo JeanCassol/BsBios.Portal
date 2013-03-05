@@ -21,7 +21,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             _fornecedores = fornecedores;
         }
 
-        public void AtualizarFornecedores(AtualizacaoDosFornecedoresDoProcessoDeCotacaoVm atualizacaoDosFornecedoresVm)
+        public void AtualizarFornecedores(ProcessoDeCotacaoFornecedoresAtualizarVm atualizacaoDosFornecedoresVm)
         {
             try
             {

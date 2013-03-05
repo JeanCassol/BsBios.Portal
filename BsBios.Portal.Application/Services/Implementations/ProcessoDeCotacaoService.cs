@@ -17,7 +17,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         }
 
 
-        public void AtualizarProcesso(AtualizacaoDoProcessoDeCotacaoVm atualizacaoDoProcessoDeCotacaoVm)
+        public void AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
         {
             try
             {
