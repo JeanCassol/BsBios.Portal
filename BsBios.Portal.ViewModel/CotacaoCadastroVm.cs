@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BsBios.Portal.ViewModel
 {
-    public class CotacaoCadastroVm: CotacaoAtualizarVm
+    public class CotacaoCadastroVm: CotacaoInformarVm
     {
         [DisplayName("Descrição: ")]
-        public string Descricao { get; set; }
+        public string DescricaoDoProcessoDeCotacao { get; set; }
         [DisplayName("Data Limite de Retorno")]
         public string DataLimiteDeRetorno { get; set; }
         [DisplayName("Status: ")]

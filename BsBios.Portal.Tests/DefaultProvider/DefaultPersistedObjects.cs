@@ -63,6 +63,83 @@ namespace BsBios.Portal.Tests.DefaultProvider
             }
         }
 
+        private static void PersistirIva(Iva iva)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+
+                }
+                Session.Save(iva);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+
+
+        }
+
+        private static void PersistirIncoterm(Incoterm incoterm)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+
+                }
+                Session.Save(incoterm);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+
+
+        }
+
+        private static void PersistirCondicaoDePagamento(CondicaoDePagamento condicaoDePagamento)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+
+                }
+                Session.Save(condicaoDePagamento);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+        }
+
+
         private static void PersistirFornecedores(IEnumerable<Fornecedor> fornecedores)
         {
             foreach (var fornecedor in fornecedores)
@@ -130,12 +207,52 @@ namespace BsBios.Portal.Tests.DefaultProvider
                     Session.BeginTransaction();
                 }
                 PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
-                PersistirFornecedores(processoDeCotacaoDeMaterial.FornecedoresParticipantes.Select(x => x.Fornecedor));
+                
+
+                foreach (var fornecedorParticipante in processoDeCotacaoDeMaterial.FornecedoresParticipantes)
+                {
+                    PersistirFornecedor(fornecedorParticipante.Fornecedor);
+                    if (fornecedorParticipante.Cotacao != null)
+                    {
+                        Cotacao cotacao = fornecedorParticipante.Cotacao;
+                        PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
+                        PersistirIncoterm(cotacao.Incoterm);
+                        if (cotacao.Iva != null)
+                        {
+                            PersistirIva(cotacao.Iva);    
+                        }
+                        
+                    }
+                    
+
+                }
+                
+
                 Session.Save(processoDeCotacaoDeMaterial);
                 if (controlarTransacao)
                 {
                     Session.Transaction.Commit();
                 }
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+        }
+
+
+        public static void PersistirProcessosDeCotacaoDeMaterial(IList<ProcessoDeCotacaoDeMaterial> processosDeCotacao)
+        {
+            try
+            {
+                Session.BeginTransaction();
+                foreach (var processoDeCotacao in processosDeCotacao)
+                {
+                    PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
+                }
+
+                Session.Transaction.Commit();
             }
             catch (Exception)
             {

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 
@@ -16,6 +17,20 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IProcessosDeCotacao FiltraPorFornecedor(string codigoFornecedor)
+        {
+            Query = (from p in Query
+                             from fp in p.FornecedoresParticipantes
+                             where fp.Fornecedor.Codigo == codigoFornecedor
+                                 select p);
 
+            return this;
+        }
+
+        public IProcessosDeCotacao DesconsideraNaoIniciados()
+        {
+            Query = Query.Where(x => x.Status != Enumeradores.StatusProcessoCotacao.NaoIniciado);
+            return this;
+        }
     }
 }

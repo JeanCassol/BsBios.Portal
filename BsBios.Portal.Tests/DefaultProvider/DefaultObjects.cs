@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
 
 namespace BsBios.Portal.Tests.DefaultProvider
 {
@@ -87,8 +87,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            processoDeCotacao.AtualizarCotacao(codigoFornecedor,125, ObtemIncotermPadrao(),"Descrição do Incotem");
-            processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, ObtemIvaPadrao(), ObtemCondicaoDePagamentoPadrao());
+            processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, null);
+            processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, ObtemIvaPadrao());
             processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
@@ -140,6 +140,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var codigo = GeraCodigo(_contadorCondicoesDePagamento, 4);
             return new CondicaoDePagamento(codigo , "CONDIÇÃO " + codigo);
         }
-        
+
+        public static Cotacao ObtemCotacaoPadrao()
+        {
+            var cotacao = new Cotacao(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
+                "Descrição do Incoterm", 100, 110, null);
+            return cotacao;
+        }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -25,7 +27,14 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm)
         {
-            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, null);
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            var filtro = new ProcessoCotacaoMaterialFiltroVm();
+            if (usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
+            {
+                filtro.CodigoFornecedor = usuarioConectado.Login;
+            }
+
+            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
 

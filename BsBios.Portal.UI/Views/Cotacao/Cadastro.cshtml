@@ -1,0 +1,61 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model CotacaoCadastroVm
+
+@{
+    ViewBag.Title = "Cotação";
+}
+<div class="paginaCadastro">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.IdProcessoCotacao)
+        @Html.HiddenFor(model => model.CodigoFornecedor)
+        
+        <fieldset>
+            <legend>Processo de Cotação</legend>
+            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoCadastroVm, string>(x => x.Status),
+            new ColunaComLabel<CotacaoCadastroVm, string>(x => x.DataLimiteDeRetorno))
+            @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoCadastroVm, string>(x => x.Material))
+            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoCadastroVm, decimal>(x => x.Quantidade),
+            new ColunaComLabel<CotacaoCadastroVm, string>(x => x.UnidadeDeMedida))
+            @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))
+        </fieldset>
+        <fieldset>
+            <legend>Cotação do Fornecedor</legend>
+            @{ var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoCondicaoPagamento, 
+                ((List<CondicaoDePagamentoCadastroVm>) ViewBag.CondicoesDePagamento)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento}),
+                "CodigoCondicaoPagamento");
+            }
+            @Html.LinhaComUmaColuna(comboCondicaoDePagamento)
+
+            @{ var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm, 
+                ((List<IncotermCadastroVm>) ViewBag.Incoterms)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm}),
+                "CodigoIncoterm");
+            }
+            @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.DescricaoIncoterm,""))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.ValorTotalSemImpostos), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.ValorTotalComImpostos))
+            @Html.LinhaComUmaColuna(new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.Mva))
+        </fieldset>
+        <fieldset>
+            <legend>Impostos</legend>
+        </fieldset>
+  
+        <div class="error">
+            @if (ViewData["erro"] != null)
+            {
+                @ViewData["erro"]
+            }
+        </div>
+        
+        @Html.ValidationSummary(true)
+
+        <div class="divBotao">
+            <input type="submit" id="btnSalvarCotacao" value="Salvar" class="blue" />
+        </div>
+    }
+</div>
+
+

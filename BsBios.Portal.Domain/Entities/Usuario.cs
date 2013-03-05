@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Domain.ValueObjects;
+﻿using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {

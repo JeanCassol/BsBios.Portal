@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,6 +48,83 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(1000, processoListagem.Quantidade);
             Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNull(processoListagem.DataTermino);
+        }
+
+        [TestMethod]
+        public void QuandoListaProcessosDeCotacaoDeUmDeterminadoFornecedorRetornaApenasProcessosDesteFornecedor()
+        {
+            //crio dois fornecedores e adiciono cada um deles em duas cotações distintas
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao3 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao4 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+
+            processoDeCotacao1.Atualizar(DateTime.Today);
+            processoDeCotacao1.AdicionarFornecedor(fornecedor1);
+            processoDeCotacao1.Abrir();
+
+            processoDeCotacao2.Atualizar(DateTime.Today);
+            processoDeCotacao2.AdicionarFornecedor(fornecedor1);
+            processoDeCotacao2.Abrir();
+
+            processoDeCotacao3.Atualizar(DateTime.Today);
+            processoDeCotacao3.AdicionarFornecedor(fornecedor2);
+            processoDeCotacao3.Abrir();
+            
+            processoDeCotacao4.Atualizar(DateTime.Today);
+            processoDeCotacao4.AdicionarFornecedor(fornecedor2);
+            processoDeCotacao4.Abrir();
+
+            DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>()
+                {processoDeCotacao1, processoDeCotacao2, processoDeCotacao3, processoDeCotacao4});
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            //consulta filtrando pelo fornecedor1
+            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 }, 
+               new ProcessoCotacaoMaterialFiltroVm()
+                   {
+                       CodigoFornecedor  = fornecedor1.Codigo
+                   });
+            Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
+            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
+            //verifico que está retornado os dois processos vinculados ao fornecedor 1
+            Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
+            Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao2.Id));
+        }
+
+        [TestMethod]
+        public void QuandoConsultaProcessosDeCotacaoDeUmDeterminadoFornecedorNaoConsideraOsProcessosNaoIniciados()
+        {
+            //crio um fornecedor e adiciono ele em uma cotação aberta e uma não iniciada
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+
+            processoDeCotacao1.Atualizar(DateTime.Today);
+            processoDeCotacao1.AdicionarFornecedor(fornecedor1);
+            processoDeCotacao1.Abrir();
+
+            processoDeCotacao2.Atualizar(DateTime.Today);
+            processoDeCotacao2.AdicionarFornecedor(fornecedor1);
+
+            DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>() { processoDeCotacao1, processoDeCotacao2});
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            //consulta filtrando pelo fornecedor
+            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
+               new ProcessoCotacaoMaterialFiltroVm()
+               {
+                   CodigoFornecedor = fornecedor1.Codigo
+               });
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
+            //verifico que está retornado apenas o processo que foi aberto
+            Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
+            
         }
 
         [TestMethod]

@@ -1,5 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,7 +1,6 @@
 ﻿using System;
-using BsBios.Portal.Domain;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -44,7 +43,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 UnitOfWorkNh.BeginTransaction();
 
-                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "mauro.leal@fusionconsultoria.com.br",Enumeradores.Perfil.Comprador);
                 _usuarios.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();

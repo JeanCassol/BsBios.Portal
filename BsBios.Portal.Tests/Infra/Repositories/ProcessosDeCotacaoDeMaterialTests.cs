@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -95,40 +95,22 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComCotacoes()
         {
-            Console.WriteLine("Salvando Processo de Cotação - INICIO");
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            //DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
-            UnitOfWorkNh.BeginTransaction();
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Criador);
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial.RequisicaoDeCompra.FornecedorPretendido);
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Material);
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial);
-            UnitOfWorkNh.Commit();
-            Console.WriteLine("Salvando Processo de Cotação - FIM");
 
-            Console.WriteLine("Adicionando FORNECEDOR PARTICIPANTE - INICIO");
-            UnitOfWorkNh.BeginTransaction();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            UnitOfWorkNh.Session.Save(fornecedor);
 
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial);
 
-            UnitOfWorkNh.Commit();
-            Console.WriteLine("Adicionando FORNECEDOR PARTICIPANTE - FIM");
 
-            Console.WriteLine("Criando Cotacao - INICIO");
-            UnitOfWorkNh.BeginTransaction();
             processoDeCotacaoDeMaterial.Abrir();
-            UnitOfWorkNh.Session.Save(processoDeCotacaoDeMaterial);
-            UnitOfWorkNh.Commit();
-            Console.WriteLine("Criando Cotacao - FIM");
+            processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, null);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
             var processosDeCotacaoDeMaterial = ObjectFactory.GetInstance<IProcessosDeCotacao>();
 
-            UnitOfWorkNh.Session.Clear();
 
             Console.WriteLine("Consultando Cotacao - INICIO");
             var processoConsultado = (ProcessoDeCotacaoDeMaterial)processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();

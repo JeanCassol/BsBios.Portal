@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace BsBios.Portal.Domain.ValueObjects
+namespace BsBios.Portal.Common
 {
     public class Enumeradores
     {
@@ -27,6 +27,14 @@ namespace BsBios.Portal.Domain.ValueObjects
         {
             Material = 1,
             Frete = 2
+        }
+        public enum TipoDeImposto
+        {
+            Icms = 1,
+            IcmsSubstituicao = 2,
+            Ipi = 3,
+            Pis = 4,
+            Cofins = 5
         }
     }
 }

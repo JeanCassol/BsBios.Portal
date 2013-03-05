@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="Exceptions\MvaNaoInformadoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoSelecaoCotacaoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoDataLimiteExpiradaException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoAtualizacaoCotacaoException.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="Exceptions\ProcessoDeCotacaoSemFornecedoresException.cs" />
     <Compile Include="Exceptions\SenhaIncorretaException.cs" />
     <Compile Include="Exceptions\UsuarioNaoCadastradoException.cs" />
+    <Compile Include="Exceptions\ValorTotalComImpostosObrigatorioException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

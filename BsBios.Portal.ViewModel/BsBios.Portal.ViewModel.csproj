@@ -39,16 +39,17 @@
   <ItemGroup>
     <Compile Include="CotacaoCadastroVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
+    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
-    <Compile Include="CotacaoAtualizarVm.cs" />
+    <Compile Include="CotacaoInformarVm.cs" />
     <Compile Include="IncotermCadastroVm.cs" />
     <Compile Include="KendoGridVm.cs" />
     <Compile Include="ListagemVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
-    <Compile Include="CotacaoInicioVm.cs" />
+    <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />

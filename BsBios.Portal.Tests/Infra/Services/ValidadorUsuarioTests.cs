@@ -1,6 +1,6 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
-using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;

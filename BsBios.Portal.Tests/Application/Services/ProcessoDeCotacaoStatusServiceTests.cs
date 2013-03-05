@@ -2,8 +2,8 @@
 using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -54,7 +54,9 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
                             var codigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-                            _processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, DefaultObjects.ObtemIvaPadrao(), DefaultObjects.ObtemCondicaoDePagamentoPadrao());
+                            _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                                               DefaultObjects.ObtemIncotermPadrao(), "inc", 150, null,null);
+                            _processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, DefaultObjects.ObtemIvaPadrao());
                         }
                     });
 

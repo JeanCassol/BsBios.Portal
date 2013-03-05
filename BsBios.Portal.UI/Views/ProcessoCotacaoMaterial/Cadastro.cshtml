@@ -10,7 +10,7 @@
     {
 
         <fieldset>
-            <legend></legend>
+            <legend>Requisição de Compra</legend>
 
             @Html.HiddenFor(model => model.Id)
             @Html.HiddenFor(model => model.CodigoMaterial)
@@ -19,10 +19,14 @@
             {
                 @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
             }
-            
+        </fieldset>
+        <fieldset>
+            <legend>Processo de Cotação</legend>
             @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DescricaoStatus))
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
 
+        </fieldset>
+            
 
             @*            @{ var comboMaterial = new ColunaComDropDown<ProcessoCotacaoMaterialCadastroVm, string>(x => x.CodigoMaterial, 
                 ((List<ProdutoCadastroVm>) ViewBag.Materiais)
@@ -42,27 +46,30 @@
 
             @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos),
             new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Observacoes))*@
+        
+        <fieldset>
+            <legend>Fornecedores</legend>
             <div class="divBotao">
                 <input type="button" id="btnSelecionarFornecedores" value="Fornecedores" class="blue" style="width: 130px"/>
             </div>
             
             @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0)})
-            
-            <div class="error">
-                @if (ViewData["erro"] != null)
-                {
-                    @ViewData["erro"]
-                }
-            </div>
-
-            @Html.ValidationSummary(true)
-
-            <div class="divBotao">
-                <input type="button" id="btnIniciarProcesso" value="Iniciar" class="blue" />
-                <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
-                <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
-            </div>
         </fieldset>
+           
+        <div class="error">
+            @if (ViewData["erro"] != null)
+            {
+                @ViewData["erro"]
+            }
+        </div>
+
+        @Html.ValidationSummary(true)
+
+        <div class="divBotao">
+            <input type="button" id="btnIniciarProcesso" value="Iniciar" class="blue" />
+            <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+            <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
+        </div>
     }
     <div id="divSelecionarFornecedores"></div>
 </div>

@@ -15,11 +15,20 @@
             Fornecedor = fornecedor;
         }
 
-        public virtual void CriarCotacao()
+        public virtual Cotacao InformarCotacao(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoDoIncoterm,
+            decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, decimal? mva)
         {
-            //var cotacao = new Cotacao(this);
-            var cotacao = new Cotacao();
-            Cotacao = cotacao;
+            if (Cotacao == null)
+            {
+                Cotacao = new Cotacao(condicaoDePagamento, incoterm, descricaoDoIncoterm, valorTotalSemImpostos, valorTotalComImpostos, mva);
+                
+            }
+            else
+            {
+                Cotacao.Atualizar(valorTotalSemImpostos, valorTotalComImpostos, condicaoDePagamento, incoterm, descricaoDoIncoterm, mva);
+            }
+
+            return Cotacao;
         }
     }
 }

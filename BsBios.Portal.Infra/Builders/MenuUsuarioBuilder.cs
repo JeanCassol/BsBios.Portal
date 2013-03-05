@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using BsBios.Portal.Domain;
-using BsBios.Portal.Domain.ValueObjects;
+using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Infra.Builders
@@ -62,7 +61,7 @@ namespace BsBios.Portal.Infra.Builders
         {
             var menus = new List<Menu>();
             var menuCotacao = new Menu("Cotações");
-            menuCotacao.AdicionarItem("Minhas Cotações", "CotacaoFrete", "Index");
+            menuCotacao.AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
             menus.Add(menuCotacao);
 
             return menus;

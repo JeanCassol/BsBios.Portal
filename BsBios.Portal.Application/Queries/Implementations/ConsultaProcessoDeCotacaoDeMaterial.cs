@@ -24,6 +24,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
         {
+            if (filtro != null && filtro.CodigoFornecedor != null)
+            {
+                _processosDeCotacao
+                    .DesconsideraNaoIniciados()
+                    .FiltraPorFornecedor(filtro.CodigoFornecedor);
+
+            }
             var query = (from p in _processosDeCotacao.GetQuery()
                          select new 
                          {

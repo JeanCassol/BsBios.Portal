@@ -8,7 +8,7 @@ namespace BsBios.Portal.ViewModel
     /// Classe utilizada para enviar dados para o SAP quando os fornecedore são selecionados e o processo de cotação é iniciado.
     /// </summary>
     [DataContract]
-    public class CotacaoInicioVm
+    public class ProcessoDeCotacaoAberturaVm
     {
         [DataMember]
         public DateTime DataCriacao { get; set; }
@@ -22,5 +22,5 @@ namespace BsBios.Portal.ViewModel
         public string NumeroItem { get; set; }
     }
     [CollectionDataContract]
-    public class ListaCotacaoInicio: List<CotacaoInicioVm>{}
+    public class ListaProcessoDeCotacaoAbertura: List<ProcessoDeCotacaoAberturaVm>{}
 }

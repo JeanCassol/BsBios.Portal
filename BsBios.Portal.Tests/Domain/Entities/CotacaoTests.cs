@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,66 +13,81 @@ namespace BsBios.Portal.Tests.Domain.Entities
     public class CotacaoTests
     {
         [TestMethod]
-        public void QuandoAbroUmProcessoDeCotacaoACotacaoEhCriadaCorretamenteCorretamente()
+        public void QuandoCrioUmaCotacaoAsPropriedadesSaoIniciadasCorretamente()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
-            processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
-
-            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-
-            //Assert.AreEqual(fornecedor.Codigo, cotacao.FornecedorParticipante.Fornecedor.Codigo);
+            CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
+            Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
+            var cotacao = new Cotacao(condicaoDePagamento, incoterm, "Descrição do Incoterm", 100, 110, 5);
             Assert.IsFalse(cotacao.Selecionada);
-            Assert.IsNull(cotacao.ValorUnitario);
             Assert.IsNull(cotacao.Iva);
             Assert.IsNull(cotacao.QuantidadeAdquirida);
-            Assert.IsNull(cotacao.Incoterm);
-            Assert.IsNull(cotacao.DescricaoIncoterm);
-            Assert.IsNull(cotacao.CondicaoDePagamento);
+            Assert.AreEqual(100, cotacao.ValorTotalSemImpostos);
+            Assert.AreEqual(110, cotacao.ValorTotalComImpostos);
+            Assert.AreSame(incoterm, cotacao.Incoterm);
+            Assert.AreEqual("Descrição do Incoterm",cotacao.DescricaoIncoterm);
+            Assert.AreSame(condicaoDePagamento, cotacao.CondicaoDePagamento);
+            Assert.AreEqual(5, cotacao.Mva);
         }
 
         [TestMethod]
-        public void QuandoAtualizarUmaCotacaoAsPropriedadesSaoAtualizadas()
+        public void QuandoAtualizaoUmaCotacaoAsPropriedadesSaoCriadasCorretamente()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
-            processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
-            Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
-            processoDeCotacao.AtualizarCotacao(fornecedor.Codigo,new decimal( 150.20) ,incoterm, "Descrição do Incoterm");
+            Cotacao cotacao = DefaultObjects.ObtemCotacaoPadrao();
+            var condicaoDePagamento = new CondicaoDePagamento("C1","CONDIÇÃO ALTERAÇÃO");
+            var incoterm = new Incoterm("I1", "INCOTERM ALTERAÇÃO");
+            cotacao.Atualizar(200, 220,condicaoDePagamento, incoterm,"INCOTERM ALTERADO",10 );
+            Assert.AreEqual(200, cotacao.ValorTotalSemImpostos);
+            Assert.AreEqual(220, cotacao.ValorTotalComImpostos);
+            Assert.AreSame(incoterm, cotacao.Incoterm);
+            Assert.AreEqual("INCOTERM ALTERADO", cotacao.DescricaoIncoterm);
+            Assert.AreSame(condicaoDePagamento, cotacao.CondicaoDePagamento);
+            Assert.AreEqual(10, cotacao.Mva);
+        }
 
-            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            Assert.IsNotNull(cotacao);
-            Assert.AreEqual(new decimal(150.20), cotacao.ValorUnitario);
-            Assert.AreEqual(incoterm.Codigo, cotacao.Incoterm.Codigo);
-            Assert.AreEqual("Descrição do Incoterm", cotacao.DescricaoIncoterm);
+        [TestMethod]
+        public void QuandoInformoUmImpostoParaACotacaoOImpostoEAdicionadoCorretamente()
+        {
+            Cotacao cotacao = DefaultObjects.ObtemCotacaoPadrao();
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);
+            Assert.AreEqual(1, cotacao.Impostos.Count);
+            Imposto imposto = cotacao.Impostos.First();
+            Assert.AreEqual(Enumeradores.TipoDeImposto.Icms, imposto.Tipo);
+            Assert.AreEqual(17, imposto.Aliquota);
+            Assert.AreEqual(34, imposto.Valor);
+        }
+
+        [TestMethod]
+        public void QuandoUmImpostoJaExistenteeEInformadoNovamenteOMesmoEAtualizado()
+        {
+            Cotacao cotacao = DefaultObjects.ObtemCotacaoPadrao();
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 12, 25);
+            Assert.AreEqual(1, cotacao.Impostos.Count);
+            Imposto imposto = cotacao.Impostos.First();
+            Assert.AreEqual(Enumeradores.TipoDeImposto.Icms, imposto.Tipo);
+            Assert.AreEqual(12, imposto.Aliquota);
+            Assert.AreEqual(25, imposto.Valor);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValorTotalComImpostosObrigatorioException))]
+        public void QuandoAdicionoImpostoEmUmaCotacaoQueNaoPossuiValorTotalComImpostosDeveGerarExcecao()
+        {
+            var cotacao = new Cotacao(DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                      DefaultObjects.ObtemIncotermPadrao(), "INC", 100, null, null);
+
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 17);
 
         }
 
         [TestMethod]
-        public void QuandoSelecionaUmFornecedorACotacaoFicaMarcadaComoSelecionadaQuantidadeAdquiridaCondicaoPagamentoIvaSaoPreenchidos()
+        [ExpectedException(typeof (MvaNaoInformadoException))]
+        public void QuandoACotacaoPossuiIcmsDeSubstituicaoTributariaEoCampoMvaNaoForPreenchidoDeveDispararExcecao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
-            processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
-            Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
-            processoDeCotacao.AtualizarCotacao(fornecedor.Codigo, new decimal(150.20), incoterm, "Descrição do Incoterm");
-            Iva iva = DefaultObjects.ObtemIvaPadrao();
-            CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacao.SelecionarCotacao(fornecedor.Codigo, new decimal(120.00), iva, condicaoDePagamento);
-
-            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-
-            Assert.IsTrue(cotacao.Selecionada);
-            Assert.AreEqual(new decimal(120.00), cotacao.QuantidadeAdquirida);
-            Assert.AreEqual(iva.Codigo, cotacao.Iva.Codigo);
-            Assert.AreEqual(condicaoDePagamento.Codigo,cotacao.CondicaoDePagamento.Codigo);
-
+            var cotacao = new Cotacao(DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                      DefaultObjects.ObtemIncotermPadrao(), "INC", 100, 120, null);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 17, 17);
+            
         }
 
         

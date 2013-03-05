@@ -1,5 +1,8 @@
-﻿namespace BsBios.Portal.ViewModel
+﻿using System.Runtime.Serialization;
+
+namespace BsBios.Portal.ViewModel
 {
+    [DataContract]
     public abstract class ListagemVm
     {
     }

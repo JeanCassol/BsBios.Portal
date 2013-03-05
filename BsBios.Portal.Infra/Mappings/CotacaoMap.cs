@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Domain.Entities;
-using FluentNHibernate;
+﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -38,8 +32,12 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Incoterm).Column("CodigoIncoterm");
             Map(x => x.DescricaoIncoterm);
             Map(x => x.QuantidadeAdquirida);
-            Map(x => x.ValorUnitario);
+            Map(x => x.ValorTotalSemImpostos);
+            Map(x => x.ValorTotalComImpostos);
+            Map(x => x.Mva);
             Map(x => x.Selecionada);
+
+            //HasMany(x => x.Impostos).KeyColumn("IdCotacao");
         }
     }
 }

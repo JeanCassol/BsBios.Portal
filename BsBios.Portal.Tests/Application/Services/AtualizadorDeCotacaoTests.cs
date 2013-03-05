@@ -20,7 +20,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly IAtualizadorDeCotacao _atualizadorDeCotacao;
         private ProcessoDeCotacao _processoDeCotacao;
-        private readonly CotacaoAtualizarVm _cotacaoAtualizarVm; 
+        private readonly CotacaoInformarVm _cotacaoAtualizarVm; 
 
 
 
@@ -55,9 +55,9 @@ namespace BsBios.Portal.Tests.Application.Services
             _processosDeCotacaoMock.Setup(x => x.Single())
                                    .Returns(processoDeCotacaoDeMaterial);
 
-            _atualizadorDeCotacao = new AtualizadorDeCotacao(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object);
+            //_atualizadorDeCotacao = new AtualizadorDeCotacao(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object);
 
-            _cotacaoAtualizarVm = new CotacaoAtualizarVm();
+            _cotacaoAtualizarVm = new CotacaoInformarVm();
         }
 
         [TestMethod]

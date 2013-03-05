@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
-using BsBios.Portal.Domain.ValueObjects;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -79,15 +78,11 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoSemFornecedoresException();
             }
 
-            foreach (var fornecedorParticipante in FornecedoresParticipantes)
-            {
-                fornecedorParticipante.CriarCotacao();
-            }
-
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
         }
 
-        public virtual void AtualizarCotacao(int idCotacao, decimal valorUnitario, CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoDoIncoterm)
+        public virtual Cotacao InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento, 
+            Incoterm incoterm, string descricaoDoIncoterm, decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, decimal? mva)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
@@ -98,19 +93,19 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoDataLimiteExpiradaException(DataLimiteDeRetorno.Value);
             }
             //busca a cotação do fornecedor
-            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Cotacao.Id == idCotacao).Cotacao;
+            FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            cotacao.Atualizar(valorUnitario, incoterm, descricaoDoIncoterm);
+            return fornecedorParticipante.InformarCotacao(condicaoDePagamento,  incoterm, descricaoDoIncoterm,valorTotalSemImpostos, valorTotalComImpostos, mva);
         }
 
-        public virtual void SelecionarCotacao(string codigoFornecedor, decimal quantidadeAdquirida, Iva iva, CondicaoDePagamento condicaoDePagamento)
+        public virtual void SelecionarCotacao(string codigoFornecedor, decimal quantidadeAdquirida, Iva iva)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
             Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
-            cotacao.Selecionar(quantidadeAdquirida, iva,condicaoDePagamento);
+            cotacao.Selecionar(quantidadeAdquirida, iva);
         }
 
         public virtual void Fechar()
