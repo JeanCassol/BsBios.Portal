@@ -94,6 +94,7 @@
     <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
     <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />
     <Compile Include="BaseTestClass.cs" />
+    <Compile Include="Common\CommonMocks.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
     <Compile Include="DefaultProvider\DefaultPersistedObjects.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />
     <Compile Include="UI\Controllers\ProcessoDeCotacaoServiceControllerTests.cs" />
     <Compile Include="UI\Controllers\ProcessoCotacaoMaterialTests.cs" />
+    <Compile Include="UI\Controllers\CotacaoTests.cs" />
     <Compile Include="UI\Controllers\UsuarioApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />
     <Compile Include="UI\Controllers\IvaApiTests.cs" />

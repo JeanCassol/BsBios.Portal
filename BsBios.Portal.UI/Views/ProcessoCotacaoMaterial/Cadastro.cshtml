@@ -76,9 +76,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var idProcessoCotacao = $('#Id').val();
             $('#divSelecionarFornecedores').dialog({
                 autoOpen: false,
@@ -106,6 +108,7 @@
                             success: function(data) {
                                 if (data.Sucesso) {
                                     $('#divSelecionarFornecedores').dialog('close');
+                                    $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
                                 } else {
                                     Mensagem.ExibirMensagemDeErro(data.Mensagem);
                                 }

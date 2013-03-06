@@ -97,7 +97,7 @@
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                location.href = '@Url.Action("EditarCadastro","ProcessoCotacaoMaterial")' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
+                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
             });
 
         });

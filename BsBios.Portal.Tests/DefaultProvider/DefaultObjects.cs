@@ -2,6 +2,7 @@
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Tests.DefaultProvider
 {
@@ -69,8 +70,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialNaoIniciado()
         {
             var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(requisicaoDeCompra, requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade);
-            return processoDeCotacao;
+            return requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
         }
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
@@ -146,6 +146,11 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var cotacao = new Cotacao(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
                 "Descrição do Incoterm", 100, 110, null);
             return cotacao;
+        }
+
+        public static UsuarioConectado ObtemUsuarioConectado()
+        {
+            return new UsuarioConectado("comprador", "Usuário Comprador",1);
         }
     }
 }

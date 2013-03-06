@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
-using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -12,26 +11,37 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoCotacaoMaterialController : Controller
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly UsuarioConectado _usuarioConectado;
 
-        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
+        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, UsuarioConectado usuarioConectado)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
+            _usuarioConectado = usuarioConectado;
         }
 
 
         [HttpGet]
         public ActionResult Index()
         {
+            if (_usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Comprador)
+            {
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoCotacaoMaterial");
+
+            }
+            if (_usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
+            {
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "Cotacao");
+            }
+
             return View();
         }
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm)
         {
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             var filtro = new ProcessoCotacaoMaterialFiltroVm();
-            if (usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
+            if (_usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
             {
-                filtro.CodigoFornecedor = usuarioConectado.Login;
+                filtro.CodigoFornecedor = _usuarioConectado.Login;
             }
 
             var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);

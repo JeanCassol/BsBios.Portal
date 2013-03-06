@@ -66,7 +66,7 @@ namespace BsBios.Portal.UI.Controllers
                 UsuarioConectado usuarioConectado = _accountService.Login(model.Usuario, model.Senha);
                 //Session["UsuarioConectado"] = usuarioConectado;
                 ObjectFactory.Configure(c => c.For<UsuarioConectado>()
-                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HttpSession))
+                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.HybridHttpSession))
                     .Use(usuarioConectado));
                 if (! string.IsNullOrEmpty(returnUrl))
                 {
