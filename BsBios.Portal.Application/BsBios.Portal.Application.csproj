@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaIncoterms.cs" />
     <Compile Include="Queries\Contracts\IConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
+    <Compile Include="Queries\Implementations\ConsultaIncoterms.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />

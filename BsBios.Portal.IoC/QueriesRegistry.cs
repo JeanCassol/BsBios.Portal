@@ -17,6 +17,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaCondicaoPagamento>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaCondicaoPagamento>();
+            For<IConsultaIncoterms>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaIncoterms>();
+
             For<IConsultaProcessoDeCotacaoDeMaterial>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaProcessoDeCotacaoDeMaterial>();

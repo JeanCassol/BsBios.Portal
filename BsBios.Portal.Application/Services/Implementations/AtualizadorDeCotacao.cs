@@ -25,7 +25,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public void Atualizar(CotacaoInformarVm cotacaoAtualizarVm)
+        public void Atualizar(CotacaoInformarVm cotacaoInformarVm)
         {
             try
             {

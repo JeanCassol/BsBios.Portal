@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -9,10 +10,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaCondicaoPagamento: IConsultaCondicaoPagamento
     {
         private readonly ICondicoesDePagamento _condicoesDePagamento;
+        private readonly IBuilder<CondicaoDePagamento, CondicaoDePagamentoCadastroVm> _builder;
 
-        public ConsultaCondicaoPagamento(ICondicoesDePagamento condicoesDePagamento)
+        public ConsultaCondicaoPagamento(ICondicoesDePagamento condicoesDePagamento, IBuilder<CondicaoDePagamento, CondicaoDePagamentoCadastroVm> builder)
         {
             _condicoesDePagamento = condicoesDePagamento;
+            _builder = builder;
         }
 
         public IList<CondicaoDePagamentoCadastroVm> Listar(PaginacaoVm paginacaoVm, CondicaoDePagamentoCadastroVm filtro)
@@ -31,9 +34,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             //paginacaoVm.TotalRecords = _condicoesDePagamento.Count();
 
-            var builder = new CondicaoPagamentoCadastroBuilder();
-            return builder.BuildList(_condicoesDePagamento.Skip(skip).Take(paginacaoVm.Take).List());
+            return _builder.BuildList(_condicoesDePagamento.Skip(skip).Take(paginacaoVm.Take).List());
             
+        }
+
+        public IList<CondicaoDePagamentoCadastroVm> ListarTodas()
+        {
+            return _builder.BuildList(_condicoesDePagamento.List());
         }
     }
 }

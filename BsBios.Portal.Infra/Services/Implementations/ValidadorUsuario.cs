@@ -23,7 +23,6 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public UsuarioConectado Validar(string login, string senha)
         {
-            login = login.ToLower();
             Usuario usuario = _usuarios.BuscaPorLogin(login);
             if (usuario == null)
             {

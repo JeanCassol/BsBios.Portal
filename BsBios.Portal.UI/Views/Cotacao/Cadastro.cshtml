@@ -6,7 +6,7 @@
     ViewBag.Title = "Cotação";
 }
 <div class="paginaCadastro">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Salvar","Cotacao"))
     {
         @Html.HiddenFor(model => model.IdProcessoCotacao)
         @Html.HiddenFor(model => model.CodigoFornecedor)
@@ -21,26 +21,37 @@
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))
         </fieldset>
         <fieldset>
+            <legend>Impostos</legend>
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsAliquota), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsValor))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStAliquota), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStValor))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiAliquota), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiValor))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisAliquota), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisValor))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.CofinsAliquota), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.CofinsValor))
+        </fieldset>
+        <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @{ var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoCondicaoPagamento, 
-                ((List<CondicaoDePagamentoCadastroVm>) ViewBag.CondicoesDePagamento)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento}),
-                "CodigoCondicaoPagamento");
-            }
-            @Html.LinhaComUmaColuna(comboCondicaoDePagamento)
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorTotalSemImpostos), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorTotalComImpostos))
 
             @{ var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm, 
                 ((List<IncotermCadastroVm>) ViewBag.Incoterms)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm}),
                 "CodigoIncoterm");
             }
-            @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.DescricaoIncoterm,""))
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.ValorTotalSemImpostos), 
-            new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.ValorTotalComImpostos))
-            @Html.LinhaComUmaColuna(new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.Mva))
-        </fieldset>
-        <fieldset>
-            <legend>Impostos</legend>
+            @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.DescricaoIncoterm,"campogrande"))
+
+            @{ var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoCondicaoPagamento, 
+                ((List<CondicaoDePagamentoCadastroVm>) ViewBag.CondicoesDePagamento)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento}),
+                "CodigoCondicaoPagamento");
+            }
+            @Html.LinhaComDuasColunas(comboCondicaoDePagamento,new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.Mva))
+
         </fieldset>
   
         <div class="error">
@@ -53,9 +64,23 @@
         @Html.ValidationSummary(true)
 
         <div class="divBotao">
-            <input type="submit" id="btnSalvarCotacao" value="Salvar" class="blue" />
+            <input type="button" id="btnSalvarCotacao" value="Salvar" class="blue" />
         </div>
     }
 </div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            $('#btnSalvarCotacao').click(function(e) {
+                var formData = $('form').serialize();
+                $.post('@Url.Action("Salvar","Cotacao" )', formData,
+                    function(data) {
+                        alert(data.Sucesso);
+                    });
 
+            });
+        })
+    </script>
+}
 

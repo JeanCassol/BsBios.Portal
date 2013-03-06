@@ -14,7 +14,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public Usuario BuscaPorLogin(string login)
         {
-            return Query.SingleOrDefault(u => u.Login == login);
+            return Query.SingleOrDefault(u => u.Login.ToLower() == login.ToLower());
         }
     }
 }
