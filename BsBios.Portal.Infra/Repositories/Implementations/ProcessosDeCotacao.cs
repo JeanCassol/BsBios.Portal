@@ -19,10 +19,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao FiltraPorFornecedor(string codigoFornecedor)
         {
-            Query = (from p in Query
-                             from fp in p.FornecedoresParticipantes
-                             where fp.Fornecedor.Codigo == codigoFornecedor
-                                 select p);
+            //Query = (from p in Query
+            //                 from fp in p.FornecedoresParticipantes
+            //                 where fp.Fornecedor.Codigo == codigoFornecedor
+            //                     select p);
+
+            Query = Query.Where(x => x.FornecedoresParticipantes.Any(y => y.Fornecedor.Codigo == codigoFornecedor));
 
             return this;
         }

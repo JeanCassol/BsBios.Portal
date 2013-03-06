@@ -1,0 +1,54 @@
+﻿<div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
+    @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
+    <div id="divCotacoesParaSelecionar">
+        <div id="gridCotacoes">
+        </div>
+    </div>
+
+</div>
+
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script type="text/javascript">
+    $("#gridCotacoes").kendoGrid({
+        dataSource: {
+            schema: {
+                data: 'Registros',
+                model: {
+                    id: 'Id',
+                    fields: {
+                        Codigo: {type: "string", editable:false},
+                        Nome: {type: "string"
+                        }
+                    }
+                },
+                type: 'json'
+            },
+            transport: {
+                read: {
+                    url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        type: 'GET',
+                        cache: false
+                    }
+                },
+                pageSize: 10
+            },
+            groupable: false,
+            sortable: false,
+            editable: true,
+            selectable: 'row',
+            columns:
+            [
+                {
+                    width: 100,
+                    field: "Codigo",
+                    title: "Código"
+                },
+                {
+                    field: "Nome",
+                    width: 200,
+                    title: "Nome"
+                }]
+        });
+
+</script>

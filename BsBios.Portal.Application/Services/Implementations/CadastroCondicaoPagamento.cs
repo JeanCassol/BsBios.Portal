@@ -36,7 +36,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarCondicaoDePagamento(CondicaoDePagamentoCadastroVm condicaoDePagamentoCadastroVm)
         {
-            CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigoSap(condicaoDePagamentoCadastroVm.Codigo);
+            CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(condicaoDePagamentoCadastroVm.Codigo);
             if (condicaoDePagamento != null)
             {
                 condicaoDePagamento.AtualizarDescricao(condicaoDePagamentoCadastroVm.Descricao);

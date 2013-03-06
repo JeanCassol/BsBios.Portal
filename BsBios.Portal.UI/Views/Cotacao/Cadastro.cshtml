@@ -6,7 +6,7 @@
     ViewBag.Title = "Cotação";
 }
 <div class="paginaCadastro">
-    @using (Html.BeginForm("Salvar","Cotacao"))
+    @using (Html.BeginForm("Salvar","CotacaoAtualizar"))
     {
         @Html.HiddenFor(model => model.IdProcessoCotacao)
         @Html.HiddenFor(model => model.CodigoFornecedor)
@@ -20,8 +20,13 @@
             new ColunaComLabel<CotacaoCadastroVm, string>(x => x.UnidadeDeMedida))
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))
         </fieldset>
-        <fieldset>
+        <fieldset id="fieldSetImpostos">
             <legend>Impostos</legend>
+            <div class="linha">
+                @Html.LabelFor(x => x.PossuiImpostos,new{@class="labelNaLinha"})
+                @Html.CheckBoxFor(x => x.PossuiImpostos)
+            </div>
+
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsAliquota), 
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsValor))
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStAliquota), 
@@ -70,13 +75,72 @@
 </div>
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(function() {
-            $('#btnSalvarCotacao').click(function(e) {
-                var formData = $('form').serialize();
-                $.post('@Url.Action("Salvar","Cotacao" )', formData,
-                    function(data) {
-                        alert(data.Sucesso);
+        $(function () {
+            
+            function atualizaMensagemDeErro(mensagem) {
+                $('.error').html(mensagem);
+            }
+            function adicionaMensagemDeErro(mensagem) {
+                $('.error').append(mensagem);
+            }
+
+            function verificarHabilitacaoDosCamposDeImpostos() {
+                var marcado = $('#PossuiImpostos').is(':checked');
+                var camposDosImpostos = $('#fieldSetImpostos').find(':input[type=text]');
+                if (marcado) {
+                    $(camposDosImpostos).removeAttr("disabled");
+                } else {
+                    $(camposDosImpostos).attr('disabled', true);
+                }
+            }
+
+            verificarHabilitacaoDosCamposDeImpostos();
+
+            $('#PossuiImpostos').change(function () {
+                verificarHabilitacaoDosCamposDeImpostos();
+            });
+            
+            function validaImposto(campoAliquota, campoValor, descricaoDoImposto) {
+                var aliquota = $('#' + campoAliquota).val();
+                var valor = $('#' + campoValor).val();
+                if ((aliquota && !valor) || (!aliquota && valor)) {
+                    adicionaMensagemDeErro("É necessário prencher a alíquota e o valor do " + descricaoDoImposto + ".");
+                    return false;
+                }
+                return true;
+            }
+            
+            function validaImpostos() {
+                var valido = validaImposto("IcmsAliquota", "IcmsValor", "ICMS");
+                valido = valido && validaImposto("IcmsStAliquota", "IcmsStValor", "ICMS ST");
+                valido = valido && validaImposto("IpiAliquota", "IpiValor", "IPI");
+                valido = valido && validaImposto("PisAliquota", "PisValor", "Pis");
+                valido = valido && validaImposto("CofinsAliquota", "CofinsValor", "Cofins");
+                return valido;
+
+            }
+
+            $('#btnSalvarCotacao').click(function () {
+                $('.error').empty();
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                if (!validaImpostos()) {
+                    return;
+                }
+                
+                var formData = $(form).serialize();
+                $.post('@Url.Action("Salvar","CotacaoAtualizar" )', formData,
+                    function (data) {
+                        if (data.Sucesso) {
+                            ExibirMensagemDeSucesso(data.Sucesso);
+                        } else {
+                            atualizaMensagemDeErro(data.Mensagem);
+                        }
                     });
 
             });

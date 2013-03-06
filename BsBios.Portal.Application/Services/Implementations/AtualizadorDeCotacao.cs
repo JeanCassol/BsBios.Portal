@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -11,15 +11,13 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
-        private readonly IIvas _ivas;
         private readonly IIncoterms _incoterms;
         private readonly ICondicoesDePagamento _condicoesDePagamento;
 
-        public AtualizadorDeCotacao(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, IIvas ivas, 
+        public AtualizadorDeCotacao(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,  
             IIncoterms incoterms, ICondicoesDePagamento condicoesDePagamento)
         {
             _processosDeCotacao = processosDeCotacao;
-            _ivas = ivas;
             _incoterms = incoterms;
             _condicoesDePagamento = condicoesDePagamento;
             _unitOfWork = unitOfWork;
@@ -30,9 +28,19 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(cotacaoAtualizarVm.IdProcessoCotacao).Single();
-                //descomentar depois de ver os parâmetros
-                //processoDeCotacao.AtualizarCotacao();
+                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
+                CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(cotacaoInformarVm.CodigoCondicaoPagamento);
+                Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
+                Cotacao cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
+                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorTotalSemImpostos.Value, cotacaoInformarVm.ValorTotalComImpostos,
+                    cotacaoInformarVm.Mva);
+
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, cotacaoInformarVm.IcmsAliquota, cotacaoInformarVm.IcmsValor);
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, cotacaoInformarVm.IcmsStAliquota, cotacaoInformarVm.IcmsStValor);
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, cotacaoInformarVm.IpiAliquota, cotacaoInformarVm.IpiValor);
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, cotacaoInformarVm.PisAliquota, cotacaoInformarVm.PisValor);
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, cotacaoInformarVm.CofinsAliquota, cotacaoInformarVm.CofinsValor);
+
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
             }

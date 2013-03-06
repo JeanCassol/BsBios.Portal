@@ -22,7 +22,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             if (!string.IsNullOrEmpty(filtro.Codigo))
             {
-                _condicoesDePagamento.BuscaPeloCodigoSap(filtro.Codigo);
+                _condicoesDePagamento.BuscaPeloCodigo(filtro.Codigo);
 
             }
 

@@ -16,6 +16,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
         private readonly CotacaoController _controller;
         private readonly UsuarioConectado _usuarioConectado;
         private readonly Mock<IConsultaCotacaoDoFornecedor> _consultaCotacaoDoFornecedorMock;
+        private readonly Mock<IConsultaCondicaoPagamento> _consultaCondicaoPagamentoMock;
+        private readonly Mock<IConsultaIncoterms> _consultaIncotermsMock;
 
         public CotacaoTests()
         {
@@ -23,7 +25,15 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaCotacaoDoFornecedorMock = new Mock<IConsultaCotacaoDoFornecedor>(MockBehavior.Strict);
             _consultaCotacaoDoFornecedorMock.Setup(x => x.ConsultarCotacao(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(new CotacaoCadastroVm());
-            _controller = new CotacaoController(_consultaCotacaoDoFornecedorMock.Object,_usuarioConectado);
+
+            _consultaCondicaoPagamentoMock = new Mock<IConsultaCondicaoPagamento>(MockBehavior.Strict);
+            _consultaCondicaoPagamentoMock.Setup(x => x.ListarTodas());
+
+            _consultaIncotermsMock = new Mock<IConsultaIncoterms>(MockBehavior.Strict);
+            _consultaIncotermsMock.Setup(x => x.ListarTodos());
+
+            _controller = new CotacaoController(_consultaCotacaoDoFornecedorMock.Object,_usuarioConectado,
+                _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object);
         }
 
         [TestMethod]

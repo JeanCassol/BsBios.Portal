@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
                         _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
                     });
-            _condicoesDePagamentoMock.Setup(x => x.BuscaPeloCodigoSap(It.IsAny<string>()))
+            _condicoesDePagamentoMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                 //callback assegura que a transação foi iniciada e não foi fechada antes de consultar
                 .Callback((string codigo) =>
                     {

@@ -10,7 +10,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
         }
 
-        public CondicaoDePagamento BuscaPeloCodigoSap(string codigoSap)
+        public CondicaoDePagamento BuscaPeloCodigo(string codigoSap)
         {
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
         }

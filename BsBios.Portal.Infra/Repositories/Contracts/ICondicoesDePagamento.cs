@@ -4,7 +4,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
 {
     public interface ICondicoesDePagamento: ICompleteRepository<CondicaoDePagamento>
     {
-        CondicaoDePagamento BuscaPeloCodigoSap(string codigoSap);
+        CondicaoDePagamento BuscaPeloCodigo(string codigoSap);
         ICondicoesDePagamento FiltraPelaDescricao(string descricao);
     }
 }

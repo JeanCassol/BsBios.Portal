@@ -8,7 +8,7 @@ namespace BsBios.Portal.Common.Exceptions
         {
             get
             {
-                return "Não é possível inicar o Processo de Cotação enquanto a Data Limite de Retorno não estiver preenchida.";
+                return "Não é possível abrir o Processo de Cotação enquanto a Data Limite de Retorno não estiver preenchida.";
             }
         }
     }

@@ -70,7 +70,9 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialNaoIniciado()
         {
             var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
-            return requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            var processo = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            processo.Atualizar(DateTime.Today.AddDays(10));
+            return processo;
         }
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()

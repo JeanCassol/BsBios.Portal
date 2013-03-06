@@ -207,7 +207,6 @@ namespace BsBios.Portal.Tests.DefaultProvider
                     Session.BeginTransaction();
                 }
                 PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
-                
 
                 foreach (var fornecedorParticipante in processoDeCotacaoDeMaterial.FornecedoresParticipantes)
                 {

@@ -1,10 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
+    [SecurityFilter]
     public class CotacaoController : Controller
     {
         private readonly IConsultaCotacaoDoFornecedor _consultaCotacaoDoFornecedor;
@@ -30,10 +33,6 @@ namespace BsBios.Portal.UI.Controllers
             return View("Cadastro",viewModel);
         }
 
-        [HttpPost]
-        public JsonResult Salvar(CotacaoInformarVm cotacaoInformarVm)
-        {
-            return Json(new {Sucesso = cotacaoInformarVm != null});
-        }
+
     }
 }

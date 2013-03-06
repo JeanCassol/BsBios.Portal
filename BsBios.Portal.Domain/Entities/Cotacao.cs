@@ -57,18 +57,22 @@ namespace BsBios.Portal.Domain.Entities
             DescricaoIncoterm = descricaoIncoterm;
             Mva = mva;
         }
-        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+
+        /// <summary>
+        /// remove imposto por tipo, caso exista
+        /// </summary>
+        /// <param name="tipoDeImposto"></param>
+        private void RemoverImposto(Enumeradores.TipoDeImposto tipoDeImposto)
         {
-            if (!ValorTotalComImpostos.HasValue || ValorTotalComImpostos.Value == 0)
+            var imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
+            if (imposto != null)
             {
-                throw new ValorTotalComImpostosObrigatorioException();
+                Impostos.Remove(imposto);
             }
+        }
 
-            if (tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao && (!Mva.HasValue || Mva.Value == 0))
-            {
-                throw  new MvaNaoInformadoException();
-            }
-
+        private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+        {
             Imposto imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
             if (imposto != null)
             {
@@ -79,6 +83,31 @@ namespace BsBios.Portal.Domain.Entities
                 imposto = new Imposto(tipoDeImposto, aliquota, valor);
                 Impostos.Add(imposto);
             }
+            
+        }
+
+        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal? aliquota, decimal? valor)
+        {
+            var temImposto = aliquota.HasValue && valor.HasValue;
+            if (temImposto)
+            {
+                AtualizarImposto(tipoDeImposto, aliquota.Value, valor.Value);
+            }
+            else
+            {
+                RemoverImposto(tipoDeImposto);
+            }
+
+            if (Impostos.Count > 0 &&  (!ValorTotalComImpostos.HasValue || ValorTotalComImpostos.Value == 0) )
+            {
+                throw new ValorTotalComImpostosObrigatorioException();
+            }
+
+            if (temImposto && tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao && (!Mva.HasValue || Mva.Value == 0))
+            {
+                throw  new MvaNaoInformadoException();
+            }
+
 
         }
 

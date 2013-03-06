@@ -31,6 +31,9 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "MVA")]
         public decimal? Mva { get; set; }
 
+        [Display(Name = "Possui Impostos: ")]
+        public bool PossuiImpostos { get; set; }
+
         [DataType(DataType.Currency)]
         [Display(Name = "Valor do ICMS")]
         public decimal? IcmsValor { get; set; }

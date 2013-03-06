@@ -43,7 +43,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
-            CondicaoDePagamento condicaoDePagamentoConsulta = _condicoesDePagamento.BuscaPeloCodigoSap("C001");
+            CondicaoDePagamento condicaoDePagamentoConsulta = _condicoesDePagamento.BuscaPeloCodigo("C001");
 
             Assert.IsNotNull(condicaoDePagamentoConsulta);
             Assert.AreEqual("C001", condicaoDePagamentoConsulta.Codigo);
@@ -52,7 +52,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmaCondicaoDePagamentoComCodigoSapInexistenteDeveRetornarNull()
         {
-            CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigoSap("C002");
+            CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo("C002");
             Assert.IsNull(condicaoDePagamento);
         }
     }

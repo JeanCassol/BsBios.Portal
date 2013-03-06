@@ -8,6 +8,10 @@
     }
 };
 
+String.prototype.boolean = function () {
+    return "true" == this;
+};
+
 $(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
     $('.campoDatePicker').datepicker();
@@ -37,6 +41,4 @@ $(function () {
         
         this.kendoGrid(c);
     };
-    
-
 });

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.UI.Filters;
 
 namespace BsBios.Portal.UI.Controllers
 {
+    [SecurityFilter]
     public class ProcessoDeCotacaoStatusServiceController : Controller
     {
         private readonly IProcessoDeCotacaoStatusService _processoDeCotacaoStatusService;

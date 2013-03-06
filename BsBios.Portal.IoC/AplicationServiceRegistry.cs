@@ -46,6 +46,9 @@ namespace BsBios.Portal.IoC
             For<IProcessoDeCotacaoStatusService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoStatusService>();
+            For<IAtualizadorDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AtualizadorDeCotacao>();
         }
     }
 }
