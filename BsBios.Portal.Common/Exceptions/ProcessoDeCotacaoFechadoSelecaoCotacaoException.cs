@@ -8,7 +8,7 @@ namespace BsBios.Portal.Common.Exceptions
         {
             get
             {
-                return "Não é possível selecionar uma cotação de um Processo de Cotação com Status Fechado.";
+                return "Não é possível alterar as cotações selecionadas em um Processo de Cotação com Status Fechado.";
             }
         }
     }

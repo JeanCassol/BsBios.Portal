@@ -122,6 +122,13 @@ namespace BsBios.Portal.Domain.Entities
         {
             return Impostos.SingleOrDefault(x => x.Tipo == tipo);
         }
+
+        public virtual void RemoverSelecao(Iva iva)
+        {
+            Selecionada = false;
+            QuantidadeAdquirida = null;
+            Iva = iva;
+        }
     }
 
    

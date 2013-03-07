@@ -634,6 +634,10 @@ input[type="checkbox"].input-validation-error {
 .campogrande, select {
     width: 350px;
 }
+.campopequenogrid {
+    width: 150px;
+}
+
 .paginaCadastro {
     width: 814px;
 }
@@ -715,6 +719,14 @@ input[type="checkbox"].input-validation-error {
 }
 .mensagemErro {
     margin: 0;
+}
+
+.divGrid {
+    font:75% Arial,Helvetica,sans-serif;
+}
+.divGrid table > tbody > tr > td {
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 

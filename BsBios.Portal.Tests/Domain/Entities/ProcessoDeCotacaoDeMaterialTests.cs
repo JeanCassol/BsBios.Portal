@@ -281,7 +281,31 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
         }
 
+        [TestMethod]
+        public void QuandoRemoverASelecaoDeUmaCotacaoFicaDesmarcadaESemQuantidade()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
+            processoDeCotacao.AdicionarFornecedor(fornecedor);
+            processoDeCotacao.Abrir();
+            Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
+            CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
+            processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10);
+            Iva iva = DefaultObjects.ObtemIvaPadrao();
+            processoDeCotacao.SelecionarCotacao(fornecedor.Codigo, new decimal(120.00), iva);
 
+            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+
+            Iva ivaAlteracao = DefaultObjects.ObtemIvaPadrao();
+            processoDeCotacao.RemoverSelecaoDaCotacao(cotacao.Id, ivaAlteracao);
+
+            Cotacao cotacaoRemovida = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            Assert.IsFalse(cotacaoRemovida.Selecionada);
+            Assert.IsNull(cotacaoRemovida.QuantidadeAdquirida);
+            Assert.AreSame(ivaAlteracao, cotacaoRemovida.Iva);
+            
+        }
 
     }
 }

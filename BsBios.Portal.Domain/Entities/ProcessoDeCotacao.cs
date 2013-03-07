@@ -107,6 +107,17 @@ namespace BsBios.Portal.Domain.Entities
             Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
             cotacao.Selecionar(quantidadeAdquirida, iva);
         }
+        
+        public virtual void RemoverSelecaoDaCotacao(int idCotacao, Iva iva)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
+            }
+            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Cotacao.Id == idCotacao).Cotacao;
+            cotacao.RemoverSelecao(iva);
+
+        }
 
         public virtual void Fechar()
         {

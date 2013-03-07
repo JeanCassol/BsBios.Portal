@@ -130,12 +130,58 @@
 
             $('#divSelecionarCotacoes').dialog({
                 autoOpen: false,
-                width: 800,
+                width: 1024,
                 resizable: false,
                 title: 'Selecionar Cotações',
                 modal: true,
                 buttons: {
                     "Confirmar": function () {
+                        var cotacoes = new Array();
+                        var dadosValidos = true;
+                        $('#gridCotacoes').find('table > tbody > tr').each(function () {
+                            if (!dadosValidos) {
+                                return;
+                            }
+                            var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
+                            var quantidadeAdquirida = $(this).find('input[name=QuantidadeAdquirida]').val();
+                            if (selecionada && quantidadeAdquirida == "") {
+                                ExibirMensagemDeErro("Deve ser preenchida a Quantidade de todos os Fornecedores selecionados.");
+                                dadosValidos = false;
+                                return;
+                            }
+                            var codigoIva = $(this).find('input[name=CodigoIva]').val();
+
+                            cotacoes.push({
+                                IdCotacao: IdCotacao,
+                                Selecionada: selecionada,
+                                QuantidadeAdquirida: quantidadeAdquirida,
+                                CodigoIva: codigoIva
+                            });
+                        });
+                        if (!dadosValidos) {
+                            return;
+                        }
+                        $.ajax({
+                            url: '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoService")',
+                            type: 'POST',
+                            cache: false,
+                            data: JSON.stringify({ idProcessoCotacao: $('#Id').val(), cotacoes: cotacoes}),
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.Sucesso) {
+                                    Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                                } else {
+                                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao selecionar as Cotações. Detalhe: ' + textStatus + errorThrown);
+                            }
+                        });
+                        
+
+
                     },
                     "Cancelar": function () {
                         $(this).dialog("close");

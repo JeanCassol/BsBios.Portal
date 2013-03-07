@@ -4,6 +4,7 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using System.Linq;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -20,7 +21,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<IvaCadastroVm> ListarTodos()
         {
-            return _builder.BuildList(_ivas.List());
+            return _builder.BuildList(_ivas.GetQuery().OrderBy(x => x.Descricao).ToList());
         }
     }
 }

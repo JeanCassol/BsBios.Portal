@@ -116,25 +116,8 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public JsonResult ListarCotacoes(int idProcessoCotacao)
         {
-            var cotacao1 = new CotacaoSelecionarVm()
-                {
-                    IdCotacao = 1,
-                    Selecionada = true,
-                    Fornecedor = "FORNECEDOR 1",
-                    CodigoIva = "01",
-                    QuantidadeAdquirida = 100
-                };
-            var cotacao2 = new CotacaoSelecionarVm()
-            {
-                IdCotacao = 2,
-                Selecionada = false,
-                Fornecedor = "FORNECEDOR 2",
-                CodigoIva = "02",
-                QuantidadeAdquirida = null
-            };
-            var lista = new List<CotacaoSelecionarVm> {cotacao1, cotacao2};
-
-            return Json(new {Registros = lista}, JsonRequestBehavior.AllowGet);
+            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
+            return Json(new {Registros = cotacoes}, JsonRequestBehavior.AllowGet);
         }
 
     }

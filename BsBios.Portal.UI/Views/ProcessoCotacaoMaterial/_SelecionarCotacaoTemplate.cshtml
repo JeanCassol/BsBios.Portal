@@ -3,15 +3,13 @@
 }
 <style type="text/css">
     .selecionarCotacao {
-    width: auto     
+        width: 1000px;     
  }
-#divCotacoes {
-    width: 400px;
-}
+
 </style>
-<div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
+<div id="divCotacoes" class=" divGrid">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="gridCotacoes"></div>
+    <div id="gridCotacoes" class="selecionarCotacao"></div>
     <div id="erro" class="error">
         @ViewData["erro"]
     </div>
@@ -28,13 +26,13 @@
             return '<option value="' + iva.Codigo +'"'+ selected + '>'+ iva.Descricao +'</option>';
         }
 
-        geraCombo = function (valorSelecionado) {
+        geraCombo = function (valorSelecionado, cotacaoSelecionada) {
             var items = "";
             $.each(ivas, function (index, iva) {
                 items += geraDropDownItem(iva, valorSelecionado);
             });
 
-            return '<select>' + items + '</select>';
+            return '<select name="CodigoIva"' + (cotacaoSelecionada ? "":"disabled")   + ' >' + items + '</select>';
         };
         
         $.ajax({
@@ -57,65 +55,96 @@
                 alert('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + textStatus + errorThrown);
             }
         });
-
-
-        $('#selecionarCotacoes>tbody').find("input[type=checkbox][name=Selecionada]").change(function () {
-            var selecionado = $(this).is(':checked');
-            var linha = $(this).parents('tr:first');
-            var campoQuantidade = $(linha).find('input[name=Quantidade]');
+        
+        function ajustaEnableDosCamposDaLinha(linha, checkbox) {
+            if (!checkbox) {
+                checkbox = $(linha).find("input[type=checkbox][name=Selecionada]");
+            }
+            var selecionado = $(checkbox).is(':checked');
+            var campoQuantidade = $(linha).find('input[name=QuantidadeAdquirida]');
+            var campoIva = $(linha).find('select[name=CodigoIva]');
             if (selecionado) {
                 $(campoQuantidade).removeAttr('disabled');
+                $(campoIva).removeAttr('disabled');
             } else {
                 $(campoQuantidade).attr('disabled', true);
+                $(campoIva).attr('disabled', true);
             }
-        });
-       
+        }
+      
         $("#gridCotacoes").kendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
                     model: {
-                        id: 'IdCotacao',
                         fields: {
-                            IdCotacao: { type: "number", editable:false },
+                            IdCotacao: { type: "number"},
                             Selecionada: { type: "boolean" },
-                            Fornecedor: { type: "string", editable:false },
+                            Fornecedor: { type: "string"},
                             CodigoIva: { type: "string" },
-                            QuantidadeAdquirida: { type: "number" }
+                            ValorLiquido: { type: "number" },
+                            ValorComImpostos: { type: "number" },
+                            QuantidadeAdquirida: { type: "number" },
+                            CondicaoDePagamento: { type: "string" },
+                            Incoterm: { type: "string" },
+                            ValorIcms: { type: "number" },
+                            ValorIcmsSt: { type: "number" },
+                            ValorIpi: { type: "number" },
+                            ValorPis: { type: "number" },
+                            ValorCofins: { type: "number" }
                         }
                     },
                     type: 'json'
                 },
-                serverFiltering: true,
-                serverPaging: true,
                 transport: {
                     read: {
                         url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
-                },
-                batch: true
+                }
             },
-            navigatable: true,
             groupable: false,
             sortable: false,
             columns:
             [
                 {
-                    field: "Selecionada", width: 80,
+                    field: 'IdCotacao', hidden:true,
+                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
+                },
+                {
+                    field: "Selecionada", title: ' ', width: 30,
                     template: '<input type="checkbox" name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
                 },
-                { field: "Fornecedor", width: 150 },
                 {
                     field: "CodigoIva", title: "Iva", width: 150,
-                    template:'#= geraCombo(CodigoIva) #'
+                    template:'#= geraCombo(CodigoIva, Selecionada) #'
                 },
                 {
-                    field: "QuantidadeAdquirida", title: "Quantidade", width: 80,
-                    template: '<input type="text" class="campopequeno" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
-                }
+                    field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
+                },
+                { field: "Fornecedor", width: 200 },
+                { field: "ValorLiquido", title: ' Valor Líquido', width: 100 },
+                { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
+                { field: "CondicaoDePagamento", title:'Condição', width: 200 },
+                { field: "Incoterm", width: 150 },
+                { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
+                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 100 },
+                { field: "ValorPis", title: 'Pis (R$)', width: 100 },
+                { field: "ValorCofins", title: 'Cofins (R$)', width: 100 }
             ]
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody tr').each(function () {
+            ajustaEnableDosCamposDaLinha(this);
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").die("change");
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").live("change", function () {
+            var linha = $(this).parents('tr:first');
+            ajustaEnableDosCamposDaLinha(linha, this);
         });
 
     });
