@@ -137,6 +137,7 @@
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\CotacaoAtualizarController.cs" />
     <Compile Include="Controllers\CotacaoController.cs" />
+    <Compile Include="Controllers\IvaController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoFornecedoresServiceController.cs" />
     <Compile Include="Controllers\IncotermApiController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
@@ -404,6 +405,7 @@
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Cotacao\Cadastro.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacaoTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

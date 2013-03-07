@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -134,6 +135,51 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             return kendoGridVm;
 
+        }
+
+        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        {
+            var retorno = new List<CotacaoSelecionarVm>();
+            ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
+            {
+                var cotacaoSelecionarVm = new CotacaoSelecionarVm {Fornecedor = fornecedorParticipante.Fornecedor.Nome};
+                retorno.Add(cotacaoSelecionarVm);
+
+                if (fornecedorParticipante.Cotacao == null)
+                {
+                    continue;
+                }
+
+                var cotacao = fornecedorParticipante.Cotacao;
+
+                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
+                cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
+                cotacaoSelecionarVm.CodigoIva = cotacao.Iva != null ? cotacao.Iva.Codigo : null;
+                cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
+                cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
+                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorTotalSemImpostos;
+                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorTotalComImpostos;
+                cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
+
+                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+                cotacaoSelecionarVm.ValorIcms = imposto != null ? imposto.Valor : (decimal?) null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+                cotacaoSelecionarVm.ValorIcmsSt = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+                cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
+                cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
+                cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
+
+            }
+
+            return retorno;
         }
     }
 }

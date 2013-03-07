@@ -1,32 +1,73 @@
-﻿@{
+﻿@using BsBios.Portal.ViewModel
+@model IList<CotacaoSelecionarVm>
+@{
     Layout = null;
 }
+<style type="text/css">
+    .selecionarCotacao {
+    width: auto     
+ }
+#divCotacoes {
+    width: 400px;
+}
+</style>
 <div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="gridCotacoes"></div>
-    <table id="selecionarCotacoes">
+    <table id="selecionarCotacoes" class="selecionarCotacao">
         <thead>
             <tr>
-                <th>Selecionada</th>
-                <th>Quantidade</th>
+                <th @*style="width: 200px"*@>Selecionada</th>
+                <th @*style="width: 300px"*@>Quantidade</th>
+                <th>Iva</th>
                 <th>Fornecedor</th>
+                <th>Valor Líquido</th>
+                <th>Valor Com Impostos</th>
+                <th>Condição de Pagamento</th>
+                <th>Incoterm</th>
+                <th>Valor ICMS</th>
+                <th>Valor ICMS ST</th>
+                <th>Valor IPI</th>
+                <th>Valor Pis</th>
+                <th>Valor Cofins</th>
             </tr>
 
         </thead>
         <tbody>
-            <tr>
-                <td>@Html.CheckBox("Selecionada",true)</td>
-                <td>@Html.TextBox("Quantidade",10)</td>
-                <td>@Html.Label("Fornecedor 1")</td>
-            </tr>
-            <tr>
-                <td>@Html.CheckBox("Selecionada")</td>
-                <td>@Html.TextBox("Quantidade")</td>
-                <td>@Html.Label("Fornecedor 2")</td>
-            </tr>
+            @foreach (var cotacao in Model)
+            {
+                <tr>
+                    <td style="width: 200px!important">
+                        @Html.HiddenFor(x => cotacao.IdCotacao)
+                        @Html.CheckBoxFor(x => cotacao.Selecionada)
+                    </td>
+                    <td style="width: 300px!important">@Html.TextBoxFor(x => cotacao.QuantidadeAdquirida)</td>
+
+                    <td>
+                        @Html.DropDownList("CodigoIva", 
+                    ((List<IvaCadastroVm>) ViewBag.Ivas)
+                    .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), 
+                        Selected = Model != null && x.Codigo == cotacao.CodigoIva}),
+                    "Selecione >>")
+                          
+                    </td>
+                    <td>@Html.LabelFor(x => cotacao.Fornecedor)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorLiquido)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorComImpostos)</td>
+                    <td>@Html.LabelFor(x => cotacao.CondicaoDePagamento)</td>
+                    <td>@Html.LabelFor(x => cotacao.Incoterm)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorIcms)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorIcmsSt)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorIpi)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorPis)</td>
+                    <td>@Html.LabelFor(x => cotacao.ValorCofins)</td>
+                    
+                </tr>
+            }
         </tbody>
     </table>
-
+    <div id="erro" class="error">
+        @ViewData["erro"]
+    </div>
 </div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
@@ -34,7 +75,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#selecionarCotacoes").kendoGrid({
-            height: 300
+            height: 300,
+            scrollable: true,
+            columns: [{width:200}, {width:300}
+            ]
         });
         $('#selecionarCotacoes>tbody').find("input[type=checkbox][name=Selecionada]").change(function () {
             var selecionado = $(this).is(':checked');

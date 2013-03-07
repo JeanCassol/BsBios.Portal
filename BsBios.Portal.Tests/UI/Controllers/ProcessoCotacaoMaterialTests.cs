@@ -13,7 +13,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
     public class ProcessoCotacaoMaterialTests
     {
         private readonly Mock<IConsultaProcessoDeCotacaoDeMaterial> _consultaProcessoCotacaoMaterialMock;
-        private readonly UsuarioConectado _usuarioConectado;
+        private readonly Mock<IConsultaIva> _consultaIvaMock;
         private readonly ProcessoCotacaoMaterialController _controller;
 
         public ProcessoCotacaoMaterialTests()
@@ -21,8 +21,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaProcessoCotacaoMaterialMock = new Mock<IConsultaProcessoDeCotacaoDeMaterial>(MockBehavior.Strict);
             _consultaProcessoCotacaoMaterialMock.Setup(x => x.ConsultaProcesso(It.IsAny<int>()))
                                                .Returns(new ProcessoCotacaoMaterialCadastroVm());
-            _usuarioConectado = new UsuarioConectado("comprador", "Usuario Comprador", 1);
-            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _usuarioConectado);
+            _consultaIvaMock = new Mock<IConsultaIva>(MockBehavior.Strict);
+            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
             CommonMocks.MockControllerUrl(_controller);
         }
 
@@ -64,7 +64,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoEstaConectadoComOPerfilFornecedorViewBagContemActionDeEdicaoEsperada()
         {
             var usuarioConectado = new UsuarioConectado("fornecedor", "Usuário Fornecedor", 2);
-            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, usuarioConectado);
+            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);

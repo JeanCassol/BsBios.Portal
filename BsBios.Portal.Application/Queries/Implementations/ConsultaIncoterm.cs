@@ -7,12 +7,12 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
-    public class ConsultaIncoterms: IConsultaIncoterms
+    public class ConsultaIncoterm: IConsultaIncoterm
     {
         private readonly IIncoterms _incoterms;
         private readonly IBuilder<Incoterm, IncotermCadastroVm> _builder;
 
-        public ConsultaIncoterms(IIncoterms incoterms, IBuilder<Incoterm, IncotermCadastroVm> builder)
+        public ConsultaIncoterm(IIncoterms incoterms, IBuilder<Incoterm, IncotermCadastroVm> builder)
         {
             _incoterms = incoterms;
             _builder = builder;

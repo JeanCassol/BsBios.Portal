@@ -159,7 +159,7 @@
             });
 
             $('#btnSelecionarCotacoes').click(function () {
-                $('#divSelecionarCotacoes').load("@Url.Action("SelecionarCotacoes")"
+                $('#divSelecionarCotacoes').load("@Url.Action("SelecionarCotacoes2")"
                     + "/?idProcessoCotacao=" + $('#Id').val(),
                     function (response, status, xhr) {
                         $('#divSelecionarCotacoes').dialog('open');

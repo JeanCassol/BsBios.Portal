@@ -13,10 +13,10 @@ namespace BsBios.Portal.UI.Controllers
     {
         private readonly IConsultaCotacaoDoFornecedor _consultaCotacaoDoFornecedor;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
-        private readonly IConsultaIncoterms _consultaIncoterms;
+        private readonly IConsultaIncoterm _consultaIncoterms;
 
         public CotacaoController(IConsultaCotacaoDoFornecedor consultaCotacaoDoFornecedor, 
-            IConsultaCondicaoPagamento consultaCondicaoPagamento, IConsultaIncoterms consultaIncoterms)
+            IConsultaCondicaoPagamento consultaCondicaoPagamento, IConsultaIncoterm consultaIncoterms)
         {
             _consultaCotacaoDoFornecedor = consultaCotacaoDoFornecedor;
             _consultaCondicaoPagamento = consultaCondicaoPagamento;

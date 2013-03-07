@@ -13,10 +13,12 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoCotacaoMaterialController : Controller
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly IConsultaIva _consultaIva;
 
-        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
+        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaIva consultaIva)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
+            _consultaIva = consultaIva;
         }
 
 
@@ -80,13 +82,39 @@ namespace BsBios.Portal.UI.Controllers
         }
         public ActionResult SelecionarCotacoes(int idProcessoCotacao)
         {
-            ViewData["IdProcessoCotacao"] = idProcessoCotacao;
-            return PartialView("_SelecionarCotacao");
+            try
+            {
+                ViewBag.Ivas = _consultaIva.ListarTodos();
+                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
+                return PartialView("_SelecionarCotacao", cotacoes);
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["erro"] = ex.Message;
+                return PartialView("_SelecionarCotacao", new List<CotacaoSelecionarVm>());
+            }
         }
 
+        public PartialViewResult SelecionarCotacoes2(int idProcessoCotacao)
+        {
+            try
+            {
+                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                return PartialView("_SelecionarCotacaoTemplate");
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["erro"] = ex.Message;
+                return PartialView("_SelecionarCotacaoTemplate");
+            }
+        }
 
         [HttpGet]
-        public JsonResult ListarCotacoes(object idprocessocotacao)
+        public JsonResult ListarCotacoes(int idProcessoCotacao)
         {
             var cotacao1 = new CotacaoSelecionarVm()
                 {
@@ -101,7 +129,7 @@ namespace BsBios.Portal.UI.Controllers
                 IdCotacao = 2,
                 Selecionada = false,
                 Fornecedor = "FORNECEDOR 2",
-                CodigoIva = "01",
+                CodigoIva = "02",
                 QuantidadeAdquirida = null
             };
             var lista = new List<CotacaoSelecionarVm> {cotacao1, cotacao2};

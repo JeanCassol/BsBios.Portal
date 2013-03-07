@@ -20,6 +20,9 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Incoterm, IncotermCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<IncotermCadastroBuilder>();
+            For<IBuilder<Iva, IvaCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<IvaCadastroBuilder>();
         }
     }
 }

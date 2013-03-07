@@ -5,24 +5,24 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
-    public class CondicaoPagamentoCadastroBuilder : IBuilder<CondicaoDePagamento, CondicaoDePagamentoCadastroVm>
+    public class IncotermCadastroBuilder : IBuilder<Incoterm, IncotermCadastroVm>
     {
-        public CondicaoDePagamentoCadastroVm BuildSingle(CondicaoDePagamento condicaoDePagamento)
+        public IncotermCadastroVm BuildSingle(Incoterm incoterm)
         {
-            return new CondicaoDePagamentoCadastroVm()
-                {
-                    Codigo = condicaoDePagamento.Codigo,
-                    Descricao = condicaoDePagamento.Descricao
-                };
+            return new IncotermCadastroVm()
+            {
+                Codigo = incoterm.Codigo,
+                Descricao = incoterm.Descricao
+            };
         }
 
-        public IList<CondicaoDePagamentoCadastroVm> BuildList(IList<CondicaoDePagamento> condicoesDePagamento)
+        public IList<IncotermCadastroVm> BuildList(IList<Incoterm> incoterms)
         {
-            return condicoesDePagamento.Select(condicaoDePagamento => new CondicaoDePagamentoCadastroVm()
-                {
-                    Codigo = condicaoDePagamento.Codigo, 
-                    Descricao = condicaoDePagamento.Descricao
-                }).ToList();
+            return incoterms.Select(incoterm => new IncotermCadastroVm()
+            {
+                Codigo = incoterm.Codigo,
+                Descricao = incoterm.Descricao
+            }).ToList();
         }
     }
 }

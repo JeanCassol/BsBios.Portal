@@ -8,5 +8,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
             KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro);
             ProcessoCotacaoMaterialCadastroVm ConsultaProcesso(int idProcessoCotacaoMaterial);
             KendoGridVm FornecedoresParticipantes(int idProcessoCotacao);
+            IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao);
         }
 }

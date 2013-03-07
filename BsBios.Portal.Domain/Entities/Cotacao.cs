@@ -117,6 +117,11 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeAdquirida = quantidadeAdquirida;
             Iva = iva;
         }
+
+        public virtual Imposto Imposto(Enumeradores.TipoDeImposto tipo)
+        {
+            return Impostos.SingleOrDefault(x => x.Tipo == tipo);
+        }
     }
 
    
