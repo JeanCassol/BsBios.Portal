@@ -67,11 +67,13 @@
 
         <div class="divBotao">
             <input type="button" id="btnIniciarProcesso" value="Iniciar" class="blue" />
+            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" />
             <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
             <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
         </div>
     }
     <div id="divSelecionarFornecedores"></div>
+    <div id="divSelecionarCotacoes"></div>
 </div>
 
 @section Scripts {
@@ -126,6 +128,21 @@
                 }
             });
 
+            $('#divSelecionarCotacoes').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Selecionar Cotações',
+                modal: true,
+                buttons: {
+                    "Confirmar": function () {
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
             $('#btnSelecionarFornecedores').click(function() {
                 $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores")"
                     + "/?codigoProduto=" + $('#CodigoMaterial').val()
@@ -139,6 +156,14 @@
                                                           }
                                                           ).ToHtmlString());
                 $('#divSelecionarFornecedores').dialog('open');*@
+            });
+
+            $('#btnSelecionarCotacoes').click(function () {
+                $('#divSelecionarCotacoes').load("@Url.Action("SelecionarCotacoes")"
+                    + "/?idProcessoCotacao=" + $('#Id').val(),
+                    function (response, status, xhr) {
+                        $('#divSelecionarCotacoes').dialog('open');
+                    });
             });
 
             $('#btnIniciarProcesso').click(function() {

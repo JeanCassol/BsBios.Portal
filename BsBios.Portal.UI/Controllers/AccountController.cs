@@ -63,11 +63,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                UsuarioConectado usuarioConectado = _accountService.Login(model.Usuario, model.Senha);
-                //Session["UsuarioConectado"] = usuarioConectado;
-                ObjectFactory.Configure(c => c.For<UsuarioConectado>()
-                    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.Singleton))
-                    .Use(usuarioConectado));
+                _accountService.Login(model.Usuario, model.Senha);
                 if (! string.IsNullOrEmpty(returnUrl))
                 {
                     return RedirectToLocal(returnUrl);

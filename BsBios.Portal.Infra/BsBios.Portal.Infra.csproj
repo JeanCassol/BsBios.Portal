@@ -71,6 +71,7 @@
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
     <Compile Include="Mappings\CotacaoMap.cs" />
     <Compile Include="Mappings\FornecedorParticipanteMap.cs" />
+    <Compile Include="Mappings\ImpostoMap.cs" />
     <Compile Include="Mappings\IncotermMap.cs" />
     <Compile Include="Mappings\FornecedorMap.cs" />
     <Compile Include="Mappings\IvaMap.cs" />

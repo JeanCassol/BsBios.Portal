@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CotacaoCadastroVm.cs" />
+    <Compile Include="CotacaoDadosVm.cs" />
+    <Compile Include="CotacaoSelecionarVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
     <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />

@@ -108,7 +108,6 @@
     <Compile Include="Domain\Entities\ProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Domain\Entities\CotacaoTests.cs" />
     <Compile Include="Domain\Entities\FornecedorParticipanteTests.cs" />
-    <Compile Include="Domain\Entities\ImpostoTests.cs" />
     <Compile Include="Domain\Entities\UsuarioTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />

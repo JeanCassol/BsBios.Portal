@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaIncotermsMock = new Mock<IConsultaIncoterms>(MockBehavior.Strict);
             _consultaIncotermsMock.Setup(x => x.ListarTodos());
 
-            _controller = new CotacaoController(_consultaCotacaoDoFornecedorMock.Object,_usuarioConectado,
+            _controller = new CotacaoController(_consultaCotacaoDoFornecedorMock.Object,
                 _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object);
         }
 

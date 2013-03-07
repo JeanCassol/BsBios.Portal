@@ -4,6 +4,7 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -13,13 +14,11 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaCotacaoDoFornecedor _consultaCotacaoDoFornecedor;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaIncoterms _consultaIncoterms;
-        private readonly UsuarioConectado _usuarioConectado;
 
-        public CotacaoController(IConsultaCotacaoDoFornecedor consultaCotacaoDoFornecedor, UsuarioConectado usuarioConectado, 
+        public CotacaoController(IConsultaCotacaoDoFornecedor consultaCotacaoDoFornecedor, 
             IConsultaCondicaoPagamento consultaCondicaoPagamento, IConsultaIncoterms consultaIncoterms)
         {
             _consultaCotacaoDoFornecedor = consultaCotacaoDoFornecedor;
-            _usuarioConectado = usuarioConectado;
             _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaIncoterms = consultaIncoterms;
         }
@@ -29,7 +28,8 @@ namespace BsBios.Portal.UI.Controllers
         {
             ViewBag.Incoterms = _consultaIncoterms.ListarTodos();
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
-            CotacaoCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacao(idProcessoCotacao, _usuarioConectado.Login);
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            CotacaoCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacao(idProcessoCotacao, usuarioConectado.Login);
             return View("Cadastro",viewModel);
         }
 

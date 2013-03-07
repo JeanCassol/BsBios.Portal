@@ -118,6 +118,35 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Console.WriteLine("Consultando Cotacao - FIM");
         }
 
+        [TestMethod]
+        public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComImpostosNasCotacoes()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+
+            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
+
+            processoDeCotacaoDeMaterial.Abrir();
+            Cotacao cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, null);
+
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 5, 13);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
+
+            var processosDeCotacaoDeMaterial = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+
+            Console.WriteLine("Consultando Cotacao - INICIO");
+            var processoConsultado = (ProcessoDeCotacaoDeMaterial)processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();
+            Cotacao cotacaoConsultada = processoConsultado.FornecedoresParticipantes.First().Cotacao;
+            Assert.AreEqual(2, cotacaoConsultada.Impostos.Count);
+            Console.WriteLine("Consultando Cotacao - FIM");
+            
+        }
+
 
     }
 }

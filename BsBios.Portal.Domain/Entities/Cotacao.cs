@@ -80,7 +80,7 @@ namespace BsBios.Portal.Domain.Entities
             }
             else
             {
-                imposto = new Imposto(tipoDeImposto, aliquota, valor);
+                imposto = new Imposto(this, tipoDeImposto, aliquota, valor);
                 Impostos.Add(imposto);
             }
             
@@ -98,7 +98,7 @@ namespace BsBios.Portal.Domain.Entities
                 RemoverImposto(tipoDeImposto);
             }
 
-            if (Impostos.Count > 0 &&  (!ValorTotalComImpostos.HasValue || ValorTotalComImpostos.Value == 0) )
+            if (Impostos.Any() &&  (!ValorTotalComImpostos.HasValue || ValorTotalComImpostos.Value == 0) )
             {
                 throw new ValorTotalComImpostosObrigatorioException();
             }

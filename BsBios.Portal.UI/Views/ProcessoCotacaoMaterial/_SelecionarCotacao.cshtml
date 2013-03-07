@@ -1,24 +1,31 @@
-﻿<div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
+﻿@{
+    Layout = null;
+}
+<div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="divCotacoesParaSelecionar">
-        <div id="gridCotacoes">
-        </div>
-    </div>
+    <div id="gridCotacoes"></div>
 
 </div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script type="text/javascript">
-    $("#gridCotacoes").kendoGrid({
-        dataSource: {
-            schema: {
-                data: 'Registros',
-                model: {
-                    id: 'Id',
-                    fields: {
-                        Codigo: {type: "string", editable:false},
-                        Nome: {type: "string"
+    $(document).ready(function() {
+
+        @*        $("#gridCotacoes").kendoGrid({
+            dataSource: {
+                /*editable: true,
+                batch: true,*/
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        id: 'IdCotacao',
+                        fields: {
+                            IdCotacao: { type: "number"/*, editable:false*/ },
+                            Selecionada: { type: "boolean" },
+                            Fornecedor: { type: "string"/*, editable:false*/ },
+                            CodigoIva: { type: "string" },
+                            QuantidadeAdquirida: { type: "number" },
                         }
                     }
                 },
@@ -26,16 +33,60 @@
             },
             transport: {
                 read: {
-                    url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                    url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                    type: 'GET',
+                    cache: false
+                }
+            },
+            groupable: false,
+            sortable: false,
+            selectable: 'row',
+            columns:
+            [
+                { field: "Selecionada", width: 80 },
+                { field: "Fornecedor", width: 150 },
+                { field: "CodigoIva", title: "Iva", width: 150 },
+                { field: "QuantidadeAdquirida", title: "Quantidade", width: 80 }
+            ]
+        });*@
+        
+        $("#gridCotacoes").kendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        id: 'Id',
+                        fields: {
+                            Codigo: {
+                                type: "string"
+                            },
+                            Nome: {
+                                type: "string"
+                            },
+                            Preco: {
+                                type: "number"
+                            },
+
+                            Selecionado: {
+                                type: "string"
+                            }
+                        }
+                    },
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
                 },
-                pageSize: 10
+                pageSize: 5
             },
             groupable: false,
-            sortable: false,
-            editable: true,
+            sortable: true,
             selectable: 'row',
             columns:
             [
@@ -48,7 +99,18 @@
                     field: "Nome",
                     width: 200,
                     title: "Nome"
+                },
+                {
+                    field: "Preco",
+                    width: 200,
+                    title: "Preço"
+                },
+                {
+                    field: 'Selecionado',
+                    title: 'Selecionado?',
+                    width: 100
                 }]
         });
 
+    });
 </script>
