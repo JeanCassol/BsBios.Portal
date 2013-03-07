@@ -4,72 +4,61 @@
 <div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
     <div id="gridCotacoes"></div>
+    <table id="selecionarCotacoes">
+        <thead>
+            <tr>
+                <th>Selecionada</th>
+                <th>Quantidade</th>
+                <th>Fornecedor</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.CheckBox("Selecionada",true)</td>
+                <td>@Html.TextBox("Quantidade",10)</td>
+                <td>@Html.Label("Fornecedor 1")</td>
+            </tr>
+            <tr>
+                <td>@Html.CheckBox("Selecionada")</td>
+                <td>@Html.TextBox("Quantidade")</td>
+                <td>@Html.Label("Fornecedor 2")</td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-
-        @*        $("#gridCotacoes").kendoGrid({
+    $(document).ready(function () {
+        $("#selecionarCotacoes").kendoGrid({
+            height: 300
+        });
+        $('#selecionarCotacoes>tbody').find("input[type=checkbox][name=Selecionada]").change(function () {
+            var selecionado = $(this).is(':checked');
+            var linha = $(this).parents('tr:first');
+            var campoQuantidade = $(linha).find('input[name=Quantidade]');
+            if (selecionado) {
+                $(campoQuantidade).removeAttr('disabled');
+            } else {
+                $(campoQuantidade).attr('disabled', true);
+            }
+        });
+       
+@*        $("#gridCotacoes").kendoGrid({
             dataSource: {
-                /*editable: true,
-                batch: true,*/
                 schema: {
                     data: 'Registros',
                     model: {
                         id: 'IdCotacao',
                         fields: {
-                            IdCotacao: { type: "number"/*, editable:false*/ },
+                            IdCotacao: { type: "number", editable:false },
                             Selecionada: { type: "boolean" },
-                            Fornecedor: { type: "string"/*, editable:false*/ },
+                            Fornecedor: { type: "string", editable:false },
                             CodigoIva: { type: "string" },
-                            QuantidadeAdquirida: { type: "number" },
-                        }
-                    }
-                },
-                type: 'json'
-            },
-            transport: {
-                read: {
-                    url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
-                    type: 'GET',
-                    cache: false
-                }
-            },
-            groupable: false,
-            sortable: false,
-            selectable: 'row',
-            columns:
-            [
-                { field: "Selecionada", width: 80 },
-                { field: "Fornecedor", width: 150 },
-                { field: "CodigoIva", title: "Iva", width: 150 },
-                { field: "QuantidadeAdquirida", title: "Quantidade", width: 80 }
-            ]
-        });*@
-        
-        $("#gridCotacoes").kendoGrid({
-            dataSource: {
-                schema: {
-                    data: 'Registros',
-                    model: {
-                        id: 'Id',
-                        fields: {
-                            Codigo: {
-                                type: "string"
-                            },
-                            Nome: {
-                                type: "string"
-                            },
-                            Preco: {
-                                type: "number"
-                            },
-
-                            Selecionado: {
-                                type: "string"
-                            }
+                            QuantidadeAdquirida: { type: "number" }
                         }
                     },
                     type: 'json'
@@ -78,39 +67,26 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
                 },
-                pageSize: 5
+                batch: true
             },
+            editable: true,
+            navigatable: true,
             groupable: false,
-            sortable: true,
-            selectable: 'row',
+            sortable: false,
+            /*selectable: 'row',*/
             columns:
             [
-                {
-                    width: 100,
-                    field: "Codigo",
-                    title: "Código"
-                },
-                {
-                    field: "Nome",
-                    width: 200,
-                    title: "Nome"
-                },
-                {
-                    field: "Preco",
-                    width: 200,
-                    title: "Preço"
-                },
-                {
-                    field: 'Selecionado',
-                    title: 'Selecionado?',
-                    width: 100
-                }]
-        });
+                { field: "Selecionada", width: 80 },
+                { field: "Fornecedor", width: 150 },
+                { field: "CodigoIva", title: "Iva", width: 150 },
+                { field: "QuantidadeAdquirida", title: "Quantidade", width: 80 }
+            ]
+        });*@
 
     });
 </script>
