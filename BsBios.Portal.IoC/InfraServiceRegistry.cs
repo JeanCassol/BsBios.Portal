@@ -22,6 +22,9 @@ namespace BsBios.Portal.IoC
             For<IProvedorDeCriptografia>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProvedorDeCriptografiaMd5>();
+            For<IEmailService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<EmailService>();
             For<IGeradorDeSenha>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeSenha>();

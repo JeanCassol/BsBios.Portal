@@ -164,5 +164,26 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(1, fornecedoresNaoVinculados.Count(x => x.Codigo == fornecedor04.Codigo));
 
         }
+
+        [TestMethod]
+        public void QuandoFiltraPorNomeRetornaFornecedoresQueContemOTextoNoSeuNome()
+        {
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
+            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email);
+            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor3);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            IList<Fornecedor> fornecedoresFiltrados = fornecedores.FiltraPorNome("costa").List();
+
+            Assert.AreEqual(2, fornecedoresFiltrados.Count);
+
+        }
     }
 }

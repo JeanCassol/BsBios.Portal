@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Fornecedores";
+}
+
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <div id="divFornecedores">
+        <div id="divFiltros">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="coluna">
+                    @Html.Label("Nome")
+                    @Html.TextBox("Nome","", new{@class="campogrande"})
+                </div>
+                <div class="divBotao">
+                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                </div>
+            </fieldset>
+        </div>
+        <div id="gridFornecedores"></div>
+    </div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridFornecedores").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Codigo: {type: "string"},
+                                Nome: {type: "string"},
+                                Email: {type: "string"}
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Listar", "Fornecedor")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    Codigo: $('#Codigo').val(),
+                                    Nome: $('#Nome').val()
+                                };
+                            }
+                        }
+                    },
+                    pageSize: 5
+                },
+                columns:
+                [
+                    {
+                        field: 'Id',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 60,
+                        sortable: false,
+                        template: '<input type="button" class="button_visualize" data-codigofornecedor="${Codigo}"></input>'
+                    },
+                    {
+                        width: 150,
+                        field: "Codigo",
+                        title: "Código"
+                    },
+                    {
+                        field: "Nome",
+                        width: 300
+                    },
+                    {
+                        field: "Email",
+                        title:"E-mail",
+                        width: 300
+                    }
+        ]
+            });
+
+            $('#btnPesquisar').click(function() {
+                $("#gridFornecedores").data("kendoGrid").dataSource.read();
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#divFiltros input[type!=button]').val('');
+            });
+
+            $('.button_visualize').die("click");
+            $('.button_visualize').live("click", function(e) {
+                e.preventDefault();
+                location.href = '@Url.Action("Cadastro", "Fornecedor")' + '/?codigoFornecedor=' + $(this).attr('data-codigoFornecedor');
+            });
+
+        });
+    </script>
+    
+}

@@ -1468,7 +1468,10 @@ Globalize.parseInt = function( value, radix, cultureSelector ) {
 	return truncate( Globalize.parseFloat(value, radix, cultureSelector) );
 };
 
-Globalize.parseFloat = function( value, radix, cultureSelector ) {
+Globalize.parseFloat = function (value, radix, cultureSelector) {
+    if (value == null) {
+        return value;
+    }
 	// radix argument is optional
 	if ( typeof radix !== "number" ) {
 		cultureSelector = radix;

@@ -79,6 +79,8 @@
     <Compile Include="Mappings\ProdutoMap.cs" />
     <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
+    <Compile Include="Model\ContaDeEmail.cs" />
+    <Compile Include="Model\MensagemDeEmail.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Perfil.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
@@ -109,12 +111,14 @@
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
+    <Compile Include="Services\Contracts\IEmailService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeSenha.cs" />
     <Compile Include="Services\Contracts\IProvedorDeCriptografia.cs" />
     <Compile Include="Services\Contracts\IProvedorDeMenu.cs" />
     <Compile Include="Services\Contracts\IValidadorUsuario.cs" />
     <Compile Include="Services\Implementations\AccountService.cs" />
     <Compile Include="Services\Implementations\AuthenticationProvider.cs" />
+    <Compile Include="Services\Implementations\EmailService.cs" />
     <Compile Include="Services\Implementations\GeradorDeSenha.cs" />
     <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
     <Compile Include="Services\Implementations\ValidadorUsuario.cs" />

@@ -121,6 +121,11 @@
                             if (!dadosValidos) {
                                 return;
                             }
+                            var idCotacao = $(this).find('input[name=IdCotacao]').val();
+                            if (idCotacao == 0) {
+                                //cotação ainda não preenchida pelo fornecedor. O valor 0 indica que a cotação não foi criada
+                                return;
+                            }
                             var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
                             var quantidadeAdquirida = $(this).find('input[name=QuantidadeAdquirida]').val();
                             if (selecionada && quantidadeAdquirida == "") {
@@ -128,10 +133,10 @@
                                 dadosValidos = false;
                                 return;
                             }
-                            var codigoIva = $(this).find('input[name=CodigoIva]').val();
+                            var codigoIva = $(this).find('select[name=CodigoIva]').val();
 
                             cotacoes.push({
-                                IdCotacao: IdCotacao,
+                                IdCotacao: idCotacao,
                                 Selecionada: selecionada,
                                 QuantidadeAdquirida: quantidadeAdquirida,
                                 CodigoIva: codigoIva
@@ -149,7 +154,8 @@
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
                                 if (data.Sucesso) {
-                                    Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                                    $('#divSelecionarCotacoes').dialog("close");
+                                    $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
                                 } else {
                                     Mensagem.ExibirMensagemDeErro(data.Mensagem);
                                 }

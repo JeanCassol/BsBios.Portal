@@ -16,7 +16,7 @@ $(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
     $('.campoDatePicker').datepicker();
     
-    $.fn.kendoCustomGrid = function (c) {
+    $.fn.customKendoGrid = function (c) {
         c.groupable = false;
         c.sortable = true;
         c.pageable =

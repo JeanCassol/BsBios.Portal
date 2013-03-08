@@ -20,9 +20,9 @@ ALTER TABLE USUARIO ADD CONSTRAINT PK_USUARIO
  VALIDATE 
 ;
 INSERT INTO USUARIO
-(Nome, Login, Senha, Email, Perfil)
+(Nome, Login, Senha, Email, Perfil, Status)
 VALUES
-('Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1)
+('Administrador Fusion', 'admfusion', 'nMt6vfHriwbmCFAim+R8qw==','mauro.leal@fusionconsultoria.com.br', 1,1)
 ;
 COMMIT;
 CREATE TABLE PRODUTO
@@ -193,7 +193,7 @@ COMMENT ON COLUMN REQUISICAOCOMPRA.ID IS 'Chave da Tabela';
 
 COMMENT ON COLUMN REQUISICAOCOMPRA.LOGINCRIADOR IS 'Usuario que criou a Requisicao';
 
-COMMENT ON COLUMN REQUISICAOCOMPRA.LOGINREQUISITANTE IS 'Usuario que fez a requisicao';
+COMMENT ON COLUMN REQUISICAOCOMPRA.REQUISITANTE IS 'Usuario que fez a requisicao';
 
 CREATE SEQUENCE REQUISICAOCOMPRA_ID_SEQUENCE INCREMENT BY 1 START WITH 1;
 --REQUISICAO DE COMPRA (FIM)

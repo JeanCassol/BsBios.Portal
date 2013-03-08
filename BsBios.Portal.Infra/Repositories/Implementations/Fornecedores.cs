@@ -30,5 +30,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(fornecedor => fornecedor.Produtos.All(produto => produto.Codigo != codigoProduto));
             return this;
         }
+
+        public IFornecedores FiltraPorNome(string filtroNome)
+        {
+            Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+            return this;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
 {
@@ -7,5 +8,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         Fornecedor BuscaPeloCodigo(string codigo);
         IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores);
         IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
+        IFornecedores FiltraPorNome(string filtroNome);
     }
 }

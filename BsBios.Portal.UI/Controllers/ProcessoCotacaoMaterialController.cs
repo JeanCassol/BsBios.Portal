@@ -71,7 +71,6 @@ namespace BsBios.Portal.UI.Controllers
         {
             var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.FornecedoresParticipantes(idProcessoCotacao);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
-            
         }
 
         public ActionResult SelecionarFornecedores(int idProcessoCotacao, string codigoProduto)
@@ -80,22 +79,6 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["IdProcessoCotacao"] = idProcessoCotacao; 
             return PartialView("_SelecionarFornecedor");
         }
-        //public ActionResult SelecionarCotacoes(int idProcessoCotacao)
-        //{
-        //    try
-        //    {
-        //        ViewBag.Ivas = _consultaIva.ListarTodos();
-        //        ViewData["IdProcessoCotacao"] = idProcessoCotacao;
-        //        IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
-        //        return PartialView("_SelecionarCotacao", cotacoes);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ViewData["erro"] = ex.Message;
-        //        return PartialView("_SelecionarCotacao", new List<CotacaoSelecionarVm>());
-        //    }
-        //}
 
         public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
         {

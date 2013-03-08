@@ -1,0 +1,86 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model FornecedorCadastroVm
+
+@{
+    ViewBag.Title = "Fornecedor - Consulta";
+}
+<fieldset>
+    <legend>Dados do Fornecedor</legend>
+    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Codigo))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Nome))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Email))
+</fieldset>
+<fieldset>
+    <legend>Produtos do Fornecedor</legend>
+    <div id="gridProdutosDoFornecedor"></div>
+</fieldset>
+@section scripts
+{
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script>
+    $(function() {
+        $("#grid").kendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Descricao: {
+                                type: "string"
+                            },
+                            Codigo: {
+                                type: "string"
+                            }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros',
+                    type: 'json'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("ProdutosDoFornecedor", "Fornecedor")' + '?codigoProduto=@Model.Codigo',
+                            type: 'GET',
+                            cache: false
+                        }
+                    },
+                    pageSize: 10
+                },
+                 groupable: false,
+                 sortable: false,
+                 pageable:
+                 {
+                     refresh: true,
+                     pageSizes: true,
+                     messages: {
+                         display: '{0} - {1} de {2} registros',
+                         empty: 'Nenhum registro encontrado',
+                         itemsPerPage: 'registros por página',
+                         first: 'Ir para a primeira página',
+                         previous: 'Ir para a página anterior',
+                         next: 'Ir para a próxima página',
+                         last: 'Ir para a última página',
+                         refresh: 'Atualizar'
+                     }
+                 },
+                 selectable: 'row',
+                 columns:
+                 [
+                     {
+                         field: "Descricao",
+                         width: 300,
+                         title: "Descrição"
+                     }, {
+                         width: 150,
+                         field: "Codigo",
+                         title: "Código"
+                     }
+                 ]
+             });
+
+    });
+</script>
+}

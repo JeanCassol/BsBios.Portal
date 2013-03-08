@@ -31,5 +31,33 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return kendoGrid;
 
         }
+
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, string filtroNome)
+        {
+            if (!string.IsNullOrEmpty(filtroNome))
+            {
+                _fornecedores.FiltraPorNome(filtroNome);
+            }
+            var kendoGridVmn = new KendoGridVm()
+                {
+                    QuantidadeDeRegistros = _fornecedores.Count(),
+                    Registros =
+                        _builder.BuildList(_fornecedores.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                                .Cast<ListagemVm>()
+                                .ToList()
+
+                };
+            return kendoGridVmn;
+        }
+
+        public FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor)
+        {
+            return _builder.BuildSingle(_fornecedores.BuscaPeloCodigo(codigoDoFornecedor));
+        }
+
+        public KendoGridVm ProdutosDoFornecedor(string codigoFornecedor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

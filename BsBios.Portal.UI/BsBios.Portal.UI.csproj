@@ -273,11 +273,13 @@
     <Content Include="Global.asax" />
     <Content Include="Images\bg_logo.gif" />
     <Content Include="Images\icons\add_22.png" />
+    <Content Include="Images\icons\DeleteRed_24.png" />
     <Content Include="Images\icons\delete_24.png" />
     <Content Include="Images\icons\delete_32.png" />
     <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
+    <Content Include="Images\icons\mag_32.png" />
     <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
@@ -403,12 +405,13 @@
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
     <Content Include="Views\CondicaoPagamento\Index.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
-    <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\Index.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Cotacao\Cadastro.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
+    <Content Include="Views\Fornecedor\Index.cshtml" />
+    <Content Include="Views\Fornecedor\Cadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

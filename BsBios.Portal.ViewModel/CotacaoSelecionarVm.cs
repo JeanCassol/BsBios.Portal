@@ -10,7 +10,7 @@
         public string Fornecedor { get; set; }
         public string CodigoIva { get; set; }
         public decimal? QuantidadeAdquirida { get; set; }
-        public decimal ValorLiquido { get; set; }
+        public decimal? ValorLiquido { get; set; }
         public decimal? ValorComImpostos { get; set; }
         public string CondicaoDePagamento { get; set; }
         public string Incoterm { get; set; }

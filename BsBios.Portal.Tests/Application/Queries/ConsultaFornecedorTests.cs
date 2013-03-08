@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Queries.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.Application.Queries
 {
@@ -40,6 +43,32 @@ namespace BsBios.Portal.Tests.Application.Queries
 
             fornecedoresMock.Verify(x => x.FornecedoresNaoVinculadosAoProduto(It.IsAny<string>()), Times.Once());
             fornecedoresMock.Verify(x => x.Count(), Times.Once());
+        }
+
+        [TestMethod]
+        public void QuandoFiltraFornecedoresPorNomeRetornaListaEContabemDeRegistrosCorreta()
+        {
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
+            fornecedor2.Atualizar("CARLOS EDUARDO DA SILVA", fornecedor2.Email);
+            fornecedor3.Atualizar("LUIS EDUARDO SILVA", fornecedor3.Email);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor3);
+
+            var consultaFornecedor = ObjectFactory.GetInstance<IConsultaFornecedor>();
+
+            var paginacaoVm = new PaginacaoVm()
+                {
+                    Page = 1,
+                    PageSize = 10,
+                    Take = 10
+                };
+            KendoGridVm kendoGridVm = consultaFornecedor.Listar(paginacaoVm, "eduardo");
+
+            Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
+
         }
 
 

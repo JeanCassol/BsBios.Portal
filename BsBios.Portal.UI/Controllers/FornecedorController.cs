@@ -14,22 +14,36 @@ namespace BsBios.Portal.UI.Controllers
             _consultaFornecedor = consultaFornecedor;
         }
 
-        //[HttpGet]
-        //public JsonResult Listar(PaginacaoVm paginacaoVm)
-        //{
-        //    KendoGridVm kendoGridVm = _consultaFornecedor
-        //    return Json(new { registros = , totalCount =  }, JsonRequestBehavior.AllowGet);
-        //}
-        //[HttpGet]
-        //public PartialViewResult Index()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public ViewResult Index()
+        {
+            return View();
+        }
 
+        [HttpGet]
         public JsonResult FornecedoresGerais(string codigoProduto)
         {
             KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresNaoVinculadosAoProduto(codigoProduto);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult Listar(PaginacaoVm paginacaoVm, string nome)
+        {
+            KendoGridVm kendoGridVm = _consultaFornecedor.Listar(paginacaoVm, nome);
+            return Json(kendoGridVm,JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ViewResult Cadastro(string codigoFornecedor)
+        {
+            FornecedorCadastroVm vieModel = _consultaFornecedor.ConsultaPorCodigo(codigoFornecedor);
+            return View(vieModel);
+        }
+
+        public JsonResult ProdutosDoFornecedor(string codigoFornecedor)
+        {
+            _consultaFornecedor.ProdutosDoFornecedor(codigoFornecedor);
+            return Json(new {});
         }
     }
 }
