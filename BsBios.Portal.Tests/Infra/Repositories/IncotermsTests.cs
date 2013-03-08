@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -15,7 +16,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            Queries.RemoverIncotermsCadastrados();
             _incoterms = ObjectFactory.GetInstance<IIncoterms>();
         }
         [ClassCleanup]
@@ -28,15 +28,15 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public void QuandoPersistoUmIncotermComSucessoConsigoConsultarPosteriormente()
         {
             UnitOfWorkNh.BeginTransaction();
-            var incoterm = new Incoterm("001", "INCOTERM 001");
+            var incoterm = DefaultObjects.ObtemIncotermPadrao();
             _incoterms.Save(incoterm);
             UnitOfWorkNh.Commit();
             UnitOfWorkNh.Session.Clear();
 
-            Incoterm incotermConsultado = _incoterms.BuscaPeloCodigo("001").Single();
+            Incoterm incotermConsultado = _incoterms.BuscaPeloCodigo(incoterm.Codigo).Single();
             Assert.IsNotNull(incotermConsultado);
-            Assert.AreEqual("001", incotermConsultado.Codigo);
-            Assert.AreEqual("INCOTERM 001", incotermConsultado.Descricao);
+            Assert.AreEqual(incoterm.Codigo, incotermConsultado.Codigo);
+            Assert.AreEqual(incoterm.Descricao, incotermConsultado.Descricao);
         }
 
     }

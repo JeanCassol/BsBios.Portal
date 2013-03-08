@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -50,11 +51,11 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmProdutoComSucessoConsigoConsultarPosteriormente()
         {
+            Produto produto;
             try
             {
                 UnitOfWorkNh.BeginTransaction();
-                RemoverProdutosCadastrados();
-                var produto = new Produto("SAP0001", "PRODUTO 0001", "01");
+                produto = DefaultObjects.ObtemProdutoPadrao();
                 _produtos.Save(produto);
 
                 UnitOfWorkNh.Commit();
@@ -65,10 +66,13 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
-            Produto produtoConsulta = _produtos.BuscaPeloCodigo("SAP0001");
+            UnitOfWorkNh.Session.Clear();
 
-            Assert.IsNotNull(produtoConsulta);
-            Assert.AreEqual("SAP0001", produtoConsulta.Codigo);
+            Produto produtoConsultado = _produtos.BuscaPeloCodigo(produto.Codigo);
+
+            Assert.IsNotNull(produtoConsultado);
+            Assert.AreEqual(produto.Codigo, produtoConsultado.Codigo);
+            Assert.AreEqual(produto.Descricao, produtoConsultado.Descricao);
         }
 
         [TestMethod]
@@ -81,14 +85,13 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmProdutoComFornecedoresConsigoConsultarOsFornecedoresPosteriormente()
         {
+            Produto produto;
             try
             {
-                Queries.RemoverProdutosCadastrados();
-                Queries.RemoverFornecedoresCadastrados();
                 UnitOfWorkNh.BeginTransaction();
-                var produto = new Produto("PROD0001", "Produto de Teste", "01");
-                var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
-                var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");
+                produto = DefaultObjects.ObtemProdutoPadrao();
+                Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+                Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
                 _fornecedores.Save(fornecedor1);
                 _fornecedores.Save(fornecedor2);
                 var fornecedores = new List<Fornecedor>()
@@ -108,7 +111,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
-            Produto produtoConsultado = _produtos.BuscaPeloCodigo("PROD0001");
+            UnitOfWorkNh.Session.Clear();
+
+            Produto produtoConsultado = _produtos.BuscaPeloCodigo(produto.Codigo);
 
             Assert.AreEqual(2, produtoConsultado.Fornecedores.Count);
         }

@@ -2,6 +2,7 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -21,7 +22,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            Queries.RemoverUsuariosCadastrados();
             _usuarios = ObjectFactory.GetInstance<IUsuarios>();
         }
 
@@ -37,13 +37,12 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmUsuarioComSucessoPossoConsultarOMesmoUsuario()
         {
-
-
+            Usuario usuarioNovo;
             try
             {
                 UnitOfWorkNh.BeginTransaction();
 
-                var usuarioNovo = new Usuario("Mauro Leal", "mauroscl", "mauro.leal@fusionconsultoria.com.br",Enumeradores.Perfil.Comprador);
+                usuarioNovo = DefaultObjects.ObtemUsuarioPadrao();
                 _usuarios.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();
@@ -55,14 +54,16 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
-            Usuario usuarioConsulta = _usuarios.BuscaPorLogin("mauroscl");
+            UnitOfWorkNh.Session.Clear();
+
+            Usuario usuarioConsulta = _usuarios.BuscaPorLogin(usuarioNovo.Login);
 
             Assert.IsNotNull(usuarioConsulta);
-            Assert.AreEqual("mauroscl", usuarioConsulta.Login);
-            Assert.AreEqual("Mauro Leal", usuarioConsulta.Nome);
+            Assert.AreEqual(usuarioNovo.Login, usuarioConsulta.Login);
+            Assert.AreEqual(usuarioNovo.Nome, usuarioConsulta.Nome);
             Assert.IsNull(usuarioConsulta.Senha);
-            Assert.AreEqual("mauro.leal@fusionconsultoria.com.br", usuarioConsulta.Email);
-            Assert.AreEqual(Enumeradores.Perfil.Comprador, usuarioConsulta.Perfil);
+            Assert.AreEqual(usuarioNovo.Email, usuarioConsulta.Email);
+            Assert.AreEqual(usuarioNovo.Perfil, usuarioConsulta.Perfil);
 
         }
 
@@ -76,11 +77,13 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoBuscarUsuarioPorLoginComLoginExistenteDeveRetornarUsuario()
         {
+            Usuario usuarioNovo;
+
             try
             {
                 UnitOfWorkNh.BeginTransaction();
 
-                var usuarioNovo = new Usuario("Mauro Leal", "usuario", "mauro.leal@fusionconsultoria.com.br", Enumeradores.Perfil.Comprador);
+                usuarioNovo = DefaultObjects.ObtemUsuarioPadrao();
                 _usuarios.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();
@@ -91,9 +94,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 UnitOfWorkNh.RollBack();                    
                 throw;
             }
-            Usuario usuario = _usuarios.BuscaPorLogin("usuario");
+            Usuario usuario = _usuarios.BuscaPorLogin(usuarioNovo.Login);
             Assert.IsNotNull(usuario);
-            Assert.AreEqual("usuario",usuario.Login);
+            Assert.AreEqual(usuarioNovo.Login,usuario.Login);
         }
     }
 }

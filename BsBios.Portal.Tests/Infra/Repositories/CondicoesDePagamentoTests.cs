@@ -15,7 +15,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            Queries.RemoverCondicoesDePagamentoCadastradas();
             _condicoesDePagamento = ObjectFactory.GetInstance<ICondicoesDePagamento>();
         }
         [ClassCleanup]

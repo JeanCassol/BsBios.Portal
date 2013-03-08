@@ -26,27 +26,6 @@
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
 
         </fieldset>
-            
-
-            @*            @{ var comboMaterial = new ColunaComDropDown<ProcessoCotacaoMaterialCadastroVm, string>(x => x.CodigoMaterial, 
-                ((List<ProdutoCadastroVm>) ViewBag.Materiais)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoSap), Selected = Model != null && x.CodigoSap == Model.CodigoMaterial}),
-                "IdMaterial");
-
-               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoMaterialCadastroVm, int>(x => x.QuantidadeMaterial);
-            }
-            
-            @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
-            
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataInicioLeilao, "campoDatePicker"),
-            new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataTerminoLeilao, "campoDatePicker"))
-            
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
-            new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
-
-            @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos),
-            new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Observacoes))*@
-        
         <fieldset>
             <legend>Fornecedores</legend>
             <div class="divBotao">
