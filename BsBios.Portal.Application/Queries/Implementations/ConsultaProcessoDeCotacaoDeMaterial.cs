@@ -158,8 +158,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 cotacaoSelecionarVm.CodigoIva = cotacao.Iva != null ? cotacao.Iva.Codigo : null;
                 cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
                 cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
-                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorTotalSemImpostos;
-                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorTotalComImpostos;
+                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
+                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
 
                 Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);

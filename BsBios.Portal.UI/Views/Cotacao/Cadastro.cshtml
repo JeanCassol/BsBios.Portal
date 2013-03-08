@@ -40,8 +40,8 @@
         </fieldset>
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorTotalSemImpostos), 
-            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorTotalComImpostos))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos))
 
             @{ var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm, 
                 ((List<IncotermCadastroVm>) ViewBag.Incoterms)
@@ -93,6 +93,7 @@
                 if (marcado) {
                     $(camposDosImpostos).removeAttr("disabled");
                 } else {
+                    $(camposDosImpostos).val('');
                     $(camposDosImpostos).attr('disabled', true);
                 }
             }

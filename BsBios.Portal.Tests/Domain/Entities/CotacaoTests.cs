@@ -21,8 +21,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.IsFalse(cotacao.Selecionada);
             Assert.IsNull(cotacao.Iva);
             Assert.IsNull(cotacao.QuantidadeAdquirida);
-            Assert.AreEqual(100, cotacao.ValorTotalSemImpostos);
-            Assert.AreEqual(110, cotacao.ValorTotalComImpostos);
+            Assert.AreEqual(100, cotacao.ValorLiquido);
+            Assert.AreEqual(110, cotacao.ValorComImpostos);
             Assert.AreSame(incoterm, cotacao.Incoterm);
             Assert.AreEqual("Descrição do Incoterm",cotacao.DescricaoIncoterm);
             Assert.AreSame(condicaoDePagamento, cotacao.CondicaoDePagamento);
@@ -36,8 +36,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var condicaoDePagamento = new CondicaoDePagamento("C1","CONDIÇÃO ALTERAÇÃO");
             var incoterm = new Incoterm("I1", "INCOTERM ALTERAÇÃO");
             cotacao.Atualizar(200, 220,condicaoDePagamento, incoterm,"INCOTERM ALTERADO",10 );
-            Assert.AreEqual(200, cotacao.ValorTotalSemImpostos);
-            Assert.AreEqual(220, cotacao.ValorTotalComImpostos);
+            Assert.AreEqual(200, cotacao.ValorLiquido);
+            Assert.AreEqual(220, cotacao.ValorComImpostos);
             Assert.AreSame(incoterm, cotacao.Incoterm);
             Assert.AreEqual("INCOTERM ALTERADO", cotacao.DescricaoIncoterm);
             Assert.AreSame(condicaoDePagamento, cotacao.CondicaoDePagamento);

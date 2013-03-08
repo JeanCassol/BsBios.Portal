@@ -32,8 +32,8 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Incoterm).Column("CodigoIncoterm");
             Map(x => x.DescricaoIncoterm);
             Map(x => x.QuantidadeAdquirida);
-            Map(x => x.ValorTotalSemImpostos);
-            Map(x => x.ValorTotalComImpostos);
+            Map(x => x.ValorLiquido);
+            Map(x => x.ValorComImpostos);
             Map(x => x.Mva);
             Map(x => x.Selecionada);
             /*Importante: Sem a opção "Cascade.AllDeleteOrphan()" o NHibernate tenta sempre fazer um update mesmo quando é criado um imposto novo.

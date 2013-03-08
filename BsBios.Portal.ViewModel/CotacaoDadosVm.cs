@@ -5,12 +5,12 @@ namespace BsBios.Portal.ViewModel
     public class CotacaoDadosVm
     {
         [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Valor Total (Sem Impostos) é obrigatório")]
-        [Display(Name = "Valor Total (Sem Impostos)")]
-        public decimal? ValorTotalSemImpostos { get; set; }
+        [Required(ErrorMessage = "Valor Líquido é obrigatório")]
+        [Display(Name = "Valor Líquido")]
+        public decimal? ValorLiquido { get; set; }
         [DataType(DataType.Currency)]
-        [Display(Name = "Valor Total (Com Impostos)")]
-        public decimal? ValorTotalComImpostos { get; set; }
+        [Display(Name = "Valor Com Impostos")]
+        public decimal? ValorComImpostos { get; set; }
         [Required(ErrorMessage = "Condição de Pagamento é obrigatório")]
         [Display(Name = "Condição de Pagamento")]
         public string CodigoCondicaoPagamento { get; set; }

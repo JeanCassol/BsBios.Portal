@@ -253,8 +253,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
             Assert.IsNotNull(cotacao);
             Assert.AreSame(condicaoDePagamento,  cotacao.CondicaoDePagamento);
-            Assert.AreEqual(new decimal(150.20), cotacao.ValorTotalSemImpostos);
-            Assert.AreEqual(180, cotacao.ValorTotalComImpostos);
+            Assert.AreEqual(new decimal(150.20), cotacao.ValorLiquido);
+            Assert.AreEqual(180, cotacao.ValorComImpostos);
             Assert.AreEqual(10, cotacao.Mva);
             Assert.AreSame(incoterm, cotacao.Incoterm);
             Assert.AreEqual("Descrição do Incoterm 2", cotacao.DescricaoIncoterm);

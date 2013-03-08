@@ -93,8 +93,8 @@ namespace BsBios.Portal.Tests.Application.Services
                     CodigoIncoterm = Incoterm.Codigo,
                     DescricaoIncoterm = "Desc Incoterm" ,
                     PossuiImpostos = true,
-                    ValorTotalSemImpostos = 110 ,
-                    ValorTotalComImpostos =  125,
+                    ValorLiquido = 110 ,
+                    ValorComImpostos =  125,
                     Mva = 0 ,
                     IcmsAliquota = 17 ,
                     IcmsValor = 12
@@ -151,8 +151,8 @@ namespace BsBios.Portal.Tests.Application.Services
                         Assert.AreSame(CondicaoDePagamento, cotacao.CondicaoDePagamento);
                         Assert.AreSame(Incoterm, cotacao.Incoterm);
                         Assert.AreEqual("Desc Incoterm", cotacao.DescricaoIncoterm);
-                        Assert.AreEqual(110, cotacao.ValorTotalSemImpostos);
-                        Assert.AreEqual(125, cotacao.ValorTotalComImpostos);
+                        Assert.AreEqual(110, cotacao.ValorLiquido);
+                        Assert.AreEqual(125, cotacao.ValorComImpostos);
                         Assert.AreEqual(0, cotacao.Mva);
                         Imposto icms = cotacao.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
                         Assert.AreEqual(17, icms.Aliquota);

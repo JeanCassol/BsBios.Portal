@@ -32,7 +32,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(cotacaoInformarVm.CodigoCondicaoPagamento);
                 Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
                 Cotacao cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
-                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorTotalSemImpostos.Value, cotacaoInformarVm.ValorTotalComImpostos,
+                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorLiquido.Value, cotacaoInformarVm.ValorComImpostos,
                     cotacaoInformarVm.Mva);
 
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, cotacaoInformarVm.IcmsAliquota, cotacaoInformarVm.IcmsValor);

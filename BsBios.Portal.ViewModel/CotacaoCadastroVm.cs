@@ -16,5 +16,9 @@ namespace BsBios.Portal.ViewModel
         public decimal Quantidade { get; set; }
         [DisplayName("Unidade de Medida: ")]
         public string UnidadeDeMedida { get; set; }
+        /// <summary>
+        /// usuada para indicar se os campos da tela serão habilitados para edição
+        /// </summary>
+        public bool PermiteEditar { get; set; }
     }
 }

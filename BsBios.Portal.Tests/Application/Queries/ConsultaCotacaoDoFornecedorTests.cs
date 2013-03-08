@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
@@ -32,8 +33,8 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
             Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
-            Assert.IsNull(vm.ValorTotalComImpostos);
-            Assert.IsNull(vm.ValorTotalSemImpostos);
+            Assert.IsNull(vm.ValorComImpostos);
+            Assert.IsNull(vm.ValorLiquido);
             Assert.IsNull(vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
         }
@@ -63,8 +64,8 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
             Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
-            Assert.AreEqual(120, vm.ValorTotalComImpostos);
-            Assert.AreEqual(100, vm.ValorTotalSemImpostos);
+            Assert.AreEqual(120, vm.ValorComImpostos);
+            Assert.AreEqual(100, vm.ValorLiquido);
             Assert.AreEqual(12, vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
         }
@@ -105,12 +106,48 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
             Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
-            Assert.AreEqual(120, vm.ValorTotalComImpostos);
-            Assert.AreEqual(100, vm.ValorTotalSemImpostos);
+            Assert.AreEqual(120, vm.ValorComImpostos);
+            Assert.AreEqual(100, vm.ValorLiquido);
             Assert.AreEqual(12, vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
             
         }
+
+        [TestMethod]
+        public void QuandoInformoImpostosDeUmaCotacaoRetornaOsDadosDosImpostos()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
+            Cotacao cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                     DefaultObjects.ObtemIncotermPadrao(),
+                                     "Desc Incoterm", 100, 120, 12);
+
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1,2);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, 31, 32);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, 41, 42);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
+
+            var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
+            CotacaoCadastroVm vm = consulta.ConsultarCotacao(processo.Id, fornecedor.Codigo);
+
+            Assert.AreEqual(1, vm.IcmsAliquota);
+            Assert.AreEqual(2, vm.IcmsValor);
+            Assert.AreEqual(11, vm.IcmsStAliquota);
+            Assert.AreEqual(12, vm.IcmsStValor);
+            Assert.AreEqual(21, vm.IpiAliquota);
+            Assert.AreEqual(22, vm.IpiValor);
+            Assert.AreEqual(31, vm.PisAliquota);
+            Assert.AreEqual(32, vm.PisValor);
+            Assert.AreEqual(41, vm.CofinsAliquota);
+            Assert.AreEqual(42, vm.CofinsValor);
+
+            
+        }
+
+
 
     }
 

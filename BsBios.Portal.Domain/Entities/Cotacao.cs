@@ -11,8 +11,8 @@ namespace BsBios.Portal.Domain.Entities
         //private int IdFornecedorParticipante { get; set; }
         //public virtual FornecedorParticipante FornecedorParticipante { get; protected set; }
         public virtual bool Selecionada { get; protected set; }
-        public virtual decimal ValorTotalSemImpostos { get; protected set; }
-        public virtual decimal? ValorTotalComImpostos { get; protected set;}
+        public virtual decimal ValorLiquido { get; protected set; }
+        public virtual decimal? ValorComImpostos { get; protected set;}
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Iva Iva { get; protected set; }
@@ -34,8 +34,8 @@ namespace BsBios.Portal.Domain.Entities
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            ValorTotalSemImpostos = valorTotalSemImpostos;
-            ValorTotalComImpostos = valorTotalComImpostos;
+            ValorLiquido = valorTotalSemImpostos;
+            ValorComImpostos = valorTotalComImpostos;
             Mva = mva;
         }
         
@@ -50,8 +50,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void Atualizar(decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, 
             Incoterm incoterm, string descricaoIncoterm, decimal? mva)
         {
-            ValorTotalSemImpostos = valorTotalSemImpostos;
-            ValorTotalComImpostos = valorTotalComImpostos;
+            ValorLiquido = valorTotalSemImpostos;
+            ValorComImpostos = valorTotalComImpostos;
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
@@ -98,7 +98,7 @@ namespace BsBios.Portal.Domain.Entities
                 RemoverImposto(tipoDeImposto);
             }
 
-            if (Impostos.Any() &&  (!ValorTotalComImpostos.HasValue || ValorTotalComImpostos.Value == 0) )
+            if (Impostos.Any() &&  (!ValorComImpostos.HasValue || ValorComImpostos.Value == 0) )
             {
                 throw new ValorTotalComImpostosObrigatorioException();
             }

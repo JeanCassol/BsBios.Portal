@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -79,8 +80,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            var vm = new CotacaoCadastroVm()
+            var vm = new CotacaoCadastroVm
                 {
+                    PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
                     IdProcessoCotacao = processo.Id,
                     CodigoFornecedor = fp.Fornecedor.Codigo,
                     Status = processo.Status.Descricao(),
@@ -88,15 +90,57 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
                     Material = processo.Produto.Descricao,
                     Quantidade = processo.Quantidade,
-                    UnidadeDeMedida = processo.RequisicaoDeCompra.UnidadeMedida,
-                    CodigoCondicaoPagamento = fp.Cotacao != null ? fp.Cotacao.CondicaoDePagamento.Codigo : null,
-                    CodigoIncoterm = fp.Cotacao != null ? fp.Cotacao.Incoterm.Codigo : null,
-                    DescricaoIncoterm = fp.Cotacao != null ? fp.Cotacao.DescricaoIncoterm : null,
-                    Mva = fp.Cotacao != null ? fp.Cotacao.Mva : null,
-                    ValorTotalSemImpostos = fp.Cotacao != null ? fp.Cotacao.ValorTotalSemImpostos : (decimal?) null,
-                    ValorTotalComImpostos = fp.Cotacao != null ? fp.Cotacao.ValorTotalComImpostos : null,
-                    PossuiImpostos = fp.Cotacao != null && fp.Cotacao.Impostos.Any()
+                    UnidadeDeMedida = processo.RequisicaoDeCompra.UnidadeMedida
                 };
+
+            if (fp.Cotacao != null)
+            {
+                vm.CodigoCondicaoPagamento = fp.Cotacao.CondicaoDePagamento.Codigo;
+                vm.CodigoIncoterm = fp.Cotacao.Incoterm.Codigo;
+                vm.DescricaoIncoterm = fp.Cotacao.DescricaoIncoterm;
+                vm.Mva = fp.Cotacao.Mva;
+                vm.ValorLiquido = fp.Cotacao.ValorLiquido;
+                vm.ValorComImpostos = fp.Cotacao.ValorComImpostos;
+                vm.PossuiImpostos = fp.Cotacao.Impostos.Any();
+
+                Cotacao cotacao = fp.Cotacao;
+                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+                if (imposto!= null)
+                {
+                    vm.IcmsAliquota = imposto.Aliquota;
+                    vm.IcmsValor = imposto.Valor;
+                }
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+                if (imposto != null)
+                {
+                    vm.IcmsStAliquota = imposto.Aliquota;
+                    vm.IcmsStValor = imposto.Valor;
+                }
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+                if (imposto != null)
+                {
+                    vm.IpiAliquota = imposto.Aliquota;
+                    vm.IpiValor = imposto.Valor;
+                }
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
+                if (imposto != null)
+                {
+                    vm.PisAliquota = imposto.Aliquota;
+                    vm.PisValor = imposto.Valor;
+                }
+
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
+                if (imposto != null)
+                {
+                    vm.CofinsAliquota = imposto.Aliquota;
+                    vm.CofinsValor = imposto.Valor;
+                }
+                
+            }
 
             return vm;
 
