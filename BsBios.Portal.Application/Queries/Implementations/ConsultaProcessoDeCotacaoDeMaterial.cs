@@ -37,7 +37,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                          {
                              CodigoMaterial = p.Produto.Codigo,
                              Material = p.Produto.Descricao,
-                             DataTermino = p.DataLimiteDeRetorno.ToString(),
+                             DataTermino = p.DataLimiteDeRetorno,
                              Id = p.Id,
                              Quantidade = p.Quantidade,
                              Status = p.Status,
@@ -53,7 +53,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                      Id = x.Id,
                                      CodigoMaterial = x.CodigoMaterial,
                                      Material = x.Material,
-                                     DataTermino = x.DataTermino,
+                                     DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString(): "",
                                      Quantidade = x.Quantidade,
                                      Status = x.Status.Descricao(),
                                      UnidadeDeMedida = x.UnidadeDeMedida

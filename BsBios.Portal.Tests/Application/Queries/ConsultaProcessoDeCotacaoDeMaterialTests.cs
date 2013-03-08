@@ -47,7 +47,8 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Descricao, processoListagem.Material);
             Assert.AreEqual(1000, processoListagem.Quantidade);
             Assert.AreEqual("Não Iniciado", processoListagem.Status);
-            Assert.IsNull(processoListagem.DataTermino);
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoListagem.DataTermino);
         }
 
         [TestMethod]

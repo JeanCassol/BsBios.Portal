@@ -63,7 +63,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
             }
         }
 
-        private static void PersistirIva(Iva iva)
+        public static void PersistirIva(Iva iva)
         {
             try
             {

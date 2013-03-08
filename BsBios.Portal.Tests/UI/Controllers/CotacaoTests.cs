@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
@@ -7,6 +8,7 @@ using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.UI.Controllers
 {
@@ -14,23 +16,24 @@ namespace BsBios.Portal.Tests.UI.Controllers
     public class CotacaoTests
     {
         private readonly CotacaoController _controller;
-        private readonly UsuarioConectado _usuarioConectado;
+        private static readonly UsuarioConectado UsuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
         private readonly Mock<IConsultaCotacaoDoFornecedor> _consultaCotacaoDoFornecedorMock;
         private readonly Mock<IConsultaCondicaoPagamento> _consultaCondicaoPagamentoMock;
         private readonly Mock<IConsultaIncoterm> _consultaIncotermsMock;
 
         public CotacaoTests()
         {
-            _usuarioConectado = DefaultObjects.ObtemUsuarioConectado();
             _consultaCotacaoDoFornecedorMock = new Mock<IConsultaCotacaoDoFornecedor>(MockBehavior.Strict);
             _consultaCotacaoDoFornecedorMock.Setup(x => x.ConsultarCotacao(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(new CotacaoCadastroVm());
 
             _consultaCondicaoPagamentoMock = new Mock<IConsultaCondicaoPagamento>(MockBehavior.Strict);
-            _consultaCondicaoPagamentoMock.Setup(x => x.ListarTodas());
+            _consultaCondicaoPagamentoMock.Setup(x => x.ListarTodas())
+                .Returns(new List<CondicaoDePagamentoCadastroVm>());
 
             _consultaIncotermsMock = new Mock<IConsultaIncoterm>(MockBehavior.Strict);
-            _consultaIncotermsMock.Setup(x => x.ListarTodos());
+            _consultaIncotermsMock.Setup(x => x.ListarTodos())
+                .Returns(new List<IncotermCadastroVm>());
 
             _controller = new CotacaoController(_consultaCotacaoDoFornecedorMock.Object,
                 _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object);
@@ -52,7 +55,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         {
             _consultaCotacaoDoFornecedorMock.Setup(x => x.ConsultarCotacao(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(new CotacaoCadastroVm())
-                .Callback((int idProcessoCotacao, string login) => Assert.AreEqual(_usuarioConectado.Login, login));
+                .Callback((int idProcessoCotacao, string login) => Assert.AreEqual(UsuarioConectado.Login, login));
 
             _controller.EditarCadastro(10);
         }

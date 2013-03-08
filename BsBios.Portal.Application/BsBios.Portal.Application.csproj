@@ -60,6 +60,7 @@
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacao.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />

@@ -1,70 +1,15 @@
-﻿@using BsBios.Portal.ViewModel
-@model IList<CotacaoSelecionarVm>
-@{
+﻿@{
     Layout = null;
 }
 <style type="text/css">
     .selecionarCotacao {
-    width: auto     
+        width: 1000px;     
  }
-#divCotacoes {
-    width: 400px;
-}
+
 </style>
-<div id="divCotacoes" style="font:75% Arial,Helvetica,sans-serif;">
+<div id="divCotacoes" class=" divGrid">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <table id="selecionarCotacoes" class="selecionarCotacao">
-        <thead>
-            <tr>
-                <th @*style="width: 200px"*@>Selecionada</th>
-                <th @*style="width: 300px"*@>Quantidade</th>
-                <th>Iva</th>
-                <th>Fornecedor</th>
-                <th>Valor Líquido</th>
-                <th>Valor Com Impostos</th>
-                <th>Condição de Pagamento</th>
-                <th>Incoterm</th>
-                <th>Valor ICMS</th>
-                <th>Valor ICMS ST</th>
-                <th>Valor IPI</th>
-                <th>Valor Pis</th>
-                <th>Valor Cofins</th>
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var cotacao in Model)
-            {
-                <tr>
-                    <td style="width: 200px!important">
-                        @Html.HiddenFor(x => cotacao.IdCotacao)
-                        @Html.CheckBoxFor(x => cotacao.Selecionada)
-                    </td>
-                    <td style="width: 300px!important">@Html.TextBoxFor(x => cotacao.QuantidadeAdquirida)</td>
-
-                    <td>
-                        @Html.DropDownList("CodigoIva", 
-                    ((List<IvaCadastroVm>) ViewBag.Ivas)
-                    .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), 
-                        Selected = Model != null && x.Codigo == cotacao.CodigoIva}),
-                    "Selecione >>")
-                          
-                    </td>
-                    <td>@Html.LabelFor(x => cotacao.Fornecedor)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorLiquido)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorComImpostos)</td>
-                    <td>@Html.LabelFor(x => cotacao.CondicaoDePagamento)</td>
-                    <td>@Html.LabelFor(x => cotacao.Incoterm)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorIcms)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorIcmsSt)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorIpi)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorPis)</td>
-                    <td>@Html.LabelFor(x => cotacao.ValorCofins)</td>
-                    
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div id="gridCotacoes" class="selecionarCotacao"></div>
     <div id="erro" class="error">
         @ViewData["erro"]
     </div>
@@ -74,63 +19,134 @@
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#selecionarCotacoes").kendoGrid({
-            height: 300,
-            scrollable: true,
-            columns: [{width:200}, {width:300}
-            ]
-        });
-        $('#selecionarCotacoes>tbody').find("input[type=checkbox][name=Selecionada]").change(function () {
-            var selecionado = $(this).is(':checked');
-            var linha = $(this).parents('tr:first');
-            var campoQuantidade = $(linha).find('input[name=Quantidade]');
-            if (selecionado) {
-                $(campoQuantidade).removeAttr('disabled');
-            } else {
-                $(campoQuantidade).attr('disabled', true);
+        var ivas = new Array();
+
+        function geraDropDownItem(iva, valorSelecionado) {
+            var selected = (iva.Codigo == valorSelecionado ? "selected" : "");
+            return '<option value="' + iva.Codigo +'"'+ selected + '>'+ iva.Descricao +'</option>';
+        }
+
+        geraCombo = function (valorSelecionado, idCotacao) {
+            var items = "";
+            $.each(ivas, function (index, iva) {
+                items += geraDropDownItem(iva, valorSelecionado);
+            });
+
+            return '<select name="CodigoIva" class="campopequeno" ' + (idCotacao <= 0 ? "disabled":""  ) +  '>' + items + '</select>';
+        };
+        
+        $.ajax({
+            url: '@Url.Action("Listar","Iva")',
+            type: 'GET',
+            async:false,
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                if (!data.Sucesso) {
+                    alert('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + data.Mensagem);
+                    return;
+                }
+                $.each(data.Registros, function (indexInArray, valueOfElement) {
+                    ivas.push(valueOfElement);
+                });
+                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + textStatus + errorThrown);
             }
         });
-       
-@*        $("#gridCotacoes").kendoGrid({
+        
+        function ajustaEnableDosCamposDaLinha(linha, checkbox) {
+            if (!checkbox) {
+                checkbox = $(linha).find("input[type=checkbox][name=Selecionada]");
+            }
+            var selecionado = $(checkbox).is(':checked');
+            var campoQuantidade = $(linha).find('input[name=QuantidadeAdquirida]');
+            /*var campoIva = $(linha).find('select[name=CodigoIva]');*/
+            if (selecionado) {
+                $(campoQuantidade).removeAttr('disabled');
+                /*$(campoIva).removeAttr('disabled');*/
+            } else {
+                $(campoQuantidade).val('');
+                $(campoQuantidade).attr('disabled', true);
+                /*$(campoIva).attr('disabled', true);*/
+            }
+        }
+      
+        $("#gridCotacoes").kendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
                     model: {
-                        id: 'IdCotacao',
                         fields: {
-                            IdCotacao: { type: "number", editable:false },
+                            IdCotacao: { type: "number"},
                             Selecionada: { type: "boolean" },
-                            Fornecedor: { type: "string", editable:false },
+                            Fornecedor: { type: "string"},
                             CodigoIva: { type: "string" },
-                            QuantidadeAdquirida: { type: "number" }
+                            ValorLiquido: { type: "number" },
+                            ValorComImpostos: { type: "number" },
+                            QuantidadeAdquirida: { type: "number" },
+                            CondicaoDePagamento: { type: "string" },
+                            Incoterm: { type: "string" },
+                            ValorIcms: { type: "number" },
+                            ValorIcmsSt: { type: "number" },
+                            ValorIpi: { type: "number" },
+                            ValorPis: { type: "number" },
+                            ValorCofins: { type: "number" }
                         }
                     },
                     type: 'json'
                 },
-                serverFiltering: true,
-                serverPaging: true,
                 transport: {
                     read: {
                         url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
-                },
-                batch: true
+                }
             },
-            editable: true,
-            navigatable: true,
             groupable: false,
             sortable: false,
-            /*selectable: 'row',*/
             columns:
             [
-                { field: "Selecionada", width: 80 },
-                { field: "Fornecedor", width: 150 },
-                { field: "CodigoIva", title: "Iva", width: 150 },
-                { field: "QuantidadeAdquirida", title: "Quantidade", width: 80 }
+                {
+                    field: 'IdCotacao', hidden:true,
+                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
+                },
+                {
+                    field: "Selecionada", title: ' ', width: 30,
+                    template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
+                },
+                {
+                    field: "CodigoIva", title: "Iva", width: 160,
+                    template:'#= geraCombo(CodigoIva, IdCotacao) #'
+                },
+                {
+                    field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
+                },
+                { field: "Fornecedor", width: 200 },
+                { field: "ValorLiquido", title: ' Valor Líquido', width: 100 },
+                { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
+                { field: "CondicaoDePagamento", title:'Condição', width: 200 },
+                { field: "Incoterm", width: 150 },
+                { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
+                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 100 },
+                { field: "ValorPis", title: 'Pis (R$)', width: 100 },
+                { field: "ValorCofins", title: 'Cofins (R$)', width: 100 }
             ]
-        });*@
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody tr').each(function () {
+            ajustaEnableDosCamposDaLinha(this);
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").die("change");
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").live("change", function () {
+            var linha = $(this).parents('tr:first');
+            ajustaEnableDosCamposDaLinha(linha, this);
+        });
 
     });
 </script>

@@ -80,36 +80,36 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["IdProcessoCotacao"] = idProcessoCotacao; 
             return PartialView("_SelecionarFornecedor");
         }
-        public ActionResult SelecionarCotacoes(int idProcessoCotacao)
+        //public ActionResult SelecionarCotacoes(int idProcessoCotacao)
+        //{
+        //    try
+        //    {
+        //        ViewBag.Ivas = _consultaIva.ListarTodos();
+        //        ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+        //        IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
+        //        return PartialView("_SelecionarCotacao", cotacoes);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewData["erro"] = ex.Message;
+        //        return PartialView("_SelecionarCotacao", new List<CotacaoSelecionarVm>());
+        //    }
+        //}
+
+        public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
         {
             try
             {
-                ViewBag.Ivas = _consultaIva.ListarTodos();
                 ViewData["IdProcessoCotacao"] = idProcessoCotacao;
-                IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
-                return PartialView("_SelecionarCotacao", cotacoes);
+                return PartialView("_SelecionarCotacao");
 
             }
             catch (Exception ex)
             {
-                ViewData["erro"] = ex.Message;
-                return PartialView("_SelecionarCotacao", new List<CotacaoSelecionarVm>());
-            }
-        }
-
-        public PartialViewResult SelecionarCotacoes2(int idProcessoCotacao)
-        {
-            try
-            {
-                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
-                return PartialView("_SelecionarCotacaoTemplate");
-
-            }
-            catch (Exception ex)
-            {
                 ViewData["IdProcessoCotacao"] = idProcessoCotacao;
                 ViewData["erro"] = ex.Message;
-                return PartialView("_SelecionarCotacaoTemplate");
+                return PartialView("_SelecionarCotacao");
             }
         }
 

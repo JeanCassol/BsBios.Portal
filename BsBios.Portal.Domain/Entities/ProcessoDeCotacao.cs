@@ -98,13 +98,18 @@ namespace BsBios.Portal.Domain.Entities
             return fornecedorParticipante.InformarCotacao(condicaoDePagamento,  incoterm, descricaoDoIncoterm,valorTotalSemImpostos, valorTotalComImpostos, mva);
         }
 
-        public virtual void SelecionarCotacao(string codigoFornecedor, decimal quantidadeAdquirida, Iva iva)
+        private Cotacao BuscarPodId(int idCotacao)
+        {
+            return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
+        }
+
+        public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, Iva iva)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
-            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor).Cotacao;
+            Cotacao cotacao = BuscarPodId(idCotacao);
             cotacao.Selecionar(quantidadeAdquirida, iva);
         }
         
@@ -114,7 +119,7 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
-            Cotacao cotacao = FornecedoresParticipantes.First(x => x.Cotacao.Id == idCotacao).Cotacao;
+            Cotacao cotacao = BuscarPodId(idCotacao);
             cotacao.RemoverSelecao(iva);
 
         }

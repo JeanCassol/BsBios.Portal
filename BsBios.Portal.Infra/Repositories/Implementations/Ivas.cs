@@ -18,5 +18,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
         }
+
+        public IIvas BuscaListaPorCodigo(string[] codigosIva)
+        {
+            Query = Query.Where(iva => codigosIva.Contains(iva.Codigo));
+            return this;
+        }
     }
 }

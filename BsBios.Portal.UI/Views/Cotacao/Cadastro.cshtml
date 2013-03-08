@@ -77,6 +77,7 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+        //Globalize.cultureSelector = 'pt-BR';
         $(function () {
             
             function atualizaMensagemDeErro(mensagem) {
@@ -137,7 +138,7 @@
                 $.post('@Url.Action("Salvar","CotacaoAtualizar" )', formData,
                     function (data) {
                         if (data.Sucesso) {
-                            ExibirMensagemDeSucesso(data.Sucesso);
+                            location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

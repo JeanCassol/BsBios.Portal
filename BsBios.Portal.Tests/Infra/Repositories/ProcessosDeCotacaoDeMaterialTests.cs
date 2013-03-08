@@ -64,7 +64,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.IsNotNull(processoConsultado);
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.NaoIniciado, processoConsultado.Status);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id ,processoConsultado.Id);
-            Assert.IsNull(processoConsultado.DataLimiteDeRetorno);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno, processoConsultado.DataLimiteDeRetorno);
             Assert.IsFalse(NHibernateUtil.IsInitialized(processoConsultado.RequisicaoDeCompra));
             Assert.AreEqual(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Id, processoConsultado.RequisicaoDeCompra.Id);
         }

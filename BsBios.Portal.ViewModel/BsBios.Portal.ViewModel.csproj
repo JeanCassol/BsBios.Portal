@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="CotacaoCadastroVm.cs" />
     <Compile Include="CotacaoDadosVm.cs" />
+    <Compile Include="CotacaoSelecaoVm.cs" />
     <Compile Include="CotacaoSelecionarVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
     <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="ListagemVmOld.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoSelecaoAtualizarVm.cs" />
     <Compile Include="ProdutoCadastroVm.cs" />
     <Compile Include="ProdutoFornecedorCadastroVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -89,7 +89,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoSemDataLimiteRetornoException))]
         public void NaoEPossivelAbrirOProcessoDeCotacaoSeADataLimiteDeRetornoNaoEstiverPreenchida()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
             processoDeCotacaoDeMaterial.Abrir();
         }
 
@@ -201,10 +202,10 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             string codigoDoFornecedor = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            processoDeCotacaoDeMaterial.InformarCotacao(codigoDoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+            Cotacao cotacao = processoDeCotacaoDeMaterial.InformarCotacao(codigoDoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                                         DefaultObjects.ObtemIncotermPadrao(), "inc", 120, null, null);
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacaoDeMaterial.SelecionarCotacao(processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo, 100,iva);
+            processoDeCotacaoDeMaterial.SelecionarCotacao(cotacao.Id, 100,iva);
             processoDeCotacaoDeMaterial.Fechar();
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
         }
@@ -232,7 +233,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.SelecionarCotacao("FORNEC0001", 100, iva);
+            int idCotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Id;
+            processoDeCotacao.SelecionarCotacao(idCotacao, 100, iva);
             
         }
 
@@ -269,11 +271,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10);
+            Cotacao cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10);
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.SelecionarCotacao(fornecedor.Codigo, new decimal(120.00), iva);
-
-            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            processoDeCotacao.SelecionarCotacao(cotacao.Id, new decimal(120.00), iva);
 
             Assert.IsTrue(cotacao.Selecionada);
             Assert.AreEqual(new decimal(120.00), cotacao.QuantidadeAdquirida);
@@ -291,11 +291,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10);
+            Cotacao cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10);
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.SelecionarCotacao(fornecedor.Codigo, new decimal(120.00), iva);
-
-            Cotacao cotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            processoDeCotacao.SelecionarCotacao(cotacao.Id, new decimal(120.00), iva);
 
             Iva ivaAlteracao = DefaultObjects.ObtemIvaPadrao();
             processoDeCotacao.RemoverSelecaoDaCotacao(cotacao.Id, ivaAlteracao);

@@ -1,5 +1,8 @@
 ﻿namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// utiliza para carregar a tela de seleção das cotações vencedoras
+    /// </summary>
     public class CotacaoSelecionarVm
     {
         public int IdCotacao { get; set; }

@@ -25,7 +25,7 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _atualizadorDeCotacao.Atualizar(cotacaoInformarVm);
-                return Json(new { Sucesso = cotacaoInformarVm != null });
+                return Json(new { Sucesso = true });
             }
             catch (Exception ex)
             {

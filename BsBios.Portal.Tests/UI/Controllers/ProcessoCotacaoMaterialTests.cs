@@ -6,6 +6,7 @@ using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.UI.Controllers
 {
@@ -63,12 +64,19 @@ namespace BsBios.Portal.Tests.UI.Controllers
         [TestMethod]
         public void QuandoEstaConectadoComOPerfilFornecedorViewBagContemActionDeEdicaoEsperada()
         {
-            var usuarioConectado = new UsuarioConectado("fornecedor", "Usuário Fornecedor", 2);
+            ObjectFactory.Configure(x => x.For<UsuarioConectado>()
+                .HybridHttpOrThreadLocalScoped()
+                .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", 2)));
+
             var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);
             Assert.AreEqual("/Cotacao/EditarCadastro", controller.ViewData["ActionEdicao"]);
+
+            ObjectFactory.Configure(x => x.For<UsuarioConectado>()
+                .HybridHttpOrThreadLocalScoped()
+                .Use(new UsuarioConectado("teste", "Usuário de Teste", 1)));
         }
 
 

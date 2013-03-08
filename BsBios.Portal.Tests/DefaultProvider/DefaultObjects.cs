@@ -89,8 +89,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, null);
-            processoDeCotacao.SelecionarCotacao(codigoFornecedor, 100, ObtemIvaPadrao());
+            Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, null);
+            processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
             processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
