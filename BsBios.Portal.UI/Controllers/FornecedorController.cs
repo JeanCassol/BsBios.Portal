@@ -40,10 +40,11 @@ namespace BsBios.Portal.UI.Controllers
             return View(vieModel);
         }
 
+        [HttpGet]
         public JsonResult ProdutosDoFornecedor(string codigoFornecedor)
         {
-            _consultaFornecedor.ProdutosDoFornecedor(codigoFornecedor);
-            return Json(new {});
+            KendoGridVm kendoGridVm = _consultaFornecedor.ProdutosDoFornecedor(codigoFornecedor);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }
 }

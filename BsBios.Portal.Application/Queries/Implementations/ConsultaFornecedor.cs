@@ -10,11 +10,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaFornecedor: IConsultaFornecedor
     {
         private readonly IFornecedores _fornecedores;
-        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builder;
+        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
+        private readonly IBuilder<Produto, ProdutoCadastroVm> _builderProduto;
 
-        public ConsultaFornecedor(IFornecedores fornecedores, IBuilder<Fornecedor, FornecedorCadastroVm> builder)
+        public ConsultaFornecedor(IFornecedores fornecedores, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor, IBuilder<Produto, ProdutoCadastroVm> builderProduto)
         {
-            _builder = builder;
+            _builderFornecedor = builderFornecedor;
+            _builderProduto = builderProduto;
             _fornecedores = fornecedores;
         }
 
@@ -25,7 +27,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             var kendoGrid = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _fornecedores.Count(),
-                Registros = _builder.BuildList(_fornecedores.List()).Cast<ListagemVm>().ToList()
+                Registros = _builderFornecedor.BuildList(_fornecedores.List()).Cast<ListagemVm>().ToList()
             };
 
             return kendoGrid;
@@ -42,7 +44,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 {
                     QuantidadeDeRegistros = _fornecedores.Count(),
                     Registros =
-                        _builder.BuildList(_fornecedores.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
+                        _builderFornecedor.BuildList(_fornecedores.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List())
                                 .Cast<ListagemVm>()
                                 .ToList()
 
@@ -52,12 +54,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor)
         {
-            return _builder.BuildSingle(_fornecedores.BuscaPeloCodigo(codigoDoFornecedor));
+            return _builderFornecedor.BuildSingle(_fornecedores.BuscaPeloCodigo(codigoDoFornecedor));
         }
 
         public KendoGridVm ProdutosDoFornecedor(string codigoFornecedor)
         {
-            throw new System.NotImplementedException();
+            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigo(codigoFornecedor);
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = fornecedor.Produtos.Count,
+                Registros = _builderProduto.BuildList(fornecedor.Produtos).Cast<ListagemVm>().ToList()
+            };
+            return kendoGridVm;
         }
     }
 }

@@ -20,14 +20,14 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarProduto(ProdutoCadastroVm produtoCadastroVm)
         {
-            Produto produto = _produtos.BuscaPeloCodigo(produtoCadastroVm.CodigoSap);
+            Produto produto = _produtos.BuscaPeloCodigo(produtoCadastroVm.Codigo);
             if (produto != null)
             {
                 produto.Atualizar(produtoCadastroVm.Descricao, produtoCadastroVm.Tipo);
             }
             else
             {
-                produto = new Produto(produtoCadastroVm.CodigoSap, produtoCadastroVm.Descricao, produtoCadastroVm.Tipo);
+                produto = new Produto(produtoCadastroVm.Codigo, produtoCadastroVm.Descricao, produtoCadastroVm.Tipo);
             }
             _produtos.Save(produto);
         }

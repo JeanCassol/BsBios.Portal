@@ -1,52 +1,37 @@
-﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model ProdutoCadastroVm
 
 @{
-    ViewBag.Title = "Cadastro";
-    Layout = null;
+    ViewBag.Title = "Produto - Consulta";
 }
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
-<div class="paginaCadastro">
-    @using (Html.BeginForm()) {
 
-        <fieldset>
-            <legend>ProdutoCadastroVm</legend>
+<div >
+    <fieldset>
+        <legend>Dados do Produto</legend>
+        @Html.LinhaComUmaColuna(new ColunaComLabel<ProdutoCadastroVm, string>(x => x.Codigo))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<ProdutoCadastroVm, string>(x => x.Descricao))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<ProdutoCadastroVm, string>(x => x.Tipo))
 
-            @Html.HiddenFor(model => model.Id)
+    </fieldset>
+    <fieldset>
+        <legend>Fornecedores do Produto</legend>
+        <div id="divGridFornecedoresDoProduto"></div>
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CodigoSap)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.CodigoSap)
-                @Html.ValidationMessageFor(model => model.CodigoSap)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Descricao)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Descricao)
-                @Html.ValidationMessageFor(model => model.Descricao)
-            </div>
-
-            @Html.ValidationSummary(true)
-            <p>
-                <input type="submit" value="Salvar" />
-                <input type="button" id="btnVoltarCadastroProduto" value="Voltar" />
-            </p>
-        </fieldset>
-    }
+    </fieldset>
 </div>
 
 
-@*@section Scripts {*@
-    @Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Cadastro/gridFornecedor.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#btnVoltarCadastroProduto').click(function() {
-                @*$('#body').load('@Url.Action("Index","Produto")');*@
-                location.href = '@Url.Action("Index","Produto")';
-            });
+            GridFornecedor.CarregarGrid('@Model.Codigo', "#divGridFornecedoresDoProduto", '@Url.Action("FornecedoresDoProduto","Produto")',false);
         });
     </script>
-@*}*@
+}

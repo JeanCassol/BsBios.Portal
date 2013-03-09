@@ -31,7 +31,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _produtoPadrao = new ProdutoCadastroVm()
                 {
-                    CodigoSap = "SAP 0001",
+                    Codigo = "SAP 0001",
                     Descricao = "PRODUTO 0001",
                     Tipo = "01"
                 };
@@ -40,13 +40,13 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "PROD0001",
+                            Codigo = "PROD0001",
                             Descricao =  "PRODUTO 0001",
                             Tipo = "01"
                         },
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "PROD0002" ,
+                            Codigo = "PROD0002" ,
                             Descricao = "PRODUTO 0002",
                             Tipo = "02"
                         }
@@ -140,7 +140,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "PROD0001"  ,
+                            Codigo = "PROD0001"  ,
                             Descricao = "PRODUTO 0001 Atualizado",
                             Tipo = "03"
                         }
@@ -165,7 +165,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "PROD0002",
+                            Codigo = "PROD0002",
                             Descricao = "PRODUTO 0002",
                             Tipo = "02"
                         }

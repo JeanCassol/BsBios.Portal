@@ -1,5 +1,32 @@
 ﻿GridFornecedor = {
-    CarregarGrid: function(codigoProduto, divParaCarregar, url) {
+    CarregarGrid: function (codigoProduto, divParaCarregar, url, incluirBotaoAdicionar) {
+        var arrayDeColunas = new Array();
+        if (incluirBotaoAdicionar) {
+            arrayDeColunas.push({
+                field: 'Codigo',
+                title: ' ', /*coloco um espaço para deixar o header sem título*/
+                width: 60,
+                sortable: false,
+                template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
+            });
+        }
+        arrayDeColunas = arrayDeColunas.concat(
+            {
+                field: "Codigo",
+                width: 90,
+                title: "Codigo"
+            },
+            {
+                field: "Nome",
+                width: 300,
+                title: "Nome"
+            },
+            {
+                width: 150,
+                field: "Email",
+                title: "E-mail"
+            });
+
         $(divParaCarregar).kendoGrid({
             dataSource: {
                 schema: {
@@ -49,29 +76,31 @@
                 }
             },
             selectable: 'row',
-            columns:
-            [
-                {
-                    field: 'Codigo',
-                    title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 60,
-                    sortable: false,
-                    template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
-                },
-                {
-                    field: "Codigo",
-                    width: 90,
-                    title: "Codigo"
-                }, {
-                    field: "Nome",
-                    width: 300,
-                    title: "Nome"
-                }, {
-                    width: 150,
-                    field: "Email",
-                    title: "E-mail"
-                }
-            ]
+            columns: arrayDeColunas
+        //    [
+        //        {
+        //            field: 'Codigo',
+        //            title: ' ', /*coloco um espaço para deixar o header sem título*/
+        //            width: 60,
+        //            sortable: false,
+        //            template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
+        //        },
+        //        {
+        //            field: "Codigo",
+        //            width: 90,
+        //            title: "Codigo"
+        //        },
+        //        {
+        //            field: "Nome",
+        //            width: 300,
+        //            title: "Nome"
+        //        },
+        //        {
+        //            width: 150,
+        //            field: "Email",
+        //            title: "E-mail"
+        //        }
+        //    ]
         });
 
     }

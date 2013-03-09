@@ -67,8 +67,8 @@ namespace BsBios.Portal.UI.Controllers
                 {
                     for (int i = 0; i < produtos.Count; i++)
                     {
-                        detalhes += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].CodigoSap)
-                                                ? "nulo" : produtos[i].CodigoSap)
+                        detalhes += "Produto " + i + ": Codigo: " + ( string.IsNullOrEmpty(produtos[i].Codigo)
+                                                ? "nulo" : produtos[i].Codigo)
                                                   + " - Tipo: " + (string.IsNullOrEmpty(produtos[i].Tipo)
                                                   ? "nulo" : produtos[i].Tipo
                                                   + " - Descricao: "  +  (string.IsNullOrEmpty(produtos[i].Descricao)
@@ -99,13 +99,13 @@ namespace BsBios.Portal.UI.Controllers
                 {
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "SAP1000",
+                            Codigo = "SAP1000",
                             Descricao = "Bio Diesel",
                             Tipo = "1"
                         },
                     new ProdutoCadastroVm()
                         {
-                            CodigoSap = "SAP2000",
+                            Codigo = "SAP2000",
                             Descricao = "Soja",
                             Tipo = "2"
                         }

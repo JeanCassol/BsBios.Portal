@@ -14,6 +14,9 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Fornecedor, FornecedorCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FornecedorCadastroBuilder>();
+            For<IBuilder<Produto, ProdutoCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProdutoCadastroBuilder>();
             For<IBuilder<CondicaoDePagamento, CondicaoDePagamentoCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CondicaoPagamentoCadastroBuilder>();

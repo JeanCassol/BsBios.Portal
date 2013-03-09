@@ -23,7 +23,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
             var produtoCadastroVm = new ProdutoCadastroVm()
                 {
-                    CodigoSap = "SAP 0001",
+                    Codigo = "SAP 0001",
                     Descricao = "PRODUTO 0001"
                 };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/Post");
@@ -42,7 +42,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
             var produtoCadastroVm = new ProdutoCadastroVm()
             {
-                CodigoSap = "SAP 0001",
+                Codigo = "SAP 0001",
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/Post");
@@ -64,7 +64,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
             var produtoCadastroVm = new ProdutoCadastroVm()
             {
-                CodigoSap = "SAP 0001",
+                Codigo = "SAP 0001",
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
@@ -85,7 +85,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var produtoApiController = new ProdutoApiController(cadastroProdutoMock.Object);
             var produtoCadastroVm = new ProdutoCadastroVm()
             {
-                CodigoSap = "SAP 0001",
+                Codigo = "SAP 0001",
                 Descricao = "PRODUTO 0001"
             };
             produtoApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/ProdutoApi/PostMultiplo");
