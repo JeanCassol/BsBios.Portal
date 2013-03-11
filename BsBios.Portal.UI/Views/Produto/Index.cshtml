@@ -34,7 +34,6 @@
                     schema: {
                         data: 'Registros',
                         model: {
-                            id: 'Id',
                             fields: {
                                 Descricao: {type: "string"},
                                 Codigo: { type: "string" },
@@ -96,7 +95,6 @@
 
             $('.button_visualize').die("click");
             $('.button_visualize').live("click", function(e) {
-                e.preventDefault();
                 e.preventDefault();
                 location.href = '@Url.Action("Cadastro", "Produto")' + '/?codigoProduto=' + $(this).attr('data-codigoProduto');
             });

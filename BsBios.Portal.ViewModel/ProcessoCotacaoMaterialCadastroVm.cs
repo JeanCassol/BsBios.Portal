@@ -50,5 +50,11 @@ namespace BsBios.Portal.ViewModel
         //public string Observacoes { get; set; }
 
         public RequisicaoDeCompraVm RequisicaoDeCompraVm { get; set; }
+
+        public bool PermiteAlterarFornecedores { get; set; }
+        public bool PermiteSelecionarCotacoes { get; set; }
+        public bool PermitirAbrirProcesso { get; set; }
+        public bool PermiteFecharProcesso { get; set; }
+        public bool PermiteSalvar { get; set; }
     }
 }

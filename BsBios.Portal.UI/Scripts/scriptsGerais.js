@@ -14,7 +14,10 @@ String.prototype.boolean = function () {
 
 $(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
-    $('.campoDatePicker').datepicker();
+    var camposDatePicker = $('.campoDatePicker').length;
+    if (camposDatePicker.length > 0) {
+        $(camposDatePicker).datepicker();
+    }
     
     $.fn.customKendoGrid = function (c) {
         c.groupable = false;

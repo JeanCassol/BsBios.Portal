@@ -7,64 +7,130 @@ namespace BsBios.Portal.Infra.Builders
     public class MenuUsuarioBuilder
     {
         //private readonly Enumeradores.Perfil _perfil;
-        private readonly MenuBuilder _builder;
+        //private readonly MenuBuilder _builder;
+        private readonly IList<Enumeradores.Perfil>  _perfis;
 
-        public MenuUsuarioBuilder(int perfil)
+        public MenuUsuarioBuilder(IList<Enumeradores.Perfil> perfis)
         {
-            var enumPerfil = (Enumeradores.Perfil) perfil;
-
-            if (enumPerfil == Enumeradores.Perfil.Comprador)
-            {
-                _builder = new MenuCompradorBuilder();
-            }
-            if (enumPerfil == Enumeradores.Perfil.Fornecedor)
-            {
-                _builder = new MenuFornecedorBuider();
-            }
+            _perfis = perfis;
         }
 
         public IList<Menu> Construct()
         {
-            return _builder.BuildMenu();
-        }
-
-    }
-
-    internal abstract class MenuBuilder
-    {
-        public abstract IList<Menu> BuildMenu();
-    }
-
-    internal class MenuCompradorBuilder : MenuBuilder
-    {
-        public override IList<Menu> BuildMenu()
-        {
             var menus = new List<Menu>();
-            var menuCadastro = new Menu("Cadastros");
-            menuCadastro.AdicionarItem("Produtos", "Produto", "Index");
-            menuCadastro.AdicionarItem("Fornecedores", "Fornecedor", "Index");
-            menuCadastro.AdicionarItem("Centros", "Centro", "Index");
-            menuCadastro.AdicionarItem("Itinerários", "Itinerario", "Index");
-            menus.Add(menuCadastro);
+            if (_perfis.Contains(Enumeradores.Perfil.CompradorLogistica) ||
+                _perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
+            {
+                menus.Add(new MenuCadastro());
+            }
+            if (_perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
+            {
+                menus.Add(new MenuLogistica());
+            }
+            if (_perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
+            {
+                menus.Add(new MenuSuprimentos());
+            }
 
-            var menuCotacao = new Menu("Cotações");
-            menuCotacao.AdicionarItem("Cotações de Material", "ProcessoCotacaoMaterial", "Index");
-            menuCotacao.AdicionarItem("Adicionar", "CotacaoFrete", "NovoCadastro");
-            menus.Add(menuCotacao);
+            if (_perfis.Contains(Enumeradores.Perfil.Fornecedor))
+            {
+                menus.Add(new MenuFornecedor());
+            }
 
+            if (_perfis.Contains(Enumeradores.Perfil.Administrador))
+            {
+                menus.Add(new MenuAdministrativo());
+            }
             return menus;
         }
-    }
-    internal class MenuFornecedorBuider: MenuBuilder
-    {
-        public override IList<Menu> BuildMenu()
-        {
-            var menus = new List<Menu>();
-            var menuCotacao = new Menu("Cotações");
-            menuCotacao.AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
-            menus.Add(menuCotacao);
 
-            return menus;
+    }
+
+    internal class MenuCadastro: Menu
+    {
+        public MenuCadastro() : base("Cadastros")
+        {
+            AdicionarItem("Produtos", "Produto", "Index");
+            AdicionarItem("Fornecedores", "Fornecedor", "Index");
         }
     }
+
+    internal class MenuLogistica: Menu
+    {
+        public MenuLogistica() : base("Cotações de Frete")
+        {
+            AdicionarItem("Listar", "ProcessoCotacaoFrete", "Index");
+            AdicionarItem("Adicionar", "ProcessoCotacaoFrete", "NovoCadastro");
+        }
+    }
+
+    internal class MenuSuprimentos : Menu
+    {
+        public MenuSuprimentos()
+            : base("Cotações de Materiais")
+        {
+            AdicionarItem("Listar", "ProcessoCotacaoMaterial", "Index");
+        }
+    }
+
+    internal class MenuFornecedor : Menu
+    {
+        public MenuFornecedor()
+            : base("Minhas Cotações")
+        {
+            AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
+        }
+    }
+
+    internal class MenuAdministrativo : Menu
+    {
+        public MenuAdministrativo()
+            : base("Administrativo")
+        {
+            AdicionarItem("Usuários", "Usuario", "Index");
+        }
+    }
+
+
+    //internal abstract class MenuBuilder
+    //{
+    //    public abstract IList<Menu> BuildMenu();
+    //}
+
+    //internal class MenuCompradorLogisticaBuilder : MenuBuilder
+    //{
+    //    public override IList<Menu> BuildMenu()
+    //    {
+    //        var menus = new List<Menu>();
+    //        menus.Add(new MenuCadastro());
+    //        menus.Add(new MenuLogistica());
+
+    //        return menus;
+    //    }
+    //}
+
+    //internal class MenuCompradorSuprimentosBuilder : MenuBuilder
+    //{
+    //    public override IList<Menu> BuildMenu()
+    //    {
+    //        var menus = new List<Menu>();
+    //        menus.Add(new MenuCadastro());
+    //        menus.Add(new MenuLogistica());
+
+    //        return menus;
+    //    }
+    //}
+
+    //internal class MenuFornecedorBuider: MenuBuilder
+    //{
+    //    public override IList<Menu> BuildMenu()
+    //    {
+    //        var menus = new List<Menu>();
+    //        var menuCotacao = new Menu("Cotações");
+    //        menuCotacao.AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
+    //        menus.Add(menuCotacao);
+
+    //        return menus;
+    //    }
+    //}
 }

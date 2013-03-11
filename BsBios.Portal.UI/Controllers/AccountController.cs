@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using BsBios.Portal.Common.Exceptions;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
-using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
-using StructureMap;
-using StructureMap.Pipeline;
 using WebMatrix.WebData;
 
 namespace BsBios.Portal.UI.Controllers
@@ -91,11 +86,14 @@ namespace BsBios.Portal.UI.Controllers
             return RedirectToAction("Index", "Account");
         }
 
-        //
-        // GET: /Account/Register
-
-        [AllowAnonymous]
-        public ActionResult Register()
+        [HttpGet]
+        public ActionResult EsqueciMinhaSenha(string login)
+        {
+            ViewBag.ReturnUrl = "";
+            return View("EsqueciMinhaSenha",login);
+        }
+        
+        public ActionResult AlterarSenha()
         {
             return View();
         }
@@ -203,5 +201,6 @@ namespace BsBios.Portal.UI.Controllers
             }
         }
         #endregion
+
     }
 }

@@ -39,7 +39,7 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        public virtual void AdicionarFornecedor(Fornecedor fornecedor)
+        public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
@@ -48,10 +48,11 @@ namespace BsBios.Portal.Domain.Entities
             var fornecedorConsulta = FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == fornecedor.Codigo);
             if (fornecedorConsulta != null)
             {
-                return;
+                return fornecedorConsulta;
             }
             var fornecedorParticipante = new FornecedorParticipante(this, fornecedor);
             FornecedoresParticipantes.Add(fornecedorParticipante);
+            return fornecedorParticipante;
         }
         public virtual void RemoverFornecedor(string codigoFornecedor)
         {

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
@@ -15,7 +17,8 @@ namespace BsBios.Portal.Tests.Application.Services
     public class CadastroFornecedorTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-        private readonly Mock<IFornecedores> _fornecedoresMock; 
+        private readonly Mock<IFornecedores> _fornecedoresMock;
+        private readonly Mock<IUsuarios> _usuariosMock; 
         private readonly FornecedorCadastroVm _fornecedorCadastroVm;
         private readonly ICadastroFornecedor _cadastroFornecedor;
          
@@ -28,7 +31,10 @@ namespace BsBios.Portal.Tests.Application.Services
             _fornecedoresMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                 .Returns((string f) => f == "FORNEC0001" ? new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br") : null);
 
-            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object);
+            _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
+
+            _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object, _usuariosMock.Object);
 
             _fornecedorCadastroVm = new FornecedorCadastroVm()
                 {
@@ -43,14 +49,7 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _cadastroFornecedor.Novo(_fornecedorCadastroVm);
             _fornecedoresMock.Verify(x => x.Save(It.IsAny<Fornecedor>()),Times.Once());
-        }
-        [TestMethod]
-        public void QuandoCadastroUmNovoFornecedorComSucessoERealizadoCommit()
-        {
-            _cadastroFornecedor.Novo(_fornecedorCadastroVm);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(),Times.Once());
-            _unitOfWorkMock.Verify(x =>x.RollBack(), Times.Never());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
         [TestMethod]
         public void QuandoOcorreAlgumaExcecaoEhRealizadoRollback()
@@ -65,9 +64,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
@@ -116,6 +113,55 @@ namespace BsBios.Portal.Tests.Application.Services
                         }
                 });
 
+        }
+        [TestMethod]
+        public void QuandoCadastrarUmNovoFornecedorTemQueCriarUmUsuarioParaOFornecedorComPerfilFornecedor()
+        {
+
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()))
+                         .Callback((Usuario usuario) =>
+                             {
+                                 Assert.IsNotNull(usuario);
+                                 Assert.AreEqual("FORNEC0002", usuario.Login);
+                                 Assert.AreEqual("FORNECEDOR 0002", usuario.Nome);
+                                 Assert.AreEqual("fornecedor0002@empresa.com.br", usuario.Email);
+                                 Assert.AreEqual(1,usuario.Perfis.Count(x => x == Enumeradores.Perfil.Fornecedor ));
+
+                                 _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                                 _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+
+                             });
+
+            _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
+                {
+                    new FornecedorCadastroVm()
+                        {
+                            Codigo = "FORNEC0002" ,
+                            Nome =  "FORNECEDOR 0002",
+                            Email = "fornecedor0002@empresa.com.br"
+                        }
+                });
+
+            _usuariosMock.Verify(x => x.Save(It.IsAny<Usuario>()), Times.Once());
+
+            
+        }
+
+        [TestMethod]
+        public void QuandoAlteraUmFornecedorNaoAlteraUsuarioDoFornecedor()
+        {
+            _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
+                {
+                    new FornecedorCadastroVm()
+                        {
+                            Codigo ="FORNEC0001" ,
+                            Nome = "FORNECEDOR 0001 ATUALIZADO" ,
+                            Email = "emailatualizado@empresa.com.br"
+                        }
+                });
+
+            _usuariosMock.Verify(x => x.Save(It.IsAny<Usuario>()), Times.Never());
+            
         }
 
     }

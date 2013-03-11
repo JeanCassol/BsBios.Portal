@@ -77,30 +77,6 @@
             },
             selectable: 'row',
             columns: arrayDeColunas
-        //    [
-        //        {
-        //            field: 'Codigo',
-        //            title: ' ', /*coloco um espaço para deixar o header sem título*/
-        //            width: 60,
-        //            sortable: false,
-        //            template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
-        //        },
-        //        {
-        //            field: "Codigo",
-        //            width: 90,
-        //            title: "Codigo"
-        //        },
-        //        {
-        //            field: "Nome",
-        //            width: 300,
-        //            title: "Nome"
-        //        },
-        //        {
-        //            width: 150,
-        //            field: "Email",
-        //            title: "E-mail"
-        //        }
-        //    ]
         });
 
     }

@@ -12,7 +12,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            var fornecedorParticipante = new FornecedorParticipante(processoDeCotacaoDeMaterial, fornecedor);
+            var fornecedorParticipante = processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id, fornecedorParticipante.ProcessoDeCotacao.Id);
             Assert.AreEqual(fornecedor.Codigo, fornecedorParticipante.Fornecedor.Codigo);
         }

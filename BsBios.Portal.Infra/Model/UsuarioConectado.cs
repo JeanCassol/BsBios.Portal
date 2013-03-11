@@ -1,15 +1,18 @@
-﻿namespace BsBios.Portal.Infra.Model
+﻿using System.Collections.Generic;
+using BsBios.Portal.Common;
+
+namespace BsBios.Portal.Infra.Model
 {
     public class UsuarioConectado
     {
         public string Login { get; set; }
         public string NomeCompleto { get; set; }
-        public int Perfil { get; set; }
-        public UsuarioConectado(string login, string nomeCompleto, int perfil)
+        public IList<Enumeradores.Perfil> Perfis { get; set; }
+        public UsuarioConectado(string login, string nomeCompleto, IList<Enumeradores.Perfil>perfis )
         {
             Login = login;
             NomeCompleto = nomeCompleto;
-            Perfil = perfil;
+            Perfis = perfis;
         }
         
     }

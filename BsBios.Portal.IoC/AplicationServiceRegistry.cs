@@ -53,6 +53,11 @@ namespace BsBios.Portal.IoC
             For<IAtualizadorDeCotacao>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AtualizadorDeCotacao>();
+
+            For<IGerenciadorUsuario>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GerenciadorUsuario>();
+
         }
     }
 }

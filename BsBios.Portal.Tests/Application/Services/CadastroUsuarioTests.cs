@@ -2,7 +2,6 @@
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
@@ -28,27 +27,29 @@ namespace BsBios.Portal.Tests.Application.Services
             _provedorDeCriptografiaMock = new Mock<IProvedorDeCriptografia>(MockBehavior.Strict);
             _provedorDeCriptografiaMock.Setup(x => x.Criptografar(It.IsAny<string>())).Returns("criptografado");
 
+            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
+
             _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()))
-                .Callback((Usuario usuario) => Assert.IsNotNull(usuario) );
+                .Callback(CommonGenericMocks<Usuario>.DefaultSaveCallBack(_unitOfWorkMock));
+
+
             _usuariosMock.Setup(x => x.BuscaPorLogin(It.IsAny<string>()))
                          .Returns(
                              (string login) =>
                              login == "USER001"
-                                 ? new UsuarioParaAtualizacao("USUARIO 001", "USER001", "", Enumeradores.Perfil.Comprador)
+                                 ? new UsuarioParaAtualizacao("USUARIO 001", "USER001", "")
                                   : null);
 
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
 
-            _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object,_provedorDeCriptografiaMock.Object);
+            _cadastroUsuario = new CadastroUsuario(_unitOfWorkMock.Object, _usuariosMock.Object);
 
             _usuarioPadrao = new UsuarioCadastroVm()
                 {
                     Nome = "Mauro Leal",
                     Login =  "mauroscl",
-                    //Senha = "123" ,
-                    Email = "mauro.leal@fusionconsultoria.com.br" ,
-                    //CodigoPerfil = 1
+                    Email = "mauro.leal@fusionconsultoria.com.br"
                 };
 
 
@@ -83,9 +84,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public void QuandoCadastroUmNovoUsuarioExisteControleDeTransacao()
         {
             _cadastroUsuario.Novo(_usuarioPadrao);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -98,9 +97,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch(ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
@@ -155,20 +152,12 @@ namespace BsBios.Portal.Tests.Application.Services
 
         #endregion
 
-        #region criar senha
-        [TestMethod]
-        public void UmaNovaSenhaCriadaParaOUsarioECriptografada()
-        {
-            Assert.Fail();
-        }
-        #endregion
-
 
     }
 
     public class UsuarioParaAtualizacao: Usuario
     {
-        public UsuarioParaAtualizacao(string nome, string login, string email, Enumeradores.Perfil perfil) : base(nome, login, email, perfil)
+        public UsuarioParaAtualizacao(string nome, string login, string email) : base(nome, login, email)
         {
         }
     }

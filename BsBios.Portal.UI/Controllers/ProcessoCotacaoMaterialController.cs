@@ -26,12 +26,12 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult Index()
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            if (usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Comprador)
+            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.CompradorSuprimentos))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoCotacaoMaterial");
 
             }
-            if (usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
+            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "Cotacao");
             }
@@ -43,7 +43,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             var filtro = new ProcessoCotacaoMaterialFiltroVm();
-            if (usuarioConectado.Perfil == (int) Common.Enumeradores.Perfil.Fornecedor)
+            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.Fornecedor))
             {
                 filtro.CodigoFornecedor = usuarioConectado.Login;
             }

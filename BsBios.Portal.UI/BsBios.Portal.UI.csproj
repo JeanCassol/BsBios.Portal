@@ -137,7 +137,9 @@
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\CotacaoAtualizarController.cs" />
     <Compile Include="Controllers\CotacaoController.cs" />
+    <Compile Include="Controllers\GerenciadorUsuarioController.cs" />
     <Compile Include="Controllers\IvaController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoFornecedoresServiceController.cs" />
     <Compile Include="Controllers\IncotermApiController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoSelecionarController.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="Controllers\LeilaoController.cs" />
     <Compile Include="Controllers\ProdutoApiController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Filters\ApiAuthorizationFilter.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -379,15 +382,8 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\AlterarSenha.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -412,6 +408,9 @@
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Cadastro.cshtml" />
+    <Content Include="Views\Account\EsqueciMinhaSenha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

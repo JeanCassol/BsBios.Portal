@@ -1,5 +1,4 @@
 ﻿using System;
-using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +11,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoCrioUmaRequisicaoAsPropriedadesFicamCorretas()
         {
-            var usuarioCriador = new Usuario("Usuario Criador", "criador", "", Enumeradores.Perfil.Comprador);
+            var usuarioCriador = new Usuario("Usuario Criador", "criador", "");
             var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);
@@ -43,7 +42,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoGeroUmProcessoDeCotacaoAtravesDaRequisicaoDeCompraOProcessoFicaVinculadoComARequisicao()
         {
             RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            var processoDeCotacao = (ProcessoDeCotacaoDeMaterial) requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            var processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
             Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
         }

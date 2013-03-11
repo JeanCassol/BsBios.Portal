@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.UI.Controllers;
@@ -66,7 +68,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         {
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()
-                .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", 2)));
+                .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", new List<Enumeradores.Perfil>{Enumeradores.Perfil.Fornecedor})));
 
             var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
             CommonMocks.MockControllerUrl(controller);
@@ -76,7 +78,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
 
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()
-                .Use(new UsuarioConectado("teste", "Usuário de Teste", 1)));
+                .Use(new UsuarioConectado("teste", "Usuário de Teste", new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos})));
         }
 
 

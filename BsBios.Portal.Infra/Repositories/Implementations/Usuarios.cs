@@ -16,5 +16,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(u => u.Login.ToLower() == login.ToLower());
         }
+
+        public IUsuarios FiltraPorNome(string filtroNome)
+        {
+            Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+            return this;
+        }
     }
 }

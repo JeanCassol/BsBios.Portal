@@ -1,10 +1,15 @@
-﻿namespace BsBios.Portal.Application.Services.Contracts
+﻿using System.Collections.Generic;
+using BsBios.Portal.Common;
+using BsBios.Portal.ViewModel;
+
+namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface IGerenciadorUsuario
     {
-        void CriarSenha(string login, string senha);
+        UsuarioConsultaVm CriarSenha(string login);
         void AlterarSenha(string login, string senhaAtual, string senhaNova);
-        void Habilitar(string login);
-        void Desabilitar(string login);
+        void Ativar(string login);
+        void Bloquear(string login);
+        void AtualizarPerfis(string login, IList<Enumeradores.Perfil> perfis);
     }
 }

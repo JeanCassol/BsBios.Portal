@@ -38,11 +38,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     if (login == "criador")
                     {
-                        return new Usuario("Usuário Criador", "criador", null, Enumeradores.Perfil.Comprador);
-                    }
-                    if (login == "requisitante")
-                    {
-                        return new Usuario("Usuário Requisitante", "requisitante", null, Enumeradores.Perfil.Comprador);
+                        return new Usuario("Usuário Criador", "criador", null);
                     }
                     return null;
                 });

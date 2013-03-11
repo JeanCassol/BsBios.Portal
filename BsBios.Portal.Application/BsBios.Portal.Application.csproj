@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\PerfilBuilder.cs" />
+    <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
     <Compile Include="Queries\Builders\ProdutoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IvaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
@@ -50,16 +52,20 @@
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
     <Compile Include="Queries\Contracts\IConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
+    <Compile Include="Queries\Contracts\IConsultaPerfil.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Contracts\IConsultaProduto.cs" />
+    <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
+    <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
+    <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
@@ -75,6 +81,7 @@
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />

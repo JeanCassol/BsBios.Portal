@@ -24,15 +24,17 @@
             <legend>Processo de Cotação</legend>
             @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DescricaoStatus))
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
-
+            <div class="divBotao">
+                <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
+            </div>
         </fieldset>
         <fieldset>
             <legend>Fornecedores</legend>
             <div class="divBotao">
-                <input type="button" id="btnSelecionarFornecedores" value="Fornecedores" class="blue" style="width: 130px"/>
+                <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 220px"/>
             </div>
             
-            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary(){new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0)})
+            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary() { new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0) })
         </fieldset>
            
         <div class="error">
@@ -43,13 +45,14 @@
         </div>
 
         @Html.ValidationSummary(true)
-
-        <div class="divBotao">
-            <input type="button" id="btnIniciarProcesso" value="Iniciar" class="blue" />
-            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" />
-            <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
-            <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
-        </div>
+        <fieldset>
+            <legend>Ações</legend>
+            <div class="divBotao">
+                <input type="button" id="btnIniciarProcesso" value="Abrir" class="blue" />
+                <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+                <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+            </div>
+        </fieldset>
     }
     <div id="divSelecionarFornecedores"></div>
     <div id="divSelecionarCotacoes"></div>
@@ -129,7 +132,7 @@
                             var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
                             var quantidadeAdquirida = $(this).find('input[name=QuantidadeAdquirida]').val();
                             if (selecionada && quantidadeAdquirida == "") {
-                                ExibirMensagemDeErro("Deve ser preenchida a Quantidade de todos os Fornecedores selecionados.");
+                                Mensagem.ExibirMensagemDeErro("Deve ser preenchida a Quantidade de todos os Fornecedores selecionados.");
                                 dadosValidos = false;
                                 return;
                             }

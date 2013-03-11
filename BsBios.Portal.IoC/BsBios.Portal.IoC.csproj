@@ -59,6 +59,10 @@
       <Project>{A2DA2E00-3386-4EC4-8D95-D98C5052F636}</Project>
       <Name>BsBios.Portal.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>BsBios.Portal.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
       <Name>BsBios.Portal.Domain</Name>

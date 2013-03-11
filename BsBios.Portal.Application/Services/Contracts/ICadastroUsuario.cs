@@ -7,6 +7,5 @@ namespace BsBios.Portal.Application.Services.Contracts
     {
         void Novo(UsuarioCadastroVm usuarioVm);
         void AtualizarUsuarios(IList<UsuarioCadastroVm> usuarios);
-        void CriarSenha(string login, string senha);
     }
 }

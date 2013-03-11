@@ -37,10 +37,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlterarSenhaVm.cs" />
     <Compile Include="CotacaoCadastroVm.cs" />
     <Compile Include="CotacaoDadosVm.cs" />
     <Compile Include="CotacaoSelecaoVm.cs" />
     <Compile Include="CotacaoSelecionarVm.cs" />
+    <Compile Include="PerfilVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
     <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />
@@ -61,7 +63,6 @@
     <Compile Include="FornecedorListagemVm.cs" />
     <Compile Include="ItinerarioCadastroVm.cs" />
     <Compile Include="IvaCadastroVm.cs" />
-    <Compile Include="ListagemVmOld.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="PaginacaoVm.cs" />
     <Compile Include="ProcessoDeCotacaoSelecaoAtualizarVm.cs" />

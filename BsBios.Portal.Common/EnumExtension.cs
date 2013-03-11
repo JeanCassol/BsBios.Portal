@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -17,6 +18,7 @@ namespace BsBios.Portal.Common
 
         public static Enum GetEnumByDescription(Type value, string description)
         {
+            
             FieldInfo[] fis = value.GetFields();
             foreach (FieldInfo fi in fis)
             {
@@ -31,6 +33,7 @@ namespace BsBios.Portal.Common
             }
             return null;
         }
+
     }
 
 }

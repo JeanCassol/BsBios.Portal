@@ -80,6 +80,7 @@
     <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
     <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
     <Compile Include="Application\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
+    <Compile Include="Application\Queries\ConsultaPerfilTests.cs" />
     <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
@@ -93,8 +94,11 @@
     <Compile Include="Application\Services\ProcessoDeCotacaoStatusServiceTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
     <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />
+    <Compile Include="Application\Services\GerenciadorUsuarioTests.cs" />
     <Compile Include="BaseTestClass.cs" />
+    <Compile Include="Common\CommonGenericMocks.cs" />
     <Compile Include="Common\CommonMocks.cs" />
+    <Compile Include="Common\CommonVerifications.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
     <Compile Include="DefaultProvider\DefaultObjects.cs" />
     <Compile Include="DefaultProvider\DefaultPersistedObjects.cs" />

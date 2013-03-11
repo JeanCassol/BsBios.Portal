@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
@@ -28,13 +29,29 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 throw new UsuarioNaoCadastradoException(login);
             }
+
+            if (usuario.Status == Enumeradores.StatusUsuario.Bloqueado)
+            {
+                throw new UsuarioBloqueadoException(usuario.Login);
+            }
+
+            if (string.IsNullOrEmpty(usuario.Senha))
+            {
+                throw new UsuarioSemSenhaException(usuario.Login);
+            }
+
+            if (!usuario.Perfis.Any())
+            {
+                 throw new UsuarioSemPerfilException(usuario.Login);
+            }
+
             string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
             if (usuario.Senha == senhaCriptografada)
             {
-                return new UsuarioConectado(usuario.Login, usuario.Nome,(int) usuario.Perfil);
+                return new UsuarioConectado(usuario.Login, usuario.Nome,usuario.Perfis);
                     
             }
-            throw new SenhaIncorretaException();
+            throw new SenhaIncorretaException("A senha informada está incorreta");
         }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace BsBios.Portal.Infra.Model
 {
-    public class Menu
+    public abstract class Menu
     {
         public string Descricao { get; set; }    
         public IList<MenuItem> Itens { get; protected set; }
 
-        public Menu(string descricao)
+        protected Menu(string descricao)
         {
             Descricao = descricao;
             Itens = new List<MenuItem>();

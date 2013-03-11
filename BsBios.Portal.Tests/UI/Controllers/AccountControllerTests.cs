@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -22,7 +24,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoLogarComCredenciaisValidasDeveRedirecionarParaPaginaInicial()
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
-            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001","comprador",1));
+            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001","comprador",new List<Enumeradores.Perfil>()));
             var accountController = new AccountController(accountServiceMock.Object);
 
             var result = (RedirectToRouteResult) accountController.Login(new LoginVm(){Usuario  = "comprador",Senha = "123"},"");
@@ -35,7 +37,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoLogarComUrlDeRetornoDeveRetornarParaUrlDeRetorno()
         {
             var accountServiceMock = new Mock<IAccountService>(MockBehavior.Strict);
-            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001", "comprador", 1));
+            accountServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(new UsuarioConectado("user001", "comprador", new List<Enumeradores.Perfil>()));
             var accountController = new AccountController(accountServiceMock.Object);
 
             CommonMocks.MockControllerUrl(accountController);

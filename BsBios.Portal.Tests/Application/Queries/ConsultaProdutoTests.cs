@@ -27,7 +27,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                         .Returns(produto);
 
-            var consultaProduto = new ConsultaProduto(produtosMock.Object, new FornecedorCadastroBuilder());
+            var consultaProduto = new ConsultaProduto(produtosMock.Object, new FornecedorCadastroBuilder(),new ProdutoCadastroBuilder());
 
             var kendoGridVm = consultaProduto.FornecedoresDoProduto("PROD0001");
 

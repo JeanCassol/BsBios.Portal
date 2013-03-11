@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -12,11 +13,13 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFornecedores _fornecedores;
+        private readonly IUsuarios _usuarios;
 
-        public CadastroFornecedor(IUnitOfWork unitOfWork, IFornecedores fornecedores)
+        public CadastroFornecedor(IUnitOfWork unitOfWork, IFornecedores fornecedores, IUsuarios usuarios)
         {
             _unitOfWork = unitOfWork;
             _fornecedores = fornecedores;
+            _usuarios = usuarios;
         }
 
         public void Novo(FornecedorCadastroVm fornecedorCadastroVm)
@@ -38,10 +41,13 @@ namespace BsBios.Portal.Application.Services.Implementations
         private void AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
         {
             Fornecedor fornecedor = _fornecedores.BuscaPeloCodigo(fornecedorCadastroVm.Codigo);
+            Usuario usuario = null;
 
             if (fornecedor == null)
             {
                 fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
+                usuario = new Usuario(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Email);
+                usuario.AdicionarPerfil(Enumeradores.Perfil.Fornecedor);
             }
             else
             {
@@ -49,6 +55,10 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
                              
             _fornecedores.Save(fornecedor);
+            if (usuario != null)
+            {
+                _usuarios.Save(usuario);
+            }
         }
 
         public void AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores)

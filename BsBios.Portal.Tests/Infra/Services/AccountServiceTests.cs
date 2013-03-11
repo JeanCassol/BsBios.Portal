@@ -1,11 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using StructureMap;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
@@ -27,7 +27,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                                      {
                                          if (u == "comprador" && s == "123")
                                          {
-                                             return new UsuarioConectado("user001", "Comprador", 1);
+                                             return new UsuarioConectado("user001", "Comprador", new List<Enumeradores.Perfil>(){Enumeradores.Perfil.CompradorSuprimentos});
                                          }
                                          else
                                          {
@@ -37,12 +37,6 @@ namespace BsBios.Portal.Tests.Infra.Services
                 );
         }
 
-        [TestMethod]
-        public void ConsigoInstanciarOServiceViaIoC()
-        {
-            var servico = ObjectFactory.GetInstance<IAccountService>();
-            Assert.IsInstanceOfType(servico, typeof(AccountService));
-        }
 
         [TestMethod]
         public void QuandoLogarComUmUsuarioValidoDeveAutenticar()
@@ -81,10 +75,6 @@ namespace BsBios.Portal.Tests.Infra.Services
                 _authenticationProviderMock.Verify(x => x.Autenticar(It.IsAny<UsuarioConectado>()), Times.Never());
             }
 
-
-            
-
-            
         }
 
 

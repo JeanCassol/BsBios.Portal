@@ -1,0 +1,310 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model UsuarioConsultaVm
+
+@{
+    ViewBag.TituloDaPagina = "Usuário - Editar";
+}
+
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<style type="text/css">
+    .gridPerfil {
+        width: 280px
+    }
+    .fieldSetPerfil {
+        width: 300px;
+        height: 240px;
+        display: inline-block
+    }
+</style>
+
+<fieldset>
+    <legend>Dados do Usuário</legend>
+    @Html.LinhaComUmaColuna(new ColunaComLabel<UsuarioConsultaVm, string>(x => x.Login))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<UsuarioConsultaVm, string>(x => x.Nome))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<UsuarioConsultaVm, string>(x => x.Email))
+@*    @Html.LinhaComUmaColuna(new ColunaComLabel<UsuarioConsultaVm, string>(x => x.Status))*@
+    @Html.Label("Status: ",new{@class="labelNaLinha"})
+    <span id="status">@Model.Status </span>    
+</fieldset>
+<fieldset>
+    <legend>Perfis</legend>
+    <div class="linha">
+        <fieldset class="fieldSetPerfil">
+            <legend>Perfis Do Usuário</legend>
+            <div id="divGridPerfisDoUsuario" class="gridPerfil"  ></div>
+        </fieldset>
+        <fieldset class="fieldSetPerfil float-right" >
+            <legend>Perfis Não Atribuídos</legend>
+            <div id="divGridPerfisNaoAtribuidos" class="gridPerfil" ></div>
+        </fieldset>
+    </div>
+    <div class="divBotao">
+        <input type="button" id="btnSalvarPerfis" value="Salvar" class="blue" style="width: 130px"/>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Ações</legend>
+    <div class="divBotao">
+        <input type="button" id="btnAtivar" value="Ativar" class="blue" style="width: 130px"/>
+        <input type="button" id="btnBloquear" value="Bloquear" class="blue" style="width: 130px"/>
+        <input type="button" id="btnCriarSenha" value="Criar Senha" class="blue" style="width: 130px"/>
+    </div>
+</fieldset>
+
+
+@section scripts
+{
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        var perfisDoUsuario = new Array();
+        var perfisNaoAtribuidos = new Array();
+
+        function removerPerfil(array, codigoPerfil) {
+            for (var i = 0; i < array.length; i++) {
+                var perfil = array[i];
+                if (perfil.Codigo == codigoPerfil) {
+                    array.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        $(function () {
+        
+            $.ajax({
+                url: '@Url.Action("Listar","Perfil")',
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                success: function (dataPerfil) {
+                    if (!dataPerfil.Sucesso) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Perfis. Detalhe: ' + dataPerfil.Mensagem);
+                        return;
+                    }
+                    
+                    var todosPerfis = dataPerfil.Registros;
+                    
+                    $.ajax({
+                        url: '@Url.Action("PerfisDoUsuario","Usuario")' + '/?login=' + '@Model.Login',
+                        type: 'GET',
+                        cache: false,
+                        dataType: 'json',
+                        success: function (dataUsuario) {
+                            if (!dataUsuario.Sucesso) {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Perfis de Usuário. Detalhe: ' + dataUsuario.Mensagem);
+                                return;
+                            }
+
+                            $.each(dataUsuario.Registros, function(index, value) {
+                                perfisDoUsuario.push(value);
+                            });
+                            $.grep(todosPerfis  , function (el) {
+
+                                var atribuido = false;
+                                $.each(perfisDoUsuario, function(index, value) {
+                                    if (el.Codigo == value.Codigo) {
+                                        atribuido = true;
+                                        return;
+                                    }
+                                });
+
+                                if (!atribuido) {
+                                    perfisNaoAtribuidos.push(el);
+                                }
+
+                            });
+                            
+                            $('#divGridPerfisNaoAtribuidos').kendoGrid({
+                                dataSource: {
+                                    schema: {
+                                        data: function () { return perfisNaoAtribuidos; },
+                                        model: {
+                                            fields: {
+                                                Codigo: { type: "string" },
+                                                Descricao: { type: "string" }
+                                            }
+                                        }
+                                    }
+                                },
+                                sortable: false,
+                                selectable: 'row',
+                                columns:
+                                [
+                                    {
+                                        field: 'Codigo',
+                                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                                        width: 40,
+                                        sortable: false,
+                                        template: '<input type="button" class="button_add" data-codigoperfil="${Codigo}"></input>'
+                                    },
+                                    {
+                                        field: "Descricao",
+                                        width: 200,
+                                        title: "Descrição"
+                                    }
+                                ]
+                            });
+
+                            $('#divGridPerfisDoUsuario').kendoGrid({
+                                dataSource: {
+                                    schema: {
+                                        data: function () { return perfisDoUsuario; },
+                                        model: {
+                                            fields: {
+                                                Codigo: { type: "string" },
+                                                Descricao: { type: "string" }
+                                            }
+                                        }
+                                    }
+                                },
+                                sortable: false,
+                                selectable: 'row',
+                                columns:
+                                [
+                                    {
+                                        field: 'Codigo',
+                                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                                        width: 40,
+                                        sortable: false,
+                                        template: '<input type="button" class="button_remove" data-codigoperfil="${Codigo}"></input>'
+                                    },
+                                    {
+                                        field: "Descricao",
+                                        width: 200,
+                                        title: "Descrição"
+                                    }
+                                ]
+                            });
+
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Perfis de Usuário. Detalhe: ' + textStatus + errorThrown);
+                        }
+            });
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Perfis. Detalhe: ' + textStatus + errorThrown);
+                }
+            });
+            
+            function atualizaGrids() {
+                $("#divGridPerfisNaoAtribuidos").data("kendoGrid").dataSource.read();
+                $('#divGridPerfisDoUsuario').data("kendoGrid").dataSource.read();
+            }
+            
+            $('#divGridPerfisNaoAtribuidos').find('.button_add').die("click");
+            $('#divGridPerfisNaoAtribuidos').find('.button_add').live("click", function () {
+                var grid = $('#divGridPerfisNaoAtribuidos').data("kendoGrid");
+                var dataItem = grid.dataItem(grid.select());
+                perfisDoUsuario.push({ Codigo: dataItem.Codigo, Descricao: dataItem.Descricao });
+                removerPerfil(perfisNaoAtribuidos, dataItem.Codigo);
+                atualizaGrids();
+
+            });
+
+            $('#divGridPerfisDoUsuario').find('.button_remove').die('click');
+            $('#divGridPerfisDoUsuario').find('.button_remove').live('click', function () {
+                var grid = $('#divGridPerfisDoUsuario').data("kendoGrid");
+                var dataItem = grid.dataItem(grid.select());
+                perfisNaoAtribuidos.push({ Codigo: dataItem.Codigo, Descricao: dataItem.Descricao });
+                removerPerfil(perfisDoUsuario, dataItem.Codigo);
+                atualizaGrids();
+            });
+
+            $('#btnSalvarPerfis').click(function() {
+                var codigoPerfisDoUsuario = new Array();
+                $.each(perfisDoUsuario, function(index, value) {
+                    codigoPerfisDoUsuario.push(value.Codigo);
+                });
+                $.ajax({
+                    url: '@Url.Action("AtualizarPerfis","GerenciadorUsuario")',
+                    type: 'POST',
+                    data: JSON.stringify({ Login: '@Model.Login', Perfis: codigoPerfisDoUsuario }),
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso('Perfis atualizados com sucesso');
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar os perfis do Usuário. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar os perfis do Usuário. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+
+            });
+
+            $('#btnAtivar').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Ativar","GerenciadorUsuario")',
+                    type: 'POST',
+                    data: { Login: '@Model.Login'},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            $('#status').text('Ativo');
+                            Mensagem.ExibirMensagemDeSucesso('O usuário foi ativado com sucesso');
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao ativar o Usuário. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao ativar o Usuário. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            });
+
+            $('#btnBloquear').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Bloquear","GerenciadorUsuario")',
+                    type: 'POST',
+                    data: { Login: '@Model.Login' },
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            $('#status').text('Bloqueado');
+                            Mensagem.ExibirMensagemDeSucesso('O usuário foi bloqueado com sucesso');
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao bloquear o Usuário. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao bloquear o Usuário. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            });
+                
+            $('#btnCriarSenha').click(function () {
+                $.ajax({
+                    url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
+                    type: 'POST',
+                    data: { Login: '@Model.Login' },
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            $('#status').text('Ativo');
+                            Mensagem.ExibirMensagemDeSucesso('Foi enviado um e-mail para o usuário com a nova senha.');
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha do Usuário. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha do Usuário. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            });
+
+        });
+    </script>
+}

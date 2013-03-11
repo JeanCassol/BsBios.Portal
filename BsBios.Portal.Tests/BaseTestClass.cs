@@ -1,5 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Web.Http;
+using BsBios.Portal.Common;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
@@ -18,7 +20,7 @@ namespace BsBios.Portal.Tests
             IoCWorker.Configure();
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()
-                .Use(new UsuarioConectado("teste", "Usuário de Teste",1)));
+                .Use(new UsuarioConectado("teste", "Usuário de Teste", new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos})));
             Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
             Queries.RemoverRequisicoesDeCompraCadastradas();
             Queries.RemoverFornecedoresCadastrados();

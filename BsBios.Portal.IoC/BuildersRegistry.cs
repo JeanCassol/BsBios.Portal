@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Application.Queries.Builders;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 using StructureMap;
@@ -26,6 +27,13 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Iva, IvaCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<IvaCadastroBuilder>();
+            For<IBuilder<Usuario, UsuarioConsultaVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<UsuarioConsultaBuilder>();
+            For<IBuilder<Enumeradores.Perfil, PerfilVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<PerfilBuilder>();
+
         }
     }
 }

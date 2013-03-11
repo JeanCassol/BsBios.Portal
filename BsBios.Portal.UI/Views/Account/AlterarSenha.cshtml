@@ -1,0 +1,87 @@
+﻿@model BsBios.Portal.ViewModel.AlterarSenhaVm
+@{
+    Layout = null;
+    ViewBag.Title = "Alterar Senha";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/scriptsgerais")
+
+    </head>
+    <body>
+        @Html.Partial("_Header")
+        <div id="loginForm">
+            @using (Html.BeginForm("AlterarSenha","GerenciadorUsuario")) {
+                @Html.AntiForgeryToken()
+                <div class="elementosCentralizados">
+                    <div style="width: 265px" class="elementosCentralizados">
+                        @Html.LabelFor(m => m.Login)
+                        @Html.TextBoxFor(m => m.Login)
+                        @Html.ValidationMessageFor(m => m.Login)
+
+                        @Html.LabelFor(m => m.SenhaAtual)
+                        @Html.PasswordFor(m => m.SenhaAtual)
+                        @Html.ValidationMessageFor(m => m.SenhaAtual)
+
+                        @Html.LabelFor(m => m.SenhaNova)
+                        @Html.PasswordFor(m => m.SenhaNova)
+                        @Html.ValidationMessageFor(m => m.SenhaNova)
+
+                        @Html.LabelFor(m => m.ConfirmacaoSenha)
+                        @Html.PasswordFor(m => m.ConfirmacaoSenha)
+                        @Html.ValidationMessageFor(m => m.ConfirmacaoSenha)
+                    </div>
+                    <span class="error">
+                        @if (ViewData["erro"] != null)
+                        {
+                            @ViewData["erro"]
+                        }
+                    </span>
+                </div>
+                
+                <div class="divBotao">
+                    <input type="button" id="btnVoltar" value="Voltar" class="blue"/>
+                    <input type="button" id="btnConfirmar" value="Confirmar" class="blue"/>
+                </div>
+            }
+        </div>
+    </body>
+    <script type="text/javascript">
+        $(function() {
+            $('#btnVoltar').click(function() {
+                history.back(1);
+            });
+            $('#btnConfirmar').click(function () {
+
+                $('.error').empty();
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                var formData = $(form).serialize();
+                $.post('@Url.Action("AlterarSenha","GerenciadorUsuario" )', formData,
+                    function (data) {
+                        if (data.Sucesso) {
+                            location.href = '@Url.Action("Index","Account")';
+                        } else {
+                            $('.error').html(data.Mensagem);
+                        }
+                    });
+
+
+            });
+        })
+    </script>
+</html>
+

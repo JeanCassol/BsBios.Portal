@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using BsBios.Portal.Infra.Model
+@using StructureMap
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" @*lang="pt-br"*@>
     <head>
         @*<meta charset="utf-8" />*@
@@ -16,7 +18,10 @@
         <div id="middle">
             <div id="menuprincipal">
                 @{
-                    Html.RenderAction("Menu","Home");
+                    if (ViewBag.UsuarioConectado != null)
+                    {
+                        Html.RenderAction("Menu", "Home");
+                    }
                 }
             </div>
             <div id="body">

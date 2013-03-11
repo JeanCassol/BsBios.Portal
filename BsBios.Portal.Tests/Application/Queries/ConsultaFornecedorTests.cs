@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             fornecedoresMock.Setup(x => x.List())
                             .Returns(listaFornecedores);
 
-            var consultaFornecedores = new ConsultaFornecedor(fornecedoresMock.Object, new FornecedorCadastroBuilder());
+            var consultaFornecedores = new ConsultaFornecedor(fornecedoresMock.Object, new FornecedorCadastroBuilder(), new ProdutoCadastroBuilder());
 
             var kendoGridVm = consultaFornecedores.FornecedoresNaoVinculadosAoProduto("PROD0001");
 

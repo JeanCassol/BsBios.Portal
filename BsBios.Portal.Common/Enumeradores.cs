@@ -6,10 +6,14 @@ namespace BsBios.Portal.Common
     {
         public enum Perfil
         {
-            [Description("Comprador")]
-            Comprador = 1,
+            [Description("Comprador Suprimentos")]
+            CompradorSuprimentos = 1,
+            [Description("Comprador Logística")]
+            CompradorLogistica = 2,
             [Description("Fornecedor")]
-            Fornecedor = 2
+            Fornecedor = 3,
+            [Description("Administrador")]
+            Administrador = 4
         }
 
         public enum StatusProcessoCotacao
@@ -22,6 +26,11 @@ namespace BsBios.Portal.Common
             Fechado = 3,
             [Description("Cancelado")]
             Cancelado = 4
+        }
+        public enum StatusUsuario
+        {
+            Ativo = 1,
+            Bloqueado = 2
         }
         public enum TipoDeCotacao
         {

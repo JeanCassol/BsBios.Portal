@@ -37,22 +37,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoPersistoUmUsuarioComSucessoPossoConsultarOMesmoUsuario()
         {
-            Usuario usuarioNovo;
-            try
-            {
-                UnitOfWorkNh.BeginTransaction();
 
-                usuarioNovo = DefaultObjects.ObtemUsuarioPadrao();
-                _usuarios.Save(usuarioNovo);
-
-                UnitOfWorkNh.Commit();
-
-            }
-            catch (Exception)
-            {
-                UnitOfWorkNh.RollBack();
-                throw;
-            }
+            Usuario usuarioNovo = DefaultObjects.ObtemUsuarioPadrao();
+            usuarioNovo.AdicionarPerfil(Enumeradores.Perfil.CompradorLogistica);
+            DefaultPersistedObjects.PersistirUsuario(usuarioNovo);
 
             UnitOfWorkNh.Session.Clear();
 
@@ -63,7 +51,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(usuarioNovo.Nome, usuarioConsulta.Nome);
             Assert.IsNull(usuarioConsulta.Senha);
             Assert.AreEqual(usuarioNovo.Email, usuarioConsulta.Email);
-            Assert.AreEqual(usuarioNovo.Perfil, usuarioConsulta.Perfil);
+            Assert.IsTrue(usuarioConsulta.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica));
+            Assert.AreEqual(Enumeradores.StatusUsuario.Ativo, usuarioConsulta.Status);
 
         }
 

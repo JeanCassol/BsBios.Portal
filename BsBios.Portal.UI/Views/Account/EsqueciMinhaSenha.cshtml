@@ -1,0 +1,73 @@
+﻿@model string
+@{
+    Layout = null;
+    ViewBag.Title = "Esqueci minha senha";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/scriptsgerais")
+    </head>
+    <body>
+        @Html.Partial("_Header")
+        <div id="loginForm">
+                <div class="elementosCentralizados">
+                    <div style="width: 265px" class="elementosCentralizados">
+                        @Html.Label("Login")
+                        @Html.TextBox("Login",Model)
+                        <span class="error"></span>
+                    </div>
+                    Ao confirmar, o sistema irá criar uma nova senha para o Usuário e enviar por e-mail.
+                </div>
+                
+                <div class="divBotao">
+                    <input type="button" id="btnVoltar" value="Voltar" class="blue"/>
+                    <input type="button" id="btnConfirmar" value="Confirmar" class="blue"/>
+                </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        $(function() {
+            $('#btnVoltar').click(function() {
+                history.back(1);
+            });
+            $('#btnConfirmar').click(function (e) {
+                e.preventDefault();
+                $('.error').html('');
+                var login = $('input[name=Login]').val();
+                if (login == '') {
+                    $('.error').html('Campo Login é obrigatório');
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
+                    type: 'POST',
+                    data: { Login: login },
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+
+            });
+        })
+    </script>
+</html>

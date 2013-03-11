@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
-using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
@@ -13,13 +11,11 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsuarios _usuarios;
-        private readonly IProvedorDeCriptografia _provedorDeCriptografia;
 
-        public CadastroUsuario(IUnitOfWork unitOfWork, IUsuarios usuarios, IProvedorDeCriptografia provedorDeCriptografia)
+        public CadastroUsuario(IUnitOfWork unitOfWork, IUsuarios usuarios)
         {
             _unitOfWork = unitOfWork;
             _usuarios = usuarios;
-            _provedorDeCriptografia = provedorDeCriptografia;
         }
 
         public void Novo(UsuarioCadastroVm usuarioVm)
@@ -28,7 +24,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 var novoUsuario = new Usuario(usuarioVm.Nome, usuarioVm.Login
-                    , usuarioVm.Email, Enumeradores.Perfil.Comprador);
+                    , usuarioVm.Email);
                 _usuarios.Save(novoUsuario);
                 _unitOfWork.Commit();
             }
@@ -49,7 +45,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             else
             {
                 usuario = new Usuario(usuarioCadastroVm.Nome, usuarioCadastroVm.Login,
-                                      usuarioCadastroVm.Email, Enumeradores.Perfil.Comprador);
+                                      usuarioCadastroVm.Email);
             }
             _usuarios.Save(usuario);
         }
@@ -73,24 +69,5 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        public void CriarSenha(string login, string senha)
-        {
-            try
-            {
-                _unitOfWork.BeginTransaction();
-
-                Usuario usuario = _usuarios.BuscaPorLogin(login);
-                string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
-                usuario.CriarSenha(senhaCriptografada);
-                _usuarios.Save(usuario);
-
-                _unitOfWork.Commit();
-            }
-            catch (Exception)
-            {
-                _unitOfWork.RollBack();
-                throw;
-            }
-        }
     }
 }

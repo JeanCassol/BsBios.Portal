@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
@@ -110,7 +111,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
             var codigo = GeraCodigo(_contadorUsuarios, 12);
 
             var usuario = new Usuario("Usuário " + codigo, codigo, 
-                "usuario" + codigo + "@empresa.com.br", Enumeradores.Perfil.Comprador);
+                "usuario" + codigo + "@empresa.com.br");
             return usuario;
         }
 
@@ -152,7 +153,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static UsuarioConectado ObtemUsuarioConectado()
         {
-            return new UsuarioConectado("comprador", "Usuário Comprador",1);
+            return new UsuarioConectado("comprador", "Usuário Comprador",new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos});
         }
     }
 }

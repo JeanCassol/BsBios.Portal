@@ -82,7 +82,6 @@
     <Compile Include="Model\ContaDeEmail.cs" />
     <Compile Include="Model\MensagemDeEmail.cs" />
     <Compile Include="Model\Menu.cs" />
-    <Compile Include="Model\Perfil.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
