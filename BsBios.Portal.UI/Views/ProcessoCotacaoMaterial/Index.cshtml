@@ -4,7 +4,7 @@
    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
-<div id="gridCotacaoMaterial"></div>
+<div id="gridCotacaoMaterial" class="divGrid" ></div>
 @section scripts
 {
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
@@ -53,6 +53,7 @@
                         }
                     }
                 },
+                scrollable:true,
                 columns:
                 [
                     {
@@ -64,15 +65,15 @@
                     },
                     {
                         field: "CodigoMaterial",
-                        width: 90,
+                        width: 190,
                         title: "Código"
                     }, {
                         field: "Material",
-                        width: 190,
+                        width: 220,
                         title: "Material"
                     },
                     {
-                        width: 80,
+                        width: 100,
                         field: "Quantidade",
                         title: "Quantidade"
                     },
@@ -82,7 +83,7 @@
                         title: "Unidade"
                     },
                     {
-                        width: 100,
+                        width: 120,
                         field: "Status",
                         title: "Status"
                     },

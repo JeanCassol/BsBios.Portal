@@ -20,14 +20,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _fornecedores = fornecedores;
         }
 
-        public KendoGridVm FornecedoresNaoVinculadosAoProduto(string codigoProduto)
+        public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, string codigoProduto)
         {
             _fornecedores.FornecedoresNaoVinculadosAoProduto(codigoProduto);
 
             var kendoGrid = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _fornecedores.Count(),
-                Registros = _builderFornecedor.BuildList(_fornecedores.List()).Cast<ListagemVm>().ToList()
+                Registros = _builderFornecedor.BuildList(_fornecedores.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).List()).Cast<ListagemVm>().ToList()
             };
 
             return kendoGrid;

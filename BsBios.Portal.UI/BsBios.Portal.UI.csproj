@@ -172,6 +172,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\CheckHeader.css" />
+    <Content Include="Content\kendo\2012.3.1114\Default\editor.png" />
+    <Content Include="Content\kendo\2012.3.1114\Default\imagebrowser.png" />
+    <Content Include="Content\kendo\2012.3.1114\Default\loading-image.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\loading.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\slider-h.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\slider-v.gif" />
+    <Content Include="Content\kendo\2012.3.1114\Default\sprite.png" />
     <Content Include="Content\kendo\2012.3.1114\kendo.black.min.css" />
     <Content Include="Content\kendo\2012.3.1114\kendo.blueopal.min.css" />
     <Content Include="Content\kendo\2012.3.1114\kendo.bootstrap.min.css" />

@@ -21,9 +21,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult FornecedoresGerais(string codigoProduto)
+        public JsonResult FornecedoresGerais(PaginacaoVm paginacaoVm, string codigoProduto)
         {
-            KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresNaoVinculadosAoProduto(codigoProduto);
+            KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresNaoVinculadosAoProduto(paginacaoVm, codigoProduto);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
