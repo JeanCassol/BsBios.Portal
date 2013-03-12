@@ -20,7 +20,7 @@
 
             @{ var comboMaterial = new ColunaComDropDown<CotacaoFreteCadastroVm, string>(x => x.CodigoMaterial, 
                 ((List<ProdutoCadastroVm>) ViewBag.Materiais)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoSap), Selected = Model != null && x.CodigoSap == Model.CodigoMaterial}),
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoMaterial}),
                 "IdMaterial");
 
                 var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(x => x.QuantidadeMaterial);

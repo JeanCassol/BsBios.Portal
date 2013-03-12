@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -9,14 +8,14 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class CotacaoFreteController : Controller
+    public class ProcessoCotacaoFreteController : Controller
     {
         private readonly IList<CotacaoFreteListagemVm> _cotacoesDeFrete ;
         private readonly IList<ProdutoCadastroVm> _produtos;
         private readonly IList<ItinerarioCadastroVm> _itinerarios ;
         private readonly IList<CentroCadastroVm> _centros; 
 
-        public CotacaoFreteController()
+        public ProcessoCotacaoFreteController()
         {
             _cotacoesDeFrete = new List<CotacaoFreteListagemVm>();
             _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()

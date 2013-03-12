@@ -32,9 +32,20 @@ namespace BsBios.Portal.Tests.Application.Queries
             fornecedoresMock.Setup(x => x.List())
                             .Returns(listaFornecedores);
 
+            fornecedoresMock.Setup(x => x.Skip(It.IsAny<int>()))
+                            .Returns(fornecedoresMock.Object);
+            fornecedoresMock.Setup(x => x.Take(It.IsAny<int>()))
+                            .Returns(fornecedoresMock.Object);
+
             var consultaFornecedores = new ConsultaFornecedor(fornecedoresMock.Object, new FornecedorCadastroBuilder(), new ProdutoCadastroBuilder());
 
-            var kendoGridVm = consultaFornecedores.FornecedoresNaoVinculadosAoProduto("PROD0001");
+            var paginacaoVm = new PaginacaoVm()
+                {
+                    Page = 1,
+                    PageSize = 10,
+                    Take = 10
+                };
+            var kendoGridVm = consultaFornecedores.FornecedoresNaoVinculadosAoProduto(paginacaoVm, "PROD0001");
 
             Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();

@@ -152,7 +152,7 @@
     <Compile Include="Controllers\CondicaoPagamentoApiController.cs" />
     <Compile Include="Controllers\FornecedorApiController.cs" />
     <Compile Include="Controllers\ProcessoCotacaoMaterialController.cs" />
-    <Compile Include="Controllers\CotacaoFreteController.cs" />
+    <Compile Include="Controllers\ProcessoCotacaoFreteController.cs" />
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -401,8 +401,8 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
-    <Content Include="Views\CotacaoFrete\Index.cshtml" />
-    <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
+    <Content Include="Views\ProcessoCotacaoFrete\Index.cshtml" />
+    <Content Include="Views\ProcessoCotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
