@@ -38,6 +38,23 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(itinerario.Descricao, itinerarioConsultado.Descricao);
         }
 
+        [TestMethod]
+        public void ConsigoCadastrarUmItinerarioComCaracteresEspeciaisNaDescricao()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            Itinerario itinerario = DefaultObjects.ObtemItinerarioPadrao();
+            itinerario.AtualizaDescricao("RS Rio Grande -> AL Olho D Água Das Flor");
+            _itinerarios.Save(itinerario);
+            UnitOfWorkNh.Commit();
+            UnitOfWorkNh.Session.Clear();
+
+            Itinerario itinerarioConsultado = _itinerarios.BuscaPeloCodigo(itinerario.Codigo).Single();
+            Assert.IsNotNull(itinerarioConsultado);
+            Assert.AreEqual(itinerario.Codigo, itinerarioConsultado.Codigo);
+            Assert.AreEqual(itinerario.Descricao, itinerarioConsultado.Descricao);
+            
+        }
+
     }
 
 }
