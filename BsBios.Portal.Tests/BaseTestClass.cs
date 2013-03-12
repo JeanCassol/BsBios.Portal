@@ -29,6 +29,7 @@ namespace BsBios.Portal.Tests
             Queries.RemoverCondicoesDePagamentoCadastradas();
             Queries.RemoverIvasCadastrados();
             Queries.RemoverIncotermsCadastrados();
+            Queries.RemoverItinerariosCadastrados();
         }
     }
 }

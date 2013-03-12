@@ -125,8 +125,8 @@ namespace BsBios.Portal.Tests.Application.Queries
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1,2);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, 31, 32);
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, 41, 42);
+            //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, 31, 32);
+            //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, 41, 42);
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
@@ -139,10 +139,11 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(12, vm.IcmsStValor);
             Assert.AreEqual(21, vm.IpiAliquota);
             Assert.AreEqual(22, vm.IpiValor);
-            Assert.AreEqual(31, vm.PisAliquota);
-            Assert.AreEqual(32, vm.PisValor);
-            Assert.AreEqual(41, vm.CofinsAliquota);
-            Assert.AreEqual(42, vm.CofinsValor);
+            Assert.Fail("Falta implementar a questão da aliquota pis / cofins");
+            //Assert.AreEqual(31, vm.PisAliquota);
+            //Assert.AreEqual(32, vm.PisValor);
+            //Assert.AreEqual(41, vm.CofinsAliquota);
+            //Assert.AreEqual(42, vm.CofinsValor);
 
             
         }

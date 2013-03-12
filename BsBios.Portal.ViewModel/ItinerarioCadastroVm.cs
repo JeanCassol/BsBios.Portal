@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
 {
+    [DataContract]
     public class ItinerarioCadastroVm
     {
-        public int Id { get; set; }
+        [DataMember]
+        public string Codigo { get; set; }
+        [DataMember]
         public string Descricao { get; set; }
     }
+    [CollectionDataContract]
+    public class ListaItinerarios : List<ItinerarioCadastroVm> { }
+
 }

@@ -154,5 +154,20 @@ namespace BsBios.Portal.Tests
                 throw;
             }
         }
+
+        public static void RemoverItinerariosCadastrados()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Itinerario");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

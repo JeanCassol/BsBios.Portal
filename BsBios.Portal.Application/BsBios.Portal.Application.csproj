@@ -66,6 +66,8 @@
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
+    <Compile Include="Services\Contracts\ICadastroUnidadeDeMedida.cs" />
+    <Compile Include="Services\Contracts\ICadastroItinerario.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
@@ -81,6 +83,8 @@
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Implementations\CadastroItinerario.cs" />
+    <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoSelecaoService.cs" />

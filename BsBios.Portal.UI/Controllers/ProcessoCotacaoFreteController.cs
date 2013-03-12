@@ -70,8 +70,8 @@ namespace BsBios.Portal.UI.Controllers
             });
 
             _itinerarios = new List<ItinerarioCadastroVm>();
-            _itinerarios.Add(new ItinerarioCadastroVm(){Id = 1, Descricao = "Itinerário 1"});
-            _itinerarios.Add(new ItinerarioCadastroVm() { Id = 2, Descricao = "Itinerário 2" });
+            _itinerarios.Add(new ItinerarioCadastroVm(){Codigo = "1", Descricao = "Itinerário 1"});
+            _itinerarios.Add(new ItinerarioCadastroVm() { Codigo = "2", Descricao = "Itinerário 2" });
 
             _centros = new List<CentroCadastroVm>();
             _centros.Add(new CentroCadastroVm(){Id = 1, Descricao = "Centro 1"});

@@ -72,7 +72,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         //Este teste verifica se quando salvo um processo de cotação, os fornecedores adicionados também são salvos e podem ser consultados
         //posteriormente
         [TestMethod]
-        public void ConsigoPeristirEConsultarUmProcessoDeCotacaoComFornecedores()
+        public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComFornecedores()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
 

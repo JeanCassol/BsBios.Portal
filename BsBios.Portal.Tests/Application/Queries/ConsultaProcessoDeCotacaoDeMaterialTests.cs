@@ -147,5 +147,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor2.Codigo));
 
         }
+
+
     }
 }

@@ -106,3 +106,29 @@ http://localhost:3905/api/IncotermApi/PostMultiplo
 		<Descricao>Incoterm 006</Descricao>
 	</IncotermCadastroVm>
 </ListaIncoterm>
+
+http://localhost:3905/api/UnidadeMedidaApi/PostMultiplo
+<ListaUnidadesDeMedida xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<UnidadeDeMedidaCadastroVm>
+		<CodigoExterno>E01</CodigoExterno>
+		<CodigoInterno>I01</CodigoInterno>
+		<Descricao>Unidade 01</Descricao>
+	</UnidadeDeMedidaCadastroVm>
+	<UnidadeDeMedidaCadastroVm>
+		<CodigoExterno>E02</CodigoExterno>
+		<CodigoInterno>I02</CodigoInterno>
+		<Descricao>Unidade 02</Descricao>
+	</UnidadeDeMedidaCadastroVm>
+</ListaUnidadesDeMedida>
+
+http://localhost:3905/api/ItinerarioApi/PostMultiplo
+<ListaItinerarios xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ItinerarioCadastroVm>
+		<Codigo>ITI001</Codigo>
+		<Descricao>Itinerário 001</Descricao>
+	</ItinerarioCadastroVm>
+	<ItinerarioCadastroVm>
+		<Codigo>ITI002</Codigo>
+		<Descricao>Itinerário 002</Descricao>
+	</ItinerarioCadastroVm>
+</ListaItinerarios>

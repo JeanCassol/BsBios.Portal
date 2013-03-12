@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -6,6 +8,8 @@ namespace BsBios.Portal.ViewModel
     {
         [DisplayName("Descrição: ")]
         public string DescricaoDoProcessoDeCotacao { get; set; }
+        [DisplayName("Requisitos")]
+        public string Requisitos { get; set; }
         [DisplayName("Data Limite de Retorno: ")]
         public string DataLimiteDeRetorno { get; set; }
         [DisplayName("Status: ")]
@@ -16,6 +20,15 @@ namespace BsBios.Portal.ViewModel
         public decimal Quantidade { get; set; }
         [DisplayName("Unidade de Medida: ")]
         public string UnidadeDeMedida { get; set; }
+        [DisplayName("Observações")]
+        public string ObservacoesDoFornecedor { get; set; }
+        [DisplayName("Quantidade Disponível")]
+        public decimal QuantidadeDisponivel { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayName("Prazo de Entrega")]
+        public string PrazoDeEntrega { get; set; }
+
         /// <summary>
         /// usuada para indicar se os campos da tela serão habilitados para edição
         /// </summary>

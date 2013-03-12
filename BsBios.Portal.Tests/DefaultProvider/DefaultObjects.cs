@@ -16,6 +16,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
         private static int _contadorIncoterms;
         private static int _contadorUsuarios;
         private static int _contadorRequisicaoCompra;
+        private static int _contadorItinerario;
+        private static int _contadorUnidadeMedida;
 
         private static string GeraCodigo(int contador, int tamanho)
         {
@@ -154,6 +156,20 @@ namespace BsBios.Portal.Tests.DefaultProvider
         public static UsuarioConectado ObtemUsuarioConectado()
         {
             return new UsuarioConectado("comprador", "Usuário Comprador",new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos});
+        }
+
+        public static Itinerario ObtemItinerarioPadrao()
+        {
+            _contadorItinerario++;
+            string codigo = GeraCodigo(_contadorItinerario, 6);
+            return new Itinerario(codigo, "ITINERÁRIO " + codigo);
+        }
+
+        public static UnidadeDeMedida ObtemUnidadeDeMedidaPadrao()
+        {
+            _contadorUnidadeMedida++;
+            string codigo = GeraCodigo(_contadorUnidadeMedida, 2);
+            return new UnidadeDeMedida("I" +  codigo, "E" + codigo, "Unidade de Medida " + codigo);
         }
     }
 }

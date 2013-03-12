@@ -92,7 +92,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     CodigoCondicaoPagamento = CondicaoDePagamento.Codigo,
                     CodigoIncoterm = Incoterm.Codigo,
                     DescricaoIncoterm = "Desc Incoterm" ,
-                    PossuiImpostos = true,
+                    //PossuiImpostos = true,
                     ValorLiquido = 110 ,
                     ValorComImpostos =  125,
                     Mva = 0 ,

@@ -26,8 +26,8 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "MVA")]
         public decimal? Mva { get; set; }
 
-        [Display(Name = "Possui Impostos: ")]
-        public bool PossuiImpostos { get; set; }
+        //[Display(Name = "Possui Impostos: ")]
+        //public bool PossuiImpostos { get; set; }
 
         [DataType(DataType.Currency)]
         [Display(Name = "Valor do ICMS")]
@@ -53,21 +53,25 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Alíquota do IPI")]
         public decimal? IpiAliquota { get; set; }
 
-        [Display(Name = "Valor do Pis")]
+        [Display(Name = "Alíquota Pis / Cofins")]
         [DataType(DataType.Currency)]
-        public decimal? PisValor { get; set; }
+        public decimal? PisCofinsAliquota { get; set; }
 
-        [DataType(DataType.Currency)]
-        [Display(Name = "Alíquota do Pis")]
-        public decimal? PisAliquota { get; set; }
+        //[Display(Name = "Valor do Pis")]
+        //[DataType(DataType.Currency)]
+        //public decimal? PisValor { get; set; }
 
-        [DataType(DataType.Currency)]
-        [Display(Name = "Valor do Cofins")]
-        public decimal? CofinsValor { get; set; }
+        //[DataType(DataType.Currency)]
+        //[Display(Name = "Alíquota do Pis")]
+        //public decimal? PisAliquota { get; set; }
 
-        [DataType(DataType.Currency)]
-        [Display(Name = "Alíquota do Cofins")]
-        public decimal? CofinsAliquota { get; set; }
+        //[DataType(DataType.Currency)]
+        //[Display(Name = "Valor do Cofins")]
+        //public decimal? CofinsValor { get; set; }
+
+        //[DataType(DataType.Currency)]
+        //[Display(Name = "Alíquota do Cofins")]
+        //public decimal? CofinsAliquota { get; set; }
 
     }
 }

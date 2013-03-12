@@ -22,26 +22,31 @@
         </fieldset>
         <fieldset id="fieldSetImpostos">
             <legend>Impostos</legend>
-            <div class="linha">
-                @Html.LabelFor(x => x.PossuiImpostos,new{@class="labelNaLinha"})
-                @Html.CheckBoxFor(x => x.PossuiImpostos)
-            </div>
-
+            <span class="error">É indispensável que as alíquotas e os valores do impostos sejam informados corretamente</span>
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsAliquota), 
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsValor))
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStAliquota), 
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStValor))
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiAliquota), 
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiValor))
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisAliquota), 
+            @Html.LinhaComUmaColuna(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisCofinsAliquota))
+
+            @*@Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisAliquota), 
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisValor))
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.CofinsAliquota), 
-            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.CofinsValor))
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.CofinsValor))*@
+
         </fieldset>
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido), 
-            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos))
+            @*            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido), 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos))*@
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos) , 
+            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido))
+            
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal>(x => x.QuantidadeDisponivel) , 
+            new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.PrazoDeEntrega,"campoDatePicker"))
+            
 
             @{ var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm, 
                 ((List<IncotermCadastroVm>) ViewBag.Incoterms)
@@ -56,6 +61,8 @@
                 "CodigoCondicaoPagamento");
             }
             @Html.LinhaComDuasColunas(comboCondicaoDePagamento,new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.Mva))
+            
+            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
         </fieldset>
   
@@ -78,6 +85,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         //Globalize.cultureSelector = 'pt-BR';
+        $('input[name=ValorLiquido]').attr('disabled', true);
         $(function () {
             
             function atualizaMensagemDeErro(mensagem) {
@@ -86,23 +94,6 @@
             function adicionaMensagemDeErro(mensagem) {
                 $('.error').append(mensagem);
             }
-
-            function verificarHabilitacaoDosCamposDeImpostos() {
-                var marcado = $('#PossuiImpostos').is(':checked');
-                var camposDosImpostos = $('#fieldSetImpostos').find(':input[type=text]');
-                if (marcado) {
-                    $(camposDosImpostos).removeAttr("disabled");
-                } else {
-                    $(camposDosImpostos).val('');
-                    $(camposDosImpostos).attr('disabled', true);
-                }
-            }
-
-            verificarHabilitacaoDosCamposDeImpostos();
-
-            $('#PossuiImpostos').change(function () {
-                verificarHabilitacaoDosCamposDeImpostos();
-            });
             
             function validaImposto(campoAliquota, campoValor, descricaoDoImposto) {
                 var aliquota = $('#' + campoAliquota).val();

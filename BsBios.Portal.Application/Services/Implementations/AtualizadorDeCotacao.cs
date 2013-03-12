@@ -38,8 +38,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, cotacaoInformarVm.IcmsAliquota, cotacaoInformarVm.IcmsValor);
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, cotacaoInformarVm.IcmsStAliquota, cotacaoInformarVm.IcmsStValor);
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, cotacaoInformarVm.IpiAliquota, cotacaoInformarVm.IpiValor);
-                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, cotacaoInformarVm.PisAliquota, cotacaoInformarVm.PisValor);
-                cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, cotacaoInformarVm.CofinsAliquota, cotacaoInformarVm.CofinsValor);
+                //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, cotacaoInformarVm.PisAliquota, cotacaoInformarVm.PisValor);
+                //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, cotacaoInformarVm.CofinsAliquota, cotacaoInformarVm.CofinsValor);
 
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();

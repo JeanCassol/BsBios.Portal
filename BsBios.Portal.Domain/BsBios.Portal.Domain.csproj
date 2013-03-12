@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CondicaoDePagamento.cs" />
+    <Compile Include="Entities\Itinerario.cs" />
     <Compile Include="Entities\Cotacao.cs" />
     <Compile Include="Entities\Fornecedor.cs" />
     <Compile Include="Entities\FornecedorParticipante.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Entities\ProcessoDeCotacao.cs" />
     <Compile Include="Entities\Produto.cs" />
     <Compile Include="Entities\RequisicaoDeCompra.cs" />
+    <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Imposto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

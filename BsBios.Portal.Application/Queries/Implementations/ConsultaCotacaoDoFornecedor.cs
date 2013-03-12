@@ -101,7 +101,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.Mva = fp.Cotacao.Mva;
                 vm.ValorLiquido = fp.Cotacao.ValorLiquido;
                 vm.ValorComImpostos = fp.Cotacao.ValorComImpostos;
-                vm.PossuiImpostos = fp.Cotacao.Impostos.Any();
+                //vm.PossuiImpostos = fp.Cotacao.Impostos.Any();
 
                 Cotacao cotacao = fp.Cotacao;
                 Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
@@ -125,20 +125,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     vm.IpiValor = imposto.Valor;
                 }
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                if (imposto != null)
-                {
-                    vm.PisAliquota = imposto.Aliquota;
-                    vm.PisValor = imposto.Valor;
-                }
+                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
+                //if (imposto != null)
+                //{
+                //    vm.PisAliquota = imposto.Aliquota;
+                //    vm.PisValor = imposto.Valor;
+                //}
 
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                if (imposto != null)
-                {
-                    vm.CofinsAliquota = imposto.Aliquota;
-                    vm.CofinsValor = imposto.Valor;
-                }
+                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
+                //if (imposto != null)
+                //{
+                //    vm.CofinsAliquota = imposto.Aliquota;
+                //    vm.CofinsValor = imposto.Valor;
+                //}
                 
             }
 

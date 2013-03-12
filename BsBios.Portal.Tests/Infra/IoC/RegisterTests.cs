@@ -17,6 +17,7 @@ namespace BsBios.Portal.Tests.Infra.IoC
     {
         private void VerificaInterfacesRegistradas(Type type, string @namespace, IEnumerable<Type> interfaceDesconsideradas = null)
         {
+            int interfacesNaoRegistradas = 0;
             Assembly myAssembly = Assembly.GetAssembly(type);
 
             var interfaces = (from t in myAssembly.DefinedTypes
@@ -32,8 +33,17 @@ namespace BsBios.Portal.Tests.Infra.IoC
 
             foreach (TypeInfo tipo in interfaces)
             {
-                var objeto = ObjectFactory.GetInstance(tipo);
-                Assert.IsNotNull(objeto);
+                var objeto = ObjectFactory.TryGetInstance(tipo);
+                if (objeto == null)
+                {
+                    interfacesNaoRegistradas++;
+                    Console.WriteLine("interface Não registrada: " + tipo.Namespace + "." + tipo.Name);
+                }
+            }
+
+            if (interfacesNaoRegistradas > 0)
+            {
+                Assert.Fail("Existem interfaces não registradas no namespace " + @namespace);
             }
         }
 
