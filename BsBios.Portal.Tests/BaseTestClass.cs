@@ -30,6 +30,7 @@ namespace BsBios.Portal.Tests
             Queries.RemoverIvasCadastrados();
             Queries.RemoverIncotermsCadastrados();
             Queries.RemoverItinerariosCadastrados();
+            Queries.RemoverUnidadesDeMedidaCadastradas();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         CondicaoDePagamento BuscaPeloCodigo(string codigoSap);
         ICondicoesDePagamento FiltraPelaDescricao(string descricao);
+        ICondicoesDePagamento FiltraPorListaDeCodigos(string[] codigos);
     }
 }

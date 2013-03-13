@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,6 +12,7 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIncoterms _incoterms;
+        private IList<Incoterm> _incotermsConsultados;
         public CadastroIncoterm(IUnitOfWork unitOfWork, IIncoterms incoterms)
         {
             _unitOfWork = unitOfWork;
@@ -19,7 +21,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarIncoterm(IncotermCadastroVm incotermCadastroVm)
         {
-            Incoterm incoterm = _incoterms.BuscaPeloCodigo(incotermCadastroVm.Codigo).Single();
+            Incoterm incoterm = _incotermsConsultados.SingleOrDefault(x => x.Codigo == incotermCadastroVm.Codigo);
             if (incoterm != null)
             {
                 incoterm.AtualizaDescricao(incotermCadastroVm.Descricao);
@@ -36,6 +38,8 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
+
+                _incotermsConsultados = _incoterms.FiltraPorListaDeCodigos(incoterms.Select(x => x.Codigo).ToArray()).List();
 
                 foreach (var incotermCadastroVm in incoterms)
                 {

@@ -14,6 +14,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFornecedores _fornecedores;
         private readonly IUsuarios _usuarios;
+        private IList<Fornecedor> _fornecedoresConsultados;
 
         public CadastroFornecedor(IUnitOfWork unitOfWork, IFornecedores fornecedores, IUsuarios usuarios)
         {
@@ -40,7 +41,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
         {
-            Fornecedor fornecedor = _fornecedores.BuscaPeloCodigo(fornecedorCadastroVm.Codigo);
+            Fornecedor fornecedor = _fornecedoresConsultados.SingleOrDefault(x => x.Codigo == fornecedorCadastroVm.Codigo);
             Usuario usuario = null;
 
             if (fornecedor == null)
@@ -66,6 +67,8 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
+                _fornecedoresConsultados =
+                    _fornecedores.BuscaListaPorCodigo(fornecedores.Select(x => x.Codigo).ToArray()).List();
                 foreach (var fornecedorCadastroVm in fornecedores)
                 {
                     AtualizaFornecedor(fornecedorCadastroVm);

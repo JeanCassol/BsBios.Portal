@@ -1,21 +1,21 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
     public class UnidadesDeMedidaTests: RepositoryTest
     {
-        private static IUnidadesDeMedida _unidadesDeMedida;
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            _unidadesDeMedida = ObjectFactory.GetInstance<IUnidadesDeMedida>();
         }
         [ClassCleanup]
         public static void Finalizar()
@@ -28,15 +28,40 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         {
             UnitOfWorkNh.BeginTransaction();
             UnidadeDeMedida unidadeDeMedida = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
-            _unidadesDeMedida.Save(unidadeDeMedida);
+            UnitOfWorkNh.Session.Save(unidadeDeMedida);
             UnitOfWorkNh.Commit();
             UnitOfWorkNh.Session.Clear();
 
-            UnidadeDeMedida unidadeDeMedidaConsultada = _unidadesDeMedida.BuscaPeloCodigoInterno(unidadeDeMedida.CodigoInterno).Single();
+            var unidadesDeMedida = ObjectFactory.GetInstance<IUnidadesDeMedida>();
+
+            UnidadeDeMedida unidadeDeMedidaConsultada = unidadesDeMedida.BuscaPeloCodigoInterno(unidadeDeMedida.CodigoInterno).Single();
             Assert.IsNotNull(unidadeDeMedidaConsultada);
             Assert.AreEqual(unidadeDeMedida.CodigoInterno, unidadeDeMedidaConsultada.CodigoInterno);
             Assert.AreEqual(unidadeDeMedida.CodigoExterno, unidadeDeMedidaConsultada.CodigoExterno);
             Assert.AreEqual(unidadeDeMedida.Descricao, unidadeDeMedidaConsultada.Descricao);
+        }
+
+        [TestMethod]
+        public void QuandoFiltroPorListaDeCodigoInternoTemQueRetornarUnidadesDeMedidaCorrespondentesAosCodigos()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            UnidadeDeMedida unidadeDeMedida1 = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
+            UnidadeDeMedida unidadeDeMedida2 = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
+            UnidadeDeMedida unidadeDeMedida3 = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
+            UnitOfWorkNh.Session.Save(unidadeDeMedida1);
+            UnitOfWorkNh.Session.Save(unidadeDeMedida2);
+            UnitOfWorkNh.Session.Save(unidadeDeMedida3);
+            UnitOfWorkNh.Commit();
+            UnitOfWorkNh.Session.Clear();
+
+            var unidadesDeMedida = ObjectFactory.GetInstance<IUnidadesDeMedida>();
+
+            IList<UnidadeDeMedida> unidadesDeMedidaConsultadas = unidadesDeMedida.FiltraPorListaDeCodigosInternos(new[] { unidadeDeMedida1.CodigoInterno, unidadeDeMedida2.CodigoInterno }).List();
+
+            Assert.AreEqual(2, unidadesDeMedidaConsultadas.Count);
+            Assert.AreEqual(1, unidadesDeMedidaConsultadas.Count(x => x.CodigoInterno == unidadeDeMedida1.CodigoInterno));
+            Assert.AreEqual(1, unidadesDeMedidaConsultadas.Count(x => x.CodigoInterno == unidadeDeMedida2.CodigoInterno));
+
         }
 
     }

@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -19,21 +20,29 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly ICadastroItinerario _cadastroItinerario;
         private readonly ItinerarioCadastroVm _itinerarioPadrao;
         private readonly IList<ItinerarioCadastroVm> _listaItinerarios;
-        private Itinerario _itinerarioConsulta;
+        private readonly IList<Itinerario> _itinerariosConsulta;
 
         public CadastroItinerarioTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _itinerariosConsulta = new List<Itinerario>();
             _itinerariosMock = new Mock<IItinerarios>(MockBehavior.Strict);
             _itinerariosMock.Setup(x => x.Save(It.IsAny<Itinerario>())).Callback(CommonGenericMocks<Itinerario>.DefaultSaveCallBack(_unitOfWorkMock));
-            _itinerariosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
+            _itinerariosMock.Setup(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>    ()))
                             .Returns(_itinerariosMock.Object)
                             .Callback(
-                                (string i) => { _itinerarioConsulta =  i == "01" ? new ItinerarioParaAtualizacao("01", "Itinerario 01") : null; });
+                                (string[] codigos) =>
+                                    {
+                                        if (codigos.Contains("01"))
+                                        {
+                                            _itinerariosConsulta.Add(new ItinerarioParaAtualizacao("01", "Itinerario 01"));
+                                            
+                                        }
+                                    });
            
 
-            _itinerariosMock.Setup(x => x.Single())
-                            .Returns(() => _itinerarioConsulta );
+            _itinerariosMock.Setup(x => x.List())
+                            .Returns(() => _itinerariosConsulta );
 
             _cadastroItinerario = new CadastroItinerario(_unitOfWorkMock.Object, _itinerariosMock.Object);
             _itinerarioPadrao = new ItinerarioCadastroVm()
@@ -45,19 +54,19 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoCadastraUmNovoIvaOcorrePersistencia()
+        public void QuandoCadastraUmNovoItinerarioOcorrePersistencia()
         {
             _cadastroItinerario.AtualizarItinerarios(_listaItinerarios);
 
             _itinerariosMock.Verify(x => x.Save(It.IsAny<Itinerario>()),Times.Once());
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
+            _itinerariosMock.Verify(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()), Times.Once());
+
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
 
         }
 
         [TestMethod]
-        public void QuandoOcorreAlgumExcecaoNoCadastroDoIvaFazRollBackNaTransacao()
+        public void QuandoOcorreAlgumExcecaoNoCadastroDoItinerarioFazRollBackNaTransacao()
         {
             _itinerariosMock.Setup(x => x.Save(It.IsAny<Itinerario>()))
                      .Throws(new ExcecaoDeTeste("Ocorreu um erro ao cadastrar o Iva"));
@@ -70,14 +79,12 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
         [TestMethod]
-        public void QuandoReceberUmIvaExistenteDeveAtualizar()
+        public void QuandoReceberUmItinerarioExistenteDeveAtualizar()
         {
             _itinerariosMock.Setup(x => x.Save(It.IsAny<Itinerario>())).Callback((Itinerario itinerario) =>
             {
@@ -97,7 +104,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 });
         }
         [TestMethod]
-        public void QuandoReceberUmIvaNovoDeveAdicionar()
+        public void QuandoReceberUmItinerarioNovoDeveAdicionar()
         {
             _itinerariosMock.Setup(x => x.Save(It.IsAny<Itinerario>())).Callback((Itinerario itinerario) =>
             {

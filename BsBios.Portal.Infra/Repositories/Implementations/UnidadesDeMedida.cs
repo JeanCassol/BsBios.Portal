@@ -21,5 +21,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IUnidadesDeMedida FiltraPorListaDeCodigosInternos(string[] codigos)
+        {
+            Query = Query.Where(x => codigos.Contains(x.CodigoInterno));
+            return this;
+        }
     }
 }

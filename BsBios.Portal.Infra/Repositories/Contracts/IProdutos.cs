@@ -6,5 +6,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         Produto BuscaPeloCodigo(string codigoSap);
         IProdutos FiltraPorDescricao(string filtroDescricao);
+        IProdutos FiltraPorListaDeCodigos(string[] codigos);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,6 +12,7 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IItinerarios _itinerarios;
+        private IList<Itinerario> _itinerariosConsultados;
         public CadastroItinerario(IUnitOfWork unitOfWork, IItinerarios itinerarios)
         {
             _unitOfWork = unitOfWork;
@@ -19,7 +21,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarItinerario(ItinerarioCadastroVm itinerarioCadastroVm)
         {
-            Itinerario itinerario = _itinerarios.BuscaPeloCodigo(itinerarioCadastroVm.Codigo).Single();
+            Itinerario itinerario = _itinerariosConsultados.SingleOrDefault(x => x.Codigo == itinerarioCadastroVm.Codigo);
             if (itinerario != null)
             {
                 itinerario.AtualizaDescricao(itinerarioCadastroVm.Descricao);
@@ -36,6 +38,8 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
+                _itinerariosConsultados =
+                    _itinerarios.FiltraPorListaDeCodigos(itinerarios.Select(x => x.Codigo).ToArray()).List();
 
                 foreach (var itinerarioCadastroVm in itinerarios)
                 {

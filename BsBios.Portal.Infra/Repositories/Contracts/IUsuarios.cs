@@ -6,5 +6,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         Usuario BuscaPorLogin(string login);
         IUsuarios FiltraPorNome(string filtroNome);
+        IUsuarios FiltraPorListaDeLogins(string[] logins);
     }
 }

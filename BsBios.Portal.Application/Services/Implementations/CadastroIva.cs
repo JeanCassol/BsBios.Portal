@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,31 +12,16 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIvas _ivas;
+        private IList<Iva> _ivasConsultados;
         public CadastroIva(IUnitOfWork unitOfWork, IIvas ivas)
         {
             _unitOfWork = unitOfWork;
             _ivas = ivas;
         }
 
-        //public void Novo(IvaCadastroVm ivaCadastroVm)
-        //{
-        //    try
-        //    {
-        //        _unitOfWork.BeginTransaction();
-        //        var iva = new Iva(ivaCadastroVm.CodigoSap, ivaCadastroVm.Descricao);
-        //        _ivas.Save(iva);
-        //        _unitOfWork.Commit();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        _unitOfWork.RollBack();
-        //        throw;
-        //    }
-        //}
-
         private void AtualizarIva(IvaCadastroVm ivaCadastroVm)
         {
-            Iva iva = _ivas.BuscaPeloCodigo(ivaCadastroVm.Codigo);
+            Iva iva = _ivasConsultados.SingleOrDefault(x => x.Codigo == ivaCadastroVm.Codigo);
             if (iva != null)
             {
                 iva.AtualizaDescricao(ivaCadastroVm.Descricao);
@@ -53,6 +39,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
 
+                _ivasConsultados = _ivas.BuscaListaPorCodigo(ivas.Select(x => x.Codigo).ToArray()).List();
                 foreach (var ivaCadastroVm in ivas)
                 {
                     AtualizarIva(ivaCadastroVm);

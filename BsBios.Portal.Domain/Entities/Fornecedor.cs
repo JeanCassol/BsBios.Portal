@@ -9,6 +9,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Codigo { get; protected set; }
         public virtual string Nome { get; protected set; }
         public virtual string Email { get; protected set; }
+        public virtual string Cnpj { get; protected set; }
+        public virtual string Municipio { get; protected set; }
+        public virtual string Uf { get; protected set; }
         public virtual IList<Produto>  Produtos { get; protected set; }
 
         protected Fornecedor()
@@ -16,17 +19,23 @@ namespace BsBios.Portal.Domain.Entities
             Produtos = new List<Produto>();
         }
 
-        public Fornecedor(string codigo, string nome, string email):this()
+        public Fornecedor(string codigo, string nome, string email, string cnpj, string municipio, string uf):this()
         {
             Codigo = codigo;
             Nome = nome;
             Email = email;
+            Cnpj = cnpj;
+            Municipio = municipio;
+            Uf = uf;
         }
 
-        public virtual void Atualizar(string novoNome, string novoEmail)
+        public virtual void Atualizar(string nome, string email, string cnpj, string municipio, string uf)
         {
-            Nome = novoNome;
-            Email = novoEmail;
+            Nome = nome;
+            Email = email;
+            Cnpj = cnpj;
+            Municipio = municipio;
+            Uf =uf;
         }
 
         #region override

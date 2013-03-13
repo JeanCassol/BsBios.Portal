@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,6 +12,7 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUnidadesDeMedida _unidadesDeMedida;
+        private IList<UnidadeDeMedida> _unidadesDeMedidaConsultadas;
         public CadastroUnidadeDeMedida(IUnitOfWork unitOfWork, IUnidadesDeMedida unidadesDeMedida)
         {
             _unitOfWork = unitOfWork;
@@ -19,7 +21,9 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private void AtualizarUnidadeDeMedida(UnidadeDeMedidaCadastroVm unidadeDeMedidaCadastroVm)
         {
-            UnidadeDeMedida unidadeDeMedida = _unidadesDeMedida.BuscaPeloCodigoInterno(unidadeDeMedidaCadastroVm.CodigoInterno).Single();
+            UnidadeDeMedida unidadeDeMedida =
+                _unidadesDeMedidaConsultadas.SingleOrDefault(
+                    x => x.CodigoInterno == unidadeDeMedidaCadastroVm.CodigoInterno);
             if (unidadeDeMedida != null)
             {
                 unidadeDeMedida.Atualizar(unidadeDeMedidaCadastroVm.CodigoExterno,unidadeDeMedidaCadastroVm.Descricao);
@@ -36,7 +40,9 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-
+                _unidadesDeMedidaConsultadas =
+                    _unidadesDeMedida.FiltraPorListaDeCodigosInternos(
+                        unidadesDeMedida.Select(x => x.CodigoInterno).ToArray()).List();
                 foreach (var unidadeDeMedidaCadastroVm in unidadesDeMedida)
                 {
                     AtualizarUnidadeDeMedida(unidadeDeMedidaCadastroVm);

@@ -21,5 +21,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IItinerarios FiltraPorListaDeCodigos(string[] codigos)
+        {
+            Query = Query.Where(x => codigos.Contains(x.Codigo));
+            return this;
+        }
     }
 }

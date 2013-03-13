@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -19,13 +20,24 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IProdutos> _produtosMock;
         private readonly ProdutoCadastroVm _produtoPadrao;
         private readonly IList<ProdutoCadastroVm> _produtosPadrao;
+        private readonly IList<Produto> _produtosConsulta;
         public CadastroProdutoTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _produtosConsulta = new List<Produto>();
             _produtosMock = new Mock<IProdutos>(MockBehavior.Strict);
             _produtosMock.Setup(x => x.Save(It.IsAny<Produto>())).Callback((Produto produto) => Assert.IsNotNull(produto));
-            _produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>())).Returns((string p) => p == "PROD0001" ? 
-                new ProdutoParaAtualizacao("PROD0001", "PRODUTO 0001","01") : null);
+            _produtosMock.Setup(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()))
+                .Callback((string[] codigos) =>
+                {
+                    if (codigos.Contains("PROD0001"))
+                    {
+                        _produtosConsulta.Add(new ProdutoParaAtualizacao("PROD0001", "PRODUTO 0001", "01"));    
+                    }
+                })
+                .Returns(_produtosMock.Object);
+
+            _produtosMock.Setup(x => x.List()).Returns(_produtosConsulta);
 
             _cadastroProduto = new CadastroProduto(_unitOfWorkMock.Object, _produtosMock.Object);
 
@@ -58,15 +70,8 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _cadastroProduto.Novo(_produtoPadrao);
             _produtosMock.Verify(x => x.Save(It.IsAny<Produto>()), Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoCadastroUmNovoProdutoComSucessoFazCommitNaTransacao()
-        {
-            _cadastroProduto.Novo(_produtoPadrao);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x =>x.RollBack(), Times.Never());
+            _produtosMock.Verify(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -81,9 +86,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch(ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
@@ -100,7 +103,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public void QuandoCadastrarUmaListaDeProdutosDeveSalvarTodosOsRegistros()
         {
             _cadastroProduto.AtualizarProdutos(_produtosPadrao);
-            _produtosMock.Verify(x => x.BuscaPeloCodigo(It.IsAny<string>()), Times.Exactly(_produtosPadrao.Count));
+            _produtosMock.Verify(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]> ()), Times.Once());
             _produtosMock.Verify(x => x.Save(It.IsAny<Produto>()),Times.Exactly(_produtosPadrao.Count));
         }
 

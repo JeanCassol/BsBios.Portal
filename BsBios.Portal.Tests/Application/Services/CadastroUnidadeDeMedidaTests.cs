@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -19,23 +20,29 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly ICadastroUnidadeDeMedida _cadastroUnidadeDeMedida;
         private readonly UnidadeDeMedidaCadastroVm _unidadeDeMedidaPadrao;
         private readonly IList<UnidadeDeMedidaCadastroVm> _listaunidadesDeMedida;
-        private UnidadeDeMedida _unidadeDeMedidaConsulta;
+        private readonly IList<UnidadeDeMedida> _unidadesConsulta;
 
         public CadastroUnidadeDeMedidaTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unidadesConsulta = new List<UnidadeDeMedida>();
             _unidadesDeMedidaMock = new Mock<IUnidadesDeMedida>(MockBehavior.Strict);
             _unidadesDeMedidaMock.Setup(x => x.Save(It.IsAny<UnidadeDeMedida>()))
                 .Callback(CommonGenericMocks<UnidadeDeMedida>.DefaultSaveCallBack(_unitOfWorkMock));
-            _unidadesDeMedidaMock.Setup(x => x.BuscaPeloCodigoInterno(It.IsAny<string>()))
+            _unidadesDeMedidaMock.Setup(x => x.FiltraPorListaDeCodigosInternos(It.IsAny<string[]> ()))
                             .Returns(_unidadesDeMedidaMock.Object)
                             .Callback(
-                                (string i) => { _unidadeDeMedidaConsulta =  i == "I01" ? 
-                                    new UnidadeDeMedidaParaAtualizacao("I01","E01", "Unidade 01") : null; });
+                                (string[] i) => 
+                                {
+                                    if (i.Contains("I01"))
+                                    {
+                                        _unidadesConsulta.Add(new UnidadeDeMedidaParaAtualizacao("I01", "E01", "Unidade 01"));
+                                    }
+                                });
            
 
-            _unidadesDeMedidaMock.Setup(x => x.Single())
-                            .Returns(() => _unidadeDeMedidaConsulta );
+            _unidadesDeMedidaMock.Setup(x => x.List())
+                            .Returns(() => _unidadesConsulta );
 
             _cadastroUnidadeDeMedida = new CadastroUnidadeDeMedida(_unitOfWorkMock.Object, _unidadesDeMedidaMock.Object);
             _unidadeDeMedidaPadrao = new UnidadeDeMedidaCadastroVm()
@@ -53,6 +60,7 @@ namespace BsBios.Portal.Tests.Application.Services
             _cadastroUnidadeDeMedida.AtualizarUnidadesDeMedida(_listaunidadesDeMedida);
 
             _unidadesDeMedidaMock.Verify(x => x.Save(It.IsAny<UnidadeDeMedida>()),Times.Once());
+            _unidadesDeMedidaMock.Verify(x => x.FiltraPorListaDeCodigosInternos(It.IsAny<string[]>()), Times.Once());
             CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
 
         }

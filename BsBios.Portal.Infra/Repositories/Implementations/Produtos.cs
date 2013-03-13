@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using NHibernate.Linq;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -16,12 +17,20 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public Produto BuscaPeloCodigo(string codigoSap)
         {
-            return Query.SingleOrDefault(x => x.Codigo == codigoSap);
+            Produto produto = Query.SingleOrDefault(x => x.Codigo == codigoSap);
+            Query = UnitOfWorkNh.Session.Query<Produto>();
+            return produto;
         }
 
         public IProdutos FiltraPorDescricao(string filtroDescricao)
         {
             Query = Query.Where(x => x.Descricao.ToLower().Contains(filtroDescricao.ToLower()));
+            return this;
+        }
+
+        public IProdutos FiltraPorListaDeCodigos(string[] codigos)
+        {
+            Query = Query.Where(x => codigos.Contains(x.Codigo));
             return this;
         }
     }

@@ -21,15 +21,26 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUsuarios> _usuariosMock; 
         private readonly FornecedorCadastroVm _fornecedorCadastroVm;
         private readonly ICadastroFornecedor _cadastroFornecedor;
+        private readonly IList<Fornecedor> _fornecedoresRepositorio;
          
         public CadastroFornecedorTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _fornecedoresRepositorio = new List<Fornecedor>();
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
             _fornecedoresMock.Setup(x => x.Save(It.IsAny<Fornecedor>())).Callback((Fornecedor fornecedor) => Assert.IsNotNull(fornecedor));
-            _fornecedoresMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
-                .Returns((string f) => f == "FORNEC0001" ? new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br") : null);
+            _fornecedoresMock.Setup(x => x.BuscaListaPorCodigo(It.IsAny<string[]>()))
+                .Callback((string[] codigos) =>
+                    {
+                        if (codigos.Contains("FORNEC0001"))
+                        {
+                            _fornecedoresRepositorio.Add(new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br"));
+                        }
+                    })
+                .Returns(_fornecedoresMock.Object);
+
+            _fornecedoresMock.Setup(x => x.List()).Returns(_fornecedoresRepositorio);
 
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
             _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));

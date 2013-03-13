@@ -19,5 +19,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Codigo == codigo);
             return this;
         }
+
+        public IIncoterms FiltraPorListaDeCodigos(string[] codigos)
+        {
+            Query = Query.Where(x => codigos.Contains(x.Codigo));
+            return this;
+        }
     }
 }

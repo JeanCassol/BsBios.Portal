@@ -20,5 +20,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Descricao.ToLower().Contains(descricao.ToLower()));
             return this;
         }
+
+        public ICondicoesDePagamento FiltraPorListaDeCodigos(string[] codigos)
+        {
+            Query = Query.Where(x => codigos.Contains(x.Codigo));
+            return this;
+        }
     }
 }

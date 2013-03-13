@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,6 +12,7 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICondicoesDePagamento _condicoesDePagamento;
+        private IList<CondicaoDePagamento> _condicoesDePagamentoConsultadas;
 
         public CadastroCondicaoPagamento(IUnitOfWork unitOfWork, ICondicoesDePagamento condicoesDePagamento)
         {
@@ -18,25 +20,10 @@ namespace BsBios.Portal.Application.Services.Implementations
             _condicoesDePagamento = condicoesDePagamento;
         }
 
-        //public void Novo(CondicaoDePagamentoCadastroVm condicaoDePagamentoCadastroVm)
-        //{
-        //    try
-        //    {
-        //        _unitOfWork.BeginTransaction();
-        //        var condicaoDePagamento = new CondicaoDePagamento(condicaoDePagamentoCadastroVm.CodigoSap, condicaoDePagamentoCadastroVm.Descricao);
-        //        _condicoesDePagamento.Save(condicaoDePagamento);                
-        //        _unitOfWork.Commit();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        _unitOfWork.RollBack();                
-        //        throw;
-        //    }
-        //}
-
         private void AtualizarCondicaoDePagamento(CondicaoDePagamentoCadastroVm condicaoDePagamentoCadastroVm)
         {
-            CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(condicaoDePagamentoCadastroVm.Codigo);
+            CondicaoDePagamento condicaoDePagamento =
+                _condicoesDePagamentoConsultadas.SingleOrDefault(x => x.Codigo == condicaoDePagamentoCadastroVm.Codigo);
             if (condicaoDePagamento != null)
             {
                 condicaoDePagamento.AtualizarDescricao(condicaoDePagamentoCadastroVm.Descricao);
@@ -54,6 +41,9 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
+                _condicoesDePagamentoConsultadas =
+                    _condicoesDePagamento.FiltraPorListaDeCodigos(condicoesDePagamento.Select(x => x.Codigo).ToArray())
+                                         .List();
                 foreach (var condicaoDePagamentoCadastroVm in condicoesDePagamento)
                 {
                     AtualizarCondicaoDePagamento(condicaoDePagamentoCadastroVm);

@@ -1,28 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
     public class UsuariosTests: RepositoryTest
     {
-        private static IUsuarios _usuarios;
-
-        //public UsuariosTests()
-        //{
-        //    _usuarios = ObjectFactory.GetInstance<IUsuarios>(); ;
-        //}
-
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            _usuarios = ObjectFactory.GetInstance<IUsuarios>();
         }
 
         [ClassCleanup]
@@ -44,7 +38,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             UnitOfWorkNh.Session.Clear();
 
-            Usuario usuarioConsulta = _usuarios.BuscaPorLogin(usuarioNovo.Login);
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+            Usuario usuarioConsulta = usuarios.BuscaPorLogin(usuarioNovo.Login);
 
             Assert.IsNotNull(usuarioConsulta);
             Assert.AreEqual(usuarioNovo.Login, usuarioConsulta.Login);
@@ -59,7 +54,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoBuscarUsuarioPorLoginComLoginInexistenteDeveRetornarNull()
         {
-            Usuario usuario = _usuarios.BuscaPorLogin("inexistente");
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+
+            Usuario usuario = usuarios.BuscaPorLogin("inexistente");
             Assert.IsNull(usuario);
         }
 
@@ -73,7 +70,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 UnitOfWorkNh.BeginTransaction();
 
                 usuarioNovo = DefaultObjects.ObtemUsuarioPadrao();
-                _usuarios.Save(usuarioNovo);
+                UnitOfWorkNh.Session.Save(usuarioNovo);
 
                 UnitOfWorkNh.Commit();
 
@@ -83,9 +80,34 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 UnitOfWorkNh.RollBack();                    
                 throw;
             }
-            Usuario usuario = _usuarios.BuscaPorLogin(usuarioNovo.Login);
+
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+
+            Usuario usuario = usuarios.BuscaPorLogin(usuarioNovo.Login);
             Assert.IsNotNull(usuario);
             Assert.AreEqual(usuarioNovo.Login,usuario.Login);
+        }
+
+        [TestMethod]
+        public void QuandoFiltroPorListaDeLoginTemQueRetornarUsuariosCorrespondenteAosLogins()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            Usuario usuario1 = DefaultObjects.ObtemUsuarioPadrao();
+            Usuario usuario2 = DefaultObjects.ObtemUsuarioPadrao();
+            Usuario usuario3 = DefaultObjects.ObtemUsuarioPadrao();
+            UnitOfWorkNh.Session.Save(usuario1);
+            UnitOfWorkNh.Session.Save(usuario2);
+            UnitOfWorkNh.Session.Save(usuario3);
+            UnitOfWorkNh.Commit();
+            UnitOfWorkNh.Session.Clear();
+
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+            IList<Usuario> usuariosConsultados = usuarios.FiltraPorListaDeLogins(new[] { usuario1.Login, usuario2.Login }).List();
+
+            Assert.AreEqual(2, usuariosConsultados.Count);
+            Assert.AreEqual(1, usuariosConsultados.Count(x => x.Login == usuario1.Login));
+            Assert.AreEqual(1, usuariosConsultados.Count(x => x.Login == usuario2.Login));
+
         }
     }
 }

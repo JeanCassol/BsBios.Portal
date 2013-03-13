@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoCadastroVm.cs" />
     <Compile Include="CotacaoDadosVm.cs" />

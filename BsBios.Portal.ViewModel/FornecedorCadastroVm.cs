@@ -15,8 +15,17 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Nome: ")]
         public string Nome { get; set; }
         [DataMember]
-        [Display(Name = "E-mail")]
+        [Display(Name = "E-mail: ")]
         public string Email { get; set; }
+        [DataMember]
+        [Display(Name = "CNPJ: ")]
+        public string Cnpj { get; set; }
+        [DataMember]
+        [Display(Name = "Municipio: ")]
+        public string Municipio { get; set; }
+        [DataMember]
+        [Display(Name = "UF: ")]
+        public string Uf { get; set; }
     }
 
     [CollectionDataContract]

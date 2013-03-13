@@ -22,5 +22,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
             return this;
         }
+
+        public IUsuarios FiltraPorListaDeLogins(string[] logins)
+        {
+            Query = Query.Where(x => logins.Contains(x.Login));
+            return this;
+        }
     }
 }

@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -19,15 +20,27 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly ICadastroIva _cadastroIva;
         private readonly IvaCadastroVm _ivaPadrao;
         private readonly IList<IvaCadastroVm> _listaIvas;
+        private readonly IList<Iva> _ivasConsulta;
 
 
         public CadastroIvaTests()
         {
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _ivasConsulta = new List<Iva>();
             _ivasMock = new Mock<IIvas>(MockBehavior.Strict);
             _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) => Assert.IsNotNull(iva));
-            _ivasMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
-                     .Returns((string i) => i == "01" ? new IvaParaAtualizacao("01", "IVA 01") : null);
+            _ivasMock.Setup(x => x.BuscaListaPorCodigo(It.IsAny<string[]>()))
+                    .Callback((string[] codigos) =>
+                        {
+                            if (codigos.Contains("01"))
+                            {
+                                _ivasConsulta.Add(new IvaParaAtualizacao("01", "IVA 01"));
+                            }
+                            
+                        })
+                     .Returns(_ivasMock.Object);
+
+            _ivasMock.Setup(x => x.List()).Returns(_ivasConsulta);
 
             _cadastroIva = new CadastroIva(_unitOfWorkMock.Object, _ivasMock.Object);
             _ivaPadrao = new IvaCadastroVm()
@@ -43,15 +56,8 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _cadastroIva.AtualizarIvas(_listaIvas);
             _ivasMock.Verify(x => x.Save(It.IsAny<Iva>()),Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoCadastroUmNovoIvaComSucessoFazCommitNaTransacao()
-        {
-            _cadastroIva.AtualizarIvas(_listaIvas);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());       
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
+            _ivasMock.Verify(x => x.BuscaListaPorCodigo(It.IsAny<string[]>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -68,9 +74,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 

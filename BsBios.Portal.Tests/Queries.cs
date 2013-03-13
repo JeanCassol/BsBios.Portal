@@ -169,5 +169,21 @@ namespace BsBios.Portal.Tests
                 throw;
             }
         }
+
+        public static void RemoverUnidadesDeMedidaCadastradas()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from UnidadeDeMedida");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
+
     }
 }

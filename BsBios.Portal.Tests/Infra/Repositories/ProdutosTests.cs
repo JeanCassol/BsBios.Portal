@@ -5,21 +5,19 @@ using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Infra.Repositories
 {
     [TestClass]
     public class ProdutosTests: RepositoryTest
     {
-        private static IProdutos _produtos;
         private static IFornecedores _fornecedores;
 
         [ClassInitialize]
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
-            //Queries.RemoverProdutosCadastrados();
-            _produtos = ObjectFactory.GetInstance<IProdutos>();
             _fornecedores = ObjectFactory.GetInstance<IFornecedores>();
 
         }
@@ -29,25 +27,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Cleanup();
         }
 
-        private void RemoverFornecedoresCadastrados()
-        {
-            var fornecedores = _fornecedores.List();
-            foreach (var fornecedor in fornecedores)
-            {
-                _fornecedores.Delete(fornecedor);
-            }
 
-        }
-
-        private void RemoverProdutosCadastrados()
-        {
-            var produtos = ObjectFactory.GetInstance<IProdutos>();
-            var todosProdutos = produtos.List();
-            foreach (var produto in todosProdutos)
-            {
-                produtos.Delete(produto);
-            }
-        }
         [TestMethod]
         public void QuandoPersistoUmProdutoComSucessoConsigoConsultarPosteriormente()
         {
@@ -56,7 +36,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 UnitOfWorkNh.BeginTransaction();
                 produto = DefaultObjects.ObtemProdutoPadrao();
-                _produtos.Save(produto);
+                UnitOfWorkNh.Session.Save(produto);
 
                 UnitOfWorkNh.Commit();
             }
@@ -68,7 +48,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             UnitOfWorkNh.Session.Clear();
 
-            Produto produtoConsultado = _produtos.BuscaPeloCodigo(produto.Codigo);
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            Produto produtoConsultado = produtos.BuscaPeloCodigo(produto.Codigo);
 
             Assert.IsNotNull(produtoConsultado);
             Assert.AreEqual(produto.Codigo, produtoConsultado.Codigo);
@@ -78,7 +59,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void QuandoConsultoUmProdutoComCodigoSapInexistenteDeveRetornarNull()
         {
-            Produto produto = _produtos.BuscaPeloCodigo("SAP0002");
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            Produto produto = produtos.BuscaPeloCodigo("SAP0002");
             Assert.IsNull(produto);
         }
 
@@ -101,7 +83,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
                 produto.AdicionarFornecedores(fornecedores);
 
-                _produtos.Save(produto);
+                UnitOfWorkNh.Session.Save(produto);
 
                 UnitOfWorkNh.Commit();
             }
@@ -113,9 +95,56 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             UnitOfWorkNh.Session.Clear();
 
-            Produto produtoConsultado = _produtos.BuscaPeloCodigo(produto.Codigo);
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            Produto produtoConsultado = produtos.BuscaPeloCodigo(produto.Codigo);
 
             Assert.AreEqual(2, produtoConsultado.Fornecedores.Count);
+        }
+
+        [TestMethod]
+        public void QuandoFiltroPorListaDeCodigoTemQueRetornarProdutosCorrespondenteAosCodigos()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
+            Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
+            Produto produto3 = DefaultObjects.ObtemProdutoPadrao();
+            UnitOfWorkNh.Session.Save(produto1);
+            UnitOfWorkNh.Session.Save(produto2);
+            UnitOfWorkNh.Session.Save(produto3);
+            UnitOfWorkNh.Commit();
+            UnitOfWorkNh.Session.Clear();
+
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            IList<Produto> produtosConsultados = produtos.FiltraPorListaDeCodigos(new[] { produto1.Codigo, produto2.Codigo }).List();
+
+            Assert.AreEqual(2, produtosConsultados.Count);
+            Assert.AreEqual(1, produtosConsultados.Count(x => x.Codigo == produto1.Codigo));
+            Assert.AreEqual(1, produtosConsultados.Count(x => x.Codigo == produto2.Codigo));
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarDoisProdutosSeguidosPeloCodigoUtilizandoAMesmaInstanciaDoRepositorio()
+        {
+            UnitOfWorkNh.BeginTransaction();
+            Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
+            Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
+            UnitOfWorkNh.Session.Save(produto1);
+            UnitOfWorkNh.Session.Save(produto2);
+            UnitOfWorkNh.Commit();
+
+            UnitOfWorkNh.Session.Clear();
+
+            var produtos = ObjectFactory.GetInstance<IProdutos>();
+            Produto produto1Consultado = produtos.BuscaPeloCodigo(produto1.Codigo);
+            Produto produto2Consultado = produtos.BuscaPeloCodigo(produto2.Codigo);
+            Assert.AreEqual(produto1Consultado.Codigo, produto1.Codigo);
+            Assert.AreEqual(produto1Consultado.Descricao, produto1.Descricao);
+            Assert.AreEqual(produto1Consultado.Tipo, produto1.Tipo);
+
+            Assert.AreEqual(produto2Consultado.Codigo, produto2.Codigo);
+            Assert.AreEqual(produto2Consultado.Descricao, produto2.Descricao);
+            Assert.AreEqual(produto2Consultado.Tipo, produto2.Tipo);
+
         }
     }
 }

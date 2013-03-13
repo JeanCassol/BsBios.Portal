@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -26,17 +27,25 @@ namespace BsBios.Portal.Tests.Application.Services
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _incotermsMock = new Mock<IIncoterms>(MockBehavior.Strict);
             _incotermsMock.Setup(x => x.Save(It.IsAny<Incoterm>())).Callback((Incoterm incoterm) => Assert.IsNotNull(incoterm));
-            _incotermsMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
-                .Callback((string i) =>
+            _incotermsMock.Setup(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()))
+                .Callback((string[] i) =>
                     {
-                        _incotermRetornoRepositorio = (i == "001"
+                        _incotermRetornoRepositorio = (i.Contains("001")
                                                            ? new IncotermParaAtualizacao("001", "INCOTERM 001")
                                                            : null);
                     })
                      .Returns(_incotermsMock.Object);
 
-            _incotermsMock.Setup(x => x.Single())
-                          .Returns(() =>  _incotermRetornoRepositorio);
+            _incotermsMock.Setup(x => x.List())
+                          .Returns(() =>
+                              {
+                                  var retorno = new List<Incoterm>();
+                                  if (_incotermRetornoRepositorio != null)
+                                  {
+                                      retorno.Add(_incotermRetornoRepositorio);
+                                  }
+                                  return retorno;
+                              });
 
             _cadastroIncoterm = new CadastroIncoterm(_unitOfWorkMock.Object, _incotermsMock.Object);
             _incotermPadrao = new IncotermCadastroVm()
@@ -52,15 +61,8 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _cadastroIncoterm.AtualizarIncoterms(_listaIncoterms);
             _incotermsMock.Verify(x => x.Save(It.IsAny<Incoterm>()),Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoCadastroUmNovoIncotermComSucessoFazCommitNaTransacao()
-        {
-            _cadastroIncoterm.AtualizarIncoterms(_listaIncoterms);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());       
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
+            _incotermsMock.Verify(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -77,9 +79,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 

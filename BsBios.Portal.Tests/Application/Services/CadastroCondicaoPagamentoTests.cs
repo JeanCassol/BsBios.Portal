@@ -8,6 +8,7 @@ using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Linq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
@@ -20,8 +21,10 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly CondicaoDePagamentoCadastroVm _condicaoPagamento01;
         private readonly CondicaoDePagamentoCadastroVm _condicaoPagamento02;
         private readonly IList<CondicaoDePagamentoCadastroVm> _condicoesDePagamento;
+        private readonly IList<CondicaoDePagamento> _condicoesRepositorio;
         public CadastroCondicaoPagamentoTests()
         {
+            _condicoesRepositorio = new List<CondicaoDePagamento>();
             _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
             _condicoesDePagamentoMock = new Mock<ICondicoesDePagamento>(MockBehavior.Strict);
             _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>()))
@@ -32,15 +35,21 @@ namespace BsBios.Portal.Tests.Application.Services
                         _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
                         _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
                     });
-            _condicoesDePagamentoMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
+            _condicoesDePagamentoMock.Setup(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()))
                 //callback assegura que a transação foi iniciada e não foi fechada antes de consultar
-                .Callback((string codigo) =>
+                .Callback((string[] codigos) =>
                     {
                         _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
                         _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                    })
+                        if (codigos.Contains("C001"))
+                        {
+                            _condicoesRepositorio.Add(new CondicaoDePagamentoParaAtualizacao("C001", "CONDICAO 001"));
+                        }
 
-                .Returns((string c) => c == "C001" ? new CondicaoDePagamentoParaAtualizacao("C001", "CONDICAO 001") : null);
+                    })
+                .Returns(_condicoesDePagamentoMock.Object);
+
+            _condicoesDePagamentoMock.Setup(x => x.List()).Returns(_condicoesRepositorio);
 
             _cadastroCondicaoPagamento = new CadastroCondicaoPagamento(_unitOfWorkMock.Object, _condicoesDePagamentoMock.Object);
             _condicaoPagamento01 = new CondicaoDePagamentoCadastroVm()
@@ -67,14 +76,8 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _cadastroCondicaoPagamento.AtualizarCondicoesDePagamento(new List<CondicaoDePagamentoCadastroVm>(){_condicaoPagamento01});
             _condicoesDePagamentoMock.Verify(x => x.Save(It.IsAny<CondicaoDePagamento>()), Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoCadastroUmaNovaCondicaoDePagamentoComSucessoFazCommitNaTransacao()
-        {
-            _cadastroCondicaoPagamento.AtualizarCondicoesDePagamento(new List<CondicaoDePagamentoCadastroVm>() { _condicaoPagamento01 });
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
+            _condicoesDePagamentoMock.Verify(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
