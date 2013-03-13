@@ -19,8 +19,8 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void QuandoConsultarFornecedoresNaoVinculadosRetornaListaDeFornecedores()
         {
-            var fornecedor03 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br");
-            var fornecedor04 = new Fornecedor("FORNEC0004", "FORNECEDOR 0004", "fornecedor0004@empresa.com.br");
+            Fornecedor fornecedor03 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor04 = DefaultObjects.ObtemFornecedorPadrao();
             var listaFornecedores = new List<Fornecedor> {fornecedor03, fornecedor04};
 
             var fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
@@ -49,8 +49,8 @@ namespace BsBios.Portal.Tests.Application.Queries
 
             Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();
-            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == "FORNEC0003"));
-            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == "FORNEC0004"));
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor03.Codigo));
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor04.Codigo));
 
             fornecedoresMock.Verify(x => x.FornecedoresNaoVinculadosAoProduto(It.IsAny<string>()), Times.Once());
             fornecedoresMock.Verify(x => x.Count(), Times.Once());
@@ -62,8 +62,8 @@ namespace BsBios.Portal.Tests.Application.Queries
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            fornecedor2.Atualizar("CARLOS EDUARDO DA SILVA", fornecedor2.Email);
-            fornecedor3.Atualizar("LUIS EDUARDO SILVA", fornecedor3.Email);
+            fornecedor2.Atualizar("CARLOS EDUARDO DA SILVA", fornecedor2.Email,"","","");
+            fornecedor3.Atualizar("LUIS EDUARDO SILVA", fornecedor3.Email,"","","");
             DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor3);

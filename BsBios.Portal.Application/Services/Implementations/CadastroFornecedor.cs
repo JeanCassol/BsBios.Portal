@@ -28,7 +28,8 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                var fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome,fornecedorCadastroVm.Email);
+                var fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome,fornecedorCadastroVm.Email,
+                    fornecedorCadastroVm.Cnpj, fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf);
                 _fornecedores.Save(fornecedor);
                 _unitOfWork.Commit();
             }
@@ -46,13 +47,15 @@ namespace BsBios.Portal.Application.Services.Implementations
 
             if (fornecedor == null)
             {
-                fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
+                fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email,
+                    fornecedorCadastroVm.Cnpj, fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf);
                 usuario = new Usuario(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Email);
                 usuario.AdicionarPerfil(Enumeradores.Perfil.Fornecedor);
             }
             else
             {
-                fornecedor.Atualizar(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
+                fornecedor.Atualizar(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email, fornecedorCadastroVm.Cnpj, 
+                    fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf);
             }
                              
             _fornecedores.Save(fornecedor);

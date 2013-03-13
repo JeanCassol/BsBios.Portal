@@ -36,8 +36,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial =  DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br"));
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br"));
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
                                    .Returns(_processosDeCotacaoMock.Object);
             _processosDeCotacaoMock.Setup(x => x.Single())

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -15,33 +16,27 @@ namespace BsBios.Portal.Tests.Application.Builders
         public void BuilderSingleCriarAViewModelComAsPropriedadesCorretas()
         {
             var builder = new FornecedorCadastroBuilder();
-            FornecedorCadastroVm  viewModel = builder.BuildSingle(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br"));
-            Assert.AreEqual("FORNEC0001", viewModel.Codigo);
-            Assert.AreEqual("FORNECEDOR 0001", viewModel.Nome);
-            Assert.AreEqual("fornecedor0001@empresa.com.br", viewModel.Email);
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            FornecedorCadastroVm  viewModel = builder.BuildSingle(fornecedor);
+            Assert.AreEqual(fornecedor.Codigo, viewModel.Codigo);
+            Assert.AreEqual(fornecedor.Nome, viewModel.Nome);
+            Assert.AreEqual(fornecedor.Email, viewModel.Email);
         }
         [TestMethod]
         public void BuilderListChamaOMetodoSingleParaCadaUmDosFornecedoresDaLista()
         {
             var builder = new FornecedorCadastroBuilder();
 
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             var viewModels = builder.BuildList(new List<Fornecedor>()
                 {
-                    new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br"),
-                    new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br"),
+                    fornecedor1, fornecedor2
                 });
 
             Assert.AreEqual(2, viewModels.Count);
-            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == ("FORNEC0001")));
-            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == ("FORNEC0002")));
-        }
-
-        [TestMethod]
-        public void ConsigoInstaciarOBuilderDeFornecedorCadastro()
-        {
-            var builder = ObjectFactory.GetInstance<IBuilder<Fornecedor, FornecedorCadastroVm>>();
-            Assert.IsNotNull(builder);
-            Assert.IsInstanceOfType(builder, typeof(FornecedorCadastroBuilder));
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor1.Codigo));
+            Assert.AreEqual(1, viewModels.Count(x => x.Codigo == fornecedor2.Codigo));
         }
 
     }

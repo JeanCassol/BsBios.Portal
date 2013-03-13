@@ -35,7 +35,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     {
                         if (codigos.Contains("FORNEC0001"))
                         {
-                            _fornecedoresRepositorio.Add(new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br"));
+                            _fornecedoresRepositorio.Add(new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br","cnpj alterado", "municipio alterado", "uf alterada"));
                         }
                     })
                 .Returns(_fornecedoresMock.Object);
@@ -90,6 +90,9 @@ namespace BsBios.Portal.Tests.Application.Services
                     Assert.AreEqual("FORNEC0001", fornecedor.Codigo);
                     Assert.AreEqual("FORNECEDOR 0001 ATUALIZADO", fornecedor.Nome);
                     Assert.AreEqual("emailatualizado@empresa.com.br",fornecedor.Email);
+                    Assert.AreEqual("cnpj alterado", fornecedor.Cnpj);
+                    Assert.AreEqual("municipio alterado", fornecedor.Municipio);
+                    Assert.AreEqual("uf", fornecedor.Uf);
                 });
             _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
                 {
@@ -97,7 +100,11 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             Codigo ="FORNEC0001" ,
                             Nome = "FORNECEDOR 0001 ATUALIZADO" ,
-                            Email = "emailatualizado@empresa.com.br"
+                            Email = "emailatualizado@empresa.com.br",
+                            Cnpj = "cnpj alterado" ,
+                            Municipio = "municipio alterado" ,
+                            Uf = "uf"
+
                         }
                 });
 
@@ -112,6 +119,9 @@ namespace BsBios.Portal.Tests.Application.Services
                 Assert.AreEqual("FORNEC0002", fornecedor.Codigo);
                 Assert.AreEqual("FORNECEDOR 0002", fornecedor.Nome);
                 Assert.AreEqual("fornecedor0002@empresa.com.br", fornecedor.Email);
+                Assert.AreEqual("cnpj", fornecedor.Cnpj);
+                Assert.AreEqual("municipio", fornecedor.Municipio);
+                Assert.AreEqual("uf", fornecedor.Uf);
             });
 
             _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
@@ -120,7 +130,10 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             Codigo = "FORNEC0002" ,
                             Nome =  "FORNECEDOR 0002",
-                            Email = "fornecedor0002@empresa.com.br"
+                            Email = "fornecedor0002@empresa.com.br",
+                            Cnpj = "cnpj" ,
+                            Municipio = "municipio" ,
+                            Uf = "uf"
                         }
                 });
 
@@ -179,7 +192,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
     public class FornecedorParaAtualizacao: Fornecedor
     {
-        public FornecedorParaAtualizacao(string codigo, string nome, string email) : base(codigo, nome, email)
+        public FornecedorParaAtualizacao(string codigo, string nome, string email, string cnpj, string municipio, string uf) 
+            : base(codigo, nome, email,cnpj, municipio, uf)
         {
         }
     }

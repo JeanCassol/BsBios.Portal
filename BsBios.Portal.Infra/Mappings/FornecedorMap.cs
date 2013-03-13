@@ -1,5 +1,4 @@
 ﻿using BsBios.Portal.Domain.Entities;
-using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -12,6 +11,9 @@ namespace BsBios.Portal.Infra.Mappings
             Id(x => x.Codigo).GeneratedBy.Assigned();
             Map(x => x.Nome);
             Map(x => x.Email);
+            Map(x => x.Cnpj);
+            Map(x => x.Municipio);
+            Map(x => x.Uf);
             HasManyToMany(x => x.Produtos)
                 .Cascade.All()
                 .Table("ProdutoFornecedor").ParentKeyColumn("CodigoFornecedor").ChildKeyColumn("CodigoProduto")

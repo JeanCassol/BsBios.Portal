@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Domain.Entities
@@ -32,8 +33,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var produto = new Produto("PROD0001", "Produto de Teste", "01");
             var fornecedores = new List<Fornecedor>()
                 {
-                    new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br"),
-                    new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br")
+                    DefaultObjects.ObtemFornecedorPadrao(),
+                    DefaultObjects.ObtemFornecedorPadrao()
                 };
 
             produto.AdicionarFornecedores(fornecedores);
@@ -46,16 +47,17 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //inicialmente cria um produto com dois fornecedores
             var produto = new Produto("PROD0001", "Produto de Teste", "01");
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br");
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             
             produto.AdicionarFornecedores(new List<Fornecedor>() {fornecedor1 , fornecedor2});
 
             //adiciona mais dois fornecedores ao produto, sendo que um deles já existe
-            var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor03@empresa.com.br");
+            var fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
 
             produto.AdicionarFornecedores(new List<Fornecedor>() 
-            { new Fornecedor("FORNEC0001", "FORNECEDOR 0001 ALTERADO", "fornecedor01@empresa.com.br"), fornecedor3 });
+            { new Fornecedor(fornecedor1.Codigo, "FORNECEDOR 0001 ALTERADO", "fornecedor01@empresa.com.br",
+                fornecedor1.Cnpj, fornecedor1.Municipio, fornecedor1.Uf), fornecedor3 });
 
             Assert.AreEqual(3, produto.Fornecedores.Count);
         }

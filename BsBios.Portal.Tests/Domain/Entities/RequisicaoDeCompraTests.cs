@@ -12,7 +12,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoCrioUmaRequisicaoAsPropriedadesFicamCorretas()
         {
             var usuarioCriador = new Usuario("Usuario Criador", "criador", "");
-            var fornecedorPretendido = new Fornecedor("fpret", "Fornecedor Pretendido", null);
+            Fornecedor fornecedorPretendido = DefaultObjects.ObtemFornecedorPadrao();
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
@@ -24,7 +24,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Assert.AreEqual("criador",requisicaoDeCompra.Criador.Login);
             Assert.AreEqual("requisitante", requisicaoDeCompra.Requisitante);
-            Assert.AreEqual("fpret", requisicaoDeCompra.FornecedorPretendido.Codigo);
+            Assert.AreEqual(fornecedorPretendido.Codigo, requisicaoDeCompra.FornecedorPretendido.Codigo);
             Assert.AreEqual("MAT0001",requisicaoDeCompra.Material.Codigo);
             Assert.AreEqual(dataDeRemessa, requisicaoDeCompra.DataDeRemessa);
             Assert.AreEqual(dataDeLiberacao, requisicaoDeCompra.DataDeLiberacao);

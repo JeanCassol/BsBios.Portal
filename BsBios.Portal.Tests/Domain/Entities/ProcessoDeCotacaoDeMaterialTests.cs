@@ -46,19 +46,19 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAdicionarUmFornecedorNoProcessoEsteFicaVinculadoAoProcesso()
         {
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
 
-            Assert.IsNotNull(processoDeCotacaoDeMaterial.FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == "FORNEC0001"));
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.FornecedoresParticipantes.SingleOrDefault(x => x.Fornecedor.Codigo == fornecedor1.Codigo));
 
         }
 
         [TestMethod]
         public void QuandoAdicionaMaisDeUmaVezOMesmoFornecedorEsteApareceNaListaApenasUmaUnicaVez()
         {
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
@@ -69,9 +69,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
         public void QuandoRemovoUmFornecedorEsteNaoFicaMaisVinculadoAoProcesso()
         {
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");
-            var fornecedor3 = new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornec0003@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
@@ -80,7 +80,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Assert.AreEqual(3, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count);
 
-            processoDeCotacaoDeMaterial.RemoverFornecedor("FORNEC0002");
+            processoDeCotacaoDeMaterial.RemoverFornecedor(fornecedor2.Codigo);
 
             Assert.AreEqual(2, processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count);
         }
@@ -130,11 +130,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.Abrir();
 
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");
+            var fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
 
         }
@@ -145,13 +145,13 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
-            var fornecedor1 = new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornec0001@empresa.com.br");
-            var fornecedor2 = new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornec0002@empresa.com.br");
+            var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            var fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor1);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor2);
             processoDeCotacaoDeMaterial.Abrir();
 
-            processoDeCotacaoDeMaterial.RemoverFornecedor("FORNEC0001");
+            processoDeCotacaoDeMaterial.RemoverFornecedor(fornecedor1.Codigo);
 
         }
 
@@ -224,7 +224,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void AposOProcessoDeCotacaoSerFechadoNaoEPossivelAtualizarFornecedores()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
-            processoDeCotacao.AdicionarFornecedor(new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br"));
+            processoDeCotacao.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
         }
 
         [TestMethod]

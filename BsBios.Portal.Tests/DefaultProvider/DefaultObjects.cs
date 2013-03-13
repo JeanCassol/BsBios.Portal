@@ -103,7 +103,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
             _contadorFornecedores++;
             var codigo = GeraCodigo(_contadorFornecedores, 10);
             var fornecedor = new Fornecedor(codigo, "FORNECEDOR " + codigo, 
-                "fornecedor" + codigo + "@empresa.com.br");
+                "fornecedor" + codigo + "@empresa.com.br","cnpj" + codigo, "municipio" + codigo, "uf");
             return fornecedor;
         }
 

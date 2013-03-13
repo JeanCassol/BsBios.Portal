@@ -38,15 +38,21 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             }
             catch (Exception)
             {
-                UnitOfWorkNh.RollBack();                
+                RollbackSessionTransaction();
                 throw;
             }
+
+            Session.Clear();
+
             Fornecedor fornecedorConsulta = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
 
             Assert.IsNotNull(fornecedorConsulta);
             Assert.AreEqual(fornecedor.Codigo, fornecedorConsulta.Codigo);
             Assert.AreEqual("FORNECEDOR " + fornecedor.Codigo, fornecedorConsulta.Nome);
             Assert.AreEqual("fornecedor"+ fornecedor.Codigo +  "@empresa.com.br", fornecedorConsulta.Email);
+            Assert.AreEqual("cnpj" + fornecedor.Codigo, fornecedor.Cnpj);
+            Assert.AreEqual("municipio" + fornecedor.Codigo, fornecedorConsulta.Municipio);
+            Assert.AreEqual("uf", fornecedorConsulta.Uf);
         }
 
         [TestMethod]
@@ -73,9 +79,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             {
                 UnitOfWorkNh.BeginTransaction();
                 var fornecedorConsulta = fornecedores.BuscaPeloCodigo(codigoFornedor);
-                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br");
+                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br","cnpj alterado", "municipio alterado","uf");
 
-                fornecedores.Save(fornecedorConsulta);
+                UnitOfWorkNh.Session.Save(fornecedorConsulta);
                 UnitOfWorkNh.Commit();
 
             }
@@ -85,10 +91,15 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 throw;
             }
 
+            UnitOfWorkNh.Session.Clear();
+
             var fornecedorConsultaAtualizacao = fornecedores.BuscaPeloCodigo(codigoFornedor);
             Assert.AreEqual(codigoFornedor, fornecedorConsultaAtualizacao.Codigo);
             Assert.AreEqual("FORNECEDOR ALTERADO", fornecedorConsultaAtualizacao.Nome);
             Assert.AreEqual("fornecedoralterado@empresa.com.br", fornecedorConsultaAtualizacao.Email);
+            Assert.AreEqual("cnpj alterado",fornecedorConsultaAtualizacao.Cnpj);
+            Assert.AreEqual("municipio alterado", fornecedorConsultaAtualizacao.Municipio);
+            Assert.AreEqual("uf", fornecedorConsultaAtualizacao.Uf);
 
         }
 
@@ -171,8 +182,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email);
-            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email);
+            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email,"","","");
+            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email, "", "", "");
             DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor3);

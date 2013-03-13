@@ -45,7 +45,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
             _fornecedoresMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
-                             .Returns(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", null));
+                             .Returns(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", null, "", "", ""));
 
             _produtosMock = new Mock<IProdutos>(MockBehavior.Strict);
             _produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
