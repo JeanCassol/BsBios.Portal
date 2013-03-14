@@ -70,9 +70,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacao, string descricao)
+        public JsonResult Listar(PaginacaoVm paginacao, ProdutoCadastroVm filtro)
         {
-            return Json(_consultaProduto.Listar(paginacao, descricao),JsonRequestBehavior.AllowGet);
+            return Json(_consultaProduto.Listar(paginacao, filtro), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

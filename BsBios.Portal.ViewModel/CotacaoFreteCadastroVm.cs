@@ -17,18 +17,17 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Quantidade do Material é obrigatória")]
         public int QuantidadeMaterial { get; set; }
 
-        [Required(ErrorMessage = "Data de Início do Leilão é obrigatório")]
-        [Display(Name = "Início do Leilão")]
-        [DataType(DataType.Date)]
-        public string DataInicioLeilao { get; set; }
+        [Display(Name = "Unidade de Medida")]
+        [Required(ErrorMessage = "Unidade de Medida é obrigatória")]
+        public string CodigoUnidadeMedida { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Término do Leilão")]
-        [Required(ErrorMessage = "Data de Término do Leilão é obrigatório")]
-        public string DataTerminoLeilao { get; set; }
+        [Display(Name = "Data Limite de Retorno")]
+        [Required(ErrorMessage = "Data Limite de Retorno é obrigatório")]
+        public string DataLimiteRetorno { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Data Inicialde de Validade da Cotação é obrigatório")]
+        [Required(ErrorMessage = "Data Inicial de Validade da Cotação é obrigatório")]
         [Display(Name = "Data Inicial de Validade")]
         public string DataValidadeCotacaoInicial { get; set; }
 
@@ -37,26 +36,15 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Data Final de Validade")]
         public string DataValidadeCotacaoFinal { get; set; }
 
-        [Required(ErrorMessage = "Centro é obrigatório")]
-        [Display(Name = "Centro")]
-        public int IdCentro { get; set; }
-        public string DescricaoCentro { get; set; }
-
         [Required(ErrorMessage = "Itinerário é obrigatório")]
+        public int CodigoItinerario { get; set; }
         [Display(Name = "Itinerário")]
-        public int IdItinerario { get; set; }
         public string DescricaoItinerario { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Requisitos")]
         [Required(ErrorMessage = "Requisitos é obrigatório")]
         public string Requisitos { get; set; }
-
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Observações")]
-        public string Observacoes { get; set; }
-
-        public RequisicaoDeCompraVm RequisicaoDeCompraVm { get; set; }
 
     }
 }

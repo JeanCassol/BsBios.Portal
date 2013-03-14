@@ -42,7 +42,20 @@ namespace BsBios.Portal.Infra.Mappings
             Table("ProcessoCotacaoMaterial");
             KeyColumn("Id");
             References(x => x.RequisicaoDeCompra).Column("IdRequisicaoCompra");
-            DiscriminatorValue(Enumeradores.TipoDeCotacao.Material);
+            //DiscriminatorValue(Enumeradores.TipoDeCotacao.Material);
+        }
+    }
+
+    public class ProcessoDeCotacaoDeFreteMap: SubclassMap<ProcessoDeCotacaoDeFrete>
+    {
+        public ProcessoDeCotacaoDeFreteMap()
+        {
+            Table("ProcessoCotacaoFrete");
+            KeyColumn("Id");
+            References(x => x.Itinerario).Column("CodigoItinerario");
+            Map(x => x.DataDeValidadeInicial).Column("DataValidadeInicial");
+            Map(x => x.DataDeValidadeFinal).Column("DataValidadeFinal");
+            Map(x => x.NumeroDoContrato).Column("NumeroContrato");
         }
     }
 }

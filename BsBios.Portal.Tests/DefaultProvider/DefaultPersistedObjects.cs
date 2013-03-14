@@ -90,7 +90,10 @@ namespace BsBios.Portal.Tests.DefaultProvider
             PersistirEntidade(unidadeMedida);
         }
 
-
+        private static void PersistirItinerario(Itinerario itinerario)
+        {
+            PersistirEntidade(itinerario);
+        }
 
         public static void PersistirRequisicaoDeCompra(RequisicaoDeCompra requisicaoDeCompra)
         {
@@ -180,6 +183,52 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 RollbackSessionTransaction();
                 throw;
             }
+        }
+
+        public static void PersistirProcessoDeCotacaoDeFrete(ProcessoDeCotacaoDeFrete processo)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+                }
+
+                foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
+                {
+                    PersistirFornecedor(fornecedorParticipante.Fornecedor);
+                    if (fornecedorParticipante.Cotacao != null)
+                    {
+                        Cotacao cotacao = fornecedorParticipante.Cotacao;
+                        PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
+                        PersistirIncoterm(cotacao.Incoterm);
+                        if (cotacao.Iva != null)
+                        {
+                            PersistirIva(cotacao.Iva);
+                        }
+
+                    }
+
+                }
+
+                PersistirUnidadeDeMedida(processo.UnidadeDeMedida);
+                PersistirItinerario(processo.Itinerario);
+                PersistirProduto(processo.Produto);
+
+                Session.Save(processo);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+            
+
         }
     }
 }

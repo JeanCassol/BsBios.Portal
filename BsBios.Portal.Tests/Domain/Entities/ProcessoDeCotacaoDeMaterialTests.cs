@@ -37,8 +37,10 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoAtualizoDadosComplementaresDeUmProcessoDeCotacaoAsPropriedadesSaoAlteradas()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10),"requisitos alterados");
             Assert.AreEqual(DateTime.Today.AddDays(10), processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
+            Assert.AreEqual("requisitos alterados", processoDeCotacaoDeMaterial.Requisitos);
         }
 
         [TestMethod]
@@ -110,7 +112,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoIniciadoAtualizacaoDadosException))]
+        [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAtualizarOsDadosComplementares()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
@@ -204,7 +206,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoIniciadoAtualizacaoDadosException))]
+        [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerFechadoNaoEPossivelAtualizarOsDadosComplementares()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();

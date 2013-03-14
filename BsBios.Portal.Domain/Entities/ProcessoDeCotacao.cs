@@ -32,16 +32,13 @@ namespace BsBios.Portal.Domain.Entities
             UnidadeDeMedida = unidadeDeMedida;
         }
 
-        public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
+        protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
+            string requisitos, DateTime dataLimiteRetorno):this(produto, quantidade, unidadeDeMedida)
         {
-            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
-            {
-                throw new ProcessoDeCotacaoIniciadoAtualizacaoDadosException(Status.Descricao());
-            }
-            DataLimiteDeRetorno = dataLimiteDeRetorno;
             Requisitos = requisitos;
-        }
+            DataLimiteDeRetorno = dataLimiteRetorno;
 
+        }
 
         public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
         {
@@ -144,12 +141,64 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
 
-        protected ProcessoDeCotacaoDeMaterial(){}
+        protected ProcessoDeCotacaoDeMaterial()
+        {}
         public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
             :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
         {
             RequisicaoDeCompra = requisicaoDeCompra;
         }
 
+        public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+            }
+            DataLimiteDeRetorno = dataLimiteDeRetorno;
+            Requisitos = requisitos;
+        }
+
+
+    }
+
+    public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
+    {
+        public virtual string NumeroDoContrato{ get; protected set; }
+        public virtual DateTime DataDeValidadeInicial { get; protected set; }
+        public virtual DateTime DataDeValidadeFinal { get; protected set; }
+        public virtual Itinerario Itinerario { get; protected set; }
+
+        protected ProcessoDeCotacaoDeFrete(){}
+        public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
+            string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
+            DateTime dataDeValidadeFinal, Itinerario itinerario):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+        {
+            NumeroDoContrato = numeroDoContrato;
+            DataDeValidadeInicial = dataDeValidadeInicial;
+            DataDeValidadeFinal = dataDeValidadeFinal;
+            Itinerario = itinerario;
+        }
+
+        public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,
+            string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
+            DateTime dataDeValidadeFinal, Itinerario itinerario)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+            }
+
+            Produto = produto;
+            Quantidade = quantidade;
+            UnidadeDeMedida = unidadeDeMedida;
+            Requisitos = requisitos;
+            NumeroDoContrato = numeroDoContrato;
+            DataLimiteDeRetorno = dataLimiteDeRetorno;
+            DataDeValidadeInicial = dataDeValidadeInicial;
+            DataDeValidadeFinal = dataDeValidadeFinal;
+            Itinerario = itinerario;
+
+        }
     }
 }

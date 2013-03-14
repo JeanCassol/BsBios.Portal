@@ -3,9 +3,9 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Contracts
 {
-    public interface IConsultaIncoterm
+    public interface IConsultaUnidadeDeMedida
     {
-        IList<IncotermCadastroVm> ListarTodos();
+        IList<UnidadeDeMedidaCadastroVm> ListarTodos();
     }
 
 }

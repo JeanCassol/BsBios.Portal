@@ -15,45 +15,46 @@
             
             <div>
                 @Html.Label("Status:",new{@class="labelNaLinha"})
-                @Html.DisplayFor(model => model.DescricaoStatus)
+                @Html.Display(Model != null ? Model.DescricaoStatus : "Não Iniciado")
             </div>
 
-            @{ var comboMaterial = new ColunaComDropDown<CotacaoFreteCadastroVm, string>(x => x.CodigoMaterial, 
-                ((List<ProdutoCadastroVm>) ViewBag.Materiais)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoMaterial}),
-                "IdMaterial");
+            
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(x => x.DescricaoMaterial)
+                    @Html.TextBoxFor(x => x.DescricaoMaterial,new{disabled=true})
+                    @Html.ValidationMessageFor(x => x.DescricaoMaterial)
+                    <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
+                </div>
+            </div>
+
+            @{ var comboUnidadeDeMedida = new ColunaComDropDown<CotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
+                ((List<UnidadeDeMedidaCadastroVm>) ViewBag.UnidadesDeMedida)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
+                "CodigoUnidadeMedida");
 
                 var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(x => x.QuantidadeMaterial);
             }
             
-            @Html.LinhaComDuasColunas(comboMaterial,quantidadeMaterial)
+            @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataInicioLeilao, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataTerminoLeilao, "campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker"))
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
             new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
-            @{
-            var comboCentro = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(x => x.IdCentro, 
-                        ((List<CentroCadastroVm>)ViewBag.Centros)
-                        .Select(x => new SelectListItem() { Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id }),
-                        "IdCentro");
-
-            var comboItinerario = new ColunaComDropDown<CotacaoFreteCadastroVm, int>(x => x.IdItinerario, 
-                ((List<ItinerarioCadastroVm>) ViewBag.Itinerarios)
-                    .Select(x => new SelectListItem() {Value = Convert.ToString(x.Id), Text = x.Descricao, Selected = Model != null && Model.Id == x.Id}),
-                "IdItinerario");                   
-            }
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(x => x.DescricaoItinerario)
+                    @Html.TextBoxFor(x => x.DescricaoItinerario,new{disabled=true})
+                    @Html.ValidationMessageFor(x => x.DescricaoItinerario)
+                    <input type="button" class="button_visualize" />        
+                </div>
+            </div>
             
-            @Html.LinhaComDuasColunas(comboCentro, comboItinerario)
 
-            @Html.LinhaComDuasColunas(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.Requisitos),
-            new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.Observacoes))
+            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.Requisitos))
 
-            @*            @{
-                Html.RenderAction("Index","Fornecedor");
-            }*@
             @Html.ValidationSummary(true)
 
         <div class="divBotao">
@@ -61,9 +62,39 @@
         </div>
         </fieldset>
     }
+    <div id="divSelecionarProduto"></div>
+    <div id="divSelecionarItinerario"></div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            
+            $('#divSelecionarProduto').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Selecionar Produto',
+                modal: true,
+                buttons: {
+                    "Confirmar": function () {
+                        alert('confirmado');
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $('#btnSelecionarProduto').click(function () {
+                $('#divSelecionarProduto').load("@Url.Action("SelecionarProduto")",
+                function (response, status, xhr) {
+                    $('#divSelecionarProduto').dialog('open');
+                });
+            });
+        })
+        
+
+    </script>
 }

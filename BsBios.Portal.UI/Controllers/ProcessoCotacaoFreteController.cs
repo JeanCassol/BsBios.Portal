@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -12,11 +13,12 @@ namespace BsBios.Portal.UI.Controllers
     {
         private readonly IList<CotacaoFreteListagemVm> _cotacoesDeFrete ;
         private readonly IList<ProdutoCadastroVm> _produtos;
-        private readonly IList<ItinerarioCadastroVm> _itinerarios ;
-        private readonly IList<CentroCadastroVm> _centros; 
+        private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
 
-        public ProcessoCotacaoFreteController()
+        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida)
         {
+            _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
+
             _cotacoesDeFrete = new List<CotacaoFreteListagemVm>();
             _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()
                 {
@@ -69,13 +71,6 @@ namespace BsBios.Portal.UI.Controllers
                 Descricao = "Milho",
             });
 
-            _itinerarios = new List<ItinerarioCadastroVm>();
-            _itinerarios.Add(new ItinerarioCadastroVm(){Codigo = "1", Descricao = "Itinerário 1"});
-            _itinerarios.Add(new ItinerarioCadastroVm() { Codigo = "2", Descricao = "Itinerário 2" });
-
-            _centros = new List<CentroCadastroVm>();
-            _centros.Add(new CentroCadastroVm(){Id = 1, Descricao = "Centro 1"});
-            _centros.Add(new CentroCadastroVm() { Id = 2, Descricao = "Centro 2" });
         }
 
         //
@@ -95,16 +90,9 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ViewResult NovoCadastro()
         {
-            ViewBag.Materiais = _produtos;
-            ViewBag.Itinerarios = _itinerarios;
-            ViewBag.Centros = _centros;
+            ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
             
-            return View("Cadastro", new CotacaoFreteCadastroVm 
-            {
-                DescricaoStatus = "ABERTO",
-                QuantidadeMaterial = 10,
-                RequisicaoDeCompraVm = new RequisicaoDeCompraVm(){NumeroItem = "00001" , NumeroRequisicao = "REQ0001"},
-                DataInicioLeilao = DateTime.Today.ToShortDateString()});
+            return View("Cadastro");
         }
 
         [HttpPost]
@@ -114,7 +102,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ViewResult EditarCadastro(int idCotacaoFrete)
+        public ViewResult EditarCadastro(int idProcessoCotacaoFrete)
         {
             return View("Cadastro");
         }
@@ -125,6 +113,10 @@ namespace BsBios.Portal.UI.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult SelecionarProduto()
+        {
+            return View("_SelecionarProduto");
+        }
 
     }
 }

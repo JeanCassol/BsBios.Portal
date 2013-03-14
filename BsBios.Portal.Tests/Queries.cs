@@ -23,7 +23,7 @@ namespace BsBios.Portal.Tests
         {
             try
             {
-                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverProcessosDeCotacaoCadastrados();
                 RemoverRequisicoesDeCompraCadastradas();
 
                 UnitOfWork.BeginTransaction();
@@ -42,7 +42,7 @@ namespace BsBios.Portal.Tests
         {
             try
             {
-                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverProcessosDeCotacaoCadastrados();
                 RemoverRequisicoesDeCompraCadastradas();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Produto");
@@ -60,7 +60,7 @@ namespace BsBios.Portal.Tests
         {
             try
             {
-                RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+                RemoverProcessosDeCotacaoCadastrados();
                 RemoverRequisicoesDeCompraCadastradas();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Fornecedor");
@@ -120,12 +120,12 @@ namespace BsBios.Portal.Tests
             }
         }
 
-        public static void RemoverProcessosDeCotacaoDeMateriaisCadastradas()
+        public static void RemoverProcessosDeCotacaoCadastrados()
         {
             try
             {
                 UnitOfWork.BeginTransaction();
-                UnitOfWork.Session.Delete("from ProcessoDeCotacaoDeMaterial");
+                UnitOfWork.Session.Delete("from ProcessoDeCotacao");
 
                 UnitOfWork.Commit();
 

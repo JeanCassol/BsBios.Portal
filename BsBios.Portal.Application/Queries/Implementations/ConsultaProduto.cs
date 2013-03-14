@@ -41,12 +41,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return _builderProduto.BuildSingle(_produtos.BuscaPeloCodigo(codigoProduto));
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, string filtroDescricao)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProdutoCadastroVm filtro)
         {
-            if (!string.IsNullOrEmpty(filtroDescricao))
-            {
-                _produtos.FiltraPorDescricao(filtroDescricao);
-            }
+            _produtos.CodigoContendo(filtro.Codigo);
+            _produtos.DescricaoContendo(filtro.Descricao);
+            _produtos.TipoContendo(filtro.Tipo);
+
             var kendoGridVmn = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _produtos.Count(),

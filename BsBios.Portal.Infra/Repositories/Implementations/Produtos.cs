@@ -22,16 +22,33 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return produto;
         }
 
-        public IProdutos FiltraPorDescricao(string filtroDescricao)
-        {
-            Query = Query.Where(x => x.Descricao.ToLower().Contains(filtroDescricao.ToLower()));
-            return this;
-        }
-
         public IProdutos FiltraPorListaDeCodigos(string[] codigos)
         {
             Query = Query.Where(x => codigos.Contains(x.Codigo));
             return this;
         }
+
+        public IProdutos DescricaoContendo(string filtroDescricao)
+        {
+            if (string.IsNullOrEmpty(filtroDescricao)) return this;
+            Query = Query.Where(x => x.Descricao.ToLower().Contains(filtroDescricao.ToLower()));
+            return this;
+        }
+
+        public IProdutos CodigoContendo(string codigo)
+        {
+            if (string.IsNullOrEmpty(codigo)) return this;
+
+            Query = Query.Where(x => x.Codigo.ToLower().Contains(codigo.ToLower()));
+            return this;
+        }
+
+        public IProdutos TipoContendo(string tipo)
+        {
+            if (string.IsNullOrEmpty(tipo)) return this;
+            Query = Query.Where(x => x.Tipo.ToLower().Contains(tipo.ToLower()));
+            return this;
+        }
+
     }
 }

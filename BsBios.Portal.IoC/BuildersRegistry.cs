@@ -33,7 +33,9 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Enumeradores.Perfil, PerfilVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<PerfilBuilder>();
-
+            For<IBuilder<UnidadeDeMedida, UnidadeDeMedidaCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<UnidadeDeMedidaCadastroBuilder>();
         }
     }
 }

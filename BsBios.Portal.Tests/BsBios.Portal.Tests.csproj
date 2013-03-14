@@ -114,6 +114,7 @@
     <Compile Include="Domain\Entities\ProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Domain\Entities\CotacaoTests.cs" />
     <Compile Include="Domain\Entities\FornecedorParticipanteTests.cs" />
+    <Compile Include="Domain\Entities\ProcessoDeCotacaDeFreteTests.cs" />
     <Compile Include="Domain\Entities\UsuarioTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
     <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
     <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeFreteTests.cs" />
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Infra\Services\AccountServiceTests.cs" />
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />

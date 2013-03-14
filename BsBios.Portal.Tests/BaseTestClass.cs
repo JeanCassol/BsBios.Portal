@@ -21,7 +21,7 @@ namespace BsBios.Portal.Tests
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()
                 .Use(new UsuarioConectado("teste", "Usuário de Teste", new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos})));
-            Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+            Queries.RemoverProcessosDeCotacaoCadastrados();
             Queries.RemoverRequisicoesDeCompraCadastradas();
             Queries.RemoverFornecedoresCadastrados();
             Queries.RemoverProdutosCadastrados();

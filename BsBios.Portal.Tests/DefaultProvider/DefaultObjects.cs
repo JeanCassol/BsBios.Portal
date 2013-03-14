@@ -177,5 +177,12 @@ namespace BsBios.Portal.Tests.DefaultProvider
             processo.Atualizar(DateTime.Today.AddDays(10), "Requisitos do Processo de Cotação de Materiais");
             return processo;
         }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
+        {
+            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100,ObtemUnidadeDeMedidaPadrao(), 
+                "Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+        }
     }
 }

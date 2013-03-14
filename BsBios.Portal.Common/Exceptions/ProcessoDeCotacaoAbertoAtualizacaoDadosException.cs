@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BsBios.Portal.Common.Exceptions
 {
-    public class ProcessoDeCotacaoIniciadoAtualizacaoDadosException: Exception
+    public class ProcessoDeCotacaoAbertoAtualizacaoDadosException: Exception
     {
         private readonly string _statusAtual;
 
-        public ProcessoDeCotacaoIniciadoAtualizacaoDadosException(string statusAtual)
+        public ProcessoDeCotacaoAbertoAtualizacaoDadosException(string statusAtual)
         {
             _statusAtual = statusAtual;
         }

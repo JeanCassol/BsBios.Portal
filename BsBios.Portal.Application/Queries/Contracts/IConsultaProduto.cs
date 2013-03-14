@@ -6,6 +6,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
     {
         KendoGridVm FornecedoresDoProduto(string codigoProduto);
         ProdutoCadastroVm ConsultaPorCodigo(string codigoProduto);
-        KendoGridVm Listar(PaginacaoVm paginacaoVm, string filtroDescricao);
+        KendoGridVm Listar(PaginacaoVm paginacaoVm, ProdutoCadastroVm filtro);
     }
 }

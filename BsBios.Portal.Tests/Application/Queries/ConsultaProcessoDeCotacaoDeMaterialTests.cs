@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void ConsultaProcessoRetornaObjetoEsperado()
         {
-            Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+            Tests.Queries.RemoverProcessosDeCotacaoCadastrados();
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void ConsultaListagemDeProcessosRetornaObjetoEsperado()
         {
-            Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
+            Tests.Queries.RemoverProcessosDeCotacaoCadastrados();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);

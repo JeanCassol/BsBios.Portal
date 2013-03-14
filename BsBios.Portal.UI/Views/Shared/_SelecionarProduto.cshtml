@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<style type="text/css">
+    .colunaFiltroPequena {
+        width: 180px;
+        display: inline-block;
+        float: left;
+    }
+    .colunaFiltroGrande {
+        width: 280px;
+        display: inline-block;
+        float: left;
+    }
+</style>
+<div id="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="colunaFiltroGrande">
+            @Html.Label("Código")
+            @Html.TextBox("Codigo","", new{@class="campomedio"})
+        </div>
+        <div class="colunaFiltroGrande">
+            @Html.Label("Descrição")
+            @Html.TextBox("Descricao","", new{@class="campomedio"})
+        </div>
+        <div class="colunaFiltroPequena">
+            @Html.Label("Tipo")
+            @Html.TextBox("Tipo","", new{@class="campopequeno"})
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+        </div>
+    </fieldset>
+</div>
+<div id="gridProdutos" class="divGrid"></div>
+
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script>
+    var produtoSelecionado = null;
+    $(document).ready(function() {
+        $("#gridProdutos").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Descricao: {type: "string"},
+                            Codigo: { type: "string" },
+                            Tipo: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros'
+                },
+                change: function(e) {
+                    if (produtoSelecionado != null && $('#gridProdutos').find('input[name=radioPortal][:selected]').length == 0) {
+                        $('input[name=radioPortal][data-codigoproduto=' + produtoSelecionado.Codigo + ']').attr('checked', true);
+                    }
+                },                
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("Listar", "Produto")',
+                        type: 'GET',
+                        cache: false,
+                        data: function() {
+                            return {
+                                Codigo: $('#Codigo').val(),
+                                Descricao: $('#Descricao').val(),
+                                Tipo: $('#Tipo').val()
+                            };
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            columns:
+            [
+                {
+                    field: 'Codigo',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    sortable: false,
+                    template: '<input type="radio" name="radioProduto" data-codigoproduto="${Codigo}"></input>'
+                },
+                {
+                    width: 170,
+                    field: "Codigo",
+                    title: "Código"
+                },
+                {
+                    field: "Descricao",
+                    width: 300,
+                    title: "Descrição"
+                },
+                {
+                    field: "Tipo",
+                    width: 60
+                }
+
+            ]
+        });
+
+        $('#btnPesquisar').click(function() {
+            $("#gridProdutos").data("kendoGrid").dataSource.read();
+        });
+
+        $('#btnLimpar').click(function() {
+            $('#divFiltros input[type!=button]').val('');
+        });
+
+        $('#gridProdutos').find('input[name=radioProduto]').change(function() {
+            if (!$(this).is(':checked')) {
+                return;
+            }
+            
+        });
+
+    });
+</script>
+

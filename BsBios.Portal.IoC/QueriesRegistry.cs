@@ -41,6 +41,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaPerfil>();
 
+            For<IConsultaUnidadeDeMedida>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaUnidadeDeMedida>();
+            
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -22,7 +23,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                var processoDeCotacao = _processosDeCotacao.BuscaPorId(atualizacaoDoProcessoDeCotacaoVm.Id).Single();
+                var processoDeCotacao = (ProcessoDeCotacaoDeMaterial) _processosDeCotacao.BuscaPorId(atualizacaoDoProcessoDeCotacaoVm.Id).Single();
                 processoDeCotacao.Atualizar(atualizacaoDoProcessoDeCotacaoVm.DataLimiteRetorno, atualizacaoDoProcessoDeCotacaoVm.Requisitos);
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
