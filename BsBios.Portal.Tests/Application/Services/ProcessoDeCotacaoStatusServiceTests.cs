@@ -46,8 +46,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
                         if (idProcessoCotacao == 10)
                         {
-                            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-                            _processoDeCotacao.Atualizar(DateTime.Today);
+                            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
                             _processoDeCotacao.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
                         }
                         if (idProcessoCotacao == 20)

@@ -115,7 +115,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                             NumeroRequisicao = processoDeCotacao.Numero,
                             Quantidade = processoDeCotacao.Quantidade,
                             Requisitante = processoDeCotacao.Requisitante,
-                            UnidadeMedida = processoDeCotacao.UnidadeMedida
+                            UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
                         }
                 };
         }

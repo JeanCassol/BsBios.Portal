@@ -13,13 +13,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             var usuarioCriador = new Usuario("Usuario Criador", "criador", "");
             Fornecedor fornecedorPretendido = DefaultObjects.ObtemFornecedorPadrao();
+            UnidadeDeMedida unidadeDeMedida = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
             var material = new Produto("MAT0001", "MATERIAL DE COMPRA", "T01");
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
             var dataDeSolicitacao = DateTime.Today;
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
-                dataDeRemessa, dataDeLiberacao,dataDeSolicitacao,"CENTRO","UNT",1000,
+                dataDeRemessa, dataDeLiberacao,dataDeSolicitacao,"CENTRO",unidadeDeMedida, 1000,
                 material, "Requisição de Compra enviada pelo SAP","ITEM001", "REQ0001");
 
             Assert.AreEqual("criador",requisicaoDeCompra.Criador.Login);
@@ -30,7 +31,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(dataDeLiberacao, requisicaoDeCompra.DataDeLiberacao);
             Assert.AreEqual(dataDeSolicitacao, requisicaoDeCompra.DataDeSolicitacao);
             Assert.AreEqual("CENTRO",requisicaoDeCompra.Centro);
-            Assert.AreEqual("UNT",requisicaoDeCompra.UnidadeMedida);
+            Assert.AreSame(unidadeDeMedida,requisicaoDeCompra.UnidadeMedida);
             Assert.AreEqual(1000, requisicaoDeCompra.Quantidade);
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoDeCompra.Descricao);
             Assert.AreEqual("REQ0001", requisicaoDeCompra.Numero);

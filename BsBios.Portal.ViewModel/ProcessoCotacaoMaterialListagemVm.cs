@@ -11,6 +11,6 @@
         public decimal Quantidade { get; set; }
         public string UnidadeDeMedida { get; set; }
         public string Status { get; set; }
-       public string DataTermino { get; set; }
+        public string DataTermino { get; set; }
     }
 }

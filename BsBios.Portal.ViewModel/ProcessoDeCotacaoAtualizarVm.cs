@@ -9,5 +9,6 @@ namespace BsBios.Portal.ViewModel
     {
         public int Id { get; set; }
         public DateTime DataLimiteRetorno { get; set; }
+        public string Requisitos { get; set; }
     }
 }

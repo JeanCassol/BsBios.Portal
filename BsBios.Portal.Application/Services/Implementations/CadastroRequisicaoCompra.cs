@@ -13,12 +13,14 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IRequisicoesDeCompra _requisicoesDeCompra;
         private readonly IUsuarios _usuarios;
         private readonly IFornecedores _fornecedores;
-        private readonly IProdutos _produtos ;
+        private readonly IProdutos _produtos;
+        private readonly IUnidadesDeMedida _unidadesDeMedida;
 
         public CadastroRequisicaoCompra(IUnitOfWork unitOfWork, IRequisicoesDeCompra requisicoesDeCompra,
-            IUsuarios usuarios, IFornecedores fornecedores, IProdutos produtos, IProcessosDeCotacao processosDeCotacao)
+            IUsuarios usuarios, IFornecedores fornecedores, IProdutos produtos, IProcessosDeCotacao processosDeCotacao, IUnidadesDeMedida unidadesDeMedida)
         {
             _processosDeCotacao = processosDeCotacao;
+            _unidadesDeMedida = unidadesDeMedida;
             _unitOfWork = unitOfWork;
             _requisicoesDeCompra = requisicoesDeCompra;
             _usuarios = usuarios;
@@ -35,12 +37,13 @@ namespace BsBios.Portal.Application.Services.Implementations
                 Usuario criador = _usuarios.BuscaPorLogin(requisicaoDeCompraVm.Criador);
                 Fornecedor fornecedorPretendido = _fornecedores.BuscaPeloCodigo(requisicaoDeCompraVm.FornecedorPretendido);
                 Produto material = _produtos.BuscaPeloCodigo(requisicaoDeCompraVm.Material);
+                UnidadeDeMedida unidadeDeMedida = _unidadesDeMedida.BuscaPeloCodigoInterno(requisicaoDeCompraVm.UnidadeMedida).Single();
                 var requisicaoDeCompra = new RequisicaoDeCompra(criador, requisicaoDeCompraVm.Requisitante, fornecedorPretendido,
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeRemessa),
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeLiberacao),
                                                                 Convert.ToDateTime(requisicaoDeCompraVm.DataDeSolicitacao),
                                                                 requisicaoDeCompraVm.Centro,
-                                                                requisicaoDeCompraVm.UnidadeMedida,
+                                                                unidadeDeMedida, 
                                                                 requisicaoDeCompraVm.Quantidade, material,
                                                                 requisicaoDeCompraVm.Descricao,
                                                                 requisicaoDeCompraVm.NumeroItem,

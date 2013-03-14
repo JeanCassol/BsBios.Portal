@@ -90,7 +90,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
                     Material = processo.Produto.Descricao,
                     Quantidade = processo.Quantidade,
-                    UnidadeDeMedida = processo.RequisicaoDeCompra.UnidadeMedida
+                    UnidadeDeMedida = processo.UnidadeDeMedida.Descricao
                 };
 
             if (fp.Cotacao != null)

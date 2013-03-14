@@ -18,8 +18,13 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 Session.Transaction.Rollback();
             }
         }
-        public static void PersistirUsuario(Usuario usuario)
+
+        public static void PersistirEntidade(object entidade)
         {
+            if (entidade == null)
+            {
+                return;
+            }
             try
             {
                 bool controlarTransacao = !Session.Transaction.IsActive;
@@ -27,7 +32,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 {
                     Session.BeginTransaction();
                 }
-                Session.Save(usuario);
+                Session.Save(entidade);
                 if (controlarTransacao)
                 {
                     Session.Transaction.Commit();
@@ -38,105 +43,32 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 RollbackSessionTransaction();
                 throw;
             }
+            
+        }
+
+        public static void PersistirUsuario(Usuario usuario)
+        {
+            PersistirEntidade(usuario);
         }
 
         public static void PersistirFornecedor(Fornecedor fornecedor)
         {
-            try
-            {
-                bool controlarTransacao = !Session.Transaction.IsActive;
-                if (controlarTransacao)
-                {
-                    Session.BeginTransaction();
-                   
-                }
-                Session.Save(fornecedor);
-                if (controlarTransacao)
-                {
-                    Session.Transaction.Commit();
-                }
-            }
-            catch (Exception)
-            {
-                RollbackSessionTransaction();
-                throw;
-            }
+            PersistirEntidade(fornecedor);
         }
 
         public static void PersistirIva(Iva iva)
         {
-            try
-            {
-                bool controlarTransacao = !Session.Transaction.IsActive;
-                if (controlarTransacao)
-                {
-                    Session.BeginTransaction();
-
-                }
-                Session.Save(iva);
-                if (controlarTransacao)
-                {
-                    Session.Transaction.Commit();
-                }
-
-            }
-            catch (Exception)
-            {
-                RollbackSessionTransaction();
-                throw;
-            }
-
-
+            PersistirEntidade(iva);
         }
 
         private static void PersistirIncoterm(Incoterm incoterm)
         {
-            try
-            {
-                bool controlarTransacao = !Session.Transaction.IsActive;
-                if (controlarTransacao)
-                {
-                    Session.BeginTransaction();
-
-                }
-                Session.Save(incoterm);
-                if (controlarTransacao)
-                {
-                    Session.Transaction.Commit();
-                }
-
-            }
-            catch (Exception)
-            {
-                RollbackSessionTransaction();
-                throw;
-            }
-
-
+            PersistirEntidade(incoterm);
         }
 
         private static void PersistirCondicaoDePagamento(CondicaoDePagamento condicaoDePagamento)
         {
-            try
-            {
-                bool controlarTransacao = !Session.Transaction.IsActive;
-                if (controlarTransacao)
-                {
-                    Session.BeginTransaction();
-
-                }
-                Session.Save(condicaoDePagamento);
-                if (controlarTransacao)
-                {
-                    Session.Transaction.Commit();
-                }
-
-            }
-            catch (Exception)
-            {
-                RollbackSessionTransaction();
-                throw;
-            }
+            PersistirEntidade(condicaoDePagamento);
         }
 
 
@@ -150,26 +82,15 @@ namespace BsBios.Portal.Tests.DefaultProvider
 
         public static void PersistirProduto(Produto produto)
         {
-            try
-            {
-                bool controlarTransacao = !Session.Transaction.IsActive;
-                if (controlarTransacao)
-                {
-                    Session.BeginTransaction();
-                }
-                Session.Save(produto);
-                if (controlarTransacao)
-                {
-                    Session.Transaction.Commit();
-                }
-
-            }
-            catch (Exception)
-            {
-                RollbackSessionTransaction();
-                throw;
-            }
+            PersistirEntidade(produto);
         }
+
+        private static void PersistirUnidadeDeMedida(UnidadeDeMedida unidadeMedida)
+        {
+            PersistirEntidade(unidadeMedida);
+        }
+
+
 
         public static void PersistirRequisicaoDeCompra(RequisicaoDeCompra requisicaoDeCompra)
         {
@@ -183,6 +104,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 PersistirUsuario(requisicaoDeCompra.Criador);
                 PersistirFornecedor(requisicaoDeCompra.FornecedorPretendido);
                 PersistirProduto(requisicaoDeCompra.Material);
+                PersistirUnidadeDeMedida(requisicaoDeCompra.UnidadeMedida);
                 Session.Save(requisicaoDeCompra);
                 if (controlarTransacao)
                 {

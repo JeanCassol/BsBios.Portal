@@ -17,8 +17,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         public void ConsultaProcessoRetornaObjetoEsperado()
         {
             Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(10));
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
@@ -35,7 +34,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         {
             Tests.Queries.RemoverProcessosDeCotacaoDeMateriaisCadastradas();
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10}, null);
@@ -58,24 +57,20 @@ namespace BsBios.Portal.Tests.Application.Queries
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao3 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao4 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao3 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao4 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
-            processoDeCotacao1.Atualizar(DateTime.Today);
             processoDeCotacao1.AdicionarFornecedor(fornecedor1);
             processoDeCotacao1.Abrir();
 
-            processoDeCotacao2.Atualizar(DateTime.Today);
             processoDeCotacao2.AdicionarFornecedor(fornecedor1);
             processoDeCotacao2.Abrir();
 
-            processoDeCotacao3.Atualizar(DateTime.Today);
             processoDeCotacao3.AdicionarFornecedor(fornecedor2);
             processoDeCotacao3.Abrir();
             
-            processoDeCotacao4.Atualizar(DateTime.Today);
             processoDeCotacao4.AdicionarFornecedor(fornecedor2);
             processoDeCotacao4.Abrir();
 
@@ -102,14 +97,12 @@ namespace BsBios.Portal.Tests.Application.Queries
             //crio um fornecedor e adiciono ele em uma cotação aberta e uma não iniciada
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
-            processoDeCotacao1.Atualizar(DateTime.Today);
             processoDeCotacao1.AdicionarFornecedor(fornecedor1);
             processoDeCotacao1.Abrir();
 
-            processoDeCotacao2.Atualizar(DateTime.Today);
             processoDeCotacao2.AdicionarFornecedor(fornecedor1);
 
             DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>() { processoDeCotacao1, processoDeCotacao2});

@@ -20,9 +20,12 @@ namespace BsBios.Portal.Infra.Mappings
                             referente à entidade FornecedorParticipante setando o IdProcessoCotacao para NULL, o que não é permitido, pois a coluna é NOT NULL*/
                 .Cascade.AllDeleteOrphan();
 
+            References(x => x.UnidadeDeMedida).Column("CodigoUnidadeMedida");
+
             Map(x => x.Status).CustomType<Enumeradores.StatusProcessoCotacao>();
             Map(x => x.Quantidade);
             Map(x => x.DataLimiteDeRetorno).Column("DataLimiteRetorno");
+            Map(x => x.Requisitos);
 
             //Não usar DiscriminateSubClassesOnColumn porque deve ser utilizado apenas quando a estratégia é uma tabela para toda a hierarquia
             //DiscriminateSubClassesOnColumn("TipoCotacao").CustomType<Enumeradores.TipoDeCotacao>();

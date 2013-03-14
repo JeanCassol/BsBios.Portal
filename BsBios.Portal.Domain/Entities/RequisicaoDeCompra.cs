@@ -11,7 +11,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Descricao { get; protected set; }
         public virtual Produto Material { get; protected set; }
         public virtual decimal Quantidade { get; protected set; }
-        public virtual string UnidadeMedida { get; protected set; }
+        public virtual UnidadeDeMedida UnidadeMedida { get; protected set; }
         public virtual string Centro { get; protected set; }
         public virtual DateTime DataDeSolicitacao { get; protected set; }
         public virtual DateTime DataDeLiberacao { get; protected set; }
@@ -24,7 +24,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public RequisicaoDeCompra(Usuario criador, string requisitante, Fornecedor fornecedorPretendido, 
             DateTime dataDeRemessa, DateTime dataDeLiberacao, DateTime dataDeSolicitacao, string centro, 
-            string unidadeMedida, decimal quantidade, Produto material, string descricao, string numeroItem, 
+            UnidadeDeMedida unidadeMedida, decimal quantidade, Produto material, string descricao, string numeroItem, 
             string numero)
         {
             Criador = criador;
@@ -44,7 +44,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual ProcessoDeCotacaoDeMaterial GerarProcessoDeCotacaoDeMaterial()
         {
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this, Material, Quantidade);
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this);
             return processoDeCotacao;
         }
 

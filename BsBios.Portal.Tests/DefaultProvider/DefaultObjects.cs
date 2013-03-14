@@ -47,7 +47,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
             string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
-                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", "UNT", 1000,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
                 material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao);
             
             return requisicaoDeCompra;
@@ -57,13 +57,14 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             var usuarioCriador = ObtemUsuarioPadrao();
             var material = ObtemProdutoPadrao();
+            UnidadeDeMedida unidadeDeMedida = ObtemUnidadeDeMedidaPadrao();
 
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
             var dataDeSolicitacao = DateTime.Today;
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, null, null,
-                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", "UNT", 1000,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", unidadeDeMedida, 1000,
                 material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001");
 
             return requisicaoDeCompra;
@@ -74,15 +75,13 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             var requisicaoDeCompra = ObtemRequisicaoDeCompraPadrao();
             var processo = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
-            processo.Atualizar(DateTime.Today.AddDays(10));
             return processo;
         }
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAtualizado();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
-            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10));
             processoDeCotacao.AdicionarFornecedor(fornecedor);
             processoDeCotacao.Abrir();
             return processoDeCotacao;
@@ -170,6 +169,13 @@ namespace BsBios.Portal.Tests.DefaultProvider
             _contadorUnidadeMedida++;
             string codigo = GeraCodigo(_contadorUnidadeMedida, 2);
             return new UnidadeDeMedida("I" +  codigo, "E" + codigo, "Unidade de Medida " + codigo);
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialAtualizado()
+        {
+            ProcessoDeCotacaoDeMaterial processo = ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processo.Atualizar(DateTime.Today.AddDays(10), "Requisitos do Processo de Cotação de Materiais");
+            return processo;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(),vm.DataLimiteDeRetorno);
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
+            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.IsNull(vm.ValorComImpostos);
             Assert.IsNull(vm.ValorLiquido);
             Assert.IsNull(vm.Mva);
@@ -63,7 +63,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
+            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.AreEqual(120, vm.ValorComImpostos);
             Assert.AreEqual(100, vm.ValorLiquido);
             Assert.AreEqual(12, vm.Mva);
@@ -73,7 +73,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void QuandoConsultaUmaCotacaoQueParticipaMaisDeUmFornecedorRetornaOsDadoDoFornecedorInformado()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2= DefaultObjects.ObtemFornecedorPadrao();
             processo.AdicionarFornecedor(fornecedor1);
@@ -105,7 +105,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.RequisicaoDeCompra.UnidadeMedida, vm.UnidadeDeMedida);
+            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.AreEqual(120, vm.ValorComImpostos);
             Assert.AreEqual(100, vm.ValorLiquido);
             Assert.AreEqual(12, vm.Mva);

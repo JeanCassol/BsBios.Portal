@@ -12,7 +12,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
         public virtual Produto Produto { get; protected set; }
         public virtual decimal Quantidade { get; protected set; }
+        public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
+        public virtual string Requisitos { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
         //public virtual IList<Cotacao> Cotacoes { get; protected set; }
 
@@ -23,19 +25,21 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
 
-        protected ProcessoDeCotacao(Produto produto, decimal quantidade):this()
+        protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida):this()
         {
             Produto = produto;
             Quantidade = quantidade;
+            UnidadeDeMedida = unidadeDeMedida;
         }
 
-        public virtual void Atualizar(DateTime dataLimiteDeRetorno)
+        public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
                 throw new ProcessoDeCotacaoIniciadoAtualizacaoDadosException(Status.Descricao());
             }
             DataLimiteDeRetorno = dataLimiteDeRetorno;
+            Requisitos = requisitos;
         }
 
 
@@ -141,11 +145,10 @@ namespace BsBios.Portal.Domain.Entities
         public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
 
         protected ProcessoDeCotacaoDeMaterial(){}
-        public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra, Produto produto, decimal quantidade):base(produto, quantidade)
+        public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
+            :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
         {
             RequisicaoDeCompra = requisicaoDeCompra;
-            Produto = produto;
-            Quantidade = quantidade;
         }
 
     }

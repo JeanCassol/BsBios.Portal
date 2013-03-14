@@ -18,6 +18,7 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Material).Column("CodigoMaterial");
             References(x => x.FornecedorPretendido).Column("CodigoFornecedorPretendido");
             References(x => x.Criador).Column("LoginCriador");
+            References(x => x.UnidadeMedida).Column("UnidadeMedida");
 
             Map(x => x.Centro);
             Map(x => x.Requisitante);
@@ -28,7 +29,6 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.NumeroItem);
             Map(x => x.Descricao);
             Map(x => x.Quantidade);
-            Map(x => x.UnidadeMedida);
 
         }
     }

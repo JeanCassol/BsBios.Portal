@@ -21,6 +21,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IFornecedores> _fornecedoresMock;
         private readonly Mock<IProdutos> _produtosMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
+        private readonly Mock<IUnidadesDeMedida> _unidadesDeMedidaMock;
         private readonly ICadastroRequisicaoCompra _cadastroRequisicao;
         private static RequisicaoDeCompraVm _requisicaoDeCompraVm;
 
@@ -51,11 +52,18 @@ namespace BsBios.Portal.Tests.Application.Services
             _produtosMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                          .Returns(new Produto("PROD0001", "PRODUTO 0001", "01"));
 
+            _unidadesDeMedidaMock = new Mock<IUnidadesDeMedida>(MockBehavior.Strict);
+            _unidadesDeMedidaMock.Setup(x => x.BuscaPeloCodigoInterno(It.IsAny<string>()))
+                                 .Returns(_unidadesDeMedidaMock.Object);
+
+            _unidadesDeMedidaMock.Setup(x => x.Single())
+                                 .Returns(new UnidadeDeMedida("I01","E01", "UNIDADE 01"));
+
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
             _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()));
 
             _cadastroRequisicao = new CadastroRequisicaoCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object,
-                _usuariosMock.Object,_fornecedoresMock.Object, _produtosMock.Object, _processosDeCotacaoMock.Object);
+                _usuariosMock.Object,_fornecedoresMock.Object, _produtosMock.Object, _processosDeCotacaoMock.Object,_unidadesDeMedidaMock.Object);
 
         }
 
@@ -138,7 +146,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                             Assert.AreEqual(Convert.ToDateTime(_requisicaoDeCompraVm.DataDeLiberacao), requisicaoDeCompra.DataDeLiberacao);
                                             Assert.AreEqual(Convert.ToDateTime(_requisicaoDeCompraVm.DataDeSolicitacao), requisicaoDeCompra.DataDeSolicitacao);
                                             Assert.AreEqual("C001", requisicaoDeCompra.Centro);
-                                            Assert.AreEqual("UND", requisicaoDeCompra.UnidadeMedida);
+                                            Assert.AreEqual("I01", requisicaoDeCompra.UnidadeMedida.CodigoInterno);
                                             Assert.AreEqual(100, requisicaoDeCompra.Quantidade);
                                             Assert.AreEqual("Requisição de compra enviada pelo SAP", requisicaoDeCompra.Descricao);
                                             Assert.AreEqual("REQ001", requisicaoDeCompra.Numero);

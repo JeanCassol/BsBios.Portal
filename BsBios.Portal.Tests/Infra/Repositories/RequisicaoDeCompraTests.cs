@@ -23,20 +23,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public void DepoisDePersistirUmaRequisicaoDeCompraConsigoConsultar()
         {
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
-            try
-            {
-                Session.BeginTransaction();
-                Session.Save(requisicaoDeCompra.Criador);
-                Session.Save(requisicaoDeCompra.FornecedorPretendido);
-                Session.Save(requisicaoDeCompra.Material);
-                Session.Save(requisicaoDeCompra);
-                Session.Transaction.Commit();
-            }
-            catch (Exception)
-            {
-                Session.Transaction.Rollback();                
-                throw;
-            }
+            DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicaoDeCompra);
+
+            UnitOfWorkNh.Session.Clear();
             
             RequisicaoDeCompra requisicaoConsultada = _requisicoesDeCompra.BuscaPeloId(requisicaoDeCompra.Id);
 
@@ -50,7 +39,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(DateTime.Today.AddDays(-1), requisicaoConsultada.DataDeLiberacao);
             Assert.AreEqual(DateTime.Today, requisicaoConsultada.DataDeSolicitacao);
             Assert.AreEqual("C001", requisicaoConsultada.Centro);
-            Assert.AreEqual("UNT", requisicaoConsultada.UnidadeMedida);
+            Assert.AreEqual(requisicaoDeCompra.UnidadeMedida.CodigoInterno, requisicaoConsultada.UnidadeMedida.CodigoInterno);
             Assert.AreEqual(1000, requisicaoConsultada.Quantidade);
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
             Assert.AreEqual(requisicaoDeCompra.Numero, requisicaoConsultada.Numero);
@@ -61,13 +50,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         public void ConsigoPersistirEConsultarUmaRequisicaoDeCompraSemInformarRequisitanteEFornecedorPretendido()
         {
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraSemRequisitanteEFornecedor();
-            DefaultPersistedObjects.PersistirUsuario(requisicaoDeCompra.Criador);
-            DefaultPersistedObjects.PersistirProduto(requisicaoDeCompra.Material);
-
-            UnitOfWorkNh.BeginTransaction();
-
-            _requisicoesDeCompra.Save(requisicaoDeCompra);
-            UnitOfWorkNh.Commit();
+            DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicaoDeCompra);
 
             UnitOfWorkNh.Session.Clear();
             RequisicaoDeCompra requisicaoConsultada = _requisicoesDeCompra.BuscaPeloId(requisicaoDeCompra.Id);
@@ -82,7 +65,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(DateTime.Today.AddDays(-1), requisicaoConsultada.DataDeLiberacao);
             Assert.AreEqual(DateTime.Today, requisicaoConsultada.DataDeSolicitacao);
             Assert.AreEqual("C001", requisicaoConsultada.Centro);
-            Assert.AreEqual("UNT", requisicaoConsultada.UnidadeMedida);
+            Assert.AreEqual(requisicaoDeCompra.UnidadeMedida.CodigoInterno, requisicaoConsultada.UnidadeMedida.CodigoInterno);
             Assert.AreEqual(1000, requisicaoConsultada.Quantidade);
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
             Assert.AreEqual("REQ0001", requisicaoConsultada.Numero);

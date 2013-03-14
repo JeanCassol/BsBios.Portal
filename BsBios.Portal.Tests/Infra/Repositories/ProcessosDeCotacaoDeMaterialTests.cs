@@ -47,14 +47,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void DepoisDePersistirUmProcessoDeCotacaoDeMaterialConsigoConsultar()
         {
-            var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            //DefaultPersistedObjects.PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
+            var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
-
-            //UnitOfWorkNh.BeginTransaction();
-            //var processosDeCotacaoDeMaterial = ObjectFactory.GetInstance<IProcessosDeCotacao>();
-            //processosDeCotacaoDeMaterial.Save(processoDeCotacaoDeMaterial);
-            //UnitOfWorkNh.Commit();
 
             UnitOfWorkNh.Session.Clear();
 
@@ -65,6 +59,9 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.NaoIniciado, processoConsultado.Status);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id ,processoConsultado.Id);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno, processoConsultado.DataLimiteDeRetorno);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Requisitos, processoConsultado.Requisitos);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Codigo, processoConsultado.Produto.Codigo);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.UnidadeDeMedida.CodigoInterno, processoConsultado.UnidadeDeMedida.CodigoInterno);
             Assert.IsFalse(NHibernateUtil.IsInitialized(processoConsultado.RequisicaoDeCompra));
             Assert.AreEqual(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Id, processoConsultado.RequisicaoDeCompra.Id);
         }
@@ -95,11 +92,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComCotacoes()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
 
-            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
 
@@ -121,11 +117,10 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComImpostosNasCotacoes()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
 
-            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
             processoDeCotacaoDeMaterial.Abrir();
