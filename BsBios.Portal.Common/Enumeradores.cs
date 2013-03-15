@@ -43,7 +43,8 @@ namespace BsBios.Portal.Common
             IcmsSubstituicao = 2,
             Ipi = 3,
             Pis = 4,
-            Cofins = 5
+            Cofins = 5,
+            PisCofins = 6
         }
     }
 }

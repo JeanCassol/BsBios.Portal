@@ -36,8 +36,8 @@ namespace BsBios.Portal.UI.Helpers
 
     public class ColunaComEditor<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComEditor(Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, "","", true)
+        public ColunaComEditor(Expression<Func<TModel, TValue>> expressao, string inputClass = "")
+            : base(expressao, inputClass,"", true)
         {
         }
 

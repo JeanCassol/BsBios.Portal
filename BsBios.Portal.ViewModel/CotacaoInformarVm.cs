@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BsBios.Portal.ViewModel
+﻿namespace BsBios.Portal.ViewModel
 {
     /// <summary>
     /// Utilizado para salvar as cotações do Fornecedor

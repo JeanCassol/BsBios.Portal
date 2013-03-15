@@ -75,7 +75,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public CotacaoCadastroVm ConsultarCotacao(int idProcessoCotacao, string codigoFornecedor)
         {
-            var processo = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(idProcessoCotacao)
+            var processo = _processosDeCotacao.BuscaPorId(idProcessoCotacao)
                                .Single();
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
@@ -86,7 +86,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     IdProcessoCotacao = processo.Id,
                     CodigoFornecedor = fp.Fornecedor.Codigo,
                     Status = processo.Status.Descricao(),
-                    DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
+                    Requisitos = processo.Requisitos,
+                    //DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
                     Material = processo.Produto.Descricao,
                     Quantidade = processo.Quantidade,
@@ -101,7 +102,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.Mva = fp.Cotacao.Mva;
                 vm.ValorLiquido = fp.Cotacao.ValorLiquido;
                 vm.ValorComImpostos = fp.Cotacao.ValorComImpostos;
-                //vm.PossuiImpostos = fp.Cotacao.Impostos.Any();
+                vm.ObservacoesDoFornecedor = fp.Cotacao.Observacoes;
+                vm.PrazoDeEntrega = fp.Cotacao.PrazoDeEntrega.ToShortDateString();
+                vm.QuantidadeDisponivel = fp.Cotacao.QuantidadeDisponivel;
 
                 Cotacao cotacao = fp.Cotacao;
                 Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
@@ -125,6 +128,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     vm.IpiValor = imposto.Valor;
                 }
 
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.PisCofins);
+                if (imposto != null)
+                {
+                    vm.PisCofinsAliquota = imposto.Aliquota;
+                }
+
                 //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
                 //if (imposto != null)
                 //{
@@ -139,7 +148,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 //    vm.CofinsAliquota = imposto.Aliquota;
                 //    vm.CofinsValor = imposto.Valor;
                 //}
-                
+
             }
 
             return vm;

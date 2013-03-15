@@ -1,4 +1,6 @@
-﻿namespace BsBios.Portal.Domain.Entities
+﻿using System;
+
+namespace BsBios.Portal.Domain.Entities
 {
     public class FornecedorParticipante
     {
@@ -16,16 +18,19 @@
         }
 
         public virtual Cotacao InformarCotacao(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoDoIncoterm,
-            decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, decimal? mva)
+            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
+            DateTime prazoDeEntrega, string observacoes)
         {
             if (Cotacao == null)
             {
-                Cotacao = new Cotacao(condicaoDePagamento, incoterm, descricaoDoIncoterm, valorTotalSemImpostos, valorTotalComImpostos, mva);
+                Cotacao = new Cotacao(condicaoDePagamento, incoterm, descricaoDoIncoterm, 
+                    valorTotalComImpostos, mva,quantidadeDisponivel, prazoDeEntrega, observacoes);
                 
             }
             else
             {
-                Cotacao.Atualizar(valorTotalSemImpostos, valorTotalComImpostos, condicaoDePagamento, incoterm, descricaoDoIncoterm, mva);
+                Cotacao.Atualizar(valorTotalComImpostos, condicaoDePagamento, incoterm, 
+                    descricaoDoIncoterm, mva,quantidadeDisponivel, prazoDeEntrega, observacoes);
             }
 
             return Cotacao;

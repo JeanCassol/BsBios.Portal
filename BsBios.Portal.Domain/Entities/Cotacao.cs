@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
@@ -12,13 +13,16 @@ namespace BsBios.Portal.Domain.Entities
         //public virtual FornecedorParticipante FornecedorParticipante { get; protected set; }
         public virtual bool Selecionada { get; protected set; }
         public virtual decimal ValorLiquido { get; protected set; }
-        public virtual decimal? ValorComImpostos { get; protected set;}
+        public virtual decimal ValorComImpostos { get; protected set;}
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Iva Iva { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm{ get; protected set; }
         public virtual decimal? Mva { get; protected set; }
+        public virtual decimal QuantidadeDisponivel { get; protected set; }
+        public virtual DateTime PrazoDeEntrega { get; protected set; }
+        public virtual string Observacoes { get; protected set; }
         public virtual IList<Imposto> Impostos { get; protected set; }
 
         protected Cotacao()
@@ -29,14 +33,17 @@ namespace BsBios.Portal.Domain.Entities
         
 
         public Cotacao(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
-            decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, decimal? mva):this()
+            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
+            DateTime prazoDeEntrega, string observacoes):this()
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            ValorLiquido = valorTotalSemImpostos;
             ValorComImpostos = valorTotalComImpostos;
             Mva = mva;
+            QuantidadeDisponivel = quantidadeDisponivel;
+            PrazoDeEntrega = prazoDeEntrega;
+            Observacoes = observacoes;
         }
         
 
@@ -47,15 +54,33 @@ namespace BsBios.Portal.Domain.Entities
             
         //}
 
-        public virtual void Atualizar(decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, 
-            Incoterm incoterm, string descricaoIncoterm, decimal? mva)
+        private decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
         {
-            ValorLiquido = valorTotalSemImpostos;
+            var imposto = Imposto(tipoDeImposto);
+            return imposto != null ? imposto.Valor : 0;
+        }
+
+        private void CalculaValorLiquido()
+        {
+            
+            ValorLiquido = ValorComImpostos - ValorDoImposto(Enumeradores.TipoDeImposto.Icms)
+                - ValorDoImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao)
+                - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
+        }
+
+        public virtual void Atualizar(decimal valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, 
+            Incoterm incoterm, string descricaoIncoterm, decimal? mva, decimal quantidadeDisponivel,
+            DateTime prazoDeEntrega, string observacoes)
+        {
+            
             ValorComImpostos = valorTotalComImpostos;
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
             Mva = mva;
+            QuantidadeDisponivel = quantidadeDisponivel;
+            PrazoDeEntrega = prazoDeEntrega;
+            Observacoes = observacoes;
         }
 
         /// <summary>
@@ -98,12 +123,10 @@ namespace BsBios.Portal.Domain.Entities
                 RemoverImposto(tipoDeImposto);
             }
 
-            if (Impostos.Any() &&  (!ValorComImpostos.HasValue || ValorComImpostos.Value == 0) )
-            {
-                throw new ValorTotalComImpostosObrigatorioException();
-            }
+            CalculaValorLiquido();
 
-            if (temImposto && tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao && (!Mva.HasValue || Mva.Value == 0))
+            if (temImposto && tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao 
+                && valor > 0 && ( !Mva.HasValue || Mva.Value == 0))
             {
                 throw  new MvaNaoInformadoException();
             }

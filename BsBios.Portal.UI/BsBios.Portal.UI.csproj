@@ -423,6 +423,7 @@
     <Content Include="Views\Account\EsqueciMinhaSenha.cshtml" />
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
     <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
+    <Content Include="Views\Shared\_ProcessoDeCotacaoOperacoes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

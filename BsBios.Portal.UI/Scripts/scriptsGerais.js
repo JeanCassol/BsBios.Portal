@@ -12,6 +12,16 @@ String.prototype.boolean = function () {
     return "true" == this;
 };
 
+Numero = {
+    GetFloat: function (valor) {
+        var val = parseFloat(valor);
+        if (isNaN(val))
+            return 0;
+        else
+            return val;
+    }
+};
+
 $(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
     var camposDatePicker = $('.campoDatePicker');

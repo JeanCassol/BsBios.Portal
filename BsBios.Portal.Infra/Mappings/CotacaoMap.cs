@@ -36,6 +36,9 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.ValorComImpostos);
             Map(x => x.Mva);
             Map(x => x.Selecionada);
+            Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
+            Map(x => x.QuantidadeDisponivel);
+            Map(x => x.Observacoes);
             /*Importante: Sem a opção "Cascade.AllDeleteOrphan()" o NHibernate tenta sempre fazer um update mesmo quando é criado um imposto novo.
              * Lembrar de usar esta opção sempre que mapear com "HasMany"*/
             HasMany(x => x.Impostos).KeyColumn("IdCotacao")

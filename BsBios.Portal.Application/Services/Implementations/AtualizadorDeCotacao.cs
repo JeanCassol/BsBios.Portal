@@ -32,12 +32,14 @@ namespace BsBios.Portal.Application.Services.Implementations
                 CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(cotacaoInformarVm.CodigoCondicaoPagamento);
                 Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
                 Cotacao cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
-                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorLiquido.Value, cotacaoInformarVm.ValorComImpostos,
-                    cotacaoInformarVm.Mva);
+                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorComImpostos.Value,
+                    cotacaoInformarVm.Mva, cotacaoInformarVm.QuantidadeDisponivel.Value, Convert.ToDateTime(cotacaoInformarVm.PrazoDeEntrega), 
+                    cotacaoInformarVm.ObservacoesDoFornecedor);
 
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, cotacaoInformarVm.IcmsAliquota, cotacaoInformarVm.IcmsValor);
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, cotacaoInformarVm.IcmsStAliquota, cotacaoInformarVm.IcmsStValor);
                 cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, cotacaoInformarVm.IpiAliquota, cotacaoInformarVm.IpiValor);
+                cotacao.InformarImposto(Enumeradores.TipoDeImposto.PisCofins, cotacaoInformarVm.PisCofinsAliquota,0);
                 //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, cotacaoInformarVm.PisAliquota, cotacaoInformarVm.PisValor);
                 //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, cotacaoInformarVm.CofinsAliquota, cotacaoInformarVm.CofinsValor);
 

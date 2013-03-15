@@ -84,7 +84,8 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         public virtual Cotacao InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento, 
-            Incoterm incoterm, string descricaoDoIncoterm, decimal valorTotalSemImpostos, decimal? valorTotalComImpostos, decimal? mva)
+            Incoterm incoterm, string descricaoDoIncoterm, decimal valorTotalComImpostos, 
+            decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
@@ -97,7 +98,8 @@ namespace BsBios.Portal.Domain.Entities
             //busca a cotação do fornecedor
             FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            return fornecedorParticipante.InformarCotacao(condicaoDePagamento,  incoterm, descricaoDoIncoterm,valorTotalSemImpostos, valorTotalComImpostos, mva);
+            return fornecedorParticipante.InformarCotacao(condicaoDePagamento,  incoterm, descricaoDoIncoterm,
+                valorTotalComImpostos, mva,quantidadeDisponivel, prazoDeEntrega, observacoes);
         }
 
         private Cotacao BuscarPodId(int idCotacao)

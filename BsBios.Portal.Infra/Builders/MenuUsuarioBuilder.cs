@@ -78,7 +78,8 @@ namespace BsBios.Portal.Infra.Builders
         public MenuFornecedor()
             : base("Minhas Cotações")
         {
-            AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
+            AdicionarItem("Cotações de Frete", "ProcessoCotacaoFrete", "Index");
+            AdicionarItem("Cotações de Material", "ProcessoCotacaoMaterial", "Index");
         }
     }
 

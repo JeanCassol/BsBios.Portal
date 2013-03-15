@@ -1,0 +1,213 @@
+﻿@{
+    Layout = null;
+}
+<fieldset>
+    <legend>Fornecedores</legend>
+    <div class="divBotao">
+        <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 220px"/>
+    </div>
+            
+    @Html.Partial("_CotacaoFornecedor", ViewData)
+</fieldset>
+           
+<div class="error">
+    @if (ViewData["erro"] != null)
+    {
+        @ViewData["erro"]
+    }
+</div>
+
+@Html.ValidationSummary(true)
+
+<fieldset>
+    <legend>Ações</legend>
+    <div class="divBotao">
+        <input type="button" id="btnIniciarProcesso" value="Abrir" class="blue" />
+        <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+        <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+    </div>
+</fieldset>
+
+<div id="divSelecionarFornecedores"></div>
+<div id="divSelecionarCotacoes"></div>
+
+<script type="text/javascript">
+    $(function () {
+        var idProcessoCotacao = $('#Id').val();
+        $('#divSelecionarFornecedores').dialog({
+            autoOpen: false,
+            width: 800,
+            resizable: false,
+            title: 'Selecionar Fornecedores',
+            modal: true,
+            buttons: {
+                "Confirmar": function() {
+                    var codigosDosFornecedoresSelecionados = new Array();
+                    $.each(fornecedoresSelecionados, function(indice, fornecedorSelecionado) {
+                        codigosDosFornecedoresSelecionados.push(fornecedorSelecionado.Codigo);
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")',
+                        type: 'POST',
+                        cache: false,
+                        data: JSON.stringify({
+                            IdProcessoCotacao: idProcessoCotacao,
+                            CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.Sucesso) {
+                                $('#divSelecionarFornecedores').dialog('close');
+                                $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
+                            } else {
+                                Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+
+
+                },
+                "Cancelar": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('#divSelecionarCotacoes').dialog({
+            autoOpen: false,
+            width: 1024,
+            resizable: false,
+            title: 'Selecionar Cotações',
+            modal: true,
+            buttons: {
+                "Confirmar": function () {
+                    var cotacoes = new Array();
+                    var dadosValidos = true;
+                    $('#gridCotacoes').find('table > tbody > tr').each(function () {
+                        if (!dadosValidos) {
+                            return;
+                        }
+                        var idCotacao = $(this).find('input[name=IdCotacao]').val();
+                        if (idCotacao == 0) {
+                            //cotação ainda não preenchida pelo fornecedor. O valor 0 indica que a cotação não foi criada
+                            return;
+                        }
+                        var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
+                        var quantidadeAdquirida = $(this).find('input[name=QuantidadeAdquirida]').val();
+                        if (selecionada && quantidadeAdquirida == "") {
+                            Mensagem.ExibirMensagemDeErro("Deve ser preenchida a Quantidade de todos os Fornecedores selecionados.");
+                            dadosValidos = false;
+                            return;
+                        }
+                        var codigoIva = $(this).find('select[name=CodigoIva]').val();
+
+                        cotacoes.push({
+                            IdCotacao: idCotacao,
+                            Selecionada: selecionada,
+                            QuantidadeAdquirida: quantidadeAdquirida,
+                            CodigoIva: codigoIva
+                        });
+                    });
+                    if (!dadosValidos) {
+                        return;
+                    }
+                    $.ajax({
+                        url: '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoSelecionar")',
+                        type: 'POST',
+                        cache: false,
+                        data: JSON.stringify({ IdProcessoCotacao: $('#Id').val(), Cotacoes: cotacoes}),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.Sucesso) {
+                                $('#divSelecionarCotacoes').dialog("close");
+                                $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
+                            } else {
+                                Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao selecionar as Cotações. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+                        
+
+
+                },
+                "Cancelar": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('#btnSelecionarFornecedores').click(function () {
+            if ($('#Id').val() == null) {
+                Mensagem.ExibirMensagemDeErro("Não é possível selecionar Fornecedores antes de salvar o Processo de Cotação.");
+                return;
+            }
+            $('#divSelecionarFornecedores').load("@Url.Action("SelecionarFornecedores", "ProcessoCotacaoMaterial")"
+                + "/?codigoProduto=" + $('#CodigoMaterial').val()
+                + "&idProcessoCotacao=" + $('#Id').val(),
+                function(response, status, xhr) {
+                    $('#divSelecionarFornecedores').dialog('open');
+                });
+
+        });
+
+        $('#btnSelecionarCotacoes').click(function () {
+            $('#divSelecionarCotacoes').load("@Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial")"
+                + "/?idProcessoCotacao=" + $('#Id').val(),
+                function (response, status, xhr) {
+                    $('#divSelecionarCotacoes').dialog('open');
+                });
+        });
+
+        $('#btnIniciarProcesso').click(function() {
+            $.ajax({
+                url: '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoStatusService")',
+                type: 'POST',
+                cache: false,
+                data: {idProcessoCotacao: $('#Id').val()},
+                dataType: 'json',
+                success: function(data) {
+                    if (data.Sucesso) {
+                        Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                    } else {
+                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao abrir o Processo. Detalhe: ' + textStatus + errorThrown);
+                }
+            });
+
+        });
+
+        $('#btnFecharProcesso').click(function() {
+            $.ajax({
+                url: '@Url.Action("FecharProcesso", "ProcessoDeCotacaoStatusService")',
+                type: 'POST',
+                cache: false,
+                data: { idProcessoCotacao: $('#Id').val() },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                    } else {
+                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao fechar o Processo. Detalhe: ' + textStatus + errorThrown);
+                }
+            });
+
+        });
+    });
+</script>
+

@@ -28,32 +28,35 @@
                 <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>
         </fieldset>
-        <fieldset>
-            <legend>Fornecedores</legend>
-            <div class="divBotao">
-                <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 220px"/>
-            </div>
-            
-            @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary() { new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0) })
-        </fieldset>
-           
-        <div class="error">
-            @if (ViewData["erro"] != null)
-            {
-                @ViewData["erro"]
-            }
-        </div>
-
-        @Html.ValidationSummary(true)
-        <fieldset>
-            <legend>Ações</legend>
-            <div class="divBotao">
-                <input type="button" id="btnIniciarProcesso" value="Abrir" class="blue" />
-                <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
-                <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
-            </div>
-        </fieldset>
     }
+
+    <fieldset>
+        <legend>Fornecedores</legend>
+        <div class="divBotao">
+            <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 220px"/>
+        </div>
+            
+        @Html.Partial("_CotacaoFornecedor", new ViewDataDictionary() { new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0) })
+    </fieldset>
+           
+    <div class="error">
+        @if (ViewData["erro"] != null)
+        {
+            @ViewData["erro"]
+        }
+    </div>
+
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Ações</legend>
+        <div class="divBotao">
+            <input type="button" id="btnIniciarProcesso" value="Abrir" class="blue" />
+            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+            <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+        </div>
+    </fieldset>
+
     <div id="divSelecionarFornecedores"></div>
     <div id="divSelecionarCotacoes"></div>
 </div>

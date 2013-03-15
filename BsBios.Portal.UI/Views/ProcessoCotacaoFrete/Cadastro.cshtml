@@ -14,7 +14,7 @@
     @using (Html.BeginForm()) {
 
         <fieldset>
-            <legend></legend>
+            <legend>Processo de Cotação</legend>
 
             @Html.HiddenFor(model => model.Id)
             
@@ -64,12 +64,16 @@
         </div>
         </fieldset>
     }
+    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() { new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0) })
     <div id="divSelecionarProduto"></div>
     <div id="divSelecionarItinerario"></div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+
     <script type="text/javascript">
         $(function () {
             
