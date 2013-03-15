@@ -1,36 +1,18 @@
-﻿@model BsBios.Portal.ViewModel.ProdutoCadastroVm
-
-@{
+﻿@{
     Layout = null;
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<style type="text/css">
-    .colunaFiltroPequena {
-        width: 180px;
-        display: inline-block;
-        float: left;
-    }
-    .colunaFiltroGrande {
-        width: 270px;
-        display: inline-block;
-        float: left;
-    }
-</style>
 <div id="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="colunaFiltroGrande">
+        <div class="coluna">
             @Html.Label("Código")
-            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
+            @Html.TextBox("Codigo","", new{@class="campomedio"})
         </div>
-        <div class="colunaFiltroGrande">
+        <div class="coluna">
             @Html.Label("Descrição")
-            @Html.TextBox("DescricaoFiltro","", new{@class="campomedio"})
-        </div>
-        <div class="colunaFiltroPequena">
-            @Html.Label("Tipo")
-            @Html.TextBox("TipoFiltro","", new{@class="campopequeno"})
+            @Html.TextBox("Descricao","", new{@class="campomedio"})
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
@@ -38,19 +20,12 @@
         </div>
     </fieldset>
 </div>
-<div id="gridProdutos" class="divGrid"></div>
+<div id="gridItinerarios" class="divGrid"></div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script>
-    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
-    {
-        @: var produtoSelecionado = { Codigo: '@Model.Codigo', Descricao:'@Model.Descricao' };
-    }
-    else
-    {
-        @: var produtoSelecionado = null;
-    }
+    var itinerarioSelecionado  = null;
     $(document).ready(function() {
         $("#gridProdutos").customKendoGrid({
             dataSource: {
@@ -65,28 +40,28 @@
                     },
                     total: 'QuantidadeDeRegistros'
                 },
+                change: function(e) {
+                    if (itinerarioSelecionado != null && $('#gridItinerarios').find('input[name=radioItinerario]').is(':checked').length == 0) {
+                        $('input[name=radioItinerario][data-codigoitinerario=' + itinerarioSelecionado.Codigo + ']').attr('checked', true);
+                    }
+                },                
                 serverFiltering: true,
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("Listar", "Produto")',
+                        url: '@Url.Action("Listar", "Itinerario")',
                         type: 'GET',
                         cache: false,
                         data: function() {
                             return {
-                                Codigo: $('#CodigoFiltro').val(),
-                                Descricao: $('#DescricaoFiltro').val(),
-                                Tipo: $('#TipoFiltro').val()
+                                Codigo: $('#Codigo').val(),
+                                Descricao: $('#Descricao').val(),
+                                Tipo: $('#Tipo').val()
                             };
                         }
                     }
                 },
                 pageSize: 10
-            },
-            dataBound: function (e) {
-                if (produtoSelecionado != null) {
-                    $('input[name=radioProduto][data-codigoproduto=' + produtoSelecionado.Codigo + ']').attr('checked', true);
-                }
             },
             columns:
             [
@@ -95,7 +70,7 @@
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
                     sortable: false,
-                    template: '<input type="radio" name="radioProduto" data-codigoproduto="${Codigo}"></input>'
+                    template: '<input type="radio" name="radioItinerario" data-codigoitinerario="${Codigo}"></input>'
                 },
                 {
                     width: 170,
@@ -116,21 +91,20 @@
         });
 
         $('#btnPesquisar').click(function() {
-            $("#gridProdutos").data("kendoGrid").dataSource.read();
+            $("#gridItinerarios").data("kendoGrid").dataSource.read();
         });
 
         $('#btnLimpar').click(function() {
             $('#divFiltros input[type!=button]').val('');
         });
 
-        $('#gridProdutos').find('input[name=radioProduto]').die("change");
-        $('#gridProdutos').find('input[name=radioProduto]').live("change", function () {
+        $('#gridItinerarios').find('input[name=radioItinerario]').change(function() {
             if (!$(this).is(':checked')) {
                 return;
             }
-            var grid = $('#gridProdutos').data("kendoGrid");
+            var grid = $('#gridItinerarios').data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
-            produtoSelecionado = { Codigo: dataItem.Codigo, Descricao: dataItem.Descricao};
+            itinerarioSelecionado = { Codigo: dataItem.Codigo, Descricao: dataItem.Descricao};
 
         });
 

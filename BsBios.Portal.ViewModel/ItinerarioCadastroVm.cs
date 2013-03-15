@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace BsBios.Portal.ViewModel
 {
     [DataContract]
-    public class ItinerarioCadastroVm
+    public class ItinerarioCadastroVm: ListagemVm
     {
         [DataMember]
         public string Codigo { get; set; }

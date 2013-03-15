@@ -26,5 +26,23 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => codigos.Contains(x.Codigo));
             return this;
         }
+
+        public IItinerarios CodigoContendo(string codigo)
+        {
+            if (!string.IsNullOrEmpty(codigo))
+            {
+                Query = Query.Where(x => x.Codigo.Contains(codigo));
+            }
+            return this;
+        }
+
+        public IItinerarios DescricaoContendo(string descricao)
+        {
+            if (!string.IsNullOrEmpty(descricao))
+            {
+                Query = Query.Where(x => x.Descricao.Contains(descricao));
+            }
+            return this;
+        }
     }
 }

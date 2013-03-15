@@ -2,15 +2,15 @@
 
 namespace BsBios.Portal.ViewModel
 {
-    public class CotacaoFreteCadastroVm
+    public class ProcessoCotacaoFreteCadastroVm
     {
         public int? Id { get; set; }
         [Display(Name = "Status")]
         public string DescricaoStatus { get; set; }
 
-        [Required(ErrorMessage="Material é obrigatório")]
-        [Display(Name = "Material")]
         public string CodigoMaterial { get; set; }
+        [Required(ErrorMessage = "Material é obrigatório")]
+        [Display(Name = "Material")]
         public string DescricaoMaterial { get; set; }
 
         [Display(Name = "Quantidade")]

@@ -1,6 +1,6 @@
 ﻿@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
-@model CotacaoFreteCadastroVm
+@model ProcessoCotacaoFreteCadastroVm
 
 @{
     ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
@@ -20,40 +20,42 @@
 
             
             <div class="linha">
-                <div class="coluna">
+@*                <div class="coluna">*@
+                    @Html.HiddenFor(x => x.CodigoMaterial)
                     @Html.LabelFor(x => x.DescricaoMaterial)
-                    @Html.TextBoxFor(x => x.DescricaoMaterial,new{disabled=true})
+                    @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
                     @Html.ValidationMessageFor(x => x.DescricaoMaterial)
                     <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
-                </div>
+@*                </div>*@
             </div>
 
-            @{ var comboUnidadeDeMedida = new ColunaComDropDown<CotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
+            @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
                 ((List<UnidadeDeMedidaCadastroVm>) ViewBag.UnidadesDeMedida)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
                 "CodigoUnidadeMedida");
 
-                var quantidadeMaterial = new ColunaComEditor<CotacaoFreteCadastroVm, int>(x => x.QuantidadeMaterial);
+               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoFreteCadastroVm, int>(x => x.QuantidadeMaterial);
             }
             
             @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
             
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
-            new ColunaComTextBox<CotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
+            new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
             <div class="linha">
                 <div class="coluna">
+                    @Html.HiddenFor(x => x.CodigoItinerario)
                     @Html.LabelFor(x => x.DescricaoItinerario)
                     @Html.TextBoxFor(x => x.DescricaoItinerario,new{disabled=true})
                     @Html.ValidationMessageFor(x => x.DescricaoItinerario)
-                    <input type="button" class="button_visualize" />        
+                    <input type="button"  id="btnSelecionarItinerario" class="button_visualize" />        
                 </div>
             </div>
             
 
-            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.Requisitos))
+            @Html.LinhaComUmaColuna(new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
 
             @Html.ValidationSummary(true)
 
@@ -79,7 +81,29 @@
                 modal: true,
                 buttons: {
                     "Confirmar": function () {
-                        alert('confirmado');
+                        if (produtoSelecionado == null) {
+                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Produto.");
+                            return;
+                        }
+                        $('#CodigoMaterial').val(produtoSelecionado.Codigo);
+                        $('#DescricaoMaterial').val(produtoSelecionado.Descricao);
+                        $(this).dialog("close");
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $('#divSelecionarItinerario').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Selecionar Itinerário',
+                modal: true,
+                buttons: {
+                    "Confirmar": function () {
+
                     },
                     "Cancelar": function () {
                         $(this).dialog("close");
@@ -88,11 +112,20 @@
             });
 
             $('#btnSelecionarProduto').click(function () {
-                $('#divSelecionarProduto').load("@Url.Action("SelecionarProduto")",
+                $('#divSelecionarProduto').load('@Url.Action("SelecionarProduto")'
+                    + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val()),
                 function (response, status, xhr) {
                     $('#divSelecionarProduto').dialog('open');
                 });
             });
+            
+            $('#btnSelecionarItinerario').click(function () {
+                $('#divSelecionarItinerario').load("@Url.Action("SelecionarItinerario")",
+                function (response, status, xhr) {
+                    $('#divSelecionarItinerario').dialog('open');
+                });
+            });
+
         })
         
 

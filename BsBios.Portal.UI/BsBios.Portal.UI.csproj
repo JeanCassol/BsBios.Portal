@@ -135,6 +135,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
+    <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
     <Compile Include="Controllers\CotacaoAtualizarController.cs" />
@@ -421,6 +422,7 @@
     <Content Include="Views\Usuario\Cadastro.cshtml" />
     <Content Include="Views\Account\EsqueciMinhaSenha.cshtml" />
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
+    <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

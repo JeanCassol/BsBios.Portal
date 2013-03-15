@@ -6,5 +6,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     {
         IItinerarios BuscaPeloCodigo(string codigo);
         IItinerarios FiltraPorListaDeCodigos(string[] codigos);
+        IItinerarios CodigoContendo(string codigo);
+        IItinerarios DescricaoContendo(string descricao);
     }
 }

@@ -96,7 +96,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult NovoCadastro(CotacaoFreteCadastroVm cotacaoFrete)
+        public ActionResult NovoCadastro(ProcessoCotacaoFreteCadastroVm cotacaoFrete)
         {
             return RedirectToAction("Index");
         }
@@ -113,10 +113,14 @@ namespace BsBios.Portal.UI.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult SelecionarProduto()
+        public ActionResult SelecionarProduto(ProdutoCadastroVm produtoCadastroVm)
         {
-            return View("_SelecionarProduto");
+            return PartialView("_SelecionarProduto", produtoCadastroVm);
         }
 
+        public ActionResult SelecionarItinerario()
+        {
+            return View("_SelecionarItinerario");
+        }
     }
 }

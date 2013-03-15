@@ -634,6 +634,9 @@ input[type="checkbox"].input-validation-error {
 .campogrande, select {
     width: 350px;
 }
+.campoextragrande {
+    width: 700px;
+}
 .campopequenogrid {
     width: 70px;
 }
@@ -723,9 +726,9 @@ input[type="checkbox"].input-validation-error {
 #conteudoPrincipal {
     background-color: #efeeef
 }
-/*#divFiltros {
-    padding: 10px 0 0 10px;
-}*/
+#divFiltros{
+    background-color: #efeeef
+}
 .labelNaLinha {
     display: inline;
 }
@@ -739,6 +742,10 @@ input[type="checkbox"].input-validation-error {
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;
     padding-top: 0;
+}
+.campoDesabilitado {
+    background-color: lightgray !important;
+    border-color: black !important;
 }
 
 

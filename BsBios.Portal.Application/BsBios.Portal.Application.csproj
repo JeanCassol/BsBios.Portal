@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\ItinerarioCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PerfilBuilder.cs" />
     <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
     <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Contracts\IConsultaIva.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
+    <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />

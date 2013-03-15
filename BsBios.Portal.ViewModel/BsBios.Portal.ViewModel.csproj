@@ -58,7 +58,7 @@
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
     <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />
-    <Compile Include="CotacaoFreteCadastroVm.cs" />
+    <Compile Include="ProcessoCotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />
     <Compile Include="FornecedorCadastroVm.cs" />
     <Compile Include="ProcessoCotacaoFornecedorVm.cs" />

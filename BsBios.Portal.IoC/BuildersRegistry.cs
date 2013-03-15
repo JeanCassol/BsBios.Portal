@@ -36,6 +36,9 @@ namespace BsBios.Portal.IoC
             For<IBuilder<UnidadeDeMedida, UnidadeDeMedidaCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<UnidadeDeMedidaCadastroBuilder>();
+            For<IBuilder<Itinerario, ItinerarioCadastroVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ItinerarioCadastroBuilder>();
         }
     }
 }
