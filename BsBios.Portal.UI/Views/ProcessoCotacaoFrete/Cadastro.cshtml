@@ -5,6 +5,11 @@
 @{
     ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
 }
+<style>
+    .colunaTelaInteira {
+        width: 790px;
+    }
+</style>
 <div class="paginaCadastro">
     @using (Html.BeginForm()) {
 
@@ -20,21 +25,18 @@
 
             
             <div class="linha">
-@*                <div class="coluna">*@
-                    @Html.HiddenFor(x => x.CodigoMaterial)
-                    @Html.LabelFor(x => x.DescricaoMaterial)
-                    @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
-                    @Html.ValidationMessageFor(x => x.DescricaoMaterial)
-                    <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
-@*                </div>*@
+                @Html.HiddenFor(x => x.CodigoMaterial)
+                @Html.LabelFor(x => x.DescricaoMaterial)
+                @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
+                <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
+                @Html.ValidationMessageFor(x => x.DescricaoMaterial)
             </div>
-
             @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
                 ((List<UnidadeDeMedidaCadastroVm>) ViewBag.UnidadesDeMedida)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
                 "CodigoUnidadeMedida");
 
-               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoFreteCadastroVm, int>(x => x.QuantidadeMaterial);
+               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial);
             }
             
             @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
@@ -45,22 +47,20 @@
             new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
 
             <div class="linha">
-                <div class="coluna">
-                    @Html.HiddenFor(x => x.CodigoItinerario)
-                    @Html.LabelFor(x => x.DescricaoItinerario)
-                    @Html.TextBoxFor(x => x.DescricaoItinerario,new{disabled=true})
-                    @Html.ValidationMessageFor(x => x.DescricaoItinerario)
-                    <input type="button"  id="btnSelecionarItinerario" class="button_visualize" />        
-                </div>
+                @Html.HiddenFor(x => x.CodigoItinerario)
+                @Html.LabelFor(x => x.DescricaoItinerario)
+                @Html.TextBoxFor(x => x.DescricaoItinerario,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
+                <input type="button"  id="btnSelecionarItinerario" class="button_visualize" />        
+                @Html.ValidationMessageFor(x => x.DescricaoItinerario)
             </div>
-            
 
-            @Html.LinhaComUmaColuna(new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio"), 
+            new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
 
             @Html.ValidationSummary(true)
-
+        <div class="error"></div>
         <div class="divBotao">
-            <input type="submit" value="Salvar" class="blue" />
+            <input type="button" id="btnSalvar" value="Salvar" class="blue" />
         </div>
         </fieldset>
     }
@@ -73,6 +73,10 @@
     <script type="text/javascript">
         $(function () {
             
+            function atualizaMensagemDeErro(mensagem) {
+                $('.error').html(mensagem);
+            }
+
             $('#divSelecionarProduto').dialog({
                 autoOpen: false,
                 width: 800,
@@ -86,7 +90,7 @@
                             return;
                         }
                         $('#CodigoMaterial').val(produtoSelecionado.Codigo);
-                        $('#DescricaoMaterial').val(produtoSelecionado.Descricao);
+                        $('#DescricaoMaterial').val(unescape(produtoSelecionado.Descricao));
                         $(this).dialog("close");
                     },
                     "Cancelar": function () {
@@ -103,6 +107,13 @@
                 modal: true,
                 buttons: {
                     "Confirmar": function () {
+                        if (itinerarioSelecionado == null) {
+                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Itinerário.");
+                            return;
+                        }
+                        $('#CodigoItinerario').val(itinerarioSelecionado.Codigo);
+                        $('#DescricaoItinerario').val(unescape(itinerarioSelecionado.Descricao));
+                        $(this).dialog("close");
 
                     },
                     "Cancelar": function () {
@@ -120,11 +131,32 @@
             });
             
             $('#btnSelecionarItinerario').click(function () {
-                $('#divSelecionarItinerario').load("@Url.Action("SelecionarItinerario")",
+                $('#divSelecionarItinerario').load("@Url.Action("SelecionarItinerario")"
+                + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val()),
                 function (response, status, xhr) {
                     $('#divSelecionarItinerario').dialog('open');
                 });
             });
+            
+            $('#btnSalvar').click(function () {
+                $('.error').empty();
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                var formData = $(form).serialize();
+                $.post('@Url.Action("Salvar","ProcessoDeCotacaoDeFreteService" )', formData,
+                    function (data) {
+                        if (data.Sucesso) {
+                            location.href = '@Url.Action("Index","ProcessoCotacaoFrete")';
+                        } else {
+                            atualizaMensagemDeErro(data.Mensagem);
+                        }
+                    });
+
+            });
+
 
         })
         

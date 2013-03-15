@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaProcessoCotacaoMaterialMock.Setup(x => x.ConsultaProcesso(It.IsAny<int>()))
                                                .Returns(new ProcessoCotacaoMaterialCadastroVm());
             _consultaIvaMock = new Mock<IConsultaIva>(MockBehavior.Strict);
-            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
+            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object);
             CommonMocks.MockControllerUrl(_controller);
         }
 
@@ -70,7 +70,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .HybridHttpOrThreadLocalScoped()
                 .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", new List<Enumeradores.Perfil>{Enumeradores.Perfil.Fornecedor})));
 
-            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaIvaMock.Object);
+            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object);
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);

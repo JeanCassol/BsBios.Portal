@@ -15,7 +15,7 @@ namespace BsBios.Portal.ViewModel
 
         [Display(Name = "Quantidade")]
         [Required(ErrorMessage = "Quantidade do Material é obrigatória")]
-        public int QuantidadeMaterial { get; set; }
+        public decimal QuantidadeMaterial { get; set; }
 
         [Display(Name = "Unidade de Medida")]
         [Required(ErrorMessage = "Unidade de Medida é obrigatória")]
@@ -36,15 +36,19 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Data Final de Validade")]
         public string DataValidadeCotacaoFinal { get; set; }
 
-        [Required(ErrorMessage = "Itinerário é obrigatório")]
-        public int CodigoItinerario { get; set; }
+        public string CodigoItinerario { get; set; }
         [Display(Name = "Itinerário")]
+        [Required(ErrorMessage = "Itinerário é obrigatório")]
         public string DescricaoItinerario { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Requisitos")]
         [Required(ErrorMessage = "Requisitos é obrigatório")]
         public string Requisitos { get; set; }
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Número do Contrato")]
+        public string NumeroDoContrato { get; set; }
 
     }
 }

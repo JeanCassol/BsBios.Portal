@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
@@ -25,7 +26,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
         {
-            if (filtro != null && filtro.CodigoFornecedor != null)
+            _processosDeCotacao.FiltraPorTipo(
+                (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
+            if (filtro.CodigoFornecedor != null)
             {
                 _processosDeCotacao
                     .DesconsideraNaoIniciados()
@@ -41,7 +44,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              Id = p.Id,
                              Quantidade = p.Quantidade,
                              Status = p.Status,
-                             UnidadeDeMedida = "UND"
+                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao
                          }
                         );
 

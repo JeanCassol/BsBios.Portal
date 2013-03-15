@@ -34,5 +34,18 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Status != Enumeradores.StatusProcessoCotacao.NaoIniciado);
             return this;
         }
+
+        public IProcessosDeCotacao FiltraPorTipo(Enumeradores.TipoDeCotacao tipoDeCotacao)
+        {
+            if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
+            {
+                Query = Query.Where(x => x is ProcessoDeCotacaoDeFrete);
+            }
+            if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
+            {
+                Query = Query.Where(x => x is ProcessoDeCotacaoDeMaterial);
+            }
+            return this;
+        }
     }
 }

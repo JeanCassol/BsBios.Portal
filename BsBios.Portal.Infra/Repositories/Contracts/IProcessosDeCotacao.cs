@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
 {
@@ -7,5 +8,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacao BuscaPorId(int id);
         IProcessosDeCotacao FiltraPorFornecedor(string codigoFornecedor);
         IProcessosDeCotacao DesconsideraNaoIniciados();
+        IProcessosDeCotacao FiltraPorTipo(Enumeradores.TipoDeCotacao tipoDeCotacao);
     }
 }

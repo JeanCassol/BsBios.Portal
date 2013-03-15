@@ -113,6 +113,41 @@ namespace BsBios.Portal.Tests.Application.Services
             Assert.AreEqual("100", responseMessage.Retorno.Codigo);
         }
 
+
+        [TestMethod]
+        public void ConsigoEnviarMensagemDeFechamentoDoProcessoDeCotacaoDeFrete()
+        {
+            var clientHandler = new HttpClientHandler();
+            clientHandler.Credentials = new NetworkCredential("fusion_lucas", "fusion123");
+
+            var httpClient = new HttpClient(clientHandler);
+            var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento()
+            {
+                new ProcessoDeCotacaoDeFreteFechamentoVm()
+                    {
+                        CodigoTransportadora = "0000101808",
+                        CodigoMaterial = "000000000000004012" ,
+                        CodigoItinerario = "010330",
+                        DataDeValidadeInicial = new DateTime(2013,4,1).ToShortDateString()  ,
+                        DataDeValidaFinal = new DateTime(2013,4,30).ToShortDateString(),
+                        NumeroDoContrato = null,
+                        Valor = (decimal) 1500.00
+                    }
+            };
+
+            var response = httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+                , mensagemParaEnviar);
+            string texto = response.Result.Content.ReadAsStringAsync().Result;
+            Console.WriteLine(texto);
+            Assert.IsTrue(response.Result.IsSuccessStatusCode);
+            Stream content = response.Result.Content.ReadAsStreamAsync().Result;
+            var serializer = new XmlSerializer(typeof(ApiResponseMessage));
+            var responseMessage = (ApiResponseMessage)serializer.Deserialize(content);
+            Assert.IsNotNull(responseMessage);
+            Assert.AreEqual("100", responseMessage.Retorno.Codigo);
+        }
+
+
         //[TestMethod]
         //public void LerRespostaDeRequisicaoComRetornoEmXmlELeituraTipada()
         //{

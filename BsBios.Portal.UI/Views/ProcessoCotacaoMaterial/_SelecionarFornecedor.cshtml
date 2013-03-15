@@ -80,6 +80,10 @@
         function selecionarFornecedorDoGrid(idDivGrid) {
             var grid = $(idDivGrid).data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
+            if (data.Email  == undefined || data.Email == null || dataItem.Email == '') {
+                alert('Não é possível selecionar um fornecedor sem E-mail.');
+                return;
+            }
             adicionarFornecedor({ Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email });
             atualizaGrid();
         }

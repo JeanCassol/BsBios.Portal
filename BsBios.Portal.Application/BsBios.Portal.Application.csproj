@@ -50,6 +50,7 @@
     <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
     <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Contracts\IConsultaIva.cs" />
@@ -72,9 +73,11 @@
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
+    <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Contracts\ICadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Contracts\ICadastroItinerario.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Services\Implementations\CadastroItinerario.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoSelecaoService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />

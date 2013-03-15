@@ -1,76 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
     public class ProcessoCotacaoFreteController : Controller
     {
-        private readonly IList<CotacaoFreteListagemVm> _cotacoesDeFrete ;
-        private readonly IList<ProdutoCadastroVm> _produtos;
         private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
+        private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
 
-        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida)
+        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
-
-            _cotacoesDeFrete = new List<CotacaoFreteListagemVm>();
-            _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()
-                {
-                    Id = 1,
-                    CodigoMaterialSap = "SAP1000",
-                    Material = "Bio Diesel" ,
-                    Quantidade = 10 ,
-                    Unidade = "TONELADA",
-                    Status =  "ABERTO",
-                    DataInicio = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy") ,
-                    DataTermino = DateTime.Today.AddDays(1).ToString("dd/MM/yyyy") 
-                });
-            _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()
-            {
-                Id = 1,
-                CodigoMaterialSap = "SAP2000",
-                Material = "Soja",
-                Quantidade = 20,
-                Unidade = "TONELADA",
-                Status = "PENDENTE",
-                DataInicio = DateTime.Today.ToString("dd/MM/yyyy"),
-                DataTermino = DateTime.Today.AddDays(2).ToString("dd/MM/yyyy")
-            });
-            _cotacoesDeFrete.Add(new CotacaoFreteListagemVm()
-            {
-                Id = 1,
-                CodigoMaterialSap = "SAP3000",
-                Material = "Trigo",
-                Quantidade = 30,
-                Unidade = "TONELADA",
-                Status = "FECHADO",
-                DataInicio = DateTime.Today.AddDays(-3).ToString("dd/MM/yyyy"),
-                DataTermino = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy")
-            });
-
-            _produtos = new List<ProdutoCadastroVm>();
-            _produtos.Add(new ProdutoCadastroVm()
-            {
-                Codigo = "SAP1000",
-                Descricao = "Bio Diesel",
-            });
-            _produtos.Add(new ProdutoCadastroVm()
-            {
-                Codigo = "SAP2000",
-                Descricao = "Soja",
-            });
-            _produtos.Add(new ProdutoCadastroVm()
-            {
-                Codigo = "SAP3000",
-                Descricao = "Milho",
-            });
-
+            _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
+            _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
         }
 
         //
@@ -79,12 +29,35 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
+            {
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoCotacaoFrete");
+            }
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
+            {
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "Cotacao");
+            }
+
+            ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoCotacaoFrete");
+            ViewBag.TituloDaPagina = "Cotações de Frete";
+            return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar()
+        public JsonResult Listar(PaginacaoVm paginacaoVm)
         {
-            return Json(new { registros = _cotacoesDeFrete.OrderByDescending(x => x.DataTermino), totalCount = _cotacoesDeFrete.Count }, JsonRequestBehavior.AllowGet);
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            var filtro = new ProcessoCotacaoMaterialFiltroVm()
+            {
+                TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Frete
+            };
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
+            {
+                filtro.CodigoFornecedor = usuarioConectado.Login;
+            }
+
+            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
+            return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -95,22 +68,23 @@ namespace BsBios.Portal.UI.Controllers
             return View("Cadastro");
         }
 
-        [HttpPost]
-        public ActionResult NovoCadastro(ProcessoCotacaoFreteCadastroVm cotacaoFrete)
-        {
-            return RedirectToAction("Index");
-        }
-
         [HttpGet]
-        public ViewResult EditarCadastro(int idProcessoCotacaoFrete)
+        public ViewResult EditarCadastro(int idProcessoCotacao)
         {
-            return View("Cadastro");
-        }
+            try
+            {
+                ProcessoCotacaoFreteCadastroVm cadastro = _consultaProcessoDeCotacaoDeFrete.ConsultaProcesso(idProcessoCotacao);
+                ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
+                
+                return View("Cadastro", cadastro);
 
-        [HttpPost]
-        public ActionResult EditarCadastro()
-        {
-            return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["erro"] = ex.Message;
+                return View("Cadastro");
+            }
+
         }
 
         public ActionResult SelecionarProduto(ProdutoCadastroVm produtoCadastroVm)
@@ -118,9 +92,9 @@ namespace BsBios.Portal.UI.Controllers
             return PartialView("_SelecionarProduto", produtoCadastroVm);
         }
 
-        public ActionResult SelecionarItinerario()
+        public ActionResult SelecionarItinerario(ItinerarioCadastroVm itinerarioCadastroVm)
         {
-            return View("_SelecionarItinerario");
+            return View("_SelecionarItinerario", itinerarioCadastroVm);
         }
     }
 }

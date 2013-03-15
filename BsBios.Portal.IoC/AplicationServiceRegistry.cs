@@ -67,6 +67,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GerenciadorUsuario>();
 
+            For<IProcessoDeCotacaoDeFreteService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeFreteService>();
+
         }
     }
 }

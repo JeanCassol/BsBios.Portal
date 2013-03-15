@@ -86,15 +86,16 @@
     <script type="text/javascript">
         //Globalize.cultureSelector = 'pt-BR';
         $('input[name=ValorLiquido]').attr('disabled', true);
-        $(function () {
-            
+        $(function() {
+
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
             }
+
             function adicionaMensagemDeErro(mensagem) {
                 $('.error').append(mensagem);
             }
-            
+
             function validaImposto(campoAliquota, campoValor, descricaoDoImposto) {
                 var aliquota = $('#' + campoAliquota).val();
                 var valor = $('#' + campoValor).val();
@@ -104,7 +105,7 @@
                 }
                 return true;
             }
-            
+
             function validaImpostos() {
                 var valido = validaImposto("IcmsAliquota", "IcmsValor", "ICMS");
                 valido = valido && validaImposto("IcmsStAliquota", "IcmsStValor", "ICMS ST");
@@ -115,7 +116,7 @@
 
             }
 
-            $('#btnSalvarCotacao').click(function () {
+            $('#btnSalvarCotacao').click(function() {
                 $('.error').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
@@ -125,19 +126,19 @@
                 if (!validaImpostos()) {
                     return;
                 }
-                
+
                 var formData = $(form).serialize();
                 $.post('@Url.Action("Salvar","CotacaoAtualizar" )', formData,
-                    function (data) {
+                    function(data) {
                         if (data.Sucesso) {
                             location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }
-                });
+                    });
 
             });
-        })
+        });
     </script>
 }
 

@@ -132,3 +132,8 @@ http://localhost:3905/api/ItinerarioApi/PostMultiplo
 		<Descricao>Itinerário 002</Descricao>
 	</ItinerarioCadastroVm>
 </ListaItinerarios>
+
+<ListaProcessoDeCotacaoDeFreteFechamento xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ProcessoDeCotacaoDeFreteFechamentoVm>
+	</ProcessoDeCotacaoDeFreteFechamentoVm>
+</ListaProcessoDeCotacaoDeFreteFechamento>

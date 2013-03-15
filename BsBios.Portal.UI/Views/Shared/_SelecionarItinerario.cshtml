@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BsBios.Portal.ViewModel.ItinerarioCadastroVm
+@{
     Layout = null;
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
@@ -6,13 +7,13 @@
 <div id="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="coluna">
+        <div class="colunaxx">
             @Html.Label("Código")
-            @Html.TextBox("Codigo","", new{@class="campomedio"})
+            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
         </div>
         <div class="coluna">
             @Html.Label("Descrição")
-            @Html.TextBox("Descricao","", new{@class="campomedio"})
+            @Html.TextBox("DescricaoFiltro","", new{@class="campomedio"})
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
@@ -25,26 +26,27 @@
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script>
-    var itinerarioSelecionado  = null;
-    $(document).ready(function() {
-        $("#gridProdutos").customKendoGrid({
+    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
+    {
+        @: var itinerarioSelecionado = { Codigo: '@Model.Codigo', Descricao: '@Model.Descricao' };
+    }
+    else
+    {
+        @: var itinerarioSelecionado = null;
+    }
+    $(document).ready(function () {
+        $("#gridItinerarios").customKendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
                     model: {
                         fields: {
                             Descricao: {type: "string"},
-                            Codigo: { type: "string" },
-                            Tipo: { type: "string" }
+                            Codigo: { type: "string" }
                         }
                     },
                     total: 'QuantidadeDeRegistros'
                 },
-                change: function(e) {
-                    if (itinerarioSelecionado != null && $('#gridItinerarios').find('input[name=radioItinerario]').is(':checked').length == 0) {
-                        $('input[name=radioItinerario][data-codigoitinerario=' + itinerarioSelecionado.Codigo + ']').attr('checked', true);
-                    }
-                },                
                 serverFiltering: true,
                 serverPaging: true,
                 transport: {
@@ -54,15 +56,20 @@
                         cache: false,
                         data: function() {
                             return {
-                                Codigo: $('#Codigo').val(),
-                                Descricao: $('#Descricao').val(),
-                                Tipo: $('#Tipo').val()
+                                Codigo: $('#CodigoFiltro').val(),
+                                Descricao: $('#DescricaoFiltro').val(),
                             };
                         }
                     }
                 },
                 pageSize: 10
             },
+            dataBound: function (e) {
+                if (itinerarioSelecionado != null) {
+                    $('input[name=radioItinerario][data-codigoitinerario=' + itinerarioSelecionado.Codigo + ']').attr('checked', true);
+                }
+            },
+
             columns:
             [
                 {
@@ -81,12 +88,7 @@
                     field: "Descricao",
                     width: 300,
                     title: "Descrição"
-                },
-                {
-                    field: "Tipo",
-                    width: 60
                 }
-
             ]
         });
 
@@ -98,7 +100,8 @@
             $('#divFiltros input[type!=button]').val('');
         });
 
-        $('#gridItinerarios').find('input[name=radioItinerario]').change(function() {
+        $('#gridItinerarios').find('input[name=radioItinerario]').die("change");
+        $('#gridItinerarios').find('input[name=radioItinerario]').live("change", function () {
             if (!$(this).is(':checked')) {
                 return;
             }

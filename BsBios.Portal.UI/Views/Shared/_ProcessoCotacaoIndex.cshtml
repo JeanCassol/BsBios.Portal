@@ -1,8 +1,5 @@
-@{
-    ViewBag.TituloDaPagina = "Cotações de Material";
-}
-   <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
 <div id="gridCotacaoMaterial" class="divGrid" ></div>
 @section scripts
@@ -47,7 +44,7 @@
                     },
                     transport: {
                         read: {
-                            url: '@Url.Action("Listar", "ProcessoCotacaoMaterial")',
+                            url: '@ViewData["ActionListagem"]',
                             type: 'GET',
                             cache: false
                         }

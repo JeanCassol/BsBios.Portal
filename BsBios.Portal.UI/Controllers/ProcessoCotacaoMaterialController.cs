@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -13,12 +14,10 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoCotacaoMaterialController : Controller
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
-        private readonly IConsultaIva _consultaIva;
 
-        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaIva consultaIva)
+        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
-            _consultaIva = consultaIva;
         }
 
 
@@ -26,7 +25,7 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult Index()
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.CompradorSuprimentos))
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoCotacaoMaterial");
 
@@ -36,14 +35,19 @@ namespace BsBios.Portal.UI.Controllers
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "Cotacao");
             }
 
-            return View();
+            ViewData["ActionListagem"] = Url.Action("Listar","ProcessoCotacaoMaterial");
+            ViewBag.TituloDaPagina = "Cotações de Material";
+            return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            var filtro = new ProcessoCotacaoMaterialFiltroVm();
-            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.Fornecedor))
+            var filtro = new ProcessoCotacaoMaterialFiltroVm()
+                {
+                    TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material
+                };
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 filtro.CodigoFornecedor = usuarioConectado.Login;
             }

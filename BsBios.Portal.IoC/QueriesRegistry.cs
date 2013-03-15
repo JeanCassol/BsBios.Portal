@@ -48,6 +48,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaItinerario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaItinerario>();
+
+            For<IConsultaProcessoDeCotacaoDeFrete>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaProcessoDeCotacaoDeFrete>();
             
         }
 

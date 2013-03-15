@@ -136,6 +136,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\ItinerarioController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
     <Compile Include="Controllers\CotacaoAtualizarController.cs" />
@@ -404,14 +405,13 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
-    <Content Include="Views\ProcessoCotacaoFrete\Index.cshtml" />
     <Content Include="Views\ProcessoCotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
     <Content Include="Views\CondicaoPagamento\Index.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
-    <Content Include="Views\ProcessoCotacaoMaterial\Index.cshtml" />
+    <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Cotacao\Cadastro.cshtml" />
