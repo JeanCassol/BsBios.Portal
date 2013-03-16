@@ -4,6 +4,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaCotacaoDoFornecedor
     {
-        CotacaoCadastroVm ConsultarCotacao(int idProcessoCotacao, string codigoFornecedor);
+        CotacaoMaterialCadastroVm ConsultarCotacaoDeMaterial(int idProcessoCotacao, string codigoFornecedor);
+        CotacaoFreteCadastroVm ConsultarCotacaoDeFrete(int idProcessoCotacao, string codigoFornecedor);
     }
 }

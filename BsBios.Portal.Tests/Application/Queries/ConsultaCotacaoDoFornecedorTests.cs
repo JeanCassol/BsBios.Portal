@@ -21,7 +21,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
-            CotacaoCadastroVm vm = consulta.ConsultarCotacao(processo.Id, fornecedor.Codigo);
+            CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo);
             Assert.IsNotNull(vm);
             Assert.IsNull(vm.CodigoCondicaoPagamento);
             Assert.IsNull(vm.CodigoIncoterm);
@@ -46,13 +46,13 @@ namespace BsBios.Portal.Tests.Application.Queries
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12);
+                                     "Desc Incoterm", 100, 120, 12,DateTime.Today.AddMonths(1),"observacoes");
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
-            Cotacao cotacao = processo.FornecedoresParticipantes.First().Cotacao;
+            var cotacao = (CotacaoMaterial) processo.FornecedoresParticipantes.First().Cotacao;
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
-            CotacaoCadastroVm vm = consulta.ConsultarCotacao(processo.Id, fornecedor.Codigo);
+            CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo);
             Assert.IsNotNull(vm);
             Assert.AreEqual(cotacao.CondicaoDePagamento.Codigo,  vm.CodigoCondicaoPagamento);
             Assert.AreEqual(cotacao.Incoterm.Codigo, vm.CodigoIncoterm);
@@ -64,9 +64,9 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
             Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
-            Assert.AreEqual(120, vm.ValorComImpostos);
+            Assert.AreEqual(100, vm.ValorComImpostos);
             Assert.AreEqual(100, vm.ValorLiquido);
-            Assert.AreEqual(12, vm.Mva);
+            Assert.AreEqual(120, vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
         }
 
@@ -82,18 +82,18 @@ namespace BsBios.Portal.Tests.Application.Queries
 
             processo.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12);
+                                     "Desc Incoterm", 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
             processo.InformarCotacao(fornecedor2.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 120, 130, 14);
+                                     "Desc Incoterm", 120, 130, 14, DateTime.Today.AddMonths(1), "observacoes");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
-            Cotacao cotacao = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == fornecedor1.Codigo).Cotacao;
+            var cotacao = (CotacaoMaterial) processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == fornecedor1.Codigo).Cotacao;
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
-            CotacaoCadastroVm vm = consulta.ConsultarCotacao(processo.Id, fornecedor1.Codigo);
+            CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor1.Codigo);
 
             Assert.IsNotNull(vm);
             Assert.AreEqual(cotacao.CondicaoDePagamento.Codigo, vm.CodigoCondicaoPagamento);
@@ -106,9 +106,9 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(processo.Produto.Descricao, vm.Material);
             Assert.AreEqual(processo.Quantidade, vm.Quantidade);
             Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
-            Assert.AreEqual(120, vm.ValorComImpostos);
+            Assert.AreEqual(100, vm.ValorComImpostos);
             Assert.AreEqual(100, vm.ValorLiquido);
-            Assert.AreEqual(12, vm.Mva);
+            Assert.AreEqual(120, vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
             
         }
@@ -120,18 +120,19 @@ namespace BsBios.Portal.Tests.Application.Queries
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             Cotacao cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12);
+                                     "Desc Incoterm", 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1,2);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
+            cotacao.InformarImposto(Enumeradores.TipoDeImposto.PisCofins,3,0);
             //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, 31, 32);
             //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, 41, 42);
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
-            CotacaoCadastroVm vm = consulta.ConsultarCotacao(processo.Id, fornecedor.Codigo);
+            CotacaoImpostosVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo).Impostos;
 
             Assert.AreEqual(1, vm.IcmsAliquota);
             Assert.AreEqual(2, vm.IcmsValor);
@@ -139,7 +140,7 @@ namespace BsBios.Portal.Tests.Application.Queries
             Assert.AreEqual(12, vm.IcmsStValor);
             Assert.AreEqual(21, vm.IpiAliquota);
             Assert.AreEqual(22, vm.IpiValor);
-            Assert.Fail("Falta implementar a questão da aliquota pis / cofins");
+            Assert.AreEqual(3, vm.PisCofinsAliquota);
             //Assert.AreEqual(31, vm.PisAliquota);
             //Assert.AreEqual(32, vm.PisValor);
             //Assert.AreEqual(41, vm.CofinsAliquota);

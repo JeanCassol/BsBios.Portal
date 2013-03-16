@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\CotacaoImpostosBuilder.cs" />
     <Compile Include="Queries\Builders\ItinerarioCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\PerfilBuilder.cs" />
@@ -74,11 +75,13 @@
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteSelecaoService.cs" />
+    <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Contracts\ICadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Contracts\ICadastroItinerario.cs" />
-    <Compile Include="Services\Contracts\IAtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteService.cs" />
-    <Compile Include="Services\Contracts\IProcessoDeCotacaoSelecaoService.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialSelecaoService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
@@ -91,13 +94,16 @@
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
-    <Compile Include="Services\Implementations\AtualizadorDeCotacao.cs" />
+    <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
+    <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
     <Compile Include="Services\Implementations\CadastroItinerario.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
+    <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
-    <Compile Include="Services\Implementations\ProcessoDeCotacaoSelecaoService.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialSelecaoService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />

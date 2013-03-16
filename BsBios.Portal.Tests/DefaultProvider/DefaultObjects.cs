@@ -91,7 +91,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, null);
+            Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, 100,DateTime.Today.AddMonths(1),"obs");
             processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
             processoDeCotacao.Fechar();
             return processoDeCotacao;
@@ -145,10 +145,10 @@ namespace BsBios.Portal.Tests.DefaultProvider
             return new CondicaoDePagamento(codigo , "CONDIÇÃO " + codigo);
         }
 
-        public static Cotacao ObtemCotacaoPadrao()
+        public static CotacaoMaterial ObtemCotacaoDeMaterialPadrao()
         {
-            var cotacao = new Cotacao(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
-                "Descrição do Incoterm", 100, 110, null);
+            var cotacao = new CotacaoMaterial(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
+                "Descrição do Incoterm", 100, 110, 150,DateTime.Today,"obs");
             return cotacao;
         }
 

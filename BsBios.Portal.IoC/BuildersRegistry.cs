@@ -39,6 +39,12 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Itinerario, ItinerarioCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ItinerarioCadastroBuilder>();
+
+            For< IBuilder<Cotacao, CotacaoImpostosVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CotacaoImpostosBuilder>();
+
+
         }
     }
 }

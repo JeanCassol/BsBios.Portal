@@ -8,4 +8,10 @@
         public int IdProcessoCotacao { get; set; }
         public string CodigoFornecedor { get; set; }
     }
+    public class CotacaoMaterialInformarVm : CotacaoMaterialDadosVm
+    {
+        public int IdProcessoCotacao { get; set; }
+        public string CodigoFornecedor { get; set; }
+    }
+
 }

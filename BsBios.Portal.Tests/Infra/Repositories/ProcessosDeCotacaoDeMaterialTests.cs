@@ -101,7 +101,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             processoDeCotacaoDeMaterial.Abrir();
             processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, null);
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, 100,DateTime.Today.AddMonths(1),"obs fornec");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -125,7 +125,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             processoDeCotacaoDeMaterial.Abrir();
             Cotacao cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, null);
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
 
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 5, 13);

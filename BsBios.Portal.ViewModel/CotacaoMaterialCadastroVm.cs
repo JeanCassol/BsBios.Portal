@@ -1,10 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace BsBios.Portal.ViewModel
 {
-    public class CotacaoCadastroVm: CotacaoInformarVm
+    public class CotacaoMaterialCadastroVm: CotacaoMaterialInformarVm
     {
         [DisplayName("Descrição: ")]
         public string DescricaoDoProcessoDeCotacao { get; set; }
@@ -21,8 +19,6 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Unidade de Medida: ")]
         public string UnidadeDeMedida { get; set; }
         
-
-
         /// <summary>
         /// usuada para indicar se os campos da tela serão habilitados para edição
         /// </summary>

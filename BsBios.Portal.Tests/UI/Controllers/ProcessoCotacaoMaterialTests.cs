@@ -52,7 +52,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoChamaActionParaListarProcessosRetornaAViewEsperada()
         {
             var viewResult = (ViewResult) _controller.Index();
-            Assert.AreEqual("", viewResult.ViewName);
+            Assert.AreEqual("_ProcessoCotacaoIndex", viewResult.ViewName);
         }
         [TestMethod]
         public void QuandoEstaConectadoComOPerfilCompradorViewBagContemActionDeEdicaoEsperada()
@@ -74,7 +74,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);
-            Assert.AreEqual("/Cotacao/EditarCadastro", controller.ViewData["ActionEdicao"]);
+            Assert.AreEqual("/CotacaoMaterial/EditarCadastro", controller.ViewData["ActionEdicao"]);
 
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()

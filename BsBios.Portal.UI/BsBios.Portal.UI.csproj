@@ -135,19 +135,22 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
+    <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
+    <Compile Include="Controllers\CotacaoDeFreteAtualizarController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
-    <Compile Include="Controllers\CotacaoAtualizarController.cs" />
+    <Compile Include="Controllers\CotacaoDeMaterialAtualizarController.cs" />
     <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\GerenciadorUsuarioController.cs" />
     <Compile Include="Controllers\IvaController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoFornecedoresServiceController.cs" />
     <Compile Include="Controllers\IncotermApiController.cs" />
-    <Compile Include="Controllers\ProcessoDeCotacaoSelecionarController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialSelecionarController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoStatusServiceController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
@@ -415,7 +418,6 @@
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
-    <Content Include="Views\Shared\_CotacaoCadastro.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />
@@ -425,11 +427,14 @@
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
     <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
     <Content Include="Views\Shared\_ProcessoDeCotacaoOperacoes.cshtml" />
+    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
+    <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
+    <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\Factory\" />
-    <Folder Include="Controllers\ModelBinders\" />
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -23,11 +21,8 @@ namespace BsBios.Portal.UI.Controllers
         public ViewResult EditarCadastro(int idProcessoCotacao)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            CotacaoCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacao(idProcessoCotacao, usuarioConectado.Login);
-            ViewData["TipoDeCotacao"] = Enumeradores.TipoDeCotacao.Frete;
-            return View("_CotacaoCadastro",viewModel);
+            CotacaoFreteCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacaoDeFrete(idProcessoCotacao, usuarioConectado.Login);
+            return View("Cadastro",viewModel);
         }
-
-
     }
 }

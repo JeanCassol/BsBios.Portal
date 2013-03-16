@@ -27,16 +27,10 @@ namespace BsBios.Portal.Infra.Mappings
 
             //References(x => x.FornecedorParticipante).Column("IdFornecedorParticipante");
             
-            References(x => x.CondicaoDePagamento).Column("CodigoCondicaoPagamento");
-            References(x => x.Iva).Column("CodigoIva");
-            References(x => x.Incoterm).Column("CodigoIncoterm");
-            Map(x => x.DescricaoIncoterm);
             Map(x => x.QuantidadeAdquirida);
             Map(x => x.ValorLiquido);
             Map(x => x.ValorComImpostos);
-            Map(x => x.Mva);
             Map(x => x.Selecionada);
-            Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
             Map(x => x.QuantidadeDisponivel);
             Map(x => x.Observacoes);
             /*Importante: Sem a opção "Cascade.AllDeleteOrphan()" o NHibernate tenta sempre fazer um update mesmo quando é criado um imposto novo.
@@ -46,4 +40,27 @@ namespace BsBios.Portal.Infra.Mappings
                 .Cascade.AllDeleteOrphan();
         }
     }
+    public class CotacaoMaterialMap: SubclassMap<CotacaoMaterial>
+    {
+        public CotacaoMaterialMap()
+        {
+            Table("CotacaoMaterial");
+            KeyColumn("Id");
+            References(x => x.CondicaoDePagamento).Column("CodigoCondicaoPagamento");
+            References(x => x.Iva).Column("CodigoIva");
+            References(x => x.Incoterm).Column("CodigoIncoterm");
+            Map(x => x.DescricaoIncoterm);
+            Map(x => x.Mva);
+            Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
+        }
+    }
+    public class CotacaoFreteMap : SubclassMap<CotacaoFrete>
+    {
+        public CotacaoFreteMap()
+        {
+            Table("CotacaoFrete");
+            KeyColumn("Id");
+        }
+    }
+    
 }

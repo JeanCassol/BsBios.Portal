@@ -1,7 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -30,9 +28,8 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
 
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            CotacaoCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacao(idProcessoCotacao, usuarioConectado.Login);
-            ViewData["TipoDeCotacao"] = Enumeradores.TipoDeCotacao.Material;
-            return View("_CotacaoCadastro",viewModel);
+            CotacaoMaterialCadastroVm viewModel = _consultaCotacaoDoFornecedor.ConsultarCotacaoDeMaterial(idProcessoCotacao, usuarioConectado.Login);
+            return View("Cadastro",viewModel);
         }
 
 

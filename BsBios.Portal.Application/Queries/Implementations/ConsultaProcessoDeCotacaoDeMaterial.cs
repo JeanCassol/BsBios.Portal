@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
@@ -140,13 +139,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         }
 
-        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        public IList<CotacaoMaterialSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
         {
-            var retorno = new List<CotacaoSelecionarVm>();
+            var retorno = new List<CotacaoMaterialSelecionarVm>();
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
             {
-                var cotacaoSelecionarVm = new CotacaoSelecionarVm {Fornecedor = fornecedorParticipante.Fornecedor.Nome};
+                var cotacaoSelecionarVm = new CotacaoMaterialSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
                 retorno.Add(cotacaoSelecionarVm);
 
                 if (fornecedorParticipante.Cotacao == null)
@@ -154,7 +153,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     continue;
                 }
 
-                var cotacao = fornecedorParticipante.Cotacao;
+                var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
 
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;

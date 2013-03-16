@@ -1,20 +1,22 @@
 ﻿using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using BsBios.Portal.Application.Queries.Builders;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaCotacaoDoFornecedor : IConsultaCotacaoDoFornecedor
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IBuilder<Cotacao, CotacaoImpostosVm> _builderImpostos;
 
-        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao)
+        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<Cotacao, CotacaoImpostosVm> builderImpostos)
         {
             _processosDeCotacao = processosDeCotacao;
+            _builderImpostos = builderImpostos;
         }
 
         //public CotacaoCadastroVm ConsultarCotacao(int idProcessoCotacao, string codigoFornecedor)
@@ -73,21 +75,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
         //        };
         //}
 
-        public CotacaoCadastroVm ConsultarCotacao(int idProcessoCotacao, string codigoFornecedor)
+        public CotacaoMaterialCadastroVm ConsultarCotacaoDeMaterial(int idProcessoCotacao, string codigoFornecedor)
         {
-            var processo = _processosDeCotacao.BuscaPorId(idProcessoCotacao)
-                               .Single();
+            var processo = (ProcessoDeCotacaoDeMaterial) _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            var vm = new CotacaoCadastroVm
+            var vm = new CotacaoMaterialCadastroVm
                 {
                     PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
                     IdProcessoCotacao = processo.Id,
                     CodigoFornecedor = fp.Fornecedor.Codigo,
                     Status = processo.Status.Descricao(),
                     Requisitos = processo.Requisitos,
-                    //DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
+                    DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
                     Material = processo.Produto.Descricao,
                     Quantidade = processo.Quantidade,
@@ -96,63 +97,63 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (fp.Cotacao != null)
             {
-                vm.CodigoCondicaoPagamento = fp.Cotacao.CondicaoDePagamento.Codigo;
-                vm.CodigoIncoterm = fp.Cotacao.Incoterm.Codigo;
-                vm.DescricaoIncoterm = fp.Cotacao.DescricaoIncoterm;
-                vm.Mva = fp.Cotacao.Mva;
-                vm.ValorLiquido = fp.Cotacao.ValorLiquido;
-                vm.ValorComImpostos = fp.Cotacao.ValorComImpostos;
-                vm.ObservacoesDoFornecedor = fp.Cotacao.Observacoes;
-                vm.PrazoDeEntrega = fp.Cotacao.PrazoDeEntrega.ToShortDateString();
-                vm.QuantidadeDisponivel = fp.Cotacao.QuantidadeDisponivel;
 
-                Cotacao cotacao = fp.Cotacao;
-                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
-                if (imposto!= null)
-                {
-                    vm.IcmsAliquota = imposto.Aliquota;
-                    vm.IcmsValor = imposto.Valor;
-                }
+                var cotacao = (CotacaoMaterial)  fp.Cotacao.CastEntity();
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
-                if (imposto != null)
-                {
-                    vm.IcmsStAliquota = imposto.Aliquota;
-                    vm.IcmsStValor = imposto.Valor;
-                }
+                vm.CodigoCondicaoPagamento = cotacao.CondicaoDePagamento.Codigo;
+                vm.CodigoIncoterm = cotacao.Incoterm.Codigo;
+                vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
+                vm.Mva = cotacao.Mva;
+                vm.ValorLiquido = cotacao.ValorLiquido;
+                vm.ValorComImpostos = cotacao.ValorComImpostos;
+                vm.ObservacoesDoFornecedor = cotacao.Observacoes;
+                vm.PrazoDeEntrega = cotacao.PrazoDeEntrega.ToShortDateString();
+                vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
-                if (imposto != null)
-                {
-                    vm.IpiAliquota = imposto.Aliquota;
-                    vm.IpiValor = imposto.Valor;
-                }
-
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.PisCofins);
-                if (imposto != null)
-                {
-                    vm.PisCofinsAliquota = imposto.Aliquota;
-                }
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                //if (imposto != null)
-                //{
-                //    vm.PisAliquota = imposto.Aliquota;
-                //    vm.PisValor = imposto.Valor;
-                //}
-
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                //if (imposto != null)
-                //{
-                //    vm.CofinsAliquota = imposto.Aliquota;
-                //    vm.CofinsValor = imposto.Valor;
-                //}
+                vm.Impostos = _builderImpostos.BuildSingle(cotacao);
 
             }
 
             return vm;
 
+        }
+
+        public CotacaoFreteCadastroVm ConsultarCotacaoDeFrete(int idProcessoCotacao, string codigoFornecedor)
+        {
+            var processo = (ProcessoDeCotacaoDeFrete)_processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+
+            var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
+
+            var vm = new CotacaoFreteCadastroVm
+            {
+                PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                IdProcessoCotacao = processo.Id,
+                CodigoFornecedor = fp.Fornecedor.Codigo,
+                Status = processo.Status.Descricao(),
+                Requisitos = processo.Requisitos,
+                DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
+                Material = processo.Produto.Descricao,
+                Quantidade = processo.Quantidade,
+                UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
+                DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString()
+            };
+
+            if (fp.Cotacao != null)
+            {
+
+                var cotacao = fp.Cotacao.CastEntity();
+
+                vm.ValorLiquido = cotacao.ValorLiquido;
+                vm.ValorComImpostos = cotacao.ValorComImpostos;
+                vm.ObservacoesDoFornecedor = cotacao.Observacoes;
+                vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
+
+                vm.Impostos = _builderImpostos.BuildSingle(cotacao);
+
+            }
+
+            return vm;
         }
     }
 }

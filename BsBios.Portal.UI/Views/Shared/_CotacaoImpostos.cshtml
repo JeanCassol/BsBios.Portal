@@ -1,0 +1,21 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model CotacaoImpostosVm
+@{
+    Layout = null;
+}
+<fieldset id="fieldSetImpostos">
+    <legend>Impostos</legend>
+    <span class="aviso">É indispensável que as alíquotas e os valores do impostos sejam informados corretamente</span>
+    @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IcmsAliquota),
+                              new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IcmsValor))
+    @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IcmsStAliquota),
+                              new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IcmsStValor))
+    @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IpiAliquota),
+                              new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.IpiValor))
+    @Html.LinhaComUmaColuna(new ColunaComEditor<CotacaoImpostosVm, decimal?>(x => x.PisCofinsAliquota))
+
+</fieldset>
+
+
+

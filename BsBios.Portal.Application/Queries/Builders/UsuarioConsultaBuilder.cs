@@ -4,17 +4,18 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
-    public class UsuarioConsultaBuilder: Builder<Usuario,UsuarioConsultaVm>
+
+    public class UsuarioConsultaBuilder : Builder<Usuario, UsuarioConsultaVm>
     {
         public override UsuarioConsultaVm BuildSingle(Usuario model)
         {
             return new UsuarioConsultaVm()
-                {
-                    Login = model.Login,
-                    Nome = model.Nome,
-                    Email = model.Email,
-                    Status = model.Status.Descricao()
-                };
+            {
+                Login = model.Login,
+                Nome = model.Nome,
+                Email = model.Email,
+                Status = model.Status.Descricao()
+            };
         }
 
     }

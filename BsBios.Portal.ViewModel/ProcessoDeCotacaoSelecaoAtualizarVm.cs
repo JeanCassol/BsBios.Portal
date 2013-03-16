@@ -2,9 +2,15 @@
 
 namespace BsBios.Portal.ViewModel
 {
-    public class ProcessoDeCotacaoSelecaoAtualizarVm
+    public class ProcessoDeCotacaoDeMaterialSelecaoAtualizarVm
     {
         public int IdProcessoCotacao { get; set; }
-        public IList<CotacaoSelecaoVm> Cotacoes { get; set; }
+        public IList<CotacaoMaterialSelecaoVm> Cotacoes { get; set; }
     }
+    public class ProcessoDeCotacaoDeFreteSelecaoAtualizarVm
+    {
+        public int IdProcessoCotacao { get; set; }
+        public IList<CotacaoFreteSelecaoVm> Cotacoes { get; set; }
+    }
+
 }

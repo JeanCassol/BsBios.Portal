@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -11,25 +8,25 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
-    public class ProcessoDeCotacaoSelecaoService : IProcessoDeCotacaoSelecaoService
+    public class ProcessoDeCotacaoDeMaterialSelecaoService : IProcessoDeCotacaoDeMaterialSelecaoService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IIvas _ivas;
 
-        public ProcessoDeCotacaoSelecaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, IIvas ivas)
+        public ProcessoDeCotacaoDeMaterialSelecaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, IIvas ivas)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;
             _ivas = ivas;
         }
 
-        public void AtualizarSelecao(ProcessoDeCotacaoSelecaoAtualizarVm processoDeCotacaoSelecaoAtualizarVm)
+        public void AtualizarSelecao(ProcessoDeCotacaoDeMaterialSelecaoAtualizarVm processoDeCotacaoSelecaoAtualizarVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(processoDeCotacaoSelecaoAtualizarVm.IdProcessoCotacao).Single();
+                var processoDeCotacao = (ProcessoDeCotacaoDeMaterial) _processosDeCotacao.BuscaPorId(processoDeCotacaoSelecaoAtualizarVm.IdProcessoCotacao).Single();
                 string[] codigosIva = processoDeCotacaoSelecaoAtualizarVm.Cotacoes.Select(x => x.CodigoIva).ToArray();
                 IList<Iva> ivasSelecionados = _ivas.BuscaListaPorCodigo(codigosIva).List();
                 foreach (var cotacaoSelecaoVm in processoDeCotacaoSelecaoAtualizarVm.Cotacoes)

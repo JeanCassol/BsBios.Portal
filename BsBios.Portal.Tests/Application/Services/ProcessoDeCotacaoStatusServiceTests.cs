@@ -18,7 +18,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly IProcessoDeCotacaoStatusService _processoDeCotacaoStatusService;
-        private ProcessoDeCotacao _processoDeCotacao;
+        private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
 
 
         public ProcessoDeCotacaoStatusServiceTests()
@@ -53,8 +53,8 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
                             var codigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-                            Cotacao cotacao =  _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                               DefaultObjects.ObtemIncotermPadrao(), "inc", 150, null,null);
+                            var cotacao =  _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                                               DefaultObjects.ObtemIncotermPadrao(), "inc", 150, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
                             _processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, DefaultObjects.ObtemIvaPadrao());
                         }
                     });

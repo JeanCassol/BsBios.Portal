@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
@@ -96,5 +97,28 @@ namespace BsBios.Portal.UI.Controllers
         {
             return View("_SelecionarItinerario", itinerarioCadastroVm);
         }
+
+        public JsonResult ListarCotacoes(int idProcessoCotacao)
+        {
+            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedores(idProcessoCotacao);
+            return Json(new { Registros = cotacoes }, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
+        {
+            try
+            {
+                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                return PartialView("_SelecionarCotacao");
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["erro"] = ex.Message;
+                return PartialView("_SelecionarCotacao");
+            }
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using BsBios.Portal.Common.Exceptions;
 
 namespace BsBios.Portal.Domain.Entities
 {
-    public class Cotacao
+    public abstract class Cotacao
     {
         public virtual int Id { get; protected set; }
         //private int IdFornecedorParticipante { get; set; }
@@ -15,13 +15,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal ValorLiquido { get; protected set; }
         public virtual decimal ValorComImpostos { get; protected set;}
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
-        public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
-        public virtual Iva Iva { get; protected set; }
-        public virtual Incoterm Incoterm { get; protected set; }
-        public virtual string DescricaoIncoterm{ get; protected set; }
-        public virtual decimal? Mva { get; protected set; }
         public virtual decimal QuantidadeDisponivel { get; protected set; }
-        public virtual DateTime PrazoDeEntrega { get; protected set; }
         public virtual string Observacoes { get; protected set; }
         public virtual IList<Imposto> Impostos { get; protected set; }
 
@@ -30,20 +24,14 @@ namespace BsBios.Portal.Domain.Entities
             Impostos = new List<Imposto>();
             Selecionada = false;
         }
-        
 
-        public Cotacao(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
-            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
-            DateTime prazoDeEntrega, string observacoes):this()
+
+        protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
         {
-            CondicaoDePagamento = condicaoDePagamento;
-            Incoterm = incoterm;
-            DescricaoIncoterm = descricaoIncoterm;
             ValorComImpostos = valorTotalComImpostos;
-            Mva = mva;
             QuantidadeDisponivel = quantidadeDisponivel;
-            PrazoDeEntrega = prazoDeEntrega;
             Observacoes = observacoes;
+            CalculaValorLiquido();
         }
         
 
@@ -68,19 +56,12 @@ namespace BsBios.Portal.Domain.Entities
                 - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
         }
 
-        public virtual void Atualizar(decimal valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, 
-            Incoterm incoterm, string descricaoIncoterm, decimal? mva, decimal quantidadeDisponivel,
-            DateTime prazoDeEntrega, string observacoes)
+        protected virtual void Atualizar(decimal valorTotalComImpostos,decimal quantidadeDisponivel, string observacoes)
         {
-            
             ValorComImpostos = valorTotalComImpostos;
-            CondicaoDePagamento = condicaoDePagamento;
-            Incoterm = incoterm;
-            DescricaoIncoterm = descricaoIncoterm;
-            Mva = mva;
             QuantidadeDisponivel = quantidadeDisponivel;
-            PrazoDeEntrega = prazoDeEntrega;
             Observacoes = observacoes;
+            CalculaValorLiquido();
         }
 
         /// <summary>
@@ -111,46 +92,117 @@ namespace BsBios.Portal.Domain.Entities
             
         }
 
-        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal? aliquota, decimal? valor)
+        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
         {
-            var temImposto = aliquota.HasValue && valor.HasValue;
-            if (temImposto)
-            {
-                AtualizarImposto(tipoDeImposto, aliquota.Value, valor.Value);
-            }
-            else
-            {
-                RemoverImposto(tipoDeImposto);
-            }
+            AtualizarImposto(tipoDeImposto, aliquota, valor);
 
             CalculaValorLiquido();
 
-            if (temImposto && tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao 
-                && valor > 0 && ( !Mva.HasValue || Mva.Value == 0))
-            {
-                throw  new MvaNaoInformadoException();
-            }
-
-
         }
 
-        public virtual void Selecionar(decimal quantidadeAdquirida, Iva iva)
-        {
-            Selecionada = true;
-            QuantidadeAdquirida = quantidadeAdquirida;
-            Iva = iva;
-        }
 
         public virtual Imposto Imposto(Enumeradores.TipoDeImposto tipo)
         {
             return Impostos.SingleOrDefault(x => x.Tipo == tipo);
         }
 
-        public virtual void RemoverSelecao(Iva iva)
+        protected virtual void Selecionar(decimal quantidadeAdquirida)
+        {
+            Selecionada = true;
+            QuantidadeAdquirida = quantidadeAdquirida;
+        }
+
+        protected virtual void RemoverSelecao()
         {
             Selecionada = false;
             QuantidadeAdquirida = null;
+        }
+
+
+    }
+
+    public class CotacaoFrete: Cotacao
+    {
+        public CotacaoFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+            : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
+
+        protected CotacaoFrete(){}
+
+        public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        {
+            base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+        }
+
+
+        public new virtual void Selecionar(decimal quantidadeAdquirida)
+        {
+            base.Selecionar(quantidadeAdquirida);
+        }
+
+        public new virtual void RemoverSelecao()
+        {
+            base.RemoverSelecao();
+        }
+        
+    }
+
+    public class CotacaoMaterial: Cotacao
+    {
+
+        public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
+        public virtual decimal? Mva { get; protected set; }
+        public virtual Iva Iva { get; protected set; }
+        public virtual Incoterm Incoterm { get; protected set; }
+        public virtual string DescricaoIncoterm { get; protected set; }
+        public virtual DateTime PrazoDeEntrega { get; protected set; }
+
+        protected CotacaoMaterial(){}
+
+        public CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
+            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
+            DateTime prazoDeEntrega, string observacoes):base(valorTotalComImpostos, quantidadeDisponivel, observacoes)
+        {
+            CondicaoDePagamento = condicaoDePagamento;
+            Incoterm = incoterm;
+            DescricaoIncoterm = descricaoIncoterm;
+            Mva = mva;
+            PrazoDeEntrega = prazoDeEntrega;
+        }
+
+        public virtual void Atualizar(decimal valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
+            decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
+        {
+            base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+
+            CondicaoDePagamento = condicaoDePagamento;
+            Incoterm = incoterm;
+            DescricaoIncoterm = descricaoIncoterm;
+            Mva = mva;
+            PrazoDeEntrega = prazoDeEntrega;
+        }
+
+
+        public virtual void Selecionar(decimal quantidadeAdquirida, Iva iva)
+        {
+            base.Selecionar(quantidadeAdquirida);
             Iva = iva;
+        }
+
+        public virtual void RemoverSelecao(Iva iva)
+        {
+            base.RemoverSelecao();
+            Iva = iva;
+        }
+
+        public override void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+        {
+            if (tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao
+            && valor > 0 && (!Mva.HasValue || Mva.Value == 0))
+            {
+                throw new MvaNaoInformadoException();
+            }
+
+            base.InformarImposto(tipoDeImposto, aliquota, valor);
         }
     }
 

@@ -7,17 +7,17 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class ProcessoDeCotacaoSelecionarController : Controller
+    public class ProcessoDeCotacaoDeMaterialSelecionarController : Controller
     {
-        private readonly IProcessoDeCotacaoSelecaoService _processoDeCotacaoSelecaoService;
+        private readonly IProcessoDeCotacaoDeMaterialSelecaoService _processoDeCotacaoSelecaoService;
 
-        public ProcessoDeCotacaoSelecionarController(IProcessoDeCotacaoSelecaoService processoDeCotacaoSelecaoService)
+        public ProcessoDeCotacaoDeMaterialSelecionarController(IProcessoDeCotacaoDeMaterialSelecaoService processoDeCotacaoSelecaoService)
         {
             _processoDeCotacaoSelecaoService = processoDeCotacaoSelecaoService;
         }
 
         [HttpPost]
-        public ActionResult SelecionarCotacoes(ProcessoDeCotacaoSelecaoAtualizarVm processoDeCotacaoSelecaoAtualizarVm )
+        public ActionResult SelecionarCotacoes(ProcessoDeCotacaoDeMaterialSelecaoAtualizarVm processoDeCotacaoSelecaoAtualizarVm )
         {
             try
             {

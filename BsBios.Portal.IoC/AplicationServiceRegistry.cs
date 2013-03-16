@@ -55,13 +55,22 @@ namespace BsBios.Portal.IoC
             For<IProcessoDeCotacaoStatusService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoStatusService>();
-            For<IProcessoDeCotacaoSelecaoService>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ProcessoDeCotacaoSelecaoService>();
 
-            For<IAtualizadorDeCotacao>()
+            For<IProcessoDeCotacaoDeMaterialSelecaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<AtualizadorDeCotacao>();
+                .Use<ProcessoDeCotacaoDeMaterialSelecaoService>();
+
+            For<IProcessoDeCotacaoDeFreteSelecaoService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeFreteSelecaoService>();
+
+            For<IAtualizadorDeCotacaoDeMaterial>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AtualizadorDeCotacaoDeMaterial>();
+
+            For<IAtualizadorDeCotacaoDeFrete>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AtualizadorDeCotacaoDeFrete>();
 
             For<IGerenciadorUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))

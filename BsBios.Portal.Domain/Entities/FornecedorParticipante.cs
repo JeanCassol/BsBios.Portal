@@ -17,22 +17,9 @@ namespace BsBios.Portal.Domain.Entities
             Fornecedor = fornecedor;
         }
 
-        public virtual Cotacao InformarCotacao(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoDoIncoterm,
-            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
-            DateTime prazoDeEntrega, string observacoes)
+        public virtual Cotacao InformarCotacao(Cotacao cotacao)
         {
-            if (Cotacao == null)
-            {
-                Cotacao = new Cotacao(condicaoDePagamento, incoterm, descricaoDoIncoterm, 
-                    valorTotalComImpostos, mva,quantidadeDisponivel, prazoDeEntrega, observacoes);
-                
-            }
-            else
-            {
-                Cotacao.Atualizar(valorTotalComImpostos, condicaoDePagamento, incoterm, 
-                    descricaoDoIncoterm, mva,quantidadeDisponivel, prazoDeEntrega, observacoes);
-            }
-
+            Cotacao = cotacao;
             return Cotacao;
         }
     }

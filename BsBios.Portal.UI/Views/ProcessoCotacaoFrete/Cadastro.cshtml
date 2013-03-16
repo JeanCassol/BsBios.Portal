@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model ProcessoCotacaoFreteCadastroVm
 
@@ -18,9 +19,10 @@
 
             @Html.HiddenFor(model => model.Id)
             
-            <div>
+            <div class="coluna">
                 @Html.Label("Status:",new{@class="labelNaLinha"})
-                @Html.Display(Model != null ? Model.DescricaoStatus : "Não Iniciado")
+                @*@Html.Label(Model != null ? Model.DescricaoStatus : "Não Iniciado",new{@class="labelNaLinha"})*@
+                @(Model != null ? Model.DescricaoStatus : "Não Iniciado")
             </div>
 
             
@@ -64,7 +66,10 @@
         </div>
         </fieldset>
     }
-    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() { new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0) })
+    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
+        {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
+            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete) }
+        )
     <div id="divSelecionarProduto"></div>
     <div id="divSelecionarItinerario"></div>
 </div>

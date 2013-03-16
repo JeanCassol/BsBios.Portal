@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using BsBios.Portal.Application.Queries.Builders;
+﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
@@ -15,13 +11,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaProcessoDeCotacaoDeFrete : IConsultaProcessoDeCotacaoDeFrete
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
-        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builder;
 
 
-        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builder)
+        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao)
         {
             _processosDeCotacao = processosDeCotacao;
-            _builder = builder;
         }
 
 
@@ -48,5 +42,46 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 };
         }
 
+        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        {
+            var retorno = new List<CotacaoSelecionarVm>();
+            ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
+            {
+                var cotacaoSelecionarVm = new CotacaoSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
+                retorno.Add(cotacaoSelecionarVm);
+
+                if (fornecedorParticipante.Cotacao == null)
+                {
+                    continue;
+                }
+
+                var cotacao = fornecedorParticipante.Cotacao;
+
+                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
+                cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
+                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
+                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
+                cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
+
+                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+                cotacaoSelecionarVm.ValorIcms = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+                cotacaoSelecionarVm.ValorIcmsSt = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+                cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
+                cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
+                cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
+
+            }
+
+            return retorno;
+        }
     }
 }

@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+<style type="text/css">
+    .selecionarCotacao {
+        width: 1000px;     
+ }
+
+</style>
+<div id="divCotacoes" class=" divGrid">
+    @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
+    <div id="gridCotacoes" class="selecionarCotacao"></div>
+    <div id="erro" class="error">
+        @ViewData["erro"]
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        function ajustaEnableDosCamposDaLinha(linha, checkbox) {
+            if (!checkbox) {
+                checkbox = $(linha).find("input[type=checkbox][name=Selecionada]");
+            }
+            var selecionado = $(checkbox).is(':checked');
+            var campoQuantidade = $(linha).find('input[name=QuantidadeAdquirida]');
+            if (selecionado) {
+                $(campoQuantidade).removeAttr('disabled');
+            } else {
+                $(campoQuantidade).val('');
+                $(campoQuantidade).attr('disabled', true);
+            }
+        }
+      
+        $("#gridCotacoes").kendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            IdCotacao: { type: "number"},
+                            Selecionada: { type: "boolean" },
+                            Fornecedor: { type: "string"},
+                            ValorLiquido: { type: "number"},
+                            ValorComImpostos: { type: "number" },
+                            QuantidadeAdquirida: { type: "number" },
+                            ValorIcms: { type: "number" },
+                            ValorIcmsSt: { type: "number" },
+                            ValorIpi: { type: "number" }
+                        }
+                    },
+                    type: 'json'
+                },
+                transport: {
+                    read: {
+                        url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoFrete",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        type: 'GET',
+                        cache: false
+                    }
+                }
+            },
+            groupable: false,
+            sortable: false,
+            columns:
+            [
+                {
+                    field: 'IdCotacao', hidden:true,
+                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
+                },
+                {
+                    field: "Selecionada", title: ' ', width: 30,
+                    template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
+                },
+                {
+                    field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
+                },
+                { field: "Fornecedor", width: 200 },
+                { field: "ValorLiquido", title: ' Valor Líquido', width: 100 },
+                { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
+                { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
+                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 100 }
+            ]
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody tr').each(function () {
+            ajustaEnableDosCamposDaLinha(this);
+        });
+
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").die("change");
+        $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").live("change", function () {
+            var linha = $(this).parents('tr:first');
+            ajustaEnableDosCamposDaLinha(linha, this);
+        });
+
+    });
+</script>

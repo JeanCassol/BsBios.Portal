@@ -138,7 +138,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
                     PersistirFornecedor(fornecedorParticipante.Fornecedor);
                     if (fornecedorParticipante.Cotacao != null)
                     {
-                        Cotacao cotacao = fornecedorParticipante.Cotacao;
+                        var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao;
                         PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
                         PersistirIncoterm(cotacao.Incoterm);
                         if (cotacao.Iva != null)
@@ -198,18 +198,6 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
                 {
                     PersistirFornecedor(fornecedorParticipante.Fornecedor);
-                    if (fornecedorParticipante.Cotacao != null)
-                    {
-                        Cotacao cotacao = fornecedorParticipante.Cotacao;
-                        PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
-                        PersistirIncoterm(cotacao.Incoterm);
-                        if (cotacao.Iva != null)
-                        {
-                            PersistirIva(cotacao.Iva);
-                        }
-
-                    }
-
                 }
 
                 PersistirUnidadeDeMedida(processo.UnidadeDeMedida);

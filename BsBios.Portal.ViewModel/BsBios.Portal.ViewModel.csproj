@@ -38,9 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="CotacaoImpostosVm.cs" />
+    <Compile Include="CotacaoMaterialCadastroVm.cs" />
+    <Compile Include="CotacaoMaterialDadosVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
-    <Compile Include="CotacaoCadastroVm.cs" />
+    <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoDadosVm.cs" />
     <Compile Include="CotacaoSelecaoVm.cs" />
     <Compile Include="CotacaoSelecionarVm.cs" />
