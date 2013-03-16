@@ -135,12 +135,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
+    <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
     <Compile Include="Controllers\CotacaoAtualizarController.cs" />
-    <Compile Include="Controllers\CotacaoController.cs" />
+    <Compile Include="Controllers\CotacaoMaterialController.cs" />
     <Compile Include="Controllers\GerenciadorUsuarioController.cs" />
     <Compile Include="Controllers\IvaController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -414,7 +415,7 @@
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
-    <Content Include="Views\Cotacao\Cadastro.cshtml" />
+    <Content Include="Views\Shared\_CotacaoCadastro.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />

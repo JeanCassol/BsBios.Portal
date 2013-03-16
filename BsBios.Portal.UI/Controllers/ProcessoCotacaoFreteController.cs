@@ -36,7 +36,7 @@ namespace BsBios.Portal.UI.Controllers
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
-                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "Cotacao");
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoFrete");
             }
 
             ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoCotacaoFrete");

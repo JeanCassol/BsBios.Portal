@@ -1,12 +1,14 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model CotacaoCadastroVm
 
 @{
-    ViewBag.Title = "Cotação";
+    ViewBag.TituloDaPagina = "Cotação";
+    var tipoDeCotacao = (Enumeradores.TipoDeCotacao)Enum.Parse(typeof(Enumeradores.TipoDeCotacao), ViewData["TipoDeCotacao"].ToString());
 }
 <div class="paginaCadastro">
-    @using (Html.BeginForm("Salvar","CotacaoAtualizar"))
+    @using (Html.BeginForm("Salvar", "CotacaoAtualizar"))
     {
         @Html.HiddenFor(model => model.IdProcessoCotacao)
         @Html.HiddenFor(model => model.CodigoFornecedor)
@@ -23,11 +25,11 @@
         <fieldset id="fieldSetImpostos">
             <legend>Impostos</legend>
             <span class="error">É indispensável que as alíquotas e os valores do impostos sejam informados corretamente</span>
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsAliquota), 
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsAliquota),
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsValor))
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStAliquota), 
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStAliquota),
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IcmsStValor))
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiAliquota), 
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiAliquota),
             new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.IpiValor))
             @Html.LinhaComUmaColuna(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.PisCofinsAliquota))
 
@@ -39,32 +41,44 @@
         </fieldset>
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @*            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido), 
-            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos))*@
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos,"campoDesabilitado") , 
-            new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido))
+            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado"),
+                                      new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.ValorLiquido))
             
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.QuantidadeDisponivel) , 
-            new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.PrazoDeEntrega,"campoDatePicker"))
-            
+            @{
+                var colunaQuantidadeDisponivel = new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.QuantidadeDisponivel);
+                if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
+                {
+                    @Html.LinhaComDuasColunas(colunaQuantidadeDisponivel,
+                                              new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker"))
+                }
+                else
+                {
+                    @Html.LinhaComUmaColuna(colunaQuantidadeDisponivel);
+                }
 
-            @{ var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm, 
-                ((List<IncotermCadastroVm>) ViewBag.Incoterms)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm}),
-                "CodigoIncoterm");
-            }
-            @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.DescricaoIncoterm,"campogrande"))
+                if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
+                {
+                    var comboIncoterm = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoIncoterm,
+                                                                                            ((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                                                                                                .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm }),
+                                                                                            "CodigoIncoterm");
+                    
+                    @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoCadastroVm, string>(x => x.DescricaoIncoterm, "campogrande"))
 
-            @{ var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoCondicaoPagamento, 
-                ((List<CondicaoDePagamentoCadastroVm>) ViewBag.CondicoesDePagamento)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento}),
-                "CodigoCondicaoPagamento");
+                    var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoCadastroVm, string>(x => x.CodigoCondicaoPagamento,
+                                                                                                       ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
+                                                                                                           .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento }),
+                                                                                                       "CodigoCondicaoPagamento");
+                    
+                    @Html.LinhaComDuasColunas(comboCondicaoDePagamento, new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.Mva))
+  
+                }
             }
-            @Html.LinhaComDuasColunas(comboCondicaoDePagamento,new ColunaComEditor<CotacaoCadastroVm, decimal?>(x => x.Mva))
-            
+
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
         </fieldset>
+        
   
         <div class="error">
             @if (ViewData["erro"] != null)
@@ -160,10 +174,10 @@
                 //}
 
                 var formData = $(form).serialize();
-                $.post('@Url.Action("Salvar","CotacaoAtualizar" )', formData,
+                $.post('@Url.Action("Salvar", "CotacaoAtualizar")', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
+                            location.href = '@Url.Action("Index", "ProcessoCotacaoMaterial")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }
