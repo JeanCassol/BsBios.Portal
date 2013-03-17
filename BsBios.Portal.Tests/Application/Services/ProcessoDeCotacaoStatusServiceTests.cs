@@ -7,6 +7,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -128,7 +129,8 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEAbertoComSucessoEEnviadoEmailParaOsFornecedores()
         {
-            Assert.Fail("Não implementado");
+            _processoDeCotacaoStatusService.AbrirProcesso(20);
+            _emailServiceMock.Verify(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>()), Times.Once());
         }
         #endregion
 
@@ -138,6 +140,8 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoOcorrePersistencia()
         {
+            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
+
             _processoDeCotacaoStatusService.FecharProcesso(20);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
         }
@@ -145,6 +149,8 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoComSucessoOcorreCommitDaTransacao()
         {
+            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
+
             _processoDeCotacaoStatusService.FecharProcesso(20);
             _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
             _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
@@ -180,6 +186,9 @@ namespace BsBios.Portal.Tests.Application.Services
                                        Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado,
                                                        processoDeCotacao.Status);
                                    });
+
+
+            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
 
             _processoDeCotacaoStatusService.FecharProcesso(20);
 

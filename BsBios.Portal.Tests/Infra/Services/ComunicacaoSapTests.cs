@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
-    [TestClass]
+    //[TestClass]
     public class ComunicacaoSapTests
     {
         [TestMethod]

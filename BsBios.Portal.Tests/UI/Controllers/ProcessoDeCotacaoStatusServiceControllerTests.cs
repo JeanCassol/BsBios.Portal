@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.UI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,6 +18,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         {
             var processoDeCotacaoStatusServiceMock = new Mock<IProcessoDeCotacaoStatusService>(MockBehavior.Strict);
             processoDeCotacaoStatusServiceMock.Setup(x => x.AbrirProcesso(It.IsAny<int>()));
+            processoDeCotacaoStatusServiceMock.SetupProperty(x => x.ComunicacaoSap);
             var processoDeCotacaoController = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
             JsonResult retorno = processoDeCotacaoController.AbrirProcesso(10);
             dynamic data = retorno.Data;
@@ -26,11 +28,13 @@ namespace BsBios.Portal.Tests.UI.Controllers
             Assert.AreEqual("O Processo de Cotação foi aberto com sucesso.", props.Find("Mensagem", true).GetValue(data));
 
             processoDeCotacaoStatusServiceMock.Verify(x=> x.AbrirProcesso(It.IsAny<int>()), Times.Once());
+            processoDeCotacaoStatusServiceMock.VerifySet(x => x.ComunicacaoSap = It.IsAny<IComunicacaoSap>(), Times.Once());
         }
         [TestMethod]
         public void QuandoOcorrerErroAoAbrirProcessoDeCotacaoDeveRetornarMensagemDeErro()
         {
             var processoDeCotacaoStatusServiceMock = new Mock<IProcessoDeCotacaoStatusService>(MockBehavior.Strict);
+            processoDeCotacaoStatusServiceMock.SetupProperty(x => x.ComunicacaoSap);
             processoDeCotacaoStatusServiceMock.Setup(x => x.AbrirProcesso(It.IsAny<int>()))
                 .Throws(new ExcecaoDeTeste("Processo XXXXX não encontrado."));
             var controller = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
@@ -43,6 +47,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 props.Find("Mensagem", true).GetValue(data));
 
             processoDeCotacaoStatusServiceMock.Verify(x => x.AbrirProcesso(It.IsAny<int>()), Times.Once());
+            processoDeCotacaoStatusServiceMock.VerifySet(x => x.ComunicacaoSap = It.IsAny<IComunicacaoSap>(), Times.Once());
+
         }
 
         [TestMethod]
@@ -50,6 +56,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         {
             var processoDeCotacaoStatusServiceMock = new Mock<IProcessoDeCotacaoStatusService>(MockBehavior.Strict);
             processoDeCotacaoStatusServiceMock.Setup(x => x.FecharProcesso(It.IsAny<int>()));
+            processoDeCotacaoStatusServiceMock.SetupProperty(x => x.ComunicacaoSap);
             var processoDeCotacaoController = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
             JsonResult retorno = processoDeCotacaoController.FecharProcesso(10, Enumeradores.TipoDeCotacao.Material);
             dynamic data = retorno.Data;
@@ -59,11 +66,14 @@ namespace BsBios.Portal.Tests.UI.Controllers
             Assert.AreEqual("O Processo de Cotação foi fechado com sucesso.", props.Find("Mensagem", true).GetValue(data));
 
             processoDeCotacaoStatusServiceMock.Verify(x => x.FecharProcesso(It.IsAny<int>()), Times.Once());
+            processoDeCotacaoStatusServiceMock.VerifySet(x => x.ComunicacaoSap = It.IsAny<IComunicacaoSap>(), Times.Once());
+
         }
         [TestMethod]
         public void QuandoOcorrerErroAoFecharProcessoDeCotacaoDeveRetornarMensagemDeErro()
         {
             var processoDeCotacaoStatusServiceMock = new Mock<IProcessoDeCotacaoStatusService>(MockBehavior.Strict);
+            processoDeCotacaoStatusServiceMock.SetupProperty(x => x.ComunicacaoSap);
             processoDeCotacaoStatusServiceMock.Setup(x => x.FecharProcesso(It.IsAny<int>()))
                 .Throws(new ExcecaoDeTeste("Processo XXXXX não encontrado."));
             var controller = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
@@ -76,6 +86,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 props.Find("Mensagem", true).GetValue(data));
 
             processoDeCotacaoStatusServiceMock.Verify(x => x.FecharProcesso(It.IsAny<int>()), Times.Once());
+            processoDeCotacaoStatusServiceMock.VerifySet(x => x.ComunicacaoSap = It.IsAny<IComunicacaoSap>(), Times.Once());
+
         }
 
     }

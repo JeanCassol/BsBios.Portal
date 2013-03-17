@@ -8,7 +8,7 @@ using StructureMap;
 namespace BsBios.Portal.Tests.Infra.Services
 {
     //Removido anotação "TestClass" para não ficar mandando e-mail sempre que rodar os testes
-    [TestClass]
+    //[TestClass]
     public class EmailServiceTests
     {
         [TestMethod]

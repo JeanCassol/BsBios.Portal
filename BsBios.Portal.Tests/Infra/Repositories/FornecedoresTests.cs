@@ -58,43 +58,32 @@ namespace BsBios.Portal.Tests.Infra.Repositories
         [TestMethod]
         public void ConsigoAlterarUmFornecedorCadastrado()
         {
+            var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            DefaultPersistedObjects.PersistirFornecedor(fornecedor);
+
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-            string codigoFornedor;
-            try
-            {
-                Session.BeginTransaction();
-                var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-
-                codigoFornedor = fornecedor.Codigo;
-                Session.Save(fornecedor);
-                Session.Transaction.Commit();
-
-            }
-            catch (Exception)
-            {
-                UnitOfWorkNh.RollBack();                
-                throw;
-            }
+            UnitOfWorkNh.Session.Clear();
             try
             {
                 UnitOfWorkNh.BeginTransaction();
-                var fornecedorConsulta = fornecedores.BuscaPeloCodigo(codigoFornedor);
-                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br","cnpj alterado", "municipio alterado","uf");
 
-                UnitOfWorkNh.Session.Save(fornecedorConsulta);
+                var fornecedorConsulta = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
+                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br", "cnpj alterado", "municipio alterado", "uf");
+                fornecedores.Save(fornecedorConsulta);
+
                 UnitOfWorkNh.Commit();
 
             }
             catch (Exception)
             {
-                UnitOfWorkNh.RollBack();                
+                UnitOfWorkNh.RollBack();            
                 throw;
             }
 
             UnitOfWorkNh.Session.Clear();
 
-            var fornecedorConsultaAtualizacao = fornecedores.BuscaPeloCodigo(codigoFornedor);
-            Assert.AreEqual(codigoFornedor, fornecedorConsultaAtualizacao.Codigo);
+            var fornecedorConsultaAtualizacao = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
+            Assert.AreEqual(fornecedor.Codigo, fornecedorConsultaAtualizacao.Codigo);
             Assert.AreEqual("FORNECEDOR ALTERADO", fornecedorConsultaAtualizacao.Nome);
             Assert.AreEqual("fornecedoralterado@empresa.com.br", fornecedorConsultaAtualizacao.Email);
             Assert.AreEqual("cnpj alterado",fornecedorConsultaAtualizacao.Cnpj);
