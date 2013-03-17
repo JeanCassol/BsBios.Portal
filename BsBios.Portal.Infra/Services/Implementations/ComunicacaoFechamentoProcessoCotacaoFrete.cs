@@ -24,7 +24,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             foreach (var fornecedorParticipante in processoAuxiliar.FornecedoresParticipantes)
             {
-                if (fornecedorParticipante.Cotacao.Selecionada)
+                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
                 {
                     mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoVm
                         {
