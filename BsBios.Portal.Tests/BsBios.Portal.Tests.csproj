@@ -87,7 +87,7 @@
     <Compile Include="Application\Services\CadastroCondicaoPagamentoTests.cs" />
     <Compile Include="Application\Services\CadastroIvaTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
-    <Compile Include="Application\Services\ComunicacaoSapTests.cs" />
+    <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
     <Compile Include="Application\Services\CadastroItinerarioTests.cs" />
@@ -186,7 +186,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

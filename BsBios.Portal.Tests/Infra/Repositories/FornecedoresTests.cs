@@ -196,5 +196,6 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(2, fornecedoresFiltrados.Count);
 
         }
+
     }
 }

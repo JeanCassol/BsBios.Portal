@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.UI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,7 +51,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var processoDeCotacaoStatusServiceMock = new Mock<IProcessoDeCotacaoStatusService>(MockBehavior.Strict);
             processoDeCotacaoStatusServiceMock.Setup(x => x.FecharProcesso(It.IsAny<int>()));
             var processoDeCotacaoController = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
-            JsonResult retorno = processoDeCotacaoController.FecharProcesso(10);
+            JsonResult retorno = processoDeCotacaoController.FecharProcesso(10, Enumeradores.TipoDeCotacao.Material);
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
 
@@ -66,7 +67,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             processoDeCotacaoStatusServiceMock.Setup(x => x.FecharProcesso(It.IsAny<int>()))
                 .Throws(new ExcecaoDeTeste("Processo XXXXX não encontrado."));
             var controller = new ProcessoDeCotacaoStatusServiceController(processoDeCotacaoStatusServiceMock.Object);
-            JsonResult retorno = controller.FecharProcesso(10);
+            JsonResult retorno = controller.FecharProcesso(10, Enumeradores.TipoDeCotacao.Material);
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
 

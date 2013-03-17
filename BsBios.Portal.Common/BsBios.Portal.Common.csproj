@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="Exceptions\ComunicacaoSapException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />
     <Compile Include="Exceptions\MvaNaoInformadoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoSelecaoCotacaoException.cs" />

@@ -4,7 +4,9 @@ using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,6 +19,7 @@ namespace BsBios.Portal.Tests.Application.Services
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
+        private readonly Mock<IEmailService> _emailServiceMock; 
         private readonly IProcessoDeCotacaoStatusService _processoDeCotacaoStatusService;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
 
@@ -61,7 +64,11 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
-            _processoDeCotacaoStatusService = new ProcessoDeCotacaoStatusService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object);
+            _emailServiceMock = new Mock<IEmailService>(MockBehavior.Strict);
+            _emailServiceMock.Setup(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>())).Returns(true);
+            _emailServiceMock.Setup(x => x.Enviar(It.IsAny<MensagemDeEmail>())).Returns(true);
+
+            _processoDeCotacaoStatusService = new ProcessoDeCotacaoStatusService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,_emailServiceMock.Object);
 
         }
 

@@ -209,7 +209,7 @@
                 url: '@Url.Action("FecharProcesso", "ProcessoDeCotacaoStatusService")',
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val() },
+                data: { idProcessoCotacao: $('#Id').val(), TipoDeCotacao:'@tipoDeCotacao' },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {

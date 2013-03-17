@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.UI.Filters;
 
 namespace BsBios.Portal.UI.Controllers
@@ -23,6 +23,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
+                _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoAberturaProcessoCotacaoMaterial();
                 _processoDeCotacaoStatusService.AbrirProcesso(idProcessoCotacao);
                 return Json(new {Sucesso = true, Mensagem = "O Processo de Cotação foi aberto com sucesso."});
 
@@ -34,10 +35,20 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult FecharProcesso(int idProcessoCotacao)
+        public JsonResult FecharProcesso(int idProcessoCotacao, Enumeradores.TipoDeCotacao tipoDeCotacao)
         {
             try
             {
+                IComunicacaoSap comunicacaoSap = null;
+                if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
+                {
+                    comunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoFrete();
+                }
+                if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
+                {
+                    comunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
+                }
+                _processoDeCotacaoStatusService.ComunicacaoSap = comunicacaoSap;
                 _processoDeCotacaoStatusService.FecharProcesso(idProcessoCotacao);
                 return Json(new { Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso." });
 

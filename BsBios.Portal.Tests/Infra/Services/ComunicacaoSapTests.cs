@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Application.Services
+namespace BsBios.Portal.Tests.Infra.Services
 {
     [TestClass]
     public class ComunicacaoSapTests

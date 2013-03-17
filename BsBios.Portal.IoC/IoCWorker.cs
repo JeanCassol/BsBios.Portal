@@ -8,6 +8,7 @@ namespace BsBios.Portal.IoC
     {
         public static void Configure()
         {
+
             ObjectFactory.Configure(x =>
             {
                 //x.For<IUnitOfWork>()

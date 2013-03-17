@@ -19,7 +19,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             _destinatarios = new List<string>();
         }
 
-        public void AdicionarDestinario(string destinatario)
+        public void AdicionarDestinatario(string destinatario)
         {
             _destinatarios.Add(destinatario);
         }
@@ -30,10 +30,18 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 throw new Exception("Não existem destinatários para enviar o e-mail");
             }
-            var mailMessage = new MailMessage();
-            var smtpClient = new SmtpClient(_contaDeEmail.ServidorSmtp);
+            var smtpClient = new SmtpClient(_contaDeEmail.ServidorSmtp)
+                {
+                    Port = _contaDeEmail.Porta,
+                    Credentials = new NetworkCredential(_contaDeEmail.Usuario, _contaDeEmail.Senha, _contaDeEmail.Dominio),
+                    EnableSsl = true
+                };
 
-            mailMessage.From = new MailAddress(_contaDeEmail.EmailDoRemetente);
+            //smtpClient.UseDefaultCredentials = true;
+            //smtpClient.Credentials = new NetworkCredential(_contaDeEmail.Usuario, _contaDeEmail.Senha);
+
+            var mailMessage = new MailMessage {From = new MailAddress(_contaDeEmail.EmailDoRemetente)};
+
             foreach (var destinatario in _destinatarios)
             {
                 mailMessage.To.Add(destinatario);    
@@ -43,13 +51,16 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             mailMessage.Body = mensagemDeEmail.Conteudo;
 
-            //smtpClient.Port = 587;
-            //smtpClient.UseDefaultCredentials = true;
-            smtpClient.Credentials = new NetworkCredential(_contaDeEmail.Usuario, _contaDeEmail.Senha, _contaDeEmail.Dominio);
-            //smtpClient.Credentials = new NetworkCredential(_contaDeEmail.Usuario, _contaDeEmail.Senha);
-            //smtpClient.EnableSsl = true;
 
             smtpClient.Send(mailMessage);
+            return true;
+        }
+
+        public bool Enviar(string destinatario, MensagemDeEmail mensagemDeEmail)
+        {
+            _destinatarios.Clear();
+            _destinatarios.Add(destinatario);
+            Enviar(mensagemDeEmail);
             return true;
         }
     }
