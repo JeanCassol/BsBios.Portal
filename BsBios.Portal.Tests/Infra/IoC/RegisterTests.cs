@@ -68,7 +68,12 @@ namespace BsBios.Portal.Tests.Infra.IoC
         [TestMethod]
         public void TodosInfraServicesEstaoRegistrados()
         {
-            VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts");
+            //removi IComunicacaoSap dos testes porque estão sendo instanciados manualmente. Se isto mudar tem que remover
+            var interfacesDesconsideradas = new List<Type>()
+                {
+                    typeof (IComunicacaoSap)
+                };
+            VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts",interfacesDesconsideradas);
         }
 
         [TestMethod]

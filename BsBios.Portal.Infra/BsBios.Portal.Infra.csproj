@@ -127,7 +127,6 @@
     <Compile Include="Services\Contracts\IEmailService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeSenha.cs" />
     <Compile Include="Services\Contracts\IProvedorDeCriptografia.cs" />
-    <Compile Include="Services\Contracts\IProvedorDeMenu.cs" />
     <Compile Include="Services\Contracts\IValidadorUsuario.cs" />
     <Compile Include="Services\Implementations\AccountService.cs" />
     <Compile Include="Services\Implementations\AuthenticationProvider.cs" />
