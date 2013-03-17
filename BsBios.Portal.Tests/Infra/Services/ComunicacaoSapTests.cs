@@ -3,6 +3,9 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Xml.Serialization;
+using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Services.Implementations;
+using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -130,7 +133,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                         CodigoItinerario = "010330",
                         DataDeValidadeInicial = new DateTime(2013,4,1).ToShortDateString()  ,
                         DataDeValidaFinal = new DateTime(2013,4,30).ToShortDateString(),
-                        NumeroDoContrato = null,
+                        NumeroDoContrato = "110",
                         Valor = (decimal) 1500.00
                     }
             };
@@ -144,8 +147,23 @@ namespace BsBios.Portal.Tests.Infra.Services
             var serializer = new XmlSerializer(typeof(ApiResponseMessage));
             var responseMessage = (ApiResponseMessage)serializer.Deserialize(content);
             Assert.IsNotNull(responseMessage);
-            Assert.AreEqual("100", responseMessage.Retorno.Codigo);
+            Assert.AreEqual("E", responseMessage.Retorno.Codigo);
         }
+
+        [TestMethod]
+        public void ConsigoEnviarMensagemDeFechamentoDoProcessoDeCotacaoDeFreteUtilizandoServico()
+        {
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato();
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            processo.AdicionarFornecedor(fornecedor);
+            processo.Abrir();
+            CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");
+            processo.SelecionarCotacao(cotacaoFrete.Id, 50);
+            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete();
+            ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
+            Assert.AreEqual("E", mensagem.Retorno.Codigo);
+        }
+
 
 
         //[TestMethod]
@@ -220,5 +238,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             Assert.AreEqual("24", responseMessage.Retorno.Codigo);
             
         }
+
+
     }
 }

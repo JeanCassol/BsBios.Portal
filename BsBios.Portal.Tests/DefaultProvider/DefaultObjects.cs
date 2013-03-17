@@ -184,5 +184,13 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 "Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
         }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato()
+        {
+            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
+                "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+        }
+
     }
 }

@@ -7,17 +7,18 @@ namespace BsBios.Portal.UI.Filters
     public class SecurityFilter : ActionFilterAttribute
     {
 
-        private bool SessaoExpirou()
-        {
-            return HttpContext.Current.Session["UsuarioConectado"] == null;
-        }
+        //private bool SessaoExpirou()
+        //{
+        //    return HttpContext.Current.Session["UsuarioConectado"] == null;
+        //}
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated
-                || SessaoExpirou())
+            //if (!filterContext.HttpContext.User.Identity.IsAuthenticated
+            //    || SessaoExpirou())
+            if (!LoginInfo.UsuarioEstaLogado)
             {
-                string redirectOnSuccess = filterContext.HttpContext.Request.Url.AbsolutePath;
+                string redirectOnSuccess = filterContext.HttpContext.Request.Url.AbsoluteUri;
                 string redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
                 string loginUrl = FormsAuthentication.LoginUrl + redirectUrl;
                 filterContext.Result = new RedirectResult(loginUrl);
