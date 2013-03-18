@@ -4,7 +4,8 @@
     {
         public string Codigo { get; set; }
         public string Nome { get; set; }
-        public decimal Preco { get; set; }
         public string Selecionado { get; set; }
+        public decimal? ValorLiquido { get; set; }
+        public decimal? ValorComImpostos { get; set; }
     }
 }

@@ -107,5 +107,13 @@ namespace BsBios.Portal.UI.Controllers
             return Json(new {Registros = cotacoes}, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ListarCotacoesResumido(int idProcessoCotacao)
+        {
+            KendoGridVm kendoGridVm  = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedoresResumido(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

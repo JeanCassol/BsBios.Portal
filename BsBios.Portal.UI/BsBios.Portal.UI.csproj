@@ -302,7 +302,6 @@
     <Content Include="Images\icons\mag_32.png" />
     <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
-    <Content Include="Scripts\Cadastro\gridCotacaoFrete.js" />
     <None Include="Properties\PublishProfiles\bsbios - casa.pubxml" />
     <None Include="Properties\PublishProfiles\BsBios - QA.pubxml" />
     <None Include="Properties\PublishProfiles\BsBios.pubxml" />

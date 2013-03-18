@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\ProcessoCotacaoFornecedorBuilder.cs" />
     <Compile Include="Queries\Builders\CotacaoImpostosBuilder.cs" />
     <Compile Include="Queries\Builders\ItinerarioCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />

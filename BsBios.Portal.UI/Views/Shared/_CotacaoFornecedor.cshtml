@@ -14,19 +14,11 @@
                     model: {
                         id: 'Id',
                         fields: {
-                            Codigo: {
-                                type: "string"
-                            },
-                            Nome: {
-                                type: "string"
-                            },
-                            Preco: {
-                                type: "number"
-                            },
-
-                            Selecionado: {
-                                type: "string"
-                            }
+                            Codigo: {type: "string"},
+                            Nome: {type: "string"},
+                            Selecionado: {type: "string"},
+                            ValorLiquido: {type: "number"},
+                            ValorComImpostos: {type: "number"}
                         }
                     }
                 },
@@ -34,7 +26,7 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarFornecedores", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        url: '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
                         type: 'GET',
                         cache: false
                     }
@@ -57,15 +49,21 @@
                     title: "Nome"
                 },
                 {
-                    field: "Preco",
-                    width: 200,
-                    title: "Preço"
-                },
-                {
                     field: 'Selecionado',
                     title: 'Selecionado?',
                     width: 100
-                }]
+                },
+                {
+                    field: "ValorLiquido",
+                    width: 80,
+                    title: "Líquido"
+                },
+                {
+                    field: "ValorComImpostos",
+                    width: 80,
+                    title: "Líquido + Imp."
+                }
+            ]
         });
 
     });

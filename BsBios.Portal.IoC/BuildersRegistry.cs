@@ -44,6 +44,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CotacaoImpostosBuilder>();
 
+            For< IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoCotacaoFornecedorBuilder>();
 
         }
     }

@@ -14,13 +14,16 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaProcessoDeCotacaoDeMaterial : IConsultaProcessoDeCotacaoDeMaterial
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
-        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builder;  
+        private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
+        private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
 
 
-        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builder)
+        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor, 
+            IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao)
         {
             _processosDeCotacao = processosDeCotacao;
-            _builder = builder;
+            _builderFornecedor = builderFornecedor;
+            _builderProcessoCotacao = builderProcessoCotacao;
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
@@ -132,7 +135,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             var kendoGridVm = new KendoGridVm()
                 {
                     QuantidadeDeRegistros = fornecedoresParticipantes.Count,
-                    Registros = _builder.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
+                    Registros = _builderFornecedor.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
                 };
 
             return kendoGridVm;
@@ -182,6 +185,22 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
 
             return retorno;
+        }
+
+        public KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao)
+        {
+            List<FornecedorParticipante> fornecedoresParticipantes = (from p in
+                                                               _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+                                                           from fp in p.FornecedoresParticipantes
+                                                           select fp).ToList();
+
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = fornecedoresParticipantes.Count,
+                Registros = _builderProcessoCotacao.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
+            };
+
+            return kendoGridVm;
         }
     }
 }
