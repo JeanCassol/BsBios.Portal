@@ -103,7 +103,7 @@
                 alert('Não é possível selecionar um fornecedor sem E-mail.');
                 return;
             }
-            adicionarFornecedor({ Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email });
+            adicionarFornecedor({ Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email, Cnpj: dataItem.Cnpj });
             atualizaGrid();
         }
 
@@ -171,6 +171,7 @@
                             fields: {
                                 Codigo: { type: "string" },
                                 Nome: { type: "string" },
+                                Cnpj: { type: "string" },
                                 Email: { type: "string" }
                             }
                         }
@@ -191,11 +192,18 @@
                         field: "Codigo",
                         width: 90,
                         title: "Código"
-                    }, {
+                    },
+                    {
                         field: "Nome",
                         width: 200,
                         title: "Nome"
-                    }, {
+                    },
+                    {
+                        field: "Cnpj",
+                        width: 150,
+                        title: "CNPJ"
+                    },
+                    {
                         width: 250,
                         field: "Email",
                         title: "E-mail"
