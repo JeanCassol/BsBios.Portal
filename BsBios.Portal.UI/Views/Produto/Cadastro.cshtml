@@ -19,7 +19,7 @@
     </fieldset>
     <fieldset>
         <legend>Fornecedores do Produto</legend>
-        <div id="divGridFornecedoresDoProduto"></div>
+        <div id="divGridFornecedoresDoProduto" style="width: 785px;"></div>
 
     </fieldset>
 </div>
@@ -31,7 +31,8 @@
     <script type="text/javascript" src="~/Scripts/Cadastro/gridFornecedor.js"></script>
     <script type="text/javascript">
         $(function () {
-            GridFornecedor.CarregarGrid('@Model.Codigo', "#divGridFornecedoresDoProduto", '@Url.Action("FornecedoresDoProduto","Produto")',false);
+            GridFornecedor.CarregarGrid('@Model.Codigo', "#divGridFornecedoresDoProduto", '@Url.Action("FornecedoresDoProduto","Produto")', false,
+                function () { return {CodigoProduto:'@Model.Codigo'}; });
         });
     </script>
 }

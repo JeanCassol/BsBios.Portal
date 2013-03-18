@@ -20,9 +20,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _fornecedores = fornecedores;
         }
 
-        public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, string codigoProduto)
+        public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, FiltroFornecedorDoProduto filtro)
         {
-            _fornecedores.FornecedoresNaoVinculadosAoProduto(codigoProduto);
+            _fornecedores.FornecedoresNaoVinculadosAoProduto(filtro.CodigoProduto)
+                         .NomeContendo(filtro.NomeFornecedor)
+                         .CodigoContendo(filtro.CodigoFornecedor);
 
             var kendoGrid = new KendoGridVm()
             {
@@ -38,7 +40,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             if (!string.IsNullOrEmpty(filtroNome))
             {
-                _fornecedores.FiltraPorNome(filtroNome);
+                _fornecedores.NomeContendo(filtroNome);
             }
             var kendoGridVmn = new KendoGridVm()
                 {

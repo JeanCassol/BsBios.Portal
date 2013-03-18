@@ -4,7 +4,7 @@ namespace BsBios.Portal.ViewModel
 {
     public class CotacaoFreteCadastroVm: CotacaoInformarVm
     {
-        [DisplayName("Requisitos")]
+        [DisplayName("Requisitos: ")]
         public string Requisitos { get; set; }
         [DisplayName("Data Limite de Retorno: ")]
         public string DataLimiteDeRetorno { get; set; }
@@ -16,9 +16,9 @@ namespace BsBios.Portal.ViewModel
         public decimal Quantidade { get; set; }
         [DisplayName("Unidade de Medida: ")]
         public string UnidadeDeMedida { get; set; }
-        [DisplayName("Data de Validade Inicial:")]
+        [DisplayName("Data de Validade Inicial: ")]
         public string DataDeValidadeInicial { get; set; }
-        [DisplayName("Data de Validade Final:")]
+        [DisplayName("Data de Validade Final: ")]
         public string DataDeValidadeFinal { get; set; }
         
         /// <summary>

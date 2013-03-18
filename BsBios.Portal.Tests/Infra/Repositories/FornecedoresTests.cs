@@ -180,7 +180,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             UnitOfWorkNh.Session.Clear();
 
             var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-            IList<Fornecedor> fornecedoresFiltrados = fornecedores.FiltraPorNome("costa").List();
+            IList<Fornecedor> fornecedoresFiltrados = fornecedores.NomeContendo("costa").List();
 
             Assert.AreEqual(2, fornecedoresFiltrados.Count);
 

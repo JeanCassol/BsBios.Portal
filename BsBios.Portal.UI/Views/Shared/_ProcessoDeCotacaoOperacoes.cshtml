@@ -131,6 +131,11 @@
                     if (!dadosValidos) {
                         return;
                     }
+
+                    if (cotacoes.length == 0) {
+                        $('#divSelecionarCotacoes').dialog("close");
+                        return;
+                    }
                    
                     $.ajax({
                         url: '@actionSelecionarCotacoes',

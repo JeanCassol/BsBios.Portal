@@ -1,5 +1,5 @@
 ﻿GridFornecedor = {
-    CarregarGrid: function (codigoProduto, divParaCarregar, url, incluirBotaoAdicionar) {
+    CarregarGrid: function (codigoProduto, divParaCarregar, url, incluirBotaoAdicionar, funcaoFiltros) {
         var arrayDeColunas = new Array();
         if (incluirBotaoAdicionar) {
             arrayDeColunas.push({
@@ -13,16 +13,22 @@
         arrayDeColunas = arrayDeColunas.concat(
             {
                 field: "Codigo",
-                width: 90,
+                width: 120,
                 title: "Codigo"
             },
             {
                 field: "Nome",
-                width: 300,
+                width: 350,
                 title: "Nome"
             },
             {
+                field: "Cnpj",
                 width: 150,
+                title: "CNPJ"
+            
+            },
+            {
+                width: 250,
                 field: "Email",
                 title: "E-mail"
             });
@@ -36,6 +42,7 @@
                         fields: {
                             Codigo: { type: "string" },
                             Nome: { type: "string" },
+                            Cnpj: { type: "string" },
                             Email: { type: "string" }
                         }
                     },
@@ -49,16 +56,13 @@
                         url: url,
                         type: 'GET',
                         cache: false,
-                        data: function () {
-                            return {
-                                codigoProduto: codigoProduto
-                            };
-                        }
+                        data: funcaoFiltros
                     }
                 },
                 pageSize: 10
             },
             groupable: false,
+            scrollable: true,
             sortable: true,
             pageable:
             {

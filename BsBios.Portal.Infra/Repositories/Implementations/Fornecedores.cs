@@ -31,9 +31,23 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IFornecedores FiltraPorNome(string filtroNome)
+        public IFornecedores NomeContendo(string filtroNome)
         {
-            Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+            if (!string.IsNullOrEmpty(filtroNome))
+            {
+                Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+                
+            }
+            return this;
+        }
+
+        public IFornecedores CodigoContendo(string filtroCodigo)
+        {
+            if (!string.IsNullOrEmpty(filtroCodigo))
+            {
+                Query = Query.Where(x => x.Codigo.ToLower().Contains(filtroCodigo.ToLower()));
+            }
+
             return this;
         }
     }

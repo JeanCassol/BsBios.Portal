@@ -625,6 +625,11 @@ input[type="checkbox"].input-validation-error {
     display: inline-block;
     float: left;
 }
+.colunaFiltro {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
 .campopequeno {
     width: 150px;
 }
@@ -726,7 +731,7 @@ input[type="checkbox"].input-validation-error {
 #conteudoPrincipal {
     background-color: #efeeef
 }
-#divFiltros{
+.divFiltros{
     background-color: #efeeef
 }
 .labelNaLinha {

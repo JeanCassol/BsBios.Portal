@@ -3,7 +3,7 @@
 @model CotacaoFreteCadastroVm
 
 @{
-    ViewBag.TituloDaPagina = "Cotação";
+    ViewBag.TituloDaPagina = "Cotação de Frete";
     CotacaoImpostosVm impostosVm = Model.Impostos;
 }
 <div class="paginaCadastro">
@@ -16,6 +16,8 @@
             <legend>Processo de Cotação</legend>
             @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Status),
                                       new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataLimiteDeRetorno))
+            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataDeValidadeInicial),
+                                      new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataDeValidadeFinal))
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Material))
             @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, decimal>(x => x.Quantidade),
                                       new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.UnidadeDeMedida))

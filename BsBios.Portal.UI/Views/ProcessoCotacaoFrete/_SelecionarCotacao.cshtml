@@ -42,7 +42,8 @@
                         fields: {
                             IdCotacao: { type: "number"},
                             Selecionada: { type: "boolean" },
-                            Fornecedor: { type: "string"},
+                            Fornecedor: { type: "string" },
+                            QuantidadeDisponivel: { type: "number" },
                             ValorLiquido: { type: "number"},
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
@@ -63,6 +64,7 @@
             },
             groupable: false,
             sortable: false,
+            scrollable: true,
             columns:
             [
                 {
@@ -78,7 +80,8 @@
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
-                { field: "ValorLiquido", title: ' Valor Líquido', width: 100 },
+                { field: "QuantidadeDisponivel", title: 'Disponível', width: 100 },
+                { field: "ValorLiquido", title: 'Valor Líquido', width: 100 },
                 { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
                 { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
                 { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },

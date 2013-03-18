@@ -60,6 +60,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
+                cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
                 cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
                 cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;

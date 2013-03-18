@@ -11,7 +11,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                 {
                     Codigo = model.Codigo ,
                     Email = model.Email,
-                    Nome = model.Nome
+                    Nome = model.Nome,
+                    Cnpj = model.Cnpj
                 };
         }
 

@@ -1,5 +1,6 @@
 ﻿<style type="text/css">
      .separador {
+         margin-top: 10px;
         background-color: #0095cd;
         color: white;
         font-weight: bold;
@@ -22,7 +23,25 @@
         <div id="divFornecedoresDoProduto">
             <div id="divGridFornecedoresDoProduto"></div>
         </div>
+
         <div id="divFornecedoresGerais">
+            <div class="divFiltros">
+                <fieldset>
+                    <legend>Filtros</legend>
+                    <div class="colunaFiltro">
+                        @Html.Label("Código")
+                        @Html.TextBox("CodigoFornecedorGeral","", new{@class="campomedio"})
+                    </div>
+                    <div class="colunaFiltro">
+                        @Html.Label("Nome")
+                        @Html.TextBox("NomeFornecedorGeral","", new{@class="campomedio"})
+                    </div>
+                    <div class="divBotao">
+                        <input id="btnPesquisarFornecedorGeral" type="button" value="Pesquisar" class="blue"/>
+                        <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
+                    </div>
+                </fieldset>
+            </div>
             <div id="divGridFornecedoresGerais"></div>
         </div>
     </div>
@@ -125,9 +144,21 @@
                 alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
             }
         });
+        
+        $('#btnPesquisarFornecedorGeral').click(function () {
+            $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
+        });
 
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")',true);
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true);
+        $('#btnLimparFornecedorGeral').click(function () {
+            $('#divFornecedoresGerais input[type!=button]').val('');
+        });
+
+
+        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true, function () { return { CodigoProduto: codigoProduto }; });
+        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true,
+        function() {
+            return { CodigoProduto: codigoProduto, CodigoFornecedor: $('#CodigoFornecedorGeral').val(), NomeFornecedor: $('#NomeFornecedorGeral').val() };
+        });
         
         function carregarGridDosFornecedoresSelecionados() {
             $('#divFornecedoresParaSelecionar').tabs();

@@ -4,21 +4,14 @@
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<style type="text/css">
-    .colunaFiltroMetade {
-        width: 365px;
-        display: inline-block;
-        float: left;
-    }
-</style>
-<div id="divFiltros">
+<div id="divFiltros" class="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="colunaFiltroMetade">
+        <div class="colunaFiltro">
             @Html.Label("Código")
             @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
         </div>
-        <div class="colunaFiltroMetade">
+        <div class="colunaFiltro">
             @Html.Label("Descrição")
             @Html.TextBox("DescricaoFiltro","", new{@class="campomedio"})
         </div>
