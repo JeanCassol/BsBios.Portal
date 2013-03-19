@@ -12,6 +12,7 @@
     {
         public int IdProcessoCotacao { get; set; }
         public string CodigoFornecedor { get; set; }
+        public CotacaoImpostosVm Impostos { get; set; }
     }
 
 }

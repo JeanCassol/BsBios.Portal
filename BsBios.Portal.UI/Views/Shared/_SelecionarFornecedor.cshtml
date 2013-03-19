@@ -1,4 +1,10 @@
-﻿<style type="text/css">
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.Domain.Entities
+@{
+    Layout = null;
+    var tipoDeCotacao = (Enumeradores.TipoDeCotacao) ViewData["TipoDeCotacao"];
+}
+<style type="text/css">
      .separador {
          margin-top: 10px;
         background-color: #0095cd;
@@ -154,10 +160,21 @@
         });
 
 
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true, function () { return { CodigoProduto: codigoProduto }; });
+        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true,
+            function () { return { CodigoProduto: codigoProduto }; });
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true,
         function() {
-            return { CodigoProduto: codigoProduto, CodigoFornecedor: $('#CodigoFornecedorGeral').val(), NomeFornecedor: $('#NomeFornecedorGeral').val() };
+            var transportadora = false;
+            @if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
+            {
+                @: transportadora = true;
+            }
+            
+            return {
+                
+                CodigoProduto: codigoProduto, Transportadora: transportadora ,
+                CodigoFornecedor: $('#CodigoFornecedorGeral').val(), NomeFornecedor: $('#NomeFornecedorGeral').val()
+            };
         });
         
         function carregarGridDosFornecedoresSelecionados() {

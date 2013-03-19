@@ -102,8 +102,18 @@ namespace BsBios.Portal.Tests.DefaultProvider
             _contadorFornecedores++;
             var codigo = GeraCodigo(_contadorFornecedores, 10);
             var fornecedor = new Fornecedor(codigo, "FORNECEDOR " + codigo, 
-                "fornecedor" + codigo + "@empresa.com.br","cnpj" + codigo, "municipio" + codigo, "uf");
+                "fornecedor" + codigo + "@empresa.com.br","cnpj" + codigo, "municipio" + codigo, "uf", false);
             return fornecedor;
+        }
+
+        public static Fornecedor ObtemTransportadoraPadrao()
+        {
+            _contadorFornecedores++;
+            var codigo = GeraCodigo(_contadorFornecedores, 10);
+            var fornecedor = new Fornecedor(codigo, "TRANSPORTADORA " + codigo,
+                "fornecedor" + codigo + "@empresa.com.br", "cnpj" + codigo, "municipio" + codigo, "uf", true);
+            return fornecedor;
+            
         }
 
         public static Usuario ObtemUsuarioPadrao()

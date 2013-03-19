@@ -418,7 +418,7 @@
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
-    <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarFornecedor.cshtml" />
+    <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />

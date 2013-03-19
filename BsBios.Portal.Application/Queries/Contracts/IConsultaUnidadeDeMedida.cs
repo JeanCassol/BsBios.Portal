@@ -5,7 +5,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaUnidadeDeMedida
     {
-        IList<UnidadeDeMedidaCadastroVm> ListarTodos();
+        IList<UnidadeDeMedidaSelecaoVm> ListarTodos();
     }
 
 }

@@ -57,7 +57,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             produto.AdicionarFornecedores(new List<Fornecedor>() 
             { new Fornecedor(fornecedor1.Codigo, "FORNECEDOR 0001 ALTERADO", "fornecedor01@empresa.com.br",
-                fornecedor1.Cnpj, fornecedor1.Municipio, fornecedor1.Uf), fornecedor3 });
+                fornecedor1.Cnpj, fornecedor1.Municipio, fornecedor1.Uf,false), fornecedor3 });
 
             Assert.AreEqual(3, produto.Fornecedores.Count);
         }

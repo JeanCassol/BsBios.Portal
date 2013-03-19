@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -68,7 +69,7 @@ namespace BsBios.Portal.Tests.Infra.Repositories
                 UnitOfWorkNh.BeginTransaction();
 
                 var fornecedorConsulta = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
-                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br", "cnpj alterado", "municipio alterado", "uf");
+                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br", "cnpj alterado", "municipio alterado", "uf",false);
                 fornecedores.Save(fornecedorConsulta);
 
                 UnitOfWorkNh.Commit();
@@ -171,8 +172,8 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email,"","","");
-            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email, "", "", "");
+            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email,"","","", true);
+            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email, "", "", "", true);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor3);
@@ -184,6 +185,48 @@ namespace BsBios.Portal.Tests.Infra.Repositories
 
             Assert.AreEqual(2, fornecedoresFiltrados.Count);
 
+        }
+
+        [TestMethod]
+        public void QuandoFiltraSomenteTransportadorasTodosFornecedoresListadosSaoTransportadoras()
+        {
+            Queries.RemoverFornecedoresCadastrados();
+            Fornecedor naoTransportadora = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor transportadora = DefaultObjects.ObtemTransportadoraPadrao();
+            DefaultPersistedObjects.PersistirFornecedor(naoTransportadora);
+            DefaultPersistedObjects.PersistirFornecedor(transportadora);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+
+            IList<Fornecedor> transportadoras = fornecedores.SomenteTransportadoras().List();
+
+            Assert.AreEqual(1, transportadoras.Count );
+
+            Assert.IsTrue(transportadoras.First().Transportadora);
+
+
+        }
+        [TestMethod]
+        public void QuandoFiltraSomenteFornecedoresQueNaoSaoDeTransporteTodosFornecedoresListadosNaoSaoDeTransporte()
+        {
+            Queries.RemoverFornecedoresCadastrados();
+            Fornecedor naoTransportadora = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor transportadora = DefaultObjects.ObtemTransportadoraPadrao();
+            DefaultPersistedObjects.PersistirFornecedor(naoTransportadora);
+            DefaultPersistedObjects.PersistirFornecedor(transportadora);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+
+            IList<Fornecedor> naoTransportadoras = fornecedores.RemoveTransportadoras().List();
+
+            Assert.AreEqual(1, naoTransportadoras.Count);
+
+            Assert.IsFalse(naoTransportadoras.First().Transportadora);
+            
         }
 
     }

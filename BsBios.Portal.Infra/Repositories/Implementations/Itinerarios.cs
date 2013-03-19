@@ -40,7 +40,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(descricao))
             {
-                Query = Query.Where(x => x.Descricao.Contains(descricao));
+                Query = Query.Where(x => x.Descricao.ToLower().Contains(descricao.ToLower()));
             }
             return this;
         }

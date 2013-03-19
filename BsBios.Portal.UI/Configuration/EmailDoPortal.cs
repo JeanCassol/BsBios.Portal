@@ -8,12 +8,21 @@ namespace BsBios.Portal.UI.Configuration
 {
     public class EmailDoPortal : ConfigurationSection
     {
-        [ConfigurationProperty("Remetente", DefaultValue = "compras@bsbios.com", IsRequired = false)]
-        public string Remetente
+        [ConfigurationProperty("RemetenteSuprimentos", DefaultValue = "compras@bsbios.com", IsRequired = false)]
+        public string RemetenteSuprimentos
         {
             get
             {
-                return this["Remetente"] as string;
+                return this["RemetenteSuprimentos"] as string;
+            }
+        }
+
+        [ConfigurationProperty("RemetenteLogistica", DefaultValue = "logistica.pf@bsbios.com", IsRequired = false)]
+        public string RemetenteLogistica
+        {
+            get
+            {
+                return this["RemetenteLogistica"] as string;
             }
         }
 

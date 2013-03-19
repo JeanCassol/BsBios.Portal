@@ -41,7 +41,8 @@
     <Compile Include="CotacaoImpostosVm.cs" />
     <Compile Include="CotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoMaterialDadosVm.cs" />
-    <Compile Include="FiltroFornecedorDoProduto.cs" />
+    <Compile Include="FornecedorDoProdutoFiltro.cs" />
+    <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequisicaoDeCompraVm.cs" />
     <Compile Include="ResponseMessageVm.cs" />
+    <Compile Include="UnidadeDeMedidaSelecaoVm.cs" />
     <Compile Include="UsuarioCadastroVm.cs" />
     <Compile Include="UsuarioVm.cs" />
   </ItemGroup>

@@ -30,7 +30,7 @@ namespace BsBios.Portal.Tests.Application.Queries
 
             var consultaProduto = new ConsultaProduto(produtosMock.Object, new FornecedorCadastroBuilder(),new ProdutoCadastroBuilder());
 
-            var kendoGridVm = consultaProduto.FornecedoresDoProduto("PROD0001");
+            var kendoGridVm = consultaProduto.FornecedoresDoProduto("PROD0001",);
 
             Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();

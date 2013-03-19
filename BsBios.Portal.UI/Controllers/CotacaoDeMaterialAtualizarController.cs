@@ -18,11 +18,10 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Salvar(CotacaoInformarVm cotacaoInformarVm,[ModelBinder(typeof(CotacaoImpostoModelBinder))]  CotacaoImpostosVm impostos)
+        public JsonResult Salvar(CotacaoInformarVm cotacaoInformarVm)
         {
             try
             {
-                cotacaoInformarVm.Impostos = impostos;
                 _atualizadorDeCotacao.Atualizar(cotacaoInformarVm);
                 return Json(new { Sucesso = true });
             }

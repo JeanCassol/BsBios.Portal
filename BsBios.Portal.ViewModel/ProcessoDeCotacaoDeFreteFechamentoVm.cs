@@ -13,6 +13,8 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string CodigoMaterial { get; set; }
         [DataMember]
+        public string CodigoUnidadeMedida { get; set; }
+        [DataMember]
         public string NumeroDoContrato { get; set; }
         [DataMember]
         public decimal Valor { get; set; }

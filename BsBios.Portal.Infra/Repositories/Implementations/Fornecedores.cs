@@ -50,5 +50,17 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
             return this;
         }
+
+        public IFornecedores SomenteTransportadoras()
+        {
+            Query = Query.Where(x => x.Transportadora);
+            return this;
+        }
+
+        public IFornecedores RemoveTransportadoras()
+        {
+            Query = Query.Where(x => !x.Transportadora);
+            return this;
+        }
     }
 }

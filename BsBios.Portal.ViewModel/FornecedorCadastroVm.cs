@@ -26,6 +26,9 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         [Display(Name = "UF: ")]
         public string Uf { get; set; }
+
+        [DataMember]
+        public string Transportadora { get; set; }
     }
 
     [CollectionDataContract]

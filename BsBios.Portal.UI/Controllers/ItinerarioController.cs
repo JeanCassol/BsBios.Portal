@@ -16,7 +16,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ItinerarioCadastroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ItinerarioFiltroVm filtro)
         {
             return Json(_consultaItinerario.Listar(paginacaoVm, filtro), JsonRequestBehavior.AllowGet);
         }

@@ -9,5 +9,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
         IFornecedores NomeContendo(string filtroNome);
         IFornecedores CodigoContendo(string filtroCodigo);
+        IFornecedores SomenteTransportadoras();
+        IFornecedores RemoveTransportadoras();
     }
 }

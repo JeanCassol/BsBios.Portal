@@ -4,6 +4,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaItinerario
     {
-        KendoGridVm Listar(PaginacaoVm paginacaoVm, ItinerarioCadastroVm filtro);         
+        KendoGridVm Listar(PaginacaoVm paginacaoVm, ItinerarioFiltroVm filtro);         
     }
 }

@@ -4,16 +4,27 @@
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<style type="text/css">
+    .colunaFiltroPequena {
+        width: 33%;
+        display: inline-block;
+        float: left;
+    }
+</style>
 <div id="divFiltros" class="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="colunaFiltro">
+        <div class="colunaFiltroPequena">
             @Html.Label("Código")
-            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
+            @Html.TextBox("CodigoFiltro","", new{@class="campopequeno"})
         </div>
-        <div class="colunaFiltro">
-            @Html.Label("Descrição")
-            @Html.TextBox("DescricaoFiltro","", new{@class="campomedio"})
+        <div class="colunaFiltroPequena">
+            @Html.Label("Local 1")
+            @Html.TextBox("Local1","", new{@class="campopequeno"})
+        </div>
+        <div class="colunaFiltroPequena">
+            @Html.Label("Local 2")
+            @Html.TextBox("Local2","", new{@class="campopequeno"})
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
@@ -57,7 +68,8 @@
                         data: function() {
                             return {
                                 Codigo: $('#CodigoFiltro').val(),
-                                Descricao: $('#DescricaoFiltro').val(),
+                                Local1: $('#Local1').val(),
+                                Local2: $('#Local2').val()
                             };
                         }
                     }

@@ -30,6 +30,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                         {
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
                             CodigoMaterial = processoAuxiliar.Produto.Codigo,
+                            CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.Descricao,
                             CodigoItinerario = processoAuxiliar.Itinerario.Codigo,
                             DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToShortDateString(),
                             DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToShortDateString(),

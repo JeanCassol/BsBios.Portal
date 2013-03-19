@@ -5,10 +5,6 @@ namespace BsBios.Portal.ViewModel
 {
     public class CotacaoDadosVm
     {
-        [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Valor Líquido é obrigatório")]
-        [Display(Name = "Valor Líquido")]
-        public decimal? ValorLiquido { get; set; }
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Valor com Impostos é obrigatório")]
@@ -22,6 +18,5 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Quantidade Disponível")]
         public decimal? QuantidadeDisponivel { get; set; }
 
-        public CotacaoImpostosVm  Impostos { get; set; }
     }
 }

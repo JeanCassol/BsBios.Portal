@@ -5,6 +5,11 @@ namespace BsBios.Portal.ViewModel
 {
     public class CotacaoMaterialDadosVm: CotacaoDadosVm
     {
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Valor Líquido é obrigatório")]
+        [Display(Name = "Valor Líquido")]
+        public decimal? ValorLiquido { get; set; }
+
         [Required(ErrorMessage = "Condição de Pagamento é obrigatório")]
         [Display(Name = "Condição de Pagamento")]
         public string CodigoCondicaoPagamento { get; set; }

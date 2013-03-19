@@ -34,14 +34,22 @@
 
 <ListaFornecedores xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
 	<FornecedorCadastroVm>
+		<Cnpj>997335445478578</Cnpj>
 		<Codigo>FORNEC005</Codigo>
 		<Email>fornecedor0005@empresa.com.br</Email>
+		<Municipio>Torres</Municipio>
 		<Nome>FORNECEDOR 0005</Nome>
+		<Transportadora>x</Transportadora>
+		<Uf>RS</Uf>
 	</FornecedorCadastroVm>
 	<FornecedorCadastroVm>
+		<Cnpj>9973354454700018</Cnpj>
 		<Codigo>FORNEC0006</Codigo>
 		<Email>fornecedor0006@empresa.com.br</Email>
+		<Municipio>São Paulo</Municipio>
 		<Nome>FORNECEDOR 0006</Nome>
+		<Transportadora></Transportadora>
+		<Uf>RS</Uf>
 	</FornecedorCadastroVm>
 </ListaFornecedores>
 

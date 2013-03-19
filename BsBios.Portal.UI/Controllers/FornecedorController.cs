@@ -21,7 +21,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult FornecedoresGerais(PaginacaoVm paginacaoVm, FiltroFornecedorDoProduto filtro)
+        public JsonResult FornecedoresGerais(PaginacaoVm paginacaoVm, FornecedorDoProdutoFiltro filtro)
         {
             KendoGridVm kendoGridVm = _consultaFornecedor.FornecedoresNaoVinculadosAoProduto(paginacaoVm, filtro);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);

@@ -4,7 +4,6 @@
 
 @{
     ViewBag.TituloDaPagina = "Cotação de Frete";
-    CotacaoImpostosVm impostosVm = Model.Impostos;
 }
 <div class="paginaCadastro">
     @using (Html.BeginForm())
@@ -21,18 +20,16 @@
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Material))
             @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, decimal>(x => x.Quantidade),
                                       new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.UnidadeDeMedida))
+                @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Itinerario))
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Requisitos))
         </fieldset>
-        
-        Html.RenderPartial("_CotacaoImpostos", impostosVm ?? new CotacaoImpostosVm());
-        
+       
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
             @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado"),
-                                      new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.ValorLiquido))
+                                      new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel))
             
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel),
-            new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
+            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
         </fieldset>
         
@@ -56,43 +53,13 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/scriptsgerais")
     <script type="text/javascript">
-        $('input[name=ValorLiquido]').attr('disabled', true);
-        
-        function calculaValorLiquido() {
-            var valorComImpostos = Numero.GetFloat($('#ValorComImpostos').val());
-            if (valorComImpostos == 0) {
-                return;
-            }
-
-            var valorIcms = Numero.GetFloat($('#IcmsValor').val());
-            var valorIcmsSt = Numero.GetFloat($('#IcmsStValor').val());
-            var valorIpi = Numero.GetFloat($('#IpiValor').val());
-
-            var valorLiquido = valorComImpostos - valorIcms - valorIcmsSt - valorIpi;
-
-            $('#ValorLiquido').val(valorLiquido);
-
-        }
-        
+       
 
         $(function() {
 
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
             }
-
-            $('#ValorComImpostos').change(function() {
-                calculaValorLiquido();
-            });
-            $('#IcmsValor').change(function () {
-                calculaValorLiquido();
-            });
-            $('#IcmsStValor').change(function () {
-                calculaValorLiquido();
-            });
-            $('#IpiValor').change(function () {
-                calculaValorLiquido();
-            });
 
             $('#btnSalvarCotacao').click(function() {
                 $('.error').empty();

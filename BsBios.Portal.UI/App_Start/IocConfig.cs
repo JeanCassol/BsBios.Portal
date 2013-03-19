@@ -24,7 +24,7 @@ namespace BsBios.Portal.UI
                 if (emailDoPortal != null)
                     x.For<ContaDeEmail>()
                      .HybridHttpOrThreadLocalScoped()
-                     .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.Remetente + ">", emailDoPortal.Dominio,
+                     .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                            emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
                                            emailDoPortal.Porta));
             });

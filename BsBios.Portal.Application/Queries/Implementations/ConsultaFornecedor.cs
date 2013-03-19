@@ -20,11 +20,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _fornecedores = fornecedores;
         }
 
-        public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, FiltroFornecedorDoProduto filtro)
+        public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, FornecedorDoProdutoFiltro filtro)
         {
             _fornecedores.FornecedoresNaoVinculadosAoProduto(filtro.CodigoProduto)
                          .NomeContendo(filtro.NomeFornecedor)
                          .CodigoContendo(filtro.CodigoFornecedor);
+
+            if ( filtro.Transportadora.HasValue && filtro.Transportadora.Value)
+            {
+                _fornecedores.SomenteTransportadoras();
+            }
+            else if (filtro.Transportadora.HasValue && ! filtro.Transportadora.Value)
+            {
+                _fornecedores.RemoveTransportadoras();
+            }
 
             var kendoGrid = new KendoGridVm()
             {

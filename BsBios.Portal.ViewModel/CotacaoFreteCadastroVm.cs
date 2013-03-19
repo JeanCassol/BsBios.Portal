@@ -20,6 +20,8 @@ namespace BsBios.Portal.ViewModel
         public string DataDeValidadeInicial { get; set; }
         [DisplayName("Data de Validade Final: ")]
         public string DataDeValidadeFinal { get; set; }
+        [DisplayName("Itinerário: ")]
+        public string Itinerario { get; set; }
         
         /// <summary>
         /// usuada para indicar se os campos da tela serão habilitados para edição

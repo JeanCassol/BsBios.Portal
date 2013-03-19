@@ -44,7 +44,7 @@
     <Compile Include="Queries\Builders\ProcessoCotacaoFornecedorBuilder.cs" />
     <Compile Include="Queries\Builders\CotacaoImpostosBuilder.cs" />
     <Compile Include="Queries\Builders\ItinerarioCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\UnidadeDeMedidaCadastroBuilder.cs" />
+    <Compile Include="Queries\Builders\UnidadeDeMedidaSelecaoBuilder.cs" />
     <Compile Include="Queries\Builders\PerfilBuilder.cs" />
     <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
     <Compile Include="Queries\Builders\ProdutoCadastroBuilder.cs" />

@@ -37,8 +37,8 @@ namespace BsBios.Portal.Tests.Application.Services
                                        });
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br", "", "", ""));
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br", "", "", ""));
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br", "", "", "",false));
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br", "", "", "",false));
             _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
                                    .Returns(_processosDeCotacaoMock.Object);
             _processosDeCotacaoMock.Setup(x => x.Single())
@@ -50,7 +50,7 @@ namespace BsBios.Portal.Tests.Application.Services
             _fornecedoresMock.Setup(x => x.List())
                              .Returns(new List<Fornecedor>()
                                  {
-                                     new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0002@empresa.com.br","","","")
+                                     new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0002@empresa.com.br","","","",false)
                                  });
 
             _processoDeCotacaoFornecedoresService = new ProcessoDeCotacaoFornecedoresService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object, _fornecedoresMock.Object);

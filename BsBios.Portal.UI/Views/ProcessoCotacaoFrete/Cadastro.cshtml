@@ -34,7 +34,7 @@
                 @Html.ValidationMessageFor(x => x.DescricaoMaterial)
             </div>
             @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
-                ((List<UnidadeDeMedidaCadastroVm>) ViewBag.UnidadesDeMedida)
+                ((List<UnidadeDeMedidaSelecaoVm>) ViewBag.UnidadesDeMedida)
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
                 "CodigoUnidadeMedida");
 

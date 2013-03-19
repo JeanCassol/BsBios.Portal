@@ -35,7 +35,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     {
                         if (codigos.Contains("FORNEC0001"))
                         {
-                            _fornecedoresRepositorio.Add(new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br","cnpj alterado", "municipio alterado", "uf alterada"));
+                            _fornecedoresRepositorio.Add(new FornecedorParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br","cnpj alterado", "municipio alterado", "uf alterada", false));
                         }
                     })
                 .Returns(_fornecedoresMock.Object);
@@ -192,8 +192,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
     public class FornecedorParaAtualizacao: Fornecedor
     {
-        public FornecedorParaAtualizacao(string codigo, string nome, string email, string cnpj, string municipio, string uf) 
-            : base(codigo, nome, email,cnpj, municipio, uf)
+        public FornecedorParaAtualizacao(string codigo, string nome, string email, string cnpj, string municipio, string uf, bool transportadora) 
+            : base(codigo, nome, email,cnpj, municipio, uf,transportadora)
         {
         }
     }

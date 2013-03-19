@@ -23,10 +23,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _builder = builder;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ItinerarioCadastroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ItinerarioFiltroVm filtro)
         {
             _itinerarios.CodigoContendo(filtro.Codigo);
-            _itinerarios.DescricaoContendo(filtro.Descricao);
+            _itinerarios.DescricaoContendo(filtro.Local1);
+            _itinerarios.DescricaoContendo(filtro.Local2);
 
             var kendoGridVmn = new KendoGridVm()
             {

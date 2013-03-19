@@ -136,7 +136,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 Quantidade = processo.Quantidade,
                 UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
                 DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
-                DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString()
+                DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
+                Itinerario = processo.Itinerario.Descricao
             };
 
             if (fp.Cotacao != null)
@@ -144,12 +145,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 var cotacao = fp.Cotacao.CastEntity();
 
-                vm.ValorLiquido = cotacao.ValorLiquido;
                 vm.ValorComImpostos = cotacao.ValorComImpostos;
                 vm.ObservacoesDoFornecedor = cotacao.Observacoes;
                 vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
-
-                vm.Impostos = _builderImpostos.BuildSingle(cotacao);
 
             }
 
