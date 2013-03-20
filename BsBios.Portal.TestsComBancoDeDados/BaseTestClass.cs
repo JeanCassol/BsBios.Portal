@@ -36,16 +36,17 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 });
 
 
-            Queries.RemoverProcessosDeCotacaoCadastrados();
-            Queries.RemoverRequisicoesDeCompraCadastradas();
-            Queries.RemoverFornecedoresCadastrados();
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverUsuariosCadastrados();
-            Queries.RemoverCondicoesDePagamentoCadastradas();
-            Queries.RemoverIvasCadastrados();
-            Queries.RemoverIncotermsCadastrados();
-            Queries.RemoverItinerariosCadastrados();
-            Queries.RemoverUnidadesDeMedidaCadastradas();
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+            RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
+            RemoveQueries.RemoverQuotasCadastradas();
+            RemoveQueries.RemoverFornecedoresCadastrados();
+            RemoveQueries.RemoverProdutosCadastrados();
+            RemoveQueries.RemoverUsuariosCadastrados();
+            RemoveQueries.RemoverCondicoesDePagamentoCadastradas();
+            RemoveQueries.RemoverIvasCadastrados();
+            RemoveQueries.RemoverIncotermsCadastrados();
+            RemoveQueries.RemoverItinerariosCadastrados();
+            RemoveQueries.RemoverUnidadesDeMedidaCadastradas();
         }
     }
 }

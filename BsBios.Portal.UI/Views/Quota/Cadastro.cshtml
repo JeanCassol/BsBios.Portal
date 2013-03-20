@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Quota";
+}
+<div class="paginaCadastro"> 
+    <fieldset>
+        <legend>Pesquisa</legend>
+        @Html.Label("Data")
+        @Html.TextBox("DataPesquisa","",new{@class="datePicker"})
+        <div class="divBotao">
+            <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend></legend>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Data")
+                @Html.TextBox("Data", "",new{@class="datePicker"})
+            </div>
+            <div class="coluna">
+                @Html.Label("Terminal")
+                @Html.TextBox("Terminal", "",new{@readonly=true,@class="campoDesabilitado"})
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Fornecedor</legend>
+    </fieldset>
+    <fieldset>
+        <legend>Fornecedores Adicionados</legend>
+        <div id="gridFornecedoresAdicionados"></div>
+    </fieldset>
+    <fieldset>
+        <legend>Operações</legend>
+        <div class="divBotao">
+            <input type="button" id="btnSalvar" value="Salvar" class="blue"/>
+            <input type="button" id="btnCopiar" value="Copiar" class="blue"/>
+        </div>
+    </fieldset>
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#btnPesquisar').click(function () {
+                var dataPesquisa = $('#DataPesquisa').val();
+                if (dataPesquisa == '') {
+                    Mensagem.ExibirMensagemDeErro("É obrigatório preencher a data para fazer a pesquisa.");
+                    return;
+                }
+                
+                $.ajax({
+                    url: '@Url.Action("Pesquisar","Quota")',
+                    type: 'GET',
+                    cache: false,
+                    data: {
+                        DataDaQuota: dataPesquisa
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data.Sucesso) {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                            return;
+                        }
+                        if (data.PossuiQuota) {
+                            /* preencher os campos principais e carregar o grid via ajax*/
+  
+                        } else {
+                            /*apenas liberar os campos para edição*/
+                        }
+                        
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+
+            });
+            
+
+        })
+    </script>   
+}
+

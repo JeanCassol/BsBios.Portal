@@ -42,7 +42,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         public void QuandoConsultoUmIvaComCodigoSapInexistenteDeveRetornarNulo()
         {
             var ivas = ObjectFactory.GetInstance<IIvas>();
-            var iva = ivas.BuscaPeloCodigo("02");
+            var iva = ivas.BuscaPeloCodigo("_2");
             Assert.IsNull(iva);
         }
 

@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
+    <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
     <Compile Include="Controllers\CotacaoDeMaterialAtualizarController.cs" />
@@ -432,6 +433,7 @@
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
     <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
+    <Content Include="Views\Quota\Cadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

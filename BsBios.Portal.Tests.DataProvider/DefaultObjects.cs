@@ -213,5 +213,10 @@ namespace BsBios.Portal.Tests.DataProvider
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario);
 
         }
+
+        public static Quota ObtemQuota()
+        {
+            return new Quota(Enumeradores.FluxoDeCarga.Carregamento, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
+        }
     }
 }

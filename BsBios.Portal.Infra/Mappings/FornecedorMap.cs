@@ -18,7 +18,7 @@ namespace BsBios.Portal.Infra.Mappings
             HasManyToMany(x => x.Produtos)
                 .Cascade.All()
                 .Table("ProdutoFornecedor").ParentKeyColumn("CodigoFornecedor").ChildKeyColumn("CodigoProduto")
-                .Fetch.Join()
+                //.Fetch.Join() /*Removido o Fetch.Join() porque esta sempre fazendo join com ProdutoFornecedor e depois com Produtos*/
                 .ExtraLazyLoad();
 
             

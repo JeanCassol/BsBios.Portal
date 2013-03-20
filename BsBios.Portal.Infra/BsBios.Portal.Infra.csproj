@@ -76,6 +76,7 @@
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\QuotaMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />
     <Compile Include="Mappings\CotacaoMap.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
+    <Compile Include="Repositories\Contracts\IQuotas.cs" />
     <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
     <Compile Include="Repositories\Contracts\IItinerarios.cs" />
     <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
     <Compile Include="Repositories\Implementations\ProdutosDeFrete.cs" />
+    <Compile Include="Repositories\Implementations\Quotas.cs" />
     <Compile Include="Repositories\Implementations\UnidadesDeMedida.cs" />
     <Compile Include="Repositories\Implementations\Itinerarios.cs" />
     <Compile Include="Repositories\Implementations\Fornecedores.cs" />

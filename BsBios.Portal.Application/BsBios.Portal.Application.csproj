@@ -54,6 +54,7 @@
     <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
+    <Compile Include="Queries\Contracts\IConsultaQuota.cs" />
     <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Contracts\IConsultaIva.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
+    <Compile Include="Queries\Implementations\ConsultaQuota.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />

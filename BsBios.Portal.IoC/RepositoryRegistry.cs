@@ -48,7 +48,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<UnidadesDeMedida>();
 
-
+            For<IQuotas>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<Quotas>();
         }
     }
 }

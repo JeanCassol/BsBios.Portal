@@ -52,6 +52,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaProcessoDeCotacaoDeFrete>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaProcessoDeCotacaoDeFrete>();
+
+            For<IConsultaQuota>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaQuota>();
             
         }
 

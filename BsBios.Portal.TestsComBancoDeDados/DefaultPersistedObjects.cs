@@ -218,6 +218,30 @@ namespace BsBios.Portal.Tests.DefaultProvider
             
 
         }
+
+        public static void PersistirQuota(Quota quota)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+                }
+                PersistirFornecedor(quota.Transportadora);
+                Session.Save(quota);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+        }
     }
 }
 

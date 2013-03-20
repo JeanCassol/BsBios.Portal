@@ -4,10 +4,10 @@ using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados
 {
-    public static class Queries
+    public static class RemoveQueries
     {
         private static readonly IUnitOfWorkNh UnitOfWork;
-        static Queries()
+        static RemoveQueries()
         {
             UnitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
         }
@@ -179,5 +179,19 @@ namespace BsBios.Portal.TestsComBancoDeDados
             }
         }
 
+        public static void RemoverQuotasCadastradas()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from Quota");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

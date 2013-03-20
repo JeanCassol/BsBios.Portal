@@ -139,8 +139,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void QuandoConsultarFornecedoresNaoVinculadosAoProdutoNenhumDosFornecedoresRetornadosEstaVinculadoAoProduto()
         {
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverFornecedoresCadastrados();
+            RemoveQueries.RemoverProdutosCadastrados();
+            RemoveQueries.RemoverFornecedoresCadastrados();
             Session.BeginTransaction();
             var produto = DefaultObjects.ObtemProdutoPadrao();
             //CRIA 4 FORNECEDORES
@@ -190,7 +190,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void QuandoFiltraSomenteTransportadorasTodosFornecedoresListadosSaoTransportadoras()
         {
-            Queries.RemoverFornecedoresCadastrados();
+            RemoveQueries.RemoverFornecedoresCadastrados();
             Fornecedor naoTransportadora = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor transportadora = DefaultObjects.ObtemTransportadoraPadrao();
             DefaultPersistedObjects.PersistirFornecedor(naoTransportadora);
@@ -211,7 +211,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void QuandoFiltraSomenteFornecedoresQueNaoSaoDeTransporteTodosFornecedoresListadosNaoSaoDeTransporte()
         {
-            Queries.RemoverFornecedoresCadastrados();
+            RemoveQueries.RemoverFornecedoresCadastrados();
             Fornecedor naoTransportadora = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor transportadora = DefaultObjects.ObtemTransportadoraPadrao();
             DefaultPersistedObjects.PersistirFornecedor(naoTransportadora);
