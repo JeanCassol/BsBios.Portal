@@ -31,7 +31,18 @@
                 width: 250,
                 field: "Email",
                 title: "E-mail"
-            });
+            },
+            {
+                field: "Municipio",
+                width: 150,
+                title: "Município"
+            },
+            {
+                field: "Uf",
+                width: 20,
+                title: "UF"
+            }
+        );
 
         $(divParaCarregar).kendoGrid({
             dataSource: {
@@ -43,6 +54,8 @@
                             Codigo: { type: "string" },
                             Nome: { type: "string" },
                             Cnpj: { type: "string" },
+                            Municipio: { type: "string" },
+                            Uf: { type: "string" },
                             Email: { type: "string" }
                         }
                     },

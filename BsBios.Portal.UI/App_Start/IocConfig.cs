@@ -29,7 +29,6 @@ namespace BsBios.Portal.UI
                                            emailDoPortal.Porta));
             });
 
-
             IoCWorker.Configure();
             ObjectFactory.Configure(x => x.For<IControllerFactory>()
                                           .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -61,24 +60,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
                 cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
-                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
                 cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
-
-                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
-                cotacaoSelecionarVm.ValorIcms = imposto != null ? imposto.Valor : (decimal?)null;
-
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
-                cotacaoSelecionarVm.ValorIcmsSt = imposto != null ? imposto.Valor : (decimal?)null;
-
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
-                cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
-
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
-
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
 
             }
 

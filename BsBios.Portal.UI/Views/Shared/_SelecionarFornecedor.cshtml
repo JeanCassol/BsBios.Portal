@@ -109,7 +109,10 @@
                 alert('Não é possível selecionar um fornecedor sem E-mail.');
                 return;
             }
-            adicionarFornecedor({ Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email, Cnpj: dataItem.Cnpj });
+            adicionarFornecedor({
+                Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email,
+                Cnpj: dataItem.Cnpj, Municipio: dataItem.Municipio, Uf: dataItem.Uf
+            });
             atualizaGrid();
         }
 
@@ -163,13 +166,8 @@
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true,
             function () { return { CodigoProduto: codigoProduto }; });
         GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true,
-        function() {
-            var transportadora = false;
-            @if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
-            {
-                @: transportadora = true;
-            }
-            
+        function () {
+            var transportadora = '@(tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)'.boolean();
             return {
                 
                 CodigoProduto: codigoProduto, Transportadora: transportadora ,
@@ -189,6 +187,8 @@
                                 Codigo: { type: "string" },
                                 Nome: { type: "string" },
                                 Cnpj: { type: "string" },
+                                Municipio: { type: "string" },
+                                Uf: { type: "string" },
                                 Email: { type: "string" }
                             }
                         }
@@ -224,6 +224,16 @@
                         width: 250,
                         field: "Email",
                         title: "E-mail"
+                    },
+                    {
+                        field: "Municipio",
+                        width: 150,
+                        title: "Município"
+                    },
+                    {
+                        field: "Uf",
+                        width: 20,
+                        title: "UF"
                     }
                 ]
             });

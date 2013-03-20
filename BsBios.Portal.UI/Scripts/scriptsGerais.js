@@ -9,7 +9,7 @@
 };
 
 String.prototype.boolean = function () {
-    return "true" == this;
+    return this.match(/^(true|True)$/i) !== null;
 };
 
 Numero = {

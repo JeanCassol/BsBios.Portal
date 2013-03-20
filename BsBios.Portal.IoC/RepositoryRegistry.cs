@@ -16,9 +16,16 @@ namespace BsBios.Portal.IoC
             For<IProdutos>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Produtos>();
+            For<IProdutosDeFrete>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProdutosDeFrete>()
+                .Ctor<string>("tiposDeProdutoDeFrete")
+                .EqualToAppSetting("TiposDeProdutoDeFrete");
+
             For<IFornecedores>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Fornecedores>();
+
             For<ICondicoesDePagamento>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CondicoesDePagamento>();

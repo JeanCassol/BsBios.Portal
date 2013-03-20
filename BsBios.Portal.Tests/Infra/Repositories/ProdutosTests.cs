@@ -146,5 +146,12 @@ namespace BsBios.Portal.Tests.Infra.Repositories
             Assert.AreEqual(produto2Consultado.Tipo, produto2.Tipo);
 
         }
+
+        [TestMethod]
+        public void QuandoInstancioProdutosDeFreteCarregaOsTiposCorretamenteDoArquivoDeConfiguracao()
+        {
+            var produtosDeFrete = ObjectFactory.GetInstance<IProdutosDeFrete>();
+            Assert.AreEqual("FERT,NLAG,ROH,YO3R,YOAG,ZROH", produtosDeFrete.TiposDeProdutoDeFrete);
+        }
     }
 }

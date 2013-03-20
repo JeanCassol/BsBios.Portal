@@ -12,13 +12,11 @@ namespace BsBios.Portal.Application.Queries.Builders
                     Codigo = model.Codigo ,
                     Email = model.Email,
                     Nome = model.Nome,
-                    Cnpj = model.Cnpj
+                    Cnpj = model.Cnpj,
+                    Municipio = model.Municipio,
+                    Uf = model.Uf
                 };
         }
 
-        //public IList<FornecedorCadastroVm> BuildList(IList<Fornecedor> models)
-        //{
-        //    return models.Select(BuildSingle).ToList();
-        //}
     }
 }
