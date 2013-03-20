@@ -93,6 +93,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     Assert.AreEqual("cnpj alterado", fornecedor.Cnpj);
                     Assert.AreEqual("municipio alterado", fornecedor.Municipio);
                     Assert.AreEqual("uf", fornecedor.Uf);
+                    Assert.IsTrue(fornecedor.Transportadora);
                 });
             _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
                 {
@@ -103,7 +104,8 @@ namespace BsBios.Portal.Tests.Application.Services
                             Email = "emailatualizado@empresa.com.br",
                             Cnpj = "cnpj alterado" ,
                             Municipio = "municipio alterado" ,
-                            Uf = "uf"
+                            Uf = "uf",
+                            Transportadora = "X"
 
                         }
                 });
@@ -122,6 +124,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 Assert.AreEqual("cnpj", fornecedor.Cnpj);
                 Assert.AreEqual("municipio", fornecedor.Municipio);
                 Assert.AreEqual("uf", fornecedor.Uf);
+                Assert.IsTrue(fornecedor.Transportadora);
             });
 
             _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
@@ -133,7 +136,8 @@ namespace BsBios.Portal.Tests.Application.Services
                             Email = "fornecedor0002@empresa.com.br",
                             Cnpj = "cnpj" ,
                             Municipio = "municipio" ,
-                            Uf = "uf"
+                            Uf = "uf",
+                            Transportadora = "X"
                         }
                 });
 
@@ -162,7 +166,11 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             Codigo = "FORNEC0002" ,
                             Nome =  "FORNECEDOR 0002",
-                            Email = "fornecedor0002@empresa.com.br"
+                            Email = "fornecedor0002@empresa.com.br",
+                            Cnpj = "cnpj" ,
+                            Municipio = "municipio" ,
+                            Uf = "uf",
+                            Transportadora = "X"
                         }
                 });
 
@@ -180,7 +188,11 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             Codigo ="FORNEC0001" ,
                             Nome = "FORNECEDOR 0001 ATUALIZADO" ,
-                            Email = "emailatualizado@empresa.com.br"
+                            Email = "emailatualizado@empresa.com.br",
+                            Cnpj = "9897948000156",
+                            Municipio = "Porto Alegre",
+                            Uf = "RS",
+                            Transportadora = "X"
                         }
                 });
 

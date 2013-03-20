@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Services.Implementations;
-using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
-    [TestClass]
+    //[TestClass]
     public class ComunicacaoSapTests
     {
         [TestMethod]

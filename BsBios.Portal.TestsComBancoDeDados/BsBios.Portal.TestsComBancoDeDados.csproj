@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A8C616D-62F6-4561-B282-529F3BB54B86}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BsBios.Portal.TestsComBancoDeDados</RootNamespace>
+    <AssemblyName>BsBios.Portal.TestsComBancoDeDados</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Application\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
+    <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
+    <Compile Include="Application\Queries\ConsultaPerfilTests.cs" />
+    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
+    <Compile Include="BaseTestClass.cs" />
+    <Compile Include="DefaultPersistedObjects.cs" />
+    <Compile Include="Infra\IoC\RegisterTests.cs" />
+    <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
+    <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
+    <Compile Include="Infra\Repositories\IncotermsTests.cs" />
+    <Compile Include="Infra\Repositories\ItinerariosTests.cs" />
+    <Compile Include="Infra\Repositories\IvasTests.cs" />
+    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeFreteTests.cs" />
+    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Infra\Repositories\ProdutosTests.cs" />
+    <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
+    <Compile Include="Infra\Repositories\UnidadesDeMedidaTests.cs" />
+    <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
+    <Compile Include="Infra\Repositories\UsuariosTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries.cs" />
+    <Compile Include="RepositoryTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BsBios.Portal.Application\BsBios.Portal.Application.csproj">
+      <Project>{A2DA2E00-3386-4EC4-8D95-D98C5052F636}</Project>
+      <Name>BsBios.Portal.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
+      <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
+      <Name>BsBios.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
+      <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
+      <Name>BsBios.Portal.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra\BsBios.Portal.Infra.csproj">
+      <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>
+      <Name>BsBios.Portal.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.IoC\BsBios.Portal.IoC.csproj">
+      <Project>{88D87599-D462-4902-8D0B-6348AB8CC620}</Project>
+      <Name>BsBios.Portal.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Tests.DataProvider\BsBios.Portal.Tests.DataProvider.csproj">
+      <Project>{2566A7D2-FDF6-4112-83B6-633ABE7502EE}</Project>
+      <Name>BsBios.Portal.Tests.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.UI\BsBios.Portal.UI.csproj">
+      <Project>{ADF235AC-A253-430D-B311-56D46157E3CF}</Project>
+      <Name>BsBios.Portal.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
+      <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
+      <Name>BsBios.Portal.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

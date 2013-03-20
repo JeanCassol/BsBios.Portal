@@ -42,9 +42,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -76,11 +73,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Application\Builders\FornecedorCadastroBuilderTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
-    <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
-    <Compile Include="Application\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaPerfilTests.cs" />
     <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
@@ -103,8 +95,6 @@
     <Compile Include="Common\CommonMocks.cs" />
     <Compile Include="Common\CommonVerifications.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
-    <Compile Include="DefaultProvider\DefaultObjects.cs" />
-    <Compile Include="DefaultProvider\DefaultPersistedObjects.cs" />
     <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Entities\CondicaoDePagamentoTests.cs" />
     <Compile Include="Domain\Entities\IncotermTests.cs" />
@@ -117,27 +107,12 @@
     <Compile Include="Domain\Entities\FornecedorParticipanteTests.cs" />
     <Compile Include="Domain\Entities\ProcessoDeCotacaDeFreteTests.cs" />
     <Compile Include="Domain\Entities\UsuarioTests.cs" />
-    <Compile Include="Infra\IoC\RegisterTests.cs" />
-    <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
-    <Compile Include="Infra\Repositories\UnidadesDeMedidaTests.cs" />
-    <Compile Include="Infra\Repositories\ItinerariosTests.cs" />
-    <Compile Include="Infra\Repositories\IncotermsTests.cs" />
-    <Compile Include="Infra\Repositories\IvasTests.cs" />
-    <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
-    <Compile Include="Infra\Repositories\ProdutosTests.cs" />
-    <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
-    <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
-    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
-    <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeFreteTests.cs" />
-    <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Infra\Services\AccountServiceTests.cs" />
     <Compile Include="Infra\Services\ProvedorDeCriptografiaMd5Tests.cs" />
     <Compile Include="Infra\Services\GeradorDeSenhaTests.cs" />
     <Compile Include="Infra\Services\EmailServiceTests.cs" />
     <Compile Include="Infra\Services\ValidadorUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries.cs" />
-    <Compile Include="RepositoryTest.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
     <Compile Include="UI\Controllers\UnidadeDeMedidaApiTests.cs" />
@@ -176,6 +151,10 @@
     <ProjectReference Include="..\BsBios.Portal.IoC\BsBios.Portal.IoC.csproj">
       <Project>{88D87599-D462-4902-8D0B-6348AB8CC620}</Project>
       <Name>BsBios.Portal.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Tests.DataProvider\BsBios.Portal.Tests.DataProvider.csproj">
+      <Project>{2566A7D2-FDF6-4112-83B6-633ABE7502EE}</Project>
+      <Name>BsBios.Portal.Tests.DataProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.UI\BsBios.Portal.UI.csproj">
       <Project>{ADF235AC-A253-430D-B311-56D46157E3CF}</Project>

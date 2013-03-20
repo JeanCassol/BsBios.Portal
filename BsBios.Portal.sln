@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Common", "BsB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Application", "BsBios.Portal.Application\BsBios.Portal.Application.csproj", "{A2DA2E00-3386-4EC4-8D95-D98C5052F636}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.TestsComBancoDeDados", "BsBios.Portal.TestsComBancoDeDados\BsBios.Portal.TestsComBancoDeDados.csproj", "{3A8C616D-62F6-4561-B282-529F3BB54B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Tests.DataProvider", "BsBios.Portal.Tests.DataProvider\BsBios.Portal.Tests.DataProvider.csproj", "{2566A7D2-FDF6-4112-83B6-633ABE7502EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2DA2E00-3386-4EC4-8D95-D98C5052F636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A8C616D-62F6-4561-B282-529F3BB54B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A8C616D-62F6-4561-B282-529F3BB54B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A8C616D-62F6-4561-B282-529F3BB54B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A8C616D-62F6-4561-B282-529F3BB54B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

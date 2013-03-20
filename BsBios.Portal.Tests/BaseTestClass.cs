@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using BsBios.Portal.Common;
-using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
 using BsBios.Portal.UI.Configuration;
@@ -16,7 +15,6 @@ namespace BsBios.Portal.Tests
         [AssemblyInitialize]
         public static void TesteInitialize(TestContext context)
         {
-            SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBiosTesteUnitario"].ConnectionString);
             IoCWorker.Configure();
             ObjectFactory.Configure(x => x.For<UsuarioConectado>()
                 .HybridHttpOrThreadLocalScoped()
@@ -34,17 +32,6 @@ namespace BsBios.Portal.Tests
                                                emailDoPortal.Porta));
                 });
 
-
-            Queries.RemoverProcessosDeCotacaoCadastrados();
-            Queries.RemoverRequisicoesDeCompraCadastradas();
-            Queries.RemoverFornecedoresCadastrados();
-            Queries.RemoverProdutosCadastrados();
-            Queries.RemoverUsuariosCadastrados();
-            Queries.RemoverCondicoesDePagamentoCadastradas();
-            Queries.RemoverIvasCadastrados();
-            Queries.RemoverIncotermsCadastrados();
-            Queries.RemoverItinerariosCadastrados();
-            Queries.RemoverUnidadesDeMedidaCadastradas();
         }
     }
 }
