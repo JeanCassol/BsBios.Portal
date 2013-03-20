@@ -87,6 +87,7 @@
     <Compile Include="Application\Services\CadastroCondicaoPagamentoTests.cs" />
     <Compile Include="Application\Services\CadastroIvaTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
+    <Compile Include="Domain\Entities\QuotaTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />

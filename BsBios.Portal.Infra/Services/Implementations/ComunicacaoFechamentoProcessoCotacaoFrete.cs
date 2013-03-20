@@ -30,11 +30,11 @@ namespace BsBios.Portal.Infra.Services.Implementations
                         {
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
                             CodigoMaterial = processoAuxiliar.Produto.Codigo,
-                            CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.Descricao,
+                            CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.CodigoInterno,
                             CodigoItinerario = processoAuxiliar.Itinerario.Codigo,
-                            DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToShortDateString(),
-                            DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToShortDateString(),
-                            NumeroDoContrato = processoAuxiliar.NumeroDoContrato,
+                            DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToString("yyyyMMdd"),
+                            DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToString("yyyyMMdd"),
+                            NumeroDoContrato = processoAuxiliar.NumeroDoContrato ?? "",
                             Valor = fornecedorParticipante.Cotacao.ValorComImpostos
                         });
                 }
@@ -42,12 +42,13 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             var response = httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
                 , mensagemParaEnviar);
+
             Stream content = response.Result.Content.ReadAsStreamAsync().Result;
             var serializer = new XmlSerializer(typeof(ApiResponseMessage));
             var mensagem = (ApiResponseMessage)serializer.Deserialize(content);
             if (mensagem.Retorno.Codigo == "E")
             {
-                throw new ComunicacaoSapException("Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP.");
+                throw new ComunicacaoSapException("Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + mensagem.Retorno.Texto);
             }
             return mensagem;
 

@@ -46,5 +46,10 @@ namespace BsBios.Portal.Common
             Cofins = 5,
             PisCofins = 6
         }
+        public enum FluxoDeCarga
+        {
+            Carregamento = 1,
+            Descarregamento = 2
+        }
     }
 }

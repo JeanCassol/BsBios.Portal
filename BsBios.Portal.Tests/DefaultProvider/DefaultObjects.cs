@@ -202,5 +202,16 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
         }
 
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
+        {
+            var produto = new Produto("000000000000000007", "BORRA NEUTRALIZADA DE SOJA", "FERT");
+            var unidadeDeMedida = new UnidadeDeMedida("TON", "TON", "Toneladas");
+            var itinerario = new Itinerario("010330", "RS Rio Grande -> BA Formosa Do Rio Preto");
+
+            return new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
+                "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario);
+
+        }
     }
 }

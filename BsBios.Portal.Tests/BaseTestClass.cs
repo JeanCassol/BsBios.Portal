@@ -28,7 +28,7 @@ namespace BsBios.Portal.Tests
                 {
                     if (emailDoPortal != null)
                         x.For<ContaDeEmail>()
-                         .HybridHttpOrThreadLocalScoped()
+                         .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
                                                emailDoPortal.Porta));

@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
-    //[TestClass]
+    [TestClass]
     public class ComunicacaoSapTests
     {
         [TestMethod]
@@ -153,15 +153,15 @@ namespace BsBios.Portal.Tests.Infra.Services
         [TestMethod]
         public void ConsigoEnviarMensagemDeFechamentoDoProcessoDeCotacaoDeFreteUtilizandoServico()
         {
-            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato();
-            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes();
+            var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true);
             processo.AdicionarFornecedor(fornecedor);
             processo.Abrir();
             CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");
             processo.SelecionarCotacao(cotacaoFrete.Id, 50);
             var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete();
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
-            Assert.AreEqual("E", mensagem.Retorno.Codigo);
+            Assert.AreEqual("S", mensagem.Retorno.Codigo);
         }
 
 
