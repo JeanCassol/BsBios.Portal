@@ -43,14 +43,16 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript">
+
+        var fornecedoresAdicionados = new Array();
         $(function() {
-            $('#btnPesquisar').click(function () {
+            $('#btnPesquisar').click(function() {
                 var dataPesquisa = $('#DataPesquisa').val();
                 if (dataPesquisa == '') {
                     Mensagem.ExibirMensagemDeErro("É obrigatório preencher a data para fazer a pesquisa.");
                     return;
                 }
-                
+
                 $.ajax({
                     url: '@Url.Action("Pesquisar","Quota")',
                     type: 'GET',
@@ -59,28 +61,54 @@
                         DataDaQuota: dataPesquisa
                     },
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (!data.Sucesso) {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             return;
                         }
                         if (data.PossuiQuota) {
                             /* preencher os campos principais e carregar o grid via ajax*/
-  
+                            $('#Data').val($('#DataPesquisa').val());
+                            $('#Terminal').val('1000');
                         } else {
                             /*apenas liberar os campos para edição*/
                         }
-                        
+
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
 
             });
             
+            function carregarGrid(data) {
+                $.ajax({
+                    url: '@Url.Action("ListarFornecedores","Quota")',
+                    type: 'GET',
+                    cache: false,
+                    data: {
+                        DataDaQuota: data
+                    },
+                    dataType: 'json',
+                    success: function (dados) {
+                        if (!dados.Sucesso) {
+                            Mensagem.ExibirMensagemDeErro(dados.Mensagem);
+                            return;
+                        }
+                        fornecedoresAdicionados = dados.Registros;
+                        var grid = $("#gridFornecedoresAdicionados").data("kendoGrid");
+                        grid.dataSource.read();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas dos Fornecedores. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
 
-        })
+            }
+
+
+        });
     </script>   
 }
 
