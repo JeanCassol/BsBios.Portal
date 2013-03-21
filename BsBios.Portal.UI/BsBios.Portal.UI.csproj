@@ -137,6 +137,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
+    <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
     <Compile Include="Controllers\CotacaoDeFreteAtualizarController.cs" />
     <Compile Include="Controllers\CotacaoFreteController.cs" />
@@ -419,7 +420,7 @@
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
-    <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
+    <Content Include="Views\Shared\_SelecionarFornecedores.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />
@@ -434,6 +435,7 @@
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
     <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Quota\Cadastro.cshtml" />
+    <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

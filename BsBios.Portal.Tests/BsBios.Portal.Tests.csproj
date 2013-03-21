@@ -128,7 +128,6 @@
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />
     <Compile Include="UI\Controllers\IvaApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoApiTests.cs" />
-    <Compile Include="UI\Controllers\UsuarioControllerTests.cs" />
     <Compile Include="UI\Controllers\FornecedorApiTests.cs" />
   </ItemGroup>
   <ItemGroup>

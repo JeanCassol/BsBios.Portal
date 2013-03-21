@@ -1,7 +1,9 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BsBios.Portal.UI.Controllers.ModelBinders;
 using StructureMap;
 
 namespace BsBios.Portal.UI
@@ -20,6 +22,9 @@ namespace BsBios.Portal.UI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IocConfig.RegisterIoc();
+
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
             //AuthConfig.RegisterAuth();
         }
 

@@ -45,12 +45,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, string filtroNome)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro)
         {
-            if (!string.IsNullOrEmpty(filtroNome))
-            {
-                _fornecedores.NomeContendo(filtroNome);
-            }
+            _fornecedores
+                .CodigoContendo(filtro.Codigo)
+                .NomeContendo(filtro.Nome);
             var kendoGridVmn = new KendoGridVm()
                 {
                     QuantidadeDeRegistros = _fornecedores.Count(),

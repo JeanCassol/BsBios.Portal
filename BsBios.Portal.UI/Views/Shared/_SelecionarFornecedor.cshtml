@@ -1,244 +1,131 @@
-﻿@using BsBios.Portal.Common
-@using BsBios.Portal.Domain.Entities
+﻿@model BsBios.Portal.ViewModel.FornecedorCadastroVm
+
 @{
     Layout = null;
-    var tipoDeCotacao = (Enumeradores.TipoDeCotacao) ViewData["TipoDeCotacao"];
 }
-<style type="text/css">
-     .separador {
-         margin-top: 10px;
-        background-color: #0095cd;
-        color: white;
-        font-weight: bold;
-        font-size: 20px;
-     }
- </style>
-<div id="divFornecedores" class="divGrid">
-    @Html.Hidden("CodigoProduto",ViewData["CodigoProduto"])
-    @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="divFornecedoresParaSelecionar">
-        <ul>
-            <li>
-                <a href="#divFornecedoresDoProduto">Fornecedores do Produto</a>
-            </li>
-            <li>
-                <a href="#divFornecedoresGerais">Fornecedores Gerais</a>
-            </li>
-        </ul>
-       
-        <div id="divFornecedoresDoProduto">
-            <div id="divGridFornecedoresDoProduto"></div>
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<div class="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="colunaFiltro">
+            @Html.Label("Código")
+            @Html.TextBox("Codigo","", new{@class="campomedio"})
         </div>
-
-        <div id="divFornecedoresGerais">
-            <div class="divFiltros">
-                <fieldset>
-                    <legend>Filtros</legend>
-                    <div class="colunaFiltro">
-                        @Html.Label("Código")
-                        @Html.TextBox("CodigoFornecedorGeral","", new{@class="campomedio"})
-                    </div>
-                    <div class="colunaFiltro">
-                        @Html.Label("Nome")
-                        @Html.TextBox("NomeFornecedorGeral","", new{@class="campomedio"})
-                    </div>
-                    <div class="divBotao">
-                        <input id="btnPesquisarFornecedorGeral" type="button" value="Pesquisar" class="blue"/>
-                        <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
-                    </div>
-                </fieldset>
-            </div>
-            <div id="divGridFornecedoresGerais"></div>
+        <div class="colunaFiltro">
+            @Html.Label("Nome")
+            @Html.TextBox("Nome","", new{@class="campomedio"})
         </div>
-    </div>
-    <div id="divFornecedoresSelecionados">
-        <div class="separador">Fornecedores Selecionados</div>
-        <div id="divGridFornecedoresSelecionados">
+        <div class="divBotao">
+            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
         </div>
-    </div>
-
+    </fieldset>
 </div>
+<div id="gridFornecedores" class="divGrid"></div>
 
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
-<script src="@Url.Content("~/Scripts/Cadastro/gridFornecedor.js")"></script>
-<script type="text/javascript">
-
-    var fornecedoresSelecionados = [];
-    var contadorDeRegistros = 0;
-    function removerFornecedor(codigoFornecedor) {
-        for (var i = 0; i < fornecedoresSelecionados.length; i++) {
-            var fornecedor = fornecedoresSelecionados[i];
-            if (fornecedor.Codigo == codigoFornecedor) {
-                fornecedoresSelecionados.splice(i,1);
-                break;
-            }
-        }
+<script>
+    var fornecedorSelecionado = null;
+    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Nome))
+    {
+        @: var fornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
     }
-    
-    function adicionarFornecedor(fornecedor) {
-        if (fornecedorSelecionado(fornecedor)) {
-            return;
-        }
-        fornecedoresSelecionados.push(fornecedor);
-    }
-    
-    function fornecedorSelecionado(fornecedor) {
-        for (var i = 0; i < fornecedoresSelecionados.length; i++) {
-            var fornecedorSelecionado = fornecedoresSelecionados[i];
-            if (fornecedorSelecionado.Codigo == fornecedor.Codigo) {
-                return  true;
-            }
-        }
-        return false;
-    }
-    
-
-    $(document).ready(function () {
-        
-        function atualizaGrid() {
-            var grid = $("#divGridFornecedoresSelecionados").data("kendoGrid");
-            grid.dataSource.read();
-
-        }
-    
-        function selecionarFornecedorDoGrid(idDivGrid) {
-            var grid = $(idDivGrid).data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            if (dataItem.Email == undefined || dataItem.Email == null || dataItem.Email == '') {
-                alert('Não é possível selecionar um fornecedor sem E-mail.');
-                return;
-            }
-            adicionarFornecedor({
-                Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email,
-                Cnpj: dataItem.Cnpj, Municipio: dataItem.Municipio, Uf: dataItem.Uf
-            });
-            atualizaGrid();
-        }
-
-        $('#divGridFornecedoresDoProduto').find('.button_add').die("click");
-        $('#divGridFornecedoresDoProduto').find('.button_add').live("click", function () {
-            selecionarFornecedorDoGrid('#divGridFornecedoresDoProduto');
-        });
-
-        $('#divGridFornecedoresGerais').find('.button_add').die("click");
-        $('#divGridFornecedoresGerais').find('.button_add').live("click", function () {
-            selecionarFornecedorDoGrid('#divGridFornecedoresGerais');
-        });
-
-        $('#divGridFornecedoresSelecionados').find('.button_remove').die('click');
-        $('#divGridFornecedoresSelecionados').find('.button_remove').live('click', function () {
-            var codigoFornecedor = $(this).attr('data-codigofornecedor');
-            removerFornecedor(codigoFornecedor);
-            atualizaGrid();
-        });
-
-        var codigoProduto = $('#CodigoProduto').val();
-        var idProcessoCotacao = $('#IdProcessoCotacao').val();
-        $.ajax({
-            url: '@Url.Action("ListarFornecedores","ProcessoCotacaoMaterial")',
-            type: 'GET',
-            cache:false,
-            data: {
-                idProcessoCotacao: idProcessoCotacao
-            },
-            dataType: 'json',
-            success: function (data) {
-                $.each(data.Registros, function (indexInArray, valueOfElement) {
-                    fornecedoresSelecionados.push(valueOfElement);
-                });
-                carregarGridDosFornecedoresSelecionados();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
-            }
-        });
-        
-        $('#btnPesquisarFornecedorGeral').click(function () {
-            $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
-        });
-
-        $('#btnLimparFornecedorGeral').click(function () {
-            $('#divFornecedoresGerais input[type!=button]').val('');
-        });
-
-
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true,
-            function () { return { CodigoProduto: codigoProduto }; });
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true,
-        function () {
-            var transportadora = '@(tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)'.boolean();
-            return {
-                
-                CodigoProduto: codigoProduto, Transportadora: transportadora ,
-                CodigoFornecedor: $('#CodigoFornecedorGeral').val(), NomeFornecedor: $('#NomeFornecedorGeral').val()
-            };
-        });
-        
-        function carregarGridDosFornecedoresSelecionados() {
-            $('#divFornecedoresParaSelecionar').tabs();
-            $('#divGridFornecedoresSelecionados').kendoGrid({
-                dataSource: {
-                    schema: {
-                        data: function () { return fornecedoresSelecionados; },
-                        model: {
-                            id: 'Codigo',
-                            fields: {
-                                Codigo: { type: "string" },
-                                Nome: { type: "string" },
-                                Cnpj: { type: "string" },
-                                Municipio: { type: "string" },
-                                Uf: { type: "string" },
-                                Email: { type: "string" }
-                            }
+    $(document).ready(function() {
+        $("#gridFornecedores").customKendoGrid({
+            dataSource: {
+                schema: {
+                    data: 'Registros',
+                    model: {
+                        fields: {
+                            Codigo: { type: "string" },
+                            Nome: { type: "string" },
+                            Cnpj: { type: "string" },
+                            Municipio: { type: "string" },
+                            Uf: { type: "string" },
+                            Email: { type: "string" }
+                        }
+                    },
+                    total: 'QuantidadeDeRegistros'
+                },
+                serverFiltering: true,
+                serverPaging: true,
+                transport: {
+                    read: {
+                        url: '@Url.Action("Listar", "Fornecedor")',
+                        type: 'GET',
+                        cache: false,
+                        data: function() {
+                            return {
+                                Codigo: $('#Codigo').val(),
+                                Nome: $('#Nome').val(),
+                            };
                         }
                     }
                 },
-                sortable: false,
-                selectable: 'row',
-                columns:
-                [
-                    {
-                        field: 'Codigo',
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 40,
-                        sortable: false,
-                        template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
-                    },
-                    {
-                        field: "Codigo",
-                        width: 90,
-                        title: "Código"
-                    },
-                    {
-                        field: "Nome",
-                        width: 200,
-                        title: "Nome"
-                    },
-                    {
-                        field: "Cnpj",
-                        width: 150,
-                        title: "CNPJ"
-                    },
-                    {
-                        width: 250,
-                        field: "Email",
-                        title: "E-mail"
-                    },
-                    {
-                        field: "Municipio",
-                        width: 150,
-                        title: "Município"
-                    },
-                    {
-                        field: "Uf",
-                        width: 20,
-                        title: "UF"
-                    }
-                ]
-            });
+                pageSize: 10
+            },
+            dataBound: function (e) {
+                if (fornecedorSelecionado != null) {
+                    $('input[name=radioFornecedor][data-codigofornecedor=' + fornecedorSelecionado.Codigo + ']').attr('checked', true);
+                }
+            },
+            columns:
+            [
+                {
+                    field: "Codigo",
+                    width: 120,
+                    title: "Codigo"
+                },
+                {
+                    field: "Nome",
+                    width: 350,
+                    title: "Nome"
+                },
+                {
+                    field: "Cnpj",
+                    width: 150,
+                    title: "CNPJ"
 
-        }
+                },
+                {
+                    width: 250,
+                    field: "Email",
+                    title: "E-mail"
+                },
+                {
+                    field: "Municipio",
+                    width: 150,
+                    title: "Município"
+                },
+                {
+                    field: "Uf",
+                    width: 20,
+                    title: "UF"
+                }
+            ]
+        });
+
+        $('#btnPesquisar').click(function() {
+            $("#gridFornecedores").data("kendoGrid").dataSource.read();
+        });
+
+        $('#btnLimpar').click(function() {
+            $('#divFiltros input[type!=button]').val('');
+        });
+
+        $('#gridFornecedores').find('input[name=radioFornecedor]').die("change");
+        $('#gridFornecedores').find('input[name=radioFornecedor]').live("change", function () {
+            if (!$(this).is(':checked')) {
+                return;
+            }
+            var grid = $('#gridFornecedores').data("kendoGrid");
+            var dataItem = grid.dataItem(grid.select());
+            fornecedorSelecionado = { Codigo: dataItem.Codigo, Nome: dataItem.Nome};
+
+        });
 
     });
 </script>
+

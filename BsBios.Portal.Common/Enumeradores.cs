@@ -13,7 +13,9 @@ namespace BsBios.Portal.Common
             [Description("Fornecedor")]
             Fornecedor = 3,
             [Description("Administrador")]
-            Administrador = 4
+            Administrador = 4,
+            [Description("Gerenciador de Quotas")]
+            GerenciadorDeQuotas = 5
         }
 
         public enum StatusProcessoCotacao
@@ -50,6 +52,11 @@ namespace BsBios.Portal.Common
         {
             Carregamento = 1,
             Descarregamento = 2
+        }
+        public enum MaterialDeCarga
+        {
+            Soja = 1,
+            Farelo = 2
         }
     }
 }

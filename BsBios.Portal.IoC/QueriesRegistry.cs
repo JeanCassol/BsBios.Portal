@@ -37,9 +37,14 @@ namespace BsBios.Portal.IoC
             For<IConsultaUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaUsuario>();
+
             For<IConsultaPerfil>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaPerfil>();
+
+            For<IConsultaFluxoDeCarga>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaFluxoDeCarga>();
 
             For<IConsultaUnidadeDeMedida>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
@@ -56,6 +61,14 @@ namespace BsBios.Portal.IoC
             For<IConsultaQuota>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaQuota>();
+
+            For<IConsultaFluxoDeCarga>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaFluxoDeCarga>();
+
+            For<IConsultaMaterialDeCarga>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaMaterialDeCarga>();
             
         }
 

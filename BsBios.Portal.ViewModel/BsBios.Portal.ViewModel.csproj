@@ -38,12 +38,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="FornecedorFiltroVm.cs" />
+    <Compile Include="MaterialDeCargaVm.cs" />
+    <Compile Include="FluxoDeCargaVm.cs" />
     <Compile Include="CotacaoImpostosVm.cs" />
     <Compile Include="CotacaoMaterialCadastroVm.cs" />
     <Compile Include="CotacaoMaterialDadosVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
+    <Compile Include="QuotaCadastroVm.cs" />
+    <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoDadosVm.cs" />

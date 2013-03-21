@@ -82,7 +82,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["CodigoProduto"] = codigoProduto;
             ViewData["IdProcessoCotacao"] = idProcessoCotacao;
             ViewData["TipoDeCotacao"] = tipoDeCotacao;
-            return PartialView("_SelecionarFornecedor");
+            return PartialView("_SelecionarFornecedores");
         }
 
         public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)

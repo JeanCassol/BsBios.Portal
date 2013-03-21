@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -12,15 +13,21 @@ namespace BsBios.Portal.UI.Controllers
     public class QuotaController : Controller
     {
         private readonly IConsultaQuota _consultaQuota;
+        private readonly IConsultaFluxoDeCarga _consultaFluxoDeCarga;
+        private readonly IConsultaMaterialDeCarga _consultaMaterialDeCarga;
 
-        public QuotaController(IConsultaQuota consultaQuota)
+        public QuotaController(IConsultaQuota consultaQuota, IConsultaFluxoDeCarga consultaFluxoDeCarga, IConsultaMaterialDeCarga consultaMaterialDeCarga)
         {
             _consultaQuota = consultaQuota;
+            _consultaFluxoDeCarga = consultaFluxoDeCarga;
+            _consultaMaterialDeCarga = consultaMaterialDeCarga;
         }
 
         [HttpGet]
         public ActionResult Cadastro()
         {
+            ViewBag.FluxosDeCarga = _consultaFluxoDeCarga.Listar();
+            ViewBag.MateriaisDeCarga = _consultaMaterialDeCarga.Listar();
             return View();
         }
 
@@ -38,5 +45,18 @@ namespace BsBios.Portal.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult ListarFornecedores(DateTime dataDaQuota)
+        {
+            try
+            {
+                IList<QuotaConsultarVm> quotas = _consultaQuota.QuotasDaData(dataDaQuota);
+                return Json(new {Sucesso = true, Registros = quotas}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Sucesso = false, Mensagem = ex.Message});
+            }
+        }
     }
 }

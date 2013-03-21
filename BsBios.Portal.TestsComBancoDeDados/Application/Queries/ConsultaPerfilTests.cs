@@ -4,7 +4,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.Tests.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 {
     [TestClass]
     public class ConsultaPerfilTests
@@ -14,7 +14,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         {
             var consultaPerfil = ObjectFactory.GetInstance<IConsultaPerfil>();
             IList<PerfilVm> perfis = consultaPerfil.Listar();
-            Assert.AreEqual(4, perfis.Count);
+            Assert.AreEqual(5, perfis.Count);
         }
     }
 }

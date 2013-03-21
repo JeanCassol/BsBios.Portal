@@ -33,6 +33,15 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Enumeradores.Perfil, PerfilVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<PerfilBuilder>();
+
+            For<IBuilder<Enumeradores.FluxoDeCarga, FluxoDeCargaVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FluxoDeCargaBuilder>();
+
+            For<IBuilder<Enumeradores.MaterialDeCarga, MaterialDeCargaVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<MaterialDeCargaBuilder>();
+
             For<IBuilder<UnidadeDeMedida, UnidadeDeMedidaSelecaoVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<UnidadeDeMedidaSelecaoBuilder>();
@@ -47,6 +56,12 @@ namespace BsBios.Portal.IoC
             For< IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoCotacaoFornecedorBuilder>();
+
+            For<IBuilder<Quota, QuotaConsultarVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<QuotaConsultarBuilder>();
+
+
 
         }
     }

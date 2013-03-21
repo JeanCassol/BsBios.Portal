@@ -8,9 +8,13 @@
         <div id="divFiltros">
             <fieldset>
                 <legend>Filtros</legend>
-                <div class="coluna">
+                <div class="colunaFiltro">
+                    @Html.Label("Codigo")
+                    @Html.TextBox("Codigo","", new{@class="campomedio"})
+                </div>
+                <div class="colunaFiltro">
                     @Html.Label("Nome")
-                    @Html.TextBox("Nome","", new{@class="campogrande"})
+                    @Html.TextBox("Nome","", new{@class="campomedio"})
                 </div>
                 <div class="divBotao">
                     <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>

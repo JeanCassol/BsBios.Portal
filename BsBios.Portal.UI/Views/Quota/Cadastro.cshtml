@@ -1,31 +1,76 @@
-﻿@{
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.ViewModel
+@model QuotaCadastroVm
+@{
     ViewBag.TituloDaPagina = "Quota";
 }
 <div class="paginaCadastro"> 
     <fieldset>
         <legend>Pesquisa</legend>
         @Html.Label("Data")
-        @Html.TextBox("DataPesquisa","",new{@class="datePicker"})
-        <div class="divBotao">
-            <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
+        @Html.TextBox("DataPesquisa","",new{@class="campoDatePicker"})
+        @*        <div class="divBotao">*@
+        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
+        @*        </div>*@
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        <div id="divCadastro">
+            <fieldset>
+                <legend>Dados Principais</legend>
+                <div class="linha">
+                    <div class="coluna">
+                        @Html.LabelFor(x => x.Data)
+                        @Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker"})
+                        @Html.ValidationMessageFor(x => x.Data)
+                    </div>
+                    <div class="coluna">
+                        @Html.Label("Terminal")
+                        @Html.TextBox("Terminal", "1000",new{@readonly=true,@class="campoDesabilitado"})
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="fieldSetFornecedor">
+                <legend>Fornecedor</legend>
+                <div class="linha">
+                </div>
+                <div class="linha">
+                    <div>
+                        @Html.Hidden("CodigoFornecedor")
+                        @Html.LabelFor(x => x.Fornecedor)
+                        @Html.TextBoxFor(x => x.Fornecedor,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
+                        <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />        
+                        @Html.ValidationMessageFor(x=> x.Fornecedor)
+                    </div>
+
+                    <div class="coluna">
+                        @Html.LabelFor(x => x.Material)
+                        @Html.DropDownList("Material",((List<MaterialDeCargaVm>) ViewBag.MateriaisDeCarga)
+                            .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}))                 
+                        @Html.ValidationMessageFor(x => x.Material)
+
+                    </div>
+                    <div class="coluna">
+                        @Html.LabelFor( x => x.FluxoDeCarga)
+                        @Html.DropDownList("FluxoCarga",((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga)
+                            .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),
+                                           new{disabled=true})     
+                        
+                        @Html.ValidationMessageFor(x => x.FluxoDeCarga)            
+                    </div>
+                    <div class="coluna">
+                        @Html.LabelFor(x => x.Peso)
+                        @Html.TextBoxFor(x => x.Peso,new{@class="campopequeno"})
+                        @Html.ValidationMessageFor(x => x.Peso)
+                    </div>
+                </div>
+                <div class="divBotao">
+                    <input type="button" id="btnAdicionarFornecedor" value="Adicionar" class="blue" />
+                </div>
+            </fieldset>
+
         </div>
-    </fieldset>
-    <fieldset>
-        <legend></legend>
-        <div class="linha">
-            <div class="coluna">
-                @Html.Label("Data")
-                @Html.TextBox("Data", "",new{@class="datePicker"})
-            </div>
-            <div class="coluna">
-                @Html.Label("Terminal")
-                @Html.TextBox("Terminal", "",new{@readonly=true,@class="campoDesabilitado"})
-            </div>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Fornecedor</legend>
-    </fieldset>
+    }
     <fieldset>
         <legend>Fornecedores Adicionados</legend>
         <div id="gridFornecedoresAdicionados"></div>
@@ -37,15 +82,92 @@
             <input type="button" id="btnCopiar" value="Copiar" class="blue"/>
         </div>
     </fieldset>
+    <div id="divSelecionarFornecedor"></div>
 </div>
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript">
 
         var fornecedoresAdicionados = new Array();
-        $(function() {
+        $(function () {
+            //$('#divCadastro').find('input[type!=button]').attr('disabled', true);
+
+
+            $('#Material').change(function() {
+                /*altera o campo "Fluxo de Carga" de acordo com o Material*/
+                var codigoMaterial = $(this).val();
+                if (codigoMaterial  == '@Enumeradores.MaterialDeCarga.Soja') {
+                    $('#FluxoCarga').val('@Enumeradores.FluxoDeCarga.Descarregamento');
+                }
+                if (codigoMaterial == '@Enumeradores.MaterialDeCarga.Farelo') {
+                    $('#FluxoCarga').val('@Enumeradores.FluxoDeCarga.Carregamento');
+                }
+            });
+
+            $('#btnAdicionarFornecedor').click(function() {
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+            });
+            
+            $('#divGridFornecedoresSelecionados').kendoGrid({
+                dataSource: {
+                    schema: {
+                        data: function () { return fornecedoresAdicionados; },
+                        model: {
+                            id: 'Codigo',
+                            fields: {
+                                CodigoFornecedor: { type: "string" },
+                                NomeFornecedor: { type: "string" },
+                                CodigoFluxoCarga: { type: "number" },
+                                DescricaoFluxoCarga: { type: "string" },
+                                Peso: { type: "number" }
+                            }
+                        }
+                    }
+                },
+                sortable: false,
+                selectable: 'row',
+                columns:
+                [
+                    {
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit" data-codigofornecedor="${CodigoFornecedor}"></input>'
+                    },
+                    {
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_remove" data-codigofornecedor="${CodigoFornecedor}"></input>'
+                    },
+                    {
+                        field: "Codigo",
+                        width: 90,
+                        title: "Código"
+                    },
+                    {
+                        field: "NomeFornecedor",
+                        width: 300,
+                        title: "Fornecedor"
+                    },
+                    {
+                        field: "DescricaoFluxoCarga",
+                        width: 150,
+                        title: "Fluxo de Carga"
+                    },
+                    {
+                        width: 100,
+                        field: "Peso"
+                    }
+                ]
+            });
+
             $('#btnPesquisar').click(function() {
                 var dataPesquisa = $('#DataPesquisa').val();
                 if (dataPesquisa == '') {
@@ -54,7 +176,7 @@
                 }
 
                 $.ajax({
-                    url: '@Url.Action("Pesquisar","Quota")',
+                    url: '@Url.Action("ListarFornecedores", "Quota")',
                     type: 'GET',
                     cache: false,
                     data: {
@@ -66,10 +188,14 @@
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             return;
                         }
-                        if (data.PossuiQuota) {
+                        if (data.Registros.length > 0) {
                             /* preencher os campos principais e carregar o grid via ajax*/
                             $('#Data').val($('#DataPesquisa').val());
                             $('#Terminal').val('1000');
+                            fornecedoresAdicionados = data.Registros;
+                            var grid = $("#gridFornecedoresAdicionados").data("kendoGrid");
+                            grid.dataSource.read();
+
                         } else {
                             /*apenas liberar os campos para edição*/
                         }
@@ -82,9 +208,11 @@
 
             });
             
+
+            
             function carregarGrid(data) {
                 $.ajax({
-                    url: '@Url.Action("ListarFornecedores","Quota")',
+                    url: '@Url.Action("ListarFornecedores", "Quota")',
                     type: 'GET',
                     cache: false,
                     data: {

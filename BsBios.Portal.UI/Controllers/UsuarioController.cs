@@ -29,12 +29,6 @@ namespace BsBios.Portal.UI.Controllers
             return View("Cadastro", usuarioConsultaVm);
         }
 
-        [HttpPost]
-        public ActionResult Salvar()
-        {
-            return RedirectToAction("Index");
-        }
-
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm, string nome)
         {

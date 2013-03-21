@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -47,6 +49,18 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.IsFalse(_consultaQuota.PossuiQuotaNaData(DateTime.Today.AddDays(1)));
             
+        }
+
+        [TestMethod]
+        public void QuandoConsultaQuotasEmUmaDeterminadaDataRetornaListaDeQuotasDeTodosOsFornecedoresDaquelaData()
+        {
+            RemoveQueries.RemoverQuotasCadastradas();
+            Quota quota = DefaultObjects.ObtemQuota();
+            DefaultPersistedObjects.PersistirQuota(quota);
+
+            IList<QuotaConsultarVm> quotas =  _consultaQuota.QuotasDaData(quota.Data);
+
+            Assert.AreEqual(1, quotas.Count);
         }
     }
 }

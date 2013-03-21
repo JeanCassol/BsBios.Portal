@@ -53,6 +53,27 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         }
 
         [TestMethod]
+        public void ConsigoCadastrarUmUsuarioComTodosOsPerfis()
+        {
+            Usuario usuario = DefaultObjects.ObtemUsuarioPadrao();
+            var perfis = Enum.GetValues(typeof (Enumeradores.Perfil));
+            foreach (var perfil in perfis)
+            {
+                usuario.AdicionarPerfil((Enumeradores.Perfil) perfil);
+            }
+
+            DefaultPersistedObjects.PersistirUsuario(usuario);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+            Usuario usuarioConsulta = usuarios.BuscaPorLogin(usuario.Login);
+
+            Assert.AreEqual(perfis.Length, usuarioConsulta.Perfis.Count);
+            
+        }
+
+        [TestMethod]
         public void QuandoBuscarUsuarioPorLoginComLoginInexistenteDeveRetornarNull()
         {
             var usuarios = ObjectFactory.GetInstance<IUsuarios>();
@@ -110,5 +131,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(1, usuariosConsultados.Count(x => x.Login == usuario2.Login));
 
         }
+
+
     }
 }

@@ -41,6 +41,11 @@ namespace BsBios.Portal.Infra.Builders
             {
                 menus.Add(new MenuAdministrativo());
             }
+
+            if (_perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas))
+            {
+                menus.Add(new MenuQuotas());
+            }
             return menus;
         }
 
@@ -90,6 +95,15 @@ namespace BsBios.Portal.Infra.Builders
         {
             AdicionarItem("Usuários", "Usuario", "Index");
         }
+    }
+
+    internal class MenuQuotas: Menu
+    {
+        public MenuQuotas() : base("Quotas")
+        {
+            AdicionarItem("Cadastro", "Quota", "Cadastro");
+        }
+        
     }
 
 

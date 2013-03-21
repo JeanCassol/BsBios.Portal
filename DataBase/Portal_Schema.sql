@@ -65,13 +65,14 @@ ENABLE;
 
 ALTER TABLE USUARIOPERFIL
 ADD CONSTRAINT CHK_USUARIOPERFIL_PERFIL CHECK 
-(PERFIL BETWEEN 1 AND 4)
+(PERFIL BETWEEN 1 AND 5)
 ENABLE;
 
 COMMENT ON COLUMN USUARIOPERFIL.PERFIL IS '1 = Comprador Suprimentos;
 2 = Comprador Logística;
 3 = Fornecedor;
-4 = Administrador';
+4 = Administrador
+5 = Gerenciador de Quotas;'
 
 INSERT INTO USUARIO
 (Nome, Login, Senha, Email, Status)
