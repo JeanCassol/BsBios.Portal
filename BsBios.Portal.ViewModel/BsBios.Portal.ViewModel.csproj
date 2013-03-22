@@ -46,6 +46,7 @@
     <Compile Include="CotacaoMaterialDadosVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
+    <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
