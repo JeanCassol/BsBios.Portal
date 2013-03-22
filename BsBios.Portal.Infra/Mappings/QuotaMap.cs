@@ -21,6 +21,7 @@ namespace BsBios.Portal.Infra.Mappings
                 .KeyReference(x => x.Transportadora, "CodigoTransportadora");
 
             Map(x => x.Peso);
+            Map(x => x.Material).Column("CodigoMaterial").CustomType<Enumeradores.MaterialDeCarga>();
         }
     }
 }

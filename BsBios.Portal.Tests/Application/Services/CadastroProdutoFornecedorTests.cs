@@ -5,7 +5,7 @@ using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
-using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -43,7 +43,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                      new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br","","","", false)
                                  });
 
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
 
             _cadastroProdutoFornecedor = new CadastroProdutoFornecedor(_produtosMock.Object, _fornecedoresMock.Object, _unitOfWorkMock.Object);
 

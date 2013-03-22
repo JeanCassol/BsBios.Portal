@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,7 +23,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
         public CadastroItinerarioTests()
         {
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _itinerariosConsulta = new List<Itinerario>();
             _itinerariosMock = new Mock<IItinerarios>(MockBehavior.Strict);
             _itinerariosMock.Setup(x => x.Save(It.IsAny<Itinerario>())).Callback(CommonGenericMocks<Itinerario>.DefaultSaveCallBack(_unitOfWorkMock));

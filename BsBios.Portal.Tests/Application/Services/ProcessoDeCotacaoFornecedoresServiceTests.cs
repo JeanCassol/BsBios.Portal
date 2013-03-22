@@ -6,7 +6,6 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,7 +23,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
         public ProcessoDeCotacaoFornecedoresServiceTests()
         {
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
             _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
                                    .Callback(

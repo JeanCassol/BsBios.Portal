@@ -56,6 +56,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
             {
                 RemoverProcessosDeCotacaoCadastrados();
                 RemoverRequisicoesDeCompraCadastradas();
+                RemoverQuotasCadastradas();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from Fornecedor");
                 UnitOfWork.Commit();

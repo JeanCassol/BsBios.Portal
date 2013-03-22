@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -25,7 +24,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
         public CadastroIvaTests()
         {
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _ivasConsulta = new List<Iva>();
             _ivasMock = new Mock<IIvas>(MockBehavior.Strict);
             _ivasMock.Setup(x => x.Save(It.IsAny<Iva>())).Callback((Iva iva) => Assert.IsNotNull(iva));

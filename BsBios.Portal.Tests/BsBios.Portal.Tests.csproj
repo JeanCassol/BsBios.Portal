@@ -79,6 +79,7 @@
     <Compile Include="Application\Services\CadastroCondicaoPagamentoTests.cs" />
     <Compile Include="Application\Services\CadastroIvaTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
+    <Compile Include="Application\Services\CadastroQuotaTests.cs" />
     <Compile Include="Domain\Entities\QuotaTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="Common\CommonMocks.cs" />
     <Compile Include="Common\CommonVerifications.cs" />
     <Compile Include="Common\ExcecaoDeTeste.cs" />
-    <Compile Include="DefaultProvider\DefaultRepository.cs" />
     <Compile Include="Domain\Entities\CondicaoDePagamentoTests.cs" />
     <Compile Include="Domain\Entities\IncotermTests.cs" />
     <Compile Include="Domain\Entities\IvaTests.cs" />

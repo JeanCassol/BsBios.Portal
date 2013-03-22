@@ -10,9 +10,11 @@ namespace BsBios.Portal.Application.Queries.Builders
         {
             return new QuotaConsultarVm
                 {
-                    CodigoTransportadora = model.Transportadora.Codigo ,
-                    NomeTransportadora = model.Transportadora.Nome,
-                    FluxoDeCarga = (int) model.FluxoDeCarga,
+                    CodigoFornecedor = model.Transportadora.Codigo ,
+                    NomeFornecedor = model.Transportadora.Nome,
+                    CodigoMaterial = (int) model.Material ,
+                    DescricaoMaterial = model.Material.Descricao(),
+                    FluxoCarga = (int) model.FluxoDeCarga,
                     DescricaoFluxoCarga = model.FluxoDeCarga.Descricao() ,
                     Peso = model.Peso
                 };

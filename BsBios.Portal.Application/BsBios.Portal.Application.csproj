@@ -85,6 +85,7 @@
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterialDeCarga.cs" />
+    <Compile Include="Services\Contracts\ICadastroQuota.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Contracts\ICadastroUnidadeDeMedida.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
     <Compile Include="Services\Implementations\CadastroItinerario.cs" />
+    <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />

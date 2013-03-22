@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.UI;
 using Moq;
 
@@ -21,7 +19,7 @@ namespace BsBios.Portal.Tests.Common
             var request = new Mock<HttpRequestBase>(MockBehavior.Strict);
             request.SetupGet(x => x.ApplicationPath).Returns("/");
             request.SetupGet(x => x.Url).Returns(new Uri("http://localhost/a", UriKind.Absolute));
-            request.SetupGet(x => x.ServerVariables).Returns(new System.Collections.Specialized.NameValueCollection());
+            request.SetupGet(x => x.ServerVariables).Returns(new NameValueCollection());
 
             var response = new Mock<HttpResponseBase>(MockBehavior.Strict);
             response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>()))
@@ -33,6 +31,22 @@ namespace BsBios.Portal.Tests.Common
 
             controller.Url = new UrlHelper(new RequestContext(context.Object, new RouteData()), routes);
             
+        }
+
+        public static Mock<IUnitOfWork> DefaultUnitOfWorkMock()
+        {
+            var unitOfWorkNhMock = new Mock<IUnitOfWork>(MockBehavior.Strict);
+            unitOfWorkNhMock.Setup(x => x.BeginTransaction());
+
+            //callback garante que a transação sempre é iniciada (BeginTran) antes de fazer Commit
+            unitOfWorkNhMock.Setup(x => x.Commit())
+                            .Callback(() => unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once()));
+
+            //callback garante que a transação sempre é iniciada (BeginTran) antes de fazer Rollback
+            unitOfWorkNhMock.Setup(x => x.RollBack())
+                            .Callback(() => unitOfWorkNhMock.Verify(x => x.BeginTransaction(), Times.Once()));
+
+            return unitOfWorkNhMock;
         }
     }
 }

@@ -5,22 +5,37 @@ namespace BsBios.Portal.Domain.Entities
 {
     public class Quota: IAggregateRoot
     {
-        public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
         public virtual Fornecedor Transportadora { get; protected set; }
+        public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
+        public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
         public virtual string Terminal { get; protected set; }
         public virtual DateTime Data { get; protected set; }
         public virtual decimal Peso { get; protected set; }
 
         protected Quota(){}
 
-        public Quota(Enumeradores.FluxoDeCarga fluxoDeCarga, Fornecedor transportadora, string terminal, DateTime data, decimal peso)
+        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor transportadora, string terminal, DateTime data, decimal peso)
         {
-            FluxoDeCarga = fluxoDeCarga;
             Transportadora = transportadora;
             Terminal = terminal;
             Data = data;
             Peso = peso;
+            Material = materialDeCarga;
+            if (materialDeCarga == Enumeradores.MaterialDeCarga.Soja)
+            {
+                FluxoDeCarga = Enumeradores.FluxoDeCarga.Descarregamento;
+            }
+            if (materialDeCarga == Enumeradores.MaterialDeCarga.Farelo)
+            {
+                FluxoDeCarga = Enumeradores.FluxoDeCarga.Carregamento;
+            }
         }
+
+        public virtual void AlterarPeso(decimal peso)
+        {
+            Peso = peso;
+        }
+
 
         #region Equality Members
 
@@ -50,5 +65,6 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         #endregion
+
     }
 }

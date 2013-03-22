@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,7 +23,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
         public CadastroIncotermTests()
         {
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _incotermsMock = new Mock<IIncoterms>(MockBehavior.Strict);
             _incotermsMock.Setup(x => x.Save(It.IsAny<Incoterm>())).Callback((Incoterm incoterm) => Assert.IsNotNull(incoterm));
             _incotermsMock.Setup(x => x.FiltraPorListaDeCodigos(It.IsAny<string[]>()))

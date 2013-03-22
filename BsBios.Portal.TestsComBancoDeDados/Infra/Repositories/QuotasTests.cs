@@ -37,6 +37,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(quota.Data, quotaConsultada.Data);
             Assert.AreEqual(quota.Terminal, quotaConsultada.Terminal);
             Assert.AreEqual(quota.FluxoDeCarga, quotaConsultada.FluxoDeCarga);
+            Assert.AreEqual(quota.Material, quotaConsultada.Material);
             Assert.AreEqual(quota.Peso, quotaConsultada.Peso);
             Assert.AreEqual(quota.Transportadora.Codigo, quotaConsultada.Transportadora.Codigo);
 

@@ -2,8 +2,15 @@
 
 namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// classe utilizada como modelo do MVC para a tela de cadastro
+    /// </summary>
     public class QuotaCadastroVm
     {
+        [Required(ErrorMessage = "Terminal é obrigatório")]
+        [Display(Name = "Terminal")]
+        public string Terminal { get; set; }
+
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Data é obrigatório")]
         [Display(Name = "Data")]

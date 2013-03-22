@@ -6,7 +6,6 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -25,7 +24,7 @@ namespace BsBios.Portal.Tests.Application.Services
          
         public CadastroFornecedorTests()
         {
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _fornecedoresRepositorio = new List<Fornecedor>();
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);

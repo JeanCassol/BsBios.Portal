@@ -29,6 +29,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultarFornecedoresNaoVinculadosRetornaListaDeFornecedores()
         {
+            RemoveQueries.RemoverFornecedoresCadastrados();
             Produto produto = DefaultObjects.ObtemProdutoPadrao();
             Fornecedor fornecedor01 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor02 = DefaultObjects.ObtemFornecedorPadrao();
@@ -84,7 +85,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                     PageSize = 10,
                     Take = 10
                 };
-            KendoGridVm kendoGridVm = consultaFornecedor.Listar(paginacaoVm, "eduardo");
+            var filtro = new FornecedorFiltroVm
+                {
+                    Nome = "eduardo"
+                };
+            KendoGridVm kendoGridVm = consultaFornecedor.Listar(paginacaoVm, filtro);
 
             Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
 

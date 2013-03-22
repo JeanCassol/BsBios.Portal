@@ -28,7 +28,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             ViewBag.FluxosDeCarga = _consultaFluxoDeCarga.Listar();
             ViewBag.MateriaisDeCarga = _consultaMaterialDeCarga.Listar();
-            return View();
+            return View(new QuotaCadastroVm{Terminal = "1000"});
         }
 
         [HttpGet]

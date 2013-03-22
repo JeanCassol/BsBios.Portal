@@ -1,8 +1,5 @@
-﻿using BsBios.Portal.Application.Queries.Builders;
-using BsBios.Portal.Application.Services.Contracts;
+﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
-using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.ViewModel;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
@@ -79,6 +76,10 @@ namespace BsBios.Portal.IoC
             For<IProcessoDeCotacaoDeFreteService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoDeFreteService>();
+
+            For<ICadastroQuota>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroQuota>();
 
         }
     }

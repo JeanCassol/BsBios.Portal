@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -25,7 +24,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public CadastroCondicaoPagamentoTests()
         {
             _condicoesRepositorio = new List<CondicaoDePagamento>();
-            _unitOfWorkMock = DefaultRepository.GetDefaultMockUnitOfWork();
+            _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _condicoesDePagamentoMock = new Mock<ICondicoesDePagamento>(MockBehavior.Strict);
             _condicoesDePagamentoMock.Setup(x => x.Save(It.IsAny<CondicaoDePagamento>()))
                 .Callback((CondicaoDePagamento condicaoDePagamento) =>
