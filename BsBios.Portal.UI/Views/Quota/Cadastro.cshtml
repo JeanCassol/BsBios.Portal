@@ -52,7 +52,7 @@
                     </div>
                     <div class="coluna">
                         @Html.LabelFor( x => x.FluxoDeCarga)
-                        @Html.DropDownList("FluxoCarga",((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga)
+                        @Html.DropDownList("FluxoDeCarga",((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga)
                             .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),
                                            new{disabled=true})     
                         
@@ -106,15 +106,56 @@
                     $('#FluxoCarga').val('@Enumeradores.FluxoDeCarga.Carregamento');
                 }
             });
+            
+            $('#divSelecionarFornecedor').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Selecionar Fornecedor',
+                modal: true,
+                buttons: {
+                    "Confirmar": function () {
+                        if (fornecedorSelecionado == null) {
+                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
+                            return;
+                        }
+                        $('#CodigoFornecedor').val(fornecedorSelecionado.Codigo);
+                        $('#Fornecedor').val(unescape(fornecedorSelecionado.Nome));
+                        $(this).dialog("close");
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            $('#btnSelecionarFornecedor').click(function() {
+
+                $('#divSelecionarFornecedor').load('@Url.Action("Selecionar","SelecionarFornecedor")'
+                    + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val()),
+                function (response, status, xhr) {
+                    $('#divSelecionarFornecedor').dialog('open');
+                });
+            });
 
             $('#btnAdicionarFornecedor').click(function() {
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
                 }
+
+                var fornecedor = {CodigoTransportadora: $('#CodigoFornecedor').val() , NomeTransportadora: $('#Fornecedor').text() , 
+                    FluxoDeCarga: $('#FluxoDeCarga :selected').val(), DescricaoFluxoDeCarga: $('#FluxoDeCarga :selected').text(), Peso: $('#Peso').val()
+                };
+
+                fornecedoresAdicionados.push(fornecedor);
+                
+                var grid = $("#gridFornecedoresAdicionados").data("kendoGrid");
+                grid.dataSource.read();
+
+
             });
             
-            $('#divGridFornecedoresSelecionados').kendoGrid({
+            $('#gridFornecedoresAdicionados').kendoGrid({
                 dataSource: {
                     schema: {
                         data: function () { return fornecedoresAdicionados; },
@@ -208,34 +249,6 @@
 
             });
             
-
-            
-            function carregarGrid(data) {
-                $.ajax({
-                    url: '@Url.Action("ListarFornecedores", "Quota")',
-                    type: 'GET',
-                    cache: false,
-                    data: {
-                        DataDaQuota: data
-                    },
-                    dataType: 'json',
-                    success: function (dados) {
-                        if (!dados.Sucesso) {
-                            Mensagem.ExibirMensagemDeErro(dados.Mensagem);
-                            return;
-                        }
-                        fornecedoresAdicionados = dados.Registros;
-                        var grid = $("#gridFornecedoresAdicionados").data("kendoGrid");
-                        grid.dataSource.read();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas dos Fornecedores. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-
-            }
-
-
         });
     </script>   
 }

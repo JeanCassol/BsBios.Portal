@@ -10,11 +10,11 @@
         <legend>Filtros</legend>
         <div class="colunaFiltro">
             @Html.Label("Código")
-            @Html.TextBox("Codigo","", new{@class="campomedio"})
+            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
         </div>
         <div class="colunaFiltro">
             @Html.Label("Nome")
-            @Html.TextBox("Nome","", new{@class="campomedio"})
+            @Html.TextBox("NomeFiltro","", new{@class="campomedio"})
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
@@ -58,8 +58,8 @@
                         cache: false,
                         data: function() {
                             return {
-                                Codigo: $('#Codigo').val(),
-                                Nome: $('#Nome').val(),
+                                Codigo: $('#CodigoFiltro').val(),
+                                Nome: $('#NomeFiltro').val(),
                             };
                         }
                     }
@@ -73,6 +73,13 @@
             },
             columns:
             [
+                {
+                    field: 'Codigo',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    sortable: false,
+                    template: '<input type="radio" name="radioFornecedor" data-codigofornecedor="${Codigo}"></input>'
+                },
                 {
                     field: "Codigo",
                     width: 120,
@@ -88,11 +95,6 @@
                     width: 150,
                     title: "CNPJ"
 
-                },
-                {
-                    width: 250,
-                    field: "Email",
-                    title: "E-mail"
                 },
                 {
                     field: "Municipio",
