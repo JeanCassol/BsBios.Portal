@@ -3,8 +3,6 @@
 @{
     Layout = null;
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <style type="text/css">
     .colunaFiltroPequena {
         width: 180px;
@@ -40,8 +38,6 @@
 </div>
 <div id="gridProdutos" class="divGrid"></div>
 
-<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
-<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script>
     @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
     {

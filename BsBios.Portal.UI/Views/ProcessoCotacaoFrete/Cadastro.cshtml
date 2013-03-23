@@ -6,11 +6,15 @@
 @{
     ViewBag.TituloDaPagina = "Cotação de Frete - Novo";
 }
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
 <style>
     .colunaTelaInteira {
         width: 790px;
     }
 </style>
+
 <div class="paginaCadastro">
     @using (Html.BeginForm()) {
 
@@ -78,7 +82,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
-
+    
     <script type="text/javascript">
         $(function () {
             
@@ -86,12 +90,8 @@
                 $('.error').html(mensagem);
             }
 
-            $('#divSelecionarProduto').dialog({
-                autoOpen: false,
-                width: 800,
-                resizable: false,
+            $('#divSelecionarProduto').customDialog({
                 title: 'Selecionar Produto',
-                modal: true,
                 buttons: {
                     "Confirmar": function () {
                         if (produtoSelecionado == null) {
@@ -108,12 +108,8 @@
                 }
             });
 
-            $('#divSelecionarItinerario').dialog({
-                autoOpen: false,
-                width: 800,
-                resizable: false,
+            $('#divSelecionarItinerario').customDialog({
                 title: 'Selecionar Itinerário',
-                modal: true,
                 buttons: {
                     "Confirmar": function () {
                         if (itinerarioSelecionado == null) {

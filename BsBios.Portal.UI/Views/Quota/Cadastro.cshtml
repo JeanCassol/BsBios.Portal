@@ -117,12 +117,8 @@
             
             $('#Material').change();
 
-            $('#divSelecionarFornecedor').dialog({
-                autoOpen: false,
-                width: 800,
-                resizable: false,
+            $('#divSelecionarFornecedor').customDialog({
                 title: 'Selecionar Fornecedor',
-                modal: true,
                 buttons: {
                     "Confirmar": function() {
                         if (fornecedorSelecionado == null) {

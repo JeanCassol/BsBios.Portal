@@ -1,15 +1,8 @@
 ﻿CadastroDeAgendamentoDeCarga = {
     CriarDialogoAgendamentoDeCarregamento: function(urlParaSalvar) {
 
-        $('#divCadastroAgendamento').dialog({
-            autoOpen: false,
-            width: 800,
-            resizable: false,
+        $('#divCadastroAgendamento').customDialog({
             title: 'Cadastrar Agendamento',
-            modal: true,
-            beforeClose: function() {
-                $('#divCadastroAgendamento').empty();
-            },
             buttons: {
                 "Confirmar": function() {
                     var codigosDosFornecedoresSelecionados = new Array();

@@ -43,12 +43,8 @@
 <script type="text/javascript">
     $(function () {
         var idProcessoCotacao = $('#Id').val();
-        $('#divSelecionarFornecedores').dialog({
-            autoOpen: false,
-            width: 800,
-            resizable: false,
+        $('#divSelecionarFornecedores').customDialog({
             title: 'Selecionar Fornecedores',
-            modal: true,
             buttons: {
                 "Confirmar": function() {
                     var codigosDosFornecedoresSelecionados = new Array();
@@ -87,12 +83,9 @@
             }
         });
 
-        $('#divSelecionarCotacoes').dialog({
-            autoOpen: false,
+        $('#divSelecionarCotacoes').customDialog({
             width: 1024,
-            resizable: false,
             title: 'Selecionar Cotações',
-            modal: true,
             buttons: {
                 "Confirmar": function () {
                     var cotacoes = new Array();
