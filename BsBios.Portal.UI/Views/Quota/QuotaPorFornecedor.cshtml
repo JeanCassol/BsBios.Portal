@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Quotas";
+}
+
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<div id="gridQuotas"></div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridQuotas").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                CodigoTerminal: { type: "string" },
+                                Data: { type: "date" },
+                                CodigoMaterial: { type: "number" },
+                                DescricaoMaterial: { type: "string" },
+                                Fluxo: { type: "string" },
+                                PesoTotal: { type: "number" },
+                                PesoAgendado: { type: "number" },
+                                PesoDisponivel: { type: "number" },
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarQuotasPorFornecedor", "Quota")',
+                            type: 'GET',
+                            cache: false
+                        }
+                    },
+                    pageSize: 10
+                },
+                columns:
+                [
+                    {
+                        field: 'Codigo',
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_schedule" data-codigoterminal="${CodigoTerminal}" data-data="${Data}" data-codigofornecedor="${CodigoFornecedor}" data-codigomaterial="${CodigoMaterial}" ></input>'
+                    },
+                    {
+                        width: 100,
+                        field: "Data",
+                        template: '#= kendo.toString(Data,"dd/MM/yyyy") #'
+                    },
+                    {
+                        field: "DescricaoMaterial",
+                        title: "Material",
+                        width: 100
+                    },
+                    {
+                        field: "Fluxo",
+                        title: "Fluxo de Carga",
+                        width: 120
+                    },
+                    {
+                        field: "PesoTotal",
+                        title: "Peso Total",
+                        width: 100
+                    },
+                    {
+                        field: "PesoAgendado",
+                        title: "Peso Agendado",
+                        width: 100
+                    },
+                    {
+                        field: "PesoDisponivel",
+                        title: "Peso Disponível",
+                        width: 100
+                    }
+                ]
+            });
+
+            $('.button_schedule').die("click");
+            $('.button_schedule').live("click", function(e) {
+                e.preventDefault();
+                location.href = '@Url.Action("AgendamentosDaQuota", "Quota")' + '/?codigoTerminal=' + $(this).attr('data-codigoterminal')
+                    + "&data=" + $(this).attr('data-data') + "&codigoMaterial=" + $(this).attr('data-codigomaterial')
+                    +"&codigoFornecedor=" + $(this).attr('data-codigofornecedor') ;
+            });
+        });
+    </script>
+    
+}

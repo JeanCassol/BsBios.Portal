@@ -135,7 +135,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Configuration\EmailDoPortal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CondicaoPagamentoController.cs" />
     <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
@@ -304,6 +303,9 @@
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
     <Content Include="Images\icons\mag_32.png" />
+    <Content Include="Images\icons\schedule_32.png" />
+    <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
+    <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
     <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <None Include="Properties\PublishProfiles\bsbios - casa.pubxml" />
@@ -418,7 +420,6 @@
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
-    <Content Include="Views\CondicaoPagamento\Index.cshtml" />
     <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
@@ -438,6 +439,8 @@
     <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Quota\Cadastro.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
+    <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentosPorDia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

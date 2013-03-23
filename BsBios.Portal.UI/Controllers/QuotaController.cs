@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -32,20 +32,6 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Pesquisar(DateTime dataDaQuota)
-        {
-            try
-            {
-                return Json(new{ Sucesso = true, TemQuota = _consultaQuota.PossuiQuotaNaData(dataDaQuota)}, JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Sucesso = false, Mensagem = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpGet]
         public JsonResult ListarFornecedores(DateTime dataDaQuota)
         {
             try
@@ -57,6 +43,20 @@ namespace BsBios.Portal.UI.Controllers
             {
                 return Json(new {Sucesso = false, Mensagem = ex.Message});
             }
+        }
+
+        [HttpGet]
+        public JsonResult ListarQuotasPorFornecedor(PaginacaoVm paginacaoVm)
+        {
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+
+            return Json(_consultaQuota.ListarQuotasDoFornecedor(paginacaoVm,usuarioConectado.Login), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult QuotaPorFornecedor()
+        {
+            return View();
         }
     }
 }

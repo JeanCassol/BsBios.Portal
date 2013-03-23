@@ -81,6 +81,8 @@
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
     <Compile Include="Application\Services\CadastroQuotaTests.cs" />
     <Compile Include="Domain\Entities\QuotaTests.cs" />
+    <Compile Include="Domain\Services\AgendamentoDeCarregamentoFactoryTests.cs" />
+    <Compile Include="Domain\Services\AgendamentoDeDescarregamentoFactoryTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
@@ -170,9 +172,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

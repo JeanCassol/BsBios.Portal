@@ -75,7 +75,9 @@
     <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
+    <Compile Include="Mappings\AgendamentoDeCargaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\NotaFiscalMap.cs" />
     <Compile Include="Mappings\QuotaMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Contracts\IAgendamentosDeCarga.cs" />
     <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
     <Compile Include="Repositories\Contracts\IQuotas.cs" />
     <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
@@ -108,6 +111,7 @@
     <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
     <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
     <Compile Include="Repositories\Contracts\IUsuarios.cs" />
+    <Compile Include="Repositories\Implementations\AgendamentosDeCarga.cs" />
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
     <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />

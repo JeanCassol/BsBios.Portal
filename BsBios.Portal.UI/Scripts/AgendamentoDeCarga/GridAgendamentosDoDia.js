@@ -1,0 +1,5 @@
+﻿GridAgendamentosDeCarga = {
+    ConfigurarGrid: function(urlParaLeitura) {
+        
+    }
+}

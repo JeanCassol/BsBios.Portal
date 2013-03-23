@@ -70,6 +70,7 @@
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
+    <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
     <Compile Include="Infra\Repositories\IncotermsTests.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Infra\Repositories\UnidadesDeMedidaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
     <Compile Include="Infra\Repositories\QuotasTests.cs" />
+    <Compile Include="Infra\Repositories\AgendamentosDeCarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveQueries.cs" />

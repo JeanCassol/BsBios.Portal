@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Tests.DataProvider
 {
@@ -214,9 +216,44 @@ namespace BsBios.Portal.Tests.DataProvider
 
         }
 
-        public static Quota ObtemQuota()
+        public static Quota ObtemQuotaDeCarregamento()
         {
             return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
+        }
+
+        public static Quota ObtemQuotaDeDescarregamento()
+        {
+            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000", DateTime.Today, 850);
+        }
+
+        public static NotaFiscalVm ObtemNotaFiscalVmPadrao()
+        {
+            return new NotaFiscalVm
+                {
+                    Numero = "1001",
+                    Serie = "1",
+                    DataDeEmissao = DateTime.Today,
+                    CnpjDoContratante = "111",
+                    NomeDoContratante = "contratante",
+                    CnpjDoEmitente = "222",
+                    NomeDoEmitente = "emitente",
+                    NumeroDoContrato = "500",
+                    Peso = 50,
+                    Valor = 1000
+                };
+        }
+
+        public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(decimal peso)
+        {
+            var factory = new AgendamentoDeCarregamentoFactory(peso);
+            return (AgendamentoDeCarregamento) factory.Construir(DateTime.Today, "IOQ5338");
+        }
+
+        public static AgendamentoDeDescarregamento ObtemAgendamentoDeDescarregamento()
+        {
+            var factory = new AgendamentoDeDescarregamentoFactory();
+            factory.AdicionarNotaFiscal(ObtemNotaFiscalVmPadrao());
+            return (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today, "IOQ5338");
         }
     }
 }

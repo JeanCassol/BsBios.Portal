@@ -1,5 +1,4 @@
-﻿using System;
-using BsBios.Portal.Infra.Repositories.Contracts;
+﻿using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,21 +24,23 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void ConsigoCriarUmaQuotaEConsultarPosteriormente()
         {
-            var quota = DefaultObjects.ObtemQuota();
+            var quota = DefaultObjects.ObtemQuotaDeCarregamento();
+            quota.AdicionarAgendamento(DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(100));
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var quotas = ObjectFactory.GetInstance<IQuotas>();
 
             var quotaConsultada = quotas.FiltraPorData(quota.Data)
                                         .FiltraPorFluxo(quota.FluxoDeCarga)
-                                        .FiltraPorTransportadora(quota.Transportadora.Codigo).Single();
+                                        .FiltraPorTransportadora(quota.Fornecedor.Codigo).Single();
 
             Assert.AreEqual(quota.Data, quotaConsultada.Data);
             Assert.AreEqual(quota.Terminal, quotaConsultada.Terminal);
             Assert.AreEqual(quota.FluxoDeCarga, quotaConsultada.FluxoDeCarga);
             Assert.AreEqual(quota.Material, quotaConsultada.Material);
-            Assert.AreEqual(quota.Peso, quotaConsultada.Peso);
-            Assert.AreEqual(quota.Transportadora.Codigo, quotaConsultada.Transportadora.Codigo);
+            Assert.AreEqual(quota.PesoTotal, quotaConsultada.PesoTotal);
+            Assert.AreEqual(quota.Fornecedor.Codigo, quotaConsultada.Fornecedor.Codigo);
+            Assert.AreEqual(100, quota.PesoAgendado);
 
         }
     }

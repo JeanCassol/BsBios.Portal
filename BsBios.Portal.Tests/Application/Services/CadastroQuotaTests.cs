@@ -33,7 +33,7 @@ namespace BsBios.Portal.Tests.Application.Services
                        .Callback(CommonGenericMocks<Quota>.DefaultSaveCallBack(_unitOfWorkMock));
 
             _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()))
-                       .Callback((Quota quota) => Assert.AreSame(_fornecedor2, quota.Transportadora));
+                       .Callback((Quota quota) => Assert.AreSame(_fornecedor2, quota.Fornecedor));
 
             _quotasMock.Setup(x => x.FiltraPorData(It.IsAny<DateTime>()))
                        .Returns(_quotasMock.Object);

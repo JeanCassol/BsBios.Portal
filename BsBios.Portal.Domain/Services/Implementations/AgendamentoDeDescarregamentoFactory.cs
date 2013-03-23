@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.ViewModel;
@@ -16,7 +14,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
         {
             if (_notasFiscais.Count == 0)
             {
-                throw new Exception("É necessário informar pelo menos uma nota fiscal");
+                throw new AgendamentoDeDescarregamentoSemNotaFiscalException();
             }
             var agendamento = new AgendamentoDeDescarregamento(data, placa);
 
@@ -28,12 +26,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
             return agendamento;
         }
 
-        public void InformarPeso(decimal peso)
-        {
-            throw new Exception("O peso deve ser informado em cada uma das notas do agendamento.");
-        }
-
-        public void AdicionarNota(NotaFiscalVm notaFiscalVm)
+        public void AdicionarNotaFiscal(NotaFiscalVm notaFiscalVm)
         {
             _notasFiscais.Add(notaFiscalVm);    
         }

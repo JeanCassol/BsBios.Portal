@@ -15,7 +15,11 @@ namespace BsBios.Portal.Common
             [Description("Administrador")]
             Administrador = 4,
             [Description("Gerenciador de Quotas")]
-            GerenciadorDeQuotas = 5
+            GerenciadorDeQuotas = 5,
+            [Description("Agendador de Cargas")]
+            AgendadorDeCargas = 6,
+            [Description("Conferidor de Cargas")]
+            ConferidorDeCargas = 7
         }
 
         public enum StatusProcessoCotacao

@@ -20,13 +20,19 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IQuotas FiltraPorTransportadora(string codigoTransportadora)
         {
-            Query = Query.Where(x => x.Transportadora.Codigo == codigoTransportadora);
+            Query = Query.Where(x => x.Fornecedor.Codigo == codigoTransportadora);
             return this;
         }
 
         public IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga)
         {
             Query = Query.Where(x => x.FluxoDeCarga == fluxoDeCarga);
+            return this;
+        }
+
+        public IQuotas DoFornecedor(string codigoDoFornecedor)
+        {
+            Query = Query.Where(x => x.Fornecedor.Codigo == codigoDoFornecedor);
             return this;
         }
     }

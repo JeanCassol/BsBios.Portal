@@ -6,8 +6,6 @@ namespace BsBios.Portal.Infra.Builders
 {
     public class MenuUsuarioBuilder
     {
-        //private readonly Enumeradores.Perfil _perfil;
-        //private readonly MenuBuilder _builder;
         private readonly IList<Enumeradores.Perfil>  _perfis;
 
         public MenuUsuarioBuilder(IList<Enumeradores.Perfil> perfis)
@@ -46,6 +44,17 @@ namespace BsBios.Portal.Infra.Builders
             {
                 menus.Add(new MenuQuotas());
             }
+
+            if (_perfis.Contains(Enumeradores.Perfil.AgendadorDeCargas))
+            {
+                menus.Add(new MenuAgendamentoDeCarga());
+            }
+
+            if (_perfis.Contains(Enumeradores.Perfil.ConferidorDeCargas))
+            {
+                menus.Add(new MenuConferenciaDeCargas());
+            }
+
             return menus;
         }
 
@@ -102,6 +111,23 @@ namespace BsBios.Portal.Infra.Builders
         public MenuQuotas() : base("Quotas")
         {
             AdicionarItem("Cadastro", "Quota", "Cadastro");
+        }
+        
+    }
+
+    internal class MenuAgendamentoDeCarga: Menu
+    {
+        public MenuAgendamentoDeCarga() : base("Agendamentos de Carga")
+        {
+            AdicionarItem("Listar", "Quota", "QuotaPorFornecedor");
+        }
+    }
+
+    internal class MenuConferenciaDeCargas: Menu
+    {
+        public MenuConferenciaDeCargas() : base("Cargas Agendadas")
+        {
+            AdicionarItem("Pesquisar", "AgendamentosDeCarga", "Pesquisar");
         }
         
     }

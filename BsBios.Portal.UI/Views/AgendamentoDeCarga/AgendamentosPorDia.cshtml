@@ -1,0 +1,50 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model QuotaPorFornecedorVm
+
+@{
+    ViewBag.TituloDaPagina = "Agendamentos";
+}
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+<fieldset>
+    <legend>Quota</legend>
+    @Html.LinhaComUmaColuna(new ColunaComLabel<QuotaPorFornecedorVm, DateTime>(x => x.Data))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<QuotaPorFornecedorVm, string>(x => x.DescricaoMaterial),
+                              new ColunaComLabel<QuotaPorFornecedorVm, string>(x => x.Fluxo))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoTotal),
+                              new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoAgendado))
+    <div class="linha">
+        <div class="coluna"></div>
+        <div class="coluna">
+            @Html.LabelFor(x => x.PesoDisponivel,new{@class="labelNaLinha"})
+            @Html.DisplayFor(x => x.PesoDisponivel, new{@class="labelDestaque"})
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Agendamentos</legend>
+    <div class="divBotao">
+        <input type="button" value="Adicionar" id="btnAdicionarAgendamento" class="blue"/>
+    </div>
+    <div id="gridAgendamentosDeCarga"></div>
+    <div id="divCadastroAgendamento"></div>
+</fieldset>
+@section scripts{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/Cadastro.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento("");
+            $('#btnAdicionarAgendamento').click(function () {
+                
+                $("divCadastroAgendamento").dialog("open");
+            });
+        });
+    </script>
+
+     
+}
+

@@ -228,8 +228,31 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 {
                     Session.BeginTransaction();
                 }
-                PersistirFornecedor(quota.Transportadora);
+                PersistirFornecedor(quota.Fornecedor);
                 Session.Save(quota);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+        }
+
+        public static void PersistirAgendamentoDeCarga(AgendamentoDeCarga agendamento)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+                }
+                Session.Save(agendamento);
                 if (controlarTransacao)
                 {
                     Session.Transaction.Commit();

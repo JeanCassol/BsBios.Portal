@@ -61,6 +61,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<QuotaConsultarBuilder>();
 
+            For<IBuilder<Quota, QuotaPorFornecedorVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<QuotaPorFornecedorBuilder>();
 
 
         }

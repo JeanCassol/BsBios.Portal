@@ -38,7 +38,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                         qc.Data != qs.Data 
                         || qc.CodigoTerminal != qs.Terminal
                         || qc.CodigoMaterial != (int) qs.Material
-                        || qc.CodigoFornecedor != qs.Transportadora.Codigo)).ToList();
+                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 
                 foreach (var quota in quotasParaRemover)
                 {
@@ -52,7 +52,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                         qc.Data == qs.Data
                         && qc.CodigoTerminal == qs.Terminal
                         && qc.CodigoMaterial == (int)qs.Material
-                        && qc.CodigoFornecedor == qs.Transportadora.Codigo)).ToList();
+                        && qc.CodigoFornecedor == qs.Fornecedor.Codigo)).ToList();
 
                 foreach (var quota in quotasParaAtualizar)
                 {
@@ -61,7 +61,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                         qa.Data == quota.Data
                         && qa.CodigoTerminal == quota.Terminal
                         && qa.CodigoMaterial == (int)quota.Material
-                        && qa.CodigoFornecedor == quota.Transportadora.Codigo);
+                        && qa.CodigoFornecedor == quota.Fornecedor.Codigo);
 
                     //único campo que pode ser atualizado é o campo de peso
 
@@ -78,7 +78,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                         qc.Data != qs.Data 
                         || qc.CodigoTerminal != qs.Terminal
                         || qc.CodigoMaterial != (int) qs.Material
-                        || qc.CodigoFornecedor != qs.Transportadora.Codigo)).ToList();
+                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 
 
                 foreach (var quotaSalvarVm in quotasParaAdicionar)

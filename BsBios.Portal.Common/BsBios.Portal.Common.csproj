@@ -44,7 +44,11 @@
   <ItemGroup>
     <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />
+    <Compile Include="Exceptions\AgendamentoDeCarregamentoSemPesoException.cs" />
+    <Compile Include="Exceptions\AgendamentoDeDescarregamentoSemNotaFiscalException.cs" />
     <Compile Include="Exceptions\ComunicacaoSapException.cs" />
+    <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />
     <Compile Include="Exceptions\MvaNaoInformadoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoSelecaoCotacaoException.cs" />
