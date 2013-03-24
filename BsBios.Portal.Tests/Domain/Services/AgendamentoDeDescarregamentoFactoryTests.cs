@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriarUmAgendamentoSemNotaDeveGerarExcecao()
         {
             var factory = new AgendamentoDeDescarregamentoFactory();
-            factory.Construir(DateTime.Today, "IOQ5338");
+            factory.Construir(DateTime.Today,"1000", "IOQ5338");
         }
 
         [TestMethod]
@@ -24,8 +24,9 @@ namespace BsBios.Portal.Tests.Domain.Services
         {
             var factory = new AgendamentoDeDescarregamentoFactory();
             factory.AdicionarNotaFiscal(DefaultObjects.ObtemNotaFiscalVmPadrao());
-            var agendamento = (AgendamentoDeDescarregamento)  factory.Construir(DateTime.Today, "IOQ5338");
+            var agendamento = (AgendamentoDeDescarregamento)  factory.Construir(DateTime.Today,"1000", "IOQ5338");
             Assert.AreEqual(DateTime.Today, agendamento.Data);
+            Assert.AreEqual("1000", agendamento.CodigoTerminal);
             Assert.AreEqual("IOQ5338", agendamento.Placa);
             Assert.AreEqual(1, agendamento.NotasFiscais.Count);
         }
@@ -41,7 +42,7 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             factory.AdicionarNotaFiscal(nota1);
             factory.AdicionarNotaFiscal(nota2);
-            var agendamento = (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today, "IOQ5338");
+            var agendamento = (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today, "1000", "IOQ5338");
             Assert.AreEqual(260, agendamento.PesoTotal);
             
         }

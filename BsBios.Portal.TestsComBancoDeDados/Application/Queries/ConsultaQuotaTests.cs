@@ -47,7 +47,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
-            Assert.IsFalse(consultaQuota.PossuiQuotaNaData(DateTime.Today.AddDays(1)));
+            Assert.IsFalse(consultaQuota.PossuiQuotaNaData(DateTime.Today.AddDays(-10)));
             
         }
 

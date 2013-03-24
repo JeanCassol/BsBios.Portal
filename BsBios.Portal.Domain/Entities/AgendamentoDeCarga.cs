@@ -11,20 +11,21 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual int Id { get; protected set; }
         public virtual DateTime Data { get; protected set; }
+        public virtual string CodigoTerminal { get; protected set; }
         public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
         public virtual string Placa { get; protected set; }
         public virtual bool Realizado { get; protected set; }
         public abstract decimal PesoTotal { get; }
-
 
         protected AgendamentoDeCarga()
         {
             Realizado = false;
         }
 
-        protected AgendamentoDeCarga(DateTime data, Enumeradores.MaterialDeCarga material, string placa):this()
+        protected AgendamentoDeCarga(DateTime data, string codigoTerminal, Enumeradores.MaterialDeCarga material, string placa):this()
         {
             Data = data;
+            CodigoTerminal = codigoTerminal;
             Material = material;
             Placa = placa;
         }
@@ -45,8 +46,8 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         protected AgendamentoDeCarregamento(){}
-        internal AgendamentoDeCarregamento(DateTime data, string placa, decimal peso) 
-            : base(data, Enumeradores.MaterialDeCarga.Farelo, placa)
+        internal AgendamentoDeCarregamento(DateTime data, string codigoTerminal, string placa, decimal peso) 
+            : base(data, codigoTerminal, Enumeradores.MaterialDeCarga.Farelo, placa)
         {
             if (peso <=0)
             {
@@ -63,9 +64,9 @@ namespace BsBios.Portal.Domain.Entities
         {
             Inicializar();
         }
-        internal AgendamentoDeDescarregamento(DateTime data, string placa)
+        internal AgendamentoDeDescarregamento(DateTime data, string codigoTerminal, string placa)
             
-            :base(data, Enumeradores.MaterialDeCarga.Soja, placa)
+            :base(data, codigoTerminal, Enumeradores.MaterialDeCarga.Soja, placa)
         {
             Inicializar();
         }

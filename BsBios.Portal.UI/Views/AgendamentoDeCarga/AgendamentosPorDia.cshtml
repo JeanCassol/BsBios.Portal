@@ -37,9 +37,15 @@
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/Cadastro.js")"></script>
     <script type="text/javascript">
         $(function () {
+            GridAgendamentosDeCarga.ConfigurarGrid(
+                {
+                    UrlDeLeitura: '@Url.Action("EditarCadastro","AgendamentoDeCarga")',
+                    UrlDeEdicao: '@Url.Action("Excluir","AgendamentoDeCargaService")',
+                    UrlDeExclusao: '@Url.Action("Editar","AgendamentoDeCargaService")'
+                });
             CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento("");
             $('#btnAdicionarAgendamento').click(function () {
-                
+                $('#divCadastroAgendamento').load('@Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.Data, Model.CodigoTerminal, Model.CodigoMaterial})');
                 $("divCadastroAgendamento").dialog("open");
             });
         });

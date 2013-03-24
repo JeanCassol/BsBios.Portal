@@ -246,14 +246,14 @@ namespace BsBios.Portal.Tests.DataProvider
         public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(decimal peso)
         {
             var factory = new AgendamentoDeCarregamentoFactory(peso);
-            return (AgendamentoDeCarregamento) factory.Construir(DateTime.Today, "IOQ5338");
+            return (AgendamentoDeCarregamento) factory.Construir(DateTime.Today,"1000", "IOQ5338");
         }
 
         public static AgendamentoDeDescarregamento ObtemAgendamentoDeDescarregamento()
         {
             var factory = new AgendamentoDeDescarregamentoFactory();
             factory.AdicionarNotaFiscal(ObtemNotaFiscalVmPadrao());
-            return (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today, "IOQ5338");
+            return (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today,"1000", "IOQ5338");
         }
     }
 }

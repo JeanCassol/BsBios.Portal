@@ -2,6 +2,9 @@
 
 namespace BsBios.Portal.ViewModel
 {
+    /// <summary>
+    /// utilizado na tela que o fornecedor acessa para visualizar as suas quotas
+    /// </summary>
     public class QuotaPorFornecedorVm: ListagemVm
     {
         public string CodigoTerminal { get; set; }

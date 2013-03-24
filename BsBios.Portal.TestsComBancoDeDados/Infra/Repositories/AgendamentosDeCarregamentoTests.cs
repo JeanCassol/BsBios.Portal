@@ -37,6 +37,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.IsNotNull(agendamentoConsultado);
             Assert.AreEqual(agendamento.Material, agendamentoConsultado.Material);
             Assert.AreEqual(agendamento.Data, agendamentoConsultado.Data);
+            Assert.AreEqual(agendamento.CodigoTerminal, agendamentoConsultado.CodigoTerminal);
             Assert.AreEqual(agendamento.Peso, agendamentoConsultado.Peso);
             Assert.AreEqual(agendamento.Placa, agendamentoConsultado.Placa);
             Assert.AreEqual(agendamento.Realizado, agendamentoConsultado.Realizado);

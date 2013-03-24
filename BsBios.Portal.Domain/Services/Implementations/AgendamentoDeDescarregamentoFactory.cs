@@ -10,13 +10,13 @@ namespace BsBios.Portal.Domain.Services.Implementations
     public class AgendamentoDeDescarregamentoFactory: IAgendamentoDeCargaFactory
     {
         private readonly IList<NotaFiscalVm> _notasFiscais = new List<NotaFiscalVm>(); 
-        public AgendamentoDeCarga Construir(DateTime data, string placa)
+        public AgendamentoDeCarga Construir(DateTime data, string codigoTerminal, string placa)
         {
             if (_notasFiscais.Count == 0)
             {
                 throw new AgendamentoDeDescarregamentoSemNotaFiscalException();
             }
-            var agendamento = new AgendamentoDeDescarregamento(data, placa);
+            var agendamento = new AgendamentoDeDescarregamento(data,codigoTerminal, placa);
 
             foreach (var notaFiscalVm in _notasFiscais)
             {

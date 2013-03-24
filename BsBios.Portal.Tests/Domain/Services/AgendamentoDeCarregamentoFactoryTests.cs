@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriarCarregamentoSemInformarPesoDeveGerarExcecao()
         {
             var factory = new AgendamentoDeCarregamentoFactory(0);
-            factory.Construir(DateTime.Today, "IOQ5335");
+            factory.Construir(DateTime.Today,"1000", "IOQ5335");
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         {
             var factory = new AgendamentoDeCarregamentoFactory(150);
             factory.AdicionarNotaFiscal(DefaultObjects.ObtemNotaFiscalVmPadrao());
-            factory.Construir(DateTime.Today, "IOQ5335");
+            factory.Construir(DateTime.Today, "1000", "IOQ5335");
             
         }
 
@@ -33,8 +33,9 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriaUmAgendamentoDeCarregamentoAsPropriedadesFicamCorretas()
         {
             var factory = new AgendamentoDeCarregamentoFactory(150);
-            var agendamento = (AgendamentoDeCarregamento) factory.Construir(DateTime.Today, "IOQ5335");
+            var agendamento = (AgendamentoDeCarregamento) factory.Construir(DateTime.Today, "1000", "IOQ5335");
             Assert.AreEqual(DateTime.Today, agendamento.Data);
+            Assert.AreEqual("1000", agendamento.CodigoTerminal);
             Assert.AreEqual("IOQ5335",agendamento.Placa);
             Assert.AreEqual(150, agendamento.Peso);
             Assert.AreEqual(Enumeradores.MaterialDeCarga.Farelo , agendamento.Material);
@@ -45,7 +46,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriaUmAgendamentoDeCarregamentoIniciaComoNaoRealizado()
         {
             var factory = new AgendamentoDeCarregamentoFactory(150);
-            var agendamento = (AgendamentoDeCarregamento)factory.Construir(DateTime.Today, "IOQ5335");
+            var agendamento = (AgendamentoDeCarregamento)factory.Construir(DateTime.Today,"1000", "IOQ5335");
             Assert.IsFalse(agendamento.Realizado);
         }
 
@@ -53,7 +54,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void PesoTotalDoCarregamentoEoPesoAgendado()
         {
             var factory = new AgendamentoDeCarregamentoFactory(150);
-            var agendamento = (AgendamentoDeCarregamento)factory.Construir(DateTime.Today, "IOQ5335");
+            var agendamento = (AgendamentoDeCarregamento)factory.Construir(DateTime.Today,"1000", "IOQ5335");
 
             Assert.AreEqual(150, agendamento.PesoTotal);
             
