@@ -621,7 +621,8 @@ input[type="checkbox"].input-validation-error {
     clear: both;
 }
 .coluna {
-    width: 380px;
+    /*width: 380px;*/
+    width: 49%;
     display: inline-block;
     float: left;
 }
@@ -760,6 +761,7 @@ input[type="checkbox"].input-validation-error {
 
 .divGrid {
     font:75% Arial,Helvetica,sans-serif;
+    font-weight: normal
 }
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;

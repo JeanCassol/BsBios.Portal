@@ -81,6 +81,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroQuota>();
 
+            For<IAgendamentoDeCargaService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AgendamentoDeCargaService>();
         }
     }
 }

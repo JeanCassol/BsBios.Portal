@@ -67,12 +67,14 @@ function atualizaMensagemDeErro(mensagem) {
     $('.error').html(mensagem);
 }
 
-$(function () {
+function inicializaCamposDatePicker() {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
     var camposDatePicker = $('.campoDatePicker');
     if ($(camposDatePicker).length > 0) {
         $(camposDatePicker).datepicker();
     }
-    
+}
 
+$(function () {
+    inicializaCamposDatePicker();
 });

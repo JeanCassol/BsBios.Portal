@@ -37,9 +37,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgendamentoDeCargaCadastroVm.cs" />
     <Compile Include="AgendamentoDeCargaListarVm.cs" />
     <Compile Include="AgendamentoDeCarregamentoCadastroVm.cs" />
     <Compile Include="AlterarSenhaVm.cs" />
+    <Compile Include="AgendamentoDeDescarregamentoCadastroVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
+    <Compile Include="QuotaPesoVm.cs" />
     <Compile Include="QuotaPorFornecedorVm.cs" />
     <Compile Include="QuotaSalvarVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />

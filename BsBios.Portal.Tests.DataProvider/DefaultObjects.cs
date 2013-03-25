@@ -232,7 +232,7 @@ namespace BsBios.Portal.Tests.DataProvider
                 {
                     Numero = "1001",
                     Serie = "1",
-                    DataDeEmissao = DateTime.Today,
+                    DataDeEmissao = DateTime.Today.ToShortDateString(),
                     CnpjDoContratante = "111",
                     NomeDoContratante = "contratante",
                     CnpjDoEmitente = "222",

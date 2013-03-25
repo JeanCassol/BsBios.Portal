@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Domain.Services.Implementations;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -49,10 +52,11 @@ namespace BsBios.Portal.Domain.Entities
             PesoTotal = peso;
         }
 
-        public virtual void AdicionarAgendamento(AgendamentoDeCarga agendamento)
+
+
+        private void CalculaPesoAgendado()
         {
-            Agendamentos.Add(agendamento);
-            PesoAgendado += agendamento.PesoTotal;
+            PesoAgendado = Agendamentos.Sum(x => x.PesoTotal);
             if (PesoAgendado > PesoTotal)
             {
                 throw new PesoAgendadoSuperiorAoPesoDaQuotaException(PesoAgendado, PesoTotal);
@@ -89,5 +93,27 @@ namespace BsBios.Portal.Domain.Entities
 
         #endregion
 
+        public virtual void InformarAgendamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
+        {
+            if (agendamentoDeCarregamentoCadastroVm.IdAgendamento == 0)
+            {
+                var factory = new AgendamentoDeCarregamentoFactory(agendamentoDeCarregamentoCadastroVm.Peso);
+                var agendamentoDeCarregamento = (AgendamentoDeCarregamento)factory.Construir(this, agendamentoDeCarregamentoCadastroVm.Placa);
+                Agendamentos.Add(agendamentoDeCarregamento);
+            }
+            else
+            {
+                var agendamento = (AgendamentoDeCarregamento) Agendamentos.Single(x => x.Id == agendamentoDeCarregamentoCadastroVm.IdAgendamento);
+                agendamento.Atualizar(agendamentoDeCarregamentoCadastroVm);
+            }
+            CalculaPesoAgendado();
+        }
+
+        public virtual void RemoverAgendamento(int idAgendamento)
+        {
+            var agendamento = Agendamentos.Single(x => x.Id == idAgendamento);
+            Agendamentos.Remove(agendamento);
+            CalculaPesoAgendado();
+        }
     }
 }

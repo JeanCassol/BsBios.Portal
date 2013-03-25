@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
@@ -49,6 +50,12 @@ namespace BsBios.Portal.Domain.Entities
             }
             Peso = peso;
         }
+
+        public virtual void Atualizar(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
+        {
+            Placa = agendamentoDeCarregamentoCadastroVm.Placa;
+            Peso = agendamentoDeCarregamentoCadastroVm.Peso;
+        }
     }
 
     public class AgendamentoDeDescarregamento: AgendamentoDeCarga
@@ -76,7 +83,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void AdicionarNotaFiscal(NotaFiscalVm notaFiscalVm)
         {
-            var notaFiscal = new NotaFiscal(this, notaFiscalVm.Numero, notaFiscalVm.Serie, notaFiscalVm.DataDeEmissao, 
+            var notaFiscal = new NotaFiscal(this, notaFiscalVm.Numero, notaFiscalVm.Serie, Convert.ToDateTime(notaFiscalVm.DataDeEmissao), 
                 notaFiscalVm.NomeDoEmitente, notaFiscalVm.CnpjDoEmitente, notaFiscalVm.NomeDoContratante, notaFiscalVm.CnpjDoContratante,
                 notaFiscalVm.NumeroDoContrato, notaFiscalVm.Valor, notaFiscalVm.Peso);
             NotasFiscais.Add(notaFiscal);

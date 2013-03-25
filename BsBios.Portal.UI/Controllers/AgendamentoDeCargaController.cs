@@ -47,7 +47,16 @@ namespace BsBios.Portal.UI.Controllers
 
         public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga)
         {
-            var model = new AgendamentoDeCarregamentoCadastroVm() {IdQuota = idQuota};
+            AgendamentoDeCargaCadastroVm model = null;
+            if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
+            {
+                model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota };
+            }
+            if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
+            {
+                model = new AgendamentoDeDescarregamentoCadastroVm() {IdQuota = idQuota};
+            }
+
             return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga),model);
         }
 

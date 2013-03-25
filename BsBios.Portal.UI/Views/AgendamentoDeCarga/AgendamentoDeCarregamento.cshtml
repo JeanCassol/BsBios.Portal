@@ -13,19 +13,18 @@
             <div class="colunaFiltro">
                 @Html.LabelFor(x => x.Placa)
                 @Html.TextBoxFor(x => x.Placa)
+                <p class="mensagemErro">
+                    @Html.ValidationMessageFor(x => x.Placa)
+                </p>
+            </div>
+            <div class="colunaFiltro">
+                @Html.LabelFor(x => x.Peso)
+                @Html.TextBoxFor(x => x.Peso)
+                <p class="mensagemErro">
+                    @Html.ValidationMessageFor(x => x.Peso)
+                </p>
             </div>
         }
-    </fieldset>
-    <fieldset>
-        <legend>Nota Fiscal</legend>
-        <form id="formNotaFiscal">
-            
-            
-        </form>
-    </fieldset>
-    <fieldset>
-        <legend>Notas Fiscais adicionadas</legend>
-        <div id="divGridNotasFiscaisAdicionadas"></div>
     </fieldset>
 </div>
 

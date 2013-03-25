@@ -307,6 +307,7 @@
     <Content Include="Images\icons\mag_32.png" />
     <Content Include="Images\icons\schedule_32.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
+    <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
     <Content Include="Scripts\Cadastro\gridFornecedor.js" />
     <Content Include="Scripts\Cadastro\gridTransportadora.js" />
@@ -412,7 +413,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_Menu.cshtml" />
@@ -443,8 +443,8 @@
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
-    <Content Include="Views\AgendamentoDeCarregamento\Cadastro.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,11 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model QuotaPorFornecedorVm
 
 @{
     ViewBag.TituloDaPagina = "Agendamentos";
+    var fluxoDeCarga = (Enumeradores.FluxoDeCarga)Enum.Parse(typeof(Enumeradores.FluxoDeCarga), Convert.ToString(Model.CodigoFluxoDeCarga));
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
@@ -13,13 +15,24 @@
     @Html.LinhaComUmaColuna(new ColunaComLabel<QuotaPorFornecedorVm, string>(x => x.Data))
     @Html.LinhaComDuasColunas(new ColunaComLabel<QuotaPorFornecedorVm, string>(x => x.DescricaoMaterial),
                               new ColunaComLabel<QuotaPorFornecedorVm, string>(x => x.FluxoDeCarga))
-    @Html.LinhaComDuasColunas(new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoTotal),
-                              new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoAgendado))
+    <div class="linha">
+        <div class="coluna">
+            @Html.LabelFor(x => x.PesoTotal,new{@class="labelNaLinha"})
+            @Html.DisplayFor(x => x.PesoTotal)
+        </div>
+        <div class="coluna">
+            @Html.LabelFor(x => x.PesoAgendado,new{@class="labelNaLinha"})
+            <span id="lblPesoAgendado" class="labelDestaque">@Model.PesoAgendado</span>
+            
+        </div>
+    </div>
+@*    @Html.LinhaComDuasColunas(new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoTotal),
+                              new ColunaComLabel<QuotaPorFornecedorVm, decimal>(x => x.PesoAgendado))*@
     <div class="linha">
         <div class="coluna"></div>
         <div class="coluna">
             @Html.LabelFor(x => x.PesoDisponivel,new{@class="labelNaLinha"})
-            <span class="labelDestaque">@Model.PesoDisponivel</span>
+            <span id="lblPesoDisponivel" class="labelDestaque">@Model.PesoDisponivel</span>
         </div>
     </div>
 </fieldset>
@@ -32,6 +45,7 @@
     <div id="divCadastroAgendamento"></div>
 </fieldset>
 @section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/Cadastro.js")"></script>
@@ -41,18 +55,24 @@
             GridAgendamentosDeCarga.ConfigurarGrid(
                 {
                     UrlDeLeitura: '@Url.Action("ListarPorQuota","AgendamentoDeCarga")',
-                    UrlDeEdicao: '@Url.Action("Excluir","AgendamentoDeCargaService")',
-                    UrlDeExclusao: '@Url.Action("EditarCadastro","AgendamentoDeCarga")',
-                    dataFunction: function() {
-                        return {
-                            IdQuota:'@Model.IdQuota'  
-                        };
-                    }
+                    UrlDeEdicao: '@Url.Action("EditarCadastro","AgendamentoDeCarga")',
+                    UrlDeExclusao: '@Url.Action("Excluir","AgendamentoDeCargaService")',
+                    IdQuota: '@Model.IdQuota'
                 });
-            CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento("");
+            
+            @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
+            {
+                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento('@Url.Action("SalvarAgendamentoDeCarregamento","AgendamentoDeCargaService")');    
+            }
+            @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
+            {
+                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento","AgendamentoDeCargaService")');
+            }
+
             $('#btnAdicionarAgendamento').click(function () {
                 $('#divCadastroAgendamento').load('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
-                function(response, status, xhr) {
+                function (response, status, xhr) {
+                    jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
                     $('#divCadastroAgendamento').dialog('open');
                 });
             });

@@ -1,0 +1,88 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model AgendamentoDeDescarregamentoCadastroVm
+@{
+    Layout = null;
+}
+<div class="divFiltros">
+    <fieldset >
+        <legend>Agendamento de Descarregamento</legend>
+        @Html.HiddenFor(x => x.IdQuota)
+        @Html.HiddenFor(x => x.IdAgendamento)
+        @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa))
+    </fieldset>
+    <fieldset id="fieldSetNotaFiscal">
+        <legend>Nota Fiscal</legend>
+        @using (Html.BeginForm())
+        {
+            @*@Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa))*@
+            
+            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero),
+                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie))
+
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,"campoDatePicker"))
+
+            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente),
+                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente))
+
+            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante),
+                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante))
+
+            @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato))
+
+            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor),
+                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso))
+
+            <div class="divBotao">
+                <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
+                <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
+            </div>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Notas Fiscais adicionadas</legend>
+        <div id="divGridNotasFiscaisAdicionadas" style="width: 730px"></div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridNotasFiscais.js")"></script>
+<script type="text/javascript">
+    inicializaCamposDatePicker();
+    function limparCamposDaNota() {
+        $('#fieldSetNotaFiscal').find('input[type!=button]').val('');
+    }
+
+    $(function() {
+        $('#btnCancelarEdicao').hide();
+        GridNotasFiscais.ConfigurarGrid();
+        $('#btnSalvarNotaFiscal').click(function() {
+            var form = $('form');
+            if (!$(form).validate().form()) {
+                return;
+            }
+
+            var notaFiscal = {
+                Numero: $('#NotaFiscal_Numero').val(),
+                Serie: $('#NotaFiscal_Serie').val(),
+                DataDeEmissao: $('#NotaFiscal_DataDeEmissao').val(),
+                CnpjDoEmitente: $('#NotaFiscal_CnpjDoEmitente').val(),
+                NomeDoEmitente: $('#NotaFiscal_NomeDoEmitente').val(),
+                CnpjDoContratante: $('#NotaFiscal_CnpjDoContratante').val(),
+                NomeDoContratante: $('#NotaFiscal_NomeDoContratante').val(),
+                NumeroDoContrato: $('#NotaFiscal_NumeroDoContrato').val(),
+                Valor: $('#NotaFiscal_Valor').val(),
+                Peso: $('#NotaFiscal_Peso').val()
+            };
+
+            try {
+                GridNotasFiscais.SalvarNotaFiscal(notaFiscal);
+                limparCamposDaNota();
+                $('#btnSalvarNotaFiscal').val('Adicionar');
+                $('#btnCancelarEdicao').hide();
+            } catch(err) {
+                Mensagem.ExibirMensagemDeErro(err);
+            }
+        });
+    });
+</script>
+
+

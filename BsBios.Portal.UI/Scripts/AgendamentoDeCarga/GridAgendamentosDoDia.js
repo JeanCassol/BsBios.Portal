@@ -11,7 +11,7 @@ GridAgendamentosDeCarga = {
                     model: {
                         fields: {
                             Id: { type: "number" },
-                            PesoTotal: { type: "number" },
+                            Peso: { type: "number" },
                             Placa: { type: "string" },
                             Realizado: { type: "string" }
                         }
@@ -25,7 +25,11 @@ GridAgendamentosDeCarga = {
                         url: configuracao.UrlDeLeitura,
                         type: 'GET',
                         cache: false,
-                        data: configuracao.dataFunction
+                        data: function () {
+                            return {
+                                IdQuota: configuracao.IdQuota
+                            };
+                        }
                     }
                 }
             },
@@ -35,20 +39,20 @@ GridAgendamentosDeCarga = {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 40,
                     sortable: false,
-                    template: '<input type="button" class="button_edit" data-id="${Id}"></input>'
+                    template: '<input type="button" class="button_edit" data-idagendamento="${IdAgendamento}"></input>'
                 },
                 {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 40,
                     sortable: false,
-                    template: '<input type="button" class="button_remove" data-id="${Id}"></input>'
+                    template: '<input type="button" class="button_remove" data-idagendamento="${IdAgendamento}"></input>'
                 },
                 {
                     width: 100,
-                    field: "Data"
+                    field: "Placa"
                 },
                 {
-                    field: "PesoTotal",
+                    field: "Peso",
                     title: "Peso Total",
                     width: 100
                 },
@@ -62,7 +66,7 @@ GridAgendamentosDeCarga = {
         $('.button_edit').die("click");
         $('.button_edit').live("click", function (e) {
             e.preventDefault();
-            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?id=' + $(this).attr('data-id'));
+            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idAgendamento=' + $(this).attr('data-idagendamento'));
             $('#divCadastroAgendamento').dialog("open");
         });
         
@@ -73,11 +77,31 @@ GridAgendamentosDeCarga = {
             if (!resposta) {
                 return;
             }
-            location.href = configuracao.UrlDeExclusao + '/?id=' + $(this).attr('data-id');
+            var idAgendamento = $(this).attr('data-idagendamento');
+            $.ajax({
+                url: configuracao.UrlDeExclusao,
+                type: 'POST',
+                data: JSON.stringify({ IdQuota: configuracao.IdQuota, IdAgendamento: idAgendamento}),
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        GridAgendamentosDeCarga.AtualizarTela(data.Quota);
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar excluir o Agendamento. Detalhe: ' + data.Mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + textStatus + errorThrown);
+                }
+            });
         });
     },
-    AtualizarGrid: function() {
-        var dataSource = $("#gridAgendamentosDeCarga").data("kendogrid");
-        dataSource.read();
+    AtualizarTela: function (quota) {
+        $('#lblPesoAgendado').text(quota.PesoAgendado);
+        $('#lblPesoDisponivel').text(quota.PesoDisponivel);
+        var grid = $("#gridAgendamentosDeCarga").data("kendoGrid");
+        grid.dataSource.read();
     }
 }
