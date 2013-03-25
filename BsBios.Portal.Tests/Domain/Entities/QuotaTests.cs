@@ -17,7 +17,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, transportadora, "1000", DateTime.Today, 1000);
 
             Assert.AreSame(transportadora, quota.Fornecedor);
-            Assert.AreEqual("1000", quota.Terminal);
+            Assert.AreEqual("1000", quota.CodigoTerminal);
             Assert.AreEqual(DateTime.Today, quota.Data);
             Assert.AreEqual(Enumeradores.MaterialDeCarga.Soja,quota.Material);
             Assert.AreEqual(Enumeradores.FluxoDeCarga.Descarregamento, quota.FluxoDeCarga);
@@ -43,8 +43,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //peso total é 850
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
-            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(180);
-            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(230);
+            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota, 180);
+            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,230);
             quota.AdicionarAgendamento(agendamento1);
             quota.AdicionarAgendamento(agendamento2);
             Assert.AreEqual(410, quota.PesoAgendado);
@@ -56,8 +56,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //peso total é 850
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
-            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(450);
-            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(401);
+            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,450);
+            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,401);
             quota.AdicionarAgendamento(agendamento1);
             quota.AdicionarAgendamento(agendamento2);
         }

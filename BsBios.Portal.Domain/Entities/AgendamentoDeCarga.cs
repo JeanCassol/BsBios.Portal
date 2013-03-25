@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
 
@@ -10,9 +8,7 @@ namespace BsBios.Portal.Domain.Entities
     public abstract class AgendamentoDeCarga: IAggregateRoot
     {
         public virtual int Id { get; protected set; }
-        public virtual DateTime Data { get; protected set; }
-        public virtual string CodigoTerminal { get; protected set; }
-        public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
+        public virtual Quota Quota { get; protected set; }
         public virtual string Placa { get; protected set; }
         public virtual bool Realizado { get; protected set; }
         public abstract decimal PesoTotal { get; }
@@ -22,11 +18,9 @@ namespace BsBios.Portal.Domain.Entities
             Realizado = false;
         }
 
-        protected AgendamentoDeCarga(DateTime data, string codigoTerminal, Enumeradores.MaterialDeCarga material, string placa):this()
+        protected AgendamentoDeCarga(Quota quota, string placa):this()
         {
-            Data = data;
-            CodigoTerminal = codigoTerminal;
-            Material = material;
+            Quota = quota;
             Placa = placa;
         }
 
@@ -46,8 +40,8 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         protected AgendamentoDeCarregamento(){}
-        internal AgendamentoDeCarregamento(DateTime data, string codigoTerminal, string placa, decimal peso) 
-            : base(data, codigoTerminal, Enumeradores.MaterialDeCarga.Farelo, placa)
+        internal AgendamentoDeCarregamento(Quota quota, string placa, decimal peso) 
+            : base(quota, placa)
         {
             if (peso <=0)
             {
@@ -64,9 +58,9 @@ namespace BsBios.Portal.Domain.Entities
         {
             Inicializar();
         }
-        internal AgendamentoDeDescarregamento(DateTime data, string codigoTerminal, string placa)
+        internal AgendamentoDeDescarregamento(Quota quota, string placa)
             
-            :base(data, codigoTerminal, Enumeradores.MaterialDeCarga.Soja, placa)
+            :base(quota, placa)
         {
             Inicializar();
         }

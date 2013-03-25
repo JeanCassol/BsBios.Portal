@@ -35,5 +35,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Fornecedor.Codigo == codigoDoFornecedor);
             return this;
         }
+
+        public Quota BuscaPorId(int idQuota)
+        {
+            return Query.Single(x => x.Id == idQuota);
+        }
     }
 }

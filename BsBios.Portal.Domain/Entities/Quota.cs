@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 
@@ -6,25 +7,30 @@ namespace BsBios.Portal.Domain.Entities
 {
     public class Quota: IAggregateRoot
     {
+        public virtual int Id { get; protected set; }
         public virtual Fornecedor Fornecedor { get; protected set; }
         public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
         public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
-        public virtual string Terminal { get; protected set; }
+        public virtual string CodigoTerminal { get; protected set; }
         public virtual DateTime Data { get; protected set; }
         public virtual decimal PesoTotal { get; protected set; }
         public virtual decimal PesoAgendado { get; protected set; }
+        public virtual IList<AgendamentoDeCarga> Agendamentos { get; protected set; }
 
         public virtual decimal PesoDisponivel
         {
             get { return PesoTotal - PesoAgendado ; }
         }
 
-        protected Quota(){}
+        protected Quota()
+        {
+            Agendamentos = new List<AgendamentoDeCarga>();
+        }
 
-        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor fornecedor, string terminal, DateTime data, decimal pesoTotal)
+        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor fornecedor, string terminal, DateTime data, decimal pesoTotal):this()
         {
             Fornecedor = fornecedor;
-            Terminal = terminal;
+            CodigoTerminal = terminal;
             Data = data;
             PesoTotal = pesoTotal;
             Material = materialDeCarga;
@@ -45,6 +51,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void AdicionarAgendamento(AgendamentoDeCarga agendamento)
         {
+            Agendamentos.Add(agendamento);
             PesoAgendado += agendamento.PesoTotal;
             if (PesoAgendado > PesoTotal)
             {
@@ -57,7 +64,7 @@ namespace BsBios.Portal.Domain.Entities
 
         protected bool Equals(Quota other)
         {
-            return FluxoDeCarga == other.FluxoDeCarga && Equals(Fornecedor, other.Fornecedor) && string.Equals(Terminal, other.Terminal) && Data.Equals(other.Data);
+            return FluxoDeCarga == other.FluxoDeCarga && Equals(Fornecedor, other.Fornecedor) && string.Equals(CodigoTerminal, other.CodigoTerminal) && Data.Equals(other.Data);
         }
 
         public override bool Equals(object obj)
@@ -74,7 +81,7 @@ namespace BsBios.Portal.Domain.Entities
             {
                 var hashCode = (int) FluxoDeCarga;
                 hashCode = (hashCode*397) ^ (Fornecedor != null ? Fornecedor.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (Terminal != null ? Terminal.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (CodigoTerminal != null ? CodigoTerminal.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ Data.GetHashCode();
                 return hashCode;
             }

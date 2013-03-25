@@ -1,0 +1,32 @@
+﻿@using BsBios.Portal.ViewModel
+@model AgendamentoDeCarregamentoCadastroVm
+@{
+    Layout = null;
+}
+<div class="divFiltros">
+    <fieldset >
+        <legend>Agendamento de Descarregamento</legend>
+        @using(Html.BeginForm())
+        {
+            @Html.HiddenFor(x => x.IdQuota)
+            @Html.HiddenFor(x => x.IdAgendamento)
+            <div class="colunaFiltro">
+                @Html.LabelFor(x => x.Placa)
+                @Html.TextBoxFor(x => x.Placa)
+            </div>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Nota Fiscal</legend>
+        <form id="formNotaFiscal">
+            
+            
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Notas Fiscais adicionadas</legend>
+        <div id="divGridNotasFiscaisAdicionadas"></div>
+    </fieldset>
+</div>
+
+

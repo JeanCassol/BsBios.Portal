@@ -81,7 +81,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
             IList<QuotaPorFornecedorVm> quotas = kendoGridVm.Registros.Cast<QuotaPorFornecedorVm>().ToList();
-            Assert.IsTrue(quotas[0].Data > quotas[1].Data);
+            Assert.IsTrue(Convert.ToDateTime(quotas[0].Data) > Convert.ToDateTime(quotas[1].Data));
         }
     }
 }

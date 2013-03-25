@@ -10,5 +10,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IQuotas FiltraPorTransportadora(string codigoTransportadora);
         IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga);
         IQuotas DoFornecedor(string codigoDoFornecedor);
+        Quota BuscaPorId(int idQuota);
     }
 }

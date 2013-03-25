@@ -65,6 +65,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<QuotaPorFornecedorBuilder>();
 
+            For<IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm >>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AgendamentoDeCargaListarBuilder>();
+
 
         }
     }

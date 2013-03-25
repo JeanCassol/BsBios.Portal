@@ -19,7 +19,7 @@
                         model: {
                             fields: {
                                 CodigoTerminal: { type: "string" },
-                                Data: { type: "date" },
+                                Data: { type: "string" },
                                 CodigoMaterial: { type: "number" },
                                 DescricaoMaterial: { type: "string" },
                                 Fluxo: { type: "string" },
@@ -47,12 +47,11 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 40,
                         sortable: false,
-                        template: '<input type="button" class="button_schedule" data-codigoterminal="${CodigoTerminal}" data-data="${Data}" data-codigofornecedor="${CodigoFornecedor}" data-codigomaterial="${CodigoMaterial}" ></input>'
+                        template: '<input type="button" class="button_schedule" data-idquota="${IdQuota}" ></input>'
                     },
                     {
                         width: 100,
-                        field: "Data",
-                        template: '#= kendo.toString(Data,"dd/MM/yyyy") #'
+                        field: "Data"
                     },
                     {
                         field: "DescricaoMaterial",
@@ -85,9 +84,7 @@
             $('.button_schedule').die("click");
             $('.button_schedule').live("click", function(e) {
                 e.preventDefault();
-                location.href = '@Url.Action("AgendamentosDaQuota", "Quota")' + '/?codigoTerminal=' + $(this).attr('data-codigoterminal')
-                    + "&data=" + $(this).attr('data-data') + "&codigoMaterial=" + $(this).attr('data-codigomaterial')
-                    +"&codigoFornecedor=" + $(this).attr('data-codigofornecedor') ;
+                location.href = '@Url.Action("AgendamentosDaQuota", "AgendamentoDeCarga")' + '/?idQuota=' + $(this).attr('data-idquota');
             });
         });
     </script>

@@ -63,6 +63,9 @@ $.fn.customDialog = function (configuracao) {
     this.dialog(configuracao);
 };
 
+function atualizaMensagemDeErro(mensagem) {
+    $('.error').html(mensagem);
+}
 
 $(function () {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/

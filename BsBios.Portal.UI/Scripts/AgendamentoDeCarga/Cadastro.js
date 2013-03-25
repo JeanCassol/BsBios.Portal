@@ -4,37 +4,23 @@
         $('#divCadastroAgendamento').customDialog({
             title: 'Cadastrar Agendamento',
             buttons: {
-                "Confirmar": function() {
-                    var codigosDosFornecedoresSelecionados = new Array();
-                    $.each(fornecedoresSelecionados, function(indice, fornecedorSelecionado) {
-                        codigosDosFornecedoresSelecionados.push(fornecedorSelecionado.Codigo);
-                    });
+                "Salvar": function() {
 
-                    $.ajax({
-                        url: urlParaSalvar,
-                        type: 'POST',
-                        cache: false,
-                        data: JSON.stringify({
-                            IdProcessoCotacao: idProcessoCotacao,
-                            CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
-                        }),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json',
-                        success: function(data) {
+                    var form = $('form');
+                    if (!$(form).validate().form()) {
+                        return;
+                    }
+
+                    var formData = $(form).serialize();
+                    $.post(urlParaSalvar, formData,
+                        function (data) {
                             if (data.Sucesso) {
-                                
-                                $('#divSelecionarFornecedores').dialog('close');
-                                $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
+                                $(this).dialog("close");
+                                GridAgendamentosDeCarga.AtualizarGrid();
                             } else {
-                                Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                atualizaMensagemDeErro(data.Mensagem);
                             }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
-                        }
-                    });
-
-
+                        });
                 },
                 "Cancelar": function () {
                     $(this).dialog("close");

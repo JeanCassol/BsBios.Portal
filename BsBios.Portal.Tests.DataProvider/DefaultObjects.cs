@@ -218,12 +218,12 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static Quota ObtemQuotaDeCarregamento()
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
+            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
         }
 
         public static Quota ObtemQuotaDeDescarregamento()
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000", DateTime.Today, 850);
+            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000", DateTime.Today, 850);
         }
 
         public static NotaFiscalVm ObtemNotaFiscalVmPadrao()
@@ -243,17 +243,17 @@ namespace BsBios.Portal.Tests.DataProvider
                 };
         }
 
-        public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(decimal peso)
+        public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(Quota quota, decimal peso)
         {
             var factory = new AgendamentoDeCarregamentoFactory(peso);
-            return (AgendamentoDeCarregamento) factory.Construir(DateTime.Today,"1000", "IOQ5338");
+            return (AgendamentoDeCarregamento) factory.Construir(quota, "IOQ5338");
         }
 
-        public static AgendamentoDeDescarregamento ObtemAgendamentoDeDescarregamento()
+        public static AgendamentoDeDescarregamento ObtemAgendamentoDeDescarregamento(Quota quota)
         {
             var factory = new AgendamentoDeDescarregamentoFactory();
             factory.AdicionarNotaFiscal(ObtemNotaFiscalVmPadrao());
-            return (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today,"1000", "IOQ5338");
+            return (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
         }
     }
 }

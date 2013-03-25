@@ -9,5 +9,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
         bool PossuiQuotaNaData(DateTime data);
         IList<QuotaConsultarVm> QuotasDaData(DateTime data);
         KendoGridVm ListarQuotasDoFornecedor(PaginacaoVm paginacaoVm, string codigoDoFornecedor);
+        QuotaPorFornecedorVm ConsultarQuota(int idQuota);
+        KendoGridVm ListarAgendamentosDaQuota(int idQuota);
     }
 }

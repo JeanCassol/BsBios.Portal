@@ -4,10 +4,8 @@ namespace BsBios.Portal.ViewModel
 {
     public class AgendamentoDeCarregamentoCadastroVm
     {
-        public int Id { get; set; }
-        public string CodigoTerminal { get; set; }
-        public string Data { get; set; }
-        public string CodigoMaterial { get; set; }
+        public int IdAgendamento { get; set; }
+        public int IdQuota { get; set; }
 
         [Required(ErrorMessage = "Placa é obrigatório")]
         [Display(Name = "Placa")]

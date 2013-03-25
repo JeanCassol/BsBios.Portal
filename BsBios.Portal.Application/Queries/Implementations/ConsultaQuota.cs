@@ -14,13 +14,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IQuotas _quotas;
         private readonly IBuilder<Quota, QuotaConsultarVm> _builderQuota;
         private readonly IBuilder<Quota, QuotaPorFornecedorVm> _builderQuotaPorFornecedor;
+        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> _builderAgendamentoDeCarga;
 
         public ConsultaQuota(IQuotas quotas, IBuilder<Quota, QuotaConsultarVm> builderQuota, 
-            IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor)
+            IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor, IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> builderAgendamentoDeCarga)
         {
             _quotas = quotas;
             _builderQuota = builderQuota;
             _builderQuotaPorFornecedor = builderQuotaPorFornecedor;
+            _builderAgendamentoDeCarga = builderAgendamentoDeCarga;
         }
 
         public bool PossuiQuotaNaData(DateTime data)
@@ -47,6 +49,21 @@ namespace BsBios.Portal.Application.Queries.Implementations
                             .Cast<ListagemVm>()
                             .ToList()
                              
+                };
+        }
+
+        public QuotaPorFornecedorVm ConsultarQuota(int idQuota)
+        {
+            return _builderQuotaPorFornecedor.BuildSingle(_quotas.BuscaPorId(idQuota));
+        }
+
+        public KendoGridVm ListarAgendamentosDaQuota(int idQuota)
+        {
+            Quota quota = _quotas.BuscaPorId(idQuota);
+            return new KendoGridVm
+                {
+                    QuantidadeDeRegistros = quota.Agendamentos.Count,
+                    Registros = _builderAgendamentoDeCarga.BuildList(quota.Agendamentos ).Cast<ListagemVm>().ToList()
                 };
         }
     }

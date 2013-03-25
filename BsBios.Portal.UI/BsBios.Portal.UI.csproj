@@ -135,6 +135,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Configuration\EmailDoPortal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
+    <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
@@ -440,8 +442,9 @@
     <Content Include="Views\Quota\Cadastro.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
-    <Content Include="Views\AgendamentoDeCarga\AgendamentosPorDia.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
     <Content Include="Views\AgendamentoDeCarregamento\Cadastro.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

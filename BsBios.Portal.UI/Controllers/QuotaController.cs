@@ -41,7 +41,7 @@ namespace BsBios.Portal.UI.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new {Sucesso = false, Mensagem = ex.Message});
+                return Json(new {Sucesso = false, Mensagem = ex.Message}, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -58,5 +58,6 @@ namespace BsBios.Portal.UI.Controllers
         {
             return View();
         }
+
     }
 }

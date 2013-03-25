@@ -36,7 +36,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 IList<Quota> quotasParaRemover = quotasSalvas
                     .Where(qs => quotasSalvarVm.All(qc => 
                         qc.Data != qs.Data 
-                        || qc.CodigoTerminal != qs.Terminal
+                        || qc.CodigoTerminal != qs.CodigoTerminal
                         || qc.CodigoMaterial != (int) qs.Material
                         || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 
@@ -50,7 +50,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 IList<Quota> quotasParaAtualizar = quotasSalvas
                     .Where(qs => quotasSalvarVm.Any(qc =>
                         qc.Data == qs.Data
-                        && qc.CodigoTerminal == qs.Terminal
+                        && qc.CodigoTerminal == qs.CodigoTerminal
                         && qc.CodigoMaterial == (int)qs.Material
                         && qc.CodigoFornecedor == qs.Fornecedor.Codigo)).ToList();
 
@@ -59,7 +59,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                     //obtem view model corresponde a entidade que quero atualizar
                     QuotaSalvarVm quotaSalvarVm = quotasSalvarVm.First(qa =>
                         qa.Data == quota.Data
-                        && qa.CodigoTerminal == quota.Terminal
+                        && qa.CodigoTerminal == quota.CodigoTerminal
                         && qa.CodigoMaterial == (int)quota.Material
                         && qa.CodigoFornecedor == quota.Fornecedor.Codigo);
 
@@ -76,7 +76,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 IList<QuotaSalvarVm> quotasParaAdicionar = quotasSalvarVm.Where(qc =>
                     quotasSalvas.All(qs =>
                         qc.Data != qs.Data 
-                        || qc.CodigoTerminal != qs.Terminal
+                        || qc.CodigoTerminal != qs.CodigoTerminal
                         || qc.CodigoMaterial != (int) qs.Material
                         || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 

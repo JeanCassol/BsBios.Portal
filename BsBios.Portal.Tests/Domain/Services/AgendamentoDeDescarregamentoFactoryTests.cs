@@ -15,18 +15,20 @@ namespace BsBios.Portal.Tests.Domain.Services
         [ExpectedException(typeof(AgendamentoDeDescarregamentoSemNotaFiscalException))]
         public void QuandoCriarUmAgendamentoSemNotaDeveGerarExcecao()
         {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
             var factory = new AgendamentoDeDescarregamentoFactory();
-            factory.Construir(DateTime.Today,"1000", "IOQ5338");
+            factory.Construir(quota, "IOQ5338");
         }
 
         [TestMethod]
         public void QuandoCrioUmAgendamentoAsPropriedadesFicamCorretas()
         {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
             var factory = new AgendamentoDeDescarregamentoFactory();
             factory.AdicionarNotaFiscal(DefaultObjects.ObtemNotaFiscalVmPadrao());
-            var agendamento = (AgendamentoDeDescarregamento)  factory.Construir(DateTime.Today,"1000", "IOQ5338");
-            Assert.AreEqual(DateTime.Today, agendamento.Data);
-            Assert.AreEqual("1000", agendamento.CodigoTerminal);
+            var agendamento = (AgendamentoDeDescarregamento)  factory.Construir(quota, "IOQ5338");
+            Assert.AreEqual(DateTime.Today, agendamento.Quota.Data);
+            Assert.AreEqual("1000", agendamento.Quota.CodigoTerminal);
             Assert.AreEqual("IOQ5338", agendamento.Placa);
             Assert.AreEqual(1, agendamento.NotasFiscais.Count);
         }
@@ -34,6 +36,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         [TestMethod]
         public void PesoTotalDoDescarregamentoEaSomaDosPesosDasNotas()
         {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
             var factory = new AgendamentoDeDescarregamentoFactory();
             NotaFiscalVm nota1 = DefaultObjects.ObtemNotaFiscalVmPadrao();
             nota1.Peso = 120;
@@ -42,7 +45,7 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             factory.AdicionarNotaFiscal(nota1);
             factory.AdicionarNotaFiscal(nota2);
-            var agendamento = (AgendamentoDeDescarregamento)factory.Construir(DateTime.Today, "1000", "IOQ5338");
+            var agendamento = (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
             Assert.AreEqual(260, agendamento.PesoTotal);
             
         }

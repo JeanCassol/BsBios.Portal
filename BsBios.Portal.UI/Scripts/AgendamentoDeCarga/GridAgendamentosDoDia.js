@@ -3,8 +3,8 @@ GridAgendamentosDeCarga = {
     ConfigurarGrid: function (configuracao) {
         /// <summary>Configura os campos e as colunas do grid de agendamentos de um dia</summary>
         /// <param name="configuracao" type="Object">TipoComplexo=UrlDeLeitura: url utilizada para fazer a leitura dos dados do grid;
-        ///UrlDeEdicao: url utilizada para editar um registro do grid;UrlDeExclusao: url utilizada para excluir um registro do grid</param>
-        $("#gridQuotas").customKendoGrid({
+        ///UrlDeEdicao: url utilizada para editar um registro do grid;UrlDeExclusao: url utilizada para excluir um registro do grid;</param>
+        $("#gridAgendamentosDeCarga").customKendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
@@ -24,7 +24,8 @@ GridAgendamentosDeCarga = {
                     read: {
                         url: configuracao.UrlDeLeitura,
                         type: 'GET',
-                        cache: false
+                        cache: false,
+                        data: configuracao.dataFunction
                     }
                 }
             },
@@ -74,7 +75,9 @@ GridAgendamentosDeCarga = {
             }
             location.href = configuracao.UrlDeExclusao + '/?id=' + $(this).attr('data-id');
         });
-
-
+    },
+    AtualizarGrid: function() {
+        var dataSource = $("#gridAgendamentosDeCarga").data("kendogrid");
+        dataSource.read();
     }
 }
