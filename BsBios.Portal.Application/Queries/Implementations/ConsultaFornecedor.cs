@@ -77,5 +77,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
             return kendoGridVm;
         }
+
+        public string ConsultaPorCnpj(string cnpj)
+        {
+            _fornecedores.BuscaPeloCnpj(cnpj);
+            return (from fornecedor in _fornecedores.GetQuery() select fornecedor.Nome).FirstOrDefault();
+        }
     }
 }

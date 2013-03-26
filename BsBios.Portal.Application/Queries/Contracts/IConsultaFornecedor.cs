@@ -8,5 +8,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
         KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro);
         FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor);
         KendoGridVm ProdutosDoFornecedor(string codigoFornecedor);
+        string ConsultaPorCnpj(string cnpj);
     }
 }

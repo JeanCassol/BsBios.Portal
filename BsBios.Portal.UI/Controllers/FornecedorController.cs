@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -45,6 +46,20 @@ namespace BsBios.Portal.UI.Controllers
         {
             KendoGridVm kendoGridVm = _consultaFornecedor.ProdutosDoFornecedor(codigoFornecedor);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ConsultaPeloCnpj(string cnpj)
+        {
+            try
+            {
+                var nomeDoFornecedor = _consultaFornecedor.ConsultaPorCnpj(cnpj);
+                return Json(new {Sucesso = true, Nome = nomeDoFornecedor}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Sucesso = false, Mensagem = ex.Message}, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

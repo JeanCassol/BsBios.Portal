@@ -26,15 +26,12 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "CNPJ do Emitente")]
         public string CnpjDoEmitente { get; set; }
 
-        [Required(ErrorMessage = "Nome do Contratante é obrigatório")]
         [Display(Name = "Nome do Contratante")]
         public string NomeDoContratante { get; set; }
 
-        [Required(ErrorMessage = "CNPJ do Contratante é obrigatório")]
         [Display(Name = "CNPJ do Contratante")]
         public string CnpjDoContratante { get; set; }
 
-        [Required(ErrorMessage = "Número do Contrato é obrigatório")]
         [Display(Name = "Número do Contrato")]
         public string NumeroDoContrato { get; set; }
 

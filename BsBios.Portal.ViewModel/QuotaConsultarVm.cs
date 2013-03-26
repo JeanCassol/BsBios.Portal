@@ -9,7 +9,7 @@
         public string NomeFornecedor { get; set; }
         public int CodigoMaterial { get; set; }
         public string DescricaoMaterial { get; set; }
-        public int FluxoCarga { get; set; }
+        public int CodigoFluxoCarga { get; set; }
         public string DescricaoFluxoCarga { get; set; }
         public decimal  Peso { get; set; }
     }

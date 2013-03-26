@@ -106,6 +106,44 @@
             limparCamposDaNota();
             $(this).hide();
         });
+
+        $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_CnpjDoContratante').change(function() {
+            var cnpj = $(this).val();
+            cnpj = cnpj.replace(/[^\d]+/g, '');
+            if (cnpj == '') {
+                return;
+            }
+            var idCampoNome = "";
+            if ($(this)[0].name.indexOf("Emitente")) {
+                idCampoNome = "#NotaFiscal_NomeDoEmitente";
+            }
+            if ($(this)[0].name.indexOf("Contratante")) {
+                idCampoNome = "#NotaFiscal_NomeDoContratante";
+            }
+
+            if (validarCNPJ(cnpj)) {
+                $.ajax({
+                    url: '@Url.Action("ConsultaPeloCnpj","Fornecedor")',
+                    type: 'GET',
+                    data: { Cnpj: cnpj},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            $(idCampoNome).val(data.Nome);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            } else {
+                Mensagem.ExibirMensagemDeErro("CNPJ inválido.");
+                $(this).focus();
+            }
+        });
     });
 </script>
 

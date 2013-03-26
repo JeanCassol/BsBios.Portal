@@ -14,7 +14,7 @@ namespace BsBios.Portal.Application.Queries.Builders
                     NomeFornecedor = model.Fornecedor.Nome,
                     CodigoMaterial = (int) model.Material ,
                     DescricaoMaterial = model.Material.Descricao(),
-                    FluxoCarga = (int) model.FluxoDeCarga,
+                    CodigoFluxoCarga = (int) model.FluxoDeCarga,
                     DescricaoFluxoCarga = model.FluxoDeCarga.Descricao() ,
                     Peso = model.PesoTotal
                 };

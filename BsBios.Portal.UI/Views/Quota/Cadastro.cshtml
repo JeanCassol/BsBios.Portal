@@ -8,14 +8,14 @@
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
 <div class="paginaCadastro"> 
-    <fieldset>
+@*    <fieldset>
         <legend>Pesquisa</legend>
         @Html.Label("Data")
-        @Html.TextBox("DataPesquisa","",new{@class="campoDatePicker"})
+        @Html.TextBox("DataPesquisa","",new{@class="campoDatePicker"})*@
         @*        <div class="divBotao">*@
-        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
+@*        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>*@
         @*        </div>*@
-    </fieldset>
+@*    </fieldset>*@
     @using (Html.BeginForm())
     {
         <div id="divCadastro">
@@ -87,6 +87,7 @@
         <div class="divBotao">
             <input type="button" id="btnSalvar" value="Salvar" class="blue"/>
             <input type="button" id="btnCopiar" value="Copiar" class="blue"/>
+            <input type="button" id="btnNovo" value="Novo" class="blue"/>
         </div>
     </fieldset>
     <div id="divSelecionarFornecedor"></div>
@@ -289,10 +290,9 @@
                 $('#btnCancelarEdicao').show();
             });
 
-            $('#btnPesquisar').click(function() {
-                var dataPesquisa = $('#DataPesquisa').val();
+            $('#Data').change(function() {
+                var dataPesquisa = $('#Data').val();
                 if (dataPesquisa == '') {
-                    Mensagem.ExibirMensagemDeErro("É obrigatório preencher a data para fazer a pesquisa.");
                     return;
                 }
 
@@ -309,16 +309,18 @@
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             return;
                         }
-                        if (data.Registros.length > 0) {
-                            /* preencher os campos principais e carregar o grid via ajax*/
-                            $('#Data').val($('#DataPesquisa').val());
-                            $.each(data.Registros, function(indice, quota) {
-                                fornecedoresAdicionados.push(quota);
-                            });
-                            atualizaGrid();
-                        } else {
-                            /*apenas liberar os campos para edição*/
+                        if (data.Registros.length == 0) {
+                            return;
                         }
+                        fornecedoresAdicionados = [];
+                        
+                        /* preencher os campos principais e carregar o grid via ajax*/
+                        $('#Data').attr('readonly', true)
+                            .addClass('campoDesabilitado');
+                        $.each(data.Registros, function (indice, quota) {
+                            fornecedoresAdicionados.push(quota);
+                        });
+                        atualizaGrid();
 
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -365,6 +367,26 @@
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
+            });
+            
+            function habilitarCampoData() {
+                $('#Data')
+                    .attr('readonly', false)
+                    .removeClass('campoDesabilitado')
+                    .val('');
+            }
+
+            $('#btnCopiar').click(function () {
+                habilitarCampoData();
+            });
+            
+
+
+            $('#btnNovo').click(function () {
+                habilitarCampoData();
+                fornecedoresAdicionados = [];
+                atualizaGrid();
+                $('form').find('input[type!=button]').val();
             });
 
         });

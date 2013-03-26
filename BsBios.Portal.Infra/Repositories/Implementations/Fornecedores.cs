@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 
@@ -17,6 +13,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public Fornecedor BuscaPeloCodigo(string codigoSap)
         {
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
+        }
+
+        public IFornecedores BuscaPeloCnpj(string cnpj)
+        {
+            Query = Query.Where(x => x.Cnpj == cnpj);
+            return this;
         }
 
         public IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores)
