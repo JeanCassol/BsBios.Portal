@@ -31,11 +31,6 @@ namespace BsBios.Portal.UI.Controllers
             
         }
 
-        [HttpPost]
-        public JsonResult Editar()
-        {
-            throw new System.NotImplementedException();
-        }
 
         [HttpPost]
         public JsonResult SalvarAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
@@ -50,6 +45,21 @@ namespace BsBios.Portal.UI.Controllers
                 return Json(new {Sucesso = false, Mensagem = ex.Message});
 
             }
+        }
+
+        [HttpPost]
+        public ActionResult SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
+        {
+            try
+            {
+                QuotaPesoVm quotaPesoVm = _agendamentoDeCargaService.SalvarAgendamentoDeDescarregamento(agendamentoDeDescarregamentoSalvarVm);
+                return Json(new { Sucesso = true, Quota = quotaPesoVm });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message });
+            }
+            
         }
     }
 }

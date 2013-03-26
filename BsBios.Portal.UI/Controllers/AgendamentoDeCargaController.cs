@@ -60,9 +60,10 @@ namespace BsBios.Portal.UI.Controllers
             return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga),model);
         }
 
-        public ActionResult EditarCadastro(int idQuota)
+        public ActionResult EditarCadastro(int idQuota, int idAgendamento)
         {
-            throw new NotImplementedException();
+            AgendamentoDeCargaCadastroVm cadastroVm = _consultaQuota.ConsultarAgendamento(idQuota, idAgendamento);
+            return PartialView(cadastroVm.ViewDeCadastro, cadastroVm);
         }
     }
 }

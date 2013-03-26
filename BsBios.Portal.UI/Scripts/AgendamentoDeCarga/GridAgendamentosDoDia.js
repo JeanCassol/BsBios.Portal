@@ -66,7 +66,7 @@ GridAgendamentosDeCarga = {
         $('.button_edit').die("click");
         $('.button_edit').live("click", function (e) {
             e.preventDefault();
-            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idAgendamento=' + $(this).attr('data-idagendamento'));
+            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento'));
             $('#divCadastroAgendamento').dialog("open");
         });
         

@@ -1,4 +1,5 @@
 ﻿using System;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -25,9 +26,9 @@ namespace BsBios.Portal.Domain.Entities
             AgendamentoDeDescarregamento = agendamentoDeDescarregamento;
             Numero = numero;
             Serie = serie;
-            DataDeEmissao = dataDeEmissao;
-            NomeDoEmitente = nomeDoEmitente;
             CnpjDoEmitente = cnpjDoEmitente;
+            NomeDoEmitente = nomeDoEmitente;
+            DataDeEmissao = dataDeEmissao;
             NomeDoContratante = nomeDoContratante;
             CnpjDoContratante = cnpjDoContratante;
             NumeroDoContrato = numeroDoContrato;
@@ -62,5 +63,16 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         #endregion
+
+        public virtual void Alterar(NotaFiscalVm nfCadastro)
+        {
+            DataDeEmissao = Convert.ToDateTime(nfCadastro.DataDeEmissao);
+            NomeDoContratante = nfCadastro.NomeDoContratante;
+            CnpjDoContratante = nfCadastro.CnpjDoContratante;
+            NumeroDoContrato = nfCadastro.NumeroDoContrato;
+            Valor = nfCadastro.Valor;
+            Peso = nfCadastro.Peso;
+            
+        }
     }
 }

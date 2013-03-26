@@ -11,5 +11,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
         KendoGridVm ListarQuotasDoFornecedor(PaginacaoVm paginacaoVm, string codigoDoFornecedor);
         QuotaPorFornecedorVm ConsultarQuota(int idQuota);
         KendoGridVm ListarAgendamentosDaQuota(int idQuota);
+        AgendamentoDeCargaCadastroVm ConsultarAgendamento(int idQuota, int idAgendamento);
     }
 }

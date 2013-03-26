@@ -14,15 +14,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IQuotas _quotas;
         private readonly IBuilder<Quota, QuotaConsultarVm> _builderQuota;
         private readonly IBuilder<Quota, QuotaPorFornecedorVm> _builderQuotaPorFornecedor;
-        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> _builderAgendamentoDeCarga;
+        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> _builderAgendamentoDeCargaListar;
+        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> _builderAgendamentoDeCargaCadastro;
 
         public ConsultaQuota(IQuotas quotas, IBuilder<Quota, QuotaConsultarVm> builderQuota, 
-            IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor, IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> builderAgendamentoDeCarga)
+            IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor, IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> builderAgendamentoDeCargaListar, 
+            IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> builderAgendamentoDeCargaCadastro)
         {
             _quotas = quotas;
             _builderQuota = builderQuota;
             _builderQuotaPorFornecedor = builderQuotaPorFornecedor;
-            _builderAgendamentoDeCarga = builderAgendamentoDeCarga;
+            _builderAgendamentoDeCargaListar = builderAgendamentoDeCargaListar;
+            _builderAgendamentoDeCargaCadastro = builderAgendamentoDeCargaCadastro;
         }
 
         public bool PossuiQuotaNaData(DateTime data)
@@ -63,8 +66,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return new KendoGridVm
                 {
                     QuantidadeDeRegistros = quota.Agendamentos.Count,
-                    Registros = _builderAgendamentoDeCarga.BuildList(quota.Agendamentos ).Cast<ListagemVm>().ToList()
+                    Registros = _builderAgendamentoDeCargaListar.BuildList(quota.Agendamentos ).Cast<ListagemVm>().ToList()
                 };
+        }
+
+        public AgendamentoDeCargaCadastroVm ConsultarAgendamento(int idQuota, int idAgendamento)
+        {
+            Quota quota = _quotas.BuscaPorId(idQuota);
+            AgendamentoDeCarga agendamentoDeCarga = quota.Agendamentos.Single(x => x.Id == idAgendamento);
+            return _builderAgendamentoDeCargaCadastro.BuildSingle(agendamentoDeCarga);
         }
     }
 }

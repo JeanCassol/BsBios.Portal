@@ -42,6 +42,7 @@
     <Compile Include="AgendamentoDeCarregamentoCadastroVm.cs" />
     <Compile Include="AlterarSenhaVm.cs" />
     <Compile Include="AgendamentoDeDescarregamentoCadastroVm.cs" />
+    <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />

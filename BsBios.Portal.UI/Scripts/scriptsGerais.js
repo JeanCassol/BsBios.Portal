@@ -64,7 +64,7 @@ $.fn.customDialog = function (configuracao) {
 };
 
 function atualizaMensagemDeErro(mensagem) {
-    $('.error').html(mensagem);
+    $('#divErro').html(mensagem);
 }
 
 function inicializaCamposDatePicker() {

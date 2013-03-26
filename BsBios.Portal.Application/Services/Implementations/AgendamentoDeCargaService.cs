@@ -39,11 +39,16 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        public QuotaPesoVm SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
+        public QuotaPesoVm SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
+                Quota quota = _quotas.BuscaPorId(agendamentoDeDescarregamentoSalvarVm.IdQuota);
+                quota.InformarAgendamento(agendamentoDeDescarregamentoSalvarVm);
+
+                _quotas.Save(quota);
+                
 
                 _unitOfWork.Commit();
                 return new QuotaPesoVm();

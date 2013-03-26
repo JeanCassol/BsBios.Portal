@@ -88,6 +88,45 @@ namespace BsBios.Portal.Domain.Entities
                 notaFiscalVm.NumeroDoContrato, notaFiscalVm.Valor, notaFiscalVm.Peso);
             NotasFiscais.Add(notaFiscal);
         }
+
+        public void Atualizar(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoCadastroVm)
+        {
+            Placa = agendamentoDeDescarregamentoCadastroVm.Placa;
+
+            IList<NotaFiscal> notasParaRemover = NotasFiscais.Where(nfSalva => agendamentoDeDescarregamentoCadastroVm.NotasFiscais
+                .All(nfCadastro => nfCadastro.Numero != nfSalva.Numero || nfCadastro.Serie != nfSalva.Serie || nfCadastro.CnpjDoEmitente != nfSalva.CnpjDoEmitente )).ToList();
+
+            foreach (var notaFiscal in notasParaRemover)
+            {
+                NotasFiscais.Remove(notaFiscal);
+            }
+
+            var query = (from nfSalva in NotasFiscais
+                     join nfCadastro in agendamentoDeDescarregamentoCadastroVm.NotasFiscais
+                         on new {nfSalva.Numero, nfSalva.Serie, nfSalva.CnpjDoEmitente} equals
+                         new {nfCadastro.Numero, nfCadastro.Serie, nfCadastro.CnpjDoEmitente}
+                     select new {nfSalva, nfCadastro}
+                    );
+
+            foreach (var registro in query)
+            {
+                registro.nfSalva.Alterar(registro.nfCadastro);
+            }
+
+            IList<NotaFiscalVm> notasParaAdicionar = agendamentoDeDescarregamentoCadastroVm.NotasFiscais.Where(nfCadastro => NotasFiscais
+                .All(nfSalva => nfCadastro.Numero != nfSalva.Numero || nfCadastro.Serie != nfSalva.Serie || nfCadastro.CnpjDoEmitente != nfSalva.CnpjDoEmitente )).ToList();
+
+            foreach (var notaFiscalVm in notasParaAdicionar)
+            {
+                AdicionarNotaFiscal(notaFiscalVm);
+            }
+
+            if (NotasFiscais.Count == 0)
+            {
+                throw new AgendamentoDeDescarregamentoSemNotaFiscalException();
+            }
+
+        }
     }
 
 

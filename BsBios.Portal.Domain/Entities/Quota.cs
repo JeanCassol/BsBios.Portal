@@ -115,5 +115,26 @@ namespace BsBios.Portal.Domain.Entities
             Agendamentos.Remove(agendamento);
             CalculaPesoAgendado();
         }
+
+        public void InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
+        {
+            if (agendamentoDeDescarregamentoSalvarVm.IdAgendamento == 0)
+            {
+                var factory = new AgendamentoDeDescarregamentoFactory();
+                foreach (var notaFiscal in agendamentoDeDescarregamentoSalvarVm.NotasFiscais)
+                {
+                    factory.AdicionarNotaFiscal(notaFiscal);
+                    
+                }
+                var agendamentoDeCarregamento = (AgendamentoDeDescarregamento)factory.Construir(this, agendamentoDeDescarregamentoSalvarVm.Placa);
+                Agendamentos.Add(agendamentoDeCarregamento);
+            }
+            else
+            {
+                var agendamento = (AgendamentoDeDescarregamento)Agendamentos.Single(x => x.Id == agendamentoDeDescarregamentoSalvarVm.IdAgendamento);
+                agendamento.Atualizar(agendamentoDeDescarregamentoSalvarVm);
+            }
+            CalculaPesoAgendado();
+        }
     }
 }

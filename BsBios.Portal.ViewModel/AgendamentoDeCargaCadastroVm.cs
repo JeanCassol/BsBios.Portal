@@ -12,5 +12,7 @@ namespace BsBios.Portal.ViewModel
         [MaxLength(8)]
         public string Placa { get; set; }
 
+        public string ViewDeCadastro { get; set; }
+
     }
 }
