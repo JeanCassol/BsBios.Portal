@@ -63,15 +63,15 @@ GridAgendamentosDeCarga = {
             ]
         });
 
-        $('.button_edit').die("click");
-        $('.button_edit').live("click", function (e) {
+        $("#gridAgendamentosDeCarga").find('.button_edit').die("click");
+        $("#gridAgendamentosDeCarga").find('.button_edit').live("click", function (e) {
             e.preventDefault();
             $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento'));
             $('#divCadastroAgendamento').dialog("open");
         });
         
-        $('.button_remove').die("click");
-        $('.button_remove').live("click", function (e) {
+        $("#gridAgendamentosDeCarga").find('.button_remove').die("click");
+        $("#gridAgendamentosDeCarga").find('.button_remove').live("click", function (e) {
             e.preventDefault();
             var resposta = confirm("Confirma a exclusão do Agendamento?");
             if (!resposta) {

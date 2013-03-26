@@ -16,16 +16,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IBuilder<Quota, QuotaPorFornecedorVm> _builderQuotaPorFornecedor;
         private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> _builderAgendamentoDeCargaListar;
         private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> _builderAgendamentoDeCargaCadastro;
+        private readonly IBuilder<NotaFiscal, NotaFiscalVm> _builderNotaFiscal;
 
         public ConsultaQuota(IQuotas quotas, IBuilder<Quota, QuotaConsultarVm> builderQuota, 
             IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor, IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> builderAgendamentoDeCargaListar, 
-            IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> builderAgendamentoDeCargaCadastro)
+            IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> builderAgendamentoDeCargaCadastro, IBuilder<NotaFiscal, NotaFiscalVm> builderNotaFiscal)
         {
             _quotas = quotas;
             _builderQuota = builderQuota;
             _builderQuotaPorFornecedor = builderQuotaPorFornecedor;
             _builderAgendamentoDeCargaListar = builderAgendamentoDeCargaListar;
             _builderAgendamentoDeCargaCadastro = builderAgendamentoDeCargaCadastro;
+            _builderNotaFiscal = builderNotaFiscal;
         }
 
         public bool PossuiQuotaNaData(DateTime data)
@@ -75,6 +77,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Quota quota = _quotas.BuscaPorId(idQuota);
             AgendamentoDeCarga agendamentoDeCarga = quota.Agendamentos.Single(x => x.Id == idAgendamento);
             return _builderAgendamentoDeCargaCadastro.BuildSingle(agendamentoDeCarga);
+        }
+
+        public IList<NotaFiscalVm> NotasFiscaisDoAgendamento(int idQuota, int idAgendamento)
+        {
+            Quota quota = _quotas.BuscaPorId(idQuota);
+            var agendamentoDeCarga = (AgendamentoDeDescarregamento) quota.Agendamentos.Single(x => x.Id == idAgendamento);
+            return _builderNotaFiscal.BuildList(agendamentoDeCarga.NotasFiscais);
         }
     }
 }

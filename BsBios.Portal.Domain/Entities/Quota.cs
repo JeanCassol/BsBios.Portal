@@ -116,7 +116,7 @@ namespace BsBios.Portal.Domain.Entities
             CalculaPesoAgendado();
         }
 
-        public void InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
+        public virtual void InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
         {
             if (agendamentoDeDescarregamentoSalvarVm.IdAgendamento == 0)
             {

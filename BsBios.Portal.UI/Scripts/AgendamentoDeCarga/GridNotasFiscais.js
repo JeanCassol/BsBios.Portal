@@ -92,8 +92,8 @@ GridNotasFiscais = {
             ]
         });
 
-        $('.button_edit').die("click");
-        $('.button_edit').live("click", function (e) {
+        $("#divGridNotasFiscaisAdicionadas").find('.button_edit').die("click");
+        $("#divGridNotasFiscaisAdicionadas").find('.button_edit').live("click", function (e) {
             e.preventDefault();
             indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
             var notaFiscal = NotasFiscaisAdicionadas[indiceEdicao];
@@ -109,12 +109,12 @@ GridNotasFiscais = {
             $('#NotaFiscal_Peso').val(notaFiscal.Peso);
             $('#NotaFiscal_Valor').val(notaFiscal.Valor);
 
-            $('#btnAdicionarNotaFiscal').val('Atualizar');
+            $('#btnSalvarNotaFiscal').val('Atualizar');
             $('#btnCancelarEdicao').show();
         });
         
-        $('.button_remove').die("click");
-        $('.button_remove').live("click", function (e) {
+        $("#divGridNotasFiscaisAdicionadas").find('.button_remove').die("click");
+        $("#divGridNotasFiscaisAdicionadas").find('.button_remove').live("click", function (e) {
             e.preventDefault();
             var indice = $(this).parents('tr:first')[0].rowIndex;
             NotasFiscaisAdicionadas.splice(indice, 1);
@@ -133,5 +133,30 @@ GridNotasFiscais = {
         }
         indiceEdicao = -1;
         atualizarGrid();
-    }
+    },
+    NotasFiscais: function() {
+        return NotasFiscaisAdicionadas;
+    },
+    CarregarNotas: function (urlDeLeitura) {
+        $.ajax({
+        url: urlDeLeitura,
+        type: 'GET',
+        cache: false,
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            if (!data.Sucesso) {
+                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais do Agendamento. Detalhe: ' + data.Mensagem);
+                return;
+            }
+            NotasFiscaisAdicionadas = data.NotasFiscais;
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais do Agendamento.. Detalhe: ' + textStatus + errorThrown);
+        }
+    });
+        
+}
+    
 }

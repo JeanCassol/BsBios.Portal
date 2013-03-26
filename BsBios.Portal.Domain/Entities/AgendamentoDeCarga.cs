@@ -89,7 +89,7 @@ namespace BsBios.Portal.Domain.Entities
             NotasFiscais.Add(notaFiscal);
         }
 
-        public void Atualizar(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoCadastroVm)
+        public virtual void Atualizar(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoCadastroVm)
         {
             Placa = agendamentoDeDescarregamentoCadastroVm.Placa;
 

@@ -7,16 +7,15 @@
 <div class="divFiltros">
     <fieldset >
         <legend>Agendamento de Descarregamento</legend>
-        @Html.HiddenFor(x => x.IdQuota)
-        @Html.HiddenFor(x => x.IdAgendamento)
-        @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa))
+        <form id="formAgendamento">
+            @Html.HiddenFor(x => x.IdQuota)
+            @Html.HiddenFor(x => x.IdAgendamento)
+            @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa))
+        </form>
     </fieldset>
     <fieldset id="fieldSetNotaFiscal">
         <legend>Nota Fiscal</legend>
-        @using (Html.BeginForm())
-        {
-            @*@Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa))*@
-            
+        <form id="formNotaFiscal">
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero),
                                       new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie))
 
@@ -37,12 +36,13 @@
                 <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
                 <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
             </div>
-        }
+        </form>
     </fieldset>
     <fieldset>
         <legend>Notas Fiscais adicionadas</legend>
         <div id="divGridNotasFiscaisAdicionadas" style="width: 730px"></div>
     </fieldset>
+    <div id="divErro" class="message-error"></div>
 </div>
 <script type="text/javascript" src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridNotasFiscais.js")"></script>
 <script type="text/javascript">
@@ -51,11 +51,18 @@
         $('#fieldSetNotaFiscal').find('input[type!=button]').val('');
     }
 
-    $(function() {
+    $(function () {
         $('#btnCancelarEdicao').hide();
+
+        @if (Model.IdAgendamento > 0)
+        {
+            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento","Quota",new{Model.IdQuota, Model.IdAgendamento}))');
+        }
+
+
         GridNotasFiscais.ConfigurarGrid();
         $('#btnSalvarNotaFiscal').click(function() {
-            var form = $('form');
+            var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {
                 return;
             }
@@ -81,6 +88,12 @@
             } catch(err) {
                 Mensagem.ExibirMensagemDeErro(err);
             }
+        });
+
+        $('#btnCancelarEdicao').click(function() {
+            $('#btnSalvarNotaFiscal').val('Adicionar');
+            limparCamposDaNota();
+            $(this).hide();
         });
     });
 </script>

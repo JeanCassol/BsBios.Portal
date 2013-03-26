@@ -59,5 +59,19 @@ namespace BsBios.Portal.UI.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult NotasFiscaisDoAgendamento(int idQuota, int idAgendamento)
+        {
+            try
+            {
+                IList<NotaFiscalVm> notasFiscais = _consultaQuota.NotasFiscaisDoAgendamento(idQuota, idAgendamento);
+                return Json(new {Sucesso = true, NotasFiscais = notasFiscais}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Sucesso = false, Mensagem = ex.Message}, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

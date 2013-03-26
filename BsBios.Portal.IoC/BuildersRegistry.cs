@@ -77,6 +77,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaCadastroBuilder>();
 
+            For<IBuilder<NotaFiscal, NotaFiscalVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<NotaFiscalBuilder>();
 
         }
     }

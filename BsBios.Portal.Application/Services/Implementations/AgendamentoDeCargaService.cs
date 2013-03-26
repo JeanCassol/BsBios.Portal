@@ -44,14 +44,14 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
+
                 Quota quota = _quotas.BuscaPorId(agendamentoDeDescarregamentoSalvarVm.IdQuota);
                 quota.InformarAgendamento(agendamentoDeDescarregamentoSalvarVm);
-
                 _quotas.Save(quota);
                 
-
                 _unitOfWork.Commit();
-                return new QuotaPesoVm();
+
+                return _builderQuotaPeso.BuildSingle(quota);
             }
             catch (Exception)
             {

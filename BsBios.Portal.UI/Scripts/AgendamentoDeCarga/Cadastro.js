@@ -36,21 +36,38 @@ CadastroDeAgendamentoDeCarga = {
             buttons: {
                 "Salvar": function() {
 
-                    var form = $('form');
+                    var form = $('#formAgendamento');
                     if (!$(form).validate().form()) {
                         return;
                     }
-
-                    var formData = $(form).serialize();
-                    $.post(urlParaSalvar, formData,
-                        function(data) {
+                    
+                    $.ajax({
+                        url: urlParaSalvar,
+                        type: 'POST',
+                        data: JSON.stringify(
+                            {
+                                IdQuota: $('#IdQuota').val(),
+                                IdAgendamento: $('#IdAgendamento').val(),
+                                Placa: $('#Placa').val(),
+                                NotasFiscais: GridNotasFiscais.NotasFiscais()
+                            }),
+                        cache: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function (data) {
                             if (data.Sucesso) {
-                                $(this).dialog("close");
-                                GridAgendamentosDeCarga.AtualizarGrid();
+                                $('#divCadastroAgendamento').dialog("close");
+                                GridAgendamentosDeCarga.AtualizarTela(data.Quota);
                             } else {
                                 atualizaMensagemDeErro(data.Mensagem);
                             }
-                        });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao salvar o Agendamento de Descarregamento. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+
+
                 },
                 "Cancelar": function() {
                     $(this).dialog("close");
