@@ -13,5 +13,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
         KendoGridVm ListarAgendamentosDaQuota(int idQuota);
         AgendamentoDeCargaCadastroVm ConsultarAgendamento(int idQuota, int idAgendamento);
         IList<NotaFiscalVm> NotasFiscaisDoAgendamento(int idQuota, int idAgendamento);
+        KendoGridVm Consultar(ConferenciaDeCargaFiltroVm filtro);
     }
 }

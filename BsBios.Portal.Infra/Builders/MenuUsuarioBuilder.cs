@@ -127,7 +127,7 @@ namespace BsBios.Portal.Infra.Builders
     {
         public MenuConferenciaDeCargas() : base("Cargas Agendadas")
         {
-            AdicionarItem("Pesquisar", "AgendamentosDeCarga", "Pesquisar");
+            AdicionarItem("Pesquisar", "ConferenciaDeCarga", "Pesquisar");
         }
         
     }

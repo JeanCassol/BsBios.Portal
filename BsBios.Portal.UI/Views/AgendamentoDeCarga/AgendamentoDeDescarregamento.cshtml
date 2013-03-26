@@ -31,11 +31,15 @@
 
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor),
                                       new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso))
+            
+            @if (Model.PermiteEditar)
+            {
+                <div class="divBotao">
+                    <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
+                    <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
+                </div>
+            }
 
-            <div class="divBotao">
-                <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
-                <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
-            </div>
         </form>
     </fieldset>
     <fieldset>
@@ -53,14 +57,21 @@
 
     $(function () {
         $('#btnCancelarEdicao').hide();
-
-        @if (Model.IdAgendamento > 0)
-        {
-            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento","Quota",new{Model.IdQuota, Model.IdAgendamento}))');
+        var permiteEditar = '@Model.PermiteEditar'.boolean();
+        if (!permiteEditar) {
+            $('form').find('input')
+                .attr('readonly', true)
+                .addClass('campoDesabilitado');
         }
 
 
-        GridNotasFiscais.ConfigurarGrid();
+        @if (Model.IdAgendamento > 0)
+        {
+            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento", "Quota", new { Model.IdQuota, Model.IdAgendamento }))');
+        }
+
+
+        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar});
         $('#btnSalvarNotaFiscal').click(function() {
             var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {

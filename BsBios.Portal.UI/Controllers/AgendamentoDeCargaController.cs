@@ -57,13 +57,34 @@ namespace BsBios.Portal.UI.Controllers
                 model = new AgendamentoDeDescarregamentoCadastroVm() {IdQuota = idQuota};
             }
 
-            return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga),model);
+            if (model != null)
+            {
+                model.PermiteEditar = true;
+            }
+            return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga), model);
+
         }
 
         public ActionResult EditarCadastro(int idQuota, int idAgendamento)
         {
             AgendamentoDeCargaCadastroVm cadastroVm = _consultaQuota.ConsultarAgendamento(idQuota, idAgendamento);
+            cadastroVm.PermiteEditar = true;
             return PartialView(cadastroVm.ViewDeCadastro, cadastroVm);
+        }
+
+        public ActionResult RealizarAgendamento(int idQuota, int idAgendamento)
+        {
+            AgendamentoDeCargaCadastroVm cadastroVm = _consultaQuota.ConsultarAgendamento(idQuota, idAgendamento);
+            cadastroVm.PermiteEditar = false;
+            return PartialView(cadastroVm.ViewDeCadastro, cadastroVm);
+        }
+
+
+        [HttpGet]
+        public JsonResult Consultar(ConferenciaDeCargaFiltroVm filtro)
+        {
+            KendoGridVm kendoGridVm = _consultaQuota.Consultar(filtro);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace BsBios.Portal.Application.Services.Contracts
         QuotaPesoVm SalvarAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm);
         QuotaPesoVm SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm);
         QuotaPesoVm ExcluirAgendamento(int idQuota, int idAgendamento);
+        void Realizar(int idQuota, int idAgendamento);
     }
 }

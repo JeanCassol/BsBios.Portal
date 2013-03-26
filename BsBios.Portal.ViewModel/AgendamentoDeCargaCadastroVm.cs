@@ -14,5 +14,6 @@ namespace BsBios.Portal.ViewModel
 
         public string ViewDeCadastro { get; set; }
 
+        public bool PermiteEditar { get; set; }
     }
 }

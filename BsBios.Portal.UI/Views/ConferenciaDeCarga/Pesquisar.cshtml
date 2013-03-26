@@ -1,0 +1,188 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Conferência de Cargas";
+}
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+
+<fieldset id="fieldSetFiltros">
+    <legend>Filtros</legend>
+    <div class="linha">
+        <div class="coluna">
+            @Html.Label("Terminal")
+            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado"})
+        </div>
+        <div class="coluna">
+            @Html.Label("Data de Agendamento")
+            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker"} )
+        </div>
+    </div>
+    <div class="linha">
+        <div class="coluna">
+            @Html.Label("Placa")
+            @Html.TextBox("Placa")
+        </div>
+        <div class="coluna">
+            @Html.Label("Número NF")
+            @Html.TextBox("NumeroNf")
+        </div>
+    </div>
+    <div class="divBotao">
+        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
+        <input type="button" id="btnLimpar" value="Limpar" class="blue"/>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Agendamentos</legend>
+    <div id="gridAgendamentos"></div>
+    <div id="divRealizarAgendamento"></div>
+</fieldset>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            $("#gridAgendamentos").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                IdQuota: { type: "number" },
+                                IdAgendamento: { type: "number" },
+                                Data: { type: "string" },
+                                DescricaoMaterial: { type: "string" },
+                                DescricaoFluxo: { type: "string" },
+                                Placa: { type: "string" },
+                                NumeroNf: { type: "string" },
+                                CnpjEmitente: { type: "string" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    serverFiltering: true,
+                    serverPaging: true,
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Consultar", "AgendamentoDeCarga")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    CodigoTerminal: $('#CodigoTerminal').val(),
+                                    DataAgendamento: $('#DataAgendamento').val(),
+                                    Placa: $('#Placa').val(),
+                                    NumeroNf: $('#NumeroNf').val()
+                                };
+                            }
+                        }
+                    }
+                },
+                columns:
+                [
+                    {
+                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_visualize" data-idquota="${IdQuota}" data-idagendamento="${IdAgendamento}"></input>'
+                    },
+                    {
+                        width: 120,
+                        field: "IdAgendamento",
+                        title: 'Nº Agendamento'
+                    },
+                    {
+                        field: "DataAgendamento",
+                        title: "Data",
+                        width: 100
+                    },
+                    {
+                        field: "DescricaoFluxo",
+                        title: 'Fluxo de Carga',
+                        width: 120
+                    },
+                    {
+                        field: "DescricaoMaterial",
+                        title: 'Material',
+                        width: 100
+                    },
+                    {
+                        field: "NumeroNf",
+                        title: 'Número NF',
+                        width: 100
+                    },
+                    {
+                        field: "CnpjEmitente",
+                        title: 'Cnpj do Emitente',
+                        width: 120
+                    }
+                ]
+            });
+
+            $('#gridAgendamentos').find('.button_visualize').die('click');
+            $('#gridAgendamentos').find('.button_visualize').live('click', function (e) {
+                e.preventDefault();
+                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento","AgendamentoDeCarga")' +
+                '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
+                    $('#divRealizarAgendamento').dialog("open");
+                });
+                
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#fieldSetFiltros').find('input[type!=button]').val();
+            });
+            
+            function atualizaGrid() {
+                var grid = $('#gridAgendamentos').data("kendoGrid");
+                grid.dataSource.read();
+            }
+            $('#btnPesquisar').click(function () {
+                atualizaGrid();
+            });
+            $('#divRealizarAgendamento').customDialog({
+                title: 'Realizar Agendamento',
+                buttons: {
+                    "Realizar": function () {
+                        var resposta = confirm("Confirma a realização do evento?");
+                        if (!resposta) {
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '@Url.Action("Realizar","AgendamentoDeCargaService")',
+                            type: 'POST',
+                            data: JSON.stringify(
+                                {
+                                    IdQuota: $('#IdQuota').val(),
+                                    IdAgendamento: $('#IdAgendamento').val()
+                                }),
+                            cache: false,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.Sucesso) {
+                                    atualizaGrid();
+                                    $('#divRealizarAgendamento').dialog("close");
+                                } else {
+                                    atualizaMensagemDeErro(data.Mensagem);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao realizar o Agendamento. Detalhe: ' + textStatus + errorThrown);
+                            }
+                        });
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        })
+
+    </script>
+}
+
+

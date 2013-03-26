@@ -3,6 +3,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -52,7 +53,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         {
             var quota = DefaultObjects.ObtemQuotaDeCarregamento();
             var agendamento = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota, 100);
-            quota.AdicionarAgendamento(agendamento);
+            quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
+                {
+                    IdQuota = quota.Id
+                });
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var quotas = ObjectFactory.GetInstance<IQuotas>();

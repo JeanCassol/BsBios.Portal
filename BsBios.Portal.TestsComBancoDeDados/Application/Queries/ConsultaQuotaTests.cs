@@ -83,5 +83,91 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             IList<QuotaPorFornecedorVm> quotas = kendoGridVm.Registros.Cast<QuotaPorFornecedorVm>().ToList();
             Assert.IsTrue(Convert.ToDateTime(quotas[0].Data) > Convert.ToDateTime(quotas[1].Data));
         }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPeloNumeroDoAtendimento()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
+            //AgendamentoDeDescarregamento agendamento = DefaultObjects.ObtemAgendamentoDeDescarregamento(quota);
+            var agendamentoVm = new AgendamentoDeDescarregamentoSalvarVm
+                {
+                    IdQuota = quota.Id,
+                    Placa = "IOQ5338",
+                    IdAgendamento = 0,
+                    NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            new NotaFiscalVm
+                                {
+                                    Numero = "1234",
+                                    Serie = "1",
+                                    DataDeEmissao = DateTime.Today.ToShortDateString(),
+                                    CnpjDoEmitente = "123",
+                                    NomeDoEmitente = "Emitente",
+                                    CnpjDoContratante = "666",
+                                    NomeDoContratante = "contratante",
+                                    NumeroDoContrato = "4001",
+                                    Peso = 100,
+                                    Valor = 150
+                                }
+                        }
+
+                };
+            quota.InformarAgendamento(agendamentoVm);
+
+            DefaultPersistedObjects.PersistirQuota(quota);
+
+            var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
+            var filtro = new ConferenciaDeCargaFiltroVm
+                {
+                    CodigoTerminal = "1000",
+                    NumeroNf = "1234"
+                };
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(filtro);
+            Assert.AreEqual(1,kendoGridVm.QuantidadeDeRegistros);
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPelaPlaca()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
+            //AgendamentoDeDescarregamento agendamento = DefaultObjects.ObtemAgendamentoDeDescarregamento(quota);
+            var agendamentoVm = new AgendamentoDeDescarregamentoSalvarVm
+            {
+                IdQuota = quota.Id,
+                Placa = "IMN1620",
+                IdAgendamento = 0,
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            new NotaFiscalVm
+                                {
+                                    Numero = "1234",
+                                    Serie = "1",
+                                    DataDeEmissao = DateTime.Today.ToShortDateString(),
+                                    CnpjDoEmitente = "123",
+                                    NomeDoEmitente = "Emitente",
+                                    CnpjDoContratante = "666",
+                                    NomeDoContratante = "contratante",
+                                    NumeroDoContrato = "4001",
+                                    Peso = 100,
+                                    Valor = 150
+                                }
+                        }
+
+            };
+            quota.InformarAgendamento(agendamentoVm);
+
+            DefaultPersistedObjects.PersistirQuota(quota);
+
+            var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                Placa = "IMN1620"
+            };
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(filtro);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -84,6 +85,72 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Quota quota = _quotas.BuscaPorId(idQuota);
             var agendamentoDeCarga = (AgendamentoDeDescarregamento) quota.Agendamentos.Single(x => x.Id == idAgendamento);
             return _builderNotaFiscal.BuildList(agendamentoDeCarga.NotasFiscais);
+        }
+
+        public KendoGridVm Consultar(ConferenciaDeCargaFiltroVm filtro)
+        {
+            var queryDescarregamento = (from quota in _quotas.GetQuery()
+                     from agendamento in quota.Agendamentos
+                     from notaFiscal in ((AgendamentoDeDescarregamento) agendamento).NotasFiscais
+                     where !agendamento.Realizado
+                     && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
+                           && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
+                           && quota.CodigoTerminal == filtro.CodigoTerminal
+                           && ( string.IsNullOrEmpty(filtro.NumeroNf) || notaFiscal.Numero == filtro.NumeroNf)
+                     select new 
+                         {
+                             IdQuota = quota.Id,
+                             IdAgendamento = agendamento.Id,
+                             DataAgendamento = quota.Data,
+                             quota.Material ,
+                             quota.FluxoDeCarga ,
+                             agendamento.Placa/*,
+                             notaFiscal.CnpjDoEmitente,
+                             NumeroNf = notaFiscal.Numero*/
+                         });
+
+            var query = queryDescarregamento.AsEnumerable();
+
+            if (string.IsNullOrEmpty(filtro.NumeroNf))
+            {
+                var queryCarregamento = (from quota in _quotas.GetQuery()
+                                         from agendamento in quota.Agendamentos
+                                         where !agendamento.Realizado
+                                         && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
+                                               && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
+                                               && quota.CodigoTerminal == filtro.CodigoTerminal
+                                         select new
+                                         {
+                                             IdQuota = quota.Id,
+                                             IdAgendamento = agendamento.Id,
+                                             DataAgendamento = quota.Data,
+                                             quota.Material,
+                                             quota.FluxoDeCarga,
+                                             agendamento.Placa/*,
+                                             CnpjDoEmitente = "",
+                                             NumeroNf = ""*/
+                                         });
+
+                query = query.Union(queryCarregamento.AsEnumerable());
+
+            }
+
+            return new KendoGridVm()
+                {
+                    QuantidadeDeRegistros = query.Count(),
+                    Registros = query.ToList().Select(x => 
+                    new ConferenciaDeCargaPesquisaResultadoVm
+                        {
+                            IdQuota = x.IdQuota,
+                            IdAgendamento = x.IdAgendamento,
+                            DescricaoMaterial = x.Material.Descricao() ,
+                            DescricaoFluxo = x.FluxoDeCarga.Descricao(),
+                            DataAgendamento = x.DataAgendamento.ToShortDateString(),
+                            Placa = x.Placa /*,
+                            CnpjEmitente = x.CnpjDoEmitente ,
+                            NumeroNf = x.NumeroNf*/
+                        }).Cast<ListagemVm>().ToList()
+                };
         }
     }
 }

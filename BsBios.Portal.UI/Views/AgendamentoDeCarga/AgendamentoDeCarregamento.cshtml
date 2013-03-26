@@ -28,5 +28,13 @@
     </fieldset>
     <div id="divErro" class="message-error"></div>
 </div>
-
+<script type="text/javascript">
+    $(function() {
+        if (!'@Model.PermiteEditar'.boolean()) {
+            $('form').find('input')
+                .attr('readonly', true)
+                .addClass('campoDesabilitado');
+        }
+    })
+</script>
 

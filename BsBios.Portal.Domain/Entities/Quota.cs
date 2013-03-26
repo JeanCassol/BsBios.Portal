@@ -136,5 +136,11 @@ namespace BsBios.Portal.Domain.Entities
             }
             CalculaPesoAgendado();
         }
+
+        public virtual void RealizarAgendamento(int idAgendamento)
+        {
+            AgendamentoDeCarga agendamento = Agendamentos.Single(x => x.Id == idAgendamento);
+            agendamento.Realizar();
+        }
     }
 }

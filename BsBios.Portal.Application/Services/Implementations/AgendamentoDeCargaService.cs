@@ -76,5 +76,22 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
+        public void Realizar(int idQuota, int idAgendamento)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                Quota quota = _quotas.BuscaPorId(idQuota);
+                quota.RealizarAgendamento(idAgendamento);
+                _quotas.Save(quota);
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

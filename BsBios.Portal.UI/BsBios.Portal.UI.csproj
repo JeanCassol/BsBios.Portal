@@ -137,6 +137,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
+    <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
     <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
@@ -445,6 +446,7 @@
     <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
+    <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

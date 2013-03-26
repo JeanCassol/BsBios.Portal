@@ -31,7 +31,6 @@ namespace BsBios.Portal.UI.Controllers
             
         }
 
-
         [HttpPost]
         public JsonResult SalvarAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {
@@ -48,7 +47,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
+        public JsonResult SalvarAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
         {
             try
             {
@@ -59,7 +58,19 @@ namespace BsBios.Portal.UI.Controllers
             {
                 return Json(new { Sucesso = false, Mensagem = ex.Message });
             }
-            
+        }
+        [HttpPost]
+        public JsonResult Realizar(int idQuota, int idAgendamento)
+        {
+            try
+            {
+                _agendamentoDeCargaService.Realizar(idQuota, idAgendamento);
+                return Json(new {Sucesso = true});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message });
+            }
         }
     }
 }
