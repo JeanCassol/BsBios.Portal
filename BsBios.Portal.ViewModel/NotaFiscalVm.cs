@@ -5,7 +5,7 @@ namespace BsBios.Portal.ViewModel
 {
     public class NotaFiscalVm
     {
-        [MaxLength(9)]
+        [StringLength(9,ErrorMessage = "Número da Nota não pode ter mais do que 9 caracteres")]
         [Required(ErrorMessage = "Número é obrigatório")]
         [Display(Name = "Número")]
         public string Numero { get; set; }
@@ -15,7 +15,7 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Série")]
         public string Serie { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [Required(ErrorMessage = "Data de Emissão é obrigatório")]
         [Display(Name = "Data de Emissão")]
         public string DataDeEmissao { get; set; }

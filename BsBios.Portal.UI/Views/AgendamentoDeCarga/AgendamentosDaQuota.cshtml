@@ -48,6 +48,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/Cadastro.js")"></script>
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridAgendamentosDoDia.js")"></script>
     <script type="text/javascript">
@@ -71,10 +73,10 @@
 
             $('#btnAdicionarAgendamento').click(function () {
                 $('#divCadastroAgendamento').load('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
-                function (response, status, xhr) {
-                    jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
-                    $('#divCadastroAgendamento').dialog('open');
-                });
+                    function (response, status, xhr) {
+                        jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
+                        $('#divCadastroAgendamento').dialog('open');
+                    });
             });
         });
     </script>

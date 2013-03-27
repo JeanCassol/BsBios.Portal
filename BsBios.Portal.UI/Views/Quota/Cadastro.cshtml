@@ -24,7 +24,7 @@
                 <div class="linha">
                     <div class="coluna">
                         @Html.LabelFor(x => x.Data)
-                        @Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker"})
+                        @Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker maskdata"})
                         @Html.ValidationMessageFor(x => x.Data)
                     </div>
                     <div class="coluna">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="coluna">
                         @Html.LabelFor(x => x.Peso)
-                        @Html.TextBoxFor(x => x.Peso,new{@class="campopequeno"})
+                        @Html.TextBoxFor(x => x.Peso,new{@class="campopequeno maskquantidade"})
                         @Html.ValidationMessageFor(x => x.Peso)
                     </div>
                 </div>
@@ -97,12 +97,14 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
 
         var fornecedoresAdicionados = new Array();
         var indiceEdicao = -1;
-        $(function () {
-            
+        $(function() {
+
             $('#btnCancelarEdicao').hide();
             $('#Material').change(function() {
                 /*altera o campo "Fluxo de Carga" de acordo com o Material*/
@@ -114,7 +116,7 @@
                     $('#FluxoDeCarga').val('@Convert.ToInt16(Enumeradores.FluxoDeCarga.Carregamento)');
                 }
             });
-            
+
             $('#Material').change();
 
             $('#divSelecionarFornecedor').customDialog({
@@ -163,7 +165,7 @@
                 var grid = $("#gridFornecedoresAdicionados").data("kendoGrid");
                 grid.dataSource.read();
             }
-            
+
             function encerrarEdicao() {
                 indiceEdicao = -1;
                 $('#btnAdicionarFornecedor').val('Adicionar');
@@ -174,7 +176,7 @@
             $('#btnCancelarEdicao').click(function() {
                 encerrarEdicao();
             });
-        
+
             $('#btnAdicionarFornecedor').click(function() {
                 var form = $('form');
                 if (!$(form).validate().form()) {
@@ -190,12 +192,12 @@
                     DescricaoFluxoCarga: $('#FluxoDeCarga :selected').text(),
                     Peso: $('#Peso').val()
                 };
-                
+
                 if (existeQuota(fornecedor)) {
                     Mensagem.ExibirMensagemDeErro("Já existe quota cadastrada para o fornecedor " + fornecedor.NomeFornecedor +
                         " e o material " + fornecedor.DescricaoMaterial + ". Edite a quota existente.");
                     return;
-                } 
+                }
 
                 if (indiceEdicao == -1) {
                     fornecedoresAdicionados.push(fornecedor);
@@ -263,20 +265,21 @@
                     },
                     {
                         width: 80,
-                        field: "Peso"
+                        field: "Peso",
+                        format: "{0:n}"
                     }
                 ]
             });
-            
+
             $('#gridFornecedoresAdicionados').find('.button_remove').die('click');
-            $('#gridFornecedoresAdicionados').find('.button_remove').live('click', function () {
+            $('#gridFornecedoresAdicionados').find('.button_remove').live('click', function() {
                 var indice = $(this).parents('tr:first')[0].rowIndex;
                 fornecedoresAdicionados.splice(indice, 1);
                 atualizaGrid();
             });
 
             $('#gridFornecedoresAdicionados').find('.button_edit').die('click');
-            $('#gridFornecedoresAdicionados').find('.button_edit').live('click', function () {
+            $('#gridFornecedoresAdicionados').find('.button_edit').live('click', function() {
                 indiceEdicao = $(this).parents('tr:first')[0].rowIndex;
                 var quota = fornecedoresAdicionados[indiceEdicao];
 
@@ -284,7 +287,7 @@
                 $('#Fornecedor').val(quota.NomeFornecedor);
                 $('#Material').val(quota.CodigoMaterial);
                 $('#Material').change();
-                $('#Peso').val(quota.Peso);
+                $('#Peso').val(Globalize.format(quota.Peso));
 
                 $('#btnAdicionarFornecedor').val('Atualizar');
                 $('#btnCancelarEdicao').show();
@@ -313,11 +316,12 @@
                             return;
                         }
                         fornecedoresAdicionados = [];
-                        
+
                         /* preencher os campos principais e carregar o grid via ajax*/
                         $('#Data').attr('readonly', true)
                             .addClass('campoDesabilitado');
-                        $.each(data.Registros, function (indice, quota) {
+                        $("#Data").datepicker("destroy");
+                        $.each(data.Registros, function(indice, quota) {
                             fornecedoresAdicionados.push(quota);
                         });
                         atualizaGrid();
@@ -330,7 +334,7 @@
 
             });
 
-            $('#btnSalvar').click(function () {
+            $('#btnSalvar').click(function() {
                 if (fornecedoresAdicionados.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Fornecedor antes de salvar.');
                     return;
@@ -346,7 +350,7 @@
                         Peso: quota.Peso
                     });
                 });
-                
+
                 $.ajax({
                     url: '@Url.Action("Salvar", "QuotaSalvar")',
                     type: 'POST',
@@ -354,35 +358,36 @@
                     data: JSON.stringify(quotasParaSalvar),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (data.Sucesso) {
                             Mensagem.ExibirMensagemDeSucesso("As quotas foram salvas com sucesso.");
                             return;
-                        }else {
+                        } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
             });
-            
+
             function habilitarCampoData() {
                 $('#Data')
                     .attr('readonly', false)
                     .removeClass('campoDesabilitado')
                     .val('');
+
+                $("#Data").datepicker();
             }
 
-            $('#btnCopiar').click(function () {
+            $('#btnCopiar').click(function() {
                 habilitarCampoData();
-            });
-            
+            });            
 
 
-            $('#btnNovo').click(function () {
+            $('#btnNovo').click(function() {
                 habilitarCampoData();
                 fornecedoresAdicionados = [];
                 atualizaGrid();
@@ -390,7 +395,7 @@
             });
 
         });
-        
+
     </script>
 
 

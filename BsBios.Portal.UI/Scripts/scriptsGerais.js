@@ -1,4 +1,6 @@
-﻿Mensagem = {
+﻿Globalize.culture('pt-BR');
+
+Mensagem = {
     ExibirMensagemDeErro: function (mensagem) {
         alert(mensagem);
     },
@@ -20,6 +22,7 @@ Numero = {
         else
             return val;
     }
+    
 };
 
 $.fn.customKendoGrid = function (configuracao) {
@@ -129,6 +132,98 @@ function validarCNPJ(cnpj) {
 
 }
 
+function dataValida(valor) {
+    var date = valor;
+    var ExpReg = new RegExp("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[12][0-9]{3}");
+    var ardt = date.split("/");
+    var erro = false;
+    if (date.search(ExpReg) == -1) {
+        erro = true;
+    }
+    else if (((ardt[1] == 4) || (ardt[1] == 6) || (ardt[1] == 9) || (ardt[1] == 11)) && (ardt[0] > 30))
+        erro = true;
+    else if (ardt[1] == 2) {
+        if ((ardt[0] > 28) && ((ardt[2] % 4) != 0))
+            erro = true;
+        if ((ardt[0] > 29) && ((ardt[2] % 4) == 0))
+            erro = true;
+    }
+    return !erro;
+}
+function aplicaMascaraCnpj() {
+    var camposCnpj = $('.maskcnpj');
+    if ($(camposCnpj).length == 0) {
+        return;
+    }
+    $(camposCnpj).mask("99.999.999/9999-99");
+}
+
+function aplicaMascaraMoeda() {
+    var campos = $('.maskmoeda');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).setMask('moeda-portal');
+}
+
+function aplicaMascaraQuantidade() {
+    var campos = $('.maskquantidade');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).setMask('quantidade-portal');
+
+}
+function aplicaMascaraData() {
+    var camposData = $('.maskdata');
+    if ($(camposData).length == 0) {
+        return;
+    }
+    $(camposData).mask("99/99/9999",
+    {
+        completed: function () {
+            if (!dataValida(this.val())) {
+                alert("Data inválida.");
+                this.focus();
+            }
+              
+         }
+    });
+}
+
+//function aplicaMascaraCnpj() {
+//    var camposCnpj = $('.maskcnpj');
+//    if ($(camposCnpj).length == 0) {
+//        return;
+//    }
+//    $(camposCnpj).setMask('cnpj');
+//}
+//function aplicaMascaraData() {
+//    var camposData = $('.maskdata');
+//    if ($(camposData).length == 0) {
+//        return;
+//    }
+//    $(camposData).setMask("99/99/9999",
+//    {
+//        completed: function () {
+//            if (!dataValida(this.val())) {
+//                alert("Data inválida.");
+//                this.focus();
+//            }
+
+//        }
+//    });
+//}
+
+
+function aplicaMascaras() {
+    aplicaMascaraCnpj();
+    aplicaMascaraData();
+    aplicaMascaraMoeda();
+    aplicaMascaraQuantidade();
+}
+
 $(function () {
     inicializaCamposDatePicker();
+    aplicaMascaras();
 });

@@ -32,8 +32,8 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_CnpjDoContratante').val(notaFiscal.CnpjDoContratante);
     $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
     $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
-    $('#NotaFiscal_Peso').val(notaFiscal.Peso);
-    $('#NotaFiscal_Valor').val(notaFiscal.Valor);
+    $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso));
+    $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor));
 }
 
 
@@ -134,7 +134,8 @@ GridNotasFiscais = {
             },
             {
                 field: "Valor",
-                width: 80
+                width: 80,
+                format: "{0:n}"
             });
 
         $("#divGridNotasFiscaisAdicionadas").customKendoGrid({

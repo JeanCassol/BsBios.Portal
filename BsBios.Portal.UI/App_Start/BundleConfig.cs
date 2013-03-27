@@ -23,7 +23,9 @@ namespace BsBios.Portal.UI
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*",
-                        "~/Scripts/methods_pt.js",
+                       "~/Scripts/methods_pt.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/globalize").Include(
                         "~/Scripts/globalize.js",
                         "~/Scripts/globalize.culture.pt-BR.js"));
 

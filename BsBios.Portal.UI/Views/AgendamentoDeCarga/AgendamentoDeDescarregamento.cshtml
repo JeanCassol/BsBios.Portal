@@ -19,18 +19,18 @@
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero),
                                       new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie))
 
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,Model.PermiteEditar ? "campoDatePicker":""))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,Model.PermiteEditar ? "campoDatePicker maskdata":""))
 
-            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente, "maskcnpj"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente,"campogrande"))
 
-            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante,"maskcnpj"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante,"campogrande"))
 
             @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato))
 
-            @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor),
-                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor,"maskmoeda"),
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso,"maskquantidade"))
             
             @if (Model.PermiteEditar)
             {
@@ -48,6 +48,7 @@
     </fieldset>
     <div id="divErro" class="message-error"></div>
 </div>
+
 <script type="text/javascript" src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridNotasFiscais.js")"></script>
 <script type="text/javascript">
     inicializaCamposDatePicker();
@@ -56,6 +57,12 @@
     }
 
     $(function () {
+        aplicaMascaras();
+        $('#NotaFiscal_Numero').setMask({
+            mask: '999999999',
+            maxLength: 9,
+            autoTab:false
+        });
         $('#btnCancelarEdicao').hide();
         var permiteEditar = '@Model.PermiteEditar'.boolean();
         if (!permiteEditar) {
@@ -87,8 +94,8 @@
                 CnpjDoContratante: $('#NotaFiscal_CnpjDoContratante').val(),
                 NomeDoContratante: $('#NotaFiscal_NomeDoContratante').val(),
                 NumeroDoContrato: $('#NotaFiscal_NumeroDoContrato').val(),
-                Valor: $('#NotaFiscal_Valor').val(),
-                Peso: $('#NotaFiscal_Peso').val()
+                Valor: Globalize.parseFloat($('#NotaFiscal_Valor').val()),
+                Peso: Globalize.parseFloat($('#NotaFiscal_Peso').val())
             };
 
             try {
@@ -111,7 +118,7 @@
             $(this).hide();
         });
 
-        $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_CnpjDoContratante').change(function() {
+        $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_CnpjDoContratante').blur(function() {
             var cnpj = $(this).val();
             cnpj = cnpj.replace(/[^\d]+/g, '');
             if (cnpj == '') {

@@ -54,7 +54,8 @@ GridAgendamentosDeCarga = {
                 {
                     field: "Peso",
                     title: "Peso Total",
-                    width: 100
+                    width: 100,
+                    format:"{0:n}"
                 },
                 {
                     field: "Realizado",
