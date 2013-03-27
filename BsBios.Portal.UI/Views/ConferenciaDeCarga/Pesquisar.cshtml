@@ -44,8 +44,8 @@
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
-    <div id="gridAgendamentos" style="width: 785px"></div>
-    <div id="divRealizarAgendamento"></div>
+    <div id="gridAgendamentos" class="divGrid" style="width: 785px"></div>
+    <div id="divRealizarAgendamento" class="janelaModal"></div>
 </fieldset>
 @section scripts
 {
@@ -117,11 +117,11 @@
                     {
                         field: "DescricaoMaterial",
                         title: 'Material',
-                        width: 100
+                        width: 80
                     },
                     {
                         field: "Placa",
-                        width: 100
+                        width: 80
                     },
                     {
                         field: "NumeroNf",

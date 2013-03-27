@@ -93,7 +93,7 @@ GridAgendamentosDeCarga = {
                     if (data.Sucesso) {
                         GridAgendamentosDeCarga.AtualizarTela(data.Quota);
                     } else {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar excluir o Agendamento. Detalhe: ' + data.Mensagem);
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + data.Mensagem);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

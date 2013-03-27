@@ -442,6 +442,7 @@ aside {
 fieldset {
     /*border: none;*/
     margin: 0;
+    padding: 2px 0 1px 8px;
 }
 /*fieldset legend {
     display: none;
@@ -569,7 +570,7 @@ td button {
     color: #e80c4d;
     font-size: 1.1em;
     font-weight: bold;
-    margin: 20px 0 10px 0;
+    margin: 0px 0 10px 0;
 }
 
 .message-success {
@@ -673,14 +674,14 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle; /* align the text vertically centered */
 }
 .button_remove{
-    background-image: url(/images/icons/DeleteRed_24.png); /* 16px x 16px */
+    background-image: url(/images/icons/DeleteRed_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 24px;           /* make this the size of your image */
-    width: 24px;
+    height: 16px;           /* make this the size of your image */
+    width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
@@ -697,27 +698,27 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle; /* align the text vertically centered */
 }
 .button_visualize{
-    background-image: url(/images/icons/mag_32.png); /* 16px x 16px */
+    background-image: url(/images/icons/mag_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 32px;           /* make this the size of your image */
-    width: 32px;
+    height: 16px;           /* make this the size of your image */
+    width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
 
 .button_schedule{
-    background-image: url(/images/icons/schedule_32.png); /* 16px x 16px */
+    background-image: url(/images/icons/schedule_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 32px;           /* make this the size of your image */
-    width: 32px;
+    height: 16px;           /* make this the size of your image */
+    width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
@@ -772,8 +773,25 @@ input[type="checkbox"].input-validation-error {
     background-color: lightgray !important;
     border-color: black !important;
 }
+.janelaModal .ui-dialog .ui-dialog-content {
+    padding: 0
+}
+.janelaModal  {
+    padding: 0!important
+}
+
 .janelaModal input {
     font-size: 14px!important;
+}
+.ui-dialog-buttonpane {
+    margin: 0!important;
+    padding: 0!important;
+}
+.ui-button-text {
+    font-size: 14px!important;
+}
+.ui-dialog-title {
+    font-size: 18px!important;
 }
 
 

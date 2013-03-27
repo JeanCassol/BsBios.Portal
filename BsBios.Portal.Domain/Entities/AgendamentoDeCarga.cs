@@ -21,6 +21,10 @@ namespace BsBios.Portal.Domain.Entities
 
         protected AgendamentoDeCarga(Quota quota, string placa):this()
         {
+            if (quota.Data < DateTime.Today)
+            {
+                throw new DataDeAgendamentoExpiradaException("Não é permitido criar agendamentos com data anterior à data atual.");
+            }
             Quota = quota;
             Placa = placa;
         }
@@ -29,6 +33,20 @@ namespace BsBios.Portal.Domain.Entities
         {
             Realizado = true;
         }
+        protected void VerificaSePodeAlterarAgendamento()
+        {
+            if (Realizado)
+            {
+                throw new OperacaoNaoPermitidaParaAgendamentoRealizadoException("Não é permitido alterar um agendamento que já foi realizado.");
+            }
+
+            if (DateTime.Today >= Quota.Data)
+            {
+                throw new DataDeAgendamentoExpiradaException("Não é permitido alterar agendamentos com data igual ou anterior ou à data atual.");
+            }
+        }
+
+
     }   
 
     public class AgendamentoDeCarregamento: AgendamentoDeCarga
@@ -53,6 +71,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Atualizar(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {
+            VerificaSePodeAlterarAgendamento();
             Placa = agendamentoDeCarregamentoCadastroVm.Placa;
             Peso = agendamentoDeCarregamentoCadastroVm.Peso;
         }
@@ -91,6 +110,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Atualizar(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoCadastroVm)
         {
+            VerificaSePodeAlterarAgendamento();
             Placa = agendamentoDeDescarregamentoCadastroVm.Placa;
 
             IList<NotaFiscal> notasParaRemover = NotasFiscais.Where(nfSalva => agendamentoDeDescarregamentoCadastroVm.NotasFiscais

@@ -299,13 +299,16 @@
     <Content Include="Global.asax" />
     <Content Include="Images\bg_logo.gif" />
     <Content Include="Images\icons\add_22.png" />
+    <Content Include="Images\icons\DeleteRed_16.png" />
     <Content Include="Images\icons\DeleteRed_24.png" />
     <Content Include="Images\icons\delete_24.png" />
     <Content Include="Images\icons\delete_32.png" />
     <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\editar_22.png" />
     <Content Include="Images\icons\editar_32.png" />
+    <Content Include="Images\icons\mag_16.png" />
     <Content Include="Images\icons\mag_32.png" />
+    <Content Include="Images\icons\schedule_16.png" />
     <Content Include="Images\icons\schedule_32.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
@@ -328,6 +331,7 @@
     <Content Include="Scripts\jquery-ui-extension.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

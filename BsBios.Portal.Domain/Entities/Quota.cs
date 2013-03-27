@@ -63,14 +63,6 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
-        private void VerificaSePodeAlterarAgendamento()
-        {
-            if (DateTime.Today >= Data)
-            {
-                throw new DataDeAgendamentoExpiradaException("Não é permitido remover agendamentos com data igual ou anterior ou à data atual.");
-            }
-        }
-
 
         #region Equality Members
 
@@ -103,7 +95,6 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void InformarAgendamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {
-            VerificaSePodeAlterarAgendamento();
             if (agendamentoDeCarregamentoCadastroVm.IdAgendamento == 0)
             {
                 var factory = new AgendamentoDeCarregamentoFactory(agendamentoDeCarregamentoCadastroVm.Peso);
@@ -120,7 +111,11 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void RemoverAgendamento(int idAgendamento)
         {
-            VerificaSePodeAlterarAgendamento();
+            if (DateTime.Today >= Data)
+            {
+                throw new DataDeAgendamentoExpiradaException("Não é permitido remover um agendamento com data igual ou anterior ou à data atual.");
+            }
+            
             var agendamento = Agendamentos.Single(x => x.Id == idAgendamento);
             if (agendamento.Realizado)
             {
@@ -132,10 +127,6 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
         {
-            if (DateTime.Today >= Data)
-            {
-                throw new DataDeAgendamentoExpiradaException("Não é permitido adicionar ou editar agendamentos com data igual ou anterior ou à data atual.");
-            }
             if (agendamentoDeDescarregamentoSalvarVm.IdAgendamento == 0)
             {
                 var factory = new AgendamentoDeDescarregamentoFactory();
@@ -150,10 +141,6 @@ namespace BsBios.Portal.Domain.Entities
             else
             {
                 var agendamento = (AgendamentoDeDescarregamento)Agendamentos.Single(x => x.Id == agendamentoDeDescarregamentoSalvarVm.IdAgendamento);
-                if (agendamento.Realizado)
-                {
-                    throw new OperacaoNaoPermitidaParaAgendamentoRealizadoException("Não é permitido alterar um agendamento que já foi realizado.");
-                }
 
                 agendamento.Atualizar(agendamentoDeDescarregamentoSalvarVm);
             }
