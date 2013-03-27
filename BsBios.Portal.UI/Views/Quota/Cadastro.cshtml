@@ -8,14 +8,6 @@
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
 <div class="paginaCadastro"> 
-@*    <fieldset>
-        <legend>Pesquisa</legend>
-        @Html.Label("Data")
-        @Html.TextBox("DataPesquisa","",new{@class="campoDatePicker"})*@
-        @*        <div class="divBotao">*@
-@*        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>*@
-        @*        </div>*@
-@*    </fieldset>*@
     @using (Html.BeginForm())
     {
         <div id="divCadastro">
@@ -100,10 +92,11 @@
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
-
         var fornecedoresAdicionados = new Array();
         var indiceEdicao = -1;
         $(function() {
+            aplicaMascaraData();
+            aplicaMascaraQuantidade();
 
             $('#btnCancelarEdicao').hide();
             $('#Material').change(function() {
@@ -266,7 +259,7 @@
                     {
                         width: 80,
                         field: "Peso",
-                        format: "{0:n}"
+                        format: "{0:n3}"
                     }
                 ]
             });

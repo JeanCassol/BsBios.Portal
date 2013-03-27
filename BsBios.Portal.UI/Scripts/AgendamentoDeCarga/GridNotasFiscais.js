@@ -130,7 +130,8 @@ GridNotasFiscais = {
             },
             {
                 field: "Peso",
-                width: 80
+                width: 80,
+                format: "{0:n3}"
             },
             {
                 field: "Valor",

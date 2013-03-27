@@ -55,7 +55,7 @@ GridAgendamentosDeCarga = {
                     field: "Peso",
                     title: "Peso Total",
                     width: 100,
-                    format:"{0:n}"
+                    format:"{0:n3}"
                 },
                 {
                     field: "Realizado",
@@ -104,9 +104,9 @@ GridAgendamentosDeCarga = {
         });
     },
     AtualizarTela: function (quota) {
-        $('#lblPesoTotal').text(quota.PesoTotal);
-        $('#lblPesoAgendado').text(quota.PesoAgendado);
-        $('#lblPesoDisponivel').text(quota.PesoDisponivel);
+        $('#lblPesoTotal').text(Globalize.format(quota.PesoTotal,"n3"));
+        $('#lblPesoAgendado').text(Globalize.format(quota.PesoAgendado,"n3"));
+        $('#lblPesoDisponivel').text(Globalize.format(quota.PesoDisponivel, "n3"));
         var grid = $("#gridAgendamentosDeCarga").data("kendoGrid");
         grid.dataSource.read();
     }

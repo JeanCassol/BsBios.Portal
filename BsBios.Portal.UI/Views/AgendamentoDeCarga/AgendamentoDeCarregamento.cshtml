@@ -12,7 +12,7 @@
             @Html.HiddenFor(x => x.IdAgendamento)
             <div class="colunaFiltro">
                 @Html.LabelFor(x => x.Placa)
-                @Html.TextBoxFor(x => x.Placa)
+                @Html.TextBoxFor(x => x.Placa,new {@class="maskplaca"})
                 <p class="mensagemErro">
                     @Html.ValidationMessageFor(x => x.Placa)
                 </p>
@@ -30,7 +30,8 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        aplicaMascaras();
+        aplicaMascaraQuantidade();
+        aplicaMascaraPlaca();
         if (!'@Model.PermiteEditar'.boolean()) {
             $('form').find('input')
                 .attr('readonly', true)

@@ -190,7 +190,21 @@ function aplicaMascaraData() {
          }
     });
 }
-
+function aplicaMascaraPlaca() {
+    var campos = $('.maskplaca');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).mask("aaa-9999");
+}
+function aplicaMascaraNumeroNf() {
+    var campos = $('.masknumeronf');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).setMask('numeronf-portal');
+    
+}
 //function aplicaMascaraCnpj() {
 //    var camposCnpj = $('.maskcnpj');
 //    if ($(camposCnpj).length == 0) {
@@ -216,14 +230,14 @@ function aplicaMascaraData() {
 //}
 
 
-function aplicaMascaras() {
-    aplicaMascaraCnpj();
-    aplicaMascaraData();
-    aplicaMascaraMoeda();
-    aplicaMascaraQuantidade();
-}
+//function aplicaMascaras() {
+//    aplicaMascaraCnpj();
+//    aplicaMascaraData();
+//    aplicaMascaraMoeda();
+//    aplicaMascaraQuantidade();
+//}
 
 $(function () {
     inicializaCamposDatePicker();
-    aplicaMascaras();
+    //aplicaMascaras();
 });

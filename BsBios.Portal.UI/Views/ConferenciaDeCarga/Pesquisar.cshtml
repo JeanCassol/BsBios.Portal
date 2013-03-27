@@ -15,7 +15,7 @@
         </div>
         <div class="coluna">
             @Html.Label("Data de Agendamento")
-            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker"} )
+            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
         </div>
     </div>
     <div class="linha">
@@ -51,9 +51,11 @@
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
         $(function() {
-
+            aplicaMascaraData();
             $("#gridAgendamentos").customKendoGrid({
                 dataSource: {
                     schema: {
