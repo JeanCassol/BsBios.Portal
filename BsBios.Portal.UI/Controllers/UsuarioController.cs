@@ -30,9 +30,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, string nome)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, UsuarioFiltroVm usuarioFiltroVm)
         {
-            KendoGridVm kendoGridVm = _consultaUsuario.Listar(paginacaoVm, nome);
+            KendoGridVm kendoGridVm = _consultaUsuario.Listar(paginacaoVm, usuarioFiltroVm);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 

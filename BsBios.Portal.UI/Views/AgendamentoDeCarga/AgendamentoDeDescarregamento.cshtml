@@ -19,13 +19,13 @@
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero),
                                       new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie))
 
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,"campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,Model.PermiteEditar ? "campoDatePicker":""))
 
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente),
-                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente))
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente,"campogrande"))
 
             @Html.LinhaComDuasColunas(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante),
-                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante))
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante,"campogrande"))
 
             @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato))
 
@@ -44,7 +44,7 @@
     </fieldset>
     <fieldset>
         <legend>Notas Fiscais adicionadas</legend>
-        <div id="divGridNotasFiscaisAdicionadas" style="width: 730px"></div>
+        <div id="divGridNotasFiscaisAdicionadas" class="divGrid" style="width: 730px"></div>
     </fieldset>
     <div id="divErro" class="message-error"></div>
 </div>
@@ -101,6 +101,10 @@
             }
         });
 
+        if (!permiteEditar) {
+            GridNotasFiscais.CarregarCamposParaPrimeiraNota();
+        }
+
         $('#btnCancelarEdicao').click(function() {
             $('#btnSalvarNotaFiscal').val('Adicionar');
             limparCamposDaNota();
@@ -114,10 +118,10 @@
                 return;
             }
             var idCampoNome = "";
-            if ($(this)[0].name.indexOf("Emitente")) {
+            if ($(this)[0].name.indexOf("Emitente") >= 0) {
                 idCampoNome = "#NotaFiscal_NomeDoEmitente";
             }
-            if ($(this)[0].name.indexOf("Contratante")) {
+            if ($(this)[0].name.indexOf("Contratante") >= 0) {
                 idCampoNome = "#NotaFiscal_NomeDoContratante";
             }
 

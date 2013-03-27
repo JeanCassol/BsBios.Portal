@@ -69,6 +69,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaMaterialDeCarga>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaMaterialDeCarga>();
+
+            For<IConsultaRealizacaoDeAgendamento>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaRealizacaoDeAgendamento>();
             
         }
 

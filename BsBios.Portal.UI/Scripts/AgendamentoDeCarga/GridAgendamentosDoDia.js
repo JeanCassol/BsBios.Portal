@@ -66,8 +66,12 @@ GridAgendamentosDeCarga = {
         $("#gridAgendamentosDeCarga").find('.button_edit').die("click");
         $("#gridAgendamentosDeCarga").find('.button_edit').live("click", function (e) {
             e.preventDefault();
-            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento'));
-            $('#divCadastroAgendamento').dialog("open");
+            $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento')
+            , function () {
+                jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
+                $('#divCadastroAgendamento').dialog("open");
+            });
+            
         });
         
         $("#gridAgendamentosDeCarga").find('.button_remove').die("click");
@@ -99,6 +103,7 @@ GridAgendamentosDeCarga = {
         });
     },
     AtualizarTela: function (quota) {
+        $('#lblPesoTotal').text(quota.PesoTotal);
         $('#lblPesoAgendado').text(quota.PesoAgendado);
         $('#lblPesoDisponivel').text(quota.PesoDisponivel);
         var grid = $("#gridAgendamentosDeCarga").data("kendoGrid");

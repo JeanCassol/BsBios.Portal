@@ -21,12 +21,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _builderPerfil = builderPerfil;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, string filtroNome)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, UsuarioFiltroVm usuarioFiltroVm)
         {
-            if (!string.IsNullOrEmpty(filtroNome))
-            {
-                _usuarios.FiltraPorNome(filtroNome);
-            }
+            _usuarios
+                .LoginContendo(usuarioFiltroVm.Login)
+                .NomeContendo(usuarioFiltroVm.Nome);
+            
             var kendoGridVmn = new KendoGridVm()
             {
                 QuantidadeDeRegistros = _usuarios.Count(),

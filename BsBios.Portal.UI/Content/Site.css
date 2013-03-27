@@ -456,9 +456,10 @@ fieldset ol {
         padding-bottom: 5px;
     }
 
+
 label {
     display: block;
-    font-size: 1.2em;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -470,7 +471,7 @@ input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
     color: #333;
-    font-size: 1.2em;
+    font-size: 14px;
     margin: 5px 0 6px 0;
     padding: 5px;
 }
@@ -760,7 +761,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .divGrid {
-    font:75% Arial,Helvetica,sans-serif;
+    font:14px Arial,Helvetica,sans-serif!important;
     font-weight: normal
 }
 .divGrid table > tbody > tr > td {
@@ -770,6 +771,9 @@ input[type="checkbox"].input-validation-error {
 .campoDesabilitado {
     background-color: lightgray !important;
     border-color: black !important;
+}
+.janelaModal input {
+    font-size: 14px!important;
 }
 
 

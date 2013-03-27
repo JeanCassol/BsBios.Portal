@@ -43,7 +43,7 @@ namespace BsBios.Portal.UI.Helpers
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.EditorExtensions.EditorFor(HtmlHelper, Expressao);
+            return System.Web.Mvc.Html.EditorExtensions.EditorFor(HtmlHelper, Expressao, new { @class = InputClass });
         }
     }
 

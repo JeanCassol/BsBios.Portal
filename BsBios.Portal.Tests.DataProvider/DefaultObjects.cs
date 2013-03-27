@@ -223,7 +223,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static Quota ObtemQuotaDeDescarregamento()
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000", DateTime.Today, 850);
+            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000", DateTime.Today.AddDays(1), 850);
         }
 
         public static NotaFiscalVm ObtemNotaFiscalVmPadrao()

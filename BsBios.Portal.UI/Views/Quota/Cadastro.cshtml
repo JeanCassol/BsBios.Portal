@@ -79,7 +79,7 @@
     <fieldset>
         <legend>Fornecedores Adicionados</legend>
         <div @*class="divGrid"*@>
-            <div id="gridFornecedoresAdicionados"style="width: 785px" ></div>    
+            <div id="gridFornecedoresAdicionados"style="width: 785px" class="divGrid" ></div>    
         </div>
     </fieldset>
     <fieldset>
@@ -90,7 +90,7 @@
             <input type="button" id="btnNovo" value="Novo" class="blue"/>
         </div>
     </fieldset>
-    <div id="divSelecionarFornecedor"></div>
+    <div id="divSelecionarFornecedor" class="janelaModal"></div>
 </div>
 @section scripts
 {
@@ -243,26 +243,26 @@
                     },
                     {
                         field: "CodigoFornecedor",
-                        width: 150,
+                        width: 100,
                         title: "Código"
                     },
                     {
                         field: "NomeFornecedor",
-                        width: 350,
+                        width: 320,
                         title: "Fornecedor"
                     },
                     {
                         field: "DescricaoMaterial",
-                        width: 90,
+                        width: 70,
                         title: "Material"
                     },
                     {
                         field: "DescricaoFluxoCarga",
-                        width: 150,
+                        width: 130,
                         title: "Fluxo de Carga"
                     },
                     {
-                        width: 100,
+                        width: 80,
                         field: "Peso"
                     }
                 ]

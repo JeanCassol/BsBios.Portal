@@ -17,9 +17,22 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return Query.SingleOrDefault(u => u.Login.ToLower() == login.ToLower());
         }
 
-        public IUsuarios FiltraPorNome(string filtroNome)
+        public IUsuarios NomeContendo(string filtroNome)
         {
-            Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+            if (!string.IsNullOrEmpty(filtroNome))
+            {
+                Query = Query.Where(x => x.Nome.ToLower().Contains(filtroNome.ToLower()));
+            }
+            return this;
+        }
+
+        public IUsuarios LoginContendo(string login)
+        {
+            if (!string.IsNullOrEmpty(login))
+            {
+                Query = Query.Where(x => x.Login.ToLower() == login.ToLower());
+            }
+
             return this;
         }
 

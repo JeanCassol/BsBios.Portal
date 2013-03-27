@@ -62,5 +62,11 @@ namespace BsBios.Portal.Common
             Soja = 1,
             Farelo = 2
         }
+        public enum RealizacaoDeAgendamento
+        {
+            [Description("Não realizado")]
+            NaoRealizado = 0,
+            Realizado = 1
+        }
     }
 }

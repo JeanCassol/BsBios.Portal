@@ -10,6 +10,11 @@
         <fieldset>
             <legend>Filtros</legend>
             <div class="coluna">
+                @Html.Label("Login")
+                @Html.TextBox("Login","", new{@class="campomedio"})
+            </div>
+
+            <div class="coluna">
                 @Html.Label("Nome")
                 @Html.TextBox("Nome","", new{@class="campogrande"})
             </div>
@@ -52,6 +57,7 @@
                             cache: false,
                             data: function() {
                                 return {
+                                    Login:$('#Login').val(),
                                     Nome: $('#Nome').val()
                                 };
                             }

@@ -3,8 +3,8 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Contracts
 {
-    public interface IConsultaRealizacaoDeAgendamento
+    public interface IConsultaMaterialDeCarga
     {
-        IList<RealizacaoDeAgendamentoVm> Listar();
+        IList<MaterialDeCargaVm> Listar();
     }
 }

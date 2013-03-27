@@ -9,6 +9,7 @@ namespace BsBios.Portal.Application.Queries.Builders
         {
             return new QuotaPesoVm
                 {
+                    PesoTotal  = model.PesoTotal,
                     PesoAgendado = model.PesoAgendado ,
                     PesoDisponivel = model.PesoDisponivel 
                 };

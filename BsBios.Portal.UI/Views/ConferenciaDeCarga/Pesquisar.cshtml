@@ -1,4 +1,5 @@
-﻿@{
+﻿@using BsBios.Portal.ViewModel
+@{
     ViewBag.TituloDaPagina = "Conferência de Cargas";
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
@@ -10,7 +11,7 @@
     <div class="linha">
         <div class="coluna">
             @Html.Label("Terminal")
-            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado"})
+            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
         </div>
         <div class="coluna">
             @Html.Label("Data de Agendamento")
@@ -27,6 +28,15 @@
             @Html.TextBox("NumeroNf")
         </div>
     </div>
+    @Html.Label("Realização")
+     @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
+     new SelectListItem
+         {
+             Value =  Convert.ToString(x.Codigo),
+             Text =  x.Descricao,
+             Selected =  x.Padrao
+         }),"Todos")
+
     <div class="divBotao">
         <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
         <input type="button" id="btnLimpar" value="Limpar" class="blue"/>
@@ -34,7 +44,7 @@
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
-    <div id="gridAgendamentos"></div>
+    <div id="gridAgendamentos" style="width: 785px"></div>
     <div id="divRealizarAgendamento"></div>
 </fieldset>
 @section scripts
@@ -74,7 +84,8 @@
                                     CodigoTerminal: $('#CodigoTerminal').val(),
                                     DataAgendamento: $('#DataAgendamento').val(),
                                     Placa: $('#Placa').val(),
-                                    NumeroNf: $('#NumeroNf').val()
+                                    NumeroNf: $('#NumeroNf').val(),
+                                    CodigoRealizacaoDeAgendamento: $('#RealizacaoDeAgendamento :selected').val()
                                 };
                             }
                         }
@@ -106,6 +117,10 @@
                     {
                         field: "DescricaoMaterial",
                         title: 'Material',
+                        width: 100
+                    },
+                    {
+                        field: "Placa",
                         width: 100
                     },
                     {

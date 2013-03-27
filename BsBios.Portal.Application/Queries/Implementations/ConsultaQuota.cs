@@ -89,10 +89,16 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm Consultar(ConferenciaDeCargaFiltroVm filtro)
         {
+            bool? realizado = null;
+            if (filtro.CodigoRealizacaoDeAgendamento.HasValue)
+            {
+                realizado = ((Enumeradores.RealizacaoDeAgendamento) Enum.Parse(typeof (Enumeradores.RealizacaoDeAgendamento),
+                    Convert.ToString(filtro.CodigoRealizacaoDeAgendamento.Value)) == Enumeradores.RealizacaoDeAgendamento.Realizado) ;
+            }
             var queryDescarregamento = (from quota in _quotas.GetQuery()
                      from agendamento in quota.Agendamentos
                      from notaFiscal in ((AgendamentoDeDescarregamento) agendamento).NotasFiscais
-                     where !agendamento.Realizado
+                     where (!realizado.HasValue || agendamento.Realizado == realizado)
                      && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
                            && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
                            && quota.CodigoTerminal == filtro.CodigoTerminal
@@ -104,9 +110,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              DataAgendamento = quota.Data,
                              quota.Material ,
                              quota.FluxoDeCarga ,
-                             agendamento.Placa/*,
+                             agendamento.Placa,
                              notaFiscal.CnpjDoEmitente,
-                             NumeroNf = notaFiscal.Numero*/
+                             NumeroNf = notaFiscal.Numero
                          });
 
             var query = queryDescarregamento.AsEnumerable();
@@ -115,7 +121,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 var queryCarregamento = (from quota in _quotas.GetQuery()
                                          from agendamento in quota.Agendamentos
-                                         where !agendamento.Realizado
+                                         where agendamento is AgendamentoDeCarregamento
+                                         && (!realizado.HasValue || agendamento.Realizado == realizado)
                                          && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
                                                && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
                                                && quota.CodigoTerminal == filtro.CodigoTerminal
@@ -126,9 +133,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              DataAgendamento = quota.Data,
                                              quota.Material,
                                              quota.FluxoDeCarga,
-                                             agendamento.Placa/*,
+                                             agendamento.Placa,
                                              CnpjDoEmitente = "",
-                                             NumeroNf = ""*/
+                                             NumeroNf = ""
                                          });
 
                 query = query.Union(queryCarregamento.AsEnumerable());
@@ -146,9 +153,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                             DescricaoMaterial = x.Material.Descricao() ,
                             DescricaoFluxo = x.FluxoDeCarga.Descricao(),
                             DataAgendamento = x.DataAgendamento.ToShortDateString(),
-                            Placa = x.Placa /*,
+                            Placa = x.Placa ,
                             CnpjEmitente = x.CnpjDoEmitente ,
-                            NumeroNf = x.NumeroNf*/
+                            NumeroNf = x.NumeroNf
                         }).Cast<ListagemVm>().ToList()
                 };
         }

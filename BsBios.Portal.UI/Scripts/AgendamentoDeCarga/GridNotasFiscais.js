@@ -114,14 +114,14 @@ GridNotasFiscais = {
                 title: "Número"
             },
             {
-                width: 100,
+                width: 50,
                 field: "Serie",
                 title: "Série"
             },
             {
                 width: 100,
                 field: "DataDeEmissao",
-                title: "Data de Emissao"
+                title: "Emissão"
             },
             {
                 width: 300,
@@ -202,6 +202,15 @@ GridNotasFiscais = {
         }
     });
         
-}
-    
+},
+    CarregarCamposParaPrimeiraNota: function() {
+        if (NotasFiscaisAdicionadas.length == 0) {
+            return;
+        }
+        // get a reference to the grid widget
+        var grid = $("#divGridNotasFiscaisAdicionadas").data("kendoGrid");
+        // selects first grid item
+        grid.select(grid.tbody.find(">tr:first"));
+        carregaCamposDaNotaFiscal(NotasFiscaisAdicionadas[0]);
+    }
 }

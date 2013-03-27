@@ -85,7 +85,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         }
 
         [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPeloNumeroDoAtendimento()
+        public void ConsigoConsultarUmAgendamentoPeloNumeroDaNotaFiscal()
         {
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
             //AgendamentoDeDescarregamento agendamento = DefaultObjects.ObtemAgendamentoDeDescarregamento(quota);
@@ -120,7 +120,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var filtro = new ConferenciaDeCargaFiltroVm
                 {
                     CodigoTerminal = "1000",
-                    NumeroNf = "1234"
+                    NumeroNf = "1234"/*,
+                    CodigoRealizacaoDeAgendamento = (int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado*/
                 };
             KendoGridVm kendoGridVm = consultaQuota.Consultar(filtro);
             Assert.AreEqual(1,kendoGridVm.QuantidadeDeRegistros);

@@ -5,10 +5,12 @@ namespace BsBios.Portal.ViewModel
 {
     public class NotaFiscalVm
     {
+        [MaxLength(9)]
         [Required(ErrorMessage = "Número é obrigatório")]
         [Display(Name = "Número")]
         public string Numero { get; set; }
 
+        [MaxLength(3)]
         [Required(ErrorMessage = "Série é obrigatório")]
         [Display(Name = "Série")]
         public string Serie { get; set; }

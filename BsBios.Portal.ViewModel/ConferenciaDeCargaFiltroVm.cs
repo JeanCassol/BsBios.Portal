@@ -6,5 +6,6 @@
         public string DataAgendamento { get; set; }
         public string Placa { get; set; }
         public string NumeroNf { get; set; }
+        public int? CodigoRealizacaoDeAgendamento { get; set; }
     }
 }

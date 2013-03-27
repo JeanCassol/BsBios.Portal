@@ -18,7 +18,7 @@
     <div class="linha">
         <div class="coluna">
             @Html.LabelFor(x => x.PesoTotal,new{@class="labelNaLinha"})
-            @Html.DisplayFor(x => x.PesoTotal)
+            <span id="lblPesoTotal">@Model.PesoTotal</span>
         </div>
         <div class="coluna">
             @Html.LabelFor(x => x.PesoAgendado,new{@class="labelNaLinha"})
@@ -41,8 +41,8 @@
     <div class="divBotao">
         <input type="button" value="Adicionar" id="btnAdicionarAgendamento" class="blue"/>
     </div>
-    <div id="gridAgendamentosDeCarga"></div>
-    <div id="divCadastroAgendamento"></div>
+    <div id="gridAgendamentosDeCarga" class="divGrid"></div>
+    <div id="divCadastroAgendamento" class="janelaModal"></div>
 </fieldset>
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
