@@ -16,7 +16,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             "Dados de Acesso:" + Environment.NewLine + Environment.NewLine + 
             "Login: " + usuario.Login + Environment.NewLine +
             "Nova Senha: " + novaSenha + Environment.NewLine +
-            "Atenciosamente" + Environment.NewLine +
+            "Atenciosamente," + Environment.NewLine +
             "BSBIOS" + Environment.NewLine + Environment.NewLine +
             "Esta é uma mensagem gerada automaticamente, portanto, não deve ser respondida." + Environment.NewLine +
             "© BSBIOS. Todos os direitos reservados. Termos e Condições e Política de Privacidade." + Environment.NewLine;
