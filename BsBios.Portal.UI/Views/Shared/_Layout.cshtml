@@ -11,31 +11,34 @@
         @Styles.Render("~/Content/themes/base/css")
     </head>
     <body>
-        @Html.Partial("_Header")
-        <div style="clear: both"></div>
-        <div id="middle">
-            <div id="menuprincipal">
-                @{
-                    if (ViewBag.UsuarioConectado != null)
-                    {
-                        Html.RenderAction("Menu", "Home");
+        <div id="todaPagina">
+            @Html.Partial("_Header")
+            <div style="clear: both"></div>
+            <div id="middle">
+                <div id="menuprincipal">
+                    @{
+                        if (ViewBag.UsuarioConectado != null)
+                        {
+                            Html.RenderAction("Menu", "Home");
+                        }
                     }
-                }
-            </div>
-            <div id="body">
-                <div id="tituloPagina">
-                    @ViewBag.TituloDaPagina
                 </div>
-                <div id="conteudoPrincipal">
-                    @RenderBody()
+                <div id="body">
+                    <div id="tituloPagina">
+                        @ViewBag.TituloDaPagina
+                    </div>
+                    <div id="conteudoPrincipal">
+                        @RenderBody()
+                    </div>
                 </div>
-            </div>
             
+            </div>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/jqueryui")
+            @Scripts.Render("~/bundles/globalize")
+            @Scripts.Render("~/bundles/scriptsgerais")
+            @RenderSection("scripts", false)
         </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @Scripts.Render("~/bundles/globalize")
-        @Scripts.Render("~/bundles/scriptsgerais")
-        @RenderSection("scripts", false)
+
     </body>
 </html>

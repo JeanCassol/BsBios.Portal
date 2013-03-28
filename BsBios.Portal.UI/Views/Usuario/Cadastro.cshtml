@@ -8,6 +8,8 @@
 
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+
 <style type="text/css">
     .gridPerfil {
         width: 280px;
@@ -57,8 +59,9 @@
 
 @section scripts
 {
-<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
-<script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script>
         var perfisDoUsuario = new Array();
         var perfisNaoAtribuidos = new Array();
@@ -185,7 +188,7 @@
                         error: function (jqXHR, textStatus, errorThrown) {
                             Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Perfis de Usuário. Detalhe: ' + textStatus + errorThrown);
                         }
-            });
+                    });
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -286,6 +289,7 @@
             });
                 
             $('#btnCriarSenha').click(function () {
+                $("#todaPagina").block("Processando...");
                 $.ajax({
                     url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
                     type: 'POST',
@@ -302,10 +306,14 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha do Usuário. Detalhe: ' + textStatus + errorThrown);
+                    },
+                    complete: function() {
+                        $("#todaPagina").unblock();
                     }
                 });
             });
 
         });
     </script>
+
 }

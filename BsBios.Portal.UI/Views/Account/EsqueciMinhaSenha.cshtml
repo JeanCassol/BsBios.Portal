@@ -12,11 +12,13 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/globalize")
         @Scripts.Render("~/bundles/scriptsgerais")
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     </head>
     <body>
         @Html.Partial("_Header")
@@ -49,7 +51,7 @@
                     $('.error').html('Campo Login é obrigatório');
                     return;
                 }
-
+                $('body').block("Processando...");
                 $.ajax({
                     url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
                     type: 'POST',
@@ -65,6 +67,9 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + textStatus + errorThrown);
+                    },
+                    complete: function() {
+                        $("body").unblock();
                     }
                 });
 

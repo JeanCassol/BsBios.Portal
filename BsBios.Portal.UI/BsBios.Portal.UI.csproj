@@ -188,6 +188,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\CheckHeader.css" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\jquery.loadmask.css" />
     <Content Include="Content\kendo\2012.3.1114\Default\editor.png" />
     <Content Include="Content\kendo\2012.3.1114\Default\imagebrowser.png" />
     <Content Include="Content\kendo\2012.3.1114\Default\loading-image.gif" />
@@ -331,6 +333,7 @@
     <Content Include="Scripts\jquery-ui-extension.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
+    <Content Include="Scripts\jquery.loadmask.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.meio.mask.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
