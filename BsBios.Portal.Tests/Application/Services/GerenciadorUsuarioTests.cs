@@ -1,6 +1,8 @@
-﻿using BsBios.Portal.Application.Queries.Builders;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -20,6 +22,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUsuarios> _usuariosMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IGeradorDeSenha> _geradorDeSenhaMock;
+        private readonly Mock<IGeradorDeEmail> _geradorDeEmailMock;
 
         public GerenciadorUsuarioTests()
         {
@@ -45,15 +48,31 @@ namespace BsBios.Portal.Tests.Application.Services
             _geradorDeSenhaMock.Setup(x => x.GerarGuid(It.IsAny<int>()))
                                .Returns("12345678");
 
+            
+            _geradorDeEmailMock = new Mock<IGeradorDeEmail>(MockBehavior.Strict);
+            _geradorDeEmailMock.Setup(x => x.CriacaoAutomaticaDeSenha(It.IsAny<Usuario>(), It.IsAny<string>()));
             _gerenciadorUsuario = new GerenciadorUsuario(_unitOfWorkMock.Object,_usuariosMock.Object, 
                 _provedorDeCriptografiaMock.Object, _geradorDeSenhaMock.Object,
-                ObjectFactory.GetInstance<IBuilder<Usuario, UsuarioConsultaVm>>());
+                ObjectFactory.GetInstance<IBuilder<Usuario, UsuarioConsultaVm>>(),_geradorDeEmailMock.Object);
 
         }
 
         [TestMethod]
-        public void QuandoAlterarPerfisDoUsuarioOMesmoApareceComOsNovosPerfis()
+        public void QuandoAlterarPerfisDoUsuarioOMesmoContemOsNovosPerfis()
         {
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()))
+                         .Callback((Usuario usuario) =>
+                             {
+                                 Assert.IsNotNull(usuario);
+                                 Assert.AreEqual(2, usuario.Perfis.Count);
+                                 Assert.IsTrue(usuario.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica));
+                                 Assert.IsTrue(usuario.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos));
+                             });
+            _gerenciadorUsuario.AtualizarPerfis("USER001",new List<Enumeradores.Perfil>
+                {
+                    Enumeradores.Perfil.CompradorLogistica,
+                    Enumeradores.Perfil.CompradorSuprimentos
+                });
 
         }
 
@@ -88,6 +107,13 @@ namespace BsBios.Portal.Tests.Application.Services
                 CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
 
+        }
+
+        [TestMethod]
+        public void QuandoCrioUmaNovaSenhaEEnviadoEmailDeConfirmacaoParaUsuario()
+        {
+            _gerenciadorUsuario.CriarSenha("USER001");
+            _geradorDeEmailMock.Verify(x => x.CriacaoAutomaticaDeSenha(It.IsAny<Usuario>(),It.IsAny<string>()),Times.Once());
         }
 
         #endregion

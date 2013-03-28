@@ -28,6 +28,15 @@ namespace BsBios.Portal.IoC
             For<IGeradorDeSenha>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeSenha>();
+
+            For<IGeradorDeMensagemDeEmail>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GeradorDeMensagemDeEmail>();
+
+            For<IGeradorDeEmail>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GeradorDeEmail>();
+
         }
     }
 }

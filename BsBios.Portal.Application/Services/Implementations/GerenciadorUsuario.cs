@@ -19,15 +19,17 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IProvedorDeCriptografia _provedorDeCriptografia;
         private readonly IGeradorDeSenha _geradorDeSenha;
         private readonly IBuilder<Usuario, UsuarioConsultaVm> _builder;
+        private readonly IGeradorDeEmail _geradorDeEmail;
 
         public GerenciadorUsuario(IUnitOfWork unitOfWork, IUsuarios usuarios, IProvedorDeCriptografia provedorDeCriptografia, 
-            IGeradorDeSenha geradorDeSenha, IBuilder<Usuario, UsuarioConsultaVm> builder)
+            IGeradorDeSenha geradorDeSenha, IBuilder<Usuario, UsuarioConsultaVm> builder, IGeradorDeEmail geradorDeEmail)
         {
             _unitOfWork = unitOfWork;
             _usuarios = usuarios;
             _provedorDeCriptografia = provedorDeCriptografia;
             _geradorDeSenha = geradorDeSenha;
             _builder = builder;
+            _geradorDeEmail = geradorDeEmail;
         }
 
         public UsuarioConsultaVm CriarSenha(string login)
@@ -41,6 +43,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 {
                     throw  new UsuarioNaoCadastradoException(login);
                 }
+                _geradorDeEmail.CriacaoAutomaticaDeSenha(usuario, senha);
+
                 string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
                 usuario.CriarSenha(senhaCriptografada);
                 _usuarios.Save(usuario);

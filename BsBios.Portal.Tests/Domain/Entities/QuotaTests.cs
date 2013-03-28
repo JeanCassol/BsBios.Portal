@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
+using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Domain.Entities
@@ -43,10 +45,17 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //peso total é 850
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
-            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota, 180);
-            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,230);
-            quota.AdicionarAgendamento(agendamento1);
-            quota.AdicionarAgendamento(agendamento2);
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+                {
+                    IdQuota = quota.Id,
+                    IdAgendamento = 0,
+                    Placa = "IMN2420",
+                    NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(180),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(230)
+                        }
+                });
             Assert.AreEqual(410, quota.PesoAgendado);
         }
 
@@ -56,10 +65,17 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //peso total é 850
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
-            AgendamentoDeCarregamento agendamento1 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,450);
-            AgendamentoDeCarregamento agendamento2 = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota,401);
-            quota.AdicionarAgendamento(agendamento1);
-            quota.AdicionarAgendamento(agendamento2);
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(450),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(401)
+                        }
+            });
         }
     }
 }

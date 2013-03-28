@@ -21,13 +21,21 @@ namespace BsBios.Portal.UI
 
             ObjectFactory.Configure(x =>
             {
-                if (emailDoPortal != null)
+                if (emailDoPortal != null){
+                    x.For<ContaDeEmail>()
+                     .Singleton()
+                     .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteLogistica + ">", emailDoPortal.Dominio,
+                                           emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
+                                           emailDoPortal.Porta)).Named("ContaDeEmailDaLogistica");
+
                     x.For<ContaDeEmail>()
                      .Singleton()
                      .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                            emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                           emailDoPortal.Porta));
+                                           emailDoPortal.Porta)).Named("ContaDeEmailDeSuprimentos");
+                }
             });
+
 
             IoCWorker.Configure();
             ObjectFactory.Configure(x => x.For<IControllerFactory>()

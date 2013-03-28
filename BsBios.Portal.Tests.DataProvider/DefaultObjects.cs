@@ -243,6 +243,24 @@ namespace BsBios.Portal.Tests.DataProvider
                 };
         }
 
+        public static NotaFiscalVm ObtemNotaFiscalVmComPesoEspecifico(decimal peso)
+        {
+            return new NotaFiscalVm
+            {
+                Numero = "1001",
+                Serie = "1",
+                DataDeEmissao = DateTime.Today.ToShortDateString(),
+                CnpjDoContratante = "111",
+                NomeDoContratante = "contratante",
+                CnpjDoEmitente = "222",
+                NomeDoEmitente = "emitente",
+                NumeroDoContrato = "500",
+                Peso = peso,
+                Valor = 1000
+            };
+        }
+
+
         public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(Quota quota, decimal peso)
         {
             var factory = new AgendamentoDeCarregamentoFactory(peso);
@@ -255,5 +273,6 @@ namespace BsBios.Portal.Tests.DataProvider
             factory.AdicionarNotaFiscal(ObtemNotaFiscalVmPadrao());
             return (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
         }
+
     }
 }
