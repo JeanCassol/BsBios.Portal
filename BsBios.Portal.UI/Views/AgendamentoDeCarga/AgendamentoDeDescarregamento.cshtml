@@ -17,7 +17,7 @@
         <legend>Nota Fiscal</legend>
         <form id="formNotaFiscal">
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero,"masknumeronf"),
-                                      new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie))
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie,"maskserienf"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,Model.PermiteEditar ? "campoDatePicker maskdata":""))
 
@@ -27,7 +27,7 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante,"maskcnpj"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante,"campogrande"))
 
-            @Html.LinhaComUmaColuna(new ColunaComEditor<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato,"masknumerocontrato"))
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor,"maskmoeda"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso,"maskquantidade"))
@@ -36,7 +36,7 @@
             {
                 <div class="divBotao">
                     <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
-                    <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
+                    <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue" />
                 </div>
             }
 
@@ -57,6 +57,9 @@
     }
 
     $(function () {
+        aplicaMascaraNumeroNf();
+        aplicaMascaraSerieNf();
+        aplicaMascaraNumeroContrato();
         aplicaMascaraPlaca();
         aplicaMascaraCnpj();
         aplicaMascaraData();
@@ -73,7 +76,9 @@
             } else {
                 $('.ui-dialog-buttonpane').hide();
             }
-
+        } else {
+            $('#NotaFiscal_NomeDoEmitente').attr('maxlength', 35);
+            $('#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
         }
 
 

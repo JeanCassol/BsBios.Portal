@@ -1,0 +1,4 @@
+comando para excluir um branch local
+git branch -d QAS
+comando para excluir uma branch remota
+git push origin :QAS

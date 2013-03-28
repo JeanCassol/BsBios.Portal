@@ -28,21 +28,23 @@ Numero = {
 $.fn.customKendoGrid = function (configuracao) {
     configuracao.groupable = false;
     configuracao.sortable = true;
-    configuracao.pageable =
-    {
-        refresh: true,
-        pageSizes: true,
-        messages: {
-            display: '{0} - {1} de {2} registros',
-            empty: 'Nenhum registro encontrado',
-            itemsPerPage: 'registros por página',
-            first: 'Ir para a primeira página',
-            previous: 'Ir para a página anterior',
-            next: 'Ir para a próxima página',
-            last: 'Ir para a última página',
-            refresh: 'Atualizar'
-        }
-    };
+    if (configuracao.pageable == undefined) {
+        configuracao.pageable =
+        {
+            refresh: true,
+            pageSizes: true,
+            messages: {
+                display: '{0} - {1} de {2} registros',
+                empty: 'Nenhum registro encontrado',
+                itemsPerPage: 'registros por página',
+                first: 'Ir para a primeira página',
+                previous: 'Ir para a página anterior',
+                next: 'Ir para a próxima página',
+                last: 'Ir para a última página',
+                refresh: 'Atualizar'
+            }
+        };
+    }
     configuracao.selectable = 'row';
     configuracao.dataSource.serverFiltering = true;
     configuracao.dataSource.serverPaging = true;
@@ -203,39 +205,21 @@ function aplicaMascaraNumeroNf() {
         return;
     }
     $(campos).setMask('numeronf-portal');
-    
 }
-//function aplicaMascaraCnpj() {
-//    var camposCnpj = $('.maskcnpj');
-//    if ($(camposCnpj).length == 0) {
-//        return;
-//    }
-//    $(camposCnpj).setMask('cnpj');
-//}
-//function aplicaMascaraData() {
-//    var camposData = $('.maskdata');
-//    if ($(camposData).length == 0) {
-//        return;
-//    }
-//    $(camposData).setMask("99/99/9999",
-//    {
-//        completed: function () {
-//            if (!dataValida(this.val())) {
-//                alert("Data inválida.");
-//                this.focus();
-//            }
-
-//        }
-//    });
-//}
-
-
-//function aplicaMascaras() {
-//    aplicaMascaraCnpj();
-//    aplicaMascaraData();
-//    aplicaMascaraMoeda();
-//    aplicaMascaraQuantidade();
-//}
+function aplicaMascaraSerieNf() {
+    var campos = $('.maskserienf');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).mask("***");
+}
+function aplicaMascaraNumeroContrato() {
+    var campos = $('.masknumerocontrato');
+    if ($(campos).length == 0) {
+        return;
+    }
+    $(campos).setMask('numerocontrato-portal');
+}
 
 $(function () {
     inicializaCamposDatePicker();

@@ -88,20 +88,20 @@ GridNotasFiscais = {
             arrayDeColunas.push(
                 {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 40,
+                    width: 30,
                     sortable: false,
                     template: '<input type="button" class="button_edit"></input>'
                 });
             arrayDeColunas.push({
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 40,
+                    width: 30,
                     sortable: false,
                     template: '<input type="button" class="button_remove"></input>'
                 });
         } else {
             arrayDeColunas.push({
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
-                width: 40,
+                width: 30,
                 sortable: false,
                 template: '<input type="button" class="button_visualize"></input>'
             });
@@ -114,12 +114,12 @@ GridNotasFiscais = {
                 title: "Número"
             },
             {
-                width: 50,
+                width: 40,
                 field: "Serie",
                 title: "Série"
             },
             {
-                width: 100,
+                width: 70,
                 field: "DataDeEmissao",
                 title: "Emissão"
             },
@@ -157,7 +157,8 @@ GridNotasFiscais = {
                 serverFiltering: true,
                 serverPaging: true
             },
-            columns:arrayDeColunas
+            columns: arrayDeColunas,
+            pageable:false
         });
 
         if (configuracao.PermiteEditar) {

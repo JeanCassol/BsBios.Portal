@@ -460,7 +460,7 @@ fieldset ol {
 
 label {
     display: block;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -472,7 +472,7 @@ input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
     margin: 5px 0 6px 0;
     padding: 5px;
 }
@@ -740,9 +740,8 @@ input[type="checkbox"].input-validation-error {
 #tituloPagina {
     background-color: #0095cd;
     color: white;
-    /*margin: 10px;*/
     font-weight: bold;
-    font-size: 25px;
+    font-size: 18px;
 }
 #conteudoPrincipal {
     background-color: #efeeef
@@ -762,7 +761,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .divGrid {
-    font:14px Arial,Helvetica,sans-serif!important;
+    font:11px Arial,Helvetica,sans-serif!important;
     font-weight: normal
 }
 .divGrid table > tbody > tr > td {
@@ -781,7 +780,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .janelaModal input {
-    font-size: 14px!important;
+    font-size: 12px!important;
 }
 .ui-dialog-buttonpane {
     margin: 0!important;
