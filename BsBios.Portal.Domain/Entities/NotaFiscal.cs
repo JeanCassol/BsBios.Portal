@@ -25,7 +25,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             AgendamentoDeDescarregamento = agendamentoDeDescarregamento;
             Numero = numero;
-            Serie = serie;
+            Serie = serie?? " ";
             CnpjDoEmitente = cnpjDoEmitente;
             NomeDoEmitente = nomeDoEmitente;
             DataDeEmissao = dataDeEmissao;

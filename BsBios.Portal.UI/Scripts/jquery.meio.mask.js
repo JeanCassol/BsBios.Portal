@@ -152,6 +152,7 @@
                 'moeda-portal': { mask: '99,999.999.999.99', type: 'reverse', autoTab: false },
                 'quantidade-portal': { mask: '999,999.999.999.9', type: 'reverse', autoTab: false },
                 'numeronf-portal': { mask: '999999999', autoTab: false },
+                'serienf-portal': { mask: '999', autoTab: false },
                 'numerocontrato-portal': { mask: '99999999999999999999', autoTab: false },
                 'decimal': { mask: '99,999.999.999.999', type: 'reverse', defaultValue: '000' },
                 'decimal-us'        : {mask: '99.999,999,999,999', type: 'reverse', defaultValue: '000'},

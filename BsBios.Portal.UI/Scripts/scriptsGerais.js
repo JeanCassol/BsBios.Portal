@@ -35,7 +35,7 @@ $.fn.customKendoGrid = function (configuracao) {
             refresh: true,
             pageSizes: true,
             messages: {
-                display: '{0} - {1} de {2} registros',
+                display: '{0:n0} - {1:n0} de {2:n0} registros',
                 empty: 'Nenhum registro encontrado',
                 itemsPerPage: 'registros por página',
                 first: 'Ir para a primeira página',
@@ -212,7 +212,7 @@ function aplicaMascaraSerieNf() {
     if ($(campos).length == 0) {
         return;
     }
-    $(campos).mask("***");
+    $(campos).setMask('serienf-portal');
 }
 function aplicaMascaraNumeroContrato() {
     var campos = $('.masknumerocontrato');

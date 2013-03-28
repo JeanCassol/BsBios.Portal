@@ -46,7 +46,7 @@ namespace BsBios.Portal.Domain.Entities
 
             if (DateTime.Today >= Quota.Data)
             {
-                throw new DataDeAgendamentoExpiradaException("Não é permitido alterar agendamentos com data igual ou anterior ou à data atual.");
+                throw new DataDeAgendamentoExpiradaException("Não é permitido alterar agendamentos com data igual ou anterior à data atual.");
             }
         }
 

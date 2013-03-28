@@ -74,7 +74,7 @@
             },
             dataBound: function (e) {
                 if (itinerarioSelecionado != null) {
-                    $('input[name=radioItinerario][data-codigoitinerario=' + itinerarioSelecionado.Codigo + ']').attr('checked', true);
+                    $('input[name=radioItinerario][data-codigoitinerario="' + itinerarioSelecionado.Codigo + '"]').attr('checked', true);
                 }
             },
 

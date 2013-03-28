@@ -10,8 +10,6 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Número")]
         public string Numero { get; set; }
 
-        [MaxLength(3)]
-        [Required(ErrorMessage = "Série é obrigatório")]
         [Display(Name = "Série")]
         public string Serie { get; set; }
 
