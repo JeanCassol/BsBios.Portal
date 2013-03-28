@@ -27,9 +27,9 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_Numero').val(notaFiscal.Numero);
     $('#NotaFiscal_Serie').val(notaFiscal.Serie);
     $('#NotaFiscal_DataDeEmissao').val(notaFiscal.DataDeEmissao);
-    $('#NotaFiscal_CnpjDoEmitente').val(notaFiscal.CnpjDoEmitente);
+    $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
     $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
-    $('#NotaFiscal_CnpjDoContratante').val(notaFiscal.CnpjDoContratante);
+    $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
     $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
     $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
     $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso));

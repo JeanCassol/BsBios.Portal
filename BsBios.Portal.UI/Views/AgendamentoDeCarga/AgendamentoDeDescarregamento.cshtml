@@ -57,14 +57,6 @@
     }
 
     $(function () {
-        aplicaMascaraNumeroNf();
-        aplicaMascaraSerieNf();
-        aplicaMascaraNumeroContrato();
-        aplicaMascaraPlaca();
-        aplicaMascaraCnpj();
-        aplicaMascaraData();
-        aplicaMascaraQuantidade();
-        aplicaMascaraMoeda();
         $('#btnCancelarEdicao').hide();
         var permiteEditar = '@Model.PermiteEditar'.boolean();
         if (!permiteEditar) {
@@ -77,6 +69,15 @@
                 $('.ui-dialog-buttonpane').hide();
             }
         } else {
+            aplicaMascaraNumeroNf();
+            aplicaMascaraSerieNf();
+            aplicaMascaraNumeroContrato();
+            aplicaMascaraPlaca();
+            aplicaMascaraCnpj();
+            aplicaMascaraData();
+            aplicaMascaraQuantidade();
+            aplicaMascaraMoeda();
+
             $('#NotaFiscal_NomeDoEmitente').attr('maxlength', 35);
             $('#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
         }
