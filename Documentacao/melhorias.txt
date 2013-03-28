@@ -1,0 +1,1 @@
+1) todas as telas de fornecedor concatenar o código com o nome e colocar um  campo (também somente leitura) ao lado com município / uf

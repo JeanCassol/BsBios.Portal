@@ -27,7 +27,8 @@ Numero = {
 
 $.fn.customKendoGrid = function (configuracao) {
     configuracao.groupable = false;
-    configuracao.sortable = true;
+    configuracao.resizable = true;
+    //configuracao.sortable = true;
     if (configuracao.pageable == undefined) {
         configuracao.pageable =
         {
