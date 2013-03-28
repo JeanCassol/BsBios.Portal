@@ -18,7 +18,7 @@
     </head>
     <body>
         @Html.Partial("_Header")
-        <div id="loginForm">
+        <div id="loginForm" style="margin-top: 5px">
             @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl })) {
                 @Html.AntiForgeryToken()
                 <div class="elementosCentralizados">

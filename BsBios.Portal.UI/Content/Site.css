@@ -134,7 +134,7 @@ header .content-wrapper {
 }
 
 #middle {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 #middle > div {
     float: left;
@@ -368,15 +368,8 @@ aside {
 
 /* login page */
 #loginForm {
-    /*width: 30%;*/
-    /*padding-left: 40%;*/
-    /*background-color: inherit;*/
     background-color: #efeeef;
-
-    
-    /*border-right: solid 2px #c8c8c8;
-    float: left;
-    width: 55%;*/
+    margin-top: 5px;
 }
 
     #loginForm .validation-error {
@@ -405,20 +398,6 @@ aside {
     #loginForm button {
         width: auto;
     }
-
-#socialLoginForm {
-    margin-left: 40px;
-    float: left;
-    width: 40%;
-}
-
-    #socialLoginForm h2 {
-        margin-bottom:  5px;
-    }
-
-#socialLoginList button {
-    margin-bottom: 12px;
-}
 
 #logoutForm {
     display: inline;

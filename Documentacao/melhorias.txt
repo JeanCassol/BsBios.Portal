@@ -1,3 +1,2 @@
 1) todas as telas de fornecedor concatenar o código com o nome e colocar um  campo (também somente leitura) ao lado com município / uf
 
-arrrumar a série da nota (mascra errada, e não é obrigatório) série é apenas número
