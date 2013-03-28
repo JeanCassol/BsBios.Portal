@@ -95,11 +95,16 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 realizado = ((Enumeradores.RealizacaoDeAgendamento) Enum.Parse(typeof (Enumeradores.RealizacaoDeAgendamento),
                     Convert.ToString(filtro.CodigoRealizacaoDeAgendamento.Value)) == Enumeradores.RealizacaoDeAgendamento.Realizado) ;
             }
+            if (!string.IsNullOrEmpty(filtro.Placa))
+            {
+                filtro.Placa = filtro.Placa.ToLower().Replace("-","");    
+            }
+            
             var queryDescarregamento = (from quota in _quotas.GetQuery()
                      from agendamento in quota.Agendamentos
                      from notaFiscal in ((AgendamentoDeDescarregamento) agendamento).NotasFiscais
                      where (!realizado.HasValue || agendamento.Realizado == realizado)
-                     && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
+                     && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa.ToLower().Replace("-", "") == filtro.Placa)
                            && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
                            && quota.CodigoTerminal == filtro.CodigoTerminal
                            && ( string.IsNullOrEmpty(filtro.NumeroNf) || notaFiscal.Numero == filtro.NumeroNf)
@@ -123,7 +128,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                          from agendamento in quota.Agendamentos
                                          where agendamento is AgendamentoDeCarregamento
                                          && (!realizado.HasValue || agendamento.Realizado == realizado)
-                                         && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa == filtro.Placa)
+                                         && (string.IsNullOrEmpty(filtro.Placa) || agendamento.Placa.ToLower().Replace("-", "") == filtro.Placa)
                                                && (string.IsNullOrEmpty(filtro.DataAgendamento) || quota.Data == Convert.ToDateTime(filtro.DataAgendamento))
                                                && quota.CodigoTerminal == filtro.CodigoTerminal
                                          select new

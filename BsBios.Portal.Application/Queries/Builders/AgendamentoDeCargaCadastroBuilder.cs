@@ -15,7 +15,9 @@ namespace BsBios.Portal.Application.Queries.Builders
                         IdAgendamento = model.Id,
                         Placa = model.Placa ,
                         Peso = model.PesoTotal ,
-                        ViewDeCadastro = "AgendamentoDeCarregamento"
+                        ViewDeCadastro = "AgendamentoDeCarregamento",
+                        PermiteRealizar = !model.Realizado
+                        
                     };       
             }
 
@@ -26,7 +28,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                         IdQuota = model.Quota.Id ,
                         IdAgendamento = model.Id ,
                         Placa = model.Placa,
-                        ViewDeCadastro = "AgendamentoDeDescarregamento"
+                        ViewDeCadastro = "AgendamentoDeDescarregamento",
+                        PermiteRealizar = !model.Realizado
                     };
             }
 

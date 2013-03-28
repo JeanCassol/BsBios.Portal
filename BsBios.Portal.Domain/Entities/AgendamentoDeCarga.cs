@@ -31,6 +31,10 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Realizar()
         {
+            if (Realizado)
+            {
+                throw new RealizacaoDeAgendamentoRealizadoException();
+            }
             Realizado = true;
         }
         protected void VerificaSePodeAlterarAgendamento()
