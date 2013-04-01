@@ -15,6 +15,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IFornecedores _fornecedores;
         private readonly IUsuarios _usuarios;
         private IList<Fornecedor> _fornecedoresConsultados;
+        private IList<Usuario> _usuariosConsultados;
 
         public CadastroFornecedor(IUnitOfWork unitOfWork, IFornecedores fornecedores, IUsuarios usuarios)
         {
@@ -44,15 +45,12 @@ namespace BsBios.Portal.Application.Services.Implementations
         private void AtualizaFornecedor(FornecedorCadastroVm fornecedorCadastroVm)
         {
             Fornecedor fornecedor = _fornecedoresConsultados.SingleOrDefault(x => x.Codigo == fornecedorCadastroVm.Codigo);
-            Usuario usuario = null;
 
             if (fornecedor == null)
             {
                 fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email,
                     fornecedorCadastroVm.Cnpj, fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf,
                     fornecedorCadastroVm.Transportadora.ToLower().Equals("x"));
-                usuario = new Usuario(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Email);
-                usuario.AdicionarPerfil(Enumeradores.Perfil.Fornecedor);
             }
             else
             {
@@ -61,10 +59,19 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
                              
             _fornecedores.Save(fornecedor);
-            if (usuario != null)
+
+
+            Usuario usuario = _usuariosConsultados.SingleOrDefault(x => x.Login == fornecedorCadastroVm.Codigo);
+            if (usuario == null)
             {
-                _usuarios.Save(usuario);
+                usuario = new Usuario(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Email);
+                usuario.AdicionarPerfil(Enumeradores.Perfil.Fornecedor);
             }
+            else
+            {
+                usuario.Alterar(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email);
+            }
+            _usuarios.Save(usuario);
         }
 
         public void AtualizarFornecedores(IList<FornecedorCadastroVm> fornecedores)
@@ -72,8 +79,9 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                _fornecedoresConsultados =
-                    _fornecedores.BuscaListaPorCodigo(fornecedores.Select(x => x.Codigo).ToArray()).List();
+                var codigosDosFornecedores = fornecedores.Select(x => x.Codigo).ToArray();
+                _fornecedoresConsultados = _fornecedores.BuscaListaPorCodigo(codigosDosFornecedores).List();
+                _usuariosConsultados = _usuarios.FiltraPorListaDeLogins(codigosDosFornecedores).List();
                 foreach (var fornecedorCadastroVm in fornecedores)
                 {
                     AtualizaFornecedor(fornecedorCadastroVm);

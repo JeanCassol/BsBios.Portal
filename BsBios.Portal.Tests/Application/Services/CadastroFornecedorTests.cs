@@ -21,6 +21,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly FornecedorCadastroVm _fornecedorCadastroVm;
         private readonly ICadastroFornecedor _cadastroFornecedor;
         private readonly IList<Fornecedor> _fornecedoresRepositorio;
+        private readonly IList<Usuario> _usuariosRepositorio;
          
         public CadastroFornecedorTests()
         {
@@ -41,7 +42,20 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _fornecedoresMock.Setup(x => x.List()).Returns(_fornecedoresRepositorio);
 
+            _usuariosRepositorio = new List<Usuario>();
             _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
+            _usuariosMock.Setup(x => x.FiltraPorListaDeLogins(It.IsAny<string[]>()))
+                         .Callback((string[] logins) =>
+                         {
+                             if (logins.Contains("FORNEC0001"))
+                             {
+                                 _usuariosRepositorio.Add(new UsuarioParaAtualizacao("FORNEC0001", "FORNECEDOR 0001", "fornecedor@empresa.com.br"));
+                             }
+                         })
+                         .Returns(_usuariosMock.Object);
+            _usuariosMock.Setup(x => x.List())
+                         .Returns(_usuariosRepositorio);
+
             _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
 
             _cadastroFornecedor = new CadastroFornecedor(_unitOfWorkMock.Object, _fornecedoresMock.Object, _usuariosMock.Object);
@@ -179,8 +193,15 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoAlteraUmFornecedorNaoAlteraUsuarioDoFornecedor()
+        public void QuandoAlteraUmFornecedorUsuarioDoFornecedorTambemEAlterado()
         {
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()))
+                         .Callback((Usuario usuario) =>
+                             {
+                                 Assert.IsNotNull(usuario);
+                                 Assert.AreEqual("FORNECEDOR 0001 ATUALIZADO", usuario.Nome);
+                                 Assert.AreEqual("emailatualizado@empresa.com.br", usuario.Email);
+                             });
             _cadastroFornecedor.AtualizarFornecedores(new List<FornecedorCadastroVm>()
                 {
                     new FornecedorCadastroVm()
@@ -195,7 +216,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         }
                 });
 
-            _usuariosMock.Verify(x => x.Save(It.IsAny<Usuario>()), Times.Never());
+            _usuariosMock.Verify(x => x.Save(It.IsAny<Usuario>()), Times.Once());
             
         }
 

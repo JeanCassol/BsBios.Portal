@@ -195,9 +195,12 @@ namespace BsBios.Portal.Tests.Application.Services
 
         }
         [TestMethod]
-        public void QuandoOProcessoEFechadoComSucessoEEnviadoEmailParaOsFornecedores()
+        public void QuandoOProcessoEFechadoComSucessoEEnviadoEmailParaOsFornecedoresSelecionados()
         {
-            Assert.Fail("Não implementado");
+            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
+
+            _processoDeCotacaoStatusService.FecharProcesso(20);
+            
         }
         #endregion
     }
