@@ -26,5 +26,7 @@ namespace BsBios.Portal.ViewModel
         public decimal PesoAgendado { get; set; }
         [Display(Name = "Peso Disponível: ")]
         public decimal PesoDisponivel { get; set; }
+
+        public bool PermiteAdicionar { get; set; }
     }
 }

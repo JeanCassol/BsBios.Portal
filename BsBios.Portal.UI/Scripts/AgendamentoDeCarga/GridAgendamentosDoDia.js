@@ -39,13 +39,21 @@ GridAgendamentosDeCarga = {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 40,
                     sortable: false,
-                    template: '<input type="button" class="button_edit" data-idagendamento="${IdAgendamento}"></input>'
+                    template: function (dataItem) {
+                        return '<input type="button" class="' + (dataItem.PermiteEditar ? 'button_edit' : 'button_visualize') + '" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
+                    }
                 },
                 {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 40,
                     sortable: false,
-                    template: '<input type="button" class="button_remove" data-idagendamento="${IdAgendamento}"></input>'
+                    template: function (dataItem) {
+                        if (dataItem.PermiteEditar) {
+                            return '<input type="button" class="button_remove" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
+                        } else {
+                            return '';
+                        }
+                    }
                 },
                 {
                     width: 100,
@@ -64,8 +72,8 @@ GridAgendamentosDeCarga = {
             ]
         });
 
-        $("#gridAgendamentosDeCarga").find('.button_edit').die("click");
-        $("#gridAgendamentosDeCarga").find('.button_edit').live("click", function (e) {
+        $("#gridAgendamentosDeCarga").find('.button_edit,.button_visualize').die("click");
+        $("#gridAgendamentosDeCarga").find('.button_edit,.button_visualize').live("click", function (e) {
             e.preventDefault();
             $('#divCadastroAgendamento').load(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento')
             , function () {

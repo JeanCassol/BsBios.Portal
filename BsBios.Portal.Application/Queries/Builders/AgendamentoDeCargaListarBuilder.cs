@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
-    public class AgendamentoDeCargaListarBuilder : Builder<AgendamentoDeCarga, AgendamentoDeCargaListarVm>
+    public class AgendamentoDeCargaListarBuilder : BuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaListarVm>
     {
-        public override AgendamentoDeCargaListarVm BuildSingle(AgendamentoDeCarga model)
+        private readonly IVerificaPermissaoAgendamento _verificaPermissaoAgendamento;
+
+        public AgendamentoDeCargaListarBuilder(IVerificaPermissaoAgendamento verificaSePodeEditarAgendamento)
+        {
+            _verificaPermissaoAgendamento = verificaSePodeEditarAgendamento;
+        }
+
+        public override AgendamentoDeCargaListarVm BuildSingle(AgendamentoDeCarga model, Usuario usuario)
         {
             return new AgendamentoDeCargaListarVm
                 {
@@ -18,7 +21,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                     IdAgendamento = model.Id,
                     Peso = model.PesoTotal ,
                     Placa =  model.Placa,
-                    Realizado = model.Realizado ? "Sim": "Não" 
+                    Realizado = model.Realizado ? "Sim": "Não",
+                    PermiteEditar = _verificaPermissaoAgendamento.PermiteEditar(model, usuario)
                 };
         }
     }

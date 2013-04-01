@@ -220,6 +220,11 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
         }
+        public static Quota ObtemQuotaDeCarregamentoComDataEspecifica(DateTime data)
+        {
+            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000", data, 850);
+        }
+
 
         public static Quota ObtemQuotaDeDescarregamento()
         {

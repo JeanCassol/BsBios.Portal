@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using StructureMap;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -40,6 +42,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             Query = Query.Where(x => logins.Contains(x.Login));
             return this;
+        }
+
+        public Usuario UsuarioConectado()
+        {
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            return BuscaPorLogin(usuarioConectado.Login);
         }
     }
 }

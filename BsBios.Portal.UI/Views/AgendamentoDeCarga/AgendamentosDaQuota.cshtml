@@ -36,9 +36,12 @@
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
-    <div class="divBotao">
-        <input type="button" value="Adicionar" id="btnAdicionarAgendamento" class="blue"/>
-    </div>
+    @if (Model.PermiteAdicionar)
+    {
+        <div class="divBotao">
+            <input type="button" value="Adicionar" id="btnAdicionarAgendamento" class="blue"/>
+        </div>
+    }
     <div id="gridAgendamentosDeCarga" class="divGrid"></div>
     <div id="divCadastroAgendamento" class="janelaModal"></div>
 </fieldset>
@@ -54,19 +57,19 @@
         $(function () {
             GridAgendamentosDeCarga.ConfigurarGrid(
                 {
-                    UrlDeLeitura: '@Url.Action("ListarPorQuota","AgendamentoDeCarga")',
-                    UrlDeEdicao: '@Url.Action("EditarCadastro","AgendamentoDeCarga")',
-                    UrlDeExclusao: '@Url.Action("Excluir","AgendamentoDeCargaService")',
+                    UrlDeLeitura: '@Url.Action("ListarPorQuota", "AgendamentoDeCarga")',
+                    UrlDeEdicao: '@Url.Action("EditarCadastro", "AgendamentoDeCarga")',
+                    UrlDeExclusao: '@Url.Action("Excluir", "AgendamentoDeCargaService")',
                     IdQuota: '@Model.IdQuota'
                 });
             
             @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
             {
-                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento('@Url.Action("SalvarAgendamentoDeCarregamento","AgendamentoDeCargaService")');    
+                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento('@Url.Action("SalvarAgendamentoDeCarregamento", "AgendamentoDeCargaService")');    
             }
             @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
             {
-                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento","AgendamentoDeCargaService")');
+                @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento", "AgendamentoDeCargaService")');
             }
 
             $('#btnAdicionarAgendamento').click(function () {

@@ -59,8 +59,10 @@
     <Compile Include="Imposto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaFactory.cs" />
+    <Compile Include="Services\Contracts\IVerificaPermissaoAgendamento.cs" />
     <Compile Include="Services\Implementations\AgendamentoDeCarregamentoFactory.cs" />
     <Compile Include="Services\Implementations\AgendamentoDeDescarregamentoFactory.cs" />
+    <Compile Include="Services\Implementations\VerificaPermissaoAgendamento.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

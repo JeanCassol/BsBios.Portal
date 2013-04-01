@@ -13,15 +13,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaQuota : IConsultaQuota
     {
         private readonly IQuotas _quotas;
+        private readonly IUsuarios _usuarios;
         private readonly IBuilder<Quota, QuotaConsultarVm> _builderQuota;
-        private readonly IBuilder<Quota, QuotaPorFornecedorVm> _builderQuotaPorFornecedor;
-        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> _builderAgendamentoDeCargaListar;
-        private readonly IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> _builderAgendamentoDeCargaCadastro;
+        private readonly IBuilderMulti<Quota, Usuario, QuotaPorFornecedorVm> _builderQuotaPorFornecedor;
+        private readonly IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaListarVm> _builderAgendamentoDeCargaListar;
+        private readonly IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaCadastroVm> _builderAgendamentoDeCargaCadastro;
         private readonly IBuilder<NotaFiscal, NotaFiscalVm> _builderNotaFiscal;
 
-        public ConsultaQuota(IQuotas quotas, IBuilder<Quota, QuotaConsultarVm> builderQuota, 
-            IBuilder<Quota, QuotaPorFornecedorVm> builderQuotaPorFornecedor, IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm> builderAgendamentoDeCargaListar, 
-            IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm> builderAgendamentoDeCargaCadastro, IBuilder<NotaFiscal, NotaFiscalVm> builderNotaFiscal)
+        public ConsultaQuota(IQuotas quotas, IUsuarios usuarios, IBuilder<Quota, QuotaConsultarVm> builderQuota, 
+            IBuilderMulti<Quota, Usuario, QuotaPorFornecedorVm> builderQuotaPorFornecedor, 
+            IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaListarVm> builderAgendamentoDeCargaListar, 
+            IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaCadastroVm> builderAgendamentoDeCargaCadastro, IBuilder<NotaFiscal, NotaFiscalVm> builderNotaFiscal)
         {
             _quotas = quotas;
             _builderQuota = builderQuota;
@@ -29,6 +31,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _builderAgendamentoDeCargaListar = builderAgendamentoDeCargaListar;
             _builderAgendamentoDeCargaCadastro = builderAgendamentoDeCargaCadastro;
             _builderNotaFiscal = builderNotaFiscal;
+            _usuarios = usuarios;
         }
 
         public bool PossuiQuotaNaData(DateTime data)
@@ -43,6 +46,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm ListarQuotasDoFornecedor(PaginacaoVm paginacaoVm, string codigoDoFornecedor)
         {
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
             _quotas.DoFornecedor(codigoDoFornecedor);
             return new KendoGridVm
                 {
@@ -51,7 +55,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     .GetQuery()
                     .OrderByDescending(x => x.Data)
                     .Skip(paginacaoVm.Skip)
-                    .Take(paginacaoVm.Take).ToList())
+                    .Take(paginacaoVm.Take).ToList(),usuarioConectado)
                             .Cast<ListagemVm>()
                             .ToList()
                              
@@ -60,16 +64,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public QuotaPorFornecedorVm ConsultarQuota(int idQuota)
         {
-            return _builderQuotaPorFornecedor.BuildSingle(_quotas.BuscaPorId(idQuota));
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
+            return _builderQuotaPorFornecedor.BuildSingle(_quotas.BuscaPorId(idQuota),usuarioConectado);
         }
 
         public KendoGridVm ListarAgendamentosDaQuota(int idQuota)
         {
             Quota quota = _quotas.BuscaPorId(idQuota);
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
             return new KendoGridVm
                 {
                     QuantidadeDeRegistros = quota.Agendamentos.Count,
-                    Registros = _builderAgendamentoDeCargaListar.BuildList(quota.Agendamentos ).Cast<ListagemVm>().ToList()
+                    Registros = _builderAgendamentoDeCargaListar.BuildList(quota.Agendamentos,usuarioConectado ).Cast<ListagemVm>().ToList()
                 };
         }
 
@@ -77,7 +83,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             Quota quota = _quotas.BuscaPorId(idQuota);
             AgendamentoDeCarga agendamentoDeCarga = quota.Agendamentos.Single(x => x.Id == idAgendamento);
-            return _builderAgendamentoDeCargaCadastro.BuildSingle(agendamentoDeCarga);
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
+            return _builderAgendamentoDeCargaCadastro.BuildSingle(agendamentoDeCarga,usuarioConectado);
         }
 
         public IList<NotaFiscalVm> NotasFiscaisDoAgendamento(int idQuota, int idAgendamento)

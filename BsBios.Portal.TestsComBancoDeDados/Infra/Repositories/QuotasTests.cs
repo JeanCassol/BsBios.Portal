@@ -52,10 +52,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         public void ConsigoPersistirUmAgendamentoParaAQuotaEConsultarPosteriormente()
         {
             var quota = DefaultObjects.ObtemQuotaDeCarregamento();
-            var agendamento = DefaultObjects.ObtemAgendamentoDeCarregamentoComPesoEspecifico(quota, 100);
             quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
                 {
-                    IdQuota = quota.Id
+                    IdQuota = quota.Id,
+                    Peso = 100,
+                    Placa = "MNO1234"
                 });
             DefaultPersistedObjects.PersistirQuota(quota);
 
@@ -64,9 +65,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var quotaConsultada = quotas.BuscaPorId(quota.Id);
             var agendamentoConsultado = (AgendamentoDeCarregamento) quotaConsultada.Agendamentos.First();
 
-            Assert.AreEqual(agendamento.Peso, agendamentoConsultado.Peso);
-            Assert.AreEqual(agendamento.Placa, agendamentoConsultado.Placa);
-            Assert.AreEqual(agendamento.Realizado, agendamentoConsultado.Realizado);
+            Assert.AreEqual(100, agendamentoConsultado.Peso);
+            Assert.AreEqual("MNO1234", agendamentoConsultado.Placa);
+            Assert.IsFalse(agendamentoConsultado.Realizado);
         }
     }
 }

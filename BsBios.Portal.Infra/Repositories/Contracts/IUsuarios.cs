@@ -8,5 +8,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IUsuarios NomeContendo(string filtroNome);
         IUsuarios LoginContendo(string login);
         IUsuarios FiltraPorListaDeLogins(string[] logins);
+        Usuario UsuarioConectado();
     }
 }

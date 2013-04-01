@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
@@ -19,10 +20,15 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
+            Usuario usuario = DefaultObjects.ObtemUsuarioPadrao();
+            usuario.AdicionarPerfil(Enumeradores.Perfil.AgendadorDeCargas);
+            DefaultPersistedObjects.PersistirUsuario(usuario);
+            BaseTestClass.SubstituirUsuarioConectado(new UsuarioConectado(usuario.Login, usuario.Nome,usuario.Perfis));
         }
         [ClassCleanup]
         public static void Finalizar()
         {
+            BaseTestClass.RestaurarUsuarioConectado();
             Cleanup();
         }
         

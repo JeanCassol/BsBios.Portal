@@ -60,6 +60,7 @@ namespace BsBios.Portal.UI.Controllers
             if (model != null)
             {
                 model.PermiteEditar = true;
+                model.PermiteRealizar = false;
             }
             return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga), model);
 
@@ -68,14 +69,14 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult EditarCadastro(int idQuota, int idAgendamento)
         {
             AgendamentoDeCargaCadastroVm cadastroVm = _consultaQuota.ConsultarAgendamento(idQuota, idAgendamento);
-            cadastroVm.PermiteEditar = true;
+            //cadastroVm.PermiteEditar = true;
             return PartialView(cadastroVm.ViewDeCadastro, cadastroVm);
         }
 
         public ActionResult RealizarAgendamento(int idQuota, int idAgendamento)
         {
             AgendamentoDeCargaCadastroVm cadastroVm = _consultaQuota.ConsultarAgendamento(idQuota, idAgendamento);
-            cadastroVm.PermiteEditar = false;
+            //cadastroVm.PermiteEditar = false;
             return PartialView(cadastroVm.ViewDeCadastro, cadastroVm);
         }
 

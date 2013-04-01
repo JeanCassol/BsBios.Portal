@@ -1,12 +1,22 @@
 ﻿using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
-    public class AgendamentoDeCargaCadastroBuilder: Builder<AgendamentoDeCarga,AgendamentoDeCargaCadastroVm>
+    public class AgendamentoDeCargaCadastroBuilder: BuilderMulti<AgendamentoDeCarga, Usuario,AgendamentoDeCargaCadastroVm>
     {
-        public override AgendamentoDeCargaCadastroVm BuildSingle(AgendamentoDeCarga model)
+        private readonly IVerificaPermissaoAgendamento _verificaPermissaoAgendamento;
+
+        public AgendamentoDeCargaCadastroBuilder(IVerificaPermissaoAgendamento verificaSePodeEditarAgendamento)
         {
+            _verificaPermissaoAgendamento = verificaSePodeEditarAgendamento;
+        }
+
+        public override AgendamentoDeCargaCadastroVm BuildSingle(AgendamentoDeCarga model, Usuario usuario)
+        {
+            bool permiteEditar = _verificaPermissaoAgendamento.PermiteEditar(model, usuario);
+            bool permiteRealizar = _verificaPermissaoAgendamento.PermiteRealizar(model, usuario);
             if (model is AgendamentoDeCarregamento)
             {
                 return new AgendamentoDeCarregamentoCadastroVm
@@ -16,8 +26,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                         Placa = model.Placa ,
                         Peso = model.PesoTotal ,
                         ViewDeCadastro = "AgendamentoDeCarregamento",
-                        PermiteRealizar = !model.Realizado
-                        
+                        PermiteEditar =  permiteEditar,
+                        PermiteRealizar = permiteRealizar
                     };       
             }
 
@@ -29,7 +39,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                         IdAgendamento = model.Id ,
                         Placa = model.Placa,
                         ViewDeCadastro = "AgendamentoDeDescarregamento",
-                        PermiteRealizar = !model.Realizado
+                        PermiteEditar = permiteEditar,
+                        PermiteRealizar = permiteRealizar
                     };
             }
 

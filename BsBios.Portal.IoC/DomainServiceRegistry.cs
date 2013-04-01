@@ -10,9 +10,9 @@ namespace BsBios.Portal.IoC
     {
         public DomainServiceRegistry()
         {
-            //For<ISelecionaFornecedor>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<SelecionaFornecedor>();
+            For<IVerificaPermissaoAgendamento>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<VerificaPermissaoAgendamento>();
         }
     }
 }

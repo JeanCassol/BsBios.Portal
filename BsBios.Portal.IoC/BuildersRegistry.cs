@@ -61,7 +61,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<QuotaConsultarBuilder>();
 
-            For<IBuilder<Quota, QuotaPorFornecedorVm>>()
+            For<IBuilderMulti<Quota, Usuario, QuotaPorFornecedorVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<QuotaPorFornecedorBuilder>();
 
@@ -69,11 +69,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<QuotaPesoBuilder>();
 
-            For<IBuilder<AgendamentoDeCarga, AgendamentoDeCargaListarVm >>()
+            For<IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaListarVm >>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaListarBuilder>();
 
-            For < IBuilder<AgendamentoDeCarga, AgendamentoDeCargaCadastroVm>>()
+            For < IBuilderMulti<AgendamentoDeCarga, Usuario, AgendamentoDeCargaCadastroVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaCadastroBuilder>();
 

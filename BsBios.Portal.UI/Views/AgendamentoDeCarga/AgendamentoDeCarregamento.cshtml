@@ -32,15 +32,17 @@
     $(function () {
         aplicaMascaraQuantidade();
         aplicaMascaraPlaca();
+        var permiteEditar = '@Model.PermiteEditar'.boolean();
+        if (permiteEditar || '@Model.PermiteRealizar'.boolean()) {
+            $('.ui-dialog-buttonpane').show();
+        } else {
+            $('.ui-dialog-buttonpane').hide();
+        }
+
         if (!'@Model.PermiteEditar'.boolean()) {
             $('form').find('input')
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
-            if ('@Model.PermiteRealizar'.boolean()) {
-                $('.ui-dialog-buttonpane').show();
-            } else {
-                $('.ui-dialog-buttonpane').hide();
-            }
         }
         
     })
