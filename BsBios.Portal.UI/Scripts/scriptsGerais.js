@@ -250,7 +250,10 @@ $(function () {
     //aplicaMascaras();
 });
 
-$(document).ajaxComplete(function(event, request, ajaxOptions) {
+$(document).ajaxComplete(function (event, request, ajaxOptions) {
+    if (ajaxOptions.dataType != "json") {
+        return;
+    }
     var resposta = JSON.parse(request.responseText);
     if (resposta.SessaoExpirada) {
         Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
