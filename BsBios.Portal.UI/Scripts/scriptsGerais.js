@@ -249,3 +249,11 @@ $(function () {
     inicializaCamposDatePicker();
     //aplicaMascaras();
 });
+
+$(document).ajaxComplete(function(event, request, ajaxOptions) {
+    var resposta = JSON.parse(request.responseText);
+    if (resposta.SessaoExpirada) {
+        Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
+        location.href = resposta.ReturnUrl;
+    }
+});

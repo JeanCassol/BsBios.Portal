@@ -21,7 +21,24 @@ namespace BsBios.Portal.UI.Filters
                 string redirectOnSuccess = filterContext.HttpContext.Request.Url.AbsoluteUri;
                 string redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
                 string loginUrl = FormsAuthentication.LoginUrl + redirectUrl;
-                filterContext.Result = new RedirectResult(loginUrl);
+                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                {
+                    filterContext.Result = new JsonResult()
+                        {
+                            Data = new
+                                {
+                                    SessaoExpirada = true,
+                                    Mensagem = "A sessão expirou.",
+                                    ReturnUrl = redirectUrl
+                                },
+                                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+
+                        };
+                }
+                else
+                {
+                    filterContext.Result = new RedirectResult(loginUrl);
+                }
             }
             else
             {
