@@ -81,9 +81,9 @@ namespace BsBios.Portal.UI.Controllers
 
 
         [HttpGet]
-        public JsonResult Consultar(ConferenciaDeCargaFiltroVm filtro)
+        public JsonResult Consultar(PaginacaoVm paginacaoVm, ConferenciaDeCargaFiltroVm filtro)
         {
-            KendoGridVm kendoGridVm = _consultaQuota.Consultar(filtro);
+            KendoGridVm kendoGridVm = _consultaQuota.Consultar(paginacaoVm, filtro);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }

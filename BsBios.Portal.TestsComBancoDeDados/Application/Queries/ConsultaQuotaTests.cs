@@ -117,13 +117,15 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
+            UnitOfWorkNh.Session.Clear();
+
             var filtro = new ConferenciaDeCargaFiltroVm
                 {
                     CodigoTerminal = "1000",
                     NumeroNf = "1234"/*,
                     CodigoRealizacaoDeAgendamento = (int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado*/
                 };
-            KendoGridVm kendoGridVm = consultaQuota.Consultar(filtro);
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm{Page = 1, PageSize = 10, Take = 10},  filtro);
             Assert.AreEqual(1,kendoGridVm.QuantidadeDeRegistros);
         }
 
@@ -141,7 +143,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                         {
                             new NotaFiscalVm
                                 {
-                                    Numero = "1234",
+                                    Numero = "12345",
                                     Serie = "1",
                                     DataDeEmissao = DateTime.Today.ToShortDateString(),
                                     CnpjDoEmitente = "123",
@@ -160,12 +162,15 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
+
+            UnitOfWorkNh.Session.Clear();
+
             var filtro = new ConferenciaDeCargaFiltroVm
             {
                 CodigoTerminal = "1000",
                 Placa = "IMN1620"
             };
-            KendoGridVm kendoGridVm = consultaQuota.Consultar(filtro);
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm { Page = 1, PageSize = 10, Take = 10 }, filtro);
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             
         }

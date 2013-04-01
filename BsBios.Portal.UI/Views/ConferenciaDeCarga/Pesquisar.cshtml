@@ -124,54 +124,58 @@
                     },
                     {
                         field: "Placa",
-                        width: 80
+                        width: 70
                     },
                     {
                         field: "NumeroNf",
                         title: 'Número NF',
-                        width: 100
+                        width: 90
                     },
                     {
                         field: "CnpjEmitente",
                         title: 'Cnpj do Emitente',
+                        template: function(dataItem) {
+                            return Formato.formataCnpj(dataItem.CnpjEmitente);
+                        },
                         width: 140
                     }
                 ]
             });
 
             $('#gridAgendamentos').find('.button_visualize').die('click');
-            $('#gridAgendamentos').find('.button_visualize').live('click', function (e) {
+            $('#gridAgendamentos').find('.button_visualize').live('click', function(e) {
                 e.preventDefault();
-                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento","AgendamentoDeCarga")' +
-                '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
-                    $('#divRealizarAgendamento').dialog("open");
-                });
-                
+                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
+                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
+                        $('#divRealizarAgendamento').dialog("open");
+                    });
+
             });
 
             $('#btnLimpar').click(function() {
                 $('#fieldSetFiltros').find('input[type!=button][name!=CodigoTerminal][name!=RealizacaoDeAgendamento]').val('');
-                $('#RealizacaoDeAgendamento').val('@((int)Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
+                $('#RealizacaoDeAgendamento').val('@((int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
             });
-            
+
             function atualizaGrid() {
                 var grid = $('#gridAgendamentos').data("kendoGrid");
                 grid.dataSource.read();
             }
-            $('#btnPesquisar').click(function () {
+
+            $('#btnPesquisar').click(function() {
                 atualizaGrid();
             });
             $('#divRealizarAgendamento').customDialog({
                 title: 'Realizar Agendamento',
                 buttons: {
-                    "Realizar": function () {
+                    "Realizar": function() {
                         var resposta = confirm("Confirma a realização do evento?");
                         if (!resposta) {
                             return;
                         }
 
                         $.ajax({
-                            url: '@Url.Action("Realizar","AgendamentoDeCargaService")',
+                            url: '@Url.Action("Realizar", "AgendamentoDeCargaService")',
                             type: 'POST',
                             data: JSON.stringify(
                                 {
@@ -181,7 +185,7 @@
                             cache: false,
                             contentType: "application/json; charset=utf-8",
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 if (data.Sucesso) {
                                     atualizaGrid();
                                     $('#divRealizarAgendamento').dialog("close");
@@ -189,12 +193,12 @@
                                     atualizaMensagemDeErro(data.Mensagem);
                                 }
                             },
-                            error: function (jqXHR, textStatus, errorThrown) {
+                            error: function(jqXHR, textStatus, errorThrown) {
                                 Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao realizar o Agendamento. Detalhe: ' + textStatus + errorThrown);
                             }
                         });
                     },
-                    "Cancelar": function () {
+                    "Cancelar": function() {
                         $(this).dialog("close");
                     }
                 }

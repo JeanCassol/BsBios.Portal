@@ -87,7 +87,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return _builderNotaFiscal.BuildList(agendamentoDeCarga.NotasFiscais);
         }
 
-        public KendoGridVm Consultar(ConferenciaDeCargaFiltroVm filtro)
+        public KendoGridVm Consultar(PaginacaoVm paginacaoVm, ConferenciaDeCargaFiltroVm filtro)
         {
             bool? realizado = null;
             if (filtro.CodigoRealizacaoDeAgendamento.HasValue)
@@ -150,7 +150,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return new KendoGridVm()
                 {
                     QuantidadeDeRegistros = query.Count(),
-                    Registros = query.ToList().Select(x => 
+                    Registros = query.ToList()
+                    .Skip(paginacaoVm.Skip)
+                    .Take(paginacaoVm.Take)
+                    .Select(x => 
                     new ConferenciaDeCargaPesquisaResultadoVm
                         {
                             IdQuota = x.IdQuota,
