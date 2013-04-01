@@ -723,7 +723,8 @@ input[type="checkbox"].input-validation-error {
     font-size: 18px;
 }
 #conteudoPrincipal {
-    background-color: #efeeef
+    background-color: #efeeef;
+    font-size:12px
 }
 .divFiltros{
     background-color: #efeeef
