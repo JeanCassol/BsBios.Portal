@@ -26,15 +26,55 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail AberturaDoProcessoDeCotacaoDeFrete(ProcessoDeCotacao processoDeCotacao)
         {
-            string mensagem = "Fornecedor, você está convidado a participar do Processo de Cotação de Fretes." +
-                              Environment.NewLine +
+            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processoDeCotacao;
+            string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
+                              "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
+                              "conforme informações descritas abaixo. " + Environment.NewLine +
+                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" + Environment.NewLine + Environment.NewLine +
+                              "Material: " + processoDeCotacaoDeFrete.Produto.Descricao + Environment.NewLine +
+                              "Quantidade: " + processoDeCotacaoDeFrete.Quantidade + Environment.NewLine +
+                              "Itinerário: " + processoDeCotacaoDeFrete.Itinerario.Descricao + Environment.NewLine +
+                              "Unidade de Medida: " + processoDeCotacaoDeFrete.UnidadeDeMedida.Descricao + Environment.NewLine +
+                              "Data Limite de Retorno:  " + processoDeCotacaoDeFrete.DataLimiteDeRetorno.ToString() + Environment.NewLine;
+
+            return new MensagemDeEmail("Cotação de Frete", mensagem);
+        }
+
+        public MensagemDeEmail AberturaDoProcessoDeCotacaoDeMaterial(ProcessoDeCotacao processoDeCotacao)
+        {
+            string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
+                              "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
+                              "conforme informações descritas abaixo. " + Environment.NewLine +
+                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" + Environment.NewLine + Environment.NewLine +
                               "Material: " + processoDeCotacao.Produto.Descricao + Environment.NewLine +
                               "Quantidade: " + processoDeCotacao.Quantidade + Environment.NewLine +
                               "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              "Data Limite de Retorno:  " + processoDeCotacao.DataLimiteDeRetorno.ToString() + Environment.NewLine +
-                              "Para informar a sua cotação acesse o Portal da BS BIOS até a data limite de retorno.";
+                              "Data Limite de Retorno:  " + processoDeCotacao.DataLimiteDeRetorno.ToString() + Environment.NewLine;
 
-            return new MensagemDeEmail("Cotação de Frete", mensagem);
+            return new MensagemDeEmail("Cotação de Material", mensagem);
+        }
+
+        public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao)
+        {
+            string mensagem = "Prezado Fornecedor." + Environment.NewLine +
+                              "Estamos confirmando o fechamento da negociação referente " + cotacao.Id + "." + Environment.NewLine +
+                              "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine +  
+                              "Material: "  + processoDeCotacao.Produto.Descricao + Environment.NewLine +
+                              "Quantidade: " + cotacao.QuantidadeAdquirida + Environment.NewLine +
+                              "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
+                              " Para maiores esclarecimentos, favor entrar em contato através com o comprador.";
+
+            return new MensagemDeEmail("Fechamento do Processo de Cotacão", mensagem);
+        }
+
+        public MensagemDeEmail FornecedoresNaoSelecionadosNoProcessoDeCotacao(Cotacao cotacao)
+        {
+            string mensagem = "Prezado Fornecedor."  + Environment.NewLine + 
+                "Agradecemos sua partipação no nosso processo de cotação " + cotacao.Id  +
+                " e informamos que optamos por fechar a negociação com outro fornecedor." + Environment.NewLine + 
+                "Ficaremos gratos caso tenha interesse em participar de nossas futuras cotações.";
+
+            return new MensagemDeEmail("Fechamento do Processo de Cotacão",mensagem);
         }
     }
 }

@@ -7,6 +7,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
+using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -43,6 +44,9 @@ namespace BsBios.Portal.Tests.Application.Services
                              login == "USER001"
                                  ? new UsuarioParaAtualizacao("USUARIO 001", "USER001", "")
                                   : null);
+
+            _usuariosMock.Setup(x => x.FiltraPorListaDeLogins(It.IsAny<string[]>())).Returns(_usuariosMock.Object);
+            _usuariosMock.Setup(x => x.SemSenha()).Returns(_usuariosMock.Object);
 
             _geradorDeSenhaMock = new Mock<IGeradorDeSenha>(MockBehavior.Strict);
             _geradorDeSenhaMock.Setup(x => x.GerarGuid(It.IsAny<int>()))
@@ -118,6 +122,29 @@ namespace BsBios.Portal.Tests.Application.Services
 
         #endregion
 
+        #region Criar senha para usuários sem senha
+        [TestMethod]
+        public void CriarSenhasParaUsuarioSemSenhaGeraEmailESenhaParaUsuariosSemSenha()
+        {
+            _usuariosMock.Setup(x => x.Save(It.IsAny<Usuario>()));
+            _usuariosMock.Setup(x => x.List())
+                         .Returns(new List<Usuario>
+                             {
+                                 DefaultObjects.ObtemUsuarioPadrao(),
+                                 DefaultObjects.ObtemUsuarioPadrao()
+                             });
+
+            _gerenciadorUsuario.CriarSenhaParaUsuariosSemSenha(new []{"0001","0002"});
+
+            _usuariosMock.Verify(x => x.FiltraPorListaDeLogins(It.IsAny<string[]>()),Times.Once());
+            _usuariosMock.Verify(x => x.SemSenha(),Times.Once());
+            _usuariosMock.Verify( x=> x.Save(It.IsAny<Usuario>()), Times.Exactly(2));
+            _geradorDeEmailMock.Verify(x => x.CriacaoAutomaticaDeSenha(It.IsAny<Usuario>(), It.IsAny<string>()),  Times.Exactly(2));
+            _geradorDeSenhaMock.Verify(x => x.GerarGuid(It.IsAny<int>()), Times.Exactly(2));
+            _provedorDeCriptografiaMock.Verify( x => x.Criptografar(It.IsAny<string>()), Times.Exactly(2));
+
+        }
+        #endregion
 
     }
 }

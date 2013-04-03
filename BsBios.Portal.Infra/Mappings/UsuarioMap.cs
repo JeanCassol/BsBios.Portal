@@ -16,7 +16,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(u => u.Status).CustomType<Enumeradores.StatusUsuario>();
 
             HasMany(x => x.Perfis)
-                .Cascade.All().Not.LazyLoad()
+                .Cascade.All()/*.Not.LazyLoad()*/
                 .Table("UsuarioPerfil")
                 .KeyColumn("Login")
                 .Element("Perfil");

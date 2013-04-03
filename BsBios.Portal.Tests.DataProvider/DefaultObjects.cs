@@ -216,6 +216,37 @@ namespace BsBios.Portal.Tests.DataProvider
 
         }
 
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComFornecedor()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao  = ObtemProcessoDeCotacaoDeFrete();
+            processoDeCotacao.AdicionarFornecedor(ObtemFornecedorPadrao());
+            processoDeCotacao.Abrir();
+            return processoDeCotacao;
+        }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete();
+            Fornecedor fornecedor = ObtemFornecedorPadrao();
+            processoDeCotacao.AdicionarFornecedor(fornecedor);
+            processoDeCotacao.Abrir();
+            processoDeCotacao.InformarCotacao(fornecedor.Codigo, 100, 10, "teste");
+            return processoDeCotacao;
+        }
+
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
+            var cotacao = (CotacaoFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            cotacao.Selecionar(9);
+            return processoDeCotacao;
+        }
+
+
+
+
+
         public static Quota ObtemQuotaDeCarregamento()
         {
             return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);

@@ -22,23 +22,23 @@ namespace BsBios.Portal.Application.Services.Implementations
         }
 
 
-        public void AbrirProcesso(int idProcessoCotacao)
-        {
-            try
-            {
-                _unitOfWork.BeginTransaction();
-                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-                processoDeCotacao.Abrir();
-                _geradorDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacao);
-                _processosDeCotacao.Save(processoDeCotacao);
-                _unitOfWork.Commit();
-            }
-            catch (Exception)
-            {
-                _unitOfWork.RollBack();
-                throw;
-            }
-        }
+        //public void AbrirProcesso(int idProcessoCotacao)
+        //{
+        //    try
+        //    {
+        //        _unitOfWork.BeginTransaction();
+        //        ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+        //        processoDeCotacao.Abrir();
+        //        _geradorDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacao);
+        //        _processosDeCotacao.Save(processoDeCotacao);
+        //        _unitOfWork.Commit();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _unitOfWork.RollBack();
+        //        throw;
+        //    }
+        //}
 
         public void FecharProcesso(int idProcessoCotacao)
         {

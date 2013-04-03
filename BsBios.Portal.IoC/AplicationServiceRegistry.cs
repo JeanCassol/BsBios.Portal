@@ -1,5 +1,7 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
+using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Services.Contracts;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
@@ -84,6 +86,35 @@ namespace BsBios.Portal.IoC
             For<IAgendamentoDeCargaService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaService>();
+
+            For<IAberturaDeProcessoDeCotacaoService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AberturaDeProcessoDeCotacaoDeFrete>()
+                .Named(Constantes.AberturaDeProcessoDeCotacaoDeFrete);
+
+            For<IAberturaDeProcessoDeCotacaoService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AberturaDeProcessoDeCotacaoDeMaterial>()
+                .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterial);
+
+            For<IFechamentoDeProcessoDeCotacaoService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FechamentoDeProcessoDeCotacaoService>();
+
+
+            //For<IAberturaDeProcessoDeCotacaoServiceFactory>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<AberturaDeProcessoDeCotacaoDeMaterialServiceFactory>()
+            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterialServiceFactory);
+            //    //.Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>("aberturaDeProcessoDeCotacaoDeMaterialServiceFactory");
+
+            //For<IAberturaDeProcessoDeCotacaoServiceFactory>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<AberturaDeProcessoDeCotacaoDeFreteServiceFactory>()
+            //    //.Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>("aberturaDeProcessoDeCotacaoDeFreteServiceFactory");
+            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeFreteServiceFactory);
+
+
         }
     }
 }

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constantes.cs" />
     <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />

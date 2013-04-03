@@ -7,6 +7,8 @@ namespace BsBios.Portal.Infra.Services.Contracts
     {
         MensagemDeEmail CriacaoAutomaticaDeSenha(Usuario usuario, string novaSenha);
         MensagemDeEmail AberturaDoProcessoDeCotacaoDeFrete(ProcessoDeCotacao processoDeCotacao);
-
+        MensagemDeEmail AberturaDoProcessoDeCotacaoDeMaterial(ProcessoDeCotacao processoDeCotacao);
+        MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao);
+        MensagemDeEmail FornecedoresNaoSelecionadosNoProcessoDeCotacao(Cotacao cotacao);
     }
 }

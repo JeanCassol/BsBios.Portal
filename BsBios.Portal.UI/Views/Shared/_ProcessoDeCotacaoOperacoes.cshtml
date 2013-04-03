@@ -4,17 +4,20 @@
     var tipoDeCotacao = (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), ViewData["TipoDeCotacao"].ToString());
     var actionSelecionarCotacoes = "";
     var actionAbrirTelaDeSelecaoDeCotacoes = "";
+    var actionAbrirProcessoDeCotacao = "";
     
     if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
     {
 
         actionSelecionarCotacoes = Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar");
         actionAbrirTelaDeSelecaoDeCotacoes = Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial");
+        actionAbrirProcessoDeCotacao = Url.Action("AbrirProcesso","ProcessoDeCotacaoDeMaterialAbertura");
     }
     if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
     {
         actionSelecionarCotacoes = Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFreteSelecionar");
         actionAbrirTelaDeSelecaoDeCotacoes = Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete");
+        actionAbrirProcessoDeCotacao = Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura");
     }
 }
 <fieldset>
@@ -31,7 +34,7 @@
 <fieldset>
     <legend>Ações</legend>
     <div class="divBotao">
-        <input type="button" id="btnIniciarProcesso" value="Abrir" class="blue" />
+        <input type="button" id="btnAbrirProcesso" value="Abrir" class="blue" />
         <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
         <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
     </div>
@@ -182,9 +185,9 @@
                 });
         });
 
-        $('#btnIniciarProcesso').click(function() {
+        $('#btnAbrirProcesso').click(function() {
             $.ajax({
-                url: '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoStatusService")',
+                url: '@actionAbrirProcessoDeCotacao',
                 type: 'POST',
                 cache: false,
                 data: {idProcessoCotacao: $('#Id').val()},

@@ -98,6 +98,10 @@
     <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterialDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoServiceFactory.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
     <Compile Include="Services\Contracts\ICadastroQuota.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteSelecaoService.cs" />
@@ -119,6 +123,9 @@
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
+    <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
+    <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AgendamentoDeCargaService.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
@@ -126,6 +133,9 @@
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />

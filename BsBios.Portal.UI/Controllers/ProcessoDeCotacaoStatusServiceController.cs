@@ -19,22 +19,6 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AbrirProcesso(int idProcessoCotacao)
-        {
-            try
-            {
-                _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoAberturaProcessoCotacaoMaterial();
-                _processoDeCotacaoStatusService.AbrirProcesso(idProcessoCotacao);
-                return Json(new {Sucesso = true, Mensagem = "O Processo de Cotação foi aberto com sucesso."});
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new {Sucesso = false, Mensagem = "Ocorreu um erro ao abrir o Processo de Cotação. Detalhes: " + ex.Message});
-            }
-        }
-
-        [HttpPost]
         public JsonResult FecharProcesso(int idProcessoCotacao, Enumeradores.TipoDeCotacao tipoDeCotacao)
         {
             try

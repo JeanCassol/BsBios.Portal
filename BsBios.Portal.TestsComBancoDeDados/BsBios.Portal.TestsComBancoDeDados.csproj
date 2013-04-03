@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -67,6 +68,7 @@
     <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
     <Compile Include="Application\Queries\ConsultaQuotaTests.cs" />
+    <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />

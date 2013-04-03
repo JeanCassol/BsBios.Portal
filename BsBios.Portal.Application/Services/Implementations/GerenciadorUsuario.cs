@@ -32,22 +32,29 @@ namespace BsBios.Portal.Application.Services.Implementations
             _geradorDeEmail = geradorDeEmail;
         }
 
+        private void CriarSenha(Usuario usuario)
+        {
+            string senha = _geradorDeSenha.GerarGuid(8);
+            _geradorDeEmail.CriacaoAutomaticaDeSenha(usuario, senha);
+
+            string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
+            usuario.CriarSenha(senhaCriptografada);
+            _usuarios.Save(usuario);
+            
+        }
+
         public UsuarioConsultaVm CriarSenha(string login)
         {
             try
             {
-                string senha = _geradorDeSenha.GerarGuid(8);
                 _unitOfWork.BeginTransaction();
                 Usuario usuario = _usuarios.BuscaPorLogin(login);
                 if (usuario == null)
                 {
                     throw  new UsuarioNaoCadastradoException(login);
                 }
-                _geradorDeEmail.CriacaoAutomaticaDeSenha(usuario, senha);
 
-                string senhaCriptografada = _provedorDeCriptografia.Criptografar(senha);
-                usuario.CriarSenha(senhaCriptografada);
-                _usuarios.Save(usuario);
+                CriarSenha(usuario);
 
                 UsuarioConsultaVm vm = _builder.BuildSingle(usuario);
 
@@ -61,6 +68,16 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
+        public void CriarSenhaParaUsuariosSemSenha(string[] logins)
+        {
+            IList<Usuario> usuariosParaVerificar = _usuarios.FiltraPorListaDeLogins(logins).SemSenha().List();
+            foreach (var usuario in usuariosParaVerificar)
+            {
+                CriarSenha(usuario);
+            }
+        }
+
 
         public void AlterarSenha(string login, string senhaAtual, string senhaNova)
         {
@@ -156,5 +173,6 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
     }
 }

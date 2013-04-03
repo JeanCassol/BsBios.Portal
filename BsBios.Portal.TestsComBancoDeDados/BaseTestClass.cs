@@ -4,6 +4,7 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
+using BsBios.Portal.UI.App_Start;
 using BsBios.Portal.UI.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -37,12 +38,21 @@ namespace BsBios.Portal.TestsComBancoDeDados
 
             ObjectFactory.Configure(x =>
                 {
+                    x.AddRegistry<ControllerRegistry>();
                     if (emailDoPortal != null)
+                    {
+                        x.For<ContaDeEmail>()
+                         .Singleton()
+                         .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteLogistica + ">", emailDoPortal.Dominio,
+                                               emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
+                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDaLogistica);
+
                         x.For<ContaDeEmail>()
                          .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                               emailDoPortal.Porta));
+                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDeSuprimentos);
+                    }
                 });
         }
 

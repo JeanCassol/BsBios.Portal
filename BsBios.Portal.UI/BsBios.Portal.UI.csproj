@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ControllerRegistry.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialFechamentoController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeFreteFechamentoController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeFreteAberturaController.cs" />
     <Compile Include="Controllers\ModelBinders\CotacaoImpostoModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteSelecionarController.cs" />
@@ -145,6 +149,7 @@
     <Compile Include="Controllers\CotacaoFreteController.cs" />
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialAberturaController.cs" />
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />

@@ -27,15 +27,5 @@ namespace BsBios.Portal.Infra.Services.Implementations
             emailService.Enviar(usuario.Email, _geradorDeMensagemDeEmail.CriacaoAutomaticaDeSenha(usuario, novaSenha));
         }
 
-        public void AberturaDoProcessoDeCotacaoDeFrete(ProcessoDeCotacao processoDeCotacao)
-        {
-            var contaDeEmail = ObjectFactory.GetNamedInstance<ContaDeEmail>("ContaDeEmailDaLogistica");
-            var emailService = new EmailService(contaDeEmail);
-            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacao);
-            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
-            {
-                emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
-            }
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Infra.Services.Contracts;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -36,6 +37,55 @@ namespace BsBios.Portal.IoC
             For<IGeradorDeEmail>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeEmail>();
+
+            //For<IEmailServiceFactory>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<EmailServiceLogisticaFactory>()
+            //    .Ctor<IEmailServiceFactory>("emailServiceLogisticaFactory");
+
+            //For<IEmailServiceFactory>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<EmailServiceSuprimentosFactory>()
+            //    .Ctor<IEmailServiceFactory>("emailServiceSuprimentosFactory");
+
+
+            For<IGeradorDeEmailDeAberturaDeProcessoDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete>()
+                .Named(Constantes.GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete);
+
+            For<IGeradorDeEmailDeAberturaDeProcessoDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial>()
+                .Named(Constantes.GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial);
+
+            For<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<GeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
+
+
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoAberturaProcessoCotacaoFrete>()
+                .Named(Constantes.ComunicacaoAberturaProcessoCotacaoFrete);
+
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoAberturaProcessoCotacaoMaterial>()
+                .Named(Constantes.ComunicacaoAberturaProcessoCotacaoMaterial);
+
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoFechamentoProcessoCotacaoFrete>()
+                .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
+
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoFechamentoProcessoCotacaoMaterial>()
+                .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
+
+
+
 
         }
     }

@@ -49,5 +49,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             return BuscaPorLogin(usuarioConectado.Login);
         }
+
+        public IUsuarios SemSenha()
+        {
+            Query = Query.Where(x => x.Senha == null);
+            return this;
+        }
     }
 }

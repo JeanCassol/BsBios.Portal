@@ -132,6 +132,30 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
         }
 
+        [TestMethod]
+        public void QuandoFiltraPorUsuariosSemSenhaTodosUsuariosRetornadosNaoPossuemSenha()
+        {
+            RemoveQueries.RemoverUsuariosCadastrados();
+            Usuario usuario1 = DefaultObjects.ObtemUsuarioPadrao();
+            usuario1.CriarSenha("123456");
+            Usuario usuario2 = DefaultObjects.ObtemUsuarioPadrao();
+            Usuario usuario3 = DefaultObjects.ObtemUsuarioPadrao();
+            DefaultPersistedObjects.PersistirUsuario(usuario1);
+            DefaultPersistedObjects.PersistirUsuario(usuario2);
+            DefaultPersistedObjects.PersistirUsuario(usuario3);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var usuarios = ObjectFactory.GetInstance<IUsuarios>();
+            IList<Usuario> usuariosSelecionados = usuarios.SemSenha().List();
+            Assert.AreEqual(2, usuariosSelecionados.Count);
+            
+            foreach (var usuarioSelecionado in usuariosSelecionados)
+            {
+                Assert.IsNull(usuarioSelecionado.Senha);
+            }
+        }
+
 
     }
 }

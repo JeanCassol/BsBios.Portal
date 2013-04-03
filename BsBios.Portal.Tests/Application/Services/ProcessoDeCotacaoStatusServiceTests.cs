@@ -65,75 +65,12 @@ namespace BsBios.Portal.Tests.Application.Services
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
             _geradorDeEmailMock = new Mock<IGeradorDeEmail>(MockBehavior.Strict);
-            _geradorDeEmailMock.Setup(x => x.AberturaDoProcessoDeCotacaoDeFrete(It.IsAny<ProcessoDeCotacao>()));
 
             _processoDeCotacaoStatusService = new ProcessoDeCotacaoStatusService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,_geradorDeEmailMock.Object);
 
         }
 
-        #region Testes de Abertura do Processo
-        [TestMethod]
-        public void QuandoOProcessoEAbertoOcorrePersistencia()
-        {
-            _processoDeCotacaoStatusService.AbrirProcesso(10);
-            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoOProcessoEAbertoComSucessoOcorreCommitDaTransacao()
-        {
-            _processoDeCotacaoStatusService.AbrirProcesso(10);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
-
-        }
-
-        [TestMethod]
-        public void QuandoOcorreErroAoAbrirProcessoOcorreRollbackDaTransacao()
-        {
-            _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
-                                   .Throws(new ExcecaoDeTeste("Erro ao consultar Processo."));
-            try
-            {
-                _processoDeCotacaoStatusService.AbrirProcesso(10);
-                Assert.Fail("Deveria ter gerado exceção");
-            }
-            catch (ExcecaoDeTeste)
-            {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
-            }
-        }
-
-        [TestMethod]
-        public void QuandoOProcessoEAbertoComSucessoAsPropriedadesDoProcessoFicamCorretas()
-        {
-            _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
-                                   .Callback((ProcessoDeCotacao processoDeCotacao) =>
-                                   {
-                                       Assert.IsNotNull(processoDeCotacao);
-                                       Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Aberto,
-                                                       processoDeCotacao.Status);
-                                   });
-
-            _processoDeCotacaoStatusService.AbrirProcesso(10);
-
-            _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
-            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
-
-        }
-        [TestMethod]
-        public void QuandoOProcessoEAbertoComSucessoEEnviadoEmailParaOsFornecedores()
-        {
-            _processoDeCotacaoStatusService.AbrirProcesso(20);
-            _geradorDeEmailMock.Verify(x => x.AberturaDoProcessoDeCotacaoDeFrete(It.IsAny<ProcessoDeCotacao>()), Times.Once());
-        }
-        #endregion
-
-
-
+ 
         #region Testes de Fechamento do Processo
         [TestMethod]
         public void QuandoOProcessoEFechadoOcorrePersistencia()
