@@ -164,7 +164,6 @@
     <Compile Include="Controllers\IncotermApiController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialSelecionarController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
-    <Compile Include="Controllers\ProcessoDeCotacaoStatusServiceController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />

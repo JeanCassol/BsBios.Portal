@@ -14,7 +14,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AbrirProcesso(int idProcessoCotacao)
+        public JsonResult FecharProcesso(int idProcessoCotacao)
         {
             try
             {

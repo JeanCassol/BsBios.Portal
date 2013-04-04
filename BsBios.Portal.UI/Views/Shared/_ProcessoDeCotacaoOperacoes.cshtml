@@ -5,6 +5,7 @@
     var actionSelecionarCotacoes = "";
     var actionAbrirTelaDeSelecaoDeCotacoes = "";
     var actionAbrirProcessoDeCotacao = "";
+    var actionFecharProcessoDeCotacao = "";
     
     if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
     {
@@ -12,12 +13,14 @@
         actionSelecionarCotacoes = Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar");
         actionAbrirTelaDeSelecaoDeCotacoes = Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial");
         actionAbrirProcessoDeCotacao = Url.Action("AbrirProcesso","ProcessoDeCotacaoDeMaterialAbertura");
+        actionFecharProcessoDeCotacao = Url.Action("FecharProcesso", "ProcessoDeCotacaoDeMaterialFechamento");
     }
     if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)
     {
         actionSelecionarCotacoes = Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFreteSelecionar");
         actionAbrirTelaDeSelecaoDeCotacoes = Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete");
         actionAbrirProcessoDeCotacao = Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura");
+        actionFecharProcessoDeCotacao = Url.Action("FecharProcesso", "ProcessoDeCotacaoDeFreteFechamento");
     }
 }
 <fieldset>
@@ -208,10 +211,10 @@
 
         $('#btnFecharProcesso').click(function() {
             $.ajax({
-                url: '@Url.Action("FecharProcesso", "ProcessoDeCotacaoStatusService")',
+                url: '@actionFecharProcessoDeCotacao',
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val(), TipoDeCotacao:'@tipoDeCotacao' },
+                data: { idProcessoCotacao: $('#Id').val() },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
