@@ -55,7 +55,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
         {
             VerificaInterfacesRegistradas(typeof(ICadastroCondicaoPagamento), "BsBios.Portal.Application.Services.Contracts",new List<Type>
                 {
-                    typeof(IAberturaDeProcessoDeCotacaoServiceFactory)
+                    typeof(IAberturaDeProcessoDeCotacaoServiceFactory),
+                    typeof(IFechamentoDeProcessoDeCotacaoServiceFactory)
                 });
         }
 

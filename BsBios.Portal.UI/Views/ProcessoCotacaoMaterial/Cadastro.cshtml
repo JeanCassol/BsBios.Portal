@@ -6,6 +6,8 @@
 @{
     ViewBag.TituloDaPagina = "Cotação de Material - Editar";
 }
+<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+
 <div class="paginaCadastro">
     @using (Html.BeginForm("AtualizarProcesso", "ProcessoDeCotacaoService"))
     {
@@ -23,7 +25,10 @@
         </fieldset>
         <fieldset>
             <legend>Processo de Cotação</legend>
-            @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DescricaoStatus))
+            <div class="coluna">
+                @Html.Label("Status:",new{@class="labelNaLinha"})
+                <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
+            </div>
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
             <div class="divBotao">
                 <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
@@ -42,4 +47,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
 }

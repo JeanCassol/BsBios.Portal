@@ -22,7 +22,7 @@
 		$(this).each(function() {
 			if(delay !== undefined && delay > 0) {
 		        var element = $(this);
-		        element.data("_mask_timeout", setTimeout(function() { $.blockElement(element, label)}, delay));
+		        element.data("_mask_timeout", setTimeout(function () { $.blockElement(element, label); }, delay));
 			} else {
 				$.blockElement($(this), label);
 			}

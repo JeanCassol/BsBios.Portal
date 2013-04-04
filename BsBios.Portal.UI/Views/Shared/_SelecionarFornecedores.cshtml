@@ -9,7 +9,7 @@
         background-color: #0095cd;
         color: white;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 14px;
      }
  </style>
 <div id="divFornecedores" class="divGrid">
@@ -29,7 +29,7 @@
             <div id="divGridFornecedoresDoProduto"></div>
         </div>
 
-        <div id="divFornecedoresGerais">
+        <div id="divFornecedoresGerais" class="divGrid">
             <div class="divFiltros">
                 <fieldset>
                     <legend>Filtros</legend>
@@ -47,12 +47,12 @@
                     </div>
                 </fieldset>
             </div>
-            <div id="divGridFornecedoresGerais"></div>
+            <div id="divGridFornecedoresGerais" class="divGrid"></div>
         </div>
     </div>
     <div id="divFornecedoresSelecionados">
         <div class="separador">Fornecedores Selecionados</div>
-        <div id="divGridFornecedoresSelecionados">
+        <div id="divGridFornecedoresSelecionados" class="divGrid">
         </div>
     </div>
 
@@ -200,13 +200,13 @@
                     {
                         field: 'Codigo',
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 40,
+                        width: 30,
                         sortable: false,
                         template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
                     },
                     {
                         field: "Codigo",
-                        width: 90,
+                        width: 80,
                         title: "Código"
                     },
                     {
@@ -231,7 +231,7 @@
                     },
                     {
                         field: "Uf",
-                        width: 20,
+                        width: 30,
                         title: "UF"
                     }
                 ]

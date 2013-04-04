@@ -67,13 +67,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return _builderFornecedor.BuildSingle(_fornecedores.BuscaPeloCodigo(codigoDoFornecedor));
         }
 
-        public KendoGridVm ProdutosDoFornecedor(string codigoFornecedor)
+        public KendoGridVm ProdutosDoFornecedor(PaginacaoVm paginacaoVm, string codigoFornecedor)
         {
             Fornecedor fornecedor = _fornecedores.BuscaPeloCodigo(codigoFornecedor);
-            var kendoGridVm = new KendoGridVm()
+            var kendoGridVm = new KendoGridVm
             {
                 QuantidadeDeRegistros = fornecedor.Produtos.Count,
-                Registros = _builderProduto.BuildList(fornecedor.Produtos).Cast<ListagemVm>().ToList()
+                Registros = _builderProduto.BuildList(
+                fornecedor.Produtos
+                .Skip(paginacaoVm.Skip)
+                .Take(paginacaoVm.Take).ToList())
+                .Cast<ListagemVm>().ToList()
             };
             return kendoGridVm;
         }

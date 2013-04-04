@@ -7,7 +7,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
         KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, FornecedorDoProdutoFiltro filtro);
         KendoGridVm Listar(PaginacaoVm paginacaoVm, FornecedorFiltroVm filtro);
         FornecedorCadastroVm ConsultaPorCodigo(string codigoDoFornecedor);
-        KendoGridVm ProdutosDoFornecedor(string codigoFornecedor);
+        KendoGridVm ProdutosDoFornecedor(PaginacaoVm paginacaoVm, string codigoFornecedor);
         string ConsultaPorCnpj(string cnpj);
     }
 }

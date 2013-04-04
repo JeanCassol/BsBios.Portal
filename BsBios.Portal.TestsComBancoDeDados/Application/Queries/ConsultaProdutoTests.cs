@@ -27,7 +27,13 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var consultaProduto = ObjectFactory.GetInstance<IConsultaProduto>();
 
-            var kendoGridVm = consultaProduto.FornecedoresDoProduto(produto.Codigo);
+            var paginacaoVm = new PaginacaoVm
+                {
+                    Page = 1,
+                    PageSize = 10,
+                    Take = 10
+                };
+            var kendoGridVm = consultaProduto.FornecedoresDoProduto(paginacaoVm, produto.Codigo);
 
             Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<FornecedorCadastroVm>().ToList();

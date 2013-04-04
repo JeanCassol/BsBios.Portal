@@ -14,7 +14,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                     Nome = model.Nome,
                     Cnpj = model.Cnpj,
                     Municipio = model.Municipio,
-                    Uf = model.Uf
+                    Uf = model.Uf,
+                    Transportadora = model.Transportadora? "Sim": "Não"
                 };
         }
 

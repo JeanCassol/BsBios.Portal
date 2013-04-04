@@ -28,6 +28,7 @@ namespace BsBios.Portal.ViewModel
         public string Uf { get; set; }
 
         [DataMember]
+        [Display(Name = "Transportadora: ")]
         public string Transportadora { get; set; }
     }
 

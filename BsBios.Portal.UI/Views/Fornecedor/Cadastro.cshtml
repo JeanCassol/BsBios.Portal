@@ -10,13 +10,17 @@
 
 <fieldset>
     <legend>Dados do Fornecedor</legend>
-    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Codigo))
-    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Nome))
-    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Email))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Codigo),
+    new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Nome))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Cnpj),
+        new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Email))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Municipio),
+        new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Uf))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Transportadora))
 </fieldset>
 <fieldset>
     <legend>Produtos do Fornecedor</legend>
-    <div id="gridProdutosDoFornecedor"></div>
+    <div id="gridProdutosDoFornecedor" class="divGrid"></div>
 </fieldset>
 @section scripts
 {

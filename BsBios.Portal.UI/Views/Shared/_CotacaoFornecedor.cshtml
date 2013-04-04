@@ -1,13 +1,13 @@
 ﻿<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
-<div id="gridCotacaoFornecedor" style="clear: both"></div>
+<div id="gridCotacaoFornecedor" class="divGrid" style="clear: both"></div>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script>
     $(document).ready(function() {
-        $("#gridCotacaoFornecedor").kendoGrid({
+        $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
@@ -30,11 +30,9 @@
                         type: 'GET',
                         cache: false
                     }
-                },
-                pageSize: 5
+                }
             },
             groupable: false,
-            sortable: true,
             selectable: 'row',
             columns:
             [

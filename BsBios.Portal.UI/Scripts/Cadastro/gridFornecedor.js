@@ -5,7 +5,7 @@
             arrayDeColunas.push({
                 field: 'Codigo',
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
-                width: 60,
+                width: 30,
                 sortable: false,
                 template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
             });
@@ -13,17 +13,17 @@
         arrayDeColunas = arrayDeColunas.concat(
             {
                 field: "Codigo",
-                width: 120,
+                width: 80,
                 title: "Codigo"
             },
             {
                 field: "Nome",
-                width: 350,
+                width: 250,
                 title: "Nome"
             },
             {
                 field: "Cnpj",
-                width: 150,
+                width: 120,
                 title: "CNPJ"
             
             },
@@ -39,12 +39,12 @@
             },
             {
                 field: "Uf",
-                width: 20,
+                width: 30,
                 title: "UF"
             }
         );
 
-        $(divParaCarregar).kendoGrid({
+        $(divParaCarregar).customKendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
@@ -71,27 +71,10 @@
                         cache: false,
                         data: funcaoFiltros
                     }
-                },
-                pageSize: 10
+                }
             },
             groupable: false,
             scrollable: true,
-            sortable: true,
-            pageable:
-            {
-                refresh: true,
-                pageSizes: true,
-                messages: {
-                    display: '{0} - {1} de {2} registros',
-                    empty: 'Nenhum registro encontrado',
-                    itemsPerPage: 'registros por página',
-                    first: 'Ir para a primeira página',
-                    previous: 'Ir para a página anterior',
-                    next: 'Ir para a próxima página',
-                    last: 'Ir para a última página',
-                    refresh: 'Atualizar'
-                }
-            },
             selectable: 'row',
             columns: arrayDeColunas
         });

@@ -43,8 +43,8 @@
     </div>
 </fieldset>
 
-<div id="divSelecionarFornecedores"></div>
-<div id="divSelecionarCotacoes"></div>
+<div id="divSelecionarFornecedores" class="janelaModal"></div>
+<div id="divSelecionarCotacoes" class="janelaModal"></div>
 
 <script type="text/javascript">
     $(function () {
@@ -188,7 +188,8 @@
                 });
         });
 
-        $('#btnAbrirProcesso').click(function() {
+        $('#btnAbrirProcesso').click(function () {
+            $('#conteudoPrincipal').block("Processando...");
             $.ajax({
                 url: '@actionAbrirProcessoDeCotacao',
                 type: 'POST',
@@ -197,6 +198,7 @@
                 dataType: 'json',
                 success: function(data) {
                     if (data.Sucesso) {
+                        $('#spanStatus').html('Aberto');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);
@@ -204,12 +206,16 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao abrir o Processo. Detalhe: ' + textStatus + errorThrown);
+                },
+                complete: function () {
+                    $("#conteudoPrincipal").unblock();
                 }
             });
 
         });
 
-        $('#btnFecharProcesso').click(function() {
+        $('#btnFecharProcesso').click(function () {
+            $('#conteudoPrincipal').block("Processando...");
             $.ajax({
                 url: '@actionFecharProcessoDeCotacao',
                 type: 'POST',
@@ -218,6 +224,7 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
+                        $('#spanStatus').html('Fechado');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);
@@ -225,6 +232,9 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao fechar o Processo. Detalhe: ' + textStatus + errorThrown);
+                },
+                complete: function () {
+                    $("#conteudoPrincipal").unblock();
                 }
             });
 

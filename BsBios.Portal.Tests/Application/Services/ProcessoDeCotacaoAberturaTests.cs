@@ -83,9 +83,10 @@ namespace BsBios.Portal.Tests.Application.Services
             _gerenciadorUsuarioMock = new Mock<IGerenciadorUsuario>(MockBehavior.Strict);
             _gerenciadorUsuarioMock.Setup(x => x.CriarSenhaParaUsuariosSemSenha(It.IsAny<string[]>()));
 
-            _service = new AberturaDeProcessoDeCotacaoDeFrete(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object,
+            _service = new AberturaDeProcessoDeCotacaoService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object,
                 _geradorDeEmailMock.Object,_comunicacaoSapMock.Object,_gerenciadorUsuarioMock.Object);
         }
+
 
         #region Testes de Abertura do Processo
         [TestMethod]

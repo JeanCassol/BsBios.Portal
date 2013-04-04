@@ -8,6 +8,7 @@
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 
 <style>
     .colunaTelaInteira {
@@ -25,8 +26,7 @@
             
             <div class="coluna">
                 @Html.Label("Status:",new{@class="labelNaLinha"})
-                @*@Html.Label(Model != null ? Model.DescricaoStatus : "Não Iniciado",new{@class="labelNaLinha"})*@
-                @(Model != null ? Model.DescricaoStatus : "Não Iniciado")
+                <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
             </div>
 
             
@@ -42,15 +42,15 @@
                 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
                 "CodigoUnidadeMedida");
 
-               var quantidadeMaterial = new ColunaComEditor<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial);
+               var quantidadeMaterial = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial, "maskquantidade");
             }
             
             @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
             
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker maskdata"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker"),
-            new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker"))        
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker maskdata"),
+            new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))        
 
             <div class="linha">
                 @Html.HiddenFor(x => x.CodigoItinerario)
@@ -60,7 +60,7 @@
                 @Html.ValidationMessageFor(x => x.DescricaoItinerario)
             </div>
 
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio"), 
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
             new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
 
             @Html.ValidationSummary(true)
@@ -74,18 +74,23 @@
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete) }
         )
-    <div id="divSelecionarProduto"></div>
-    <div id="divSelecionarItinerario"></div>
+    <div id="divSelecionarProduto" class="janelaModal"></div>
+    <div id="divSelecionarItinerario" class="janelaModal"></div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
-    
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script type="text/javascript">
         $(function () {
-            
+            aplicaMascaraData();
+            aplicaMascaraQuantidade();
+            aplicaMascaraNumeroContrato();
+
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
             }
@@ -161,10 +166,6 @@
                     });
 
             });
-
-
         })
-        
-
     </script>
 }

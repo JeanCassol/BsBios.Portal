@@ -665,14 +665,14 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle; /* align the text vertically centered */
 }
 .button_add{
-    background-image: url(/images/icons/add_22.png); /* 16px x 16px */
+    background-image: url(/images/icons/add_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 22px;           /* make this the size of your image */
-    width: 22px;
+    height: 16px;           /* make this the size of your image */
+    width: 16px;
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
