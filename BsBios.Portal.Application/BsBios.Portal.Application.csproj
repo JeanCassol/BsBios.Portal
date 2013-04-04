@@ -98,12 +98,12 @@
     <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterialDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
-    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoServiceFactory.cs" />
+    <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
     <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
-    <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
     <Compile Include="Services\Contracts\ICadastroQuota.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoServiceFactory.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Contracts\ICadastroUnidadeDeMedida.cs" />

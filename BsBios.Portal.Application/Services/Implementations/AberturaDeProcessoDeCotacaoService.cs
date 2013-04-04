@@ -7,7 +7,7 @@ using BsBios.Portal.Infra.Services.Contracts;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
-    public abstract class AberturaDeProcessoDeCotacaoService: IAberturaDeProcessoDeCotacaoService
+    public class AberturaDeProcessoDeCotacaoService: IAberturaDeProcessoDeCotacaoService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
@@ -15,7 +15,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IGeradorDeEmailDeAberturaDeProcessoDeCotacao _geradorDeEmailDeProcessoDeAberturaDeCotacao;
         private readonly IComunicacaoSap _comunicacaoSap;
 
-        protected AberturaDeProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
+        public AberturaDeProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
             IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacao, 
             IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario)
         {
@@ -48,24 +48,24 @@ namespace BsBios.Portal.Application.Services.Implementations
         }
     }
 
-    public class AberturaDeProcessoDeCotacaoDeFrete: AberturaDeProcessoDeCotacaoService
-    {
-        public AberturaDeProcessoDeCotacaoDeFrete(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
-            IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacaoDeFrete,
-            IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario) :
-            base(unitOfWork, processosDeCotacao, geradorDeEmailDeProcessoDeAberturaDeCotacaoDeFrete,comunicacaoSap,gerenciadorUsuario)
-        {
-        }
-    }
+    //public class AberturaDeProcessoDeCotacaoDeFrete: AberturaDeProcessoDeCotacaoService
+    //{
+    //    public AberturaDeProcessoDeCotacaoDeFrete(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
+    //        IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacaoDeFrete,
+    //        IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario) :
+    //        base(unitOfWork, processosDeCotacao, geradorDeEmailDeProcessoDeAberturaDeCotacaoDeFrete,comunicacaoSap,gerenciadorUsuario)
+    //    {
+    //    }
+    //}
 
-    public class AberturaDeProcessoDeCotacaoDeMaterial : AberturaDeProcessoDeCotacaoService
-    {
-        public AberturaDeProcessoDeCotacaoDeMaterial(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,
-            IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacaoDeMaterial,
-            IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario) :
-            base(unitOfWork, processosDeCotacao, geradorDeEmailDeProcessoDeAberturaDeCotacaoDeMaterial,comunicacaoSap,gerenciadorUsuario)
-        {
-        }
-    }
+    //public class AberturaDeProcessoDeCotacaoDeMaterial : AberturaDeProcessoDeCotacaoService
+    //{
+    //    public AberturaDeProcessoDeCotacaoDeMaterial(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,
+    //        IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacaoDeMaterial,
+    //        IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario) :
+    //        base(unitOfWork, processosDeCotacao, geradorDeEmailDeProcessoDeAberturaDeCotacaoDeMaterial,comunicacaoSap,gerenciadorUsuario)
+    //    {
+    //    }
+    //}
     
 }

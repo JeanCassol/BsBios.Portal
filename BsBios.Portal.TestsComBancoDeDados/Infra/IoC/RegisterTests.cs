@@ -18,26 +18,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
     [TestClass]
     public class RegisterTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
-        {
-            ObjectFactory.Configure(x =>
-                {
-                    x.For<TesteAberturaDeProcessoDeCotacaoDeFrete>()
-                     .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                     .Use<TesteAberturaDeProcessoDeCotacaoDeFrete>()
-                     .Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>()
-                     .Is<AberturaDeProcessoDeCotacaoDeFreteServiceFactory>();
-
-                    x.For<TesteAberturaDeProcessoDeCotacaoDeMaterial>()
-                     .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                     .Use<TesteAberturaDeProcessoDeCotacaoDeMaterial>()
-                     .Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>()
-                     .Is<AberturaDeProcessoDeCotacaoDeMaterialServiceFactory>();
-
-                }
-                );
-        }
         private void VerificaInterfacesRegistradas(Type type, string @namespace, IEnumerable<Type> interfaceDesconsideradas = null)
         {
             int interfacesNaoRegistradas = 0;
@@ -113,85 +93,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             VerificaInterfacesRegistradas(typeof(IFornecedores), "BsBios.Portal.Infra.Repositories.Contracts",interfacesDesconsideradas );
         }
 
-        [TestMethod]
-        public void ConsigoInstanciarServicoDeAberturaDoProcessoDeCotacaoDeFrete()
-        {
-            var testeInstancia = ObjectFactory.GetInstance<TesteAberturaDeProcessoDeCotacaoDeFrete>();
-            var aberturaService = testeInstancia.Construir();
-
-            Assert.IsNotNull(aberturaService);
-            Assert.IsInstanceOfType(aberturaService, typeof(AberturaDeProcessoDeCotacaoDeFrete));
-        }
-
-        [TestMethod]
-        public void ConsigoInstanciarServicoDeAberturaDoProcessoDeCotacaoDeMaterial()
-        {
-            var testeInstancia = ObjectFactory.GetInstance<TesteAberturaDeProcessoDeCotacaoDeMaterial>();
-            var aberturaService = testeInstancia.Construir();
-
-            Assert.IsNotNull(aberturaService);
-            Assert.IsInstanceOfType(aberturaService, typeof(AberturaDeProcessoDeCotacaoDeMaterial));
-        }
-
-        [TestMethod]
-        public void ConsigoInstanciarControllerDeAberturaDeProcessoDeCotacaoDeFrete()
-        {
-            var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeFreteAberturaController>();
-            Assert.IsNotNull(controller);
-        }
-
-        [TestMethod]
-        public void ConsigoInstanciarControllerDeAberturaDeProcessoDeCotacaoDeMaterial()
-        {
-            var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeMaterialAberturaController>();
-            Assert.IsNotNull(controller);
-        }
-
-        [TestMethod]
-        public void ConsigoInstanciarControllerDeFechamentoDeProcessoDeCotacaoDeFrete()
-        {
-            var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeFreteFechamentoController>();
-            Assert.IsNotNull(controller);
-        }
-
-        [TestMethod]
-        public void ConsigoInstanciarControllerDeAberturaDeFechamentoDeCotacaoDeMaterial()
-        {
-            var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeMaterialFechamentoController>();
-            Assert.IsNotNull(controller);
-        }
-
 
     }
-
-    internal class TesteAberturaDeProcessoDeCotacaoDeFrete
-    {
-        private readonly IAberturaDeProcessoDeCotacaoServiceFactory _aberturaDeProcessoDeCotacaoDeFreteServiceFactory;
-        public TesteAberturaDeProcessoDeCotacaoDeFrete(IAberturaDeProcessoDeCotacaoServiceFactory aberturaDeProcessoDeCotacaoDeFreteServiceFactory)
-        {
-            _aberturaDeProcessoDeCotacaoDeFreteServiceFactory = aberturaDeProcessoDeCotacaoDeFreteServiceFactory;
-        }
-
-        public IAberturaDeProcessoDeCotacaoService Construir()
-        {
-            return _aberturaDeProcessoDeCotacaoDeFreteServiceFactory.Construir();
-        }
-    }
-
-    internal class TesteAberturaDeProcessoDeCotacaoDeMaterial
-    {
-        private readonly IAberturaDeProcessoDeCotacaoServiceFactory _aberturaDeProcessoDeCotacaoDeMaterialServiceFactory;
-        public TesteAberturaDeProcessoDeCotacaoDeMaterial(IAberturaDeProcessoDeCotacaoServiceFactory aberturaDeProcessoDeCotacaoDeMaterialServiceFactory)
-        {
-            _aberturaDeProcessoDeCotacaoDeMaterialServiceFactory = aberturaDeProcessoDeCotacaoDeMaterialServiceFactory;
-        }
-
-        public IAberturaDeProcessoDeCotacaoService Construir()
-        {
-            return _aberturaDeProcessoDeCotacaoDeMaterialServiceFactory.Construir();
-        }
-
-    }
-
 
 }

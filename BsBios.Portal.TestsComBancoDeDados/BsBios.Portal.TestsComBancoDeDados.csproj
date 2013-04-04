@@ -71,6 +71,8 @@
     <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
+    <Compile Include="Application\Services\AberturaDeProcessoDeCotacaoServiceFactoryTests.cs" />
+    <Compile Include="Application\Services\FechamentoDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />

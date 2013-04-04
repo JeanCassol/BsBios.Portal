@@ -23,7 +23,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             return ObjectFactory
                 .With(typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacao), geradorDeEmailDeProcessoDeAberturaDeCotacao)
                 .With(typeof(IComunicacaoSap), comunicacaoSap)
-                .GetInstance<IAberturaDeProcessoDeCotacaoService>(Constantes.AberturaDeProcessoDeCotacaoDeMaterial);
+                .GetInstance<IAberturaDeProcessoDeCotacaoService>(/*Constantes.AberturaDeProcessoDeCotacaoDeMaterial*/);
         }
     }
 }

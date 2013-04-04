@@ -87,34 +87,25 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaService>();
 
-            For<IAberturaDeProcessoDeCotacaoService>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<AberturaDeProcessoDeCotacaoDeFrete>()
-                .Named(Constantes.AberturaDeProcessoDeCotacaoDeFrete);
+            //For<IAberturaDeProcessoDeCotacaoService>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<AberturaDeProcessoDeCotacaoDeFrete>()
+            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeFrete);
+
+            //For<IAberturaDeProcessoDeCotacaoService>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<AberturaDeProcessoDeCotacaoDeMaterial>()
+            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterial);
 
             For<IAberturaDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<AberturaDeProcessoDeCotacaoDeMaterial>()
-                .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterial);
+                .Use<AberturaDeProcessoDeCotacaoService>();
+
 
             For<IFechamentoDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FechamentoDeProcessoDeCotacaoService>();
-
-
-            //For<IAberturaDeProcessoDeCotacaoServiceFactory>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<AberturaDeProcessoDeCotacaoDeMaterialServiceFactory>()
-            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterialServiceFactory);
-            //    //.Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>("aberturaDeProcessoDeCotacaoDeMaterialServiceFactory");
-
-            //For<IAberturaDeProcessoDeCotacaoServiceFactory>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<AberturaDeProcessoDeCotacaoDeFreteServiceFactory>()
-            //    //.Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>("aberturaDeProcessoDeCotacaoDeFreteServiceFactory");
-            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeFreteServiceFactory);
-
-
+            
         }
     }
 }
