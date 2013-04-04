@@ -26,8 +26,8 @@
        
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado"),
-                                      new ColunaComEditor<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado maskmoeda"),
+                                      new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel,"maskquantidade"))
             
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
