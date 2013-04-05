@@ -33,6 +33,7 @@
                 }
             },
             groupable: false,
+            pageable: false,
             selectable: 'row',
             columns:
             [
@@ -54,12 +55,14 @@
                 {
                     field: "ValorLiquido",
                     width: 80,
-                    title: "Líquido"
+                    title: "Líquido",
+                    format:"{0:n2}"
                 },
                 {
                     field: "ValorComImpostos",
                     width: 80,
-                    title: "Líquido + Imp."
+                    title: "Líquido + Imp.",
+                    format: "{0:n2}"
                 }
             ]
         });

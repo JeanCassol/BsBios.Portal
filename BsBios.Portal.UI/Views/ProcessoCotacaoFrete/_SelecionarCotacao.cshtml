@@ -3,7 +3,7 @@
 }
 <style type="text/css">
     .selecionarCotacao {
-        width: 1000px;     
+        width: 800px;     
  }
 
 </style>
@@ -44,12 +44,8 @@
                             Selecionada: { type: "boolean" },
                             Fornecedor: { type: "string" },
                             QuantidadeDisponivel: { type: "number" },
-                            ValorLiquido: { type: "number"},
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
-                            ValorIcms: { type: "number" },
-                            ValorIcmsSt: { type: "number" },
-                            ValorIpi: { type: "number" }
                         }
                     },
                     type: 'json'
@@ -65,6 +61,9 @@
             groupable: false,
             sortable: false,
             scrollable: true,
+            dataBound: function (e) {
+                aplicaMascaraQuantidade();
+            },
             columns:
             [
                 {
@@ -77,15 +76,11 @@
                 },
                 {
                     field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
-                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
-                { field: "QuantidadeDisponivel", title: 'Disponível', width: 100 },
-                { field: "ValorLiquido", title: 'Valor Líquido', width: 100 },
-                { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
-                { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
-                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },
-                { field: "ValorIpi", title: 'IPI (R$)', width: 100 }
+                { field: "QuantidadeDisponivel", title: 'Disponível', width: 80, format:"{0:n3}"},
+                { field: "ValorComImpostos", title:'Valor Com Impostos', width: 80, format: "{0:n2}"}
             ]
         });
 

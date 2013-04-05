@@ -9,7 +9,7 @@
 </style>
 <div id="divCotacoes" class=" divGrid">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="gridCotacoes" class="selecionarCotacao"></div>
+    <div id="gridCotacoes" class="selecionarCotacao divGrid"></div>
     <div id="erro" class="error">
         @ViewData["erro"]
     </div>
@@ -107,6 +107,9 @@
             },
             groupable: false,
             sortable: false,
+            dataBound: function (e) {
+                aplicaMascaraQuantidade();
+            },
             columns:
             [
                 {
@@ -123,18 +126,18 @@
                 },
                 {
                     field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
-                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
-                { field: "ValorLiquido", title: ' Valor Líquido', width: 100 },
-                { field: "ValorComImpostos", title:'Líquido + Imp.', width: 100 },
+                { field: "ValorLiquido", title: ' Valor Líquido', width: 80, format: "{0:n2}" },
+                { field: "ValorComImpostos", title: 'Líquido + Imp.', width: 80, format: "{0:n2}" },
                 { field: "CondicaoDePagamento", title:'Condição', width: 200 },
                 { field: "Incoterm", width: 150 },
-                { field: "ValorIcms", title:'ICMS (R$)', width: 100 },
-                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 100 },
-                { field: "ValorIpi", title: 'IPI (R$)', width: 100 },
-                { field: "ValorPis", title: 'Pis (R$)', width: 100 },
-                { field: "ValorCofins", title: 'Cofins (R$)', width: 100 }
+                { field: "ValorIcms", title: 'ICMS (R$)', width: 80, format: "{0:n2}" },
+                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 80, format: "{0:n2}" },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 80, format: "{0:n2}" },
+                { field: "ValorPis", title: 'Pis (R$)', width: 80, format: "{0:n2}" },
+                { field: "ValorCofins", title: 'Cofins (R$)', width: 80, format: "{0:n2}" }
             ]
         });
 

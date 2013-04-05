@@ -4,7 +4,7 @@
 @model ProcessoCotacaoMaterialCadastroVm
 
 @{
-    ViewBag.TituloDaPagina = "Cotação de Material - Editar";
+    ViewBag.TituloDaPagina = "Processo de Cotação de Material";
 }
 <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 
@@ -29,7 +29,7 @@
                 @Html.Label("Status:",new{@class="labelNaLinha"})
                 <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
             </div>
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker"))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"))
             <div class="divBotao">
                 <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>
@@ -47,5 +47,12 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            aplicaMascaraData();
+        })
+    </script>
 }

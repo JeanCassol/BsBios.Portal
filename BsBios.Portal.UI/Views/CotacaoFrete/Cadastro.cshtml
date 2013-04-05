@@ -26,7 +26,7 @@
        
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado maskmoeda"),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
                                       new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel,"maskquantidade"))
             
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
@@ -52,10 +52,12 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/scriptsgerais")
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
        
-
-        $(function() {
+        $(function () {
+            aplicaMascaraQuantidade();
+            aplicaMascaraMoeda();
 
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
