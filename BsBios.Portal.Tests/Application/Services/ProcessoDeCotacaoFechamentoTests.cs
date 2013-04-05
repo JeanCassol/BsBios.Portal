@@ -6,25 +6,26 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
-using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;
+using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
-    public class ProcessoDeCotacaoStatusServiceTests
+    public class ProcessoDeCotacaoFechamentoTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
-        private readonly Mock<IGeradorDeEmail> _geradorDeEmailMock; 
-        private readonly IProcessoDeCotacaoStatusService _processoDeCotacaoStatusService;
+        private readonly Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao> _geradorDeEmailMock;
+        private readonly Mock<IComunicacaoSap> _comunicacaoSapMock;
+        private readonly IFechamentoDeProcessoDeCotacaoService _fechamentoDeProcessoDeCotacaoService;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
 
 
-        public ProcessoDeCotacaoStatusServiceTests()
+        public ProcessoDeCotacaoFechamentoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
@@ -64,9 +65,18 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
-            _geradorDeEmailMock = new Mock<IGeradorDeEmail>(MockBehavior.Strict);
+            _geradorDeEmailMock = new Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>(MockBehavior.Strict);
+            _geradorDeEmailMock.Setup(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()));
 
-            _processoDeCotacaoStatusService = new ProcessoDeCotacaoStatusService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,_geradorDeEmailMock.Object);
+            _comunicacaoSapMock = new Mock<IComunicacaoSap>(MockBehavior.Strict);
+            _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()))
+                .Returns(new ApiResponseMessage
+                    {
+                        Retorno = new Retorno{Codigo = "200", Texto = "S"}
+                    });
+
+            _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,
+                _geradorDeEmailMock.Object,_comunicacaoSapMock.Object);
 
         }
 
@@ -75,22 +85,9 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoOcorrePersistencia()
         {
-            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
-
-            _processoDeCotacaoStatusService.FecharProcesso(20);
+            _fechamentoDeProcessoDeCotacaoService.Executar(20);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoOProcessoEFechadoComSucessoOcorreCommitDaTransacao()
-        {
-            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
-
-            _processoDeCotacaoStatusService.FecharProcesso(20);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
-
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -100,14 +97,12 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Throws(new ExcecaoDeTeste("Erro ao consultar Processo."));
             try
             {
-                _processoDeCotacaoStatusService.FecharProcesso(20);
+                _fechamentoDeProcessoDeCotacaoService.Executar(20);
                 Assert.Fail("Deveria ter gerado exceção");
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
@@ -123,9 +118,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                    });
 
 
-            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
-
-            _processoDeCotacaoStatusService.FecharProcesso(20);
+            _fechamentoDeProcessoDeCotacaoService.Executar(20);
 
             _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
@@ -134,10 +127,8 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoComSucessoEEnviadoEmailParaOsFornecedoresSelecionados()
         {
-            _processoDeCotacaoStatusService.ComunicacaoSap = new ComunicacaoFechamentoProcessoCotacaoMaterial();
-
-            _processoDeCotacaoStatusService.FecharProcesso(20);
-            
+            _fechamentoDeProcessoDeCotacaoService.Executar(20);
+            _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());            
         }
         #endregion
     }

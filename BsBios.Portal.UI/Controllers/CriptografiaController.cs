@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BsBios.Portal.Infra.Services.Contracts;
 
 namespace BsBios.Portal.UI.Controllers

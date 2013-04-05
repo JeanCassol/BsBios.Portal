@@ -35,6 +35,18 @@ namespace BsBios.Portal.UI.App_Start
              .Ctor<IFechamentoDeProcessoDeCotacaoServiceFactory>()
              .Is<FechamentoDeProcessoDeCotacaoDeFreteServiceFactory>();
 
+            For<ProcessoDeCotacaoDeFreteEmailController>()
+             .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+             .Use<ProcessoDeCotacaoDeFreteEmailController>()
+             .Ctor<IReenviadorDeEmailDoProcessoDeCotacaoFactory>()
+             .Is<ReenviadorDeEmailDoProcessoDeCotacaoDeFreteFactory>();
+
+            For<ProcessoDeCotacaoDeMaterialEmailController>()
+             .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+             .Use<ProcessoDeCotacaoDeMaterialEmailController>()
+             .Ctor<IReenviadorDeEmailDoProcessoDeCotacaoFactory>()
+             .Is<ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory>();
+
         }
     }
 }

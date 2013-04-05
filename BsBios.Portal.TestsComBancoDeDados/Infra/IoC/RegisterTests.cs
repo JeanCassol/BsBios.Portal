@@ -4,14 +4,10 @@ using System.Linq;
 using System.Reflection;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Application.Services.Implementations;
-using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
-using BsBios.Portal.UI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
-using StructureMap.Pipeline;
 
 namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
 {
@@ -56,7 +52,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             VerificaInterfacesRegistradas(typeof(ICadastroCondicaoPagamento), "BsBios.Portal.Application.Services.Contracts",new List<Type>
                 {
                     typeof(IAberturaDeProcessoDeCotacaoServiceFactory),
-                    typeof(IFechamentoDeProcessoDeCotacaoServiceFactory)
+                    typeof(IFechamentoDeProcessoDeCotacaoServiceFactory),
+                    typeof(IReenviadorDeEmailDoProcessoDeCotacaoFactory)
                 });
         }
 
@@ -78,7 +75,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             //removi IComunicacaoSap dos testes porque estão sendo instanciados manualmente. Se isto mudar tem que remover
             var interfacesDesconsideradas = new List<Type>()
                 {
-                    typeof (IComunicacaoSap)
+                    typeof (IComunicacaoSap),
+                    typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory)
                 };
             VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts",interfacesDesconsideradas);
         }

@@ -51,9 +51,6 @@ namespace BsBios.Portal.IoC
             For<IProcessoDeCotacaoFornecedoresService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoFornecedoresService>();
-            For<IProcessoDeCotacaoStatusService>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ProcessoDeCotacaoStatusService>();
 
             For<IProcessoDeCotacaoDeMaterialSelecaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
@@ -87,16 +84,6 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AgendamentoDeCargaService>();
 
-            //For<IAberturaDeProcessoDeCotacaoService>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<AberturaDeProcessoDeCotacaoDeFrete>()
-            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeFrete);
-
-            //For<IAberturaDeProcessoDeCotacaoService>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<AberturaDeProcessoDeCotacaoDeMaterial>()
-            //    .Named(Constantes.AberturaDeProcessoDeCotacaoDeMaterial);
-
             For<IAberturaDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AberturaDeProcessoDeCotacaoService>();
@@ -105,7 +92,11 @@ namespace BsBios.Portal.IoC
             For<IFechamentoDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FechamentoDeProcessoDeCotacaoService>();
-            
+
+            For<IReenviadorDeEmailDoProcessoDeCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ReenviadorDeEmailDoProcessoDeCotacao>();
+
         }
     }
 }

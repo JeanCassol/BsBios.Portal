@@ -17,30 +17,30 @@ namespace BsBios.Portal.Application.Services.Implementations
             IGeradorDeEmailDeFechamentoDeProcessoDeCotacao geradorDeEmail, 
             IComunicacaoSap comunicacaoSap)
         {
-            //_unitOfWork = unitOfWork;
-            //_processosDeCotacao = processosDeCotacao;
-            //_geradorDeEmail = geradorDeEmail;
-            //_comunicacaoSap = comunicacaoSap;
+            _unitOfWork = unitOfWork;
+            _processosDeCotacao = processosDeCotacao;
+            _geradorDeEmail = geradorDeEmail;
+            _comunicacaoSap = comunicacaoSap;
         }
 
         public void Executar(int idProcessoCotacao)
         {
-            //try
-            //{
-            //    _unitOfWork.BeginTransaction();
-            //    ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-            //    processoDeCotacao.Fechar();
-            //    _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
-            //    _geradorDeEmail.GerarEmail(processoDeCotacao);
-            //    _processosDeCotacao.Save(processoDeCotacao);
-            //    _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+                processoDeCotacao.Fechar();
+                _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
+                _geradorDeEmail.GerarEmail(processoDeCotacao);
+                _processosDeCotacao.Save(processoDeCotacao);
+                _unitOfWork.Commit();
 
-            //}
-            //catch (Exception)
-            //{
-            //    _unitOfWork.RollBack();
-            //    throw;
-            //}
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
         }
     }
    

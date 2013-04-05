@@ -23,5 +23,11 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
             }
         }
+
+        public void GerarEmail(FornecedorParticipante fornecedorParticipante)
+        {
+            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeMaterial(fornecedorParticipante.ProcessoDeCotacao);
+            _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
+        }
     }
 }

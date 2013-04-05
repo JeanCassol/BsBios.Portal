@@ -92,7 +92,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
                     Material = processo.Produto.Descricao,
                     Quantidade = processo.Quantidade,
-                    UnidadeDeMedida = processo.UnidadeDeMedida.Descricao
+                    UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                    IdFornecedorParticipante = fp.Id
                 };
 
             if (fp.Cotacao != null)
@@ -137,7 +138,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
                 DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
                 DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
-                Itinerario = processo.Itinerario.Descricao
+                Itinerario = processo.Itinerario.Descricao,
+                IdFornecedorParticipante = fp.Id
             };
 
             if (fp.Cotacao != null)

@@ -12,15 +12,17 @@
                 schema: {
                     data: 'Registros',
                     model: {
-                        id: 'Id',
                         fields: {
+                            IdFornecedorParticipante: {type:"number"},
                             Codigo: {type: "string"},
                             Nome: {type: "string"},
                             Selecionado: {type: "string"},
                             ValorLiquido: {type: "number"},
-                            ValorComImpostos: {type: "number"}
+                            ValorComImpostos: { type: "number" },
+                            VisualizadoPeloFornecedor: { type: "string" }
                         }
-                    }
+                    },
+                    total: 'QuantidadeDeRegistros'
                 },
                 serverFiltering: true,
                 serverPaging: true,
@@ -33,7 +35,6 @@
                 }
             },
             groupable: false,
-            pageable: false,
             selectable: 'row',
             columns:
             [
@@ -46,6 +47,16 @@
                     field: "Nome",
                     width: 200,
                     title: "Nome"
+                },
+                {
+                    field: "VisualizadoPeloFornecedor",
+                    width: 100,
+                    title: "Visualizado?"
+                },
+                {
+                    width: 100,
+                    title: "Reenviar E-mail",
+                    template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
                 },
                 {
                     field: 'Selecionado',
@@ -65,6 +76,34 @@
                     format: "{0:n2}"
                 }
             ]
+        });
+
+        $("#gridCotacaoFornecedor").find('.button_sendmail').die('click');
+        $("#gridCotacaoFornecedor").find('.button_sendmail').live('click', function () {
+            var idFornecedorParticipante = $(this).attr('data-idfornecedorparticipante');
+            $("#todaPagina").block('Processando...');
+            $.ajax({
+                url: '@ViewData["UrlEnviarEmail"]',
+                    type: 'GET',
+                    data: { IdProcessoCotacao: '@ViewData["IdProcessoCotacao"]', IdFornecedorParticipante: idFornecedorParticipante },
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao enviar e-mail para o Fornecedor. Detalhe: ' + textStatus + errorThrown);
+                    },
+                    complete: function () {
+                        $("#todaPagina").unblock();
+                    }
+
+                });
+
         });
 
     });

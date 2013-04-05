@@ -91,7 +91,7 @@
     <Compile Include="Application\Services\CadastroItinerarioTests.cs" />
     <Compile Include="Application\Services\CadastroUnidadeDeMedidaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoServiceTests.cs" />
-    <Compile Include="Application\Services\ProcessoDeCotacaoStatusServiceTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
     <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />
     <Compile Include="Application\Services\GerenciadorUsuarioTests.cs" />
@@ -116,7 +116,9 @@
     <Compile Include="Infra\Services\GeradorDeSenhaTests.cs" />
     <Compile Include="Infra\Services\EmailServiceTests.cs" />
     <Compile Include="Infra\Services\GeradorDeEmailDeFechamentoDeProcessoDeCotacaoTests.cs" />
+    <Compile Include="Infra\Services\AtualizadorDeIteracaoDoUsuarioTests.cs" />
     <Compile Include="Infra\Services\ValidadorUsuarioTests.cs" />
+    <Compile Include="Infra\Model\ProcessoCotacaoIteracaoUsuarioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />

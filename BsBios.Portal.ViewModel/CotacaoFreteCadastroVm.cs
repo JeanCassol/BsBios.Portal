@@ -27,5 +27,7 @@ namespace BsBios.Portal.ViewModel
         /// usuada para indicar se os campos da tela serão habilitados para edição
         /// </summary>
         public bool PermiteEditar { get; set; }
+        public int IdFornecedorParticipante { get; set; }
+
     }
 }

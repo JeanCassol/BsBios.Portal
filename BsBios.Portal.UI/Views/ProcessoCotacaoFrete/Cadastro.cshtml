@@ -72,8 +72,9 @@
     }
     @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
-            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete) }
-        )
+            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
+            new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail"))
+        })
     <div id="divSelecionarProduto" class="janelaModal"></div>
     <div id="divSelecionarItinerario" class="janelaModal"></div>
 </div>

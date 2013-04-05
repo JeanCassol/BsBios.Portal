@@ -111,7 +111,6 @@
     <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialSelecaoService.cs" />
-    <Compile Include="Services\Contracts\IProcessoDeCotacaoStatusService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Contracts\ICadastroFornecedor.cs" />
@@ -123,6 +122,8 @@
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacao.cs" />
+    <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoService.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
@@ -150,7 +152,8 @@
     <Compile Include="Services\Implementations\CadastroRequisicaoCompra.cs" />
     <Compile Include="Services\Implementations\CadastroUsuario.cs" />
     <Compile Include="Services\Implementations\CadastroIncoterm.cs" />
-    <Compile Include="Services\Implementations\ProcessoDeCotacaoStatusService.cs" />
+    <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacao.cs" />
+    <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeFreteFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

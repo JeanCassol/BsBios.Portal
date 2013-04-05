@@ -12,12 +12,23 @@ using StructureMap;
 namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 {
     [TestClass]
-    public class ConsultaProcessoDeCotacaoDeMaterialTests
+    public class ConsultaProcessoDeCotacaoDeMaterialTests: RepositoryTest
     {
+        [ClassInitialize]
+        public static void Inicializar(TestContext testContext)
+        {
+            Initialize(testContext);
+        }
+        [ClassCleanup]
+        public static void Finalizar()
+        {
+            Cleanup();
+        }
+
         [TestMethod]
         public void ConsultaProcessoRetornaObjetoEsperado()
         {
-            TestsComBancoDeDados.RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -33,7 +44,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void ConsultaListagemDeProcessosRetornaObjetoEsperado()
         {
-            TestsComBancoDeDados.RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
@@ -143,6 +154,36 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
         }
 
+        [TestMethod]
+        public void QuandoConsultaCotacaoResumidaRetornaObjetoEsperado()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            FornecedorParticipante fornecedorParticipante = processoDeCotacao.AdicionarFornecedor(fornecedor);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao);
 
+            UnitOfWorkNh.Session.Clear();
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.CotacoesDosFornecedoresResumido(processoDeCotacao.Id);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var processoCotacaoFornecedorVm = (ProcessoCotacaoFornecedorVm) kendoGridVm.Registros.First();
+            
+            Assert.AreEqual(fornecedorParticipante.Id, processoCotacaoFornecedorVm.IdFornecedorParticipante);
+            Assert.AreEqual(fornecedor.Codigo, processoCotacaoFornecedorVm.Codigo);
+            Assert.AreEqual(fornecedor.Nome, processoCotacaoFornecedorVm.Nome);
+            Assert.AreEqual("Não",processoCotacaoFornecedorVm.Selecionado);
+            Assert.IsNull(processoCotacaoFornecedorVm.ValorLiquido);
+            Assert.IsNull(processoCotacaoFornecedorVm.ValorComImpostos);
+            Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
+        }
+        [TestMethod]
+        public void Teste()
+        {
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.CotacoesDosFornecedoresResumido(10);
+            Assert.IsNotNull(kendoGridVm);
+            
+        }
     }
 }

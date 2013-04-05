@@ -52,9 +52,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Quotas>();
 
-            //For<IAgendamentosDeCarga>()
-            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-            //    .Use<AgendamentosDeCarga>();
+            For<IProcessoCotacaoIteracoesUsuario>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoCotacaoIteracoesUsuario>();
 
         }
     }

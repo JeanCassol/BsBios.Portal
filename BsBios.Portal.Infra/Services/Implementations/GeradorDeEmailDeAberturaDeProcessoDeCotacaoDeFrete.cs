@@ -9,11 +9,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
         private readonly IGeradorDeMensagemDeEmail _geradorDeMensagemDeEmail;
         private readonly IEmailService _emailService;
         public GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete(IGeradorDeMensagemDeEmail geradorDeMensagemDeEmail, 
-            IEmailService emailService /*IEmailServiceFactory emailServiceLogisticaFactory*/)
+            IEmailService emailService )
         {
             _geradorDeMensagemDeEmail = geradorDeMensagemDeEmail;
             _emailService = emailService;
-            //_emailService = emailServiceLogisticaFactory.Construir();
         }
 
         public void GerarEmail(ProcessoDeCotacao processoDeCotacao)
@@ -24,6 +23,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
             }
             
+        }
+
+        public void GerarEmail(FornecedorParticipante fornecedorParticipante)
+        {
+            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(fornecedorParticipante.ProcessoDeCotacao);
+            _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
         }
     }
 }

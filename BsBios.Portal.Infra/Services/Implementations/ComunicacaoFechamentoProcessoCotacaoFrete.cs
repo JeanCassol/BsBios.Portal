@@ -15,6 +15,19 @@ namespace BsBios.Portal.Infra.Services.Implementations
     {
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
+            if (processo.Produto.Tipo.ToUpper() == "NLAG")
+            {
+                //Cotações de frete para empresas do grupo que não utilizam o SAP deverão ser realizadas com material NLAG 
+                //(Material não estocável). Para este tipo de material a cotação não deverá ser enviada para o SAP;
+                return new ApiResponseMessage
+                    {
+                        Retorno = new Retorno
+                            {
+                                Codigo = "200",
+                                Texto = "S"
+                            }
+                    };
+            }
             var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential("fusion_lucas", "fusion123")};
 
             var httpClient = new HttpClient(clientHandler);

@@ -63,7 +63,6 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
 
-
             For<IComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoAberturaProcessoCotacaoFrete>()
@@ -84,6 +83,9 @@ namespace BsBios.Portal.IoC
                 .Use<ComunicacaoFechamentoProcessoCotacaoMaterial>()
                 .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
 
+            For<IAtualizadorDeIteracaoDoUsuario>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AtualizadorDeIteracaoDoUsuario>();
 
 
 

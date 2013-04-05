@@ -5,25 +5,30 @@ using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
+using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaProcessoDeCotacaoDeMaterial : IConsultaProcessoDeCotacaoDeMaterial
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
-        private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
+        //private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
 
 
-        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor, 
-            IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao)
+        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
+            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario /*, 
+            IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao*/)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderFornecedor = builderFornecedor;
-            _builderProcessoCotacao = builderProcessoCotacao;
+            _iteracoesUsuario = iteracoesUsuario;
+            //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
@@ -189,15 +194,85 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao)
         {
+            
+            //var queryIteracoesUsuario = iteracoesUsuario.GetQuery();
+
+            //var queryfp = (from p in
+            //                   _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+            //               from fp in p.FornecedoresParticipantes
+            //               select fp);
+
+            //List<ProcessoCotacaoFornecedorVm> fornecedoresParticipantes =
+            //    (from fp in queryfp
+            //     join iu in queryIteracoesUsuario on fp.Id equals iu.IdFornecedorParticipante
+            //         into joinedTable
+            //     from iu in joinedTable.DefaultIfEmpty()
+            //     select new ProcessoCotacaoFornecedorVm
+            //         {
+            //             IdFornecedorParticipante = fp.Id,
+            //             Codigo = fp.Fornecedor.Codigo,
+            //             Nome = fp.Fornecedor.Nome,
+            //             Selecionado = (fp.Cotacao != null && fp.Cotacao.Selecionada ? "Sim" : "Não"),
+            //             ValorLiquido = (fp.Cotacao != null ? fp.Cotacao.ValorLiquido : (decimal?)null),
+            //             ValorComImpostos = (fp.Cotacao != null ? fp.Cotacao.ValorComImpostos : (decimal?)null),
+            //             VisualizadoPeloFornecedor = iu != null && iu.VisualizadoPeloFornecedor ? "Sim" : "Não"
+            //         }).ToList();
+
             List<FornecedorParticipante> fornecedoresParticipantes = (from p in
-                                                               _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
-                                                           from fp in p.FornecedoresParticipantes
-                                                           select fp).ToList();
+                                                                          _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+                                                                      from fp in p.FornecedoresParticipantes
+                                                                      select fp).ToList();
+
+
+            //List<ProcessoCotacaoFornecedorVm> fornecedoresParticipantes = (from p in
+            //                                                              _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+            //                                                          from fp in p.FornecedoresParticipantes
+            //                                                          join it in queryIteracoesUsuario on fp.Id equals it.IdFornecedorParticipante
+            //                                                          select new ProcessoCotacaoFornecedorVm
+            //                                                              {
+            //                                                                    IdFornecedorParticipante = fp.Id,
+            //                                                                    Codigo = fp.Fornecedor.Codigo ,
+            //                                                                    Nome =  fp.Fornecedor.Nome,
+            //                                                                    Selecionado = (fp.Cotacao != null && fp.Cotacao.Selecionada ? "Sim" : "Não") ,
+            //                                                                    ValorLiquido = (fp.Cotacao != null ? fp.Cotacao.ValorLiquido : (decimal?) null),
+            //                                                                    ValorComImpostos = (fp.Cotacao != null ? fp.Cotacao.ValorComImpostos : (decimal?)null),
+            //                                                                   // VisualizadoPeloFornecedor = it.VisualizadoPeloFornecedor ? "Sim": "Não"
+            //                                                              }).ToList();
+
+            //List<ProcessoCotacaoFornecedorVm> fornecedoresParticipantes = queryParticipantes.Join( queryIteracoesUsuario, p => p.FornecedoresParticipantes.Select(fp => fp.Id),iu => iu.IdFornecedorParticipante )
+
+            var registros = new List<ProcessoCotacaoFornecedorVm>();
+
+            foreach (var fornecedorParticipante in fornecedoresParticipantes)
+            {
+                ProcessoCotacaoIteracaoUsuario iteracaoUsuario = _iteracoesUsuario.BuscaPorIdParticipante(fornecedorParticipante.Id);
+                registros.Add(new ProcessoCotacaoFornecedorVm
+                    {
+                        IdFornecedorParticipante = fornecedorParticipante.Id,
+                        Codigo = fornecedorParticipante.Fornecedor.Codigo,
+                        Nome = fornecedorParticipante.Fornecedor.Nome,
+                        Selecionado =
+                            (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada
+                                 ? "Sim"
+                                 : "Não"),
+                        ValorLiquido =
+                            (fornecedorParticipante.Cotacao != null
+                                 ? fornecedorParticipante.Cotacao.ValorLiquido
+                                 : (decimal?) null),
+                        ValorComImpostos =
+                            (fornecedorParticipante.Cotacao != null
+                                 ? fornecedorParticipante.Cotacao.ValorComImpostos
+                                 : (decimal?) null),
+                        VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
+                    });
+            }
+
 
             var kendoGridVm = new KendoGridVm()
             {
-                QuantidadeDeRegistros = fornecedoresParticipantes.Count,
-                Registros = _builderProcessoCotacao.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
+                QuantidadeDeRegistros = registros.Count,
+                //Registros = _builderProcessoCotacao.BuildList(fornecedoresParticipantes).Cast<ListagemVm>().ToList()
+                Registros = registros.Cast<ListagemVm>().ToList()
             };
 
             return kendoGridVm;
