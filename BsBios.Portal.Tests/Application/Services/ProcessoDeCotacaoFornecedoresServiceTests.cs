@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
@@ -19,7 +19,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly Mock<IFornecedores> _fornecedoresMock;
-        private readonly Mock<IProcessoCotacaoIteracoesUsuario> _processoCotacaoIteracoesUsuarioMock;
+        private readonly Mock<IAtualizadorDeIteracaoDoUsuario> _atualizadorDeIteracaoDoUsuarioMock;
         private readonly ProcessoDeCotacaoFornecedoresAtualizarVm _atualizacaoDosFornecedoresVm;
         private readonly IProcessoDeCotacaoFornecedoresService _processoDeCotacaoFornecedoresService;
 
@@ -55,11 +55,12 @@ namespace BsBios.Portal.Tests.Application.Services
                                      new Fornecedor("FORNEC0003", "FORNECEDOR 0003", "fornecedor0003@empresa.com.br","","","",false)
                                  });
 
-            _processoCotacaoIteracoesUsuarioMock = new Mock<IProcessoCotacaoIteracoesUsuario>(MockBehavior.Strict);
-            _processoCotacaoIteracoesUsuarioMock.Setup(x => x.Save(It.IsAny<ProcessoCotacaoIteracaoUsuario>()));
+            _atualizadorDeIteracaoDoUsuarioMock = new Mock<IAtualizadorDeIteracaoDoUsuario>(MockBehavior.Strict);
+            _atualizadorDeIteracaoDoUsuarioMock.Setup(x => x.Adicionar(It.IsAny<IList<FornecedorParticipante>>()))
+                .Callback((IList<FornecedorParticipante> fp) => CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock));
 
             _processoDeCotacaoFornecedoresService = new ProcessoDeCotacaoFornecedoresService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object, 
-                _fornecedoresMock.Object,_processoCotacaoIteracoesUsuarioMock.Object);
+                _fornecedoresMock.Object,_atualizadorDeIteracaoDoUsuarioMock.Object);
             _atualizacaoDosFornecedoresVm = new ProcessoDeCotacaoFornecedoresAtualizarVm()
             {
                 IdProcessoCotacao = 1,
@@ -119,7 +120,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public void QuandoAdicionaUmNovoFornecedorCriaUmRegistroDeIteracaoDoUsuario()
         {
             _processoDeCotacaoFornecedoresService.AtualizarFornecedores(_atualizacaoDosFornecedoresVm);
-            _processoCotacaoIteracoesUsuarioMock.Verify(x => x.Save(It.IsAny<ProcessoCotacaoIteracaoUsuario>()), Times.Once());                        
+            _atualizadorDeIteracaoDoUsuarioMock.Verify(x => x.Adicionar(It.IsAny<IList<FornecedorParticipante>>()), Times.Once());                        
         }
 
         #endregion

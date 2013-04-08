@@ -40,10 +40,10 @@ namespace BsBios.Portal.ViewModel
         //[Display(Name = "Data Final de Validade")]
         //public string DataValidadeCotacaoFinal { get; set; }
 
-        //[DataType(DataType.MultilineText)]
-        //[Display(Name = "Requisitos")]
-        //[Required(ErrorMessage = "Requisitos é obrigatório")]
-        //public string Requisitos { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Requisitos")]
+        [Required(ErrorMessage = "Requisitos é obrigatório")]
+        public string Requisitos { get; set; }
 
         //[DataType(DataType.MultilineText)]
         //[Display(Name = "Observações")]

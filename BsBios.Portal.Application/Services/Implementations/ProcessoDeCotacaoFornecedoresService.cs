@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
@@ -14,15 +14,15 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IFornecedores _fornecedores;
-        private readonly IProcessoCotacaoIteracoesUsuario _processoCotacaoIteracoesUsuario;
+        private readonly IAtualizadorDeIteracaoDoUsuario _atualizadorDeIteracaoDoUsuario;
 
         public ProcessoDeCotacaoFornecedoresService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
-            IFornecedores fornecedores, IProcessoCotacaoIteracoesUsuario processoCotacaoIteracoesUsuario)
+            IFornecedores fornecedores, IAtualizadorDeIteracaoDoUsuario atualizadorDeIteracaoDoUsuario)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;
             _fornecedores = fornecedores;
-            _processoCotacaoIteracoesUsuario = processoCotacaoIteracoesUsuario;
+            _atualizadorDeIteracaoDoUsuario = atualizadorDeIteracaoDoUsuario;
         }
 
         public void AtualizarFornecedores(ProcessoDeCotacaoFornecedoresAtualizarVm atualizacaoDosFornecedoresVm)
@@ -55,13 +55,10 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 _processosDeCotacao.Save(processoDeCotacao);
 
-                foreach (var fornecedorParticipante in fornecedoresParticipantesAdicionados)
-                {
-                    var iteracaoUsuario = new ProcessoCotacaoIteracaoUsuario(fornecedorParticipante.Id);
-                    _processoCotacaoIteracoesUsuario.Save(iteracaoUsuario);
-                }
-
                 _unitOfWork.Commit();
+
+                _atualizadorDeIteracaoDoUsuario.Adicionar(fornecedoresParticipantesAdicionados);
+
             }
 
             catch (Exception)

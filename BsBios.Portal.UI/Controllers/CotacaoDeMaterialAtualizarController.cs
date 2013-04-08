@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.UI.Controllers.ModelBinders;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class CotacaoDeFreteAtualizarController : Controller
+    public class CotacaoDeMaterialAtualizarController : Controller
     {
-        private readonly IAtualizadorDeCotacaoDeFrete _atualizadorDeCotacao;
+        private readonly IAtualizadorDeCotacaoDeMaterial _atualizadorDeCotacao;
 
-        public CotacaoDeFreteAtualizarController(IAtualizadorDeCotacaoDeFrete atualizadorDeCotacao)
+        public CotacaoDeMaterialAtualizarController(IAtualizadorDeCotacaoDeMaterial atualizadorDeCotacao)
         {
             _atualizadorDeCotacao = atualizadorDeCotacao;
         }
 
         [HttpPost]
-        public JsonResult Salvar(CotacaoInformarVm cotacaoInformarVm)
+        public JsonResult Salvar(CotacaoMaterialInformarVm cotacaoInformarVm,[ModelBinder(typeof(CotacaoImpostoModelBinder))] CotacaoImpostosVm cotacaoImpostosVm)
         {
+            cotacaoInformarVm.Impostos = cotacaoImpostosVm;
             try
             {
                 _atualizadorDeCotacao.Atualizar(cotacaoInformarVm);
@@ -31,4 +33,5 @@ namespace BsBios.Portal.UI.Controllers
 
         }
     }
+
 }

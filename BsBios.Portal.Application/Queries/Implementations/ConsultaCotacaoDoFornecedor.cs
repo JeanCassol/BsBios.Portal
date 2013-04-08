@@ -114,6 +114,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.Impostos = _builderImpostos.BuildSingle(cotacao);
 
             }
+            else
+            {
+                vm.Impostos = new CotacaoImpostosVm();
+            }
 
             return vm;
 

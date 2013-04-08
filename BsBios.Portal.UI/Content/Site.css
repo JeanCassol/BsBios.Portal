@@ -753,6 +753,10 @@ input[type="checkbox"].input-validation-error {
 .mensagemErro {
     margin: 0;
 }
+.aviso {
+    color: red;
+    font-size: 14px;
+}
 
 .divGrid {
     font:11px Arial,Helvetica,sans-serif!important;

@@ -6,7 +6,7 @@ namespace BsBios.Portal.ViewModel
     {
         [DisplayName("Descrição: ")]
         public string DescricaoDoProcessoDeCotacao { get; set; }
-        [DisplayName("Requisitos")]
+        [DisplayName("Requisitos: ")]
         public string Requisitos { get; set; }
         [DisplayName("Data Limite de Retorno: ")]
         public string DataLimiteDeRetorno { get; set; }

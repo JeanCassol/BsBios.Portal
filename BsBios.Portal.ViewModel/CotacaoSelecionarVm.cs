@@ -22,8 +22,8 @@
         public decimal? ValorIcms { get; set; }
         public decimal? ValorIcmsSt { get; set; }
         public decimal? ValorIpi { get; set; }
-        public decimal? ValorPis { get; set; }
-        public decimal? ValorCofins { get; set; }
+        //public decimal? ValorPis { get; set; }
+        //public decimal? ValorCofins { get; set; }
         public decimal? ValorLiquido { get; set; }
     }
 }

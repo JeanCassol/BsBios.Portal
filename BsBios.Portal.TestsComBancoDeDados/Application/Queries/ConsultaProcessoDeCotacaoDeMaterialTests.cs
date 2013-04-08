@@ -39,6 +39,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.IsTrue(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoCotacaoMaterialCadastroVm.DataLimiteRetorno);
             Assert.AreEqual("Não Iniciado",processoCotacaoMaterialCadastroVm.DescricaoStatus);
+            Assert.AreEqual("Requisitos do Processo de Cotação de Materiais", processoCotacaoMaterialCadastroVm.Requisitos);
         }
 
         [TestMethod]

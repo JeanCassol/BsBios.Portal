@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -35,7 +36,6 @@ namespace BsBios.Portal.Application.Services.Implementations
                     cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorComImpostos.Value,
                     cotacaoInformarVm.Mva, cotacaoInformarVm.QuantidadeDisponivel.Value, Convert.ToDateTime(cotacaoInformarVm.PrazoDeEntrega), 
                     cotacaoInformarVm.ObservacoesDoFornecedor);
-
                 AtualizarImpostos(cotacao, cotacaoInformarVm.Impostos);
 
                 _processosDeCotacao.Save(processoDeCotacao);

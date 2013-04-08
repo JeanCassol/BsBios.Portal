@@ -6,12 +6,12 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
-    public class ProcessoDeCotacaoService : IProcessoDeCotacaoService
+    public class ProcessoDeCotacaoDeMaterialService : IProcessoDeCotacaoDeMaterialService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
 
-        public ProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao)
+        public ProcessoDeCotacaoDeMaterialService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;
@@ -35,5 +35,14 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
+        public VerificacaoDeQuantidadeAdquiridaVm VerificarQuantidadeAdquirida(int idProcessoCotacao, decimal quantidadeTotalAdquirida)
+        {
+            var processoDeCotacao =  _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+            return new VerificacaoDeQuantidadeAdquiridaVm
+                {
+                    QuantidadeSolicitadaNoProcessoDeCotacao = processoDeCotacao.Quantidade,
+                    SuperouQuantidadeSolicitada = processoDeCotacao.SuperouQuantidadeSolicitada(quantidadeTotalAdquirida)
+                };
+        }
     }
 }

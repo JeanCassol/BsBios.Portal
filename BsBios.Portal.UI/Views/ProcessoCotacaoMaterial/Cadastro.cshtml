@@ -29,7 +29,8 @@
                 @Html.Label("Status:",new{@class="labelNaLinha"})
                 <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
             </div>
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"),
+            new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
             <div class="divBotao">
                 <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>

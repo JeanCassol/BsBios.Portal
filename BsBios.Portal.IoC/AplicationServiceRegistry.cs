@@ -45,9 +45,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroUnidadeDeMedida>();
 
-            For<IProcessoDeCotacaoService>()
+            For<IProcessoDeCotacaoDeMaterialService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ProcessoDeCotacaoService>();
+                .Use<ProcessoDeCotacaoDeMaterialService>();
             For<IProcessoDeCotacaoFornecedoresService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoFornecedoresService>();

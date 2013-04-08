@@ -194,5 +194,22 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 throw;
             }
         }
+
+        public static void RemoverProcessoCotacaoIteracaoUsuarioCadastradas()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from ProcessoCotacaoIteracaoUsuario");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
+
+       
     }
 }

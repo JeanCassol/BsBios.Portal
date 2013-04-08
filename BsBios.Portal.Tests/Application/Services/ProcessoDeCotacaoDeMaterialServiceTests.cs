@@ -12,14 +12,14 @@ using Moq;
 namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
-    public class ProcessoDeCotacaoServiceTests
+    public class ProcessoDeCotacaoDeMaterialServiceTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly ProcessoDeCotacaoAtualizarVm _atualizacaoDoProcessoDeCotacaoVm;
-        private readonly IProcessoDeCotacaoService _processoDeCotacaoService;
+        private readonly IProcessoDeCotacaoDeMaterialService _processoDeCotacaoService;
 
-        public ProcessoDeCotacaoServiceTests()
+        public ProcessoDeCotacaoDeMaterialServiceTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
@@ -42,7 +42,7 @@ namespace BsBios.Portal.Tests.Application.Services
             _processosDeCotacaoMock.Setup(x => x.Single())
                                    .Returns(processoDeCotacaoDeMaterial);
 
-            _processoDeCotacaoService = new ProcessoDeCotacaoService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object);
+            _processoDeCotacaoService = new ProcessoDeCotacaoDeMaterialService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object);
             _atualizacaoDoProcessoDeCotacaoVm = new ProcessoDeCotacaoAtualizarVm()
                 {
                     Id = 1,
@@ -58,15 +58,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Verify(x  => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
 
-        }
-        [TestMethod]
-        public void QuandoOProcessoEAtualizadoComSucessoEFeitoCommitNaTransacao()
-        {
-            _processoDeCotacaoService.AtualizarProcesso(_atualizacaoDoProcessoDeCotacaoVm);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
-                        
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
+
         }
 
         [TestMethod]
@@ -82,9 +75,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
             
         }
@@ -103,6 +94,19 @@ namespace BsBios.Portal.Tests.Application.Services
             _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
 
+        }
+
+        #endregion
+
+        #region Testes de Verificação da quantidade adquirida
+        [TestMethod]
+        public void ServicoDeVerificacaoDeQuantidadeAdquiridaRetornaResultadoDaComparacao()
+        {
+            VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(10, 1001);
+            Assert.AreEqual(1000, verificacaoVm.QuantidadeSolicitadaNoProcessoDeCotacao);
+            Assert.IsTrue(verificacaoVm.SuperouQuantidadeSolicitada);
+
+            _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
         }
 
         #endregion

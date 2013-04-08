@@ -31,6 +31,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
             RemoveQueries.RemoverIncotermsCadastrados();
             RemoveQueries.RemoverItinerariosCadastrados();
             RemoveQueries.RemoverUnidadesDeMedidaCadastradas();
+            RemoveQueries.RemoverProcessoCotacaoIteracaoUsuarioCadastradas();
 
             RestaurarUsuarioConectado();
 

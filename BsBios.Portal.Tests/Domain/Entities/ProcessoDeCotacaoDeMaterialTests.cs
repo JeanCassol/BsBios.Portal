@@ -299,5 +299,22 @@ namespace BsBios.Portal.Tests.Domain.Entities
             
         }
 
+        [TestMethod]
+        public void QuandoQuantidadeTotalForMenorOuIgualQueAQuantidadeDoProcessoNaoSuperouQuantidadeDoProcesso()
+        {
+            //retorna processo com quantidade 1000
+            ProcessoDeCotacao processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            Assert.IsFalse(processoDeCotacao.SuperouQuantidadeSolicitada(1000));
+        }
+
+        [TestMethod]
+        public void QuandoQuantidadeTotalForMaiorQueAQuantidadeDoProcessoNaoSuperouQuantidadeDoProcesso()
+        {
+            //retorna processo com quantidade 1000
+            ProcessoDeCotacao processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            Assert.IsTrue(processoDeCotacao.SuperouQuantidadeSolicitada(1001));
+        }
+
+
     }
 }

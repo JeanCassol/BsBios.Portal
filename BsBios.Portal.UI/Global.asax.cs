@@ -25,7 +25,8 @@ namespace BsBios.Portal.UI
 
             ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
             ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
-            //AuthConfig.RegisterAuth();
+            ModelBinders.Binders.Add(typeof(Decimal), new DecimalModelBinder());
+            ModelBinders.Binders.Add(typeof(Decimal?), new DecimalModelBinder());
         }
 
         protected void Application_EndRequest()

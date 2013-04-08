@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -121,7 +122,7 @@
     <Compile Include="Services\Contracts\ICadastroUsuario.cs" />
     <Compile Include="Services\Contracts\IGerenciadorUsuario.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoFornecedoresService.cs" />
-    <Compile Include="Services\Contracts\IProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoFornecedoresService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialSelecaoService.cs" />
-    <Compile Include="Services\Implementations\ProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Implementations\CadastroCondicaoPagamento.cs" />
     <Compile Include="Services\Implementations\CadastroFornecedor.cs" />
     <Compile Include="Services\Implementations\CadastroIva.cs" />

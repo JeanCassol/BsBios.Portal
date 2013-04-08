@@ -7,17 +7,17 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class CotacaoDeMaterialAtualizarController : Controller
+    public class CotacaoDeFreteAtualizarController : Controller
     {
-        private readonly IAtualizadorDeCotacaoDeMaterial _atualizadorDeCotacao;
+        private readonly IAtualizadorDeCotacaoDeFrete _atualizadorDeCotacao;
 
-        public CotacaoDeMaterialAtualizarController(IAtualizadorDeCotacaoDeMaterial atualizadorDeCotacao)
+        public CotacaoDeFreteAtualizarController(IAtualizadorDeCotacaoDeFrete atualizadorDeCotacao)
         {
             _atualizadorDeCotacao = atualizadorDeCotacao;
         }
 
         [HttpPost]
-        public JsonResult Salvar(CotacaoMaterialInformarVm cotacaoInformarVm)
+        public JsonResult Salvar(CotacaoInformarVm cotacaoInformarVm)
         {
             try
             {
@@ -31,4 +31,5 @@ namespace BsBios.Portal.UI.Controllers
 
         }
     }
+
 }

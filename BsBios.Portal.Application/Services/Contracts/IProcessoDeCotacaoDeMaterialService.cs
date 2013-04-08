@@ -2,9 +2,10 @@
 
 namespace BsBios.Portal.Application.Services.Contracts
 {
-    public interface IProcessoDeCotacaoService
+    public interface IProcessoDeCotacaoDeMaterialService
     {
         void AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm);
+        VerificacaoDeQuantidadeAdquiridaVm VerificarQuantidadeAdquirida(int idProcessoCotacao, decimal quantidadeTotalAdquirida);
     }
 
 }

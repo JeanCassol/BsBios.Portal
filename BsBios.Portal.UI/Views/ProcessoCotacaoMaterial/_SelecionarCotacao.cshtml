@@ -7,9 +7,9 @@
  }
 
 </style>
-<div id="divCotacoes" class=" divGrid">
+<div id="divCotacoes">
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
-    <div id="gridCotacoes" class="selecionarCotacao divGrid"></div>
+    <div id="gridCotacoes" class="divGrid"></div>
     <div id="erro" class="error">
         @ViewData["erro"]
     </div>
@@ -135,9 +135,7 @@
                 { field: "Incoterm", width: 150 },
                 { field: "ValorIcms", title: 'ICMS (R$)', width: 80, format: "{0:n2}" },
                 { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorIpi", title: 'IPI (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorPis", title: 'Pis (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorCofins", title: 'Cofins (R$)', width: 80, format: "{0:n2}" }
+                { field: "ValorIpi", title: 'IPI (R$)', width: 80, format: "{0:n2}" }
             ]
         });
 

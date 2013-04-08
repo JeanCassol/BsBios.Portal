@@ -89,6 +89,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              processo.Id,
                                              DataTerminoLeilao = p.DataLimiteDeRetorno,
                                              processo.Status,
+                                             processo.Requisitos,
                                              processo.RequisicaoDeCompra.Numero,
                                              processo.RequisicaoDeCompra.NumeroItem,
                                              processo.RequisicaoDeCompra.Centro,
@@ -111,6 +112,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     DataLimiteRetorno = processoDeCotacao.DataTerminoLeilao.HasValue ? processoDeCotacao.DataTerminoLeilao.Value.ToShortDateString(): null,
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
                     CodigoMaterial = processoDeCotacao.CodigoMaterial,
+                    Requisitos =  processoDeCotacao.Requisitos,
                     RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
                         {
                             Centro = processoDeCotacao.Centro,
@@ -181,11 +183,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
                 cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
+                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
+                //cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
+                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
+                //cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
 
             }
 

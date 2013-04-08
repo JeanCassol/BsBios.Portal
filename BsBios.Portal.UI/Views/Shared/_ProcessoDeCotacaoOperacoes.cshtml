@@ -88,6 +88,38 @@
                 }
             }
         });
+        
+        function verificarQuantidadeAdquirida(quantidadeAdquiridaTotal) {
+            var retorno = true;
+            $.ajax({
+                url: '@Url.Action("VerificarQuantidadeAdquirida","ProcessoDeCotacaoService")',
+                type: 'GET',
+                async: false,
+                cache: false,
+                data: { IdProcessoCotacao: $('#Id').val(), QuantidadeAdquiridaTotal: quantidadeAdquiridaTotal },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        if (data.Verificacao.SuperouQuantidadeSolicitada) {
+                            retorno = confirm("A quantidade total adquirida (" + Globalize.format(quantidadeAdquiridaTotal,"n3") +
+                                ") superou a quantidade solicitada no Processo de Cotação (" +
+                                Globalize.format(data.Verificacao.QuantidadeSolicitadaNoProcessoDeCotacao,"n3") +
+                                "). Confirma as quantidades informadas para cada Fornecedor?");
+                        }
+                    } else {
+                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        retorno = false;
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao verificar a quantidade adquirida total. Detalhe: ' + textStatus + errorThrown);
+                    retorno = false;
+                }
+            });
+
+            return retorno;
+
+        }
 
         $('#divSelecionarCotacoes').customDialog({
             title: 'Selecionar Cotações',
@@ -95,6 +127,7 @@
                 "Confirmar": function () {
                     var cotacoes = new Array();
                     var dadosValidos = true;
+                    var quantidadeAdquiridaTotal = 0;
                     $('#gridCotacoes').find('table > tbody > tr').each(function () {
                         if (!dadosValidos) {
                             return;
@@ -105,8 +138,8 @@
                             return;
                         }
                         var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
-                        var quantidadeAdquirida = $(this).find('input[name=QuantidadeAdquirida]').val();
-                        if (selecionada && quantidadeAdquirida == "") {
+                        var quantidadeAdquirida = Numero.GetFloat($(this).find('input[name=QuantidadeAdquirida]').val());
+                        if (selecionada && quantidadeAdquirida <= 0) {
                             Mensagem.ExibirMensagemDeErro("Deve ser preenchida a Quantidade de todos os Fornecedores selecionados.");
                             dadosValidos = false;
                             return;
@@ -124,6 +157,8 @@
                             @:cotacao.CodigoIva = codigoIva;
                         }
 
+                        quantidadeAdquiridaTotal += quantidadeAdquirida;
+
                         cotacoes.push(cotacao);
                     });
                     if (!dadosValidos) {
@@ -133,6 +168,11 @@
                     if (cotacoes.length == 0) {
                         $('#divSelecionarCotacoes').dialog("close");
                         return;
+                    }
+                    
+                    @if (tipoDeCotacao == Enumeradores.TipoDeCotacao.Material)
+                    {
+                        @:if (!verificarQuantidadeAdquirida(quantidadeAdquiridaTotal)) return;
                     }
                    
                     $.ajax({
@@ -188,7 +228,7 @@
         });
 
         $('#btnAbrirProcesso').click(function () {
-            $('#conteudoPrincipal').block("Processando...");
+            bloqueiaPagina();
             $.ajax({
                 url: '@actionAbrirProcessoDeCotacao',
                 type: 'POST',
@@ -207,14 +247,14 @@
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao abrir o Processo. Detalhe: ' + textStatus + errorThrown);
                 },
                 complete: function () {
-                    $("#conteudoPrincipal").unblock();
+                    desbloqueiaPagina();
                 }
             });
 
         });
 
         $('#btnFecharProcesso').click(function () {
-            $('#conteudoPrincipal').block("Processando...");
+            bloqueiaPagina();
             $.ajax({
                 url: '@actionFecharProcessoDeCotacao',
                 type: 'POST',
@@ -233,7 +273,7 @@
                     Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao fechar o Processo. Detalhe: ' + textStatus + errorThrown);
                 },
                 complete: function () {
-                    $("#conteudoPrincipal").unblock();
+                    desbloqueiaPagina();
                 }
             });
 

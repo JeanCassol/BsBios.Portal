@@ -26,11 +26,11 @@
         
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorComImpostos, "campoDesabilitado"),
-                                      new ColunaComEditor<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorLiquido))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
+                                      new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorLiquido,"campoDesabilitado maskmoeda"))
             
-            @Html.LinhaComDuasColunas(new ColunaComEditor<CotacaoMaterialCadastroVm, decimal?>(x => x.QuantidadeDisponivel),
-                                        new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.QuantidadeDisponivel, "maskquantidade"),
+                                        new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker maskdata"))
             
             @{
 
@@ -51,7 +51,7 @@
                 
             }
 
-            @Html.LinhaComDuasColunas(comboCondicaoDePagamento, new ColunaComEditor<CotacaoMaterialCadastroVm, decimal?>(x => x.Mva))
+            @Html.LinhaComDuasColunas(comboCondicaoDePagamento, new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.Mva,"maskmoeda"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
@@ -75,11 +75,9 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/scriptsgerais")
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
-        //Globalize.cultureSelector = 'pt-BR';
-        $('input[name=ValorLiquido]').attr('disabled', true);
-        
         function calculaValorLiquido() {
             var valorComImpostos = Numero.GetFloat($('#ValorComImpostos').val());
             if (valorComImpostos == 0) {
@@ -92,12 +90,15 @@
 
             var valorLiquido = valorComImpostos - valorIcms - valorIcmsSt - valorIpi;
 
-            $('#ValorLiquido').val(valorLiquido);
+            $('#ValorLiquido').val(Globalize.format(valorLiquido,"n2"));
 
         }
         
 
         $(function() {
+            aplicaMascaraData();
+            aplicaMascaraMoeda();
+            aplicaMascaraQuantidade();
 
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);

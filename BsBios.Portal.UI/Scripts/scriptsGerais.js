@@ -16,7 +16,7 @@ String.prototype.boolean = function () {
 
 Numero = {
     GetFloat: function (valor) {
-        var val = parseFloat(valor);
+        var val = Globalize.parseFloat(valor);
         if (isNaN(val))
             return 0;
         else
@@ -189,6 +189,13 @@ function aplicaMascaraMoeda() {
     if ($(campos).length == 0) {
         return;
     }
+    $(campos).each(function () {
+        var val = Globalize.parseFloat($(this).val());
+        if (!isNaN(val)) {
+            $(this).val(Globalize.format(val,"n2"));
+        }
+    });
+
     $(campos).setMask('moeda-portal');
 }
 
@@ -197,6 +204,13 @@ function aplicaMascaraQuantidade() {
     if ($(campos).length == 0) {
         return;
     }
+    $(campos).each(function () {
+        var val = Globalize.parseFloat($(this).val());
+        if (!isNaN(val)) {
+            $(this).val(Globalize.format(val, "n3"));
+        }
+    });
+
     $(campos).setMask('quantidade-portal');
 
 }
@@ -244,6 +258,15 @@ function aplicaMascaraNumeroContrato() {
     }
     $(campos).setMask('numerocontrato-portal');
 }
+
+function bloqueiaPagina() {
+    $('#todaPagina').block("Processando...");
+}
+
+function desbloqueiaPagina() {
+    $("#todaPagina").unblock();
+}
+
 
 $(function () {
     inicializaCamposDatePicker();

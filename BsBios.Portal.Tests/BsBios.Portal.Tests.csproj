@@ -90,7 +90,7 @@
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
     <Compile Include="Application\Services\CadastroItinerarioTests.cs" />
     <Compile Include="Application\Services\CadastroUnidadeDeMedidaTests.cs" />
-    <Compile Include="Application\Services\ProcessoDeCotacaoServiceTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoDeMaterialServiceTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
     <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />

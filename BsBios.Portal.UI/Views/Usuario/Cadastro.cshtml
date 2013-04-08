@@ -290,7 +290,7 @@
             });
                 
             $('#btnCriarSenha').click(function () {
-                $("#todaPagina").block("Processando...");
+                bloqueiaPagina();
                 $.ajax({
                     url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
                     type: 'POST',
@@ -309,7 +309,7 @@
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha do Usuário. Detalhe: ' + textStatus + errorThrown);
                     },
                     complete: function() {
-                        $("#todaPagina").unblock();
+                        desbloqueiaPagina();
                     }
                 });
             });

@@ -124,7 +124,11 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
         }
-        
+
+        public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
+        {
+            return quantidadeTotalAdquirida > Quantidade;
+        }
     }
 
     public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao

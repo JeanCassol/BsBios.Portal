@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,6 +19,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         private readonly Mock<IConsultaCotacaoDoFornecedor> _consultaCotacaoDoFornecedorMock;
         private readonly Mock<IConsultaCondicaoPagamento> _consultaCondicaoPagamentoMock;
         private readonly Mock<IConsultaIncoterm> _consultaIncotermsMock;
+        private readonly Mock<IAtualizadorDeIteracaoDoUsuario> _atualizadorDeIteracaoDoUsuarioMock;
 
         public CotacaoTests()
         {
@@ -33,8 +35,11 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaIncotermsMock.Setup(x => x.ListarTodos())
                 .Returns(new List<IncotermCadastroVm>());
 
+            _atualizadorDeIteracaoDoUsuarioMock = new Mock<IAtualizadorDeIteracaoDoUsuario>(MockBehavior.Strict);
+            _atualizadorDeIteracaoDoUsuarioMock.Setup(x => x.Atualizar(It.IsAny<int>()));
+
             _controller = new CotacaoMaterialController(_consultaCotacaoDoFornecedorMock.Object,
-                _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object);
+                _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object,_atualizadorDeIteracaoDoUsuarioMock.Object);
         }
 
         [TestMethod]
@@ -56,6 +61,13 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .Callback((int idProcessoCotacao, string login) => Assert.AreEqual(UsuarioConectado.Login, login));
 
             _controller.EditarCadastro(10);
+        }
+
+        [TestMethod]
+        public void QuandoEditarACotacaoRegistraQueOFornecedorVisualizouOProcessoDeCotacao()
+        {
+            _controller.EditarCadastro(10);
+            _atualizadorDeIteracaoDoUsuarioMock.Verify(x => x.Atualizar(It.IsAny<int>()), Times.Once());
         }
     }
 }

@@ -9,9 +9,9 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class ProcessoDeCotacaoServiceController : Controller
     {
-        private readonly IProcessoDeCotacaoService _processoDeCotacaoService;
+        private readonly IProcessoDeCotacaoDeMaterialService _processoDeCotacaoService;
 
-        public ProcessoDeCotacaoServiceController(IProcessoDeCotacaoService processoDeCotacaoService)
+        public ProcessoDeCotacaoServiceController(IProcessoDeCotacaoDeMaterialService processoDeCotacaoService)
         {
             _processoDeCotacaoService = processoDeCotacaoService;
         }
@@ -30,6 +30,20 @@ namespace BsBios.Portal.UI.Controllers
                 return RedirectToAction("EditarCadastro", "ProcessoCotacaoMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
             }
             
+        }
+
+        [HttpGet]
+        public JsonResult VerificarQuantidadeAdquirida(int idProcessoCotacao, decimal quantidadeAdquiridaTotal)
+        {
+            try
+            {
+                VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(idProcessoCotacao, quantidadeAdquiridaTotal);
+                return Json(new {Sucesso = true, Verificacao = verificacaoVm}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Sucesso = false, Mensagem = ex.Message}, JsonRequestBehavior.AllowGet);
+            }
         }
 
     }
