@@ -14,10 +14,12 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoCotacaoMaterialController : Controller
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
 
-        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
+        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
+            _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
         }
 
 
@@ -28,15 +30,17 @@ namespace BsBios.Portal.UI.Controllers
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoCotacaoMaterial");
-
+                ViewBag.MostrarFiltroPorFornecedor = true;
             }
-            if (usuarioConectado.Perfis.Contains(Common.Enumeradores.Perfil.Fornecedor))
+            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoMaterial");
+                ViewBag.MostrarFiltroPorFornecedor = false;
             }
 
             ViewData["ActionListagem"] = Url.Action("Listar","ProcessoCotacaoMaterial");
             ViewBag.TituloDaPagina = "Cotações de Material";
+            ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]

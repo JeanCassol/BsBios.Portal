@@ -73,6 +73,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaRealizacaoDeAgendamento>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaRealizacaoDeAgendamento>();
+
+            For<IConsultaStatusProcessoCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaStatusProcessoCotacao>();
             
         }
 

@@ -7,19 +7,20 @@
     <fieldset>
         <legend>Filtros</legend>
         <form >
-        <div class="colunaFiltro">
-            @Html.Label("Código")
-            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
-        </div>
-        <div class="colunaFiltro">
-            @Html.Label("Nome")
-            @Html.TextBox("NomeFiltro","", new{@class="campomedio"})
-        </div>
-        <div class="divBotao">
-            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-        </div>
+            <div class="colunaFiltro">
+                @Html.Label("Código")
+                @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="colunaFiltro">
+                @Html.Label("Nome")
+                @Html.TextBox("NomeFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+            </div>
         </form>
+
     </fieldset>
 </div>
 <div id="gridFornecedores" class="divGrid"></div>

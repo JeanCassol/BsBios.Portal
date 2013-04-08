@@ -16,12 +16,14 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
+        private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
 
-        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete)
+        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
+            _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
         }
 
         //
@@ -34,14 +36,17 @@ namespace BsBios.Portal.UI.Controllers
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoCotacaoFrete");
+                ViewBag.MostrarFiltroPorFornecedor = true;
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoFrete");
+                ViewBag.MostrarFiltroPorFornecedor = false;
             }
 
             ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoCotacaoFrete");
             ViewBag.TituloDaPagina = "Cotações de Frete";
+            ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
