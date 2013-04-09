@@ -16,16 +16,19 @@ namespace BsBios.Portal.Tests.UI.Controllers
     public class ProcessoCotacaoMaterialTests
     {
         private readonly Mock<IConsultaProcessoDeCotacaoDeMaterial> _consultaProcessoCotacaoMaterialMock;
-        private readonly Mock<IConsultaIva> _consultaIvaMock;
+        private readonly Mock<IConsultaStatusProcessoCotacao> _consultaStatusProcessoCotacao;
         private readonly ProcessoCotacaoMaterialController _controller;
+
 
         public ProcessoCotacaoMaterialTests()
         {
             _consultaProcessoCotacaoMaterialMock = new Mock<IConsultaProcessoDeCotacaoDeMaterial>(MockBehavior.Strict);
             _consultaProcessoCotacaoMaterialMock.Setup(x => x.ConsultaProcesso(It.IsAny<int>()))
                                                .Returns(new ProcessoCotacaoMaterialCadastroVm());
-            _consultaIvaMock = new Mock<IConsultaIva>(MockBehavior.Strict);
-            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object);
+            _consultaStatusProcessoCotacao = new Mock<IConsultaStatusProcessoCotacao>(MockBehavior.Strict);
+            _consultaStatusProcessoCotacao.Setup(x => x.Listar()).Returns(new List<StatusProcessoCotacaoVm>());
+
+            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
             CommonMocks.MockControllerUrl(_controller);
         }
 
@@ -54,6 +57,13 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var viewResult = (ViewResult) _controller.Index();
             Assert.AreEqual("_ProcessoCotacaoIndex", viewResult.ViewName);
         }
+
+        [TestMethod]
+        public void ActionIndexRetornaListaDeStatusDoProcessoDeCotacaoNaViewBag()
+        {
+            _controller.Index();
+            Assert.IsNotNull(_controller.ViewBag.StatusProcessoCotacao);
+        }
         [TestMethod]
         public void QuandoEstaConectadoComOPerfilCompradorViewBagContemActionDeEdicaoEsperada()
         {
@@ -70,7 +80,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .HybridHttpOrThreadLocalScoped()
                 .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", new List<Enumeradores.Perfil>{Enumeradores.Perfil.Fornecedor})));
 
-            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object);
+            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);

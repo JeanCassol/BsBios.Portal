@@ -29,9 +29,9 @@ namespace BsBios.Portal.Common
             [Description("Aberto")]
             Aberto = 2,
             [Description("Fechado")]
-            Fechado = 3,
+            Fechado = 3/*,
             [Description("Cancelado")]
-            Cancelado = 4
+            Cancelado = 4*/
         }
         public enum StatusUsuario
         {

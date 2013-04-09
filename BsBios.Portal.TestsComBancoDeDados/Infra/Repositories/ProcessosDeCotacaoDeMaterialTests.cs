@@ -127,12 +127,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void FiltrarUmProcessoDeCotacaoPorCodigoDoProdutoRetornaProcessoEsperado()
         {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
             Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
             ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
             Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
             ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
-
-            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);
@@ -149,12 +149,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void FiltrarUmProcessoDeCotacaoPorDescricaoDoProdutoRetornaProcessoEsperado()
         {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
             Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
             ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
             Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
             ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
-
-            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);
@@ -172,6 +172,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void FiltrarUmProcessoDeCotacaoPorStatusRetornaProcessoEsperado()
         {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
             ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
 
