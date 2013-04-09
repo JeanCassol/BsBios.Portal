@@ -4,7 +4,6 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
 using BsBios.Portal.UI.App_Start;
-using BsBios.Portal.UI.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -22,6 +21,7 @@ namespace BsBios.Portal.Tests
                 .Use(new UsuarioConectado("teste", "Usuário de Teste", new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos})));
 
             var emailDoPortal = ConfigurationManager.GetSection("emailDoPortal") as EmailDoPortal;
+            var credencialSap = ConfigurationManager.GetSection("credencialSap") as CredencialSap;
 
             ObjectFactory.Configure(x =>
                 {
@@ -39,6 +39,12 @@ namespace BsBios.Portal.Tests
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
                                                emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDeSuprimentos);
+                    }
+                    if (credencialSap != null)
+                    {
+                        x.For<CredencialSap>()
+                         .Singleton()
+                         .Use(credencialSap);
                     }
 
                 });

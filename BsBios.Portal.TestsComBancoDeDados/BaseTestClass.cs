@@ -5,7 +5,6 @@ using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
 using BsBios.Portal.UI.App_Start;
-using BsBios.Portal.UI.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 

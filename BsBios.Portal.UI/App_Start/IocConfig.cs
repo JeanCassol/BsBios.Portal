@@ -7,7 +7,6 @@ using BsBios.Portal.Infra.Factory;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
 using BsBios.Portal.UI.App_Start;
-using BsBios.Portal.UI.Configuration;
 using StructureMap;
 using StructureMap.Pipeline;
 
@@ -20,10 +19,12 @@ namespace BsBios.Portal.UI
             SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBios"].ConnectionString);
 
             var emailDoPortal = ConfigurationManager.GetSection("emailDoPortal") as EmailDoPortal;
+            var credencialSap = ConfigurationManager.GetSection("credencialSap") as CredencialSap;
 
             ObjectFactory.Configure(x =>
             {
-                if (emailDoPortal != null){
+                if (emailDoPortal != null)
+                {
                     x.For<ContaDeEmail>()
                      .Singleton()
                      .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteLogistica + ">", emailDoPortal.Dominio,
@@ -36,7 +37,14 @@ namespace BsBios.Portal.UI
                                            emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
                                            emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDeSuprimentos);
                 }
+                if (credencialSap != null)
+                {
+                    x.For<CredencialSap>()
+                     .Singleton()
+                     .Use(credencialSap);
+                }
             });
+
 
 
             IoCWorker.Configure();

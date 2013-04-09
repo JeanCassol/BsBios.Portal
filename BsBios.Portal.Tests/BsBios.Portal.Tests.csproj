@@ -132,6 +132,7 @@
     <Compile Include="UI\Controllers\ProcessoCotacaoMaterialTests.cs" />
     <Compile Include="UI\Controllers\CotacaoTests.cs" />
     <Compile Include="UI\Controllers\ProcessoDeCotacaoDeFreteAberturaControllerTests.cs" />
+    <Compile Include="UI\Controllers\GenericControllerTests.cs" />
     <Compile Include="UI\Controllers\UsuarioApiTests.cs" />
     <Compile Include="UI\Controllers\ProdutoFornecedorApiTests.cs" />
     <Compile Include="UI\Controllers\IvaApiTests.cs" />

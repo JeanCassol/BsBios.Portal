@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 
-namespace BsBios.Portal.UI.Configuration
+namespace BsBios.Portal.Infra.Model
 {
     public class EmailDoPortal : ConfigurationSection
     {

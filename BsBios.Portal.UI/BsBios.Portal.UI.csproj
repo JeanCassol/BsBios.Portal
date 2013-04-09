@@ -134,7 +134,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Configuration\EmailDoPortal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
@@ -397,9 +396,11 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />

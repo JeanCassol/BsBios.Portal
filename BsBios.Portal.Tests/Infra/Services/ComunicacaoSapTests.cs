@@ -4,10 +4,12 @@ using System.Net;
 using System.Net.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StructureMap;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
@@ -159,7 +161,8 @@ namespace BsBios.Portal.Tests.Infra.Services
             processo.Abrir();
             CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");
             processo.SelecionarCotacao(cotacaoFrete.Id, 50);
-            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete();
+            var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
+            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(credencialSap);
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
             Assert.AreEqual("S", mensagem.Retorno.Codigo);
         }

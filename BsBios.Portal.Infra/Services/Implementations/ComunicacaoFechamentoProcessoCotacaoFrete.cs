@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Xml.Serialization;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -13,6 +15,13 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class ComunicacaoFechamentoProcessoCotacaoFrete : IComunicacaoSap
     {
+        private readonly CredencialSap _credencialSap;
+
+        public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        {
+            _credencialSap = credencialSap;
+        }
+
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
             if (processo.Produto.Tipo.ToUpper() == "NLAG")
@@ -28,7 +37,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                             }
                     };
             }
-            var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential("fusion_lucas", "fusion123")};
+            var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha)};
 
             var httpClient = new HttpClient(clientHandler);
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
@@ -53,7 +62,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 }
             }
 
-            var response = httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+            var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + 
+                "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
                 , mensagemParaEnviar);
 
             Stream content = response.Result.Content.ReadAsStreamAsync().Result;
