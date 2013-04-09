@@ -9,5 +9,8 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacao FiltraPorFornecedor(string codigoFornecedor);
         IProcessosDeCotacao DesconsideraNaoIniciados();
         IProcessosDeCotacao FiltraPorTipo(Enumeradores.TipoDeCotacao tipoDeCotacao);
+        IProcessosDeCotacao CodigoDoProdutoContendo(string codigo);
+        IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao);
+        IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status);
     }
 }

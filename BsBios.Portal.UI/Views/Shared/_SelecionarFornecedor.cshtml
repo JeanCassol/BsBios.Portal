@@ -119,7 +119,7 @@
 
         $('#btnLimpar').click(function (e) {
             e.preventDefault();
-            $('.divFiltros input[type!=button]').val('');
+            $('.divFiltros input[type!=button][type!=submit]').val('');
         });
 
         $('#gridFornecedores').find('input[name=radioFornecedor]').die("change");

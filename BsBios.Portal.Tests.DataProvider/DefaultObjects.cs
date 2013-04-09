@@ -243,8 +243,12 @@ namespace BsBios.Portal.Tests.DataProvider
             return processoDeCotacao;
         }
 
-
-
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)
+        {
+            return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
+                "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+        }
 
 
         public static Quota ObtemQuotaDeCarregamento()

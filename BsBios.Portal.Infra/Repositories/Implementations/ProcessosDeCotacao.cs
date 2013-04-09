@@ -47,5 +47,30 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             }
             return this;
         }
+
+        public IProcessosDeCotacao CodigoDoProdutoContendo(string codigo)
+        {
+            if (!string.IsNullOrEmpty(codigo))
+            {
+                Query = Query.Where(x => x.Produto.Codigo.ToLower().Contains(codigo.ToLower()));
+            }
+            return this;
+        }
+
+        public IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao)
+        {
+            if (!string.IsNullOrEmpty(descricao))
+            {
+                Query = Query.Where(x => x.Produto.Descricao.ToLower().Contains(descricao.ToLower()));
+                
+            }
+            return this;
+        }
+
+        public IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status)
+        {
+            Query = Query.Where(x => x.Status == status);
+            return this;
+        }
     }
 }

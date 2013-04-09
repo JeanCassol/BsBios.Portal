@@ -42,6 +42,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     .FiltraPorFornecedor(filtro.CodigoFornecedor);
 
             }
+
+            _processosDeCotacao.CodigoDoProdutoContendo(filtro.CodigoProduto)
+                .DescricaoDoProdutoContendo(filtro.DescricaoProduto);
+
+            if (filtro.CodigoStatusProcessoCotacao.HasValue)
+            {
+                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
+            }
+
             var query = (from p in _processosDeCotacao.GetQuery()
                          select new 
                          {

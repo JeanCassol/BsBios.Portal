@@ -4,25 +4,22 @@
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
-        @if (ViewBag.MostrarFiltroPorFornecedor)
-        {
-            <div class="linha">
-                <div class="coluna">
-                    @Html.Label("Codigo")
-                    @Html.TextBox("CodigoMaterial","", new { @class = "campomedio" })
-                </div>
-                <div class="coluna">
-                    @Html.Label("Material")
-                    @Html.TextBox("DescricaoMaterial","", new { @class = "campogrande" })
-                </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Codigo")
+                @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
             </div>
-        }
+            <div class="coluna">
+                @Html.Label("Material")
+                @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
+            </div>
+        </div>
 
         <div class="linha">
             <div class="coluna">
                 @Html.Label("Status")
-                @Html.DropDownList("Status", ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao).Select(x =>
-                                                                                                                    new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
+                @Html.DropDownList("Status", ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao)
+                .Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
             </div>
         </div>
         <div class="divBotao">
@@ -76,7 +73,10 @@
                         read: {
                             url: '@ViewData["ActionListagem"]',
                             type: 'GET',
-                            cache: false
+                            cache: false,
+                            data: function() {
+                                return { CodigoProduto: $('#CodigoProduto').val(), DescricaoProduto: $('#DescricaoProduto').val(), CodigoStatusProcessoCotacao: $('#Status :selected').val() };
+                            }
                         }
                     }
                 },
@@ -126,6 +126,15 @@
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
                 location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
+            });
+
+            $('#btnPesquisar').click(function(e) {
+                e.preventDefault();
+                $("#gridCotacaoMaterial").data("kendoGrid").dataSource.read();
+            });
+
+            $('#btnLimpar').click(function() {
+                $('form input[type!=button][type!=submit]').val('');
             });
 
         });

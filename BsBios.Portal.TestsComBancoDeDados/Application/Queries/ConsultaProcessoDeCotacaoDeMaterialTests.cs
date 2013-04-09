@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -51,7 +52,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10}, 
-                new ProcessoCotacaoMaterialFiltroVm(){TipoDeCotacao = 1});
+                new ProcessoCotacaoMaterialFiltroVm(){TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material});
 
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             ProcessoCotacaoMaterialListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();

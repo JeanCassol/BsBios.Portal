@@ -36,12 +36,10 @@ namespace BsBios.Portal.UI.Controllers
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoCotacaoFrete");
-                ViewBag.MostrarFiltroPorFornecedor = true;
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoFrete");
-                ViewBag.MostrarFiltroPorFornecedor = false;
             }
 
             ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoCotacaoFrete");
@@ -50,13 +48,11 @@ namespace BsBios.Portal.UI.Controllers
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            var filtro = new ProcessoCotacaoMaterialFiltroVm()
-            {
-                TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Frete
-            };
+            filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Frete;
+            
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 filtro.CodigoFornecedor = usuarioConectado.Login;
