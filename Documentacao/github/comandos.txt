@@ -1,0 +1,24 @@
+comando para excluir um branch local
+git branch -d <nome da branch>
+git branch -d :qas
+
+comando para excluir uma branch remota
+git push origin :<nome da branch>
+git push origin :qas
+
+comando para fazer push para um servidor remoto
+git push origin <nome da branch local>
+git push origin qas
+
+trocar de branch
+git checkout <nome da branch>
+git checkou qas
+
+Para fazer merge da branch "master" para a branch "qas" devem ser feitos os seguintes passos
+1) checkout na branch que vai receber a atualização
+git checkout qas
+2) executar o comando
+git merge <nome da branch atualizada>
+git merge master
+3) fazer o push da branch qas
+git push origin qas
