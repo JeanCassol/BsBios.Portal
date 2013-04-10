@@ -87,5 +87,25 @@ namespace BsBios.Portal.Tests.Domain.Services
             quota.RealizarAgendamento(0);
             
         }
+
+        [TestMethod]
+        public void QuandoRealizaUmAgendamentoPesoDoAgendamentoESomadoNoPesoRealizadoDaQuota()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm
+            {
+                IdQuota = quota.Id,
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmPadrao()
+                        }
+            });
+
+            Assert.AreEqual(0, quota.PesoRealizado);
+            quota.RealizarAgendamento(0);
+            Assert.AreEqual(50, quota.PesoRealizado);
+
+        }
+
     }
 }

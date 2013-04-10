@@ -5,6 +5,7 @@ using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NHibernate;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
@@ -33,9 +34,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             var quotas = ObjectFactory.GetInstance<IQuotas>();
 
-            var quotaConsultada = quotas.FiltraPorData(quota.Data)
-                                        .FiltraPorFluxo(quota.FluxoDeCarga)
-                                        .FiltraPorTransportadora(quota.Fornecedor.Codigo).Single();
+            var quotaConsultada = quotas.BuscaPorId(quota.Id);
 
             Assert.AreEqual(quota.Id, quotaConsultada.Id);
             Assert.AreEqual(quota.Data, quotaConsultada.Data);
@@ -63,11 +62,43 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var quotas = ObjectFactory.GetInstance<IQuotas>();
 
             var quotaConsultada = quotas.BuscaPorId(quota.Id);
+            Assert.IsFalse(NHibernateUtil.IsInitialized(quotaConsultada.Agendamentos));
             var agendamentoConsultado = (AgendamentoDeCarregamento) quotaConsultada.Agendamentos.First();
 
             Assert.AreEqual(100, agendamentoConsultado.Peso);
             Assert.AreEqual("MNO1234", agendamentoConsultado.Placa);
             Assert.IsFalse(agendamentoConsultado.Realizado);
         }
+
+        //[TestMethod]
+        //public void QuandoRealizadoUmAgendamentoNaoCarregaTodosAgendamentosParaCalcularPesoRealizado()
+        //{
+        //    var quota = DefaultObjects.ObtemQuotaDeCarregamento();
+        //    DefaultPersistedObjects.PersistirQuota(quota);
+
+        //    AgendamentoDeCarregamento agendamento1 = quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
+        //    {
+        //        IdQuota = quota.Id,
+        //        Peso = 100,
+        //        Placa = "MNO1234"
+        //    });
+
+        //    AgendamentoDeCarregamento agendamento2 = quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
+        //    {
+        //        IdQuota = quota.Id,
+        //        Peso = 50,
+        //        Placa = "MNO1235"
+        //    });
+
+        //    DefaultPersistedObjects.PersistirQuota(quota);
+
+        //    var quotas = ObjectFactory.GetInstance<IQuotas>();
+
+        //    var quotaConsultada = quotas.BuscaPorId(quota.Id);
+
+        //    quotaConsultada.RealizarAgendamento(agendamento1.Id);
+            
+        //    Assert.IsFalse(NHibernateUtil.IsInitialized(quotaConsultada.Agendamentos));
+        //}
     }
 }

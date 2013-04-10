@@ -16,8 +16,18 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
         public virtual string CodigoTerminal { get; protected set; }
         public virtual DateTime Data { get; protected set; }
+        /// <summary>
+        /// total de peso liberado para o fornecedor fazer carregamento ou descarregamento
+        /// </summary>
         public virtual decimal PesoTotal { get; protected set; }
+        /// <summary>
+        /// total de peso agendado para fazer carregamento ou descarregamento
+        /// </summary>
         public virtual decimal PesoAgendado { get; protected set; }
+        /// <summary>
+        /// somatório do peso das cargas que foram agendadadas e já foram carregadas ou descarregadas (conforme o fluxo)
+        /// </summary>
+        public virtual decimal PesoRealizado { get; protected set; }
         public virtual IList<AgendamentoDeCarga> Agendamentos { get; protected set; }
 
         public virtual decimal PesoDisponivel
@@ -63,6 +73,11 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
+        private void CalculaPesoRealizado()
+        {
+            PesoRealizado = Agendamentos.Where(x => x.Realizado).Sum(y => y.PesoTotal);
+        }
+
 
         #region Equality Members
 
@@ -93,20 +108,23 @@ namespace BsBios.Portal.Domain.Entities
 
         #endregion
 
-        public virtual void InformarAgendamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
+        public virtual AgendamentoDeCarregamento InformarAgendamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {
+            AgendamentoDeCarregamento agendamento;
             if (agendamentoDeCarregamentoCadastroVm.IdAgendamento == 0)
             {
                 var factory = new AgendamentoDeCarregamentoFactory(agendamentoDeCarregamentoCadastroVm.Peso);
-                var agendamentoDeCarregamento = (AgendamentoDeCarregamento)factory.Construir(this, agendamentoDeCarregamentoCadastroVm.Placa);
-                Agendamentos.Add(agendamentoDeCarregamento);
+                agendamento = (AgendamentoDeCarregamento)factory.Construir(this, agendamentoDeCarregamentoCadastroVm.Placa);
+                Agendamentos.Add(agendamento);
             }
             else
             {
-                var agendamento = (AgendamentoDeCarregamento) Agendamentos.Single(x => x.Id == agendamentoDeCarregamentoCadastroVm.IdAgendamento);
+                agendamento = (AgendamentoDeCarregamento) Agendamentos.Single(x => x.Id == agendamentoDeCarregamentoCadastroVm.IdAgendamento);
                 agendamento.Atualizar(agendamentoDeCarregamentoCadastroVm);
             }
             CalculaPesoAgendado();
+
+            return agendamento;
         }
 
         public virtual void RemoverAgendamento(int idAgendamento)
@@ -151,6 +169,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             AgendamentoDeCarga agendamento = Agendamentos.Single(x => x.Id == idAgendamento);
             agendamento.Realizar();
+            CalculaPesoRealizado();
         }
     }
 }

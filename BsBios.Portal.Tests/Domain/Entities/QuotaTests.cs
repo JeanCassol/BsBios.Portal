@@ -24,6 +24,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(Enumeradores.MaterialDeCarga.Soja,quota.Material);
             Assert.AreEqual(Enumeradores.FluxoDeCarga.Descarregamento, quota.FluxoDeCarga);
             Assert.AreEqual(1000, quota.PesoTotal);
+            Assert.AreEqual(0, quota.PesoAgendado);
+            Assert.AreEqual(0, quota.PesoRealizado);
+            Assert.AreEqual(1000, quota.PesoDisponivel);
         }
 
         [TestMethod]

@@ -28,6 +28,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.FluxoDeCarga).CustomType<Enumeradores.FluxoDeCarga>();
             Map(x => x.PesoTotal);
             Map(x => x.PesoAgendado);
+            Map(x => x.PesoRealizado);
 
             HasMany(x => x.Agendamentos).KeyColumn("IdQuota")
                 .Inverse()

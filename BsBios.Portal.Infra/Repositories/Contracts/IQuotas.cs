@@ -7,7 +7,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     public interface IQuotas: ICompleteRepository<Quota>
     {
         IQuotas FiltraPorData(DateTime data);
-        IQuotas FiltraPorTransportadora(string codigoTransportadora);
         IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga);
         IQuotas DoFornecedor(string codigoDoFornecedor);
         Quota BuscaPorId(int idQuota);

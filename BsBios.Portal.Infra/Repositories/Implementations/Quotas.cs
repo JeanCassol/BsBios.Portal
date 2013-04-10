@@ -18,12 +18,6 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IQuotas FiltraPorTransportadora(string codigoTransportadora)
-        {
-            Query = Query.Where(x => x.Fornecedor.Codigo == codigoTransportadora);
-            return this;
-        }
-
         public IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga)
         {
             Query = Query.Where(x => x.FluxoDeCarga == fluxoDeCarga);
