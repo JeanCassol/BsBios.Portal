@@ -270,6 +270,7 @@ function desbloqueiaPagina() {
 
 $(function () {
     inicializaCamposDatePicker();
+    $('.campoDesabilitado').attr('readonly', true);
     //aplicaMascaras();
 });
 

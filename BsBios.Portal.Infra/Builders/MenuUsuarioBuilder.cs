@@ -43,6 +43,7 @@ namespace BsBios.Portal.Infra.Builders
             if (_perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas))
             {
                 menus.Add(new MenuQuotas());
+                menus.Add(new MenuRelatorioDeAgendamentos());
             }
 
             if (_perfis.Contains(Enumeradores.Perfil.AgendadorDeCargas))
@@ -130,6 +131,13 @@ namespace BsBios.Portal.Infra.Builders
             AdicionarItem("Pesquisar", "ConferenciaDeCarga", "Pesquisar");
         }
         
+    }
+    internal  class  MenuRelatorioDeAgendamentos: Menu
+    {
+        public MenuRelatorioDeAgendamentos() : base("Relatório de Agendamentos")
+        {
+            AdicionarItem("Relatórios", "RelatorioAgendamento", "Relatorio");
+        }
     }
 
 

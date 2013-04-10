@@ -30,6 +30,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IQuotas DoTerminal(string codigoDoTerminal)
+        {
+            Query = Query.Where(x => x.CodigoTerminal == codigoDoTerminal);
+            return this;
+        }
+
         public Quota BuscaPorId(int idQuota)
         {
             return Query.Single(x => x.Id == idQuota);

@@ -1,0 +1,21 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model RelatorioAgendamentoFiltroVm
+@Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioAgendamentoFiltroVm, string>(x => x.CodigoTerminal,"campoDesabilitado"),
+new ColunaComDropDown<RelatorioAgendamentoFiltroVm, int>(x => x.CodigoFluxoDeCarga,
+((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga) 
+.Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),"CodigoFluxoDeCaixa"))
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.Data)
+        @*@Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker maskdata"})*@
+        @Html.TextBox("Data",Model.Data.HasValue ? Model.Data.Value.ToShortDateString() :"",new{@class="campoDatePicker maskdata"})
+    </div>
+    <div class="coluna">
+        @Html.Hidden("CodigoFornecedor")
+        @Html.Label("Fornecedor")
+        @Html.TextBox("Fornecedor","",new{ @class="campoDesabilitado campogrande"})
+        <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />        
+    </div>
+</div>
+

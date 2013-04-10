@@ -58,9 +58,11 @@
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />
+    <Compile Include="QuotaPlanejadoRealizadoVm.cs" />
     <Compile Include="QuotaPorFornecedorVm.cs" />
     <Compile Include="QuotaSalvarVm.cs" />
     <Compile Include="RealizacaoDeAgendamentoVm.cs" />
+    <Compile Include="RelatorioAgendamentoFiltroVm.cs" />
     <Compile Include="StatusProcessoCotacaoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />

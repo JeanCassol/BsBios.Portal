@@ -154,6 +154,7 @@
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialAberturaController.cs" />
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
+    <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -391,6 +392,7 @@
     <Content Include="Scripts\methods_pt.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\scriptsGerais.js" />
+    <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -457,6 +459,8 @@
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
     <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
+    <Content Include="Views\RelatorioAgendamento\_Filtro.cshtml" />
+    <Content Include="Views\RelatorioAgendamento\Relatorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,10 +28,10 @@
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
 <script>
-    var fornecedorSelecionado = null;
+    //var fornecedorSelecionado = null;
     @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Nome))
     {
-        @: var fornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
+        @: var SelecionarFornecedor.FornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
     }
     $(document).ready(function() {
         $("#gridFornecedores").customKendoGrid({
@@ -68,8 +68,8 @@
                 pageSize: 10
             },
             dataBound: function (e) {
-                if (fornecedorSelecionado != null) {
-                    $('input[name=radioFornecedor][data-codigofornecedor=' + fornecedorSelecionado.Codigo + ']').attr('checked', true);
+                if (SelecionarFornecedor.FornecedorSelecionado != null) {
+                    $('input[name=radioFornecedor][data-codigofornecedor=' + SelecionarFornecedor.FornecedorSelecionado.Codigo + ']').attr('checked', true);
                 }
             },
             columns:
@@ -129,7 +129,7 @@
             }
             var grid = $('#gridFornecedores').data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
-            fornecedorSelecionado = { Codigo: dataItem.Codigo, Nome: dataItem.Nome};
+            SelecionarFornecedor.FornecedorSelecionado = { Codigo: dataItem.Codigo, Nome: dataItem.Nome};
 
         });
     });

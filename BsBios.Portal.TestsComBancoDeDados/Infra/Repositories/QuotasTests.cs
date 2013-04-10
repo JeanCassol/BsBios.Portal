@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
@@ -68,6 +69,22 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(100, agendamentoConsultado.Peso);
             Assert.AreEqual("MNO1234", agendamentoConsultado.Placa);
             Assert.IsFalse(agendamentoConsultado.Realizado);
+        }
+
+        [TestMethod]
+        public void ConsigoFiltrarQuotaPorTerminal()
+        {
+            Quota quota1 = DefaultObjects.ObtemQuotaDeDescarregamentoParaTerminalEspecifico("1000");
+            Quota quota2 = DefaultObjects.ObtemQuotaDeDescarregamentoParaTerminalEspecifico("2000");
+            DefaultPersistedObjects.PersistirQuota(quota1);
+            DefaultPersistedObjects.PersistirQuota(quota2);
+
+            var quotas = ObjectFactory.GetInstance<IQuotas>();
+            IList<Quota> quotasConsultadas = quotas.DoTerminal("1000").List();
+            Assert.AreEqual(1, quotasConsultadas.Count());
+            var quotaConsultada = quotasConsultadas.First();
+            Assert.AreEqual("1000", quotaConsultada.CodigoTerminal);
+
         }
 
         //[TestMethod]

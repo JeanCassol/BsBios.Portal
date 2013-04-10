@@ -1,0 +1,30 @@
+﻿@using BsBios.Portal.ViewModel
+@{
+    ViewBag.TituloDaPagina = "Relatório";
+}
+@*@Styles.Render("~/Content/kendo/css")*@
+<fieldset>
+    <legend>Filtros</legend>
+    <form>
+        @Html.Partial("_Filtro",new RelatorioAgendamentoFiltroVm{CodigoTerminal = "1000"})
+        <div class="divBotao">
+            <input type="submit" class="blue" value="Gerar" id="btnGerarRelatorio"/>
+        </div>
+    </form>
+</fieldset>
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            aplicaMascaraData();
+            SelecionarFornecedor.Configurar('@Url.Action("Selecionar","SelecionarFornecedor")');
+            $('#btnGerarRelatorio').click(function (e) {
+                e.preventDefault();
+            });
+        })
+    </script>
+    
+}
+

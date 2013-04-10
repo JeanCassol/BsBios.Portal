@@ -4,9 +4,7 @@
 @{
     ViewBag.TituloDaPagina = "Quota";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-
+@Styles.Render("~/Content/kendo/css")
 <div class="paginaCadastro"> 
     @using (Html.BeginForm())
     {

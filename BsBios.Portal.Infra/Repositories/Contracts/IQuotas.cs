@@ -9,6 +9,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IQuotas FiltraPorData(DateTime data);
         IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga);
         IQuotas DoFornecedor(string codigoDoFornecedor);
+        IQuotas DoTerminal(string codigoDoTerminal);
         Quota BuscaPorId(int idQuota);
     }
 }
