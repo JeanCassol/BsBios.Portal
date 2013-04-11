@@ -9,7 +9,7 @@
     <form>
         @Html.Partial("_Filtro",new RelatorioAgendamentoFiltroVm{CodigoTerminal = "1000"})
         <div class="divBotao">
-            <input type="submit" class="blue" value="Gerar" id="btnGerarRelatorio"/>
+            <a href="@Url.Action("QuotaPrevistaRealizada","RelatorioAgendamentoVisualizacao")" target='_blank' class="blue">Imprimir</a>
         </div>
     </form>
 </fieldset>
@@ -20,12 +20,11 @@
     <script type="text/javascript">
         $(function () {
             aplicaMascaraData();
-            SelecionarFornecedor.Configurar('@Url.Action("Selecionar","SelecionarFornecedor")');
+            SelecionarFornecedor.Configurar();
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
             });
         })
     </script>
-    
 }
 

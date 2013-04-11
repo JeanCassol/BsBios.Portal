@@ -155,6 +155,7 @@
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
+    <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -461,6 +462,7 @@
     <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
     <Content Include="Views\RelatorioAgendamento\_Filtro.cshtml" />
     <Content Include="Views\RelatorioAgendamento\Relatorio.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\QuotaPrevistaRealizada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

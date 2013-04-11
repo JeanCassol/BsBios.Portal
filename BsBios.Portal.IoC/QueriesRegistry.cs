@@ -77,6 +77,10 @@ namespace BsBios.Portal.IoC
             For<IConsultaStatusProcessoCotacao>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaStatusProcessoCotacao>();
+
+            For<IConsultaQuotaRelatorio>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaQuotaRelatorio>();
             
         }
 

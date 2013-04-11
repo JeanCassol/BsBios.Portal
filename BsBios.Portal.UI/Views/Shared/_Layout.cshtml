@@ -33,12 +33,14 @@
                 </div>
             
             </div>
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/jqueryui")
-            @Scripts.Render("~/bundles/globalize")
-            @Scripts.Render("~/bundles/scriptsgerais")
-            @RenderSection("scripts", false)
         </div>
-
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/globalize")
+        @Scripts.Render("~/bundles/scriptsgerais")
+        @RenderSection("scripts", false)
+        <script type="text/javascript">
+            UrlPadrao.SelecionarFornecedor = '@Url.Action("Selecionar","SelecionarFornecedor")';
+        </script>
     </body>
 </html>

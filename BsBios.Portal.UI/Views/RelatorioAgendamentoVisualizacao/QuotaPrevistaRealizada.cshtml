@@ -1,0 +1,54 @@
+﻿@model IEnumerable<BsBios.Portal.ViewModel.QuotaCadastroVm>
+
+@{
+    ViewBag.TituloDaPagina = "Previsto x Realizado";
+    Layout = null;
+}
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Terminal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fornecedor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Material)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FluxoDeCarga)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Peso)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Terminal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fornecedor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Material)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FluxoDeCarga)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Peso)
+        </td>
+    </tr>
+}
+
+</table>

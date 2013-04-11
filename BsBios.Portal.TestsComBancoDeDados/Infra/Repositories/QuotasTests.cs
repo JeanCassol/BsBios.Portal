@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -84,8 +85,54 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(1, quotasConsultadas.Count());
             var quotaConsultada = quotasConsultadas.First();
             Assert.AreEqual("1000", quotaConsultada.CodigoTerminal);
+        }
+
+        [TestMethod]
+        public void ConsigoFiltrarQuotasAPartirDeUmaData()
+        {
+            RemoveQueries.RemoverQuotasCadastradas();
+
+            var dataDoFiltro = DateTime.Today;
+            Quota quotaAntesDoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro.AddDays(-1));
+            Quota quotaNoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro);
+            Quota quotaDePoisDoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro.AddDays(1));
+
+            DefaultPersistedObjects.PersistirQuota(quotaAntesDoPeriodo);
+            DefaultPersistedObjects.PersistirQuota(quotaNoPeriodo);
+            DefaultPersistedObjects.PersistirQuota(quotaDePoisDoPeriodo);
+
+            var quotas = ObjectFactory.GetInstance<IQuotas>();
+
+            IList<Quota> quotasConsultadas = quotas.APartirDe(dataDoFiltro).List();
+            Assert.AreEqual(2, quotasConsultadas.Count);
+            Assert.IsTrue(quotasConsultadas.Any(x => x.Data == dataDoFiltro));
+            Assert.IsTrue(quotasConsultadas.Any(x => x.Data == dataDoFiltro.AddDays(1)));
+        }
+
+        [TestMethod]
+        public void ConsigoFiltrarQuotasAteUmaData()
+        {
+            RemoveQueries.RemoverQuotasCadastradas();
+
+            var dataDoFiltro = DateTime.Today;
+            Quota quotaAntesDoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro.AddDays(-1));
+            Quota quotaNoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro);
+            Quota quotaDePoisDoPeriodo = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(dataDoFiltro.AddDays(1));
+
+            DefaultPersistedObjects.PersistirQuota(quotaAntesDoPeriodo);
+            DefaultPersistedObjects.PersistirQuota(quotaNoPeriodo);
+            DefaultPersistedObjects.PersistirQuota(quotaDePoisDoPeriodo);
+
+            var quotas = ObjectFactory.GetInstance<IQuotas>();
+
+            IList<Quota> quotasConsultadas = quotas.Ate(dataDoFiltro).List();
+            Assert.AreEqual(2, quotasConsultadas.Count);
+            Assert.IsTrue(quotasConsultadas.Any(x => x.Data == dataDoFiltro));
+            Assert.IsTrue(quotasConsultadas.Any(x => x.Data == dataDoFiltro.AddDays(-1)));
 
         }
+
+
 
         //[TestMethod]
         //public void QuandoRealizadoUmAgendamentoNaoCarregaTodosAgendamentosParaCalcularPesoRealizado()

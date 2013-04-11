@@ -82,7 +82,7 @@
             <input type="button" id="btnNovo" value="Novo" class="blue"/>
         </div>
     </fieldset>
-    <div id="divSelecionarFornecedor" class="janelaModal"></div>
+    @*<div id="divSelecionarFornecedor" class="janelaModal"></div>*@
 </div>
 @section scripts
 {
@@ -91,12 +91,14 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript">
         var fornecedoresAdicionados = new Array();
         var indiceEdicao = -1;
         $(function() {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
+            SelecionarFornecedor.Configurar();
 
             $('#btnCancelarEdicao').hide();
             $('#Material').change(function() {
@@ -111,32 +113,6 @@
             });
 
             $('#Material').change();
-
-            $('#divSelecionarFornecedor').customDialog({
-                title: 'Selecionar Fornecedor',
-                buttons: {
-                    "Confirmar": function() {
-                        if (fornecedorSelecionado == null) {
-                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
-                            return;
-                        }
-                        $('#CodigoFornecedor').val(fornecedorSelecionado.Codigo);
-                        $('#Fornecedor').val(unescape(fornecedorSelecionado.Nome));
-                        $(this).dialog("close");
-                    },
-                    "Cancelar": function() {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-            $('#btnSelecionarFornecedor').click(function() {
-
-                $('#divSelecionarFornecedor').load('@Url.Action("Selecionar", "SelecionarFornecedor")'
-                    + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val()),
-                    function(response, status, xhr) {
-                        $('#divSelecionarFornecedor').dialog('open');
-                    });
-            });
 
             function existeQuota(quota) {
                 var quotaEncontrada = false;

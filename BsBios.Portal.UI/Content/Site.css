@@ -478,7 +478,8 @@ input[type="checkbox"] {
 }
 .divBotao input[type="submit"],
 .divBotao input[type="button"],
-.divBotao button {
+.divBotao button,
+.divBotao a {
 	display: inline-block;
 	outline: none;
 	cursor: pointer;
@@ -494,6 +495,11 @@ input[type="checkbox"] {
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
     width: 110px;
+}
+    
+.divBotao a {
+    width: 50px;
+    color: #d9eef7
 }
 
 .divBotao .button:hover {

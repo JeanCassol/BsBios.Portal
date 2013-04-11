@@ -18,6 +18,18 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IQuotas APartirDe(DateTime dataInicial)
+        {
+            Query = Query.Where(x => x.Data >= dataInicial);
+            return this;
+        }
+
+        public IQuotas Ate(DateTime dataFinal)
+        {
+            Query = Query.Where(x => x.Data <= dataFinal);
+            return this;
+        }
+
         public IQuotas FiltraPorFluxo(Enumeradores.FluxoDeCarga fluxoDeCarga)
         {
             Query = Query.Where(x => x.FluxoDeCarga == fluxoDeCarga);

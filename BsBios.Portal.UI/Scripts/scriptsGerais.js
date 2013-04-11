@@ -81,6 +81,7 @@ $.fn.customDialog = function (configuracao) {
     configuracao.autoOpen = false;
     configuracao.resizable = false;
     configuracao.modal = true;
+    configuracao.position = { at: "top" };
     configuracao.beforeClose = function () {
         $(this).empty();
     };
@@ -266,6 +267,8 @@ function bloqueiaPagina() {
 function desbloqueiaPagina() {
     $("#todaPagina").unblock();
 }
+
+UrlPadrao = {};
 
 
 $(function () {

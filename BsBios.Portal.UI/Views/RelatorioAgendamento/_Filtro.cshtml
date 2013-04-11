@@ -7,10 +7,15 @@ new ColunaComDropDown<RelatorioAgendamentoFiltroVm, int>(x => x.CodigoFluxoDeCar
 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),"CodigoFluxoDeCaixa"))
 <div class="linha">
     <div class="coluna">
-        @Html.LabelFor(x => x.Data)
-        @*@Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker maskdata"})*@
-        @Html.TextBox("Data",Model.Data.HasValue ? Model.Data.Value.ToShortDateString() :"",new{@class="campoDatePicker maskdata"})
+        @Html.LabelFor(x => x.DataDe)
+        @Html.TextBox("Data","",new{@class="campoDatePicker maskdata"})
     </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.DataAte)
+        @Html.TextBox("Data",Model.DataAte.HasValue ? Model.DataAte.Value.ToShortDateString() :"",new{@class="campoDatePicker maskdata"})
+    </div>
+</div>
+<div class="linha">
     <div class="coluna">
         @Html.Hidden("CodigoFornecedor")
         @Html.Label("Fornecedor")

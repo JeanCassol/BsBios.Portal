@@ -1,6 +1,6 @@
 ﻿SelecionarFornecedor = {
     FornecedorSelecionado: null,
-    Configurar: function(url) {
+    Configurar: function() {
         $('body').append('<div id="divSelecionarFornecedor" class="janelaModal"></div>');
         $('#divSelecionarFornecedor').customDialog({
             title: 'Selecionar Fornecedor',
@@ -21,7 +21,7 @@
         });
         $('#btnSelecionarFornecedor').click(function() {
 
-            $('#divSelecionarFornecedor').load(url
+            $('#divSelecionarFornecedor').load(UrlPadrao.SelecionarFornecedor
                 + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val()),
                 function(response, status, xhr) {
                     $('#divSelecionarFornecedor').dialog('open');

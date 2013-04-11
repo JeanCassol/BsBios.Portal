@@ -8,8 +8,11 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Terminal")]
         public string CodigoTerminal { get; set; }
         [DisplayName("Fluxo de Carga")]
-        public int CodigoFluxoDeCarga { get; set; }
-        public DateTime? Data { get; set; }
+        public int? CodigoFluxoDeCarga { get; set; }
+        [DisplayName("Date De")]
+        public DateTime? DataDe { get; set; }
+        [DisplayName("Até")]
+        public DateTime? DataAte { get; set; }
         public string CodigoFornecedor { get; set; }
     }
 }
