@@ -38,6 +38,12 @@ namespace BsBios.Portal.UI
                 .Include("~/Scripts/scriptsGerais.js"));
 
 
+            //bundle não funciona com minified files
+            //para fazer funcionar teria que alterar a IgnoreList em bundles.IgnoreList, conforme fórum http://stackoverflow.com/questions/11980458/mvc4-bundler-not-including-min-files
+            //bundles.Add(new StyleBundle("~/Content/kendo").Include(
+            //    "~/Content/kendo/2012.3.1114/kendo.common.min.css",
+            //    "~/Content/kendo/2012.3.1114/kendo.default.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
@@ -54,9 +60,6 @@ namespace BsBios.Portal.UI
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
-            bundles.Add(new StyleBundle("~/Content/kendo/2012.3.1114/css").Include(
-                "~/Content/kendo/2012.3.1114/kendo.common.min.css",
-                "~/Content/kendo/2012.3.1114/kendo.default.min.css"));
         }
     }
 }

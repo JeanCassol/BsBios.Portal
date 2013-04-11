@@ -271,6 +271,12 @@ function desbloqueiaPagina() {
 $(function () {
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
+    $('#btnPesquisar').die("click");
+    $('#btnPesquisar').live("click", function (e) {
+        e.preventDefault();
+        $(".divGrid").data("kendoGrid").dataSource.page(1);
+    });
+
     //aplicaMascaras();
 });
 

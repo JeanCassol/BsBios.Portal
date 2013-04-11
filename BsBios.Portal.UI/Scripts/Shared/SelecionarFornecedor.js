@@ -6,12 +6,12 @@
             title: 'Selecionar Fornecedor',
             buttons: {
                 "Confirmar": function() {
-                    if (FornecedorSelecionado == null) {
+                    if (SelecionarFornecedor.FornecedorSelecionado == null) {
                         Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
                         return;
                     }
-                    $('#CodigoFornecedor').val(FornecedorSelecionado.Codigo);
-                    $('#Fornecedor').val(unescape(FornecedorSelecionado.Nome));
+                    $('#CodigoFornecedor').val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
+                    $('#Fornecedor').val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
                     $(this).dialog("close");
                 },
                 "Cancelar": function() {

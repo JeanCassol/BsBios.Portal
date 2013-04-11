@@ -31,7 +31,7 @@
     //var fornecedorSelecionado = null;
     @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Nome))
     {
-        @: var SelecionarFornecedor.FornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
+        @: SelecionarFornecedor.FornecedorSelecionado = { Codigo: '@Model.Codigo', Nome:'@Model.Nome' };
     }
     $(document).ready(function() {
         $("#gridFornecedores").customKendoGrid({
@@ -113,9 +113,9 @@
         $('form').submit(function(e) {
             e.preventDefault();
         });
-        $('#btnPesquisar').click(function() {
-            $("#gridFornecedores").data("kendoGrid").dataSource.read();
-        });
+        //$('#btnPesquisar').click(function() {
+        //    $("#gridFornecedores").data("kendoGrid").dataSource.page(1);
+        //});
 
         $('#btnLimpar').click(function (e) {
             e.preventDefault();
