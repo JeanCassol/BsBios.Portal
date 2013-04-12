@@ -12,7 +12,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Quota Quota { get; protected set; }
         public virtual string Placa { get; protected set; }
         public virtual bool Realizado { get; protected set; }
-        public abstract decimal PesoTotal { get; }
+        public virtual decimal PesoTotal { get; protected set; }
 
         protected AgendamentoDeCarga()
         {
@@ -57,9 +57,9 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual decimal Peso { get; protected set; }
 
-        public override decimal PesoTotal
+        private void CalculaPesoTotal()
         {
-            get { return Peso; }
+            PesoTotal = Peso;
         }
 
         protected AgendamentoDeCarregamento(){}
@@ -71,6 +71,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new AgendamentoDeCarregamentoSemPesoException();
             }
             Peso = peso;
+            CalculaPesoTotal();
         }
 
         public virtual void Atualizar(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
@@ -78,6 +79,7 @@ namespace BsBios.Portal.Domain.Entities
             VerificaSePodeAlterarAgendamento();
             Placa = agendamentoDeCarregamentoCadastroVm.Placa;
             Peso = agendamentoDeCarregamentoCadastroVm.Peso;
+            CalculaPesoTotal();
         }
     }
 
@@ -99,9 +101,9 @@ namespace BsBios.Portal.Domain.Entities
             NotasFiscais = new List<NotaFiscal>();
         }
 
-        public override decimal PesoTotal
+        private void CalculaPesoTotal()
         {
-            get { return NotasFiscais.Sum(x => x.Peso); }
+             PesoTotal = NotasFiscais.Sum(x => x.Peso); 
         }
 
         public virtual void AdicionarNotaFiscal(NotaFiscalVm notaFiscalVm)
@@ -110,6 +112,9 @@ namespace BsBios.Portal.Domain.Entities
                 notaFiscalVm.NomeDoEmitente, notaFiscalVm.CnpjDoEmitente, notaFiscalVm.NomeDoContratante, notaFiscalVm.CnpjDoContratante,
                 notaFiscalVm.NumeroDoContrato, notaFiscalVm.Valor, notaFiscalVm.Peso);
             NotasFiscais.Add(notaFiscal);
+
+            CalculaPesoTotal();
+
         }
 
         public virtual void Atualizar(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoCadastroVm)
@@ -149,6 +154,8 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new AgendamentoDeDescarregamentoSemNotaFiscalException();
             }
+
+            CalculaPesoTotal();
 
         }
     }

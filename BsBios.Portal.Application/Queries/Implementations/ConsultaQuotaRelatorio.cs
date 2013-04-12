@@ -47,7 +47,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             AplicaFiltros(filtro);
 
             var quotas = (from quota in _quotas.GetQuery()
-                          group quota by new {quota.CodigoTerminal, quota.Fornecedor.Nome, quota.FluxoDeCarga}
+                          group quota by new {quota.CodigoTerminal,quota.Fornecedor.Codigo, quota.Fornecedor.Nome, quota.FluxoDeCarga}
                           into agrupador
                           select new
                               {
@@ -61,7 +61,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                  new QuotaPlanejadoRealizadoVm
                                      {
                                          CodigoTerminal = x.Key.CodigoTerminal,
-                                         NomeDoFornecedor = x.Key.Nome,
+                                         NomeDoFornecedor = x.Key.Codigo + " - " + x.Key.Nome,
                                          FluxoDeCarga = x.Key.FluxoDeCarga.Descricao(),
                                          Quota = x.PlanejadoTotal,
                                          PesoRealizado = x.RealizadoTotal
@@ -78,7 +78,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                   Terminal = quota.CodigoTerminal,
                                   Data = quota.Data.ToShortDateString(),
                                   quota.FluxoDeCarga,
-                                  Fornecedor = quota.Fornecedor.Nome,
+                                  Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
                                   Peso = quota.PesoTotal
                               }).ToList();
 
@@ -96,22 +96,22 @@ namespace BsBios.Portal.Application.Queries.Implementations
         public IList<AgendamentoDeCargaRelatorioListarVm> ListagemDeAgendamentos(RelatorioAgendamentoFiltroVm filtro)
         {
             AplicaFiltros(filtro);
-
-            if (!string.IsNullOrEmpty(filtro.Placa))
+            string placa = filtro.Placa;
+            if (!string.IsNullOrEmpty(placa))
             {
-                filtro.Placa = filtro.Placa.Replace("-", "");
+                placa = placa.Replace("-", "").ToLower();
             }
 
             var agendamentos = (from quota in _quotas.GetQuery()
                                 from agendamento in quota.Agendamentos
                                 where
                                     (string.IsNullOrEmpty(filtro.Placa) ||
-                                     agendamento.Placa.Replace("-", "").ToLower() == filtro.Placa)
+                                     agendamento.Placa.Replace("-", "").ToLower() == placa)
                                 select new
                                     {
                                         Terminal = quota.CodigoTerminal,
                                         quota.Data,
-                                        Fornecedor = quota.Fornecedor.Nome,
+                                        Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
                                         quota.FluxoDeCarga,
                                         quota.Material,
                                         agendamento.Placa,

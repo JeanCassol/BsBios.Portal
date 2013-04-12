@@ -20,6 +20,7 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult GerarRelatorio(Enumeradores.RelatorioDeAgendamento relatorioDeAgendamento, RelatorioAgendamentoFiltroVm filtro)
         {
             ViewBag.Filtro = filtro;
+            ViewBag.RelatorioDeAgendamento = relatorioDeAgendamento;
             switch (relatorioDeAgendamento)
             {
                 case Enumeradores.RelatorioDeAgendamento.ListagemDeQuotas:

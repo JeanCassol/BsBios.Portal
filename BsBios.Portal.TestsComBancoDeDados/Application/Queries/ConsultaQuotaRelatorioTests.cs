@@ -56,15 +56,17 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.AreEqual(2, quotas.Count);
 
-            QuotaPlanejadoRealizadoVm planejadoRealizadoFornecedor1 = quotas.First(x => x.NomeDoFornecedor == fornecedor1.Nome);
-            Assert.AreEqual(fornecedor1.Nome, planejadoRealizadoFornecedor1.NomeDoFornecedor);
+            QuotaPlanejadoRealizadoVm planejadoRealizadoFornecedor1 = quotas
+                .First(x => x.NomeDoFornecedor == fornecedor1.Codigo + " - " + fornecedor1.Nome);
+            Assert.AreEqual(fornecedor1.Codigo + " - " + fornecedor1.Nome, planejadoRealizadoFornecedor1.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor1.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(),planejadoRealizadoFornecedor1.FluxoDeCarga);
             Assert.AreEqual(300, planejadoRealizadoFornecedor1.Quota);
             Assert.AreEqual(30, planejadoRealizadoFornecedor1.PesoRealizado);
 
-            QuotaPlanejadoRealizadoVm planejadoRealizadoFornecedor2 = quotas.First(x => x.NomeDoFornecedor == fornecedor2.Nome);
-            Assert.AreEqual(fornecedor2.Nome, planejadoRealizadoFornecedor2.NomeDoFornecedor);
+            QuotaPlanejadoRealizadoVm planejadoRealizadoFornecedor2 = quotas
+                .First(x => x.NomeDoFornecedor == fornecedor2.Codigo + " - " + fornecedor2.Nome);
+            Assert.AreEqual(fornecedor2.Codigo + " - " +  fornecedor2.Nome, planejadoRealizadoFornecedor2.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor2.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor2.FluxoDeCarga);
             Assert.AreEqual(400, planejadoRealizadoFornecedor2.Quota);

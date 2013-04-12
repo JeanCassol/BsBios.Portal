@@ -16,10 +16,12 @@ hr {
 }
 h2 {
     text-align: center;
+    -webkit-margin-before: 5px;
+    -webkit-margin-after: 5px;
 }
 .bordaDoRelatorio {
     border: solid 1px black;
-    width: 500pt;
+    width: 600pt;
     padding: 4px;
 }
 label {

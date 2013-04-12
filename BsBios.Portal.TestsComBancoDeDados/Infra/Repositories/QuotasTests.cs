@@ -70,11 +70,13 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(100, agendamentoConsultado.Peso);
             Assert.AreEqual("MNO1234", agendamentoConsultado.Placa);
             Assert.IsFalse(agendamentoConsultado.Realizado);
+            Assert.AreEqual(100, agendamentoConsultado.PesoTotal);
         }
 
         [TestMethod]
         public void ConsigoFiltrarQuotaPorTerminal()
         {
+            RemoveQueries.RemoverQuotasCadastradas();
             Quota quota1 = DefaultObjects.ObtemQuotaDeDescarregamentoParaTerminalEspecifico("1000");
             Quota quota2 = DefaultObjects.ObtemQuotaDeDescarregamentoParaTerminalEspecifico("2000");
             DefaultPersistedObjects.PersistirQuota(quota1);

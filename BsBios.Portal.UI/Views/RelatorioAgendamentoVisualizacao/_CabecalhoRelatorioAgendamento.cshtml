@@ -31,21 +31,26 @@
         periodo = "Todo";
     }
 }
-<div>
-    @Html.Label("Período: ",new{@class="labelNaLinha"})
-    @Html.Label(periodo,new{@class="labelNaLinha"})
-</div>
 <div class="linha">
+    <div class="coluna">
+        @Html.Label("Período: ",new{@class="labelNaLinha"})
+        @Html.Label(periodo,new{@class="labelNaLinha"})
+    </div>
     <div class="coluna">
         @Html.Label("Fornecedor: ",new{@class="labelNaLinha"})
         @Html.Label(string.IsNullOrEmpty(Model.CodigoFornecedor)? "Todos": Model.CodigoFornecedor + " - " + Model.Fornecedor,new{@class="labelNaLinha"})
     </div>
-    <div class="coluna">
-        @Html.Label("Placa: ",new{@class="labelNaLinha"})
-        @Html.Label(string.IsNullOrEmpty(Model.Placa)? "Todas": Model.Placa,new{@class="labelNaLinha"})
-    </div>
 </div>
-<div>
-    @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"))
+@if (ViewBag.RelatorioDeAgendamento == Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos)
+{
+    <div class="linha">
+        <div class="coluna">
+            @Html.Label("Placa: ",new{@class="labelNaLinha"})
+            @Html.Label(string.IsNullOrEmpty(Model.Placa)? "Todas": Model.Placa,new{@class="labelNaLinha"})
+        </div>
+    </div>
+}
+<div class="linha">
+    @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
 </div>
 <hr/>
