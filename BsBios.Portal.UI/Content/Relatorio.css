@@ -1,0 +1,39 @@
+﻿table, table tr td, table tr th {
+    border: solid 1px black;
+    border-collapse: collapse
+}
+table {
+    width: 99%;
+    margin:4px
+}
+table tr td {
+    font-size: 12px
+}
+hr {
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 0
+}
+h2 {
+    text-align: center;
+}
+.bordaDoRelatorio {
+    border: solid 1px black;
+    width: 500pt;
+    padding: 4px;
+}
+label {
+    display: block;
+    font-size: 12px;
+}
+.linha {
+    clear: both;
+}
+.coluna {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+.labelNaLinha {
+    display: inline;
+}

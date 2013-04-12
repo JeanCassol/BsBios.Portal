@@ -469,6 +469,10 @@ input[type="checkbox"] {
     border: inherit;
     width: auto;
 }
+input[type="radio"] {
+    vertical-align: middle; 
+    margin: 0.2em;    
+}
 
 .divBotao {
     margin: 0 auto;

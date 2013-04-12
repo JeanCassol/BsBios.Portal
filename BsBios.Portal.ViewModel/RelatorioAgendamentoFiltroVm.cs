@@ -14,5 +14,7 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Até")]
         public DateTime? DataAte { get; set; }
         public string CodigoFornecedor { get; set; }
+        public string Fornecedor { get; set; }
+        public string Placa { get; set; }
     }
 }

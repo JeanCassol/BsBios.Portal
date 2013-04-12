@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="AgendamentoDeCargaCadastroVm.cs" />
     <Compile Include="AgendamentoDeCargaListarVm.cs" />
+    <Compile Include="AgendamentoDeCargaRelatorioListarVm.cs" />
     <Compile Include="AgendamentoDeCarregamentoCadastroVm.cs" />
     <Compile Include="AlterarSenhaVm.cs" />
     <Compile Include="AgendamentoDeDescarregamentoCadastroVm.cs" />

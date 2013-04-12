@@ -2,25 +2,29 @@
 @using BsBios.Portal.ViewModel
 @model RelatorioAgendamentoFiltroVm
 @Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioAgendamentoFiltroVm, string>(x => x.CodigoTerminal,"campoDesabilitado"),
-new ColunaComDropDown<RelatorioAgendamentoFiltroVm, int>(x => x.CodigoFluxoDeCarga,
+new ColunaComDropDown<RelatorioAgendamentoFiltroVm, int?>(x => x.CodigoFluxoDeCarga,
 ((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga) 
-.Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),"CodigoFluxoDeCaixa"))
+.Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),"CodigoFluxoDeCarga"))
 <div class="linha">
     <div class="coluna">
         @Html.LabelFor(x => x.DataDe)
-        @Html.TextBox("Data","",new{@class="campoDatePicker maskdata"})
+        @Html.TextBox("DataDe","",new{@class="campoDatePicker maskdata"})
     </div>
     <div class="coluna">
         @Html.LabelFor(x => x.DataAte)
-        @Html.TextBox("Data",Model.DataAte.HasValue ? Model.DataAte.Value.ToShortDateString() :"",new{@class="campoDatePicker maskdata"})
+        @Html.TextBox("DataAte","",new{@class="campoDatePicker maskdata"})
     </div>
 </div>
 <div class="linha">
     <div class="coluna">
-        @Html.Hidden("CodigoFornecedor")
-        @Html.Label("Fornecedor")
-        @Html.TextBox("Fornecedor","",new{ @class="campoDesabilitado campogrande"})
+        @Html.HiddenFor(x => x.CodigoFornecedor)
+        @Html.LabelFor(x => x.Fornecedor)
+        @Html.TextBoxFor(x => x.Fornecedor,new{ @class="campoDesabilitado campogrande"})
         <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />        
+    </div>
+    <div class="coluna" id="divPlaca" style="display: none">
+        @Html.LabelFor(x => x.Placa)
+        @Html.TextBoxFor(x => x.Placa, new {@class="maskplaca"})
     </div>
 </div>
 

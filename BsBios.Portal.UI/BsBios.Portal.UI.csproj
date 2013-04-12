@@ -243,6 +243,7 @@
     <Content Include="Content\kendo\2012.3.1114\textures\stripe4.png" />
     <Content Include="Content\kendo\2012.3.1114\textures\stripe5.png" />
     <Content Include="Content\kendo\2012.3.1114\textures\stripe6.png" />
+    <Content Include="Content\Relatorio.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -462,7 +463,10 @@
     <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
     <Content Include="Views\RelatorioAgendamento\_Filtro.cshtml" />
     <Content Include="Views\RelatorioAgendamento\Relatorio.cshtml" />
-    <Content Include="Views\RelatorioAgendamentoVisualizacao\QuotaPrevistaRealizada.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\PlanejadoRealizado.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\_CabecalhoRelatorioAgendamento.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeQuotas.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeAgendamentos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

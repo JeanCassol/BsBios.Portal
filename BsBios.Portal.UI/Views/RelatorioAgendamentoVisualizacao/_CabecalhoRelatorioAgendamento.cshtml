@@ -1,0 +1,51 @@
+﻿@using BsBios.Portal.Common
+@model BsBios.Portal.ViewModel.RelatorioAgendamentoFiltroVm
+@{ Layout = null;}
+<h2>@ViewBag.TituloDoRelatorio</h2>
+<hr/>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Terminal: ",new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.CodigoTerminal) ? "Todos": Model.CodigoTerminal,new{@class="labelNaLinha"} )
+    </div>
+    <div class="coluna">
+        @Html.Label("Fluxo de Carga: ",new{@class="labelNaLinha"})
+        @Html.Label(Model.CodigoFluxoDeCarga.HasValue ? 
+                        ((Enumeradores.FluxoDeCarga) Enum.Parse(typeof(Enumeradores.FluxoDeCarga),Convert.ToString(Model.CodigoFluxoDeCarga.Value))).Descricao()
+                        : "Todos",new{@class="labelNaLinha"})
+    </div>
+</div>
+@{
+    var periodo = "";
+    if (Model.DataDe.HasValue)
+    {
+        periodo += "De " + Model.DataDe.Value.ToShortDateString() + " ";
+    }
+
+    if (Model.DataAte.HasValue)
+    {
+        periodo += "Até " + Model.DataAte.Value.ToShortDateString();
+    }
+    if (periodo == "")
+    {
+        periodo = "Todo";
+    }
+}
+<div>
+    @Html.Label("Período: ",new{@class="labelNaLinha"})
+    @Html.Label(periodo,new{@class="labelNaLinha"})
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Fornecedor: ",new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.CodigoFornecedor)? "Todos": Model.CodigoFornecedor + " - " + Model.Fornecedor,new{@class="labelNaLinha"})
+    </div>
+    <div class="coluna">
+        @Html.Label("Placa: ",new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.Placa)? "Todas": Model.Placa,new{@class="labelNaLinha"})
+    </div>
+</div>
+<div>
+    @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"))
+</div>
+<hr/>

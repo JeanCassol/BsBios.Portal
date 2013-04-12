@@ -1,0 +1,78 @@
+﻿@using BsBios.Portal.ViewModel
+@model IEnumerable<AgendamentoDeCargaRelatorioListarVm>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Listagem de Agendamentos</title>
+    <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet"/>
+</head>
+    <body>
+        <div class="bordaDoRelatorio">
+            @{
+                RelatorioAgendamentoFiltroVm filtro = ViewBag.Filtro;
+            }
+            @Html.Partial("_CabecalhoRelatorioAgendamento", filtro)
+        
+            <table>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Terminal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fornecedor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FluxoDeCarga)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Placa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Material)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Peso)
+                    </th>
+                </tr>
+    
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Terminal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fornecedor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FluxoDeCarga)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Placa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Material)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Peso)
+                        </td>
+                    </tr>
+                }
+    
+            </table>
+        </div>
+
+    </body>
+</html>

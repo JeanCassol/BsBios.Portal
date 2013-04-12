@@ -17,7 +17,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _quotas = quotas;
         }
 
-        public IList<QuotaPlanejadoRealizadoVm> PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro)
+        private void AplicaFiltros(RelatorioAgendamentoFiltroVm filtro)
         {
             if (filtro.DataDe.HasValue)
             {
@@ -31,7 +31,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 _quotas.FiltraPorFluxo(
                     (Enumeradores.FluxoDeCarga)
-                    Enum.Parse(typeof (Enumeradores.FluxoDeCarga), Convert.ToString(filtro.CodigoFluxoDeCarga.Value)));
+                    Enum.Parse(typeof(Enumeradores.FluxoDeCarga), Convert.ToString(filtro.CodigoFluxoDeCarga.Value)));
             }
             if (!string.IsNullOrEmpty(filtro.CodigoFornecedor))
             {
@@ -39,7 +39,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
 
             _quotas.DoTerminal(filtro.CodigoTerminal);
+            
+        }
 
+        public IList<QuotaPlanejadoRealizadoVm> PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro)
+        {
+            AplicaFiltros(filtro);
 
             var quotas = (from quota in _quotas.GetQuery()
                           group quota by new {quota.CodigoTerminal, quota.Fornecedor.Nome, quota.FluxoDeCarga}
@@ -62,6 +67,69 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                          PesoRealizado = x.RealizadoTotal
                                      }).ToList();
 
+        }
+
+        public IList<QuotaCadastroVm> ListagemDeQuotas(RelatorioAgendamentoFiltroVm filtro)
+        {
+            AplicaFiltros(filtro);
+            var quotas = (from quota in _quotas.GetQuery()
+                          select new
+                              {
+                                  Terminal = quota.CodigoTerminal,
+                                  Data = quota.Data.ToShortDateString(),
+                                  quota.FluxoDeCarga,
+                                  Fornecedor = quota.Fornecedor.Nome,
+                                  Peso = quota.PesoTotal
+                              }).ToList();
+
+            return quotas.Select(x =>
+                                 new QuotaCadastroVm
+                                     {
+                                         Terminal = x.Terminal ,
+                                         Data = x.Data ,
+                                         Fornecedor = x.Fornecedor ,
+                                         FluxoDeCarga = x.FluxoDeCarga.Descricao() ,
+                                         Peso =  x.Peso,
+                                     }).ToList();
+        }
+
+        public IList<AgendamentoDeCargaRelatorioListarVm> ListagemDeAgendamentos(RelatorioAgendamentoFiltroVm filtro)
+        {
+            AplicaFiltros(filtro);
+
+            if (!string.IsNullOrEmpty(filtro.Placa))
+            {
+                filtro.Placa = filtro.Placa.Replace("-", "");
+            }
+
+            var agendamentos = (from quota in _quotas.GetQuery()
+                                from agendamento in quota.Agendamentos
+                                where
+                                    (string.IsNullOrEmpty(filtro.Placa) ||
+                                     agendamento.Placa.Replace("-", "").ToLower() == filtro.Placa)
+                                select new
+                                    {
+                                        Terminal = quota.CodigoTerminal,
+                                        quota.Data,
+                                        Fornecedor = quota.Fornecedor.Nome,
+                                        quota.FluxoDeCarga,
+                                        quota.Material,
+                                        agendamento.Placa,
+                                        Peso = agendamento.PesoTotal
+                                    }
+                               ).ToList();
+
+            return agendamentos.Select(x =>
+                                       new AgendamentoDeCargaRelatorioListarVm
+                                           {
+                                               Terminal = x.Terminal,
+                                               Data = x.Data.ToShortDateString(),
+                                               Fornecedor = x.Fornecedor,
+                                               FluxoDeCarga = x.FluxoDeCarga.Descricao(),
+                                               Material = x.Material.Descricao(),
+                                               Placa = x.Placa,
+                                               Peso = x.Peso
+                                           }).ToList();
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace BsBios.Portal.ViewModel
 {
     /// <summary>
-    /// classe utilizada como modelo do MVC para a tela de cadastro
+    /// classe utilizada como modelo do MVC para a tela de cadastro de quotas e no relatório de Listagem de Quotas
     /// </summary>
     public class QuotaCadastroVm
     {

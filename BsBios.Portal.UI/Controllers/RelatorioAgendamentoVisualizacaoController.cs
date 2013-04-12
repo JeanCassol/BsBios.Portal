@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -11,33 +10,34 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class RelatorioAgendamentoVisualizacaoController : Controller
     {
-        //
-        // GET: /RelatorioAgendamentoVisualizacao/
+        private readonly IConsultaQuotaRelatorio _consultaQuotaRelatorio;
 
-        public ActionResult QuotaPrevistaRealizada()
+        public RelatorioAgendamentoVisualizacaoController(IConsultaQuotaRelatorio consultaQuotaRelatorio)
         {
-            var quotas = new List<QuotaCadastroVm>
-                {
-                    new QuotaCadastroVm
-                        {
-                            Data = DateTime.Today.AddDays(1).ToShortDateString(),
-                            FluxoDeCarga = "Carregamento",
-                            Fornecedor = "Fornecedor A",
-                            Material = "Farelo",
-                            Peso = 30,
-                            Terminal = "1000"
-                        },
-                    new QuotaCadastroVm
-                        {
-                            Data = DateTime.Today.AddDays(2).ToShortDateString(),
-                            FluxoDeCarga = "Descarregamento",
-                            Fornecedor = "Fornecedor B",
-                            Material = "Soja",
-                            Peso = 50,
-                            Terminal = "1000"
-                        },
-                };
-            return View(quotas);
+            _consultaQuotaRelatorio = consultaQuotaRelatorio;
+        }
+
+        public ActionResult GerarRelatorio(Enumeradores.RelatorioDeAgendamento relatorioDeAgendamento, RelatorioAgendamentoFiltroVm filtro)
+        {
+            ViewBag.Filtro = filtro;
+            switch (relatorioDeAgendamento)
+            {
+                case Enumeradores.RelatorioDeAgendamento.ListagemDeQuotas:
+                    ViewBag.TituloDoRelatorio = "Listagem de Quotas";
+                    IList<QuotaCadastroVm> quotasListadas = _consultaQuotaRelatorio.ListagemDeQuotas(filtro);
+                    return View("ListagemDeQuotas", quotasListadas);
+                case Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos:
+                    ViewBag.TituloDoRelatorio = "Listagem de Agendamentos";
+                    IList<AgendamentoDeCargaRelatorioListarVm> agendamentosListados = _consultaQuotaRelatorio.ListagemDeAgendamentos(filtro);
+                    return View("ListagemDeAgendamentos", agendamentosListados);
+                case Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizado:
+                    ViewBag.TituloDoRelatorio = "Agendamentos Planejado x Realizado";
+                    IList<QuotaPlanejadoRealizadoVm> quotas = _consultaQuotaRelatorio.PlanejadoRealizado(filtro);
+                    return View("PlanejadoRealizado", quotas);
+                default:
+                    var contentResult = new ContentResult {Content = "Opção Inválida"};
+                    return contentResult;
+            }
         }
 
     }

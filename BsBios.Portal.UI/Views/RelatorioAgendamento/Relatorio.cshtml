@@ -1,15 +1,31 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.ViewModel
 @{
     ViewBag.TituloDaPagina = "Relatório";
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <fieldset>
+    <legend>Relatório</legend>
+    <div class="linha">
+        @Html.RadioButton("RelatorioDeAgendamento", (int) Enumeradores.RelatorioDeAgendamento.ListagemDeQuotas,true)
+        @Html.Label("Listagem de Quotas", new{@class="labelNaLinha"})
+    </div>
+    <div class="linha">
+        @Html.RadioButton("RelatorioDeAgendamento",(int)  Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos)
+        @Html.Label("Listagem de Agendamentos", new{@class="labelNaLinha"})
+    </div>
+    <div class="linha">
+        @Html.RadioButton("RelatorioDeAgendamento", (int)  Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizado)
+        @Html.Label("Planejado x Realizado",new{@class="labelNaLinha"})
+    </div>
+</fieldset>
+<fieldset>
     <legend>Filtros</legend>
     <form>
         @Html.Partial("_Filtro",new RelatorioAgendamentoFiltroVm{CodigoTerminal = "1000"})
         <div class="divBotao">
-            <a href="@Url.Action("QuotaPrevistaRealizada","RelatorioAgendamentoVisualizacao")" target='_blank' class="blue">Imprimir</a>
+            <input type="submit" id="btnGerarRelatorio" value="Gerar" class="blue" />
         </div>
     </form>
 </fieldset>
@@ -20,9 +36,19 @@
     <script type="text/javascript">
         $(function () {
             aplicaMascaraData();
+            aplicaMascaraPlaca();
             SelecionarFornecedor.Configurar();
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
+                window.open('@Url.Action("GerarRelatorio","RelatorioAgendamentoVisualizacao")' + '/?' + $('form').serialize() +
+                    '&RelatorioDeAgendamento=' + $('input[name=RelatorioDeAgendamento]:checked').val());
+            });
+            $('input[name=RelatorioDeAgendamento]').change(function () {
+                if ($(this).val() == '@((int)Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos)') {
+                    $('#divPlaca').show();
+                } else {
+                    $('#divPlaca').hide();
+                }
             });
         })
     </script>
