@@ -57,20 +57,25 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
-        public virtual void AlterarPeso(decimal peso)
+        private void ValidaPeso()
         {
-            PesoTotal = peso;
-        }
-
-
-
-        private void CalculaPesoAgendado()
-        {
-            PesoAgendado = Agendamentos.Sum(x => x.PesoTotal);
             if (PesoAgendado > PesoTotal)
             {
                 throw new PesoAgendadoSuperiorAoPesoDaQuotaException(PesoAgendado, PesoTotal);
             }
+            
+        }
+
+        public virtual void AlterarPeso(decimal peso)
+        {
+            PesoTotal = peso;
+            ValidaPeso();
+        }
+
+        private void CalculaPesoAgendado()
+        {
+            PesoAgendado = Agendamentos.Sum(x => x.PesoTotal);
+            ValidaPeso();
         }
 
         private void CalculaPesoRealizado()

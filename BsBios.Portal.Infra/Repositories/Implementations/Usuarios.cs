@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -12,6 +10,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
     {
         public Usuarios(IUnitOfWorkNh unitOfWorkNh) : base(unitOfWorkNh)
         {
+            Query = Query.OrderBy(x => x.Nome);
         }
 
         public Usuario BuscaPorLogin(string login)
