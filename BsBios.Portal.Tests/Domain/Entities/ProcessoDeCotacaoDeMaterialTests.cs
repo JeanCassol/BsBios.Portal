@@ -24,6 +24,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Assert.AreEqual(0, processoDeCotacao.FornecedoresParticipantes.Count);
             Assert.IsNull(processoDeCotacao.DataLimiteDeRetorno);
+            Assert.IsNull(processoDeCotacao.Justificativa);
 
         }
 
@@ -189,7 +190,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoFecharUmProcessoDeCotacaoENaoHouverPeloMenosFornecedorSelecionadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
-            processoDeCotacaoDeMaterial.Fechar();
+            processoDeCotacaoDeMaterial.Fechar("justificativa");
         }
 
         [TestMethod]
@@ -201,8 +202,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
                                                         DefaultObjects.ObtemIncotermPadrao(), "inc", 120, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
             Iva iva = DefaultObjects.ObtemIvaPadrao();
             processoDeCotacaoDeMaterial.SelecionarCotacao(cotacao.Id, 100,iva);
-            processoDeCotacaoDeMaterial.Fechar();
+            processoDeCotacaoDeMaterial.Fechar("justificativa");
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
+            Assert.AreEqual("justificativa", processoDeCotacaoDeMaterial.Justificativa);
         }
 
         [TestMethod]

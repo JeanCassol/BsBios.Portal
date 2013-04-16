@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
 using StructureMap;
@@ -46,6 +48,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(processoDeCotacaoDeMaterial.UnidadeDeMedida.CodigoInterno, processoConsultado.UnidadeDeMedida.CodigoInterno);
             Assert.IsFalse(NHibernateUtil.IsInitialized(processoConsultado.RequisicaoDeCompra));
             Assert.AreEqual(processoDeCotacaoDeMaterial.RequisicaoDeCompra.Id, processoConsultado.RequisicaoDeCompra.Id);
+            Assert.IsNull(processoConsultado.Justificativa);
         }
 
         //Este teste verifica se quando salvo um processo de cotação, os fornecedores adicionados também são salvos e podem ser consultados
@@ -94,6 +97,19 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var processoConsultado = (ProcessoDeCotacaoDeMaterial)processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();
             Assert.AreEqual(processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count(x => x.Cotacao != null), processoConsultado.FornecedoresParticipantes.Count(x => x.Cotacao != null));
             Console.WriteLine("Consultando Cotacao - FIM");
+        }
+
+        [TestMethod]
+        public void ConsigoPersistirEConsultarUmProcessoComJustificativas()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
+
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+
+            var processoDeCotacaoConsultado = (ProcessoDeCotacaoDeMaterial) processosDeCotacao.BuscaPorId(processoDeCotacao.Id).Single();
+            Assert.AreEqual("justificativa", processoDeCotacaoConsultado.Justificativa);
+
         }
 
         [TestMethod]

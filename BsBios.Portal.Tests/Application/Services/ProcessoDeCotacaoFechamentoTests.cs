@@ -23,6 +23,11 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IComunicacaoSap> _comunicacaoSapMock;
         private readonly IFechamentoDeProcessoDeCotacaoService _fechamentoDeProcessoDeCotacaoService;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
+        private readonly ProcessoDeCotacaoFechamentoVm _processoDeCotacaoFechamentoVm = new ProcessoDeCotacaoFechamentoVm
+        {
+            IdProcessoCotacao = 20,
+            Justificativa = "justificativa"
+        };
 
 
         public ProcessoDeCotacaoFechamentoTests()
@@ -85,7 +90,7 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoOcorrePersistencia()
         {
-            _fechamentoDeProcessoDeCotacaoService.Executar(20);
+            _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
             CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
@@ -97,7 +102,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Throws(new ExcecaoDeTeste("Erro ao consultar Processo."));
             try
             {
-                _fechamentoDeProcessoDeCotacaoService.Executar(20);
+                _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
                 Assert.Fail("Deveria ter gerado exceção");
             }
             catch (ExcecaoDeTeste)
@@ -115,10 +120,11 @@ namespace BsBios.Portal.Tests.Application.Services
                                        Assert.IsNotNull(processoDeCotacao);
                                        Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado,
                                                        processoDeCotacao.Status);
+                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.Justificativa, processoDeCotacao.Justificativa);
                                    });
 
 
-            _fechamentoDeProcessoDeCotacaoService.Executar(20);
+            _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
 
             _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
@@ -127,7 +133,7 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEFechadoComSucessoEEnviadoEmailParaOsFornecedoresSelecionados()
         {
-            _fechamentoDeProcessoDeCotacaoService.Executar(20);
+            _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
             _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());            
         }
         #endregion

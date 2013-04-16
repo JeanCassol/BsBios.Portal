@@ -95,7 +95,7 @@ namespace BsBios.Portal.Tests.DataProvider
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, 100,DateTime.Today.AddMonths(1),"obs");
             processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
-            processoDeCotacao.Fechar();
+            processoDeCotacao.Fechar("justificativa");
             return processoDeCotacao;
         }
 

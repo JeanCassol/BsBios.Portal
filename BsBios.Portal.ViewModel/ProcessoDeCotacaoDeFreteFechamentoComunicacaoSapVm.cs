@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace BsBios.Portal.ViewModel
 {
     [DataContract]
-    public class ProcessoDeCotacaoDeFreteFechamentoVm
+    public class ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
     {
         [DataMember]
         public string CodigoTransportadora { get; set; }
@@ -26,6 +26,6 @@ namespace BsBios.Portal.ViewModel
     }
 
     [CollectionDataContract]
-    public class ListaProcessoDeCotacaoDeFreteFechamento : List<ProcessoDeCotacaoDeFreteFechamentoVm> { }
+    public class ListaProcessoDeCotacaoDeFreteFechamento : List<ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm> { }
 
 }

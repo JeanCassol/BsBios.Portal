@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.UI.Filters;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -16,11 +17,11 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult FecharProcesso(int idProcessoCotacao)
+        public JsonResult FecharProcesso(ProcessoDeCotacaoFechamentoVm processoDeCotacaoFechamentoVm)
         {
             try
             {
-                _service.Executar(idProcessoCotacao);
+                _service.Executar(processoDeCotacaoFechamentoVm);
                 return Json(new { Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso." });
             }
             catch (Exception ex)

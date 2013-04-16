@@ -16,6 +16,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
+        public virtual string Justificativa { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
@@ -99,13 +100,14 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public virtual void Fechar()
+        public virtual void Fechar(string justificativa)
         {
             if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Selecionada) == 0)
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
+            Justificativa = justificativa;
         }
 
         protected void SelecionarCotacao()

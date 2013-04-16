@@ -48,7 +48,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
                 {
-                    mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoVm
+                    mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
                         {
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
                             CodigoMaterial = processoAuxiliar.Produto.Codigo,

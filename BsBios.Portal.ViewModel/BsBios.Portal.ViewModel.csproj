@@ -55,7 +55,8 @@
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
-    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
+    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="CotacaoSelecionarVm.cs" />
     <Compile Include="PerfilVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
-    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
