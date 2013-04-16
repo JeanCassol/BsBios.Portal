@@ -48,7 +48,7 @@
             if ($.browser.msie) {
                 var browserVersion = parseFloat($.browser.version);
                 var documentMode = parseFloat(document.documentMode);
-                if (browserVersion < 8.0 && documentMode < 8.0) {
+                if (browserVersion < 8.0 || documentMode < 8.0) {
                     $('#loginForm').empty();
                     $('#loginForm')
                         .addClass('message-error')
