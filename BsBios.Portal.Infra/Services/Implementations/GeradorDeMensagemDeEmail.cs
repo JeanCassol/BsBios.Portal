@@ -12,7 +12,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             string mensagem = "Prezado(a) " + usuario.Nome + Environment.NewLine + Environment.NewLine +
             "Conforme foi solicitado através do Portal de Cotações da BSBIOS, segue abaixo a sua nova senha de acesso ao site. " + 
             "Esta senha foi gerada automaticamente no momento da sua solicitação. "+
-            "Recomenda-se que acesse o site e altere a senha para uma de sua preferência."  + Environment.NewLine + Environment.NewLine +
+            "Recomenda-se que acesse o site http://bsnet.bsbios.com/ e altere a senha para uma de sua preferência." + Environment.NewLine + Environment.NewLine +
             "Dados de Acesso:" + Environment.NewLine + Environment.NewLine + 
             "Login: " + usuario.Login + Environment.NewLine +
             "Nova Senha: " + novaSenha + Environment.NewLine +

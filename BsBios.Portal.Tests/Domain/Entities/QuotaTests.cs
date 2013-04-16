@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
@@ -80,5 +81,121 @@ namespace BsBios.Portal.Tests.Domain.Entities
                         }
             });
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(AgendamentosSimultaneosParaMesmaPlacaException))]
+        public void QuandoInformarMaisDeUmAgendamentoDeDescarregamentoNaoRealizadoParaMesmaPlacaDeveGerarExcecao()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(50),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(51)
+                        }
+            });
+
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMn2420",
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(52),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(53)
+                        }
+            });
+        }
+
+        [TestMethod]
+        public void PermiteAdicionarUmSegundoAgendamentoDeDescarregamentoParaMesmaPlacaSeOPrimeiroEstiverRealizado()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
+            AgendamentoDeDescarregamento agendamentoDeDescarregamento = quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(50),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(51)
+                        }
+            });
+
+            agendamentoDeDescarregamento.Realizar();
+
+            quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                NotasFiscais = new List<NotaFiscalVm>
+                        {
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(52),
+                            DefaultObjects.ObtemNotaFiscalVmComPesoEspecifico(53)
+                        }
+            });
+
+            Assert.AreEqual(2, quota.Agendamentos.Count);
+            Assert.AreEqual(2, quota.Agendamentos.Count(x => x.Placa == "IMN2420"));
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AgendamentosSimultaneosParaMesmaPlacaException))]
+        public void QuandoInformarMaisDeUmAgendamentoDeCarregamentoNaoRealizadoParaMesmaPlacaDeveGerarExcecao()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
+            quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                Peso = 10
+            });
+
+            quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMn2420",
+                Peso = 20
+            });
+        }
+
+        [TestMethod]
+        public void PermiteAdicionarUmSegundoAgendamentoDeCarregamentoParaMesmaPlacaSeOPrimeiroEstiverRealizado()
+        {
+            Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
+            AgendamentoDeCarregamento agendamentoDeDescarregamento = quota
+                .InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                Peso = 10
+            });
+
+            agendamentoDeDescarregamento.Realizar();
+
+            quota.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm()
+            {
+                IdQuota = quota.Id,
+                IdAgendamento = 0,
+                Placa = "IMN2420",
+                Peso = 20
+            });
+
+            Assert.AreEqual(2, quota.Agendamentos.Count);
+            Assert.AreEqual(2, quota.Agendamentos.Count(x => x.Placa == "IMN2420"));
+
+        }
+
     }
 }

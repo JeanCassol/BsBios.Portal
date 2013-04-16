@@ -10,6 +10,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
     {
         public Usuarios(IUnitOfWorkNh unitOfWorkNh) : base(unitOfWorkNh)
         {
+            Query = Query.OrderBy(x => x.Nome);
         }
 
         public Usuario BuscaPorLogin(string login)

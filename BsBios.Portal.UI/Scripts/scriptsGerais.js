@@ -277,7 +277,7 @@ $(function () {
     $('#btnPesquisar').die("click");
     $('#btnPesquisar').live("click", function (e) {
         e.preventDefault();
-        $(".divGrid").data("kendoGrid").dataSource.page(1);
+        $(".divGrid :last").data("kendoGrid").dataSource.page(1);
     });
 
     //aplicaMascaras();

@@ -1,4 +1,5 @@
-alter table agendamentodecarga add PesoTotal Number(13,3);
+ALTER TABLE AgendamentoDeCarga ADD PesoTotal NUMBER(13,3);
+
 UPDATE (SELECT PESO, PESOTOTAL from agendamentodecarga inner join agendamentodecarregamento car
 on agendamentodecarga.id = car.id
 )T
@@ -18,4 +19,4 @@ where exists
 );
 COMMIT;
 
-alter table agendamentodecarga modify PesoTotal Number(13,3) not null;
+ALTER TABLE AgendamentoDeCarga MODIFY PesoTotal NUMBER(13,3) NOT NULL;

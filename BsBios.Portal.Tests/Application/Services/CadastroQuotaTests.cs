@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;
@@ -100,6 +102,69 @@ namespace BsBios.Portal.Tests.Application.Services
             {
                 CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ExcluirQuotaComAgendamentoException))]
+        public void NaoPermiteExcluirUmaQuotaQueJaPossuiAgendamento()
+        {
+            var quotaSemAgendamento = DefaultObjects.ObtemQuotaDeCarregamento();
+            var quotaComAgendamento = DefaultObjects.ObtemQuotaDeCarregamento();
+            quotaComAgendamento.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
+                {
+                    Peso = 10,
+                    Placa = "IQI3342"
+                });
+
+            _quotasMock.Setup(x => x.List()).Returns(new List<Quota>()
+                {
+                    quotaComAgendamento,quotaSemAgendamento
+                });
+
+            _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()));
+
+            _cadastroQuota.Salvar(new List<QuotaSalvarVm>
+                {
+                        new QuotaSalvarVm
+                        {
+                            Data = DateTime.Today,
+                            CodigoTerminal = "1000",
+                            CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                            CodigoFornecedor = _fornecedor1.Codigo,
+                            Peso = 100
+                        }                    
+                });
+
+        }
+
+        [TestMethod]
+        public void NaoPermiteDiminuirAQuotaParaUmValorAbaixoDoQueJaEstaAgendado()
+        {
+            var quotaComAgendamento = DefaultObjects.ObtemQuotaDeCarregamento();
+            quotaComAgendamento.InformarAgendamento(new AgendamentoDeCarregamentoCadastroVm
+            {
+                Peso = 100,
+                Placa = "IQI3342"
+            });
+
+            _quotasMock.Setup(x => x.List()).Returns(new List<Quota>()
+                {
+                    quotaComAgendamento
+                });
+
+            _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()));
+
+            _cadastroQuota.Salvar(new List<QuotaSalvarVm>
+                {
+                        new QuotaSalvarVm
+                        {
+                            Data = quotaComAgendamento.Data,
+                            CodigoTerminal = quotaComAgendamento.CodigoTerminal,
+                            CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                            CodigoFornecedor = quotaComAgendamento.Fornecedor.Codigo,
+                            Peso = 90
+                        }                    
+                });
         }
     }
 }
