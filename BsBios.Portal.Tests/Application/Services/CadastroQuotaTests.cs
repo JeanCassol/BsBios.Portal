@@ -165,9 +165,6 @@ namespace BsBios.Portal.Tests.Application.Services
                             Peso = 90
                         }                    
                 });
-
-
-            
         }
     }
 }

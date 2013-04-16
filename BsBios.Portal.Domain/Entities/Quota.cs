@@ -113,6 +113,23 @@ namespace BsBios.Portal.Domain.Entities
 
         #endregion
 
+        private void VerificaSeExisteApenasUmAgendamentoParaCadaPlaca()
+        {
+            var agendamentosDuplicados =
+                (from agendamento in Agendamentos
+                 where !agendamento.Realizado
+                 group agendamento by agendamento.Placa.ToUpper()
+                 into grouped
+                 where grouped.Count() > 1
+                 select grouped.Key
+                ).ToList();
+
+            if (agendamentosDuplicados.Count > 0)
+            {
+                throw new AgendamentosSimultaneosParaMesmaPlacaException(agendamentosDuplicados);
+            }
+        }
+
         public virtual AgendamentoDeCarregamento InformarAgendamento(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {
             AgendamentoDeCarregamento agendamento;
@@ -127,6 +144,7 @@ namespace BsBios.Portal.Domain.Entities
                 agendamento = (AgendamentoDeCarregamento) Agendamentos.Single(x => x.Id == agendamentoDeCarregamentoCadastroVm.IdAgendamento);
                 agendamento.Atualizar(agendamentoDeCarregamentoCadastroVm);
             }
+            VerificaSeExisteApenasUmAgendamentoParaCadaPlaca();
             CalculaPesoAgendado();
 
             return agendamento;
@@ -148,8 +166,9 @@ namespace BsBios.Portal.Domain.Entities
             CalculaPesoAgendado();
         }
 
-        public virtual void InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
+        public virtual AgendamentoDeDescarregamento InformarAgendamento(AgendamentoDeDescarregamentoSalvarVm agendamentoDeDescarregamentoSalvarVm)
         {
+            AgendamentoDeDescarregamento agendamento;
             if (agendamentoDeDescarregamentoSalvarVm.IdAgendamento == 0)
             {
                 var factory = new AgendamentoDeDescarregamentoFactory();
@@ -158,16 +177,18 @@ namespace BsBios.Portal.Domain.Entities
                     factory.AdicionarNotaFiscal(notaFiscal);
                     
                 }
-                var agendamentoDeCarregamento = (AgendamentoDeDescarregamento)factory.Construir(this, agendamentoDeDescarregamentoSalvarVm.Placa);
-                Agendamentos.Add(agendamentoDeCarregamento);
+                agendamento = (AgendamentoDeDescarregamento)factory.Construir(this, agendamentoDeDescarregamentoSalvarVm.Placa);
+                Agendamentos.Add(agendamento);
             }
             else
             {
-                var agendamento = (AgendamentoDeDescarregamento)Agendamentos.Single(x => x.Id == agendamentoDeDescarregamentoSalvarVm.IdAgendamento);
+                agendamento = (AgendamentoDeDescarregamento)Agendamentos.Single(x => x.Id == agendamentoDeDescarregamentoSalvarVm.IdAgendamento);
 
                 agendamento.Atualizar(agendamentoDeDescarregamentoSalvarVm);
             }
+            VerificaSeExisteApenasUmAgendamentoParaCadaPlaca();
             CalculaPesoAgendado();
+            return agendamento;
         }
 
         public virtual void RealizarAgendamento(int idAgendamento)

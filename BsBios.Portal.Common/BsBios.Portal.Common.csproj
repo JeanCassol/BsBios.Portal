@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoSemPesoException.cs" />
     <Compile Include="Exceptions\AgendamentoDeDescarregamentoSemNotaFiscalException.cs" />
+    <Compile Include="Exceptions\AgendamentosSimultaneosParaMesmaPlacaException.cs" />
     <Compile Include="Exceptions\ComunicacaoSapException.cs" />
     <Compile Include="Exceptions\DataDeAgendamentoExpiradaException.cs" />
     <Compile Include="Exceptions\ExcluirQuotaComAgendamentoException.cs" />
