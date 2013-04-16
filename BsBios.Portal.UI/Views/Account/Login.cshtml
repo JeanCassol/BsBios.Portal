@@ -44,7 +44,23 @@
         </div>
     </body>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
+            if ($.browser.msie) {
+                var browserVersion = parseFloat($.browser.version);
+                var documentMode = parseFloat(document.documentMode);
+                if (browserVersion < 8.0 && documentMode < 8.0) {
+                    $('#loginForm').empty();
+                    $('#loginForm')
+                        .addClass('message-error')
+                        .html(
+                        '<p>Versão do Browser incompatível. Não é possível utilizar o sistema.</p>' +
+                        '<p>Versão do Navegador: ' + $.browser.version + " " + (browserVersion >= 8 ?  "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>' +
+                        '<p>Versão do Modo de Documento: ' + document.documentMode + " " + (documentMode >= 8 ? "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>'
+                    );
+                    return;
+                }
+            }
+
             $("#esqueciMinhaSenha").click(function(e) {
                 e.preventDefault();
                 location.href = '@Url.Action("EsqueciMinhaSenha")';
