@@ -1,7 +1,4 @@
-delete agendamentodecarregamento;
-delete agendamentodecarga;
-delete quota;
-
+ALTER TABLE Quota ADD PesoRealizado NUMBER(13,3);
 
 update quota set pesorealizado = 
 (select coalesce(sum(car.peso),0)
@@ -23,3 +20,7 @@ where ag.idquota = quota.id
 and realizado = 1
 )
 where fluxodecarga = 2;
+
+COMMIT;
+
+ALTER TABLE Quota MODIFY PesoRealizado NUMBER(13,3) NOT NULL;
