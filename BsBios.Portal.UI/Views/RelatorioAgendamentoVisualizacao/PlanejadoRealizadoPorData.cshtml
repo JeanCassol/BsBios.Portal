@@ -1,0 +1,72 @@
+﻿@using BsBios.Portal.ViewModel
+@model IEnumerable<QuotaPlanejadoRealizadoPorDataVm>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Planejado x Realizado por Data</title>
+        <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="bordaDoRelatorio" >
+            @{
+                RelatorioAgendamentoFiltroVm filtro = ViewBag.Filtro;
+            }
+            @Html.Partial("_CabecalhoRelatorioAgendamento", filtro)
+        
+            <table>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CodigoTerminal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NomeDoFornecedor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FluxoDeCarga)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quota)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PesoRealizado)
+                    </th>
+                </tr>
+    
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CodigoTerminal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeDoFornecedor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FluxoDeCarga)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quota)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PesoRealizado)
+                        </td>
+                    </tr>
+                }
+    
+            </table>
+        </div>
+
+    </body>
+</html>

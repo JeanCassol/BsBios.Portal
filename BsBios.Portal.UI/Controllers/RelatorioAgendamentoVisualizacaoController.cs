@@ -35,6 +35,10 @@ namespace BsBios.Portal.UI.Controllers
                     ViewBag.TituloDoRelatorio = "Agendamentos Planejado x Realizado";
                     IList<QuotaPlanejadoRealizadoVm> quotas = _consultaQuotaRelatorio.PlanejadoRealizado(filtro);
                     return View("PlanejadoRealizado", quotas);
+                case Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizadoPorData:
+                    ViewBag.TituloDoRelatorio = "Agendamentos Planejado x Realizado por Data";
+                    IList<QuotaPlanejadoRealizadoPorDataVm> quotasPorData = _consultaQuotaRelatorio.PlanejadoRealizadoPorData(filtro);
+                    return View("PlanejadoRealizadoPorData", quotasPorData);
                 default:
                     var contentResult = new ContentResult {Content = "Opção Inválida"};
                     return contentResult;
