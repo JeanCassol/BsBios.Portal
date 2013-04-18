@@ -23,15 +23,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             _fornecedores = fornecedores;
         }
 
-        public void Salvar(IList<QuotaSalvarVm> quotasSalvarVm)
+        public void Salvar(DateTime data, IList<QuotaSalvarVm> quotasSalvarVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                //como todas as quotas são da mesma data posso pegar a data do primeiro elemento
-                var dataDasQuotas = quotasSalvarVm.First().Data;
                 //consulta as quotas que estão salvas na data
-                IList<Quota> quotasSalvas = _quotas.FiltraPorData(dataDasQuotas).List();
+                IList<Quota> quotasSalvas = _quotas.FiltraPorData(data).List();
 
                 #region Remover Quotas
                 IList<Quota> quotasParaRemover = quotasSalvas

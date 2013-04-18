@@ -23,5 +23,21 @@ namespace BsBios.Portal.Common.Exceptions
 
             };
         }
+
+        public static string ExibeDetalhes(Exception ex)
+        {
+            string mensagem = ex.Message;
+
+            var excecao = ex;
+
+            while (excecao.InnerException != null)
+            {
+                mensagem += Environment.NewLine + Environment.NewLine + 
+                   "Exceção interna: " + excecao.InnerException.Message;
+                excecao = excecao.InnerException;
+            }
+            return mensagem;
+
+        }
     }
 }

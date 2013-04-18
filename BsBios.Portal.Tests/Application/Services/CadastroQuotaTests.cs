@@ -5,7 +5,6 @@ using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;
@@ -61,7 +60,7 @@ namespace BsBios.Portal.Tests.Application.Services
             //caso de uso: para a data de hoje tenho duas quotas cadastradas:uma para o fornecedor1 e outra para o fornecedor3
             //salvo as cotações informando os fornecedores 1 e 3. O resultado esperado é que a quota do fornecedor1 seja atualizada,
             //a quota do fornecedor2 seja atualizada e a quota do fornecedor seja criada.
-            _cadastroQuota.Salvar(new List<QuotaSalvarVm>
+            _cadastroQuota.Salvar(DateTime.Today, new List<QuotaSalvarVm>
                 {
                     new QuotaSalvarVm
                         {
@@ -95,7 +94,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             try
             {
-                _cadastroQuota.Salvar(new List<QuotaSalvarVm>());
+                _cadastroQuota.Salvar(DateTime.Today, new List<QuotaSalvarVm>());
                 Assert.Fail("Deveria ter gerado exceção");
             }
             catch (Exception)
@@ -123,7 +122,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()));
 
-            _cadastroQuota.Salvar(new List<QuotaSalvarVm>
+            _cadastroQuota.Salvar(DateTime.Today, new List<QuotaSalvarVm>
                 {
                         new QuotaSalvarVm
                         {
@@ -154,7 +153,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()));
 
-            _cadastroQuota.Salvar(new List<QuotaSalvarVm>
+            _cadastroQuota.Salvar(DateTime.Today, new List<QuotaSalvarVm>
                 {
                         new QuotaSalvarVm
                         {
@@ -165,6 +164,15 @@ namespace BsBios.Portal.Tests.Application.Services
                             Peso = 90
                         }                    
                 });
+        }
+
+        [TestMethod]
+        public void ConsigoRemoverTodasAsQuotasDeUmaData()
+        {
+            _quotasMock.Setup(x => x.Delete(It.IsAny<Quota>()));
+            _cadastroQuota.Salvar(DateTime.Today, new List<QuotaSalvarVm>());
+            _quotasMock.Verify(x => x.Delete(It.IsAny<Quota>()), Times.Exactly(2));
+            _quotasMock.Verify(x => x.Save(It.IsAny<Quota>()), Times.Never());
         }
     }
 }

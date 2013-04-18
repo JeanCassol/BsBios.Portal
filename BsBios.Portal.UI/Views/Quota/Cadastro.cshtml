@@ -71,7 +71,7 @@
     <fieldset>
         <legend>Fornecedores Adicionados</legend>
         <div @*class="divGrid"*@>
-            <div id="gridFornecedoresAdicionados"style="width: 785px" class="divGrid" ></div>    
+            <div id="gridFornecedoresAdicionados" style="width: 785px" class="divGrid" ></div>    
         </div>
     </fieldset>
     <fieldset>
@@ -94,6 +94,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript">
         var fornecedoresAdicionados = new Array();
+        var quantidadeDeFornecedoresIniciais = 0;
         var indiceEdicao = -1;
         $(function() {
             aplicaMascaraData();
@@ -293,6 +294,7 @@
                         $.each(data.Registros, function(indice, quota) {
                             fornecedoresAdicionados.push(quota);
                         });
+                        quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
                         atualizaGrid();
 
                     },
@@ -304,7 +306,7 @@
             });
 
             $('#btnSalvar').click(function() {
-                if (fornecedoresAdicionados.length == 0) {
+                if (quantidadeDeFornecedoresIniciais == 0 && fornecedoresAdicionados.length == 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Fornecedor antes de salvar.');
                     return;
                 }
@@ -324,12 +326,13 @@
                     url: '@Url.Action("Salvar", "QuotaSalvar")',
                     type: 'POST',
                     cache: false,
-                    data: JSON.stringify(quotasParaSalvar),
+                    data: JSON.stringify({Data: $('#Data').val(), Quotas: quotasParaSalvar} ),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data) {
                         if (data.Sucesso) {
                             Mensagem.ExibirMensagemDeSucesso("As quotas foram salvas com sucesso.");
+                            quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
                             return;
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);

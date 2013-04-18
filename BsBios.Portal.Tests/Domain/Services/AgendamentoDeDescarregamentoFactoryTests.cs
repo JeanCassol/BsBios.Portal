@@ -58,7 +58,9 @@ namespace BsBios.Portal.Tests.Domain.Services
             Quota quota = DefaultObjects.ObtemQuotaDeDescarregamento();
             quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm
                 {
-                    IdQuota = quota.Id, NotasFiscais = new List<NotaFiscalVm>
+                    IdQuota = quota.Id,
+                    Placa = "IOQ5338",
+                    NotasFiscais = new List<NotaFiscalVm>
                         {
                             DefaultObjects.ObtemNotaFiscalVmPadrao()
                         }
@@ -77,6 +79,7 @@ namespace BsBios.Portal.Tests.Domain.Services
             quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm
             {
                 IdQuota = quota.Id,
+                Placa = "IOQ5338",
                 NotasFiscais = new List<NotaFiscalVm>
                         {
                             DefaultObjects.ObtemNotaFiscalVmPadrao()
@@ -95,6 +98,7 @@ namespace BsBios.Portal.Tests.Domain.Services
             quota.InformarAgendamento(new AgendamentoDeDescarregamentoSalvarVm
             {
                 IdQuota = quota.Id,
+                Placa = "IOQ5338",
                 NotasFiscais = new List<NotaFiscalVm>
                         {
                             DefaultObjects.ObtemNotaFiscalVmPadrao()
