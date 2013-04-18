@@ -3,7 +3,7 @@ using BsBios.Portal.Infra.Repositories.Contracts;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
-    public class CompleteRepositoryNh<TEntity>: ReadOnlyRepositoryNh<TEntity>, ICompleteRepository<TEntity> where TEntity:IAggregateRoot
+    public class CompleteRepositoryNh<TEntity>: ReadOnlyRepositoryNh<TEntity>, ICompleteRepository<TEntity> where TEntity: class, IAggregateRoot
     {
         public CompleteRepositoryNh(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {

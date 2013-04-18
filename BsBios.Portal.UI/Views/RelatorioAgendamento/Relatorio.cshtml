@@ -19,6 +19,11 @@
         @Html.RadioButton("RelatorioDeAgendamento", (int)  Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizado)
         @Html.Label("Planejado x Realizado",new{@class="labelNaLinha"})
     </div>
+    <div class="linha">
+        @Html.RadioButton("RelatorioDeAgendamento", (int)  Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizadoPorData)
+        @Html.Label("Planejado x Realizado por Data",new{@class="labelNaLinha"})
+    </div>
+
 </fieldset>
 <fieldset>
     <legend>Filtros</legend>

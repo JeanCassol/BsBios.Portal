@@ -68,7 +68,8 @@ namespace BsBios.Portal.Common
         {
             ListagemDeQuotas = 1,
             ListagemDeAgendamentos = 2,
-            PlanejadoVersusRealizado = 3
+            PlanejadoVersusRealizado = 3,
+            PlanejadoVersusRealizadoPorData = 4
         }
     }
 }

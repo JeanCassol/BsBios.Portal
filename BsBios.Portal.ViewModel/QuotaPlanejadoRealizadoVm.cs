@@ -14,4 +14,9 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Peso")]
         public decimal PesoRealizado { get; set; }
     }
+
+    public class QuotaPlanejadoRealizadoPorDataVm: QuotaPlanejadoRealizadoVm
+    {
+        public string Data { get; set; }
+    }
 }

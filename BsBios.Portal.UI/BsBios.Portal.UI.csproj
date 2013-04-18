@@ -451,6 +451,7 @@
     <Content Include="Views\RelatorioAgendamentoVisualizacao\_CabecalhoRelatorioAgendamento.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeQuotas.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeAgendamentos.cshtml" />
+    <Content Include="Views\RelatorioAgendamentoVisualizacao\PlanejadoRealizadoPorData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,10 +2,11 @@
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using NHibernate;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
-    public class ReadOnlyRepositoryNh<TEntity>: RepositoryNh<TEntity>, IReadOnlyRepository<TEntity> where TEntity:IAggregateRoot
+    public class ReadOnlyRepositoryNh<TEntity>: RepositoryNh<TEntity>, IReadOnlyRepository<TEntity> where TEntity: class, IAggregateRoot
     {
         public ReadOnlyRepositoryNh(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
@@ -41,6 +42,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IQueryable<TEntity> GetQuery()
         {
             return Query;
+        }
+
+        public IQueryOver<TEntity, TEntity> GetQueryOver()
+        {
+            return UnitOfWorkNh.Session.QueryOver<TEntity>();
         }
     }
 }
