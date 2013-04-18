@@ -3,6 +3,7 @@ using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -144,7 +145,7 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoOProcessoEAbertoComSucessoEEnviadoEmailParaOsFornecedores()
         {
-            _service.Executar(20);
+            _service.Executar(10);
             _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());
         }
 
@@ -155,6 +156,23 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _gerenciadorUsuarioMock.Verify( x => x.CriarSenhaParaUsuariosSemSenha(It.IsAny<string[]>()), Times.Once());
         }
+
+        [TestMethod]
+        public void QuandoTentoAbrirUmProcessoDeCotacaoJaAbertoNaoEnviaEmailNemSeComunicaComSap()
+        {
+            try
+            {
+                _service.Executar(20);
+                Assert.Fail("Deveria ter gerado excessão");
+            }
+            catch (AbrirProcessoDeCotacaoAbertoException)
+            {
+                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+                _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+            }
+            
+        }
+
         #endregion
     }
 }

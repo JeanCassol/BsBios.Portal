@@ -33,8 +33,9 @@
             </div>
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"),
             new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
+            <div class="error"></div>
             <div class="divBotao">
-                <input type="submit" id="btnSalvarProcesso" value="Salvar" class="blue" />
+                <input type="button" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>
         </fieldset>
     }
@@ -54,9 +55,33 @@
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script type="text/javascript">
         $(function() {
             aplicaMascaraData();
+            var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
+            GridCotacaoResumida.Configurar(idProcessoCotacao);
+            ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
+
+            $('#btnSalvar').click(function () {
+                $('.error').empty();
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                var formData = $(form).serialize();
+                $.post('@Url.Action("AtualizarProcesso","ProcessoDeCotacaoService" )', formData,
+                    function (data) {
+                        if (data.Sucesso) {
+                            location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
+                        } else {
+                            atualizaMensagemDeErro(data.Mensagem);
+                        }
+                    });
+            });
+
         })
     </script>
 }
