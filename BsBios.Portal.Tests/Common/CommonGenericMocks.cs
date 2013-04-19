@@ -11,7 +11,7 @@ using Moq;
 
 namespace BsBios.Portal.Tests.Common
 {
-    public static class CommonGenericMocks<T> where T:IAggregateRoot
+    public static class CommonGenericMocks<T> where T: class, IAggregateRoot
     {
         public static Mock<CompleteRepositoryNh<T>> MockRepository(Mock<IUnitOfWork> unitOfWorkMock)
         {
