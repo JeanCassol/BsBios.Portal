@@ -81,5 +81,13 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             processoDeCotacao.Abrir();
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(FecharProcessoDeCotacaoFechadoException))]
+        public void QuandoTentarFecharUmProcessoDeCotacaoQueJaEstaFechadoDeveGerarExcecao()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
+            processoDeCotacao.Fechar();   
+        }
     }
 }

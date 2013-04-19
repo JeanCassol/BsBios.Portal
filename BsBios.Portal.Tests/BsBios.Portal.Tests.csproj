@@ -129,7 +129,7 @@
     <Compile Include="UI\Controllers\IncotermApiTests.cs" />
     <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />
     <Compile Include="UI\Controllers\ProcessoDeCotacaoServiceControllerTests.cs" />
-    <Compile Include="UI\Controllers\ProcessoCotacaoMaterialTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoCotacaoMaterialControllerTests.cs" />
     <Compile Include="UI\Controllers\CotacaoTests.cs" />
     <Compile Include="UI\Controllers\ProcessoDeCotacaoDeFreteAberturaControllerTests.cs" />
     <Compile Include="UI\Controllers\GenericControllerTests.cs" />
