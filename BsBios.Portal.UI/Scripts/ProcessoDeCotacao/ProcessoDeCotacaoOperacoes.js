@@ -143,9 +143,6 @@
                             Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao selecionar as Cotações. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
-                        
-
-
                 },
                 "Cancelar": function () {
                     $(this).dialog("close");
@@ -201,14 +198,14 @@
             });
 
         });
-
-        $('#btnFecharProcesso').click(function () {
+        
+        function fecharProcessoDeCotacao(urlDeFechamento) {
             bloqueiaPagina();
             $.ajax({
-                url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.FecharProcessoDeCotacaoDeMaterial : UrlPadrao.FecharProcessoDeCotacaoDeFrete,
+                url: urlDeFechamento,
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val() },
+                data: { idProcessoCotacao: $('#Id').val(), Justificativa: $('#Justificativa').val() },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
@@ -225,7 +222,36 @@
                     desbloqueiaPagina();
                 }
             });
+        }
 
+        $('#divFecharProcessoDeCotacaoDeMaterial').customDialog({
+            title: 'Fechar Processo de Cotação',
+            buttons: {
+                "Confirmar": function () {
+                    var form = $('#formFecharProcesso');
+                    if (!$(form).validate().form()) {
+                        return;
+                    }
+                    fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeMaterial);
+                    $(this).dialog("close");
+                },
+                "Cancelar": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('#btnFecharProcesso').click(function () {
+            if (tipoDeCotacao == TipoDeCotacao.Material) {
+                $('#divFecharProcessoDeCotacaoDeMaterial').load(UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial,
+                    function (response, status, xhr) {
+                        jQuery.validator.unobtrusive.parse('#divFecharProcessoDeCotacaoDeMaterial');
+                        $('#divFecharProcessoDeCotacaoDeMaterial').dialog("open");
+                    });
+            }
+            if (tipoDeCotacao == TipoDeCotacao.Frete) {
+                fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);
+            }
         });
 }
 }

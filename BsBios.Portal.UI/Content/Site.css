@@ -268,16 +268,16 @@ article {
     display: inline;
 }
 
-
 /* forms */
 fieldset {
     /*border: none;*/
     margin: 0;
     padding: 2px 0 1px 8px;
 }
-/*fieldset legend {
-    display: none;
-}*/
+
+fieldset > legend {
+    font-size: 12px;
+}
 
 fieldset ol {
     padding: 0;
@@ -429,6 +429,7 @@ td button {
 .field-validation-error {
     color: #e80c4d;
     font-weight: bold;
+    font-size: 12px;
 }
 
 .field-validation-valid {
@@ -636,10 +637,11 @@ input[type="checkbox"].input-validation-error {
     padding: 0
 }
 .janelaModal  {
-    padding: 0!important
+    padding: 0!important;
+    background-color: #efeeef!important
 }
 
-.janelaModal input {
+.janelaModal input, textarea {
     font-size: 12px!important;
 }
 .ui-dialog-buttonpane {

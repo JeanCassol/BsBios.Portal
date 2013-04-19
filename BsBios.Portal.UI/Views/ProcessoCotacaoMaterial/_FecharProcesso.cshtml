@@ -1,20 +1,21 @@
-﻿@using BsBios.Portal.Common
+﻿@model ProcessoDeCotacaoFechamentoVm
+@using BsBios.Portal.Common
 @using BsBios.Portal.UI.Helpers
-@model int
-
+@using BsBios.Portal.ViewModel
 @{
     Layout = null;
 }
-<div class="linha">
-    @Html.TextArea("Justificativa")
-</div>
-<fieldset>
-    <legend>Gerar no SAP</legend>
-    @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
-    @Html.RadioButtonComLabel("DocumentoDoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
-</fieldset>
-<div class="divBotao">
-    <input type="button" value="Confirmar" id="btnConfirmar" class="blue"/>
-    <input type="button" value="Cancelar" id="btnCancelar" class="blue"/>
-</div>
+<style type="text/css">
+    form {
+        padding: 5px
+    }
+</style>
+<form id="formFecharProcesso">
+    @Html.LinhaComUmaColuna(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.Justificativa))
+    <fieldset>
+        <legend>Gerar no SAP</legend>
+        @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
+        @Html.RadioButtonComLabel("DocumentoDoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
+    </fieldset>
+</form>
 

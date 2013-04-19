@@ -115,5 +115,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
 
+        public ActionResult FecharProcesso()
+        {
+            return PartialView("_FecharProcesso");
+        }
     }
 }
