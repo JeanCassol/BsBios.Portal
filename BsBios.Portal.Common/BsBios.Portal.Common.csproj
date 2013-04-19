@@ -45,6 +45,7 @@
     <Compile Include="Constantes.cs" />
     <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="Exceptions\AbrirProcessoDeCotacaoAbertoException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoSemPesoException.cs" />
     <Compile Include="Exceptions\AgendamentoDeDescarregamentoSemNotaFiscalException.cs" />

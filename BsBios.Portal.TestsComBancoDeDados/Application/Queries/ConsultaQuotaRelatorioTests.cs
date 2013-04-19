@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
@@ -10,8 +8,6 @@ using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NHibernate;
-using NHibernate.Linq;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
@@ -217,40 +213,5 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(250, planejadoRealizadoFornecedor2.PesoRealizado);
 
         }
-
-        
-        [TestMethod]
-        public void OrdenamentoComGroupBy()
-        {
-            var queryOver = Session.QueryOver<Quota>();
-
-            //var query = Session.Query<Quota>();
-
-            //IList<Expression<Func<Quota, bool> >> predicates = new List<Expression<Func<Quota, bool>>>();
-            //predicates.Add(x => x.Data == DateTime.Today);
-
-            //foreach (var predicate in predicates)
-            //{
-            //    query = query.Where(predicate);
-            //    queryOver = queryOver.Where(predicate);
-            //}
-            
-
-            //IQueryOver<Quota> queryConvertida = query.As<IQueryOver<Quota>>();
-
-            queryOver = queryOver
-                //.Select(quota => quota.Data, quota => quota.CodigoTerminal, quota => quota.PesoAgendado)
-                //.OrderBy(y => y.Data);
-                .SelectList(list => list
-                                        .SelectGroup(x => x.CodigoTerminal)
-                                        .SelectGroup(quota => quota.Data)
-                                        .SelectSum(x => x.PesoAgendado))
-                                        .OrderBy(quota => quota.CodigoTerminal).Asc
-                                        .ThenBy(quota => quota.Data).Asc;
-            var lista = queryOver.List<Quota>();
-            Assert.AreEqual(0, lista.Count);
-        }
-
-
     }
 }

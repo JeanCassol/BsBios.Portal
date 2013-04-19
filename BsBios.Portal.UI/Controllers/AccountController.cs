@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -52,7 +53,7 @@ namespace BsBios.Portal.UI.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                ModelState.AddModelError("", ExceptionUtil.ExibeDetalhes(ex));
                 return View(model);
             }
 

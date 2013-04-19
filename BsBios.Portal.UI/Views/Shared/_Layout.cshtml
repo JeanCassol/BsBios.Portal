@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" @*lang="pt-br"*@>
+﻿@using BsBios.Portal.Common
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        @*<meta charset="utf-8" />*@
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
         <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -38,9 +38,26 @@
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/globalize")
         @Scripts.Render("~/bundles/scriptsgerais")
-        @RenderSection("scripts", false)
         <script type="text/javascript">
             UrlPadrao.SelecionarFornecedor = '@Url.Action("Selecionar","SelecionarFornecedor")';
+            UrlPadrao.CotacaoResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial")';
+            UrlPadrao.EnviarEmail = '@Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")';
+            UrlPadrao.AtualizarFornecedoresDoProcessoDeCotacao = '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")';
+            UrlPadrao.VerificarQuantidadeAdquiridaNoProcessoDeCotacao = '@Url.Action("VerificarQuantidadeAdquirida","ProcessoDeCotacaoService")';
+            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoCotacaoMaterial")';
+            
+            UrlPadrao.SelecionarCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar")';
+            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial")';
+            UrlPadrao.AbrirProcessoDeCotacaoDeMaterial = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeMaterialAbertura")';
+            UrlPadrao.FecharProcessoDeCotacaoDeMaterial = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeMaterialFechamento")';
+            UrlPadrao.SelecionarCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFreteSelecionar")';
+            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete")';
+            UrlPadrao.AbrirProcessoDeCotacaoDeFrete = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura")';
+            UrlPadrao.FecharProcessoDeCotacaoDeFrete = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeFreteFechamento")';
+            
+            TipoDeCotacao.Material = '@((int) Enumeradores.TipoDeCotacao.Material)';
+            TipoDeCotacao.Frete = '@((int) Enumeradores.TipoDeCotacao.Frete)';
         </script>
+        @RenderSection("scripts", false)
     </body>
 </html>

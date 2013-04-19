@@ -71,6 +71,10 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Abrir()
         {
+            if (Status == Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new AbrirProcessoDeCotacaoAbertoException();
+            }
             if (!DataLimiteDeRetorno.HasValue)
             {
                 throw new ProcessoDeCotacaoSemDataLimiteRetornoException();

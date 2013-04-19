@@ -318,7 +318,6 @@
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
     <Content Include="Scripts\Cadastro\gridFornecedor.js" />
-    <Content Include="Scripts\Cadastro\gridTransportadora.js" />
     <None Include="Properties\PublishProfiles\bsbios - casa.pubxml" />
     <None Include="Properties\PublishProfiles\BsBios - QA.pubxml" />
     <None Include="Properties\PublishProfiles\BsBios.pubxml" />
@@ -392,7 +391,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\methods_pt.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
     <Content Include="Scripts\scriptsGerais.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -421,7 +422,6 @@
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
     <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
-    <Content Include="Views\Shared\_CotacaoFornecedor.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedores.cshtml" />

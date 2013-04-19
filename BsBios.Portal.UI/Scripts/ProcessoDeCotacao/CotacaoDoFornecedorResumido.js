@@ -1,18 +1,16 @@
-﻿<div id="gridCotacaoFornecedor" class="divGrid" style="clear: both"></div>
-    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/jquery.min.js")"></script>
-<script>
-    $(document).ready(function() {
+﻿GridCotacaoResumida = {
+    Configurar: function(idProcessoCotacao) {
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
                 schema: {
                     data: 'Registros',
                     model: {
                         fields: {
-                            IdFornecedorParticipante: {type:"number"},
-                            Codigo: {type: "string"},
-                            Nome: {type: "string"},
-                            Selecionado: {type: "string"},
-                            ValorLiquido: {type: "number"},
+                            IdFornecedorParticipante: { type: "number" },
+                            Codigo: { type: "string" },
+                            Nome: { type: "string" },
+                            Selecionado: { type: "string" },
+                            ValorLiquido: { type: "number" },
                             ValorComImpostos: { type: "number" },
                             VisualizadoPeloFornecedor: { type: "string" }
                         }
@@ -23,7 +21,7 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        url: UrlPadrao.CotacaoResumida + '/?idProcessoCotacao=' + idProcessoCotacao,
                         type: 'GET',
                         cache: false
                     }
@@ -62,7 +60,7 @@
                     field: "ValorLiquido",
                     width: 80,
                     title: "Líquido",
-                    format:"{0:n2}"
+                    format: "{0:n2}"
                 },
                 {
                     field: "ValorComImpostos",
@@ -78,28 +76,29 @@
             var idFornecedorParticipante = $(this).attr('data-idfornecedorparticipante');
             $("#todaPagina").block('Processando...');
             $.ajax({
-                url: '@ViewData["UrlEnviarEmail"]',
-                    type: 'GET',
-                    data: { IdProcessoCotacao: '@ViewData["IdProcessoCotacao"]', IdFornecedorParticipante: idFornecedorParticipante },
-                    cache: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
-                        } else {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao enviar e-mail para o Fornecedor. Detalhe: ' + textStatus + errorThrown);
-                    },
-                    complete: function () {
-                        $("#todaPagina").unblock();
+                url: UrlPadrao.EnviarEmail,
+                type: 'GET',
+                data: { IdProcessoCotacao: idProcessoCotacao, IdFornecedorParticipante: idFornecedorParticipante },
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                    } else {
+                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao enviar e-mail para o Fornecedor. Detalhe: ' + textStatus + errorThrown);
+                },
+                complete: function () {
+                    $("#todaPagina").unblock();
+                }
 
-                });
+            });
 
         });
+    }
+}
 
-    });
-</script>
+

@@ -72,5 +72,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
                 "requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
                 processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof (AbrirProcessoDeCotacaoAbertoException))]
+        public void QuandoTentarAbrirUmProcessoDeCotacaoQueJaEstaAbertoDeveGerarExcecao()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComFornecedor();
+            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir();
+        }
     }
 }
