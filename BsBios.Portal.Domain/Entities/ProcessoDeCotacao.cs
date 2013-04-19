@@ -106,6 +106,10 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Fechar(string justificativa)
         {
+            if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
+            {
+                throw new FecharProcessoDeCotacaoFechadoException();
+            }
             if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Selecionada) == 0)
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();

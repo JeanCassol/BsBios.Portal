@@ -137,6 +137,7 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
+        [ExpectedException(typeof(PesoAgendadoSuperiorAoPesoDaQuotaException))]
         public void NaoPermiteDiminuirAQuotaParaUmValorAbaixoDoQueJaEstaAgendado()
         {
             var quotaComAgendamento = DefaultObjects.ObtemQuotaDeCarregamento();
@@ -159,7 +160,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         {
                             Data = quotaComAgendamento.Data,
                             CodigoTerminal = quotaComAgendamento.CodigoTerminal,
-                            CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                            CodigoMaterial = (int) quotaComAgendamento.Material,
                             CodigoFornecedor = quotaComAgendamento.Fornecedor.Codigo,
                             Peso = 90
                         }                    

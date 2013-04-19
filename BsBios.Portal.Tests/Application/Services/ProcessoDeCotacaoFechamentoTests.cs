@@ -3,6 +3,7 @@ using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -65,6 +66,10 @@ namespace BsBios.Portal.Tests.Application.Services
                             var cotacao =  _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                                                DefaultObjects.ObtemIncotermPadrao(), "inc", 150, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
                             _processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, DefaultObjects.ObtemIvaPadrao());
+                        }
+                        if (idProcessoCotacao == 30)
+                        {
+                            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
                         }
                     });
 
@@ -136,6 +141,24 @@ namespace BsBios.Portal.Tests.Application.Services
             _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
             _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());            
         }
+
+        [TestMethod]
+        public void QuandoTentoFecharUmProcessoDeCotacaoJaFechadoNaoEnviaEmailNemSeComunicaComSap()
+        {
+            try
+            {
+                _fechamentoDeProcessoDeCotacaoService.Executar(30);
+                Assert.Fail("Deveria ter gerado excessão");
+            }
+            catch (FecharProcessoDeCotacaoFechadoException)
+            {
+                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+                _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+            }
+
+        }
+
+
         #endregion
     }
 }

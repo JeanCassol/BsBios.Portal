@@ -243,6 +243,12 @@ namespace BsBios.Portal.Tests.DataProvider
             return processoDeCotacao;
         }
 
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            processoDeCotacao.Fechar();
+            return processoDeCotacao;
+        }
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)
         {
             return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),

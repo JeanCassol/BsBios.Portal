@@ -13,14 +13,14 @@ using StructureMap;
 namespace BsBios.Portal.Tests.UI.Controllers
 {
     [TestClass]
-    public class ProcessoCotacaoMaterialTests
+    public class ProcessoCotacaoMaterialControllerTests
     {
         private readonly Mock<IConsultaProcessoDeCotacaoDeMaterial> _consultaProcessoCotacaoMaterialMock;
         private readonly Mock<IConsultaStatusProcessoCotacao> _consultaStatusProcessoCotacao;
         private readonly ProcessoCotacaoMaterialController _controller;
 
 
-        public ProcessoCotacaoMaterialTests()
+        public ProcessoCotacaoMaterialControllerTests()
         {
             _consultaProcessoCotacaoMaterialMock = new Mock<IConsultaProcessoDeCotacaoDeMaterial>(MockBehavior.Strict);
             _consultaProcessoCotacaoMaterialMock.Setup(x => x.ConsultaProcesso(It.IsAny<int>()))
