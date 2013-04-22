@@ -30,23 +30,25 @@
         </div>
 
         <div id="divFornecedoresGerais" class="divGrid">
-            <div class="divFiltros">
-                <fieldset>
-                    <legend>Filtros</legend>
-                    <div class="colunaFiltro">
-                        @Html.Label("Código")
-                        @Html.TextBox("CodigoFornecedorGeral","", new{@class="campomedio"})
-                    </div>
-                    <div class="colunaFiltro">
-                        @Html.Label("Nome")
-                        @Html.TextBox("NomeFornecedorGeral","", new{@class="campomedio"})
-                    </div>
-                    <div class="divBotao">
-                        <input id="btnPesquisarFornecedorGeral" type="button" value="Pesquisar" class="blue"/>
-                        <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
-                    </div>
-                </fieldset>
-            </div>
+            <form>
+                <div class="divFiltros">
+                    <fieldset>
+                        <legend>Filtros</legend>
+                        <div class="colunaFiltro">
+                            @Html.Label("Código")
+                            @Html.TextBox("CodigoFornecedorGeral","", new{@class="campomedio"})
+                        </div>
+                        <div class="colunaFiltro">
+                            @Html.Label("Nome")
+                            @Html.TextBox("NomeFornecedorGeral","", new{@class="campomedio"})
+                        </div>
+                        <div class="divBotao">
+                            <input id="btnPesquisarFornecedorGeral" type="submit" value="Pesquisar" class="blue"/>
+                            <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
             <div id="divGridFornecedoresGerais" class="divGrid"></div>
         </div>
     </div>
@@ -151,7 +153,8 @@
             }
         });
         
-        $('#btnPesquisarFornecedorGeral').click(function () {
+        $('#btnPesquisarFornecedorGeral').click(function (e) {
+            e.preventDefault();
             $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
         });
 

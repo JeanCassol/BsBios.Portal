@@ -145,3 +145,11 @@ http://localhost:3905/api/ItinerarioApi/PostMultiplo
 	<ProcessoDeCotacaoDeFreteFechamentoVm>
 	</ProcessoDeCotacaoDeFreteFechamentoVm>
 </ListaProcessoDeCotacaoDeFreteFechamento>
+
+http://sap-pip.bsbios.com:52000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_envioStatus_portal&qos=be
+<ApiResponseMessage xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Retorno>
+		<Codigo>200</Codigo>
+		<Texto>Teste</Texto>
+	</Retorno>
+</ApiResponseMessage>

@@ -35,7 +35,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
                               "Quantidade: " + processoDeCotacaoDeFrete.Quantidade + Environment.NewLine +
                               "Itinerário: " + processoDeCotacaoDeFrete.Itinerario.Descricao + Environment.NewLine +
                               "Unidade de Medida: " + processoDeCotacaoDeFrete.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              "Data Limite de Retorno: " + (processoDeCotacaoDeFrete.DataLimiteDeRetorno.HasValue ? processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine;
+                              "Data Limite de Retorno: " + (processoDeCotacaoDeFrete.DataLimiteDeRetorno.HasValue ? processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+                              "Requisitos: " + processoDeCotacaoDeFrete.Requisitos + Environment.NewLine;
 
             return new MensagemDeEmail("Cotação de Frete", mensagem);
         }
@@ -49,7 +50,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
                               "Material: " + processoDeCotacao.Produto.Descricao + Environment.NewLine +
                               "Quantidade: " + processoDeCotacao.Quantidade + Environment.NewLine +
                               "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine;
+                              "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+                              "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine;
 
             return new MensagemDeEmail("Cotação de Material", mensagem);
         }

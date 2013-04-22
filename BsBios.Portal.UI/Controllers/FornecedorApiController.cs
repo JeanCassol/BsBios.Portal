@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -29,10 +30,14 @@ namespace BsBios.Portal.UI.Controllers
             ApiResponseMessage retornoPortal;
             try
             {
-                _cadastroFornecedor.AtualizarFornecedores(fornecedores);
+                var fornecedoresComNome = fornecedores.Where(x => !string.IsNullOrEmpty(x.Nome)).ToList();
+                int quantidadeDeFornecedoresSemNome = fornecedores.Count - fornecedoresComNome.Count;
+                _cadastroFornecedor.AtualizarFornecedores(fornecedoresComNome);
                 retornoPortal = new ApiResponseMessage()
                     {
-                        Retorno = new Retorno() {Codigo = "200", Texto = fornecedores.Count + " fornecedores atualizados"}
+                        Retorno = new Retorno() {Codigo = "200", Texto = fornecedoresComNome.Count + " fornecedores atualizados." +
+                        (quantidadeDeFornecedoresSemNome > 0 ? quantidadeDeFornecedoresSemNome +  " fornecedores não atualizados: "  + 
+                        string.Join(", ",fornecedores.Where(x => string.IsNullOrEmpty(x.Nome)).Select(f => f.Codigo)) + ".": "") }
                     };
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }

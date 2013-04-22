@@ -77,6 +77,14 @@
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
+                {field: "ObservacaoDoFornecedor", title: 'Observações', width:60,
+                template: function(dataItem) {
+                    if (dataItem.ObservacaoDoFornecedor) {
+                        return '<input type="button" class="button_information"></input>';
+                    } else {
+                        return '';
+                    }
+                }},
                 { field: "QuantidadeDisponivel", title: 'Disponível', width: 80, format:"{0:n3}"},
                 { field: "ValorComImpostos", title:'Valor Com Impostos', width: 80, format: "{0:n2}"}
             ]

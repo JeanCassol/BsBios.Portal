@@ -12,6 +12,7 @@
         public decimal? QuantidadeDisponivel { get; set; }
         public decimal? QuantidadeAdquirida { get; set; }
         public decimal? ValorComImpostos { get; set; }
+        public string ObservacaoDoFornecedor { get; set; }
     }
 
     public class CotacaoMaterialSelecionarVm: CotacaoSelecionarVm
