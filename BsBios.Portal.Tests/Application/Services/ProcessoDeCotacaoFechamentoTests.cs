@@ -147,7 +147,7 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             try
             {
-                _fechamentoDeProcessoDeCotacaoService.Executar(30);
+                _fechamentoDeProcessoDeCotacaoService.Executar(new ProcessoDeCotacaoFechamentoVm{IdProcessoCotacao = 30, Justificativa = "nenhuma"});
                 Assert.Fail("Deveria ter gerado excessão");
             }
             catch (FecharProcessoDeCotacaoFechadoException)

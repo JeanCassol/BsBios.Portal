@@ -246,7 +246,7 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            processoDeCotacao.Fechar();
+            processoDeCotacao.Fechar("justificativa");
             return processoDeCotacao;
         }
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)

@@ -145,3 +145,9 @@ http://localhost:3905/api/ItinerarioApi/PostMultiplo
 	<ProcessoDeCotacaoDeFreteFechamentoVm>
 	</ProcessoDeCotacaoDeFreteFechamentoVm>
 </ListaProcessoDeCotacaoDeFreteFechamento>
+<ApiResponseMessage xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<Retorno>
+		<Codigo>100</Codigo>
+		<Texto></Texto>
+	</Retorno>
+</ApiResponseMessage>
