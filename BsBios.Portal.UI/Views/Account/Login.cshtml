@@ -12,9 +12,7 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
+        <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
     </head>
     <body>
         @Html.Partial("_Header")
@@ -42,29 +40,41 @@
                 </div>
             }
         </div>
-    </body>
-    <script type="text/javascript">
-        $(function () {
-            if ($.browser.msie) {
-                var browserVersion = parseFloat($.browser.version);
-                var documentMode = parseFloat(document.documentMode);
-                if (browserVersion < 8.0 || documentMode < 8.0) {
-                    $('#loginForm').empty();
-                    $('#loginForm')
-                        .addClass('message-error')
-                        .html(
-                        '<p>Versão do Browser incompatível. Não é possível utilizar o sistema.</p>' +
-                        '<p>Versão do Navegador: ' + $.browser.version + " " + (browserVersion >= 8 ?  "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>' +
-                        '<p>Versão do Modo de Documento: ' + document.documentMode + " " + (documentMode >= 8 ? "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>'
-                    );
-                    return;
-                }
-            }
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
 
-            $("#esqueciMinhaSenha").click(function(e) {
-                e.preventDefault();
-                location.href = '@Url.Action("EsqueciMinhaSenha")';
+        <script type="text/javascript">
+            $(function () {
+                if ($.browser.msie) {
+                    var browserVersion = parseFloat($.browser.version);
+                    var documentMode = parseFloat(document.documentMode);
+                    if (browserVersion < 8.0 || documentMode < 8.0) {
+                        $('#loginForm').empty();
+                        $('#loginForm')
+                            .addClass('message-error')
+                            .html(
+                                '<p>Versão do Browser incompatível. Não é possível utilizar o sistema.</p>' +
+                                    '<p>Versão do Navegador: ' + $.browser.version + " " + (browserVersion >= 8 ?  "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>' +
+                                    '<p>Versão do Modo de Documento: ' + document.documentMode + " " + (documentMode >= 8 ? "OK" : "Falha ==> Versão mínima requerida: 8") + '</p>'
+                            );
+                        return;
+                    }
+                }
+
+                $("#esqueciMinhaSenha").click(function(e) {
+                    e.preventDefault();
+                    location.href = '@Url.Action("EsqueciMinhaSenha")';
+                });
+                $('form').submit(function(e) {
+                    var form = $('form');
+                    if (!$(form).validate().form()) {
+                        return;
+                    }
+                    $('body').block("Efetuando Login. Aguarde...");
+                });
             });
-        });
-    </script>
+        </script>
+    </body>
 </html>

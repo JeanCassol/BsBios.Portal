@@ -154,7 +154,7 @@
         });
 
         $('#btnSelecionarFornecedores').click(function () {
-            if ($('#Id').val() == null) {
+            if (!$('#Id').val()) {
                 Mensagem.ExibirMensagemDeErro("Não é possível selecionar Fornecedores antes de salvar o Processo de Cotação.");
                 return;
             }
