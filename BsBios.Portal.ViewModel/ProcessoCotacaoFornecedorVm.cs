@@ -8,6 +8,7 @@
         public string Selecionado { get; set; }
         public decimal? ValorLiquido { get; set; }
         public decimal? ValorComImpostos { get; set; }
+        public decimal? QuantidadeDisponivel { get; set; }
         public string VisualizadoPeloFornecedor { get; set; }
     }
 }

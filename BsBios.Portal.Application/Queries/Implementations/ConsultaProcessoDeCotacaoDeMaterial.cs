@@ -274,6 +274,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                             (fornecedorParticipante.Cotacao != null
                                  ? fornecedorParticipante.Cotacao.ValorComImpostos
                                  : (decimal?) null),
+                        QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
                         VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
                     });
             }

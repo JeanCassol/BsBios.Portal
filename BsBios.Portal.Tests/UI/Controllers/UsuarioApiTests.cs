@@ -60,5 +60,35 @@ namespace BsBios.Portal.Tests.UI.Controllers
             Assert.AreEqual("500", apiResponseMessage.Retorno.Codigo);
             cadastroUsuarioMock.Verify(x => x.AtualizarUsuarios(It.IsAny<IList<UsuarioCadastroVm>>()), Times.Once());
         }
+
+        [TestMethod]
+        public void QuandoEnviarUsuarioSemNomeDeveAtualizarOutrosUsuarios()
+        {
+            var cadastroUsuarioMock = new Mock<ICadastroUsuario>(MockBehavior.Strict);
+            cadastroUsuarioMock.Setup(x => x.AtualizarUsuarios(It.IsAny<IList<UsuarioCadastroVm>>()));
+            var usuarioApiController = new UsuarioApiController(cadastroUsuarioMock.Object);
+            var usuarioCadastroVmComNome = new UsuarioCadastroVm()
+            {
+                Login = "USER001",
+                Nome = "USUARIO 001",
+                Email = "usuario001@empresa.com.br"
+            };
+            var usuarioCadastroVmSemNome = new UsuarioCadastroVm()
+            {
+                Login = "USER002",
+                Email = "usuario002@empresa.com.br"
+            };
+
+            usuarioApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/UsuarioApi/PostMultiplo");
+            usuarioApiController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
+
+            var resposta = usuarioApiController.PostMultiplo(new ListaUsuario() { usuarioCadastroVmComNome, usuarioCadastroVmSemNome });
+            var apiResponseMessage = (ApiResponseMessage)((ObjectContent)(resposta.Content)).Value;
+
+            Assert.AreEqual(HttpStatusCode.OK, resposta.StatusCode);
+            Assert.AreEqual("200", apiResponseMessage.Retorno.Codigo);
+            Assert.AreEqual("1 usuários atualizados.1 usuários não atualizados: USER002.", apiResponseMessage.Retorno.Texto);
+            cadastroUsuarioMock.Verify(x => x.AtualizarUsuarios(It.IsAny<IList<UsuarioCadastroVm>>()), Times.Once());
+        }
     }
 }

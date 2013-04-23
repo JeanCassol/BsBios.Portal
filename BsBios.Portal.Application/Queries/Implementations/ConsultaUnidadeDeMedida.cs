@@ -21,7 +21,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<UnidadeDeMedidaSelecaoVm> ListarTodos()
         {
-            return _builder.BuildList(_ivas.GetQuery().OrderBy(x => x.Descricao).ToList());
+            return _builder.BuildList(_ivas.GetQuery().OrderBy(x => x.CodigoExterno).ToList());
         }
     }
 }

@@ -12,6 +12,7 @@
                             Selecionado: { type: "string" },
                             ValorLiquido: { type: "number" },
                             ValorComImpostos: { type: "number" },
+                            QuantidadeDisponivel: { type: "number" },
                             VisualizadoPeloFornecedor: { type: "string" }
                         }
                     },
@@ -32,40 +33,40 @@
             columns:
             [
                 {
-                    width: 100,
+                    width: 60,
                     field: "Codigo",
                     title: "Código"
                 },
                 {
                     field: "Nome",
-                    width: 200,
+                    width: 195,
                     title: "Nome"
                 },
                 {
                     field: "VisualizadoPeloFornecedor",
-                    width: 100,
+                    width: 60,
                     title: "Visualizado?"
                 },
                 {
-                    width: 100,
+                    width: 65,
                     title: "Reenviar E-mail",
                     template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
                 },
                 {
                     field: 'Selecionado',
                     title: 'Selecionado?',
-                    width: 100
+                    width: 60
                 },
                 {
-                    field: "ValorLiquido",
-                    width: 80,
-                    title: "Líquido",
+                    field: "QuantidadeDisponivel",
+                    width: 50,
+                    title: "Disponivel",
                     format: "{0:n2}"
                 },
                 {
                     field: "ValorComImpostos",
                     width: 80,
-                    title: "Líquido + Imp.",
+                    title: "Valor Com Impostos",
                     format: "{0:n2}"
                 }
             ]

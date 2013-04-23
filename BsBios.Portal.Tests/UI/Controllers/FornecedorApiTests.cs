@@ -60,5 +60,38 @@ namespace BsBios.Portal.Tests.UI.Controllers
             Assert.AreEqual("500", apiResponseMessage.Retorno.Codigo);
             cadastroFornecedorMock.Verify(x => x.AtualizarFornecedores(It.IsAny<IList<FornecedorCadastroVm>>()), Times.Once());
         }
+
+        [TestMethod]
+        public void QuandoEnviarFornecedorSemNomeDeveProcessarOutrosFornecedores()
+        {
+            var cadastroFornecedorMock = new Mock<ICadastroFornecedor>(MockBehavior.Strict);
+            cadastroFornecedorMock.Setup(x => x.AtualizarFornecedores(It.IsAny<IList<FornecedorCadastroVm>>()));
+            var fornecedorApiController = new FornecedorApiController(cadastroFornecedorMock.Object);
+            var fornecedorCadastroVmComNome = new FornecedorCadastroVm()
+            {
+                Codigo = "FORNEC0001",
+                Nome = "PRODUTO 0001",
+                Email = "fornecedor@empresa.com.br"
+            };
+            var fornecedorCadastroVmSemNome = new FornecedorCadastroVm()
+            {
+                Codigo = "FORNEC0002",
+                Email = "fornecedor@empresa.com.br"
+
+            };
+
+            fornecedorApiController.Request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/FornecedorApi/PostMultiplo");
+            fornecedorApiController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
+
+            var resposta = fornecedorApiController.PostMultiplo(new ListaFornecedores() { fornecedorCadastroVmComNome, fornecedorCadastroVmSemNome });
+            var apiResponseMessage = (ApiResponseMessage)((ObjectContent)(resposta.Content)).Value;
+
+            Assert.AreEqual(HttpStatusCode.OK, resposta.StatusCode);
+            Assert.AreEqual("200", apiResponseMessage.Retorno.Codigo);
+            Assert.AreEqual("1 fornecedores atualizados.1 fornecedores não atualizados: FORNEC0002.", apiResponseMessage.Retorno.Texto);
+            cadastroFornecedorMock.Verify(x => x.AtualizarFornecedores(It.IsAny<IList<FornecedorCadastroVm>>()), Times.Once());
+
+            
+        }
     }
 }

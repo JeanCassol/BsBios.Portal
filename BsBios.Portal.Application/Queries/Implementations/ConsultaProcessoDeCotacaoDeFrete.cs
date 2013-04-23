@@ -62,7 +62,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
                 cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
-
+                cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacao.Observacoes;
             }
 
             return retorno;

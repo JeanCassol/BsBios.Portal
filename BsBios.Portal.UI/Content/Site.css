@@ -577,8 +577,18 @@ input[type="checkbox"].input-validation-error {
     padding-left: 32px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
-
-
+.button_information{
+    background-image: url(/images/icons/information_16.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    padding-left: 32px;
+    vertical-align: middle;
+}
 
 .gradienteVerde{
 	background: #c9de96; /* Old browsers */
