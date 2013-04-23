@@ -157,7 +157,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         }
 
         [TestMethod]
-        public void QuandoConsultaCotacaoResumidaRetornaObjetoEsperado()
+        public void QuandoConsultaCotacaoResumidaAntesDoFornecedorInformarCotacaoRetornaObjetoEsperado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
@@ -177,15 +177,32 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual("Não",processoCotacaoFornecedorVm.Selecionado);
             Assert.IsNull(processoCotacaoFornecedorVm.ValorLiquido);
             Assert.IsNull(processoCotacaoFornecedorVm.ValorComImpostos);
+            Assert.IsNull(processoCotacaoFornecedorVm.QuantidadeDisponivel);
             Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
+
         [TestMethod]
-        public void Teste()
+        public void QuandoConsultaCotacaoResumidaAposFornecedorInformarCotacaoRetornaObjetoEsperado()
         {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            FornecedorParticipante fornecedorParticipante = processoDeCotacao.FornecedoresParticipantes.First();
+            Fornecedor fornecedor = fornecedorParticipante.Fornecedor;
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao);
+
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
-            KendoGridVm kendoGridVm = consultaProcesso.CotacoesDosFornecedoresResumido(10);
-            Assert.IsNotNull(kendoGridVm);
-            
+            KendoGridVm kendoGridVm = consultaProcesso.CotacoesDosFornecedoresResumido(processoDeCotacao.Id);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var processoCotacaoFornecedorVm = (ProcessoCotacaoFornecedorVm)kendoGridVm.Registros.First();
+
+            Assert.AreEqual(fornecedorParticipante.Id, processoCotacaoFornecedorVm.IdFornecedorParticipante);
+            Assert.AreEqual(fornecedor.Codigo, processoCotacaoFornecedorVm.Codigo);
+            Assert.AreEqual(fornecedor.Nome, processoCotacaoFornecedorVm.Nome);
+            Assert.AreEqual("Sim", processoCotacaoFornecedorVm.Selecionado);
+            Assert.AreEqual(100,processoCotacaoFornecedorVm.ValorLiquido);
+            Assert.AreEqual(100,processoCotacaoFornecedorVm.ValorComImpostos);
+            Assert.AreEqual(10,processoCotacaoFornecedorVm.QuantidadeDisponivel);
+            Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
+
     }
 }
