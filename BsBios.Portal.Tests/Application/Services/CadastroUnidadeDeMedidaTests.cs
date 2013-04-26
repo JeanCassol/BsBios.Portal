@@ -54,7 +54,7 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoCadastraUmNovoIvaOcorrePersistencia()
+        public void QuandoCadastraUmNovaUnidadeDeMedidaOcorrePersistencia()
         {
             _cadastroUnidadeDeMedida.AtualizarUnidadesDeMedida(_listaunidadesDeMedida);
 
@@ -65,7 +65,7 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoOcorreAlgumExcecaoNoCadastroDoIvaFazRollBackNaTransacao()
+        public void QuandoOcorreAlgumExcecaoNoCadastroDaUnidadeDeMedidaFazRollBackNaTransacao()
         {
             _unidadesDeMedidaMock.Setup(x => x.Save(It.IsAny<UnidadeDeMedida>()))
                      .Throws(new ExcecaoDeTeste("Ocorreu um erro ao cadastrar a Unidade de Medida"));
@@ -83,7 +83,7 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoReceberUmIvaExistenteDeveAtualizar()
+        public void QuandoReceberUmaUnidadeDeMedidaExistenteDeveAtualizar()
         {
             _unidadesDeMedidaMock.Setup(x => x.Save(It.IsAny<UnidadeDeMedida>())).Callback((UnidadeDeMedida unidadeDeMedida) =>
             {
@@ -105,7 +105,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 });
         }
         [TestMethod]
-        public void QuandoReceberUmIvaNovoDeveAdicionar()
+        public void QuandoReceberUmaUnidadeDeMedidaNovaDeveAdicionar()
         {
             _unidadesDeMedidaMock.Setup(x => x.Save(It.IsAny<UnidadeDeMedida>())).Callback((UnidadeDeMedida unidadeDeMedida) =>
             {
@@ -122,6 +122,27 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _cadastroUnidadeDeMedida.AtualizarUnidadesDeMedida(new List<UnidadeDeMedidaCadastroVm>() 
             { new UnidadeDeMedidaCadastroVm() { CodigoInterno = "I02", CodigoExterno = "E02", Descricao = "UNIDADE 02" } });
+        }
+
+        [TestMethod]
+        public void QuandoCadastraUmaUnidadeDeMedidaSemDescricaoUtillizaOCodigoExternoComoDescricao()
+        {
+            _unidadesDeMedidaMock.Setup(x => x.Save(It.IsAny<UnidadeDeMedida>()))
+                                 .Callback((UnidadeDeMedida unidadeDeMedida) =>
+                                     {
+                                         Assert.IsNotNull(unidadeDeMedida);
+                                         Assert.AreEqual("E01", unidadeDeMedida.Descricao);
+
+                                     });
+            _cadastroUnidadeDeMedida.AtualizarUnidadesDeMedida(new List<UnidadeDeMedidaCadastroVm>
+                {
+                    new UnidadeDeMedidaCadastroVm
+                        {
+                            CodigoInterno = "I01",
+                            CodigoExterno = "E01"
+                        }
+                });
+
         }
     }
 
