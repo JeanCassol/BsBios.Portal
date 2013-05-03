@@ -317,6 +317,19 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.IsTrue(processoDeCotacao.SuperouQuantidadeSolicitada(1001));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoSemItemException))]
+        public void NaoEPermitidoCriarProcessoDeCotacaoSemItens()
+        {
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoItemDuplicadoException))]
+        public void NaoEPermitidoDuplicarItemNoProcessoDeCotacao()
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }

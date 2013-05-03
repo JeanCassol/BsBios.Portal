@@ -15,12 +15,14 @@ namespace BsBios.Portal.Domain.Entities
         public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual string Requisitos { get; protected set; }
+        public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
         public virtual string Justificativa { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
             FornecedoresParticipantes = new List<FornecedorParticipante>();
+            Itens = new List<ProcessoDeCotacaoItem>();
             //Cotacoes = new List<Cotacao>();
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
@@ -38,6 +40,12 @@ namespace BsBios.Portal.Domain.Entities
             Requisitos = requisitos;
             DataLimiteDeRetorno = dataLimiteRetorno;
 
+        }
+
+        public virtual ProcessoDeCotacaoItem InformarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+        {
+
+                
         }
 
         public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
