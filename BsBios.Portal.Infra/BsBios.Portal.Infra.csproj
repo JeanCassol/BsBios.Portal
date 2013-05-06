@@ -138,6 +138,7 @@
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
+    <Compile Include="Services\Contracts\IFileService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoFrete.cs" />
     <Compile Include="Services\Implementations\ComunicacaoAberturaProcessoCotacaoMaterial.cs" />
     <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoMaterial.cs" />
+    <Compile Include="Services\Implementations\FileService.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFreteFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />

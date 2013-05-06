@@ -55,6 +55,7 @@
     <Compile Include="Entities\Produto.cs" />
     <Compile Include="Entities\Quota.cs" />
     <Compile Include="Entities\RequisicaoDeCompra.cs" />
+    <Compile Include="Entities\RequisicaoDeCompraItem.cs" />
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Imposto.cs" />
