@@ -6,7 +6,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
 {
     public class ProcessoDeCotacaoFactory : IProcessoDeCotacaoFactory
     {
-        private readonly IList<ProcessoDeCotacaoItemVm> _itens;
+        //private readonly IList<ProcessoDeCotacaoItemVm> _itens;
         public void AdicionarItem(Produto material, UnidadeDeMedida unidadeDeMedida, decimal quantidade)
         {
             throw new System.NotImplementedException();
@@ -14,10 +14,10 @@ namespace BsBios.Portal.Domain.Services.Implementations
 
         private void ValidaItens()
         {
-            if (_itens.Count == 0)
-            {
-                throw new ProcessoDeCotacaoSemItemException();
-            }
+            //if (_itens.Count == 0)
+            //{
+            //    throw new ProcessoDeCotacaoSemItemException();
+            //}
         }
 
         public ProcessoDeCotacaoDeMaterial CriarProcesso(RequisicaoDeCompra requisicaoDeCompra)

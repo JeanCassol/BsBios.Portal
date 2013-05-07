@@ -7,6 +7,9 @@ Mensagem = {
 
     ExibirMensagemDeSucesso: function (mensagem) {
         alert(mensagem);
+    },
+    Confirmacao: function(mensagem) {
+        return confirm(mensagem);
     }
 };
 

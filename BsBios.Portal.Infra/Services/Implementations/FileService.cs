@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Services.Contracts;
 
@@ -24,5 +26,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
             File.WriteAllBytes(filePath, bytes);
         }
 
+        public IEnumerable<string> ListFiles(string path)
+        {
+            return Directory.Exists(path) ? Directory.EnumerateFiles(path).Select(Path.GetFileName) : new List<string>().AsEnumerable();
+        }
+
+        public void Excluir(string path)
+        {
+            File.Delete(path);
+        }
     }
 }

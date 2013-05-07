@@ -589,6 +589,21 @@ input[type="checkbox"].input-validation-error {
     padding-left: 32px;
     vertical-align: middle;
 }
+.button_download{
+    background-image: url(/images/icons/download_16.png);
+}
+.button16 {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border: none;
+    cursor: pointer;
+    line-height: 16px;
+    width: 16px;
+    padding-left: 32px;
+    vertical-align: middle;
+}
+
 
 .gradienteVerde{
 	background: #c9de96; /* Old browsers */

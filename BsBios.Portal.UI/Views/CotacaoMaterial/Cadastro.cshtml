@@ -5,6 +5,9 @@
 @{
     ViewBag.TituloDaPagina = "Cotação de Material";
 }
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
 <div class="paginaCadastro">
     @using (Html.BeginForm())
     {
@@ -21,37 +24,42 @@
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Requisitos))
         </fieldset>
+        <fieldset>
+            <legend>Anexos</legend>
+            <div id="divAnexos" class="divGrid"></div>            
+        </fieldset>
+        
         
         Html.RenderPartial("_CotacaoImpostos", Model.Impostos);
         
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
             @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
-                                      new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorLiquido,"campoDesabilitado maskmoeda"))
+                                      new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.ValorLiquido, "campoDesabilitado maskmoeda"))
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.QuantidadeDisponivel, "maskquantidade"),
                                         new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker maskdata"))
             
             @{
 
-                var comboIncoterm = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoIncoterm,
-                ((List<IncotermCadastroVm>)ViewBag.Incoterms)
-                    .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm }),
-                "CodigoIncoterm");
+        var comboIncoterm = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoIncoterm,
+        ((List<IncotermCadastroVm>)ViewBag.Incoterms)
+            .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm }),
+        "CodigoIncoterm");
                 
             }
                     
             @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DescricaoIncoterm, "campogrande"))
             
             @{
-                var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoCondicaoPagamento,
-                ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
-                    .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento }),
-                "CodigoCondicaoPagamento");
+        var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoCondicaoPagamento,
+        ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
+            .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento }),
+        "CodigoCondicaoPagamento");
                 
             }
 
-            @Html.LinhaComDuasColunas(comboCondicaoDePagamento, new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.Mva,"maskmoeda"))
+            @Html.LinhaComDuasColunas(comboCondicaoDePagamento, new ColunaComTextBox<CotacaoMaterialCadastroVm, decimal?>(x => x.Mva, "maskmoeda"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoMaterialCadastroVm, string>(x => x.ObservacoesDoFornecedor))
 
@@ -75,6 +83,9 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
@@ -95,7 +106,8 @@
         }
         
 
-        $(function() {
+        $(function () {
+            GridAnexo.Configurar($('#IdProcessoCotacao').val(), "#divAnexos", false);
             aplicaMascaraData();
             aplicaMascaraMoeda();
             aplicaMascaraQuantidade();

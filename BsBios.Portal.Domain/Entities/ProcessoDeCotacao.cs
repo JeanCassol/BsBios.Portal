@@ -42,11 +42,11 @@ namespace BsBios.Portal.Domain.Entities
 
         }
 
-        public virtual ProcessoDeCotacaoItem InformarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
-        {
+        //public virtual ProcessoDeCotacaoItem InformarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+        //{
 
                 
-        }
+        //}
 
         public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
         {

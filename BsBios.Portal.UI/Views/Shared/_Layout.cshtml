@@ -55,6 +55,10 @@
             UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete")';
             UrlPadrao.AbrirProcessoDeCotacaoDeFrete = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura")';
             UrlPadrao.FecharProcessoDeCotacaoDeFrete = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeFreteFechamento")';
+
+            UrlPadrao.ProcessoCotacaoListarAnexos = '@Url.Action("Listar","ProcessoDeCotacaoAnexo")';
+            UrlPadrao.ProcessoCotacaoDownloadAnexo = '@Url.Action("Download", "ProcessoDeCotacaoAnexo")';
+            UrlPadrao.ProcessoCotacaoExcluirAnexo = '@Url.Action("Excluir","ProcessoDeCotacaoAnexo")';
             
             TipoDeCotacao.Material = '@((int) Enumeradores.TipoDeCotacao.Material)';
             TipoDeCotacao.Frete = '@((int) Enumeradores.TipoDeCotacao.Frete)';

@@ -87,6 +87,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AtualizadorDeIteracaoDoUsuario>();
 
+            For<IFileService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FileService>();
 
 
         }

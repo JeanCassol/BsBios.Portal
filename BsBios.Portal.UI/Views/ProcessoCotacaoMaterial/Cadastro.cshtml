@@ -32,11 +32,26 @@
                 <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
             </div>
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"),
-            new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
+                                      new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
             <div class="error"></div>
             <div class="divBotao">
                 <input type="button" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>
+        </fieldset>
+        <fieldset>
+            <legend>Enviar Anexos</legend>
+            <div>
+                <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
+            </div>
+            <div class="well hide" id="filelistholder"></div>
+            <div class="divBotao">
+                <input type="button" id="btnEnviarArquivos" class="blue btn btn-success pull-right" value="Enviar"/>
+            </div>
+            <div id="divUploadErro" class="message-error"></div>
+        </fieldset>
+        <fieldset>
+            <legend>Anexos Enviados</legend>
+            <div id="divAnexos" class="divGrid"></div>            
         </fieldset>
     }
 
@@ -50,8 +65,10 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/fileupload")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
@@ -63,8 +80,9 @@
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
             GridCotacaoResumida.Configurar(idProcessoCotacao);
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
+            GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 
-            $('#btnSalvar').click(function () {
+            $('#btnSalvarProcesso').click(function () {
                 $('.error').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
@@ -81,6 +99,39 @@
                         }
                     });
             });
+            
+            $('#fileupload').fileupload({
+                dataType: "json",
+                url: "/api/upload/upload",
+                limitConcurrentUploads: 1,
+                singleFileUploads: false,
+                sequentialUploads: true,
+                /*progressInterval: 100,
+                maxChunkSize: 10000,*/
+                formData: { IdProcessoCotacao: $('#Id').val() },
+                add: function (e, data) {
+                    $.each(data.files, function(indice, arquivo) {
+                        data.context = $('<div />').text(arquivo.name).appendTo('#filelistholder');
+                        $('#btnEnviarArquivos').bind('click.uploadsubmit', function () {
+                            data.submit();
+                        });
+                    });
+                },
+                done: function (e, data) {
+                    data.context.text(data.files[0].name + '... Concluído');
+                },
+                fail: function(e, data) {
+                    $('#divUploadErro').html(data.jqXHR.responseText.replace('\r\n', '<br/>'));
+                },
+                always: function (e, data) {
+                    $('#filelistholder').empty();
+                    GridAnexo.Atualizar();
+                },
+                stop: function(e) {
+                    $('#btnEnviarArquivos').unbind('click.uploadsubmit');
+                }
+            });
+
 
         })
     </script>

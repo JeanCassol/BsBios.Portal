@@ -46,6 +46,7 @@
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
+    <Compile Include="FileDownloadVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />
