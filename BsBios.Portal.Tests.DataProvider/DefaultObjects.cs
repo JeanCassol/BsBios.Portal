@@ -50,7 +50,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
-                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao);
+                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1",false);
             
             return requisicaoDeCompra;
         }
@@ -67,7 +67,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, null, null,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", unidadeDeMedida, 1000,
-                material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001");
+                material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001", "GC1", false);
 
             return requisicaoDeCompra;
         }

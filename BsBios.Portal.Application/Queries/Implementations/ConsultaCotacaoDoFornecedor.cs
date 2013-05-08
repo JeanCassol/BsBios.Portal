@@ -88,11 +88,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     CodigoFornecedor = fp.Fornecedor.Codigo,
                     Status = processo.Status.Descricao(),
                     Requisitos = processo.Requisitos,
-                    DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
+                    //DescricaoDoProcessoDeCotacao = processo.RequisicaoDeCompra.Descricao,
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
-                    Material = processo.Produto.Descricao,
-                    Quantidade = processo.Quantidade,
-                    UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                    //Material = processo.Produto.Descricao,
+                    //Quantidade = processo.Quantidade,
+                    //UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
                     IdFornecedorParticipante = fp.Id
                 };
 
@@ -129,6 +129,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
 
+            var item = processo.Itens.First();
+
             var vm = new CotacaoFreteCadastroVm
             {
                 PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
@@ -137,9 +139,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 Status = processo.Status.Descricao(),
                 Requisitos = processo.Requisitos,
                 DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
-                Material = processo.Produto.Descricao,
-                Quantidade = processo.Quantidade,
-                UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                //Material = processo.Produto.Descricao,
+                //Quantidade = processo.Quantidade,
+                //UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                Material = item.Produto.Descricao,
+                Quantidade = item.Quantidade,
+                UnidadeDeMedida = item.UnidadeDeMedida.Descricao,
                 DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
                 DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
                 Itinerario = processo.Itinerario.Descricao,

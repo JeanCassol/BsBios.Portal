@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BsBios.Portal.Domain.Entities
+namespace BsBios.Portal.Common.Exceptions
 {
-    public class RequisicaoDeCompraItem
+    public class ProcessoDeCotacaoItemRepetidoException: Exception
     {
     }
 }

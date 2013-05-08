@@ -12,12 +12,12 @@ namespace BsBios.Portal.ViewModel
         public string DataLimiteDeRetorno { get; set; }
         [DisplayName("Status: ")]
         public string Status { get; set; }
-        [DisplayName("Material: ")]
-        public string Material { get; set; }
-        [DisplayName("Quantidade: ")]
-        public decimal Quantidade { get; set; }
-        [DisplayName("Unidade de Medida: ")]
-        public string UnidadeDeMedida { get; set; }
+        //[DisplayName("Material: ")]
+        //public string Material { get; set; }
+        //[DisplayName("Quantidade: ")]
+        //public decimal Quantidade { get; set; }
+        //[DisplayName("Unidade de Medida: ")]
+        //public string UnidadeDeMedida { get; set; }
         
         /// <summary>
         /// usuada para indicar se os campos da tela serão habilitados para edição

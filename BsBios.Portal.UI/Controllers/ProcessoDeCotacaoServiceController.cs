@@ -33,11 +33,11 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult VerificarQuantidadeAdquirida(int idProcessoCotacao, decimal quantidadeAdquiridaTotal)
+        public JsonResult VerificarQuantidadeAdquirida(int idProcessoCotacao, int idItem, decimal quantidadeAdquiridaTotal)
         {
             try
             {
-                VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(idProcessoCotacao, quantidadeAdquiridaTotal);
+                VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(idProcessoCotacao, idItem, quantidadeAdquiridaTotal);
                 return Json(new {Sucesso = true, Verificacao = verificacaoVm}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

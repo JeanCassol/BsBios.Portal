@@ -47,7 +47,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                                                                 requisicaoDeCompraVm.Quantidade, material,
                                                                 requisicaoDeCompraVm.Descricao,
                                                                 requisicaoDeCompraVm.NumeroItem,
-                                                                requisicaoDeCompraVm.NumeroRequisicao);
+                                                                requisicaoDeCompraVm.NumeroRequisicao,
+                                                                requisicaoDeCompraVm.CodigoGrupoDeCompra,
+                                                                false);
 
                 var processoDeCotacaoDeMaterial = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
 

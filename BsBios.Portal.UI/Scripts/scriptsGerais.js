@@ -272,7 +272,6 @@ function desbloqueiaPagina() {
 }
 
 UrlPadrao = {};
-
 TipoDeCotacao = {};
 
 $(function () {

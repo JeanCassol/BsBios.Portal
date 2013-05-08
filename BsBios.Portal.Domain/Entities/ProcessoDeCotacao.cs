@@ -10,9 +10,9 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual int Id { get; protected set; }
         public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
-        public virtual Produto Produto { get; protected set; }
-        public virtual decimal Quantidade { get; protected set; }
-        public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
+        //public virtual Produto Produto { get; protected set; }
+        //public virtual decimal Quantidade { get; protected set; }
+        //public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
@@ -27,26 +27,25 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
 
-        protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida):this()
-        {
-            Produto = produto;
-            Quantidade = quantidade;
-            UnidadeDeMedida = unidadeDeMedida;
-        }
-
-        protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
-            string requisitos, DateTime dataLimiteRetorno):this(produto, quantidade, unidadeDeMedida)
-        {
-            Requisitos = requisitos;
-            DataLimiteDeRetorno = dataLimiteRetorno;
-
-        }
-
-        //public virtual ProcessoDeCotacaoItem InformarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida):this()
         //{
-
-                
+        //    Produto = produto;
+        //    Quantidade = quantidade;
+        //    UnidadeDeMedida = unidadeDeMedida;
         //}
+
+        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
+        //    string requisitos, DateTime dataLimiteRetorno)//:this(produto, quantidade, unidadeDeMedida)
+        //{
+        //    Requisitos = requisitos;
+        //    DataLimiteDeRetorno = dataLimiteRetorno;
+
+        //}
+
+        public virtual void RemoverItem(ProcessoDeCotacaoItem item)
+        {
+            Itens.Remove(item);
+        }
 
         public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
         {
@@ -143,22 +142,36 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
-        public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
-        {
-            return quantidadeTotalAdquirida > Quantidade;
-        }
+        //public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
+        //{
+        //    return quantidadeTotalAdquirida > Quantidade;
+        //}
     }
 
     public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao
     {
-        public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
+        //public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
 
-        protected ProcessoDeCotacaoDeMaterial()
-        {}
-        public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
-            :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
+        //protected ProcessoDeCotacaoDeMaterial()
+        //{}
+        //public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
+        //    :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
+        //{
+        //    RequisicaoDeCompra = requisicaoDeCompra;
+        //}
+        
+        public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
         {
-            RequisicaoDeCompra = requisicaoDeCompra;
+            if (requisicaoDeCompra.ProcessoDeCotacaoItem != null)
+            {
+                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,
+                                                                                      requisicaoDeCompra.NumeroItem,
+                                                                                      requisicaoDeCompra.ProcessoDeCotacaoItem.ProcessoDeCotacao.Id);
+
+            }
+            var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
+            Itens.Add(item);
+            return item;
         }
 
         public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
@@ -221,17 +234,26 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Itinerario Itinerario { get; protected set; }
 
         protected ProcessoDeCotacaoDeFrete(){}
-        public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
+        internal ProcessoDeCotacaoDeFrete(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, */
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
-            DateTime dataDeValidadeFinal, Itinerario itinerario):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+            DateTime dataDeValidadeFinal, Itinerario itinerario)//:base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
         {
             NumeroDoContrato = numeroDoContrato;
             DataDeValidadeInicial = dataDeValidadeInicial;
             DataDeValidadeFinal = dataDeValidadeFinal;
             Itinerario = itinerario;
+            Requisitos = requisitos;
+            DataLimiteDeRetorno = dataLimiteDeRetorno;
         }
 
-        public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,
+        public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+        {
+            var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida);
+            Itens.Add(item);
+            return item;
+        }
+
+        public virtual void Atualizar(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,*/
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
             DateTime dataDeValidadeFinal, Itinerario itinerario)
         {
@@ -240,9 +262,9 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
             }
 
-            Produto = produto;
-            Quantidade = quantidade;
-            UnidadeDeMedida = unidadeDeMedida;
+            //Produto = produto;
+            //Quantidade = quantidade;
+            //UnidadeDeMedida = unidadeDeMedida;
             Requisitos = requisitos;
             NumeroDoContrato = numeroDoContrato;
             DataLimiteDeRetorno = dataLimiteDeRetorno;
@@ -290,5 +312,10 @@ namespace BsBios.Portal.Domain.Entities
             cotacao.RemoverSelecao();
         }
 
+        public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
+        {
+            var item = (ProcessoDeCotacaoDeFreteItem) Itens.First();
+            item.Atualizar(produto, quantidadeMaterial, unidadeDeMedida);
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BsBios.Portal.ViewModel
 {
-    public class ProcessoCotacaoMaterialFiltroVm
+    public class ProcessoCotacaoFiltroVm
     {
         public string CodigoFornecedor { get; set; }
         //1 - material; 2 - frete

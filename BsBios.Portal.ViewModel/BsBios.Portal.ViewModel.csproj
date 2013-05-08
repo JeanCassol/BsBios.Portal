@@ -82,7 +82,7 @@
     <Compile Include="IncotermCadastroVm.cs" />
     <Compile Include="KendoGridVm.cs" />
     <Compile Include="ListagemVm.cs" />
-    <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
+    <Compile Include="ProcessoCotacaoFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
     <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />

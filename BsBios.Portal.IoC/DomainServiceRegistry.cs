@@ -13,6 +13,14 @@ namespace BsBios.Portal.IoC
             For<IVerificaPermissaoAgendamento>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<VerificaPermissaoAgendamento>();
+
+            For<IProcessoDeCotacaoDeFreteFactory>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeFreteFactory>();
+
+            For<IProcessoDeCotacaoDeMaterialFactory>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeMaterialFactory>();
         }
     }
 }

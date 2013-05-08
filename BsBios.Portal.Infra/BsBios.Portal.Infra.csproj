@@ -80,6 +80,7 @@
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
     <Compile Include="Mappings\NotaFiscalMap.cs" />
     <Compile Include="Mappings\ProcessoCotacaoIteracaoUsuarioMap.cs" />
+    <Compile Include="Mappings\ProcessoDeCotacaoItemMap.cs" />
     <Compile Include="Mappings\QuotaMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />

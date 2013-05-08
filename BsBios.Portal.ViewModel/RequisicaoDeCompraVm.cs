@@ -48,6 +48,9 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         [DisplayName("Criado por: ")]
         public string Criador { get; set; }
+        [DataMember]
+        [DisplayName("Grupo de Compras: ")]
+        public string CodigoGrupoDeCompra { get; set; }
     }
 
 }

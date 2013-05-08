@@ -324,8 +324,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoItemDuplicadoException))]
-        public void NaoEPermitidoDuplicarItemNoProcessoDeCotacao()
+        [ExpectedException(typeof(ProcessoDeCotacaoItemRepetidoException))]
+        public void NaoEPermitidoUtilizarMesmoItemDeRequisicaoEmMaisDeUmProcessoDeCotacao()
         {
             throw new NotImplementedException();
         }

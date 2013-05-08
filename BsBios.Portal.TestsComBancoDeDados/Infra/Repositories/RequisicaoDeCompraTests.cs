@@ -44,6 +44,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
             Assert.AreEqual(requisicaoDeCompra.Numero, requisicaoConsultada.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, requisicaoConsultada.NumeroItem);            
+            Assert.AreEqual(requisicaoDeCompra.CodigoGrupoDeCompra, requisicaoConsultada.CodigoGrupoDeCompra);
+            Assert.AreEqual(requisicaoDeCompra.Mrp, requisicaoConsultada.Mrp);
         }
 
         [TestMethod]

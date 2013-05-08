@@ -36,6 +36,62 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
         $(document).ready(function() {
+
+            var colunas = [{
+                field: 'Id',
+                title: ' ', /*coloco um espaço para deixar o header sem título*/
+                width: 40,
+                sortable: false,
+                template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
+            }];
+
+            if ('@ViewBag.TipoDeCotacao' == TipoDeCotacao.Frete) {
+                colunas.push({
+                    field: "CodigoMaterial",
+                    width: 120,
+                    title: "Código"
+                });
+            }
+            colunas.push({
+                field: "Material",
+                width: 250,
+                title: "Material"
+            });
+
+            if ('@ViewBag.TipoDeCotacao' == TipoDeCotacao.Frete) {
+                colunas.push({
+                    width: 80,
+                    field:
+                    "Quantidade",
+                    title:
+                    "Quantidade"
+                });
+
+                colunas.push(
+                    {
+                        width: 80,
+                        field:
+                            "UnidadeDeMedida",
+                        title:
+                            "Unidade"
+                    });
+            }
+            
+            colunas.push({
+                width: 100,
+                field:
+                "Status",
+                title:
+                "Status"
+            });
+            colunas.push({
+                width: 80,
+                field:
+                    "DataTermino",
+                title:
+                    "Retorno Até"
+            });
+
             $("#gridCotacaoMaterial").customKendoGrid({
                 dataSource: {
                     schema: {
@@ -75,57 +131,22 @@
                             type: 'GET',
                             cache: false,
                             data: function() {
-                                return { CodigoProduto: $('#CodigoProduto').val(), DescricaoProduto: $('#DescricaoProduto').val(), CodigoStatusProcessoCotacao: $('#Status :selected').val() };
+                                return {
+                                    CodigoProduto: $('#CodigoProduto').val(), DescricaoProduto: $('#DescricaoProduto').val(),
+                                    CodigoStatusProcessoCotacao: $('#Status :selected').val()
+                                };
                             }
                         }
                     }
                 },
-                scrollable:true,
-                columns:
-                [
-                    {
-                        field: 'Id',
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 40,
-                        sortable: false,
-                        template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
-                    },
-                    {
-                        field: "CodigoMaterial",
-                        width: 120,
-                        title: "Código"
-                    }, {
-                        field: "Material",
-                        width: 250,
-                        title: "Material"
-                    },
-                    {
-                        width: 80,
-                        field: "Quantidade",
-                        title: "Quantidade"
-                    },
-                    {
-                        width: 80,
-                        field: "UnidadeDeMedida",
-                        title: "Unidade"
-                    },
-                    {
-                        width: 100,
-                        field: "Status",
-                        title: "Status"
-                    },
-                    {
-                        width: 80,
-                        field: "DataTermino",
-                        title: "Retorno Até"
-                    }
-                ]
+                scrollable: true,
+                columns: colunas
             });
 
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
+                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao');
             });
 
             //$('#btnPesquisar').click(function(e) {

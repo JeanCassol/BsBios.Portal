@@ -52,7 +52,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10}, 
-                new ProcessoCotacaoMaterialFiltroVm(){TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material});
+                new ProcessoCotacaoFiltroVm(){TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material});
 
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             ProcessoCotacaoMaterialListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
@@ -95,7 +95,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             //consulta filtrando pelo fornecedor1
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 }, 
-               new ProcessoCotacaoMaterialFiltroVm()
+               new ProcessoCotacaoFiltroVm()
                    {
                        CodigoFornecedor  = fornecedor1.Codigo
                    });
@@ -125,7 +125,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             //consulta filtrando pelo fornecedor
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
-               new ProcessoCotacaoMaterialFiltroVm()
+               new ProcessoCotacaoFiltroVm()
                {
                    CodigoFornecedor = fornecedor1.Codigo
                });

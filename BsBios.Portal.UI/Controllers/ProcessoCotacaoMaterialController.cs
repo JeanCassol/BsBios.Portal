@@ -39,10 +39,11 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["ActionListagem"] = Url.Action("Listar","ProcessoCotacaoMaterial");
             ViewBag.TituloDaPagina = "Cotações de Material";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
+            ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Material;
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material;

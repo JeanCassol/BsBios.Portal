@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -35,14 +36,21 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        public VerificacaoDeQuantidadeAdquiridaVm VerificarQuantidadeAdquirida(int idProcessoCotacao, decimal quantidadeTotalAdquirida)
+        public VerificacaoDeQuantidadeAdquiridaVm VerificarQuantidadeAdquirida(int idProcessoCotacao, int idItem, decimal quantidadeTotalAdquirida)
         {
             var processoDeCotacao =  _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+            var item = processoDeCotacao.Itens.First(x => x.Id == idItem);
+            //return new VerificacaoDeQuantidadeAdquiridaVm
+            //    {
+            //        QuantidadeSolicitadaNoProcessoDeCotacao = processoDeCotacao.Quantidade,
+            //        SuperouQuantidadeSolicitada = processoDeCotacao.SuperouQuantidadeSolicitada(quantidadeTotalAdquirida)
+            //    };
             return new VerificacaoDeQuantidadeAdquiridaVm
-                {
-                    QuantidadeSolicitadaNoProcessoDeCotacao = processoDeCotacao.Quantidade,
-                    SuperouQuantidadeSolicitada = processoDeCotacao.SuperouQuantidadeSolicitada(quantidadeTotalAdquirida)
-                };
+            {
+                QuantidadeSolicitadaNoProcessoDeCotacao = item.Quantidade,
+                SuperouQuantidadeSolicitada = item.SuperouQuantidadeSolicitada(quantidadeTotalAdquirida)
+            };
+
         }
     }
 }

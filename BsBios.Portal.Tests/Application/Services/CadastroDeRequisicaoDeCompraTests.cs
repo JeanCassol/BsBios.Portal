@@ -82,7 +82,8 @@ namespace BsBios.Portal.Tests.Application.Services
                     Material = "PROD0001" ,
                     Quantidade = 100 ,
                     Requisitante = "requisitante" ,
-                    UnidadeMedida = "UND"
+                    UnidadeMedida = "UND",
+                    CodigoGrupoDeCompra = "GC1"
                 };
         }
 
@@ -149,9 +150,12 @@ namespace BsBios.Portal.Tests.Application.Services
                                             Assert.AreEqual("Requisição de compra enviada pelo SAP", requisicaoDeCompra.Descricao);
                                             Assert.AreEqual("REQ001", requisicaoDeCompra.Numero);
                                             Assert.AreEqual("0001", requisicaoDeCompra.NumeroItem);
+                                            Assert.AreEqual("GC1", requisicaoDeCompra.CodigoGrupoDeCompra);
+                                            Assert.IsFalse(requisicaoDeCompra.Mrp);
                                         });
 
             _cadastroRequisicao.NovaRequisicao(_requisicaoDeCompraVm);
+            _requisicoesDeCompraMock.Verify(x => x.Save(It.IsAny<RequisicaoDeCompra>()), Times.Once());
         }
 
         [TestMethod]
@@ -168,6 +172,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                            Assert.AreEqual(100, processoDeCotacaoDeMaterial.Quantidade);
                                        });
             _cadastroRequisicao.NovaRequisicao(_requisicaoDeCompraVm);
+            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
         }
     }
 }

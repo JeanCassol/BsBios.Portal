@@ -31,7 +31,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(
                 (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
@@ -51,31 +51,35 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
             }
 
-            var query = (from p in _processosDeCotacao.GetQuery()
-                         select new 
-                         {
-                             CodigoMaterial = p.Produto.Codigo,
-                             Material = p.Produto.Descricao,
-                             DataTermino = p.DataLimiteDeRetorno,
-                             Id = p.Id,
-                             Quantidade = p.Quantidade,
-                             Status = p.Status,
-                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao
-                         }
-                        );
+            //var query = (from p in _processosDeCotacao.GetQuery()
+            //             select new 
+            //             {
+            //                 //CodigoMaterial = p.Produto.Codigo,
+            //                 //Material = p.Produto.Descricao,
+            //                 DataTermino = p.DataLimiteDeRetorno,
+            //                 Id = p.Id,
+            //                 //Quantidade = p.Quantidade,
+            //                 Status = p.Status,
+            //                 //UnidadeDeMedida = p.UnidadeDeMedida.Descricao
+            //             }
+            //            );
+
+            var query = _processosDeCotacao.GetQuery();
 
             var quantidadeDeRegistros = query.Count();
 
-            var registros = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()
+            var processosListados = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList();
+
+            var registros = processosListados
                              .Select(x => new ProcessoCotacaoMaterialListagemVm()
                                  {
                                      Id = x.Id,
-                                     CodigoMaterial = x.CodigoMaterial,
-                                     Material = x.Material,
-                                     DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString(): "",
-                                     Quantidade = x.Quantidade,
+                                     //CodigoMaterial = x.CodigoMaterial,
+                                     Material = String.Join(", ", x.Itens.Select(i => i.Produto.Descricao)),
+                                     DataTermino = x.DataLimiteDeRetorno.HasValue ? x.DataLimiteDeRetorno.Value.ToShortDateString(): "",
+                                     //Quantidade = x.Quantidade,
                                      Status = x.Status.Descricao(),
-                                     UnidadeDeMedida = x.UnidadeDeMedida
+                                     //UnidadeDeMedida = x.UnidadeDeMedida
                                  }).Cast<ListagemVm>().ToList();
 
             var kendoGridVm = new KendoGridVm()
@@ -99,20 +103,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              DataTerminoLeilao = p.DataLimiteDeRetorno,
                                              processo.Status,
                                              processo.Requisitos,
-                                             processo.RequisicaoDeCompra.Numero,
-                                             processo.RequisicaoDeCompra.NumeroItem,
-                                             processo.RequisicaoDeCompra.Centro,
-                                             CodigoMaterial = processo.Produto.Codigo,
-                                             Material = processo.Produto.Descricao,
-                                             processo.RequisicaoDeCompra.Descricao,
-                                             processo.Quantidade,
-                                             processo.RequisicaoDeCompra.DataDeLiberacao,
-                                             processo.RequisicaoDeCompra.DataDeRemessa,
-                                             processo.RequisicaoDeCompra.DataDeSolicitacao,
-                                             FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
-                                             Criador = processo.RequisicaoDeCompra.Criador.Nome, 
-                                             processo.RequisicaoDeCompra.Requisitante,
-                                             processo.RequisicaoDeCompra.UnidadeMedida
+                                             //processo.RequisicaoDeCompra.Numero,
+                                             //processo.RequisicaoDeCompra.NumeroItem,
+                                             //processo.RequisicaoDeCompra.Centro,
+                                             //CodigoMaterial = processo.Produto.Codigo,
+                                             //Material = processo.Produto.Descricao,
+                                             //processo.RequisicaoDeCompra.Descricao,
+                                             //processo.Quantidade,
+                                             //processo.RequisicaoDeCompra.DataDeLiberacao,
+                                             //processo.RequisicaoDeCompra.DataDeRemessa,
+                                             //processo.RequisicaoDeCompra.DataDeSolicitacao,
+                                             //FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
+                                             //Criador = processo.RequisicaoDeCompra.Criador.Nome, 
+                                             //processo.RequisicaoDeCompra.Requisitante,
+                                             //processo.RequisicaoDeCompra.UnidadeMedida
                                          }).Single();
 
             return new ProcessoCotacaoMaterialCadastroVm()
@@ -120,24 +124,24 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Id = processoDeCotacao.Id,
                     DataLimiteRetorno = processoDeCotacao.DataTerminoLeilao.HasValue ? processoDeCotacao.DataTerminoLeilao.Value.ToShortDateString(): null,
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    CodigoMaterial = processoDeCotacao.CodigoMaterial,
+                    //CodigoMaterial = processoDeCotacao.CodigoMaterial,
                     Requisitos =  processoDeCotacao.Requisitos,
-                    RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
-                        {
-                            Centro = processoDeCotacao.Centro,
-                            Criador = processoDeCotacao.Criador,
-                            DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
-                            DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
-                            DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
-                            Descricao = processoDeCotacao.Descricao,
-                            FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
-                            Material = processoDeCotacao.Material,
-                            NumeroItem = processoDeCotacao.NumeroItem,
-                            NumeroRequisicao = processoDeCotacao.Numero,
-                            Quantidade = processoDeCotacao.Quantidade,
-                            Requisitante = processoDeCotacao.Requisitante,
-                            UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
-                        }
+                    //RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
+                    //    {
+                    //        Centro = processoDeCotacao.Centro,
+                    //        Criador = processoDeCotacao.Criador,
+                    //        DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
+                    //        DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
+                    //        DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
+                    //        Descricao = processoDeCotacao.Descricao,
+                    //        FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
+                    //        Material = processoDeCotacao.Material,
+                    //        NumeroItem = processoDeCotacao.NumeroItem,
+                    //        NumeroRequisicao = processoDeCotacao.Numero,
+                    //        Quantidade = processoDeCotacao.Quantidade,
+                    //        Requisitante = processoDeCotacao.Requisitante,
+                    //        UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
+                    //    }
                 };
         }
 
