@@ -49,6 +49,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual ProcessoDeCotacaoDeMaterial GerarProcessoDeCotacaoDeMaterial()
         {
             var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(/*this*/);
+            processoDeCotacao.AdicionarItem(this);
             return processoDeCotacao;
         }
 

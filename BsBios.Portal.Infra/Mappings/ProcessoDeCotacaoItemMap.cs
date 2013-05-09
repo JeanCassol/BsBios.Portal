@@ -13,7 +13,8 @@ namespace BsBios.Portal.Infra.Mappings
         public ProcessoDeCotacaoItemMap()
         {
             Table("ProcessoCotacaoItem");
-            Id(x => x.Id).GeneratedBy.Sequence("PROCESSOCOTACAOITEM_ID_SEQUENCE");
+            Id(x => x.Id).GeneratedBy.Sequence("PROCESSOCOTACAOITEM_ID_SEQ");
+            References(x => x.ProcessoDeCotacao).Column("IdProcessoCotacao");
             References(x => x.Produto).Column("CodigoProduto");
             References(x => x.UnidadeDeMedida).Column("CodigoUnidadeMedida");
             Map(x => x.Quantidade);
@@ -23,16 +24,16 @@ namespace BsBios.Portal.Infra.Mappings
     {
         public ProcessoDeCotacaoDeMaterialItemMap()
         {
-            Table("ProcessoCotacaoMaterialItem");
+            Table("ProcessoCotacaoItemMaterial");
             KeyColumn("Id");
             References(x => x.RequisicaoDeCompra).Column("IdRequisicaoCompra");
         }
     }
-    public class ProcessoDeCotacaoDeFreteItem: SubclassMap<ProcessoDeCotacaoDeFreteItem>
+    public class ProcessoDeCotacaoDeFreteItemMap: SubclassMap<ProcessoDeCotacaoDeFreteItem>
     {
-        public ProcessoDeCotacaoDeFreteItem()
+        public ProcessoDeCotacaoDeFreteItemMap()
         {
-            Table("ProcessoCotacaoFreteItem");
+            Table("ProcessoCotacaoItemFrete");
             KeyColumn("Id");
         }
     }

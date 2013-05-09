@@ -115,6 +115,13 @@ namespace BsBios.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ListarItens(int idProcessoCotacao)
+        {
+            KendoGridVm kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.ListarItens(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult FecharProcesso()
         {

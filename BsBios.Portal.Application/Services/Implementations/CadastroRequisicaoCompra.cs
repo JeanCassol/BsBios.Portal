@@ -49,7 +49,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                                                                 requisicaoDeCompraVm.NumeroItem,
                                                                 requisicaoDeCompraVm.NumeroRequisicao,
                                                                 requisicaoDeCompraVm.CodigoGrupoDeCompra,
-                                                                false);
+                                                                requisicaoDeCompraVm.Mrp.ToUpper().Equals("B"));
 
                 var processoDeCotacaoDeMaterial = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
 

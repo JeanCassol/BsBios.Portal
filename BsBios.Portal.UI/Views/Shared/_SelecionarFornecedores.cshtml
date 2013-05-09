@@ -3,15 +3,6 @@
     Layout = null;
     var tipoDeCotacao = (Enumeradores.TipoDeCotacao) ViewData["TipoDeCotacao"];
 }
-<style type="text/css">
-     .separador {
-         margin-top: 10px;
-        background-color: #0095cd;
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-     }
- </style>
 <div id="divFornecedores" class="divGrid">
     @Html.Hidden("CodigoProduto",ViewData["CodigoProduto"])
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])

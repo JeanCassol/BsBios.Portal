@@ -70,6 +70,7 @@
     <Compile Include="Application\Queries\ConsultaQuotaTests.cs" />
     <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
     <Compile Include="Application\Queries\ConsultaQuotaRelatorioTests.cs" />
+    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeFreteTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />

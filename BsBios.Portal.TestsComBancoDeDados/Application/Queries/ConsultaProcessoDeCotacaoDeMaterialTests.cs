@@ -5,7 +5,6 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -36,7 +35,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             ProcessoCotacaoMaterialCadastroVm processoCotacaoMaterialCadastroVm = consultaProcesso.ConsultaProcesso(processoDeCotacaoDeMaterial.Id);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoCotacaoMaterialCadastroVm.Id);
-            Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Codigo,processoCotacaoMaterialCadastroVm.CodigoMaterial);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Codigo,processoCotacaoMaterialCadastroVm.CodigoMaterial);
             Assert.IsTrue(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoCotacaoMaterialCadastroVm.DataLimiteRetorno);
             Assert.AreEqual("Não Iniciado",processoCotacaoMaterialCadastroVm.DescricaoStatus);
@@ -57,8 +56,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             ProcessoCotacaoMaterialListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoListagem.Id);
-            Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Codigo, processoListagem.CodigoMaterial);
-            Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Descricao, processoListagem.Material);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Codigo, processoListagem.CodigoMaterial);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Descricao, processoListagem.Material);
             Assert.AreEqual(1000, processoListagem.Quantidade);
             Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
@@ -202,6 +201,25 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(100,processoCotacaoFornecedorVm.ValorComImpostos);
             Assert.AreEqual(10,processoCotacaoFornecedorVm.QuantidadeDisponivel);
             Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarItensDeUmProcessoDeCotacaoDeMaterial()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.ListarItens(processoDeCotacao.Id);
+            IList<RequisicaoDeCompraVm> requisicoesDeCompraVm = kendoGridVm.Registros.Cast<RequisicaoDeCompraVm>().ToList();
+
+            Assert.IsNotNull(requisicoesDeCompraVm);
+            Assert.AreEqual(1, requisicoesDeCompraVm.Count);
+            var requisicaoDeCompraVm = requisicoesDeCompraVm.First();
+            var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
+            Assert.AreEqual(item.RequisicaoDeCompra.Numero, requisicaoDeCompraVm.NumeroRequisicao);
+            Assert.AreEqual(item.RequisicaoDeCompra.NumeroItem,requisicaoDeCompraVm.NumeroItem);
+
         }
 
     }

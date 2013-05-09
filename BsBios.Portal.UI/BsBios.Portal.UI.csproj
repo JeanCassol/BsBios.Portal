@@ -157,6 +157,7 @@
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
+    <Compile Include="Controllers\RequisicaoCompraController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -399,6 +400,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoAnexo.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoItensGrid.js" />
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
@@ -460,6 +462,8 @@
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeAgendamentos.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\PlanejadoRealizadoPorData.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
+    <Content Include="Views\Shared\_ProcessoCotacaoItem.cshtml" />
+    <Content Include="Views\Shared\_SelecionarItens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

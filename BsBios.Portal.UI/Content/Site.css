@@ -679,5 +679,13 @@ input[type="checkbox"].input-validation-error {
 .ui-dialog-title {
     font-size: 18px!important;
 }
+.separador {
+    margin-top: 10px;
+    background-color: #0095cd;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 
 

@@ -16,10 +16,10 @@ namespace BsBios.Portal.Infra.Mappings
             //    .ExtraLazyLoad();
             //HasMany(x => x.Cotacoes).KeyColumn("IdProcessoCotacao").Cascade.AllDeleteOrphan();
 
+
             HasMany(x => x.Itens).KeyColumn("IdProcessoCotacao")
                                  .Inverse()
                                  .Cascade.AllDeleteOrphan();
-
 
             HasMany(x => x.FornecedoresParticipantes).KeyColumn("IdProcessoCotacao")
                 .Inverse() /*Sem este INVERSE não funciona o delete da entidade principal: ProcessoDeCotacao. O NHibernate tenta fazer um update na tabela 

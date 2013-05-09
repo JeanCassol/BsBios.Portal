@@ -45,7 +45,7 @@
         internal ProcessoDeCotacaoDeFreteItem(ProcessoDeCotacao processoDeCotacao, Produto material, decimal quantidade
             , UnidadeDeMedida unidadeDeMedida):base(processoDeCotacao, material, quantidade, unidadeDeMedida) { }
 
-        internal void Atualizar(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
+        protected internal virtual void Atualizar(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
         {
             Produto = produto;
             Quantidade = quantidadeMaterial;

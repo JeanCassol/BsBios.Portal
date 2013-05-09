@@ -1040,7 +1040,7 @@ ADD CONSTRAINT PROCESSOITEMFRETE_ITEM FOREIGN KEY
 (
   ID 
 )
-REFERENCES PROCESSODECOTACAOITEM
+REFERENCES PROCESSOCOTACAOITEM
 (
   ID 
 )
@@ -1092,7 +1092,7 @@ INSERT INTO PROCESSOCOTACAOITEMFRETE
 (id)
 select id
 from processocotacaoitem
-where id in (select id from processocotacaofrete);
+where idprocessocotacao in (select id from processocotacaofrete);
 
 
 INSERT INTO PROCESSOCOTACAOITEMMATERIAL
@@ -1100,6 +1100,8 @@ INSERT INTO PROCESSOCOTACAOITEMMATERIAL
 select item.id, pcm.idrequisicaocompra
 from processocotacaoitem item inner join processocotacaomaterial pcm
 on item.idprocessocotacao = pcm.id;
+
+commit;
 --IMPORTAÇÃO DOS DADOS DA TABELA DE PROCESSO DE COTAÇÃO PARA A TABELA DE ITENS (FIM)
 
 --EXCLUSÃO DAS COLUNAS IMPORTADAS (INICIO)

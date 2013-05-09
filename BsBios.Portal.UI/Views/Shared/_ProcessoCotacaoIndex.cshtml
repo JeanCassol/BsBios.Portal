@@ -31,7 +31,6 @@
 <div id="gridCotacaoMaterial" class="divGrid" ></div>
 @section scripts
 {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
@@ -45,7 +44,7 @@
                 template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
             }];
 
-            if ('@ViewBag.TipoDeCotacao' == TipoDeCotacao.Frete) {
+            if ('@((int)ViewBag.TipoDeCotacao)' == TipoDeCotacao.Frete) {
                 colunas.push({
                     field: "CodigoMaterial",
                     width: 120,
@@ -58,38 +57,30 @@
                 title: "Material"
             });
 
-            if ('@ViewBag.TipoDeCotacao' == TipoDeCotacao.Frete) {
+            if ('@((int)ViewBag.TipoDeCotacao)' == TipoDeCotacao.Frete) {
                 colunas.push({
                     width: 80,
-                    field:
-                    "Quantidade",
-                    title:
-                    "Quantidade"
+                    field: "Quantidade",
+                    title: "Quantidade"
                 });
 
                 colunas.push(
                     {
                         width: 80,
-                        field:
-                            "UnidadeDeMedida",
-                        title:
-                            "Unidade"
+                        field: "UnidadeDeMedida",
+                        title: "Unidade"
                     });
             }
             
             colunas.push({
                 width: 100,
-                field:
-                "Status",
-                title:
-                "Status"
+                field: "Status",
+                title:"Status"
             });
             colunas.push({
                 width: 80,
-                field:
-                    "DataTermino",
-                title:
-                    "Retorno Até"
+                field: "DataTermino",
+                title: "Retorno Até"
             });
 
             $("#gridCotacaoMaterial").customKendoGrid({

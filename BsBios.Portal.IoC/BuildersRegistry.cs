@@ -89,6 +89,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<StatusProcessoCotacaoBuilder>();
 
+            For<IBuilder<RequisicaoDeCompra,RequisicaoDeCompraVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<RequisicaoDeCompraBuilder>();
 
         }
     }

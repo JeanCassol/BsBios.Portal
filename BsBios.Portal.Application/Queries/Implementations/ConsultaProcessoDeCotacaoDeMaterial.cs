@@ -9,7 +9,6 @@ using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
-using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -18,16 +17,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
+        private readonly IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> _builderRequisicaoDeCompra;
         //private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
 
 
         public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
-            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario /*, 
+            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario, IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> builderRequisicaoDeCompra /*, 
             IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao*/)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderFornecedor = builderFornecedor;
             _iteracoesUsuario = iteracoesUsuario;
+            _builderRequisicaoDeCompra = builderRequisicaoDeCompra;
             //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
@@ -292,6 +293,21 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
 
             return kendoGridVm;
+        }
+
+        public KendoGridVm ListarItens(int idProcessoCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            var requisicoes = (from pc in _processosDeCotacao.GetQuery()
+                               from item in pc.Itens
+                               let itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item
+                               select itemMaterial.RequisicaoDeCompra).ToList();
+
+            return new KendoGridVm
+                {
+                    QuantidadeDeRegistros = requisicoes.Count,
+                    Registros = _builderRequisicaoDeCompra.BuildList(requisicoes).Cast<ListagemVm>().ToList()
+                };
         }
     }
 }

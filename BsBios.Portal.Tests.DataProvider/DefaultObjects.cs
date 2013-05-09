@@ -192,16 +192,20 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
         {
-            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100,ObtemUnidadeDeMedidaPadrao(), 
-                "Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
+            var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+
+            processo.AdicionarItem(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao());
+
+            return processo;
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato()
         {
-            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
-                "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
+            var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+            processo.AdicionarItem(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao());
+            return processo;
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
@@ -210,9 +214,12 @@ namespace BsBios.Portal.Tests.DataProvider
             var unidadeDeMedida = new UnidadeDeMedida("TON", "TON", "Toneladas");
             var itinerario = new Itinerario("010330", "RS Rio Grande -> BA Formosa Do Rio Preto");
 
-            return new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
-                "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
+            var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario);
+
+            processo.AdicionarItem(produto, 100, unidadeDeMedida);
+
+            return processo;
 
         }
 
@@ -251,9 +258,11 @@ namespace BsBios.Portal.Tests.DataProvider
         }
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)
         {
-            return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
-                "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
+            var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+
+            processo.AdicionarItem(produto, 100, ObtemUnidadeDeMedidaPadrao());
+            return processo;
         }
 
 
