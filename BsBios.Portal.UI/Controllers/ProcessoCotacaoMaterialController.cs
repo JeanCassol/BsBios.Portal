@@ -56,6 +56,12 @@ namespace BsBios.Portal.UI.Controllers
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ViewResult NovoCadastro()
+        {
+            return View("Cadastro");
+        }
+
         public ViewResult EditarCadastro(int idProcessoCotacao)
         {
             try

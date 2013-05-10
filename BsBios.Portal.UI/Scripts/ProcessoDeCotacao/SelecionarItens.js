@@ -1,26 +1,16 @@
-﻿requisicoesSelecionadas = [];
-var contadorDeRegistros = 0;
-function removerRequisicao(numeroRequisicao, numeroItem) {
-    for (var i = 0; i < requisicoesSelecionadas.length; i++) {
-        var requisicao = requisicoesSelecionadas[i];
-        if (requisicao.Numero == numeroRequisicao && requisicao.NumeroItem == numeroItem) {
-            requisicoesSelecionadas.splice(i, 1);
-            break;
-        }
-    }
-}
-
+﻿var requisicoesSelecionadas = [];
 function adicionarRequisicao(requisicao) {
     if (requisicaoSelecionada(requisicao)) {
-        return;
+        return false;
     }
     requisicoesSelecionadas.push(requisicao);
+    return true;
 }
 
 function requisicaoSelecionada(requisicao) {
     for (var i = 0; i < requisicoesSelecionadas.length; i++) {
         var requisicaoSelecionada = requisicoesSelecionadas[i];
-        if (requisicaoSelecionada.Numero == requisicao.Numero
+        if (requisicaoSelecionada.NumeroRequisicao == requisicao.NumeroRequisicao
         && requisicaoSelecionada.NumeroItem == requisicao.NumeroItem) {
             return true;
         }
@@ -35,16 +25,21 @@ function atualizaGrid() {
 function selecionarRequisicaoDoGrid() {
     var grid = $('#divGridRequisicoesParaSelecionar').data("kendoGrid");
     var dataItem = grid.dataItem(grid.select());
-    adicionarRequisicao({
-        Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email,
-        Cnpj: dataItem.Cnpj, Municipio: dataItem.Municipio, Uf: dataItem.Uf
-    });
+    if (!adicionarRequisicao({
+        Id: dataItem.Id, Material: dataItem.Material, Quantidade: dataItem.Quantidade,
+        UnidadeMedida: dataItem.UnidadeMedida, NumeroRequisicao: dataItem.NumeroRequisicao,
+        NumeroItem: dataItem.NumeroItem, DataDeSolicitacao: dataItem.DataDeSolicitacao,
+        CodigoGrupoDeCompra: dataItem.CodigoGrupoDeCompra})) {
+        return;
+    }
     atualizaGrid();
 }
 
 SelecionarItens = {
     ConfigurarTela: function() {
 
+        aplicaMascaraData();
+        $('#formFiltroItens').find('.campoDatePicker').datepicker();
         ProcessoDeCotacaoItensGrid.configurar({
             schemaData: 'Registros',
             renderTo: '#divGridRequisicoesParaSelecionar',
@@ -53,7 +48,11 @@ SelecionarItens = {
             pageable: true,
             transportUrl: UrlPadrao.ListarRequisicoesDeCompra,
             transportData: function() {
-                return $('#formFiltroItens').serialize();
+                return {
+                    DataDeSolicitacaoInicial: $('#DataDeSolicitacaoInicial').val(),
+                    DataDeSolicitacaoFinal: $('#DataDeSolicitacaoFinal').val(),
+                    CodigoDoGrupoDeCompras: $('#CodigoDoGrupoDeCompras').val()
+                };
             }
         });
 
@@ -71,14 +70,15 @@ SelecionarItens = {
 
         var idProcessoCotacao = $('#Id').val();
         $.ajax({
-            url: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCtoacao=' + idProcessoCotacao,
+            url: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + idProcessoCotacao,
             type: 'GET',
             cache: false,
             data: {
                 idProcessoCotacao: idProcessoCotacao
             },
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
+                requisicoesSelecionadas = [];
                 $.each(data.Registros, function(indexInArray, valueOfElement) {
                     requisicoesSelecionadas.push(valueOfElement);
                 });
@@ -95,13 +95,13 @@ SelecionarItens = {
             }
         });
 
-        $('#btnPesquisarFornecedorGeral').click(function(e) {
+        $('#btnPesquisarItens').click(function(e) {
             e.preventDefault();
-            $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
+            $("#divGridRequisicoesParaSelecionar").data("kendoGrid").dataSource.read();
         });
 
-        $('#btnLimpar').click(function() {
-            $('form input[type!=button]').val('');
+        $('#btnLimparFiltroItens').click(function() {
+            $('#formFiltroItens input[type!=button][type!=submit]').val('');
         });
     },
     ConfigurarJanelaModal: function() {
@@ -119,15 +119,15 @@ SelecionarItens = {
                         type: 'POST',
                         cache: false,
                         data: JSON.stringify({
-                            IdProcessoCotacao: idProcessoCotacao,
-                            IdDasRequisicoesSelecionadas: idDasRequisicoesSelecionadas
+                            IdProcessoCotacao: $('#Id').val(),
+                            IdsDasRequisicoesDeCompra: idDasRequisicoesSelecionadas
                         }),
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
                         success: function (data) {
                             if (data.Sucesso) {
                                 $('#divSelecionarItens').dialog('close');
-                                $("#gridCotacaoFornecedor").data("kendoGrid").dataSource.read();
+                                $("#divGridItens").data("kendoGrid").dataSource.read();
                             } else {
                                 Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             }

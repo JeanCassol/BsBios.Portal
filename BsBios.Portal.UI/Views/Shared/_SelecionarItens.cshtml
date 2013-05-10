@@ -8,11 +8,11 @@
             <div class="linha">
                 <div class="coluna">
                     @Html.Label("Data de Solitação De")
-                    @Html.TextBox("DataDeSolicitacaoInicial","", new{@class="campoDatePicker maskdata campomedio"})
+                    @Html.TextBox("DataDeSolicitacaoInicial","", new{@class="campoDatePicker maskdata campopequeno"})
                 </div>
                 <div class="coluna">
                     @Html.Label("Data de Solicitação Até")
-                    @Html.TextBox("DataDeSolicitacaoFinal","", new{@class="campoDatePicker maskdata campomedio"})
+                    @Html.TextBox("DataDeSolicitacaoFinal","", new{@class="campoDatePicker maskdata campopequeno"})
                 </div>
             </div>
             <div class="linha">
@@ -21,8 +21,8 @@
             </div>
 
             <div class="divBotao">
-                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
-                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                <input id="btnPesquisarItens" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimparFiltroItens" type="button" value="Limpar" class="blue"/>
             </div>
         </fieldset>
     </div>

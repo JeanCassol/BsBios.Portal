@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Domain.Entities;
@@ -83,7 +84,8 @@ namespace BsBios.Portal.Tests.Application.Services
                     Quantidade = 100 ,
                     Requisitante = "requisitante" ,
                     UnidadeMedida = "UND",
-                    CodigoGrupoDeCompra = "GC1"
+                    CodigoGrupoDeCompra = "GC1",
+                    Mrp = "C"
                 };
         }
 
@@ -166,10 +168,11 @@ namespace BsBios.Portal.Tests.Application.Services
                                        {
                                            Assert.IsNotNull(processoDeCotacao);
                                            var processoDeCotacaoDeMaterial = (ProcessoDeCotacaoDeMaterial) processoDeCotacao;
-                                           Assert.AreEqual("REQ001", processoDeCotacaoDeMaterial.RequisicaoDeCompra.Numero);
-                                           Assert.AreEqual("0001", processoDeCotacaoDeMaterial.RequisicaoDeCompra.NumeroItem);
-                                           Assert.AreEqual("PROD0001", processoDeCotacaoDeMaterial.Produto.Codigo);
-                                           Assert.AreEqual(100, processoDeCotacaoDeMaterial.Quantidade);
+                                           var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacaoDeMaterial.Itens.First();
+                                           Assert.AreEqual("REQ001", item.RequisicaoDeCompra.Numero);
+                                           Assert.AreEqual("0001", item.RequisicaoDeCompra.NumeroItem);
+                                           Assert.AreEqual("PROD0001", item.Produto.Codigo);
+                                           Assert.AreEqual(100, item.Quantidade);
                                        });
             _cadastroRequisicao.NovaRequisicao(_requisicaoDeCompraVm);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());

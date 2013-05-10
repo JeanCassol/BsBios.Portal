@@ -17,7 +17,7 @@ namespace BsBios.Portal.Common.Exceptions
 
         public override string Message
         {
-            get { return "O Item nº " + _numeroDaRequisicao + "da  Requisição de Compra de nº " + _numeroDoItem +
+            get { return "O Item nº " + _numeroDaRequisicao + " da  Requisição de Compra de nº " + _numeroDoItem +
                 " já está sendo utilizada pelo Processo de Cotação " + Convert.ToString(_idProcessoCotacao); }
         }
     }

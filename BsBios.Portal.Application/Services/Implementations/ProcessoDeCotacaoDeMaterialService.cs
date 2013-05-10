@@ -19,15 +19,25 @@ namespace BsBios.Portal.Application.Services.Implementations
         }
 
 
-        public void AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
+        public int? AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
         {
             try
             {
+                ProcessoDeCotacaoDeMaterial processoDeCotacao;
                 _unitOfWork.BeginTransaction();
-                var processoDeCotacao = (ProcessoDeCotacaoDeMaterial) _processosDeCotacao.BuscaPorId(atualizacaoDoProcessoDeCotacaoVm.Id).Single();
+                if (atualizacaoDoProcessoDeCotacaoVm.Id.HasValue)
+                {
+                    processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(atualizacaoDoProcessoDeCotacaoVm.Id.Value).Single();
+                }
+                else
+                {
+                    processoDeCotacao = new ProcessoDeCotacaoDeMaterial();
+                }
+                
                 processoDeCotacao.Atualizar(atualizacaoDoProcessoDeCotacaoVm.DataLimiteRetorno, atualizacaoDoProcessoDeCotacaoVm.Requisitos);
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
+                return processoDeCotacao.Id;
             }
             catch (Exception)
             {

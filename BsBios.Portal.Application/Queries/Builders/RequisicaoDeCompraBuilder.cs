@@ -9,6 +9,7 @@ namespace BsBios.Portal.Application.Queries.Builders
         {
             return new RequisicaoDeCompraVm()
                 {
+                    Id = model.Id,
                     Centro = model.Centro,
                     Criador = model.Criador.Nome,
                     DataDeLiberacao = model.DataDeLiberacao.ToShortDateString(),

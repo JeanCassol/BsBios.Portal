@@ -13,7 +13,7 @@
         {
             width: 70,
             title: "Download",
-            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + idProcessoCotacao + '&nomeDoArquivo=${FileName}' + '" class="button16 button_download"></a>'
+            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + idProcessoCotacao + '&nomeDoArquivo=${FileName}' + '" ><img src="/Images/icons/download_16.png"></img></a>'
         }];
         if (permitirExclusao) {
             colunas.push(

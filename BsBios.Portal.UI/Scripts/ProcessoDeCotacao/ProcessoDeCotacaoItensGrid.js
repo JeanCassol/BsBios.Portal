@@ -47,7 +47,7 @@
                 title: "Grupo de Compras"
             }
         ];
-        if (configuracao.exibirBotaAdicionar) {
+        if (configuracao.exibirBotaoAdicionar) {
             //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
                 title: ' ',
@@ -55,7 +55,7 @@
                 template: '<input type="button" class="button_add"></input>'
             });
         }
-        if (configuracao.exibirBotaRemover) {
+        if (configuracao.exibirBotaoRemover) {
             //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
                 title: ' ',
@@ -70,6 +70,7 @@
                     data: configuracao.schemaData,
                     model: {
                         fields: {
+                            Id: { type: "number" },
                             Material: { type: "string" },
                             Quantidade: { type: "number" },
                             UnidadeMedida: { type: "string" },

@@ -48,12 +48,35 @@ namespace BsBios.Portal.Tests.DataProvider
             string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
             string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
 
-            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompraTeste(_contadorRequisicaoCompra,usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
                 material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1",false);
             
             return requisicaoDeCompra;
         }
+
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemId()
+        {
+            var usuarioCriador = ObtemUsuarioPadrao();
+            var fornecedorPretendido = ObtemFornecedorPadrao();
+            var material = ObtemProdutoPadrao();
+
+            var dataDeRemessa = DateTime.Today.AddDays(-2);
+            var dataDeLiberacao = DateTime.Today.AddDays(-1);
+            var dataDeSolicitacao = DateTime.Today;
+
+            _contadorRequisicaoCompra++;
+
+            string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
+            string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
+
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
+                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1", false);
+
+            return requisicaoDeCompra;
+        }
+
 
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemRequisitanteEFornecedor()
         {
@@ -335,5 +358,32 @@ namespace BsBios.Portal.Tests.DataProvider
             return (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
         }
 
+        public static PaginacaoVm ObtemPaginacaoDefault()
+        {
+            return new PaginacaoVm
+                {
+                    Page = 1,
+                    PageSize = 10,
+                    Take = 10
+                };
+        }
     }
+
+    internal class RequisicaoDeCompraTeste:RequisicaoDeCompra
+    {
+        internal RequisicaoDeCompraTeste(int id, Usuario criador, string requisitante, Fornecedor fornecedorPretendido,
+                                         DateTime dataDeRemessa, DateTime dataDeLiberacao, DateTime dataDeSolicitacao,
+                                         string centro,
+                                         UnidadeDeMedida unidadeMedida, decimal quantidade, Produto material,
+                                         string descricao, string numeroItem,
+                                         string numero, string codigoGrupoDeCompra, bool mrp)
+            : base(criador, requisitante, fornecedorPretendido, dataDeRemessa,
+                   dataDeLiberacao, dataDeSolicitacao, centro, unidadeMedida, quantidade, material, descricao,
+                   numeroItem, numero, codigoGrupoDeCompra, mrp)
+        {
+            Id = id;
+        }
+        
+    }
+        
 }

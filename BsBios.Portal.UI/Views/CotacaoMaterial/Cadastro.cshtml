@@ -18,9 +18,9 @@
             <legend>Processo de Cotação</legend>
             @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Status),
                                       new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.DataLimiteDeRetorno))
-            @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Material))
+            @*@Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Material))
             @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialCadastroVm, decimal>(x => x.Quantidade),
-                                      new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.UnidadeDeMedida))
+                                      new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.UnidadeDeMedida))*@
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))
             @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Requisitos))
         </fieldset>

@@ -153,6 +153,7 @@
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialAberturaController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoItensServiceController.cs" />
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />

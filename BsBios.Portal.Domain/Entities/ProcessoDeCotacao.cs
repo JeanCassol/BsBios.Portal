@@ -42,8 +42,20 @@ namespace BsBios.Portal.Domain.Entities
 
         //}
 
+        protected void AdicionarItem()
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw new ProcessoDeCotacaoAlterarItensException(Status.Descricao());
+            }
+        }
+
         public virtual void RemoverItem(ProcessoDeCotacaoItem item)
         {
+            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            {
+                throw new ProcessoDeCotacaoAlterarItensException(Status.Descricao());
+            }
             Itens.Remove(item);
         }
 
@@ -89,6 +101,10 @@ namespace BsBios.Portal.Domain.Entities
             if (FornecedoresParticipantes.Count == 0)
             {
                 throw new ProcessoDeCotacaoSemFornecedoresException();
+            }
+            if (Itens.Count == 0)
+            {
+                throw new ProcessoDeCotacaoSemItemException();
             }
 
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
@@ -162,6 +178,7 @@ namespace BsBios.Portal.Domain.Entities
         
         public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
         {
+            AdicionarItem();
             if (requisicaoDeCompra.ProcessoDeCotacaoItem != null)
             {
                 throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,
@@ -172,6 +189,13 @@ namespace BsBios.Portal.Domain.Entities
             var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
             Itens.Add(item);
             return item;
+        }
+
+        public new virtual void RemoverItem(ProcessoDeCotacaoItem item)
+        {
+            var itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item;
+            itemMaterial.RequisicaoDeCompra.DesvincularDeProcessoDeCotacao();
+            base.RemoverItem(item);
         }
 
         public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
@@ -248,6 +272,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
         {
+            AdicionarItem();
             var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida);
             Itens.Add(item);
             return item;

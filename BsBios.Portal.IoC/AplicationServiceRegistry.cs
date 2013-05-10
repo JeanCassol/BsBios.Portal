@@ -95,6 +95,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ReenviadorDeEmailDoProcessoDeCotacao>();
 
+            For<IProcessoDeCotacaoDeMaterialItensService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeMaterialItensService>();
+
+
         }
     }
 }

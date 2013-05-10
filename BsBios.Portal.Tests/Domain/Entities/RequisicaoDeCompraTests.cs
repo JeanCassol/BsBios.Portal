@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -46,8 +47,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
             var processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
-            Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
-            Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
+            //Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
+            //Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
+            var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
+            Assert.AreEqual(requisicaoDeCompra.Numero, item.RequisicaoDeCompra.Numero);
+            Assert.AreEqual(requisicaoDeCompra.NumeroItem, item.RequisicaoDeCompra.NumeroItem);
         }
 
     }

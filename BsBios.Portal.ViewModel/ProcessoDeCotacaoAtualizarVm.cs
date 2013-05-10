@@ -7,7 +7,7 @@ namespace BsBios.Portal.ViewModel
     /// </summary>
     public class ProcessoDeCotacaoAtualizarVm
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public DateTime DataLimiteRetorno { get; set; }
         public string Requisitos { get; set; }
     }

@@ -57,7 +57,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoCompararQuantidadeAdquiridaComSucessoRetornaResultadoDaComparacao()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<decimal>()))
+            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<decimal>()))
                                         .Returns(new VerificacaoDeQuantidadeAdquiridaVm
                                             {
                                                 QuantidadeSolicitadaNoProcessoDeCotacao = 1000,
@@ -65,7 +65,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                                             });
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10, 1000);
+            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10,1, 1000);
 
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
@@ -82,11 +82,11 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoCompararQuantidadeAdquiridaComErroRetornaMensagemDeErro()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<decimal>()))
+            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(),It.IsAny<int>(), It.IsAny<decimal>()))
                                         .Throws(new ExcecaoDeTeste("Erro ao comparar quantidade adquirida."));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10, 1000);
+            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10,1, 1000);
 
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);

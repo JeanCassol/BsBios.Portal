@@ -5,6 +5,7 @@
 
 @{
     ViewBag.TituloDaPagina = "Processo de Cotação de Material";
+    string displayStyle = Model == null ? "none" : "inherit";
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
@@ -13,18 +14,18 @@
 <div class="paginaCadastro">
     @using (Html.BeginForm("AtualizarProcesso", "ProcessoDeCotacaoService"))
     {
-
-        <fieldset>
+        @Html.HiddenFor(model => model.Id)
+        
+        @*<fieldset>
             <legend>Requisição de Compra</legend>
 
-            @Html.HiddenFor(model => model.Id)
             @Html.HiddenFor(model => model.CodigoMaterial)
             
             @if (Model != null && Model.RequisicaoDeCompraVm != null)
             {
                 @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
             }
-        </fieldset>
+        </fieldset>*@
         <fieldset>
             <legend>Processo de Cotação</legend>
             <div class="coluna">
@@ -33,44 +34,47 @@
             </div>
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"),
                                       new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
-            <div class="error"></div>
+            <div id="divErro" class="error"></div>
             <div class="divBotao">
                 <input type="button" id="btnSalvarProcesso" value="Salvar" class="blue" />
             </div>
         </fieldset>
 
     }
-    <div id="divSelecionarItens" class="janelaModal"></div>
+    <div id="divOutrasOperacoes" style="display: @displayStyle">
+        <div id="divSelecionarItens" class="janelaModal" ></div>
     
-    <fieldset>
-        <legend>Itens</legend>
-        <div class="divBotao">
-            <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="blue botaoGrande"/>
-        </div>
-        <div id="divGridItens" class="divGrid"></div>
-    </fieldset>
+        <fieldset>
+            <legend>Itens</legend>
+            <div class="divBotao">
+                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="blue botaoGrande"/>
+            </div>
+            <div id="divGridItens" class="divGrid"></div>
+        </fieldset>
 
 
-    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
-        {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
-            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
-            new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail"))
-        })
-    <fieldset>
-        <legend>Enviar Anexos</legend>
-        <div>
-            <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
-        </div>
-        <div class="well hide" id="filelistholder"></div>
-        <div class="divBotao">
-            <input type="button" id="btnEnviarArquivos" class="blue btn btn-success pull-right" value="Enviar"/>
-        </div>
-        <div id="divUploadErro" class="message-error"></div>
-    </fieldset>
-    <fieldset>
-        <legend>Anexos Enviados</legend>
-        <div id="divAnexos" class="divGrid"></div>            
-    </fieldset>
+        @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
+            {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
+                new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
+                new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail"))
+            })
+        <fieldset>
+            <legend>Enviar Anexos</legend>
+            <div>
+                <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
+            </div>
+            <div class="well hide" id="filelistholder"></div>
+            <div class="divBotao">
+                <input type="button" id="btnEnviarArquivos" class="blue btn btn-success pull-right" value="Enviar"/>
+            </div>
+            <div id="divUploadErro" class="message-error"></div>
+        </fieldset>
+        <fieldset>
+            <legend>Anexos Enviados</legend>
+            <div id="divAnexos" class="divGrid"></div>            
+        </fieldset>
+    </div>
+
 </div>
 
 @section Scripts {
@@ -122,7 +126,10 @@
                 $.post('@Url.Action("AtualizarProcesso","ProcessoDeCotacaoService" )', formData,
                     function (data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
+                            $('#Id').val(data.IdProcessoCotacao);
+                            $('#divOutrasOperacoes').show();
+                            Mensagem.ExibirMensagemDeErro("O Processo de Cotação foi salvado com sucesso.");
+                            
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }
@@ -160,9 +167,6 @@
                     $('#btnEnviarArquivos').unbind('click.uploadsubmit');
                 }
             });
-
-
-
         })
     </script>
 }

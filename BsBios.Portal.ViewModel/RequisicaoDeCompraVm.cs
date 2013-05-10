@@ -9,6 +9,7 @@ namespace BsBios.Portal.ViewModel
     [DataContract]
     public class RequisicaoDeCompraVm:ListagemVm
     {
+        public int Id { get; set; }
         [DataMember]
         [DisplayName("Número da Requisição: ")]
         public string NumeroRequisicao { get; set; }

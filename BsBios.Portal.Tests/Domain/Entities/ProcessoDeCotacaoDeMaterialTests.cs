@@ -17,10 +17,18 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
             ProcessoDeCotacaoDeMaterial processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial() ;
             
-            Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
-            Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
-            Assert.AreEqual(requisicaoDeCompra.Material.Codigo, processoDeCotacao.Produto.Codigo);
-            Assert.AreEqual(requisicaoDeCompra.Quantidade, processoDeCotacao.Quantidade);
+            //Assert.AreEqual(requisicaoDeCompra.Numero, processoDeCotacao.RequisicaoDeCompra.Numero);
+            //Assert.AreEqual(requisicaoDeCompra.NumeroItem, processoDeCotacao.RequisicaoDeCompra.NumeroItem);
+            //Assert.AreEqual(requisicaoDeCompra.Material.Codigo, processoDeCotacao.Produto.Codigo);
+            //Assert.AreEqual(requisicaoDeCompra.Quantidade, processoDeCotacao.Quantidade);
+
+            var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
+
+            Assert.AreEqual(requisicaoDeCompra.Numero, item.RequisicaoDeCompra.Numero);
+            Assert.AreEqual(requisicaoDeCompra.NumeroItem, item.RequisicaoDeCompra.NumeroItem);
+            Assert.AreEqual(requisicaoDeCompra.Material.Codigo, item.Produto.Codigo);
+            Assert.AreEqual(requisicaoDeCompra.Quantidade, item.Quantidade);
+
 
             Assert.AreEqual(0, processoDeCotacao.FornecedoresParticipantes.Count);
             Assert.IsNull(processoDeCotacao.DataLimiteDeRetorno);
@@ -306,7 +314,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //retorna processo com quantidade 1000
             ProcessoDeCotacao processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            Assert.IsFalse(processoDeCotacao.SuperouQuantidadeSolicitada(1000));
+            //Assert.IsFalse(processoDeCotacao.SuperouQuantidadeSolicitada(1000));
+            var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
+            Assert.IsFalse(item.SuperouQuantidadeSolicitada(1000));
         }
 
         [TestMethod]
@@ -314,20 +324,86 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             //retorna processo com quantidade 1000
             ProcessoDeCotacao processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            Assert.IsTrue(processoDeCotacao.SuperouQuantidadeSolicitada(1001));
+            //Assert.IsTrue(processoDeCotacao.SuperouQuantidadeSolicitada(1001));
+            var item = (ProcessoDeCotacaoDeMaterialItem)processoDeCotacao.Itens.First();
+            Assert.IsTrue(item.SuperouQuantidadeSolicitada(1001));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ProcessoDeCotacaoSemItemException))]
-        public void NaoEPermitidoCriarProcessoDeCotacaoSemItens()
+        public void NaoEPermitidoAbrirProcessoDeCotacaoSemItens()
         {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            processoDeCotacao.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            processoDeCotacao.RemoverItem(processoDeCotacao.Itens.First());
+            processoDeCotacao.Abrir();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoItemRepetidoException))]
+        [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
+        public void NaoEPermitidoAdicionarItensEmUmProcessoDeCotacaoAberto()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            processoDeCotacao.AdicionarItem(DefaultObjects.ObtemRequisicaoDeCompraPadrao());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
+        public void NaoEPermitidoRemoverItensDeUmProcessoDeCotacaoAberto()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            processoDeCotacao.RemoverItem(processoDeCotacao.Itens.First());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
+        public void NaoEPermitidoAdicionarItensDeUmProcessoDeCotacaoFechado()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
+            processoDeCotacao.AdicionarItem(DefaultObjects.ObtemRequisicaoDeCompraPadrao());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
+        public void NaoEPermitidoRemoverItensDeUmProcessoDeCotacaoFechado()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
+            processoDeCotacao.RemoverItem(processoDeCotacao.Itens.First());
+        }
+
+        [TestMethod]
+        public void QuandoAdicionarItemEmUmProcessoDeCotacaoARequisicaoDeCompraFicaVinculadaAoItem()
+        {
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            Assert.IsNull(requisicaoDeCompra.ProcessoDeCotacaoItem);
+            processoDeCotacao.AdicionarItem(requisicaoDeCompra);
+            Assert.IsNotNull(requisicaoDeCompra.ProcessoDeCotacaoItem);
+        }
+
+        [TestMethod]
+        public void QuandoRemovoItemDeUmProcessoDeCotacaoOVinculoEntreARequisicaoEoItemERemovido()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            RequisicaoDeCompra requisicaoDeCompra = ((ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First()).RequisicaoDeCompra;
+            Assert.IsNotNull(requisicaoDeCompra.ProcessoDeCotacaoItem);
+            processoDeCotacao.RemoverItem(processoDeCotacao.Itens.First());
+            Assert.IsNull(requisicaoDeCompra.ProcessoDeCotacaoItem);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException))]
         public void NaoEPermitidoUtilizarMesmoItemDeRequisicaoEmMaisDeUmProcessoDeCotacao()
         {
-            throw new NotImplementedException();
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            ProcessoDeCotacaoDeMaterial processo1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processo1.AdicionarItem(requisicaoDeCompra);
+
+            //tenta adicionar a mesma requisição de compra no segundo processo
+            ProcessoDeCotacaoDeMaterial processo2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processo2.AdicionarItem(requisicaoDeCompra);
+
         }
 
 

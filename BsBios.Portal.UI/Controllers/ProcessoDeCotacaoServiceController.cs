@@ -17,17 +17,16 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
+        public JsonResult AtualizarProcesso(ProcessoDeCotacaoAtualizarVm atualizacaoDoProcessoDeCotacaoVm)
         {
             try
             {
-                _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
-                return RedirectToAction("Index", "ProcessoCotacaoMaterial");
+                var idProcessoCotacao = _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
+                return Json(new {Sucesso = true, IdProcessoCotacao = idProcessoCotacao});
             }
             catch (Exception ex)
             {
-                ViewData["erro"] = ex.Message;
-                return RedirectToAction("EditarCadastro", "ProcessoCotacaoMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
+                return Json(new {Sucesso = false, Mensagem = ex.Message});
             }
             
         }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using NHibernate.Criterion;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -38,6 +40,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             Query = Query.Where(x => x.ProcessoDeCotacaoItem == null);
             return this;
+        }
+
+        public IList<RequisicaoDeCompra> FiltraPorIds(int[] itensParaAdicionar)
+        {
+            return Query.Where(x => itensParaAdicionar.Contains(x.Id)).ToList();
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BsBios.Portal.Common.Exceptions
 {
     public class ProcessoDeCotacaoSemItemException: Exception
     {
+        public override string Message
+        {
+            get { return "Não é possível abrir um Processo de Cotação sem adicionar pelo menos um item."; }
+        }
     }
 }

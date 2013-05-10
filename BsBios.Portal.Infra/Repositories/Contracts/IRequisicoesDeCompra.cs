@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
@@ -10,5 +11,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IRequisicoesDeCompra SolicitadasApartirDe(DateTime data);
         IRequisicoesDeCompra SolicitadasAte(DateTime data);
         IRequisicoesDeCompra SemProcessoDeCotacao();
+        IList<RequisicaoDeCompra> FiltraPorIds(int[] itensParaAdicionar);
     }
 }

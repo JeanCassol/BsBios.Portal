@@ -123,6 +123,7 @@
     <Compile Include="Services\Contracts\ICadastroItinerario.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteService.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialSelecaoService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
