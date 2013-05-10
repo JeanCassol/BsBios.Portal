@@ -74,6 +74,7 @@
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
+    <Compile Include="Queries\Contracts\IConsultaRequisicaoDeCompra.cs" />
     <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
     <Compile Include="Queries\Contracts\IConsultaMaterialDeCarga.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Queries\Implementations\ConsultaQuota.cs" />
     <Compile Include="Queries\Implementations\ConsultaQuotaRelatorio.cs" />
+    <Compile Include="Queries\Implementations\ConsultaRequisicaoDeCompra.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />

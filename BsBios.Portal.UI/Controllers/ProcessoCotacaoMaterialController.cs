@@ -85,6 +85,11 @@ namespace BsBios.Portal.UI.Controllers
             return PartialView("_SelecionarFornecedores");
         }
 
+        public ActionResult SelecionarItens()
+        {
+            return PartialView("_SelecionarItens");
+        }
+
         public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
         {
             try

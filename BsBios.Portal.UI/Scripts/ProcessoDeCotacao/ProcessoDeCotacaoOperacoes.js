@@ -29,7 +29,7 @@
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar os Fornecedores do Processo de Cotação. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
                 },
@@ -253,5 +253,5 @@
                 fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);
             }
         });
-}
+    }
 }

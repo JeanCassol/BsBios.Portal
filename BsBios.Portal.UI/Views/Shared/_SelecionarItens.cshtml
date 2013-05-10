@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-<form>
+<form id="formFiltroItens">
     <div class="divFiltros">
         <fieldset>
         <legend>Filtros</legend>
@@ -29,116 +29,9 @@
 </form>
 
 <div id="divGridRequisicoesParaSelecionar" class="divGrid"></div>
-<div class="separador">Fornecedores Selecionados</div>
+<div class="separador">Itens Selecionados</div>
 <div id="divGridRequisicoesSelecionadas" class="divGrid"></div>
 
 <script type="text/javascript">
 
-    var requisicoesSelecionadas = [];
-    var contadorDeRegistros = 0;
-    function removerRequisicao(numeroRequisicao, numeroItem) {
-        for (var i = 0; i < requisicoesSelecionadas.length; i++) {
-            var requisicao = requisicoesSelecionadas[i];
-            if (requisicao.Numero == numeroRequisicao && requisicao.NumeroItem == numeroItem) {
-                requisicoesSelecionadas.splice(i, 1);
-                break;
-            }
-        }
-    }
-    
-    function adicionarRequisicao(requisicao) {
-        if (requisicaoSelecionada(requisicao)) {
-            return;
-        }
-        requisicoesSelecionadas.push(requisicao);
-    }
-    
-    function requisicaoSelecionada(requisicao) {
-        for (var i = 0; i < requisicoesSelecionadas.length; i++) {
-            var requisicaoSelecionada = requisicoesSelecionadas[i];
-            if (requisicaoSelecionada.Numero == requisicao.Numero
-            && requisicaoSelecionada.NumeroItem == requisicao.NumeroItem) {
-                return  true;
-            }
-        }
-        return false;
-    }
-    function atualizaGrid() {
-        var grid = $("#divGridRequisicoesSelecionadas").data("kendoGrid");
-        grid.dataSource.read();
-    }
-
-    function selecionarRequisicaoDoGrid() {
-        var grid = $('#divGridRequisicoesParaSelecionar').data("kendoGrid");
-        var dataItem = grid.dataItem(grid.select());
-        adicionarRequisicao({
-            Codigo: dataItem.Codigo, Nome: dataItem.Nome, Email: dataItem.Email,
-            Cnpj: dataItem.Cnpj, Municipio: dataItem.Municipio, Uf: dataItem.Uf
-        });
-        atualizaGrid();
-    }
-
-    $(document).ready(function () {
-        
-        ProcessoDeCotacaoItensGrid.configurar({
-            schemaData: 'Registros',
-            renderTo: '#divGridRequisicoesParaSelecionar',
-            exibirBotaoAdicionar: true,
-            exibirBotaoRemover: false,
-            pageable: true,
-            transportUrl: '@Url.Action("Listar","RequisicaoCompra")',
-            transportData: function() {
-                return;
-            }
-        });
-
-        $('#divGridRequisicoesParaSelecionar').find('.button_add').die("click");
-        $('#divGridRequisicoesParaSelecionar').find('.button_add').live("click", function () {
-            selecionarRequisicaoDoGrid();
-        });
-
-        $('#divGridRequisicoesSelecionadas').find('.button_remove').die('click');
-        $('#divGridRequisicoesSelecionadas').find('.button_remove').live('click', function () {
-            var indice = $(this).parents('tr:first')[0].rowIndex;
-            requisicoesSelecionadas.splice(indice, 1);
-            atualizaGrid();
-        });
-
-        var idProcessoCotacao = $('#IdProcessoCotacao').val();
-        $.ajax({
-            url: '@Url.Action("ListarItens","ProcessoCotacaoMaterial")',
-            type: 'GET',
-            cache:false,
-            data: {
-                idProcessoCotacao: idProcessoCotacao
-            },
-            dataType: 'json',
-            success: function (data) {
-                $.each(data.Registros, function (indexInArray, valueOfElement) {
-                    requisicoesSelecionadas.push(valueOfElement);
-                });
-                ProcessoDeCotacaoItensGrid.configurar({
-                    schemaData: function () { return requisicoesSelecionadas; },
-                    renderTo: '#divGridRequisicoesSelecionadas',
-                    exibirBotaoAdicionar: false,
-                    exibirBotaoRemover: true,
-                    pageable: false
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('Ocorreu um erro ao consultar as Requisições de Compra selecionadas. Detalhe: ' + textStatus + errorThrown);
-            }
-        });
-        
-        $('#btnPesquisarFornecedorGeral').click(function (e) {
-            e.preventDefault();
-            $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
-        });
-
-        $('#btnLimpar').click(function () {
-            $('form input[type!=button]').val('');
-        });
-
-       
-    });
 </script>
