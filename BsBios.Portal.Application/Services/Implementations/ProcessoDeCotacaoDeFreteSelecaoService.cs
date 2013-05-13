@@ -29,11 +29,11 @@ namespace BsBios.Portal.Application.Services.Implementations
                 {
                     if (cotacaoSelecaoVm.Selecionada)
                     {
-                        processoDeCotacao.SelecionarCotacao(cotacaoSelecaoVm.IdCotacao, cotacaoSelecaoVm.QuantidadeAdquirida.Value);
+                        processoDeCotacao.SelecionarCotacao(cotacaoSelecaoVm.IdCotacao,cotacaoSelecaoVm.IdProcessoCotacaoItem, cotacaoSelecaoVm.QuantidadeAdquirida.Value);
                     }
                     else
                     {
-                        processoDeCotacao.RemoverSelecaoDaCotacao(cotacaoSelecaoVm.IdCotacao);
+                        processoDeCotacao.RemoverSelecaoDaCotacao(cotacaoSelecaoVm.IdCotacao, cotacaoSelecaoVm.IdProcessoCotacaoItem);
                     }
 
                 }

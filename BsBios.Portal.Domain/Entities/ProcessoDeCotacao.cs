@@ -133,7 +133,7 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new FecharProcessoDeCotacaoFechadoException();
             }
-            if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Selecionada) == 0)
+            if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Itens.Any(c => c.Selecionada)) == 0)
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
@@ -220,12 +220,12 @@ namespace BsBios.Portal.Domain.Entities
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm, valorTotalComImpostos, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
+                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
             else
             {
-                cotacao.Atualizar(valorTotalComImpostos,condicaoDePagamento, incoterm, descricaoDoIncoterm, mva, quantidadeDisponivel, prazoDeEntrega, observacoes );
+                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
             }
 
             //return fornecedorParticipante.InformarCotacao(condicaoDePagamento, incoterm, descricaoDoIncoterm,
@@ -233,21 +233,32 @@ namespace BsBios.Portal.Domain.Entities
             return cotacao;
         }
 
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, int idCotacao, decimal valorTotalComImpostos, 
+            decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
+        {
+            var cotacao =  (CotacaoMaterial) FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
+                                         .Select(fp => fp.Cotacao).Single();
 
-        public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, Iva iva)
+            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
+
+        }
+
+
+        public virtual void SelecionarCotacao(int idCotacao,int idProcessoCotacaoItem, decimal quantidadeAdquirida, Iva iva)
         {
             SelecionarCotacao();
             var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
-            cotacao.Selecionar(quantidadeAdquirida, iva);
+            var itemDaCotacao = (CotacaoItemMaterial)  cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+            itemDaCotacao.Selecionar(quantidadeAdquirida, iva);
         }
 
-        public virtual void RemoverSelecaoDaCotacao(int idCotacao, Iva iva)
+        public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem, Iva iva)
         {
             RemoverSelecaoDaCotacao();
             var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
-            cotacao.RemoverSelecao(iva);
+            var itemDaCotacao = (CotacaoItemMaterial)cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+            itemDaCotacao.RemoverSelecao(iva);
         }
-
     }
 
     public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
@@ -299,8 +310,7 @@ namespace BsBios.Portal.Domain.Entities
 
         }
 
-        public virtual CotacaoFrete InformarCotacao(string codigoFornecedor, decimal valorTotalComImpostos,
-            decimal quantidadeDisponivel, string observacoes)
+        public virtual CotacaoFrete InformarCotacao(string codigoFornecedor)
         {
             base.InformarCotacao();
             //busca a cotação do fornecedor
@@ -310,31 +320,28 @@ namespace BsBios.Portal.Domain.Entities
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoFrete(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                cotacao = new CotacaoFrete();
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
-            else
-            {
-                cotacao.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-            }
-
             return cotacao;
         }
 
 
-        public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida)
+        public virtual void SelecionarCotacao(int idCotacao,  int idProcessoCotacaoItem, decimal quantidadeAdquirida)
         {
             SelecionarCotacao();
             var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
+            var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
 
-            cotacao.Selecionar(quantidadeAdquirida);
+            itemDaCotacao.Selecionar(quantidadeAdquirida);
         }
 
-        public virtual void RemoverSelecaoDaCotacao(int idCotacao)
+        public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem)
         {
             RemoverSelecaoDaCotacao();
             var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
-            cotacao.RemoverSelecao();
+            var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+            itemDaCotacao.RemoverSelecao();
         }
 
         public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)

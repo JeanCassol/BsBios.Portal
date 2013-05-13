@@ -83,9 +83,8 @@ namespace BsBios.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SelecionarFornecedores(int idProcessoCotacao, string codigoProduto, Enumeradores.TipoDeCotacao tipoDeCotacao)
+        public ActionResult SelecionarFornecedores(int idProcessoCotacao, Enumeradores.TipoDeCotacao tipoDeCotacao)
         {
-            ViewData["CodigoProduto"] = codigoProduto;
             ViewData["IdProcessoCotacao"] = idProcessoCotacao;
             ViewData["TipoDeCotacao"] = tipoDeCotacao;
             return PartialView("_SelecionarFornecedores");

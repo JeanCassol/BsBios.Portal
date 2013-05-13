@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
@@ -59,7 +60,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 var item = processoDeCotacao.Itens[i];
                 mensagem +=
-                  "Item " + Convert.ToString(i) + Environment.NewLine +
+                  "Item " + Convert.ToString(i + 1) + Environment.NewLine +
                   "Material: " + item.Produto.Descricao + Environment.NewLine +
                   "Quantidade: " + item.Quantidade + Environment.NewLine +
                   "Unidade de Medida: " + item.UnidadeDeMedida.Descricao + Environment.NewLine + 
@@ -68,8 +69,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
             }
 
             mensagem +=
-                              "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
-                              "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine;
+            "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+            "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine;
 
             return new MensagemDeEmail("Cotação de Material", mensagem);
         }
@@ -77,17 +78,19 @@ namespace BsBios.Portal.Infra.Services.Implementations
         public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao)
         {
             string mensagem = "Prezado Fornecedor." + Environment.NewLine +
-                              "Estamos confirmando o fechamento da negociação referente " + cotacao.Id + "." + Environment.NewLine +
+                              "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação " + processoDeCotacao.Id + "." + Environment.NewLine +
                               "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine;
 
-            for (int i = 0; i < processoDeCotacao.Itens.Count; i++)
+            IList<CotacaoItem> itensDaCotacao = cotacao.Itens.Where(item => item.Selecionada).ToList();
+
+            for (int i = 0; i < itensDaCotacao.Count; i++)
             {
-                var item = processoDeCotacao.Itens[i];
+                var item = itensDaCotacao[i];
                 mensagem +=
-                    "Item " + Convert.ToString(i) + Environment.NewLine +
-                    "Material: " + item.Produto.Descricao + Environment.NewLine +
-                    "Quantidade: " + cotacao.QuantidadeAdquirida + Environment.NewLine +
-                    "Unidade de Medida: " + item.UnidadeDeMedida.Descricao + Environment.NewLine + 
+                    "Item " + Convert.ToString(i + 1) + Environment.NewLine +
+                    "Material: " + item.ProcessoDeCotacaoItem.Produto.Descricao + Environment.NewLine +
+                    "Quantidade: " + item.QuantidadeAdquirida + Environment.NewLine +
+                    "Unidade de Medida: " + item.ProcessoDeCotacaoItem.UnidadeDeMedida.Descricao + Environment.NewLine + 
                     SeparadorDeItems + Environment.NewLine;
             }
             mensagem += " Para maiores esclarecimentos, favor entrar em contato através com o comprador.";

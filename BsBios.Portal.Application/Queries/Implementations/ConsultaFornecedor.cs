@@ -22,7 +22,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm FornecedoresNaoVinculadosAoProduto(PaginacaoVm paginacaoVm, FornecedorDoProdutoFiltro filtro)
         {
-            _fornecedores.FornecedoresNaoVinculadosAoProduto(filtro.CodigoProduto)
+            _fornecedores.FornecedoresNaoVinculadosAosProdutos(filtro.CodigoDosProdutos)
                          .NomeContendo(filtro.NomeFornecedor)
                          .CodigoContendo(filtro.CodigoFornecedor);
 

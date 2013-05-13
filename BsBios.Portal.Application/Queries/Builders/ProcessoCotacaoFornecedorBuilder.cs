@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System.Linq;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Builders
@@ -11,9 +12,10 @@ namespace BsBios.Portal.Application.Queries.Builders
             {
                 Codigo = model.Fornecedor.Codigo,
                 Nome = model.Fornecedor.Nome,
-                ValorLiquido = model.Cotacao != null ? model.Cotacao.ValorLiquido : (decimal?) null,
-                ValorComImpostos = model.Cotacao != null ? model.Cotacao.ValorComImpostos : (decimal?)null,
-                Selecionado = (model.Cotacao != null && model.Cotacao.Selecionada ? "Sim" : "Não")
+                //ValorLiquido = model.Cotacao != null ? model.Cotacao.ValorLiquido : (decimal?) null,
+                //ValorComImpostos = model.Cotacao != null ? model.Cotacao.ValorComImpostos : (decimal?)null,
+                //Selecionado = (model.Cotacao != null && model.Cotacao.Selecionada ? "Sim" : "Não")
+                Selecionado = (model.Cotacao != null && model.Cotacao.Itens.Any(item => item.Selecionada) ? "Sim" : "Não")
             };
         }
 

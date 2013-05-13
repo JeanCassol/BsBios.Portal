@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Entities\AgendamentoDeCarga.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
+    <Compile Include="Entities\CotacaoItem.cs" />
     <Compile Include="Entities\Itinerario.cs" />
     <Compile Include="Entities\Cotacao.cs" />
     <Compile Include="Entities\Fornecedor.cs" />

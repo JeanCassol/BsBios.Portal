@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System.Linq;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 
@@ -21,7 +22,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 var cotacao = fornecedorParticipante.Cotacao;
                 if (cotacao == null) continue;
-                MensagemDeEmail mensagemDeEmail = cotacao.Selecionada ? 
+                MensagemDeEmail mensagemDeEmail = cotacao.Itens.Any(item => item.Selecionada) ? 
                                                       _geradorDeMensagemDeEmail.FornecedoresSelecionadosNoProcessoDeCotacao(processoDeCotacao, cotacao) : 
                                                       _geradorDeMensagemDeEmail.FornecedoresNaoSelecionadosNoProcessoDeCotacao(cotacao);
 

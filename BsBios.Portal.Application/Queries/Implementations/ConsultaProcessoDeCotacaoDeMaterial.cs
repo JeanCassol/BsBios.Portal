@@ -309,5 +309,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Registros = _builderRequisicaoDeCompra.BuildList(requisicoes).Cast<ListagemVm>().ToList()
                 };
         }
+
+        public string[] CodigoDosProdutos(int idProcessoCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            return (from pc in _processosDeCotacao.GetQuery()
+             from item in pc.Itens
+             select item.Produto.Codigo).Distinct().ToArray();
+        }
     }
 }

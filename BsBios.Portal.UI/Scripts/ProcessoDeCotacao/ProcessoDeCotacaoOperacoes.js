@@ -156,8 +156,7 @@
                 return;
             }
             $('#divSelecionarFornecedores').load(UrlPadrao.SelecionarFornecedores
-                + "/?codigoProduto=" + $('#CodigoMaterial').val()
-                + "&idProcessoCotacao=" + $('#Id').val()
+                + "/?idProcessoCotacao=" + $('#Id').val()
                 + "&TipoDeCotacao=" + tipoDeCotacao,
                 function(response, status, xhr) {
                     $('#divSelecionarFornecedores').dialog('open');

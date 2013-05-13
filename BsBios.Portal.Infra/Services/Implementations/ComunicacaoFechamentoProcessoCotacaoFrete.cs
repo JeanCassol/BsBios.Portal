@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -48,8 +46,9 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             foreach (var fornecedorParticipante in processoAuxiliar.FornecedoresParticipantes)
             {
-                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
+                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Itens.First().Selecionada)
                 {
+                    CotacaoItem itemDaCotacao = fornecedorParticipante.Cotacao.Itens.First();
                     mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
                         {
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
@@ -61,7 +60,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                             DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToString("yyyyMMdd"),
                             DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToString("yyyyMMdd"),
                             NumeroDoContrato = processoAuxiliar.NumeroDoContrato ?? "",
-                            Valor = fornecedorParticipante.Cotacao.ValorComImpostos
+                            Valor = itemDaCotacao.ValorComImpostos
                         });
                 }
             }

@@ -10,7 +10,7 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("CotacaoImposto");
             CompositeId()
-                .KeyReference(x => x.Cotacao, "IdCotacao")
+                .KeyReference(x => x.CotacaoItem, "IdCotacao")
                 .KeyProperty(x => x.Tipo, "TipoImposto").CustomType<Enumeradores.TipoDeImposto>();
             Map(x => x.Aliquota);
             Map(x => x.Valor);

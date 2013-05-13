@@ -6,33 +6,33 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.Application.Queries.Builders
 {
 
-    public class CotacaoImpostosBuilder : Builder<Cotacao, CotacaoImpostosVm>
+    public class CotacaoImpostosBuilder : Builder<CotacaoItem, CotacaoImpostosVm>
     {
-        public override CotacaoImpostosVm BuildSingle(Cotacao cotacao)
+        public override CotacaoImpostosVm BuildSingle(CotacaoItem cotacaoItem)
         {
             var vm = new CotacaoImpostosVm();
-            Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+            Imposto imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Icms);
             if (imposto != null)
             {
                 vm.IcmsAliquota = imposto.Aliquota;
                 vm.IcmsValor = imposto.Valor;
             }
 
-            imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+            imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
             if (imposto != null)
             {
                 vm.IcmsStAliquota = imposto.Aliquota;
                 vm.IcmsStValor = imposto.Valor;
             }
 
-            imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+            imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Ipi);
             if (imposto != null)
             {
                 vm.IpiAliquota = imposto.Aliquota;
                 vm.IpiValor = imposto.Valor;
             }
 
-            imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.PisCofins);
+            imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.PisCofins);
             if (imposto != null)
             {
                 vm.PisCofinsAliquota = imposto.Aliquota;

@@ -46,6 +46,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return kendoGrid;
         }
 
+        public KendoGridVm FornecedoresDosProdutos(PaginacaoVm paginacaoVm, string[] codigoDosProdutos)
+        {
+            _produtos.FiltraPorListaDeCodigos(codigoDosProdutos);
+            var query = (from p in _produtos.GetQuery()
+                                from f in p.Fornecedores
+                                                  select f).Distinct();
+
+            return new KendoGridVm
+                {
+                    QuantidadeDeRegistros = query.Count(),
+                    Registros = _builderFornecedor.BuildList(query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()).Cast<ListagemVm>().ToList()
+                };
+        }
+
         public ProdutoCadastroVm ConsultaPorCodigo(string codigoProduto)
         {
             return _builderProduto.BuildSingle(_produtos.BuscaPeloCodigo(codigoProduto));

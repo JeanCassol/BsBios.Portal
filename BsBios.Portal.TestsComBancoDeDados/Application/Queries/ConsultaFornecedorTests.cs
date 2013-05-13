@@ -53,7 +53,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var filtro = new FornecedorDoProdutoFiltro()
                 {
-                    CodigoProduto = produto.Codigo
+                    CodigoDosProdutos = new[]{produto.Codigo}
                 };
             var kendoGridVm = consultaFornecedores.FornecedoresNaoVinculadosAoProduto(paginacaoVm, filtro);
 
