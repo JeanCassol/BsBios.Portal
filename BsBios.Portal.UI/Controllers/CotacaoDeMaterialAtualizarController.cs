@@ -23,7 +23,7 @@ namespace BsBios.Portal.UI.Controllers
             cotacaoInformarVm.Impostos = cotacaoImpostosVm;
             try
             {
-                _atualizadorDeCotacao.Atualizar(cotacaoInformarVm);
+                _atualizadorDeCotacao.AtualizarCotacao(cotacaoInformarVm);
                 return Json(new { Sucesso = true });
             }
             catch (Exception ex)

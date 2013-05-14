@@ -111,14 +111,14 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoAtualizarCotacaoDoFornecedorOcorrePersistencia()
         {
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+            _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
         }
 
         [TestMethod]
         public void QuandoAtualizaCotacaoDoFornecedorComSucessoOcorreCommitNaTransacao()
         {
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+            _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
             _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
             _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
             _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
@@ -131,7 +131,7 @@ namespace BsBios.Portal.Tests.Application.Services
                 .Throws(new ExcecaoDeTeste("Erro ao consultar Processo de Cotação"));
             try
             {
-                _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+                _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
                 Assert.Fail("Deveria ter gerado exceção");
             }
             catch (ExcecaoDeTeste)
@@ -166,7 +166,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         Assert.AreEqual(12, icms.Valor);
 
                     });
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+            _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
             
         }
             

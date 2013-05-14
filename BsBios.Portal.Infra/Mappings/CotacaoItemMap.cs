@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
-using FluentNHibernate.MappingModel;
 
 namespace BsBios.Portal.Infra.Mappings
 {
@@ -35,9 +29,9 @@ namespace BsBios.Portal.Infra.Mappings
         }
     }
 
-    public class CotacaoItemMaterialMap: SubclassMap<CotacaoItemMaterial>
+    public class CotacaoMaterialItemMap: SubclassMap<CotacaoMaterialItem>
     {
-        public CotacaoItemMaterialMap()
+        public CotacaoMaterialItemMap()
         {
             Table("CotacaoItemMaterial");
             KeyColumn("IdProcessoCotacao");
@@ -48,9 +42,9 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
         }
     }
-    public class CotacaoItemFreteMap: SubclassMap<CotacaoItemFrete>
+    public class CotacaoFreteItemMap: SubclassMap<CotacaoFreteItem>
     {
-        public CotacaoItemFreteMap()
+        public CotacaoFreteItemMap()
         {
             Table("CotacaoItemFrete");
             KeyColumn("IdProcessoCotacao");

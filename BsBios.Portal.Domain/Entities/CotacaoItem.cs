@@ -51,7 +51,7 @@ namespace BsBios.Portal.Domain.Entities
                 - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
         }
 
-        protected virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        public virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {
             ValorComImpostos = valorTotalComImpostos;
             QuantidadeDisponivel = quantidadeDisponivel;
@@ -115,13 +115,13 @@ namespace BsBios.Portal.Domain.Entities
 
     }
 
-    public class CotacaoItemMaterial: CotacaoItem
+    public class CotacaoMaterialItem: CotacaoItem
     {
         public virtual decimal? Mva { get; protected set; }
         public virtual Iva Iva { get; protected set; }
         public virtual DateTime PrazoDeEntrega { get; protected set; }
 
-        internal CotacaoItemMaterial(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem, decimal? mva, DateTime prazoDeEntrega,
+        internal CotacaoMaterialItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem, decimal? mva, DateTime prazoDeEntrega,
             decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes) 
             : base(cotacao, processoDeCotacaoItem,valorTotalComImpostos, quantidadeDisponivel, observacoes)
         {
@@ -160,9 +160,9 @@ namespace BsBios.Portal.Domain.Entities
 
     }
 
-    public class CotacaoItemFrete: CotacaoItem
+    public class CotacaoFreteItem: CotacaoItem
     {
-        internal CotacaoItemFrete(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal valorTotalComImpostos, 
+        internal CotacaoFreteItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal valorTotalComImpostos, 
             decimal quantidadeDisponivel, string observacoes) : base(cotacao, processoDeCotacaoItem,valorTotalComImpostos, quantidadeDisponivel, observacoes)
         {
         }

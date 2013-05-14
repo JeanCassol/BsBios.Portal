@@ -48,10 +48,22 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 };
         }
 
-        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
             var retorno = new List<CotacaoSelecionarVm>();
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+
+            var q = (from pc in _processosDeCotacao.GetQuery()
+                         from fp in pc.FornecedoresParticipantes
+                          from item in fp.Cotacao.Itens
+                         where item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem 
+
+                         select new CotacaoSelecionarVm
+                             {
+                                 
+                             }
+                         )
+
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
             {
                 var cotacaoSelecionarVm = new CotacaoSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };

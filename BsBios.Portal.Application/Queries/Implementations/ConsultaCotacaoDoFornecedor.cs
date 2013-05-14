@@ -96,6 +96,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     IdFornecedorParticipante = fp.Id
                 };
 
+
             if (fp.Cotacao != null)
             {
 
@@ -104,20 +105,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.CodigoCondicaoPagamento = cotacao.CondicaoDePagamento.Codigo;
                 vm.CodigoIncoterm = cotacao.Incoterm.Codigo;
                 vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
-                vm.Mva = cotacao.Mva;
-                vm.ValorLiquido = cotacao.ValorLiquido;
-                vm.ValorComImpostos = cotacao.ValorComImpostos;
-                vm.ObservacoesDoFornecedor = cotacao.Observacoes;
-                vm.PrazoDeEntrega = cotacao.PrazoDeEntrega.ToShortDateString();
-                vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
+                //vm.Mva = cotacao.Mva;
+                //vm.ValorLiquido = cotacao.ValorLiquido;
+                //vm.ValorComImpostos = cotacao.ValorComImpostos;
+                //vm.ObservacoesDoFornecedor = cotacao.Observacoes;
+                //vm.PrazoDeEntrega = cotacao.PrazoDeEntrega.ToShortDateString();
+                //vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
 
-                vm.Impostos = _builderImpostos.BuildSingle(cotacao);
+                //vm.Impostos = _builderImpostos.BuildSingle(cotacao);
 
             }
-            else
-            {
-                vm.Impostos = new CotacaoImpostosVm();
-            }
+            //else
+            //{
+            //    vm.Impostos = new CotacaoImpostosVm();
+            //}
 
             return vm;
 
@@ -155,10 +156,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
 
                 var cotacao = fp.Cotacao.CastEntity();
+                var itemDaCotacao = cotacao.Itens.First();
 
-                vm.ValorComImpostos = cotacao.ValorComImpostos;
-                vm.ObservacoesDoFornecedor = cotacao.Observacoes;
-                vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
+                //vm.ValorComImpostos = cotacao.ValorComImpostos;
+                //vm.ObservacoesDoFornecedor = cotacao.Observacoes;
+                //vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
+                vm.ValorComImpostos = itemDaCotacao.ValorComImpostos;
+                vm.ObservacoesDoFornecedor = itemDaCotacao.Observacoes;
+                vm.QuantidadeDisponivel = itemDaCotacao.QuantidadeDisponivel;
 
             }
 
