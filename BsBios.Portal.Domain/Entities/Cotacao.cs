@@ -19,7 +19,7 @@ namespace BsBios.Portal.Domain.Entities
     public class CotacaoFrete: Cotacao
     {
         //protected CotacaoFrete(){}
-        public CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {
             var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
             if (cotacaoItem != null)
@@ -45,7 +45,7 @@ namespace BsBios.Portal.Domain.Entities
 
         protected CotacaoMaterial(){}
 
-        public CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
+        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
@@ -59,7 +59,7 @@ namespace BsBios.Portal.Domain.Entities
             DescricaoIncoterm = descricaoIncoterm;
         }
 
-        public CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal? mva, 
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal? mva, 
             decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
             var cotacaoItem = (CotacaoMaterialItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);

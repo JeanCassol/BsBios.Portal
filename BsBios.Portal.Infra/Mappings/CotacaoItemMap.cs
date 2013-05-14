@@ -8,9 +8,16 @@ namespace BsBios.Portal.Infra.Mappings
         public CotacaoItemMap()
         {
             Table("CotacaoItem");
-            CompositeId()
-                .KeyReference(x => x.Cotacao, "IdCotacao")
-                .KeyReference(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
+            /*Removi o composite Id porque não conseguia mapear as subclasses. Dava o erro
+             NHibernate.FKUnmatchingColumnsException: Foreign key (FKD37B35BECAD2B9E0:CotacaoFreteItem [IdCotacao])) must have same number of columns as the referenced primary key (CotacaoItem [IdCotacao, IdProcessoCotacaoItem]*/
+            //CompositeId()
+            //    .KeyReference(x => x.Cotacao, "IdCotacao")
+            //    .KeyReference(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
+
+            Id(x => x.Id).GeneratedBy.Sequence("COTACAOITEM_ID_SEQUENCE");
+
+            References(x => x.Cotacao, "IdCotacao");
+            References(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
 
             Map(x => x.QuantidadeAdquirida);
             Map(x => x.ValorLiquido);
@@ -22,8 +29,7 @@ namespace BsBios.Portal.Infra.Mappings
             /*Importante: Sem a opção "Cascade.AllDeleteOrphan()" o NHibernate tenta sempre fazer um update mesmo quando é criado um imposto novo.
              * Lembrar de usar esta opção sempre que mapear com "HasMany"*/
             HasMany(x => x.Impostos)
-                .KeyColumn("IdCotacao")
-                .KeyColumn("IdProcessoCotacaoItem")
+                .KeyColumn("IdCotacaoItem")
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
         }
@@ -33,9 +39,10 @@ namespace BsBios.Portal.Infra.Mappings
     {
         public CotacaoMaterialItemMap()
         {
-            Table("CotacaoItemMaterial");
-            KeyColumn("IdProcessoCotacao");
-            KeyColumn("IdProcessoCotacaoItem");
+            Table("CotacaoMaterialItem");
+            //KeyColumn("IdCotacao");
+            //KeyColumn("IdProcessoCotacaoItem");
+            KeyColumn("Id");
 
             References(x => x.Iva).Column("CodigoIva");
             Map(x => x.Mva);
@@ -46,9 +53,10 @@ namespace BsBios.Portal.Infra.Mappings
     {
         public CotacaoFreteItemMap()
         {
-            Table("CotacaoItemFrete");
-            KeyColumn("IdProcessoCotacao");
-            KeyColumn("IdProcessoCotacaoItem");
+            Table("CotacaoFreteItem");
+            //KeyColumn("IdCotacao");
+            //KeyColumn("IdProcessoCotacaoItem");
+            KeyColumn("Id");
         }
     }
 }

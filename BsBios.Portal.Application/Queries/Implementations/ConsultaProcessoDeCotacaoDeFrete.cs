@@ -50,39 +50,45 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
-            var retorno = new List<CotacaoSelecionarVm>();
+            //var retorno = new List<CotacaoSelecionarVm>();
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
 
-            var q = (from pc in _processosDeCotacao.GetQuery()
-                         from fp in pc.FornecedoresParticipantes
-                          from item in fp.Cotacao.Itens
-                         where item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem 
+            var retorno = (from pc in _processosDeCotacao.GetQuery()
+                     from fp in pc.FornecedoresParticipantes
+                     from item in fp.Cotacao.Itens
+                     where item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem
+                     select new CotacaoSelecionarVm
+                         {
+                             Fornecedor = fp.Fornecedor.Nome,
+                             IdCotacao = item.Cotacao != null ? item.Cotacao.Id : 0,
+                             QuantidadeAdquirida = item.Cotacao != null ? item.QuantidadeAdquirida : (decimal?) null,
+                             QuantidadeDisponivel = item.Cotacao != null ? item.QuantidadeDisponivel : (decimal?) null,
+                             ValorComImpostos = item.Cotacao != null ? item.ValorComImpostos : (decimal?) null,
+                             Selecionada = item.Cotacao != null && item.Selecionada,
+                             ObservacaoDoFornecedor = item.Cotacao != null ? item.Observacoes : null,
 
-                         select new CotacaoSelecionarVm
-                             {
-                                 
-                             }
-                         )
+                         }
+                    ).ToList();
 
-            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
-            {
-                var cotacaoSelecionarVm = new CotacaoSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
-                retorno.Add(cotacaoSelecionarVm);
+            //foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
+            //{
+            //    var cotacaoSelecionarVm = new CotacaoSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
+            //    retorno.Add(cotacaoSelecionarVm);
 
-                if (fornecedorParticipante.Cotacao == null)
-                {
-                    continue;
-                }
+            //    if (fornecedorParticipante.Cotacao == null)
+            //    {
+            //        continue;
+            //    }
 
-                var cotacao = fornecedorParticipante.Cotacao;
+            //    var cotacao = fornecedorParticipante.Cotacao;
 
-                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
-                cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
-                cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
-                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
-                cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
-                cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacao.Observacoes;
-            }
+            //    cotacaoSelecionarVm.IdCotacao = cotacao.Id;
+            //    cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
+            //    cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
+            //    cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
+            //    cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
+            //    cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacao.Observacoes;
+            //}
 
             return retorno;
         }

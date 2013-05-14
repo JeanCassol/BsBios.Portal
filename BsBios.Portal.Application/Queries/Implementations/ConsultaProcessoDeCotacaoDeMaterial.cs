@@ -163,7 +163,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         }
 
-        public IList<CotacaoMaterialSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        public IList<CotacaoMaterialSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
             var retorno = new List<CotacaoMaterialSelecionarVm>();
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
@@ -178,30 +178,30 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 }
 
                 var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
+                var cotacaoItem = (CotacaoMaterialItem)cotacao.Itens.SingleOrDefault(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+
+                if (cotacaoItem == null)
+                {
+                    continue;
+                }
 
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
-                cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
-                cotacaoSelecionarVm.CodigoIva = cotacao.Iva != null ? cotacao.Iva.Codigo : null;
+                cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
+                cotacaoSelecionarVm.CodigoIva = cotacaoItem.Iva != null ? cotacaoItem.Iva.Codigo : null;
                 cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
                 cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
-                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
-                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
-                cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
+                cotacaoSelecionarVm.ValorLiquido = cotacaoItem.ValorLiquido;
+                cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
 
-                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+                Imposto imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Icms);
                 cotacaoSelecionarVm.ValorIcms = imposto != null ? imposto.Valor : (decimal?) null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+                imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
                 cotacaoSelecionarVm.ValorIcmsSt = imposto != null ? imposto.Valor : (decimal?)null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+                imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Ipi);
                 cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                //cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                //cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
 
             }
 
@@ -268,18 +268,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         Codigo = fornecedorParticipante.Fornecedor.Codigo,
                         Nome = fornecedorParticipante.Fornecedor.Nome,
                         Selecionado =
-                            (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada
+                            (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Itens.Any(x => x.Selecionada)
                                  ? "Sim"
                                  : "Não"),
-                        ValorLiquido =
-                            (fornecedorParticipante.Cotacao != null
-                                 ? fornecedorParticipante.Cotacao.ValorLiquido
-                                 : (decimal?) null),
-                        ValorComImpostos =
-                            (fornecedorParticipante.Cotacao != null
-                                 ? fornecedorParticipante.Cotacao.ValorComImpostos
-                                 : (decimal?) null),
-                        QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
+                        //ValorLiquido =
+                        //    (fornecedorParticipante.Cotacao != null
+                        //         ? fornecedorParticipante.Cotacao.ValorLiquido
+                        //         : (decimal?) null),
+                        //ValorComImpostos =
+                        //    (fornecedorParticipante.Cotacao != null
+                        //         ? fornecedorParticipante.Cotacao.ValorComImpostos
+                        //         : (decimal?) null),
+                        //QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
                         VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
                     });
             }

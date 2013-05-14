@@ -159,15 +159,13 @@ namespace BsBios.Portal.Tests.Infra.Services
             var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true);
             processo.AdicionarFornecedor(fornecedor);
             processo.Abrir();
-            CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");
-            processo.SelecionarCotacao(cotacaoFrete.Id, 50);
+            CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "obs");
+            processo.SelecionarCotacao(cotacaoFrete.Id,50);
             var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
             var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(credencialSap);
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
             Assert.AreEqual("S", mensagem.Retorno.Codigo);
         }
-
-
 
         //[TestMethod]
         //public void LerRespostaDeRequisicaoComRetornoEmXmlELeituraTipada()

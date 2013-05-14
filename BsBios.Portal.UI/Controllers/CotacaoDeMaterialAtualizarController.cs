@@ -20,7 +20,6 @@ namespace BsBios.Portal.UI.Controllers
         [HttpPost]
         public JsonResult Salvar(CotacaoMaterialInformarVm cotacaoInformarVm,[ModelBinder(typeof(CotacaoImpostoModelBinder))] CotacaoImpostosVm cotacaoImpostosVm)
         {
-            cotacaoInformarVm.Impostos = cotacaoImpostosVm;
             try
             {
                 _atualizadorDeCotacao.AtualizarCotacao(cotacaoInformarVm);
@@ -30,7 +29,22 @@ namespace BsBios.Portal.UI.Controllers
             {
                 return Json(new { Sucesso = false, Mensagem = ex.Message });
             }
+        }
 
+        [HttpPost]
+        public JsonResult SalvarItem(CotacaoMaterialItemInformarVm cotacaoItemInformarVm, [ModelBinder(typeof (CotacaoImpostoModelBinder))] CotacaoImpostosVm cotacaoImpostosVm)
+        {
+            cotacaoItemInformarVm.Impostos = cotacaoImpostosVm;
+            try
+            {
+                _atualizadorDeCotacao.AtualizarItemDaCotacao(cotacaoItemInformarVm);
+                return Json(new { Sucesso = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message });
+            }
+            
         }
     }
 

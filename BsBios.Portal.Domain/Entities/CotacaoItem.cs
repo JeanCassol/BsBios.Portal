@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 
@@ -10,6 +8,7 @@ namespace BsBios.Portal.Domain.Entities
 {
     public abstract class CotacaoItem
     {
+        public virtual int Id { get; protected set; }
         public virtual Cotacao Cotacao { get; protected set; }
         public virtual ProcessoDeCotacaoItem ProcessoDeCotacaoItem { get; set; }
         public virtual bool Selecionada { get; protected set; }
@@ -112,6 +111,31 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeAdquirida = null;
         }
 
+        #region override members
+
+        protected bool Equals(CotacaoItem other)
+        {
+            return Equals(Cotacao, other.Cotacao) && Equals(ProcessoDeCotacaoItem, other.ProcessoDeCotacaoItem);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CotacaoItem) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Cotacao != null ? Cotacao.GetHashCode() : 0)*397) ^ (ProcessoDeCotacaoItem != null ? ProcessoDeCotacaoItem.GetHashCode() : 0);
+            }
+        }
+
+        #endregion
+
 
     }
 
@@ -120,6 +144,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal? Mva { get; protected set; }
         public virtual Iva Iva { get; protected set; }
         public virtual DateTime PrazoDeEntrega { get; protected set; }
+
+        protected CotacaoMaterialItem(){}
 
         internal CotacaoMaterialItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem, decimal? mva, DateTime prazoDeEntrega,
             decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes) 
@@ -162,6 +188,7 @@ namespace BsBios.Portal.Domain.Entities
 
     public class CotacaoFreteItem: CotacaoItem
     {
+        protected CotacaoFreteItem(){}
         internal CotacaoFreteItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal valorTotalComImpostos, 
             decimal quantidadeDisponivel, string observacoes) : base(cotacao, processoDeCotacaoItem,valorTotalComImpostos, quantidadeDisponivel, observacoes)
         {

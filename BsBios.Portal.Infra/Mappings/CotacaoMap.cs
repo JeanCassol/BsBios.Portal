@@ -7,7 +7,7 @@ namespace BsBios.Portal.Infra.Mappings
     {
         public CotacaoMap()
         {
-            Table("COTACAO");
+            Table("Cotacao");
             //DynamicInsert();
             Id(x => x.Id).GeneratedBy.Sequence("COTACAO_ID_SEQUENCE");
 

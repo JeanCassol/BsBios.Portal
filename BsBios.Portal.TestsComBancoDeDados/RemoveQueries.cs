@@ -1,4 +1,6 @@
 ﻿using System;
+using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using StructureMap;
 
@@ -120,6 +122,30 @@ namespace BsBios.Portal.TestsComBancoDeDados
             try
             {
                 UnitOfWork.BeginTransaction();
+
+                var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+                processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Material);
+                var cotacoesDeMaterial = processosDeCotacao.List();
+                foreach (var processoDeCotacao in cotacoesDeMaterial)
+                {
+                    foreach (ProcessoDeCotacaoDeMaterialItem processoDeCotacaoItem in processoDeCotacao.Itens)
+                    {
+                        var requisicaoDeCompra = processoDeCotacaoItem.RequisicaoDeCompra;
+                        if (requisicaoDeCompra != null)
+                        {
+                            requisicaoDeCompra.DesvincularDeProcessoDeCotacao();
+                            UnitOfWork.Session.Save(requisicaoDeCompra);
+                        }
+                    }
+                    UnitOfWork.Session.Delete(processoDeCotacao);
+                }
+
+                UnitOfWork.Commit();
+
+                UnitOfWork.Session.Clear();
+
+                UnitOfWork.Session.BeginTransaction();
+                
                 UnitOfWork.Session.Delete("from ProcessoDeCotacao");
 
                 UnitOfWork.Commit();

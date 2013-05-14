@@ -13,6 +13,10 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Produto).Column("CodigoProduto");
             References(x => x.UnidadeDeMedida).Column("CodigoUnidadeMedida");
             Map(x => x.Quantidade);
+            HasMany(x => x.Cotacoes)
+                .KeyColumn("IdProcessoCotacaoItem")
+                .Inverse()
+                .Cascade.AllDeleteOrphan();
         }
     }
     public class ProcessoDeCotacaoDeMaterialItemMap:SubclassMap<ProcessoDeCotacaoDeMaterialItem>

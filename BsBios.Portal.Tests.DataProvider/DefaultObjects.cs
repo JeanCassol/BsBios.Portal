@@ -48,14 +48,14 @@ namespace BsBios.Portal.Tests.DataProvider
             string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
             string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
 
-            var requisicaoDeCompra = new RequisicaoDeCompraTeste(_contadorRequisicaoCompra,usuarioCriador, "requisitante", fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
                 material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1",false);
             
             return requisicaoDeCompra;
         }
 
-        public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemId()
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraComId()
         {
             var usuarioCriador = ObtemUsuarioPadrao();
             var fornecedorPretendido = ObtemFornecedorPadrao();
@@ -70,7 +70,7 @@ namespace BsBios.Portal.Tests.DataProvider
             string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
             string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
 
-            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompraTeste(_contadorRequisicaoCompra, usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
                 material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1", false);
 
@@ -114,12 +114,23 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
-            var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, 100,DateTime.Today.AddMonths(1),"obs");
-            processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
+            var cotacao = (CotacaoMaterial) processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            var processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, null, 100, DateTime.Today.AddMonths(1), "obs");
+            processoDeCotacao.SelecionarCotacao(cotacao.Id, processoDeCotacaoItem.Id, 100, ObtemIvaPadrao());
             processoDeCotacao.Fechar("justificativa");
             return processoDeCotacao;
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
+            var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
+            CotacaoMaterial cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(), "Descrição do Incotem");
+            var processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, null, 100, DateTime.Today.AddMonths(1), "obs");
+            return processoDeCotacao;            
         }
 
         public static Fornecedor ObtemFornecedorPadrao()
@@ -178,13 +189,6 @@ namespace BsBios.Portal.Tests.DataProvider
             _contadorCondicoesDePagamento++;
             var codigo = GeraCodigo(_contadorCondicoesDePagamento, 4);
             return new CondicaoDePagamento(codigo , "CONDIÇÃO " + codigo);
-        }
-
-        public static CotacaoMaterial ObtemCotacaoDeMaterialPadrao()
-        {
-            var cotacao = new CotacaoMaterial(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
-                "Descrição do Incoterm", 100, 110, 150,DateTime.Today,"obs");
-            return cotacao;
         }
 
         public static UsuarioConectado ObtemUsuarioConectado()
@@ -268,8 +272,8 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
-            var cotacao = (CotacaoFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            cotacao.Selecionar(9);
+            var cotacaoItem = (CotacaoFreteItem)processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Itens.First();
+            cotacaoItem.Selecionar(9);
             return processoDeCotacao;
         }
 

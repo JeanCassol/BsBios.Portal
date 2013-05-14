@@ -146,9 +146,14 @@ namespace BsBios.Portal.TestsComBancoDeDados
                         var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao;
                         PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
                         PersistirIncoterm(cotacao.Incoterm);
-                        if (cotacao.Iva != null)
+                        var ivas =
+                            cotacao.Itens.Where(x => ((CotacaoMaterialItem) x).Iva != null)
+                                   .Select(y => ((CotacaoMaterialItem) y).Iva)
+                                   .Distinct()
+                                   .ToList();
+                        foreach (var iva in ivas)
                         {
-                            PersistirIva(cotacao.Iva);    
+                            PersistirIva(iva);    
                         }
                         
                     }

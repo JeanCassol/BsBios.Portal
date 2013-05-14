@@ -11,9 +11,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaCotacaoDoFornecedor : IConsultaCotacaoDoFornecedor
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
-        private readonly IBuilder<Cotacao, CotacaoImpostosVm> _builderImpostos;
+        private readonly IBuilder<CotacaoItem, CotacaoImpostosVm> _builderImpostos;
 
-        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<Cotacao, CotacaoImpostosVm> builderImpostos)
+        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<CotacaoItem, CotacaoImpostosVm> builderImpostos)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderImpostos = builderImpostos;

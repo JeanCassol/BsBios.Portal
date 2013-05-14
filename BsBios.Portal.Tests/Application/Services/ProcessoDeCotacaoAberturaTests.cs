@@ -60,8 +60,10 @@ namespace BsBios.Portal.Tests.Application.Services
                         _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
                         var codigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
                         var cotacao = _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                           DefaultObjects.ObtemIncotermPadrao(), "inc", 150, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
-                        _processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, DefaultObjects.ObtemIvaPadrao());
+                                                           DefaultObjects.ObtemIncotermPadrao(), "inc");
+                        var processoCotacaoItem = _processoDeCotacao.Itens.First();
+                        var cotacaoItem = (CotacaoMaterialItem)cotacao.InformarCotacaoDeItem(processoCotacaoItem, 150, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
+                        cotacaoItem.Selecionar(100, DefaultObjects.ObtemIvaPadrao());
                     }
                 });
 

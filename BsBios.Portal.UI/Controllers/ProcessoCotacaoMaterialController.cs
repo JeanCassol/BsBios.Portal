@@ -112,9 +112,9 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListarCotacoes(int idProcessoCotacao)
+        public JsonResult ListarCotacoes(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
-            IList<CotacaoMaterialSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
+            IList<CotacaoMaterialSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao, idProcessoCotacaoItem);
             return Json(new {Registros = cotacoes}, JsonRequestBehavior.AllowGet);
         }
 

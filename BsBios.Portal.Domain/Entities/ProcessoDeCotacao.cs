@@ -311,7 +311,7 @@ namespace BsBios.Portal.Domain.Entities
 
         }
 
-        public virtual CotacaoFrete InformarCotacao(string codigoFornecedor, ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos,
+        public virtual CotacaoFrete InformarCotacao(string codigoFornecedor, decimal valorTotalComImpostos,
             decimal quantidadeDisponivel, string observacoes)
         {
             base.InformarCotacao();
@@ -325,16 +325,16 @@ namespace BsBios.Portal.Domain.Entities
                 cotacao = new CotacaoFrete();
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
-
+            ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.First();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
             return cotacao;
         }
 
-        public virtual void SelecionarCotacao(int idCotacao,  int idProcessoCotacaoItem, decimal quantidadeAdquirida)
+        public virtual void SelecionarCotacao(int idCotacao,  decimal quantidadeAdquirida)
         {
             SelecionarCotacao();
             var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+            var itemDaCotacao = cotacao.Itens.First();
 
             itemDaCotacao.Selecionar(quantidadeAdquirida);
         }

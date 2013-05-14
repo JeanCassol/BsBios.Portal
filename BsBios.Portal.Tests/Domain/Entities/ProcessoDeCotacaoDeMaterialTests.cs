@@ -164,7 +164,18 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void SeTentarInformarUmaCotacaoParaUmProcessoQueNaoEstejaAbertoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
-            processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc", 100, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
+            processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoFechadoAtualizacaoCotacaoException))]
+        public void SeTentarInformarUmItemDaCotacaoParaUmProcessoQueNaoEstejaAbertoDeveGerarExcecao()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
+            processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc");
+            var idCotacao = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Cotacao.Id;
+            var idProcessoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First().Id;
+            processoDeCotacaoDeMaterial.InformarCotacaoDeItem(idProcessoCotacaoItem, idCotacao, 10, null, 5,DateTime.Today.AddDays(4), "obs");
         }
 
         [TestMethod]
@@ -175,7 +186,22 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(-1), processoDeCotacaoDeMaterial.Requisitos);
             processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             processoDeCotacaoDeMaterial.Abrir();
-            processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc", 100, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
+            processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProcessoDeCotacaoDataLimiteExpiradaException))]
+        public void SeTentarInformarUmItemDaCotacaoAposADataLimiteDeRetornoDeveGerarExcecao()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today.AddDays(-1), processoDeCotacaoDeMaterial.Requisitos);
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            processoDeCotacaoDeMaterial.Abrir();
+
+            var cotacao = processoDeCotacaoDeMaterial.InformarCotacao("FORNEC0001", DefaultObjects.ObtemCondicaoDePagamentoPadrao(), new Incoterm("001", "INCOTERM 001"), "inc");
+            var processoDeCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 100, null, 100, DateTime.Today.AddMonths(1),"obs fornec");
+
         }
 
         //[TestMethod]
@@ -206,10 +232,13 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             string codigoDoFornecedor = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            Cotacao cotacao = processoDeCotacaoDeMaterial.InformarCotacao(codigoDoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                        DefaultObjects.ObtemIncotermPadrao(), "inc", 120, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
+            var cotacao =  processoDeCotacaoDeMaterial.InformarCotacao(codigoDoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var processoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
+            var cotacaoItem = (CotacaoMaterialItem) cotacao.InformarCotacaoDeItem(processoCotacaoItem, 120, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
+                
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacaoDeMaterial.SelecionarCotacao(cotacao.Id, 100,iva);
+            cotacaoItem.Selecionar(100,iva);
             processoDeCotacaoDeMaterial.Fechar("justificativa");
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
             Assert.AreEqual("justificativa", processoDeCotacaoDeMaterial.Justificativa);
@@ -239,7 +268,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
             Iva iva = DefaultObjects.ObtemIvaPadrao();
             int idCotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Id;
-            processoDeCotacao.SelecionarCotacao(idCotacao, 100, iva);
+            var idProcessoCotacaoItem = processoDeCotacao.Itens.First().Id;
+            processoDeCotacao.SelecionarCotacao(idCotacao,idProcessoCotacaoItem, 100, iva);
             
         }
 
@@ -252,18 +282,29 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", 180, 10,100, DateTime.Today.AddMonths(1), "obs fornec");
+            processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2");
 
             var cotacao = (CotacaoMaterial) processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
             Assert.IsNotNull(cotacao);
             Assert.AreSame(condicaoDePagamento,  cotacao.CondicaoDePagamento);
-            Assert.AreEqual(new decimal(180), cotacao.ValorLiquido);
-            Assert.AreEqual(180, cotacao.ValorComImpostos);
-            Assert.AreEqual(10, cotacao.Mva);
-            Assert.AreEqual(100, cotacao.QuantidadeDisponivel);
-            Assert.AreEqual(DateTime.Today.AddMonths(1), cotacao.PrazoDeEntrega);
             Assert.AreSame(incoterm, cotacao.Incoterm);
             Assert.AreEqual("Descrição do Incoterm 2", cotacao.DescricaoIncoterm);
+
+        }
+
+        [TestMethod]
+        public void QuandoAtualizoUmItemDaCotacaoDoProcessoAsPropriedadesSaoAtualizadas()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
+            var idCotacao = processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Id;
+            var idProcessoCotacaoItem = processoDeCotacao.Itens.First().Id;
+            var cotacaoItem = (CotacaoMaterialItem) processoDeCotacao.InformarCotacaoDeItem(idProcessoCotacaoItem, idCotacao, 180, 10, 100, DateTime.Today.AddMonths(1), "obs fornec");
+
+            Assert.AreEqual(new decimal(180), cotacaoItem.ValorLiquido);
+            Assert.AreEqual(180, cotacaoItem.ValorComImpostos);
+            Assert.AreEqual(10, cotacaoItem.Mva);
+            Assert.AreEqual(100, cotacaoItem.QuantidadeDisponivel);
+            Assert.AreEqual(DateTime.Today.AddMonths(1), cotacaoItem.PrazoDeEntrega);
 
         }
 
@@ -276,13 +317,15 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            var cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10, DateTime.Today.AddMonths(1), "obs fornec");
+            var processoCotacaoItem = processoDeCotacao.Itens.First();
+            var cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2");
+            var cotacaoItem = (CotacaoMaterialItem) cotacao.InformarCotacaoDeItem(processoCotacaoItem, new decimal(150.20), 180, 10, DateTime.Today.AddMonths(1), "obs fornec");
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.SelecionarCotacao(cotacao.Id, new decimal(120.00), iva);
+            cotacaoItem.Selecionar(new decimal(120.00), iva);
 
-            Assert.IsTrue(cotacao.Selecionada);
-            Assert.AreEqual(new decimal(120.00), cotacao.QuantidadeAdquirida);
-            Assert.AreEqual(iva.Codigo, cotacao.Iva.Codigo);
+            Assert.IsTrue(cotacaoItem.Selecionada);
+            Assert.AreEqual(new decimal(120.00), cotacaoItem.QuantidadeAdquirida);
+            Assert.AreEqual(iva.Codigo, cotacaoItem.Iva.Codigo);
 
         }
 
@@ -295,17 +338,19 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacao.Abrir();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
-            var cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2", new decimal(150.20), 180, 10, DateTime.Today.AddMonths(1), "obs fornec");
+            var cotacao = processoDeCotacao.InformarCotacao(fornecedor.Codigo, condicaoDePagamento, incoterm, "Descrição do Incoterm 2");
+            var processoCotacaoItem = processoDeCotacao.Itens.First();
+            var cotacaoItem = (CotacaoMaterialItem)cotacao.InformarCotacaoDeItem(processoCotacaoItem, new decimal(150.20), 180, 10, DateTime.Today.AddMonths(1), "obs fornec");
             Iva iva = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.SelecionarCotacao(cotacao.Id, new decimal(120.00), iva);
+            cotacaoItem.Selecionar(new decimal(120.00), iva);
 
             Iva ivaAlteracao = DefaultObjects.ObtemIvaPadrao();
-            processoDeCotacao.RemoverSelecaoDaCotacao(cotacao.Id, ivaAlteracao);
+            cotacaoItem.RemoverSelecao(ivaAlteracao);
 
             var cotacaoRemovida = (CotacaoMaterial) processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            Assert.IsFalse(cotacaoRemovida.Selecionada);
-            Assert.IsNull(cotacaoRemovida.QuantidadeAdquirida);
-            Assert.AreSame(ivaAlteracao, cotacaoRemovida.Iva);
+            Assert.IsFalse(cotacaoItem.Selecionada);
+            Assert.IsNull(cotacaoItem.QuantidadeAdquirida);
+            Assert.AreSame(ivaAlteracao, cotacaoItem.Iva);
             
         }
 

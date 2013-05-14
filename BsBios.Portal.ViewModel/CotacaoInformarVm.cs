@@ -14,7 +14,7 @@
         public string CodigoFornecedor { get; set; }
     }
 
-    public class CotacaoMaterialItemInformarVm : CotacaoMaterialDadosVm
+    public class CotacaoMaterialItemInformarVm : CotacaoMaterialItemDadosVm
     {
         public int IdProcessoCotacao { get; set; }
         public int IdProcessoCotacaoItem { get; set; }

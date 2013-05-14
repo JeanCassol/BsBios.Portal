@@ -16,8 +16,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
 
-            RequisicaoDeCompra requisicao1 = DefaultObjects.ObtemRequisicaoDeCompraSemId();
-            RequisicaoDeCompra requisicao2 = DefaultObjects.ObtemRequisicaoDeCompraSemId();
+            RequisicaoDeCompra requisicao1 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            RequisicaoDeCompra requisicao2 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
 
             DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicao1);
             DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicao2);

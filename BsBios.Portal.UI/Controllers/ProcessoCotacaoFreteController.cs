@@ -104,9 +104,9 @@ namespace BsBios.Portal.UI.Controllers
             return View("_SelecionarItinerario", itinerarioCadastroVm);
         }
 
-        public JsonResult ListarCotacoes(int idProcessoCotacao)
+        public JsonResult ListarCotacoes(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
-            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedores(idProcessoCotacao);
+            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedores(idProcessoCotacao,idProcessoCotacaoItem);
             return Json(new { Registros = cotacoes }, JsonRequestBehavior.AllowGet);
         }
 

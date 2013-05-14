@@ -23,11 +23,11 @@ namespace BsBios.Portal.Application.Services.Implementations
             try
             {
                 _unitOfWork.BeginTransaction();
-                var processoDeCotacao = (ProcessoDeCotacaoDeFrete)   _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
+                var processoDeCotacao = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
 
                 ProcessoDeCotacaoItem item = processoDeCotacao.Itens.First();
 
-                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,item, cotacaoInformarVm.ValorComImpostos.Value,
+                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,cotacaoInformarVm.ValorComImpostos.Value,
                     cotacaoInformarVm.QuantidadeDisponivel.Value, cotacaoInformarVm.ObservacoesDoFornecedor);
 
                 _processosDeCotacao.Save(processoDeCotacao);

@@ -1126,3 +1126,210 @@ ALTER TABLE PROCESSOCOTACAO DROP COLUMN CODIGOUNIDADEMEDIDA;
 ALTER TABLE PROCESSOCOTACAO DROP COLUMN QUANTIDADE;
 --EXCLUS홒 DAS COLUNAS IMPORTADAS (FIM)
 
+--CRIA플O DA TABELA COTACAOITEM (INICIO)
+CREATE SEQUENCE COTACAOITEM_ID_SEQUENCE INCREMENT BY 1 START WITH 1 MINVALUE 1;
+CREATE TABLE COTACAOITEM 
+(
+  ID NUMBER NOT NULL 
+, IDCOTACAO NUMBER NOT NULL 
+, IDPROCESSOCOTACAOITEM NUMBER NOT NULL 
+, QUANTIDADEDISPONIVEL NUMBER(13, 3) NOT NULL 
+, VALORLIQUIDO NUMBER(13, 2) NOT NULL 
+, VALORCOMIMPOSTOS NUMBER(13, 2) NOT NULL 
+, OBSERVACOES CLOB 
+, SELECIONADA NUMBER(1, 0) NOT NULL 
+, QUANTIDADEADQUIRIDA NUMBER(13, 3) NULL 
+, CONSTRAINT PK_COTACAOITEM PRIMARY KEY 
+  (
+    ID
+  )
+  ENABLE 
+);
+
+ALTER TABLE COTACAOITEM
+ADD CONSTRAINT FK_COTACAOITEM_COTACAO FOREIGN KEY
+(
+  IDCOTACAO 
+)
+REFERENCES COTACAO
+(
+  ID 
+)
+ENABLE;
+
+ALTER TABLE COTACAOITEM
+ADD CONSTRAINT FK_COTACAOITEM_PROCESSOITEM FOREIGN KEY
+(
+  IDPROCESSOCOTACAOITEM 
+)
+REFERENCES PROCESSOCOTACAOITEM
+(
+  ID 
+)
+ENABLE;
+
+ALTER TABLE COTACAOITEM
+ADD CONSTRAINT CHK_COTACAOITEM_SELECIONADA CHECK 
+(SELECIONADA BETWEEN 0 AND 1)
+ENABLE;
+
+--CRIA플O DA TABELA COTACAOITEM (FIM)
+
+--CRIA플O DA TABELA COTACAOMATERIALITEM (INICIO)
+CREATE TABLE COTACAOMATERIALITEM 
+(
+  ID NUMBER NOT NULL 
+, CODIGOIVA VARCHAR2(2 BYTE) 
+, MVA NUMBER(13, 2) 
+, PRAZOENTREGA DATE NOT NULL 
+, CONSTRAINT PK_COTACAOMATERIALITEM PRIMARY KEY 
+  (
+    ID
+  )
+  ENABLE 
+);
+
+ALTER TABLE COTACAOMATERIALITEM
+ADD CONSTRAINT FK_COTACAOMATERIALITEM_COTACAO FOREIGN KEY
+(
+  ID
+)
+REFERENCES COTACAOITEM
+(
+  ID 
+)
+ENABLE;
+
+ALTER TABLE COTACAOMATERIALITEM
+ADD CONSTRAINT FK_COTACAOMATERIALITEM_IVA FOREIGN KEY
+(
+  CODIGOIVA 
+)
+REFERENCES IVA
+(
+  CODIGO 
+)
+ENABLE;
+
+--CRIA플O DA TABELA COTACAOMATERIALITEM (FIM)
+
+--CRIA플O DA TABELA COTACAOFRETEITEM (INICIO)
+CREATE TABLE COTACAOFRETE ITEM
+(
+  ID NUMBER NOT NULL 
+, CONSTRAINT PK_COTACAOFRETEITEM PRIMARY KEY 
+  (
+    ID
+  )
+  ENABLE 
+);
+
+ALTER TABLE COTACAOFRETEITEM
+ADD CONSTRAINT FK_COTACAOFRETEITEM_COTACAO FOREIGN KEY
+(
+  ID 
+)
+REFERENCES COTACAOITEM
+(
+  ID 
+)
+ENABLE;
+
+--CRIA플O DA TABELA COACAOFRETEITEM (FIM)
+
+--CRIA플O DA TABELA COTACAOITEMIMPOSTO (INICIO)
+CREATE TABLE COTACAOITEMIMPOSTO 
+(
+  IDCOTACAOITEM NUMBER NOT NULL,
+, TIPOIMPOSTO NUMBER NOT NULL 
+, ALIQUOTA NUMBER(4, 2) NOT NULL 
+, VALOR NUMBER(13, 2) NOT NULL 
+, CONSTRAINT PK_COTACAOITEMIMPOSTO PRIMARY KEY 
+  (
+    IDCOTACAOITEM    , 
+    TIPOIMPOSTO 
+  )
+  ENABLE 
+) ;
+
+ALTER TABLE COTACAOITEMIMPOSTO
+ADD CONSTRAINT FK_COTACAOITEMIMPOSTO_COTACAO FOREIGN KEY
+(
+  IDCOTACAOITEM
+)
+REFERENCES COTACAOITEM
+(
+  ID 
+)
+ENABLE;
+
+--CRIA플O DA TABELA COTACAOITEMIMPOSTO (FIM)
+
+--CRIA REGISTROS NAS TABELAS DE ITEM DE COTA플O DE FRETE
+INSERT INTO COTACAOITEM
+(id,idcotacao, idprocessocotacaoitem, quantidadedisponivel, valorliquido, valorcomimpostos, observacoes, selecionada, quantidadeadquirida)
+select  cotacaoitem_id_sequence.nextval,cotacao.id, item.id, cotacao.quantidadedisponivel, cotacao.valorliquido, cotacao.valorcomimpostos, cotacao.observacoes,
+cotacao.selecionada, cotacao.quantidadeadquirida
+from fornecedorparticipante fp inner join processocotacaoitem item
+on fp.idprocessocotacao = item.idprocessocotacao
+inner join cotacao 
+on fp.idcotacao = cotacao.id;
+
+INSERT INTO COTACAOFRETEITEM
+(id)
+select cotacaoitem.id
+from fornecedorparticipante fp inner join processocotacaoitem item
+on fp.idprocessocotacao = item.idprocessocotacao
+inner join cotacao 
+on fp.idcotacao = cotacao.id
+inner join cotacaofrete 
+on cotacao.id = cotacaofrete.id
+inner join cotacaoitem on
+cotacao.id = cotacaoitem.idcotacao;
+
+--CRIA REGISTROS NAS TABELAS DE ITEM DE COTA플O DE MATERIAL
+INSERT INTO COTACAOITEM
+(id, idcotacao, idprocessocotacaoitem, quantidadedisponivel, valorliquido, valorcomimpostos, observacoes, selecionada, quantidadeadquirida)
+select cotacaoitem_id_sequence.nextval, cotacao.id, item.id, cotacao.quantidadedisponivel, cotacao.valorliquido, cotacao.valorcomimpostos, cotacao.observacoes,
+cotacao.selecionada, cotacao.quantidadeadquirida
+from fornecedorparticipante fp inner join processocotacaoitem item
+on fp.idprocessocotacao = item.idprocessocotacao
+inner join cotacao 
+on fp.idcotacao = cotacao.id
+inner join cotacaomaterial
+on cotacao.id = cotacaomaterial.id;
+
+insert item cotacaomaterialitem
+(id, idcotacao, idprocessocotacaoitem, codigoiva, mva, prazoentrega)
+values
+select cotacaoitem.id, cotacao.id, item.id, cotacaomaterial.codigoiva, cotacaomaterial.mva, cotacaomaterial.prazoentrega
+from fornecedorparticipante fp inner join processocotacaoitem item
+on fp.idprocessocotacao = item.idprocessocotacao
+inner join cotacao 
+on fp.idcotacao = cotacao.id
+inner join cotacaomaterial
+on cotacao.id = cotacaomaterial.id
+inner join cotacaoitem on
+cotacao.id = cotacaoitem.idcotacao;
+
+--CRIA REGISTROS NA TABELA DE IMPOSTOS
+insert into cotacaoitemimposto
+(idcotacaoitem, tipoimposto, aliquota, valor)
+select cotacaoitem.id, tipoimposto, aliquota, valor
+from cotacaoimposto inner join cotacaoitem
+on cotacaoimposto.idcotacao = cotacaoitem.idcotacao;
+
+COMMIT;
+
+--EXCLUIR COLUNAS QUE FORAM MOVIDAS DA TABELA COTACAO
+ALTER TABLE COTACAO DROP COLUMN SELECIONADA;
+ALTER TABLE COTACAO DROP COLUMN VALORLIQUIDO;
+ALTER TABLE COTACAO DROP COLUMN QUANTIDADEADQUIRIDA;
+ALTER TABLE COTACAO DROP COLUMN QUANTIDADEDISPONIVEL;
+ALTER TABLE COTACAO DROP COLUMN VALORCOMIMPOSTOS;
+ALTER TABLE COTACAO DROP COLUMN OBSERVACOES;
+
+--EXCLUIR COLUNAS QUE FORAM MOVIDAS DA TABELA COTACAOMATERIAL
+ALTER TABLE COTACAOMATERIAL DROP COLUMN MVA;
+ALTER TABLE COTACAOMATERIAL DROP COLUMN PRAZOENTREGA;
+ALTER TABLE COTACAOMATERIAL DROP COLUMN CODIGOIVA;

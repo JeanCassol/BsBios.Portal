@@ -1,7 +1,6 @@
-﻿using BsBios.Portal.Common;
-using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Common;
 
-namespace BsBios.Portal.Domain
+namespace BsBios.Portal.Domain.Entities
 {
     public class Imposto
     {

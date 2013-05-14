@@ -1,4 +1,6 @@
-﻿namespace BsBios.Portal.Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace BsBios.Portal.Domain.Entities
 {
     public abstract class ProcessoDeCotacaoItem
     {
@@ -7,6 +9,7 @@
         public virtual Produto Produto { get; protected set; }
         public virtual decimal Quantidade { get; protected set; }
         public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
+        public virtual IList<CotacaoItem> Cotacoes { get; protected set; }
 
         protected ProcessoDeCotacaoItem(){}
 

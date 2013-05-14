@@ -14,17 +14,19 @@ namespace BsBios.Portal.Tests.UI.Controllers
     public class ProcessoDeCotacaoServiceControllerTests
     {
         [TestMethod]
-        public void QuandoAtualizaOProcessoComSucessoDeveIrParaPaginaDeListagem()
+        public void QuandoAtualizaOProcessoComSucessoRecebeMensagemDeSucesso()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
             processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            var redirectResult = (RedirectToRouteResult) processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
+            var retorno = processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
-            Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
-            
+            dynamic data = retorno.Data;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
+
+            Assert.IsTrue(props.Find("Sucesso", true).GetValue(data));
+
             processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
         }
 
@@ -36,18 +38,18 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .Throws(new ExcecaoDeTeste("Erro ao Atualizar Processo de Cotação"));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            var redirectResult = (RedirectToRouteResult)processoDeCotacaoController.AtualizarProcesso(
+            var retorno = processoDeCotacaoController.AtualizarProcesso(
                 new ProcessoDeCotacaoAtualizarVm()
                     {
                         Id = 10,
                         DataLimiteRetorno = DateTime.Today
                     });
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
-            Assert.AreEqual("EditarCadastro", redirectResult.RouteValues["action"]);
-            Assert.AreEqual(10, redirectResult.RouteValues["idProcessoCotacao"]); 
-            Assert.IsNotNull(processoDeCotacaoController.ViewData["erro"]);
-            Assert.AreEqual("Erro ao Atualizar Processo de Cotação", processoDeCotacaoController.ViewData["erro"]);
+            dynamic data = retorno.Data;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
+
+            Assert.IsFalse(props.Find("Sucesso", true).GetValue(data));
+            Assert.AreEqual("Erro ao Atualizar Processo de Cotação",props.Find("Mensagem",true).GetValue(data));
 
             processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
             
