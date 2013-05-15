@@ -209,7 +209,7 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         public virtual CotacaoMaterial InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento,
-            Incoterm incoterm, string descricaoDoIncoterm)
+            Incoterm incoterm, string descricaoDoIncoterm,Enumeradores.TipoDeFrete tipoDeFrete)
         {
             base.InformarCotacao();
             //busca a cotação do fornecedor
@@ -219,12 +219,12 @@ namespace BsBios.Portal.Domain.Entities
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
+                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm,tipoDeFrete);
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
             else
             {
-                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
+                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm, tipoDeFrete);
             }
 
             return cotacao;

@@ -87,9 +87,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processoDeCotacaoDeMaterial.Abrir();
             var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                        DefaultObjects.ObtemIncotermPadrao(), "inc");
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc",Enumeradores.TipoDeFrete.Cif);
             var processoDeCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
-            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -98,6 +98,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Console.WriteLine("Consultando Cotacao - INICIO");
             var processoConsultado = (ProcessoDeCotacaoDeMaterial)processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();
             Assert.AreEqual(processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count(x => x.Cotacao != null), processoConsultado.FornecedoresParticipantes.Count(x => x.Cotacao != null));
+            var cotacaoConsultada = (CotacaoMaterial) processoConsultado.FornecedoresParticipantes.First().Cotacao;
+            Assert.AreSame(cotacao.Incoterm, cotacaoConsultada.Incoterm);
+            Assert.AreEqual(cotacao.DescricaoIncoterm, cotacaoConsultada.DescricaoIncoterm);
+            Assert.AreSame(cotacao.CondicaoDePagamento, cotacaoConsultada.CondicaoDePagamento);
+            Assert.AreEqual(Enumeradores.TipoDeFrete.Cif, cotacaoConsultada.TipoDeFrete);
             Console.WriteLine("Consultando Cotacao - FIM");
         }
 
@@ -124,7 +129,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
             processoDeCotacaoDeMaterial.Abrir();
-            var cotacao = (CotacaoMaterial) processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc", Enumeradores.TipoDeFrete.Cif);
             var processoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
             var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
             cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);

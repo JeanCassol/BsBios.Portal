@@ -4,7 +4,7 @@ namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface IAtualizadorDeCotacaoDeMaterial
     {
-        void AtualizarCotacao(CotacaoMaterialInformarVm cotacaoAtualizarVm);
+        int AtualizarCotacao(CotacaoMaterialInformarVm cotacaoAtualizarVm);
         void AtualizarItemDaCotacao(CotacaoMaterialItemInformarVm cotacaoMaterialItemInformarVm);
     }
 }

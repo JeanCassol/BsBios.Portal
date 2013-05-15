@@ -138,6 +138,7 @@
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\CotacaoMaterialItemController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoAnexoController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialEmailController.cs" />
@@ -467,6 +468,7 @@
     <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoItem.cshtml" />
     <Content Include="Views\Shared\_SelecionarItens.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

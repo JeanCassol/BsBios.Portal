@@ -176,15 +176,27 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoAtualizaItemDaCotacaoDoFornecedorComSucessoAsPropriedadesSaoAlteradas()
         {
-            throw new NotImplementedException();
-            //Assert.AreEqual(109, cotacao.ValorLiquido);
-            //Assert.AreEqual(125, cotacao.ValorComImpostos);
-            //Assert.AreEqual(0, cotacao.Mva);
-            //Imposto icms = cotacao.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
-            //Assert.AreEqual(17, icms.Aliquota);
-            //Assert.AreEqual(12, icms.Valor);
+            _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
+                .Callback((ProcessoDeCotacao processoDeCotacao) =>
+                {
+                    _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                    _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                    Assert.IsNotNull(processoDeCotacao);
+                    FornecedorParticipante fornecedorParticipante = processoDeCotacao.FornecedoresParticipantes.First();
+                    Assert.IsNotNull(fornecedorParticipante.Cotacao);
+                    var cotacaoItem = (CotacaoMaterialItem) fornecedorParticipante.Cotacao.Itens.First();
 
-            
+                    Assert.AreEqual(109, cotacaoItem.ValorLiquido);
+                    Assert.AreEqual(125, cotacaoItem.ValorComImpostos);
+                    Assert.AreEqual(0, cotacaoItem.Mva);
+                    Imposto icms = cotacaoItem.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
+                    Assert.AreEqual(17, icms.Aliquota);
+                    Assert.AreEqual(12, icms.Valor);
+
+
+                });
+            _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
+
         }
             
     }

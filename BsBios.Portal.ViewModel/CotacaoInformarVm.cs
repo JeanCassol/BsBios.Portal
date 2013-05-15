@@ -11,6 +11,7 @@
     public class CotacaoMaterialInformarVm : CotacaoMaterialDadosVm
     {
         public int IdProcessoCotacao { get; set; }
+        public int IdCotacao { get; set; }
         public string CodigoFornecedor { get; set; }
     }
 
@@ -19,9 +20,8 @@
         public int IdProcessoCotacao { get; set; }
         public int IdProcessoCotacaoItem { get; set; }
         public int IdCotacao { get; set; }
+        public int IdCotacaoItem { get; set; }
         public CotacaoImpostosVm Impostos { get; set; }
-
-    
     }
 
 }

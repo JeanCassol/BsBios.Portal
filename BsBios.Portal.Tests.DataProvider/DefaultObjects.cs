@@ -127,7 +127,7 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            CotacaoMaterial cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(), "Descrição do Incotem");
+            CotacaoMaterial cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(), "Descrição do Incotem",Enumeradores.TipoDeFrete.Cif);
             var processoDeCotacaoItem = processoDeCotacao.Itens.First();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, 12, 100, DateTime.Today.AddMonths(1), "obs");
             return processoDeCotacao;            

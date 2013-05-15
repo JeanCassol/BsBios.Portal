@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -42,21 +43,24 @@ namespace BsBios.Portal.Domain.Entities
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
+        public virtual Enumeradores.TipoDeFrete TipoDeFrete { get; protected set; }
 
         protected CotacaoMaterial(){}
 
-        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
+        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, Enumeradores.TipoDeFrete tipoDeFrete)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
+            TipoDeFrete = tipoDeFrete;
         }
 
-        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
+        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, Enumeradores.TipoDeFrete tipoDeFrete)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
+            TipoDeFrete = tipoDeFrete;
         }
 
         public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal? mva, 

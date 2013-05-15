@@ -1,5 +1,6 @@
 ﻿using System;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -22,7 +23,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public void AtualizarCotacao(CotacaoMaterialInformarVm cotacaoInformarVm)
+        public int AtualizarCotacao(CotacaoMaterialInformarVm cotacaoInformarVm)
         {
             try
             {
@@ -31,10 +32,13 @@ namespace BsBios.Portal.Application.Services.Implementations
                 CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(cotacaoInformarVm.CodigoCondicaoPagamento);
                 Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
 
-                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, cotacaoInformarVm.DescricaoIncoterm);
+                var tipoDeFrete = (Enumeradores.TipoDeFrete) Enum.Parse(typeof (Enumeradores.TipoDeFrete), Convert.ToString(cotacaoInformarVm.CodigoTipoDeFrete));
+                var cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
+                    cotacaoInformarVm.DescricaoIncoterm,tipoDeFrete);
 
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
+                return cotacao.Id;
             }
             catch (Exception)
             {

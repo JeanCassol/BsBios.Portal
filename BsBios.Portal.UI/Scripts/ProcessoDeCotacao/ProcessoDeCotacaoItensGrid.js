@@ -7,6 +7,7 @@
         /// <param name="configuracao.transportData" type="string">Função que gera os filtros para que serão passados para a action que filtra os dados</param>
         /// <param name="configuracao.renderTo">elemento html que o grid deve ser renderizado</param>
         /// <param name="configuracao.exibirBotaoAdicionar">indica se deve ser exibida uma coluna com botão "Adicionar" para cada registro do grid</param>
+        /// <param name="configuracao.exibirBotaoEditar">indica se deve ser exibida uma coluna com botão "Editar" para cada registro do grid</param>
         /// <param name="configuracao.exibirBotaoRemover">indica se deve ser exibida uma coluna com botão "Remover" para cada registro do grid</param>
         /// <param name="configuracao.pageable">true = para paginar o gride; false = para não paginar o grid</param>
 
@@ -55,6 +56,16 @@
                 template: '<input type="button" class="button_add"></input>'
             });
         }
+        
+        if (configuracao.exibirBotaoEditar) {
+            //unshift adiciona elemento no início do array
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button_edit"></input>'
+            });
+        }
+
         if (configuracao.exibirBotaoRemover) {
             //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
