@@ -14,6 +14,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void ConsigoListarAsRequisicoesDeCompra()
         {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
             RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
 
             RequisicaoDeCompra requisicao1 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();

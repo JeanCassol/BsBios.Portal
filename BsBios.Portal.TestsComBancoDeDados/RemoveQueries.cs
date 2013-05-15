@@ -2,6 +2,7 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories.Implementations;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados
@@ -123,19 +124,24 @@ namespace BsBios.Portal.TestsComBancoDeDados
             {
                 UnitOfWork.BeginTransaction();
 
-                var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
-                processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Material);
+                //var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+                var processosDeCotacao = new ProcessosDeCotacao(UnitOfWork);
+                //processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Material);
                 var cotacoesDeMaterial = processosDeCotacao.List();
                 foreach (var processoDeCotacao in cotacoesDeMaterial)
                 {
-                    foreach (ProcessoDeCotacaoDeMaterialItem processoDeCotacaoItem in processoDeCotacao.Itens)
+                    if (processoDeCotacao.GetType() == typeof(ProcessoDeCotacaoDeMaterial))
                     {
-                        var requisicaoDeCompra = processoDeCotacaoItem.RequisicaoDeCompra;
-                        if (requisicaoDeCompra != null)
+                        foreach (ProcessoDeCotacaoDeMaterialItem processoDeCotacaoItem in processoDeCotacao.Itens)
                         {
-                            requisicaoDeCompra.DesvincularDeProcessoDeCotacao();
-                            UnitOfWork.Session.Save(requisicaoDeCompra);
+                            var requisicaoDeCompra = processoDeCotacaoItem.RequisicaoDeCompra;
+                            if (requisicaoDeCompra != null)
+                            {
+                                requisicaoDeCompra.DesvincularDeProcessoDeCotacao();
+                                UnitOfWork.Session.Save(requisicaoDeCompra);
+                            }
                         }
+                        
                     }
                     UnitOfWork.Session.Delete(processoDeCotacao);
                 }
@@ -144,13 +150,13 @@ namespace BsBios.Portal.TestsComBancoDeDados
 
                 UnitOfWork.Session.Clear();
 
-                UnitOfWork.Session.BeginTransaction();
+                //UnitOfWork.Session.BeginTransaction();
                 
-                UnitOfWork.Session.Delete("from ProcessoDeCotacao");
+                //UnitOfWork.Session.Delete("from ProcessoDeCotacao");
 
-                UnitOfWork.Commit();
+                //UnitOfWork.Commit();
 
-                UnitOfWork.Session.Clear();
+                //UnitOfWork.Session.Clear();
 
             }
             catch (Exception)

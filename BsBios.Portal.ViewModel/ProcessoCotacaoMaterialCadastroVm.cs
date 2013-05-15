@@ -13,7 +13,7 @@ namespace BsBios.Portal.ViewModel
 
         //[Required(ErrorMessage = "Material é obrigatório")]
         //[Display(Name = "Material")]
-        public string CodigoMaterial { get; set; }
+        //public string CodigoMaterial { get; set; }
         //public string DescricaoMaterial { get; set; }
 
         //[Display(Name = "Quantidade")]

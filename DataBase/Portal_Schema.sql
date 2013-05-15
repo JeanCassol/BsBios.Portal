@@ -1214,7 +1214,7 @@ ENABLE;
 --CRIA플O DA TABELA COTACAOMATERIALITEM (FIM)
 
 --CRIA플O DA TABELA COTACAOFRETEITEM (INICIO)
-CREATE TABLE COTACAOFRETE ITEM
+CREATE TABLE COTACAOFRETEITEM
 (
   ID NUMBER NOT NULL 
 , CONSTRAINT PK_COTACAOFRETEITEM PRIMARY KEY 
@@ -1240,7 +1240,7 @@ ENABLE;
 --CRIA플O DA TABELA COTACAOITEMIMPOSTO (INICIO)
 CREATE TABLE COTACAOITEMIMPOSTO 
 (
-  IDCOTACAOITEM NUMBER NOT NULL,
+  IDCOTACAOITEM NUMBER NOT NULL
 , TIPOIMPOSTO NUMBER NOT NULL 
 , ALIQUOTA NUMBER(4, 2) NOT NULL 
 , VALOR NUMBER(13, 2) NOT NULL 
@@ -1273,7 +1273,9 @@ cotacao.selecionada, cotacao.quantidadeadquirida
 from fornecedorparticipante fp inner join processocotacaoitem item
 on fp.idprocessocotacao = item.idprocessocotacao
 inner join cotacao 
-on fp.idcotacao = cotacao.id;
+on fp.idcotacao = cotacao.id
+inner join cotacaofrete
+on cotacao.id = cotacaofrete.id;
 
 INSERT INTO COTACAOFRETEITEM
 (id)
@@ -1285,7 +1287,10 @@ on fp.idcotacao = cotacao.id
 inner join cotacaofrete 
 on cotacao.id = cotacaofrete.id
 inner join cotacaoitem on
-cotacao.id = cotacaoitem.idcotacao;
+cotacao.id = cotacaoitem.idcotacao
+inner join cotacaofrete
+on cotacao.id = cotacaofrete.id;
+
 
 --CRIA REGISTROS NAS TABELAS DE ITEM DE COTA플O DE MATERIAL
 INSERT INTO COTACAOITEM
@@ -1299,10 +1304,9 @@ on fp.idcotacao = cotacao.id
 inner join cotacaomaterial
 on cotacao.id = cotacaomaterial.id;
 
-insert item cotacaomaterialitem
-(id, idcotacao, idprocessocotacaoitem, codigoiva, mva, prazoentrega)
-values
-select cotacaoitem.id, cotacao.id, item.id, cotacaomaterial.codigoiva, cotacaomaterial.mva, cotacaomaterial.prazoentrega
+insert into cotacaomaterialitem
+(id, codigoiva, mva, prazoentrega)
+select cotacaoitem.id,cotacaomaterial.codigoiva, cotacaomaterial.mva, cotacaomaterial.prazoentrega
 from fornecedorparticipante fp inner join processocotacaoitem item
 on fp.idprocessocotacao = item.idprocessocotacao
 inner join cotacao 

@@ -134,7 +134,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 12, 12);
             cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 17, 17);
             cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 5, 5);
-            Assert.AreEqual(66, cotacaoItem.ValorLiquido);
+            //valor total com impostos da cotação padrão é 125. Soma dos valores dos impostos é 12+17+5 = 34
+            //valor liquido = valor com impostos - valor dos impostos = 125 - 34 = 91
+            Assert.AreEqual(91, cotacaoItem.ValorLiquido);
 
         }
         //[TestMethod]

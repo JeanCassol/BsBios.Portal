@@ -168,6 +168,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void QuandoConsultaFornecedoresNaoVinculadosAUmaListaDeProdutosNenhumDosFornecedoresRetornadosEstaVinculadoAAlgumProdutoDaLista()
         {
+            RemoveQueries.RemoverProdutosCadastrados();
+            RemoveQueries.RemoverFornecedoresCadastrados();
             //cenário:
             //três fornecedores e três produtos: Os fornecedores 1 e 2 estão ligados aos produtos 1 e 2. Já o fornecedor 3 está ligado ao produto 3 . 
             //vou passsar na lista de produtos, apenas os produtos 1 e 2. Deve retornar na lista de fornecedores apenas o fornecedor 3, que embora
