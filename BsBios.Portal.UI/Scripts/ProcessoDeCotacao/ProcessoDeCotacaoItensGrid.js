@@ -16,7 +16,7 @@
         /// <returns type="">sem retorno</returns>
         var arrayDeColunas = [
             {
-                width: 200,
+                width: 180,
                 field: "Material",
                 title: "Material"
             },
