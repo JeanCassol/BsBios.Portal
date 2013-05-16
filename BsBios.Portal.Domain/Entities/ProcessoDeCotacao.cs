@@ -234,8 +234,8 @@ namespace BsBios.Portal.Domain.Entities
             decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
 
-            var cotacao =  (CotacaoMaterial) FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
-                                         .Select(fp => fp.Cotacao).Single();
+            var cotacao = (CotacaoMaterial)  FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
+                                         .Select(fp => fp.Cotacao).Single().CastEntity();
 
             ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.Single(item => item.Id == idProcessoDeCotacaoItem);
 

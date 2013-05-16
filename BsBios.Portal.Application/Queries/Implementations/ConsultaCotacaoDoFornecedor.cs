@@ -134,6 +134,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             CotacaoItem itemCotacao = null;
             if (fp.Cotacao != null)
             {
+                vm.IdCotacao = fp.Cotacao.Id;
                 itemCotacao = fp.Cotacao.Itens.SingleOrDefault(x => x.ProcessoDeCotacaoItem.Id == itemDoProcessoDeCotacao.Id);    
             }
             

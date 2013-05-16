@@ -1116,6 +1116,14 @@ select item.id, pcm.idrequisicaocompra
 from processocotacaoitem item inner join processocotacaomaterial pcm
 on item.idprocessocotacao = pcm.id;
 
+update requisicaocompra set idprocessocotacaoitem = 
+(
+  select id
+  from processocotacaoitemmaterial item
+  where requisicaocompra.id = item.idrequisicaocompra
+)
+where idprocessocotacaoitem is null;
+
 commit;
 --IMPORTAÇÃO DOS DADOS DA TABELA DE PROCESSO DE COTAÇÃO PARA A TABELA DE ITENS (FIM)
 

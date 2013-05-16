@@ -6,6 +6,9 @@
 }
 @using (Html.BeginForm("SalvarItem", "CotacaoDeMaterialAtualizar",FormMethod.Post,new{id="formCotacaoItem"}))
 {
+    @Html.HiddenFor(x => x.IdProcessoCotacao,new {id = "_idProcessoCotacao"})
+    @Html.HiddenFor(x => x.IdProcessoCotacaoItem, new{id="_idProcessoCotacaoItem"})
+    @Html.HiddenFor(x => x.IdCotacao, new{id="_idCotacao"})
     <fieldset>
         <legend>Item</legend>
         @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialItemCadastroVm, string>(x => x.Material))

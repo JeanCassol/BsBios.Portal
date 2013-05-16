@@ -45,7 +45,7 @@
 
                 var comboTipoDeFrete = new ColunaComDropDown<CotacaoMaterialCadastroVm, int>
                     (x => x.CodigoTipoDeFrete,
-                    ((List<TipoDeFreteVm>)ViewBag.CondicoesDePagamento)
+                    ((List<TipoDeFreteVm>)ViewBag.TiposDeFrete)
                         .Select(x => new SelectListItem()
                             {
                                 Text = x.Descricao, 
@@ -58,7 +58,7 @@
                 
             }
             
-            <div class="error"></div>
+            <div class="error linha"></div>
             <div class="divBotao">
                 <input type="button" id="btnSalvarCotacao" value="Salvar" class="blue" />
             </div>
@@ -206,7 +206,7 @@
                         $.post('@Url.Action("SalvarItem", "CotacaoDeMaterialAtualizar")', formData,
                         function (data) {
                             if (data.Sucesso) {
-                                $(this).dialog("close");
+                                $('#divCotacaoItem').dialog("close");
                             } else {
                                 Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             }
