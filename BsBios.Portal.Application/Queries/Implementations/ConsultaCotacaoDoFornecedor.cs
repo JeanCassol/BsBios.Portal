@@ -12,6 +12,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IBuilder<CotacaoItem, CotacaoImpostosVm> _builderImpostos;
+        private const string ValorNaoInformado = "Não informado";
 
         public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<CotacaoItem, CotacaoImpostosVm> builderImpostos)
         {
@@ -107,6 +108,38 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
             return vm;
 
+        }
+
+        public CotacaoMaterialConsultarCadastroVm ConsultarCotacaoDeMaterialParaVisualizacao(int idProcessoCotacao, string codigoFornecedor)
+        {
+            var processo = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+
+            var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
+
+            var vm = new CotacaoMaterialConsultarCadastroVm
+            {
+                IdProcessoCotacao = processo.Id,
+                CodigoFornecedor = fp.Fornecedor.Codigo,
+            };
+
+
+            if (fp.Cotacao != null)
+            {
+                var cotacao = (CotacaoMaterial)fp.Cotacao.CastEntity();
+                vm.IdCotacao = cotacao.Id;
+                vm.CondicaoPagamento = cotacao.CondicaoDePagamento.Descricao;
+                vm.Incoterm = cotacao.Incoterm.Descricao;
+                vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
+                vm.TipoDeFrete = cotacao.TipoDeFrete.Descricao();
+            }
+            else
+            {
+                vm.CondicaoPagamento = ValorNaoInformado;
+                vm.Incoterm = ValorNaoInformado;
+                vm.DescricaoIncoterm = ValorNaoInformado;
+                vm.TipoDeFrete = ValorNaoInformado;
+            }
+            return vm;
         }
 
         public CotacaoMaterialItemCadastroVm ConsultarCotacaoDeItemDeMaterial(int idProcessoCotacao, string codigoFornecedor,

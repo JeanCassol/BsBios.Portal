@@ -448,7 +448,7 @@
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
     <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
     <Content Include="Views\Shared\_ProcessoDeCotacaoOperacoes.cshtml" />
-    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoMaterial\EditarCadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
     <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
@@ -470,6 +470,7 @@
     <Content Include="Views\Shared\_ProcessoCotacaoItem.cshtml" />
     <Content Include="Views\Shared\_SelecionarItens.cshtml" />
     <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_ConsultarCadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

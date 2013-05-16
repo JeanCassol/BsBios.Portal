@@ -37,7 +37,13 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.Incoterms = _consultaIncoterms.ListarTodos();
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
             ViewBag.TiposDeFrete = _consultaTipoDeFrete.Listar();
-            return View("Cadastro",viewModel);
+            return View(viewModel);
+        }
+
+        public ActionResult ConsultarCadastro(int idProcessoCotacao, string codigoFornecedor)
+        {
+            CotacaoMaterialConsultarCadastroVm vm = _consultaCotacaoDoFornecedor.ConsultarCotacaoDeMaterialParaVisualizacao(idProcessoCotacao, codigoFornecedor);
+            return PartialView("_ConsultarCadastro",vm);
         }
     }
 }

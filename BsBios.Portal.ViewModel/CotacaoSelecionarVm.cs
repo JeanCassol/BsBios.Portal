@@ -8,6 +8,7 @@
         public int IdCotacao { get; set; }
         public int IdProcessoCotacaoItem { get; set; }
         public bool Selecionada { get; set; }
+        public string CodigoFornecedor { get; set; }
         public string Fornecedor { get; set; }
         public string Cnpj { get; set; }
         public decimal? QuantidadeDisponivel { get; set; }

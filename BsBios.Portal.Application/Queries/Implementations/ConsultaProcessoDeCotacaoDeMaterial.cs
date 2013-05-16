@@ -169,7 +169,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
             {
-                var cotacaoSelecionarVm = new CotacaoMaterialSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
+                var cotacaoSelecionarVm = new CotacaoMaterialSelecionarVm
+                    {
+                        CodigoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
+                        Fornecedor = fornecedorParticipante.Fornecedor.Nome
+                    };
                 retorno.Add(cotacaoSelecionarVm);
 
                 if (fornecedorParticipante.Cotacao == null)

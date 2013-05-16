@@ -43,6 +43,16 @@
                 format: "{0:n2}"
             });
         }
+        
+        if (configuracao.ExibirBotaoVisualizar) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button_visualize"></input>'
+            });
+        }
+
+
 
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {

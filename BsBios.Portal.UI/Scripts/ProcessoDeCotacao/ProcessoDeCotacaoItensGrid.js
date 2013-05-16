@@ -12,8 +12,8 @@
         /// <param name="configuracao.pageable">true = para paginar o gride; false = para não paginar o grid</param>
         /// <param name="configuracao.exibirDetalhesDaRequisicao">indica se devem ser exibidos campos especificos da requisição de compra</param>
         /// <param name="configuracao.exibirBotaoSelecionarCotacao">indica se deve ser exibida uma coluna com botão "Selecionar Cotações" para cada registro do grid</param>
-
-        /// <returns type="">nothing</returns>
+        /// <param name="configuracao.exibirBotaoVisualizar">indica se deve ser exibida uma coluna com botão "Visualizar" para cada registro do grid</param>
+        /// <returns type="">sem retorno</returns>
         var arrayDeColunas = [
             {
                 width: 200,
@@ -65,7 +65,6 @@
         }
         
         if (configuracao.exibirBotaoEditar) {
-            //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
@@ -73,6 +72,14 @@
             });
         }
         
+        if (configuracao.exibirBotaoVisualizar) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button_visualize"></input>'
+            });
+        }
+
         if (configuracao.exibirBotaoSelecionarCotacao) {
             arrayDeColunas.unshift({
                 title: ' ',

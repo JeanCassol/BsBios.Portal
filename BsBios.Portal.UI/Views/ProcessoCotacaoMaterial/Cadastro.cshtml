@@ -77,6 +77,8 @@
     </div>
 
 </div>
+<div id="divVisualizarCotacaoDoFornecedor" class="janelaModal"></div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -114,7 +116,7 @@
                 pageable: false
             });
             SelecionarItens.ConfigurarJanelaModal();
-            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirDadosDeItens:false });
+            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirBotaoVisualizar:true });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 
@@ -127,6 +129,23 @@
                     function (response, status, xhr) {
                         $('#divSelecionarCotacoes').dialog('open');
                     });
+
+            });
+            
+            $('#divVisualizarCotacaoDoFornecedor').customDialog({
+                title: 'Cotações do Fornecedor',
+                width: 815
+            });
+
+            $("#gridCotacaoFornecedor").find('.button_visualize').die("click");
+            $("#gridCotacaoFornecedor").find('.button_visualize').live("click", function() {
+                var grid = $("#gridCotacaoFornecedor").data("kendoGrid");
+                var dataItem = grid.dataItem($(this).parents('tr:first'));
+                $('#divVisualizarCotacaoDoFornecedor').load('@Url.Action("ConsultarCadastro","CotacaoMaterial")'
+                + '?idProcessoCotacao=' + $('#Id').val()
+                + '&codigoFornecedor=' + dataItem.Codigo, function () {
+                    $('#divVisualizarCotacaoDoFornecedor').dialog('open');
+                });
 
             });
 

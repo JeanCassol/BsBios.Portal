@@ -73,6 +73,7 @@
                         fields: {
                             IdCotacao: { type: "number"},
                             Selecionada: { type: "boolean" },
+                            CodigoFornecedor: { type: "string" },
                             Fornecedor: { type: "string"},
                             CodigoIva: { type: "string" },
                             ValorLiquido: { type: "number"},
@@ -106,6 +107,11 @@
             },
             columns:
             [
+                {
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 30,
+                    template: '<input type="button" class="button_visualize"></input>'
+                },
                 {
                     field: 'IdCotacao', hidden:true,
                     template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
@@ -141,6 +147,17 @@
         $('#gridCotacoes').find('.k-grid-content tbody').find("input[type=checkbox][name=Selecionada]").live("change", function () {
             var linha = $(this).parents('tr:first');
             ajustaEnableDosCamposDaLinha(linha, this);
+        });
+        
+        $("#gridCotacoes").find('.button_visualize').die("click");
+        $("#gridCotacoes").find('.button_visualize').live("click", function () {
+            var grid = $("#gridCotacoes").data("kendoGrid");
+            var dataItem = grid.dataItem($(this).parents('tr:first'));
+            $('#divVisualizarCotacaoDoFornecedor').load('@Url.Action("ConsultarCadastro","CotacaoMaterial")'
+                + '?idProcessoCotacao=' + $('#Id').val()
+                + '&codigoFornecedor=' + dataItem.CodigoFornecedor, function () {
+                $('#divVisualizarCotacaoDoFornecedor').dialog('open');
+            });
         });
 
     });
