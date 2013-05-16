@@ -43,8 +43,10 @@ SelecionarItens = {
         ProcessoDeCotacaoItensGrid.configurar({
             schemaData: 'Registros',
             renderTo: '#divGridRequisicoesParaSelecionar',
+            exibirDetalhesDaRequisicao: true,
             exibirBotaoAdicionar: true,
             exibirBotaoRemover: false,
+            exibirBotaoSelecionarCotacao: false,
             pageable: true,
             transportUrl: UrlPadrao.ListarRequisicoesDeCompra,
             transportData: function() {

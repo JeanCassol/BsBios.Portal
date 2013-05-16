@@ -22,7 +22,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                     NumeroRequisicao = model.Numero,
                     Quantidade = model.Quantidade,
                     Requisitante = model.Requisitante,
-                    UnidadeMedida = model.UnidadeMedida.Descricao
+                    UnidadeMedida = model.UnidadeMedida.Descricao,
+                    IdProcessoCotacaoItem = model.ProcessoDeCotacaoItem.Id
                 };
         }
     }

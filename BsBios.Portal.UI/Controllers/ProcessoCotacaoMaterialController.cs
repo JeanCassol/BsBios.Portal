@@ -95,17 +95,17 @@ namespace BsBios.Portal.UI.Controllers
             return PartialView("_SelecionarItens");
         }
 
-        public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
+        public PartialViewResult SelecionarCotacoes(int idProcessoCotacaoItem)
         {
             try
             {
-                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["IdProcessoCotacaoItem"] = idProcessoCotacaoItem;
                 return PartialView("_SelecionarCotacao");
 
             }
             catch (Exception ex)
             {
-                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["IdProcessoCotacaoItem"] = idProcessoCotacaoItem;
                 ViewData["erro"] = ex.Message;
                 return PartialView("_SelecionarCotacao");
             }

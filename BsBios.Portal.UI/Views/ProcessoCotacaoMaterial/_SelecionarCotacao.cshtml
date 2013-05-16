@@ -1,14 +1,8 @@
 ﻿@{
     Layout = null;
 }
-<style type="text/css">
-    .selecionarCotacao {
-        width: 1000px;     
- }
-
-</style>
 <div id="divCotacoes">
-    @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
+    @Html.Hidden("IdProcessoCotacaoItem", ViewData["IdProcessoCotacaoItem"])
     <div id="gridCotacoes" class="divGrid"></div>
     <div id="erro" class="error">
         @ViewData["erro"]
@@ -24,13 +18,13 @@
             return '<option value="' + iva.Codigo +'"'+ selected + '>'+ iva.Descricao +'</option>';
         }
 
-        geraCombo = function (valorSelecionado, idCotacao) {
+        geraCombo = function (valorSelecionado, valorComImpostos) {
             var items = "";
             $.each(ivas, function (index, iva) {
                 items += geraDropDownItem(iva, valorSelecionado);
             });
 
-            return '<select name="CodigoIva" class="campopequeno" ' + (idCotacao <= 0 ? "disabled":""  ) +  '>' + items + '</select>';
+            return '<select name="CodigoIva" class="campopequeno" ' + (valorComImpostos == null ? "disabled":""  ) +  '>' + items + '</select>';
         };
         
         $.ajax({
@@ -97,7 +91,9 @@
                 },
                 transport: {
                     read: {
-                        url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial",new{idProcessoCotacao = ViewData["IdProcessoCotacao"]})',
+                        url: '@Url.Action("ListarCotacoes", "ProcessoCotacaoMaterial")' +
+                        '/?idProcessoCotacao=' + $('#Id').val() + 
+                        "&idProcessoCotacaoItem=" + $('#IdProcessoCotacaoItem').val(),
                         type: 'GET',
                         cache: false
                     }
@@ -116,11 +112,11 @@
                 },
                 {
                     field: "Selecionada", title: ' ', width: 30,
-                    template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
+                    template: '<input type="checkbox" #=(ValorComImpostos == null ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
                 },
                 {
                     field: "CodigoIva", title: "Iva", width: 160,
-                    template:'#= geraCombo(CodigoIva, IdCotacao) #'
+                    template:'#= geraCombo(CodigoIva, ValorComImpostos) #'
                 },
                 {
                     field: "QuantidadeAdquirida", title: "Quantidade", width: 100,

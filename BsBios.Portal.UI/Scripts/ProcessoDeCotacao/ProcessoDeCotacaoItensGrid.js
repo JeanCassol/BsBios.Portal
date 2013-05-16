@@ -10,6 +10,8 @@
         /// <param name="configuracao.exibirBotaoEditar">indica se deve ser exibida uma coluna com botão "Editar" para cada registro do grid</param>
         /// <param name="configuracao.exibirBotaoRemover">indica se deve ser exibida uma coluna com botão "Remover" para cada registro do grid</param>
         /// <param name="configuracao.pageable">true = para paginar o gride; false = para não paginar o grid</param>
+        /// <param name="configuracao.exibirDetalhesDaRequisicao">indica se devem ser exibidos campos especificos da requisição de compra</param>
+        /// <param name="configuracao.exibirBotaoSelecionarCotacao">indica se deve ser exibida uma coluna com botão "Selecionar Cotações" para cada registro do grid</param>
 
         /// <returns type="">nothing</returns>
         var arrayDeColunas = [
@@ -26,28 +28,33 @@
                 width: 100,
                 field: "UnidadeMedida",
                 title: "Unidade de Medida"
-            },
-            {
-                width: 80,
-                field: "NumeroRequisicao",
-                title: "Requisição"
-            },
-            {
-                width: 60,
-                field: "NumeroItem",
-                title: "Item"
-            },
-            {
-                width: 100,
-                field: "DataDeSolicitacao",
-                title: "Data de Solicitação"
-            },
-            {
-                width: 100,
-                field: "CodigoGrupoDeCompra",
-                title: "Grupo de Compras"
             }
         ];
+
+        if (configuracao.exibirDetalhesDaRequisicao) {
+            arrayDeColunas = arrayDeColunas.concat(
+                {
+                    width: 80,
+                    field: "NumeroRequisicao",
+                    title: "Requisição"
+                },
+                {
+                    width: 60,
+                    field: "NumeroItem",
+                    title: "Item"
+                },
+                {
+                    width: 100,
+                    field: "DataDeSolicitacao",
+                    title: "Data de Solicitação"
+                },
+                {
+                    width: 100,
+                    field: "CodigoGrupoDeCompra",
+                    title: "Grupo de Compras"
+                }
+            );
+        }
         if (configuracao.exibirBotaoAdicionar) {
             //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
@@ -63,6 +70,14 @@
                 title: ' ',
                 width: 30,
                 template: '<input type="button" class="button_edit"></input>'
+            });
+        }
+        
+        if (configuracao.exibirBotaoSelecionarCotacao) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button16 button_select"></input>'
             });
         }
 
@@ -82,6 +97,7 @@
                     model: {
                         fields: {
                             Id: { type: "number" },
+                            IdProcessoCotacaoItem: { type: "number" },
                             Material: { type: "string" },
                             Quantidade: { type: "number" },
                             UnidadeMedida: { type: "string" },

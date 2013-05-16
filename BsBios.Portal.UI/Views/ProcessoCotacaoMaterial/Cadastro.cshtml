@@ -47,7 +47,7 @@
         <fieldset>
             <legend>Itens</legend>
             <div class="divBotao">
-                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="blue botaoGrande"/>
+                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="blue botaoMedio"/>
             </div>
             <div id="divGridItens" class="divGrid"></div>
         </fieldset>
@@ -56,16 +56,17 @@
         @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
             {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
                 new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
-                new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail"))
+                new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail")),
+                new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false)
             })
         <fieldset>
             <legend>Enviar Anexos</legend>
             <div>
                 <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
             </div>
-            <div class="well hide" id="filelistholder"></div>
+            <div @*class="well hide"*@ id="filelistholder"></div>
             <div class="divBotao">
-                <input type="button" id="btnEnviarArquivos" class="blue btn btn-success pull-right" value="Enviar"/>
+                <input type="button" id="btnEnviarArquivos" class="blue" value="Enviar"/>
             </div>
             <div id="divUploadErro" class="message-error"></div>
         </fieldset>
@@ -106,14 +107,28 @@
                 schemaData: 'Registros',
                 transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao='+ idProcessoCotacao,
                 renderTo: '#divGridItens',
+                exibirDetalhesDaRequisicao: true,
+                exibirBotaoSelecionarCotacao: true,
                 exibirBotaoAdicionar: false,
                 exibirBotaoRemover: false,
                 pageable: false
             });
             SelecionarItens.ConfigurarJanelaModal();
-            GridCotacaoResumida.Configurar(idProcessoCotacao);
+            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirDadosDeItens:false });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
+
+            $('#divGridItens').find('.button_select').die("click");
+            $('#divGridItens').find('.button_select').live("click", function() {
+                var grid = $('#divGridItens').data("kendoGrid");
+                var dataItem = grid.dataItem(grid.select());
+                $('#divSelecionarCotacoes').load((UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial)
+                    + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem,
+                    function (response, status, xhr) {
+                        $('#divSelecionarCotacoes').dialog('open');
+                    });
+
+            });
 
             $('#btnSalvarProcesso').click(function () {
                 $('.error').empty();

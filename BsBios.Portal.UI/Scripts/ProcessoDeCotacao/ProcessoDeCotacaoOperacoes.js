@@ -46,7 +46,7 @@
                 type: 'GET',
                 async: false,
                 cache: false,
-                data: { IdProcessoCotacao: $('#Id').val(), QuantidadeAdquiridaTotal: quantidadeAdquiridaTotal },
+                data: { IdProcessoCotacao: $('#Id').val(), IdItem: $('#IdProcessoCotacaoItem').val(), QuantidadeAdquiridaTotal: quantidadeAdquiridaTotal },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
@@ -128,7 +128,7 @@
                         url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.SelecionarCotacoesDeMaterial: UrlPadrao.SelecionarCotacoesDeFrete,
                         type: 'POST',
                         cache: false,
-                        data: JSON.stringify({ IdProcessoCotacao: $('#Id').val(), Cotacoes: cotacoes}),
+                        data: JSON.stringify({ IdProcessoCotacao: $('#Id').val(), IdProcessoCotacaoItem: $('#IdProcessoCotacaoItem').val(), Cotacoes: cotacoes}),
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {

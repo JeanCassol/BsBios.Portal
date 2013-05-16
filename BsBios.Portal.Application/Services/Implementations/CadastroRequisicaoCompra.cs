@@ -51,10 +51,10 @@ namespace BsBios.Portal.Application.Services.Implementations
                                                                 requisicaoDeCompraVm.CodigoGrupoDeCompra,
                                                                 requisicaoDeCompraVm.Mrp.ToUpper().Equals("B"));
 
-                var processoDeCotacaoDeMaterial = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+                //var processoDeCotacaoDeMaterial = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
 
                 _requisicoesDeCompra.Save(requisicaoDeCompra);
-                _processosDeCotacao.Save(processoDeCotacaoDeMaterial);
+                //_processosDeCotacao.Save(processoDeCotacaoDeMaterial);
 
                 _unitOfWork.Commit();
 

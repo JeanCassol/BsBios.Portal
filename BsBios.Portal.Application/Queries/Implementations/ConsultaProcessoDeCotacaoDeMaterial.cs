@@ -178,6 +178,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 }
 
                 var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
+
+                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
+                cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
+                cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
+
                 var cotacaoItem = (CotacaoMaterialItem)cotacao.Itens.SingleOrDefault(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
 
                 if (cotacaoItem == null)
@@ -185,11 +190,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     continue;
                 }
 
-                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
                 cotacaoSelecionarVm.CodigoIva = cotacaoItem.Iva != null ? cotacaoItem.Iva.Codigo : null;
-                cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
-                cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
                 cotacaoSelecionarVm.ValorLiquido = cotacaoItem.ValorLiquido;
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;

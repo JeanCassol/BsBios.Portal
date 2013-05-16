@@ -219,6 +219,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
             Assert.AreEqual(item.RequisicaoDeCompra.Numero, requisicaoDeCompraVm.NumeroRequisicao);
             Assert.AreEqual(item.RequisicaoDeCompra.NumeroItem,requisicaoDeCompraVm.NumeroItem);
+            Assert.AreEqual(item.Id, requisicaoDeCompraVm.IdProcessoCotacaoItem);
 
         }
 

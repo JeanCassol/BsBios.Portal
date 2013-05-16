@@ -305,8 +305,6 @@ $(function () {
         e.preventDefault();
         $(".divGrid :last").data("kendoGrid").dataSource.page(1);
     });
-
-    //aplicaMascaras();
 });
 
 $(document).ajaxComplete(function (event, request, ajaxOptions) {

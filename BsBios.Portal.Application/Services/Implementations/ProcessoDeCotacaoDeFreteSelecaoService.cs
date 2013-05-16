@@ -33,7 +33,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                     }
                     else
                     {
-                        processoDeCotacao.RemoverSelecaoDaCotacao(cotacaoSelecaoVm.IdCotacao, cotacaoSelecaoVm.IdProcessoCotacaoItem);
+                        processoDeCotacao.RemoverSelecaoDaCotacao(cotacaoSelecaoVm.IdCotacao, processoDeCotacaoSelecaoAtualizarVm.IdProcessoCotacaoItem);
                     }
 
                 }

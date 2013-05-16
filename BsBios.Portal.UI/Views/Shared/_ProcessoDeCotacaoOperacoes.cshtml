@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    var blnExibirBotacaoSelecionarCotacoes = (bool) ViewData["ExibirBotacaoSelecionarCotacao"];
 }
 <fieldset>
     <legend>Fornecedores</legend>
@@ -16,7 +17,10 @@
     <legend>Ações</legend>
     <div class="divBotao">
         <input type="button" id="btnAbrirProcesso" value="Abrir" class="blue" />
-        <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+        @if (blnExibirBotacaoSelecionarCotacoes)
+        {
+            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+        }
         <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
     </div>
 </fieldset>

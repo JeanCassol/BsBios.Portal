@@ -322,6 +322,7 @@
     <Content Include="Images\icons\information_16.png" />
     <Content Include="Images\icons\mag_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
+    <Content Include="Images\icons\select_16.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />

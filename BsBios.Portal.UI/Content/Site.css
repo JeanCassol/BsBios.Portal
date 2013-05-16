@@ -344,7 +344,7 @@ input[type="radio"] {
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
-	font: 14px/100% Arial, Helvetica, sans-serif;
+	font: 12px/100% Arial, Helvetica, sans-serif;
 	padding: .5em 2em .55em;
 	text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	-webkit-border-radius: .5em; 
@@ -388,6 +388,10 @@ input[type="radio"] {
 	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
+
+.botaoMedio {
+    width: 140px!important
 }
 
 .botaoGrande {
@@ -595,13 +599,17 @@ input[type="checkbox"].input-validation-error {
 .button_download{
     background-image: url(/images/icons/download_16.png);
 }
+.button_select{
+    background-image: url(/images/icons/select_16.png);
+}
+
 .button16 {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: 0 0;
     border: none;
     cursor: pointer;
-    line-height: 16px;
+    height: 16px;
     width: 16px;
     padding-left: 32px;
     vertical-align: middle;
