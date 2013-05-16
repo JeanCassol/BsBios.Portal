@@ -17,7 +17,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoAtualizaOProcessoComSucessoRecebeMensagemDeSucesso()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()));
+            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()))
+                .Returns(1);
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
             var retorno = processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());

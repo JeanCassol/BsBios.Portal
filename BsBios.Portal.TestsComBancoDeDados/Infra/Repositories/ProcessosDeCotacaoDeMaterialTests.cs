@@ -98,10 +98,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Console.WriteLine("Consultando Cotacao - INICIO");
             var processoConsultado = (ProcessoDeCotacaoDeMaterial)processosDeCotacaoDeMaterial.BuscaPorId(processoDeCotacaoDeMaterial.Id).Single();
             Assert.AreEqual(processoDeCotacaoDeMaterial.FornecedoresParticipantes.Count(x => x.Cotacao != null), processoConsultado.FornecedoresParticipantes.Count(x => x.Cotacao != null));
-            var cotacaoConsultada = (CotacaoMaterial) processoConsultado.FornecedoresParticipantes.First().Cotacao;
-            Assert.AreSame(cotacao.Incoterm, cotacaoConsultada.Incoterm);
+            var cotacaoConsultada = (CotacaoMaterial) processoConsultado.FornecedoresParticipantes.First().Cotacao.CastEntity();
+            Assert.AreEqual(cotacao.Incoterm, cotacaoConsultada.Incoterm.CastEntity());
             Assert.AreEqual(cotacao.DescricaoIncoterm, cotacaoConsultada.DescricaoIncoterm);
-            Assert.AreSame(cotacao.CondicaoDePagamento, cotacaoConsultada.CondicaoDePagamento);
+            Assert.AreEqual(cotacao.CondicaoDePagamento, cotacaoConsultada.CondicaoDePagamento.CastEntity());
             Assert.AreEqual(Enumeradores.TipoDeFrete.Cif, cotacaoConsultada.TipoDeFrete);
             Console.WriteLine("Consultando Cotacao - FIM");
         }

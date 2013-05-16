@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -42,6 +43,7 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.CondicaoDePagamento).Column("CodigoCondicaoPagamento");
             References(x => x.Incoterm).Column("CodigoIncoterm");
             Map(x => x.DescricaoIncoterm);
+            Map(x => x.TipoDeFrete).CustomType<Enumeradores.TipoDeFrete>();
         }
     }
     public class CotacaoFreteMap : SubclassMap<CotacaoFrete>

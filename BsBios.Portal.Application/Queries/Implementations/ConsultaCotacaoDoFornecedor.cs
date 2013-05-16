@@ -102,6 +102,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.CodigoCondicaoPagamento = cotacao.CondicaoDePagamento.Codigo;
                 vm.CodigoIncoterm = cotacao.Incoterm.Codigo;
                 vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
+                vm.CodigoTipoDeFrete = (int) cotacao.TipoDeFrete;
 
             }
             return vm;

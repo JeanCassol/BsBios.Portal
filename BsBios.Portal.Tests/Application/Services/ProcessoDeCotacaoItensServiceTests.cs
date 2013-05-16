@@ -27,8 +27,8 @@ namespace BsBios.Portal.Tests.Application.Services
             _requisicoesDeCompras = new List<RequisicaoDeCompra>
             {
                 ((ProcessoDeCotacaoDeMaterialItem)  _processoDeCotacao.Itens.First()).RequisicaoDeCompra,
-                DefaultObjects.ObtemRequisicaoDeCompraPadrao(),
-                DefaultObjects.ObtemRequisicaoDeCompraPadrao()
+                DefaultObjects.ObtemRequisicaoDeCompraComId(),
+                DefaultObjects.ObtemRequisicaoDeCompraComId()
             };
 
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);

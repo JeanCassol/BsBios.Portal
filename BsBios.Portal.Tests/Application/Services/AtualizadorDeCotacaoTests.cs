@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly IAtualizadorDeCotacaoDeMaterial _atualizadorDeCotacao;
         private static readonly CondicaoDePagamento CondicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
         private static readonly Incoterm Incoterm = DefaultObjects.ObtemIncotermPadrao();
-        private static readonly ProcessoDeCotacao ProcessoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao() ;
+        private readonly ProcessoDeCotacao _processoDeCotacao ;
         private readonly CotacaoMaterialInformarVm _cotacaoAtualizarVm;
         private readonly CotacaoMaterialItemInformarVm _cotacaoItemAtualizarVm;
         private Incoterm _incotermRetorno;
@@ -34,6 +34,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public AtualizadorDeCotacaoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
+            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
             _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
                                    .Callback(
@@ -60,7 +61,7 @@ namespace BsBios.Portal.Tests.Application.Services
                                            _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
                                        });
             _processosDeCotacaoMock.Setup(x => x.Single())
-                                   .Returns(ProcessoDeCotacao);
+                                   .Returns(_processoDeCotacao);
 
             _incotermsMock = new Mock<IIncoterms>(MockBehavior.Strict);
             _incotermsMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
@@ -88,8 +89,8 @@ namespace BsBios.Portal.Tests.Application.Services
             
             _cotacaoAtualizarVm = new CotacaoMaterialInformarVm()
                 {
-                    IdProcessoCotacao = ProcessoDeCotacao.Id ,
-                    CodigoFornecedor = ProcessoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo ,
+                    IdProcessoCotacao = _processoDeCotacao.Id ,
+                    CodigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo ,
                     CodigoCondicaoPagamento = CondicaoDePagamento.Codigo,
                     CodigoIncoterm = Incoterm.Codigo,
                     DescricaoIncoterm = "Desc Incoterm" ,
@@ -97,7 +98,9 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _cotacaoItemAtualizarVm = new CotacaoMaterialItemInformarVm
                 {
-                    IdProcessoCotacao = ProcessoDeCotacao.Id,
+                    IdProcessoCotacao = _processoDeCotacao.Id,
+                    IdCotacao = _processoDeCotacao.Id,
+                    IdProcessoCotacaoItem = _processoDeCotacao.Itens.First().Id,
                     ValorLiquido = 110,
                     ValorComImpostos = 125,
                     Mva = 0,
@@ -112,8 +115,6 @@ namespace BsBios.Portal.Tests.Application.Services
                         IpiValor = 4,
                         PisCofinsAliquota = 3
                     },
-                    IdCotacao = ProcessoDeCotacao.Id,
-                    IdProcessoCotacaoItem = ProcessoDeCotacao.Itens.First().Id,
                     ObservacoesDoFornecedor = "observações do fornecedor" ,
                     PrazoDeEntrega = DateTime.Today.AddDays(15).ToShortDateString()
                     
@@ -131,8 +132,10 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoAtualizoItemDaCotacaoDoFornecedorOcorrePersistencia()
         {
-            //_atualizadorDeCotacao.AtualizarItemDaCotacao();
-            throw new NotImplementedException();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
+            _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
+            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
