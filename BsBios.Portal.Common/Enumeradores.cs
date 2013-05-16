@@ -71,5 +71,16 @@ namespace BsBios.Portal.Common
             PlanejadoVersusRealizado = 3,
             PlanejadoVersusRealizadoPorData = 4
         }
+
+        public enum DocumentoDoSap
+        {
+            Pedido = 1,
+            Contrato = 2
+        }
+        public enum TipoDeFrete
+        {
+            Cif = 1,
+            Fob = 2
+        }
     }
 }

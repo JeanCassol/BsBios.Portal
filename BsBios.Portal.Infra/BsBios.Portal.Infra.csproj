@@ -78,8 +78,10 @@
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
     <Compile Include="Mappings\AgendamentoDeCargaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\CotacaoItemMap.cs" />
     <Compile Include="Mappings\NotaFiscalMap.cs" />
     <Compile Include="Mappings\ProcessoCotacaoIteracaoUsuarioMap.cs" />
+    <Compile Include="Mappings\ProcessoDeCotacaoItemMap.cs" />
     <Compile Include="Mappings\QuotaMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
+    <Compile Include="Services\Contracts\IFileService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoFrete.cs" />
     <Compile Include="Services\Implementations\ComunicacaoAberturaProcessoCotacaoMaterial.cs" />
     <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoMaterial.cs" />
+    <Compile Include="Services\Implementations\FileService.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFreteFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />

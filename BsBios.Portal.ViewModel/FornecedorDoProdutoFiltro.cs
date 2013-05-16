@@ -2,7 +2,7 @@
 {
     public class FornecedorDoProdutoFiltro
     {
-        public string CodigoProduto { get; set; }
+        public string[] CodigoDosProdutos { get; set; }
         public bool? Transportadora { get; set; }
         public string CodigoFornecedor { get; set; }
         public string NomeFornecedor { get; set; }

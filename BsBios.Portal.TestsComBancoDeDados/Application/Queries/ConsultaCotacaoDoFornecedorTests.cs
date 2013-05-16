@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -24,20 +23,36 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
             CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo);
             Assert.IsNotNull(vm);
+            Assert.AreEqual(processo.Id, vm.IdProcessoCotacao);
+            Assert.AreEqual(0, vm.IdCotacao);
             Assert.IsNull(vm.CodigoCondicaoPagamento);
             Assert.IsNull(vm.CodigoIncoterm);
             Assert.IsNull(vm.DescricaoIncoterm);
-            Assert.AreEqual(processo.RequisicaoDeCompra.Descricao, vm.DescricaoDoProcessoDeCotacao);
             Assert.AreEqual(fornecedor.Codigo, vm.CodigoFornecedor);
             Assert.IsTrue(processo.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(),vm.DataLimiteDeRetorno);
-            Assert.AreEqual(processo.Produto.Descricao, vm.Material);
-            Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
+            Assert.AreEqual("Aberto", vm.Status);
+        }
+
+        [TestMethod]
+        public void QuandoConsultoUmaCotacaoDoFornecedorParaUmItemQueAindaNaoFoiPreenchidaRetornaOsDadosEsperados()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
+            Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
+            var itemDoProcesso = (ProcessoDeCotacaoDeMaterialItem) processo.Itens.First();
+            RequisicaoDeCompra requisicaoDeCompra = itemDoProcesso.RequisicaoDeCompra;
+
+            var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
+            CotacaoMaterialItemCadastroVm vm = consulta.ConsultarCotacaoDeItemDeMaterial(processo.Id, fornecedor.Codigo,requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
+            Assert.IsNotNull(vm);
+            Assert.AreEqual(itemDoProcesso.Produto.Descricao, vm.Material);
+            Assert.AreEqual(itemDoProcesso.Quantidade, vm.Quantidade);
+            Assert.AreEqual(itemDoProcesso.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.IsNull(vm.ValorComImpostos);
             Assert.IsNull(vm.ValorLiquido);
             Assert.IsNull(vm.Mva);
-            Assert.AreEqual("Aberto", vm.Status);
+            
         }
 
         [TestMethod]
@@ -45,31 +60,67 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
-            processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+            var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12,DateTime.Today.AddMonths(1),"observacoes");
-            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
+                                     "Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+            var processoCotacaoItem = processo.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
-            var cotacao = (CotacaoMaterial) processo.FornecedoresParticipantes.First().Cotacao;
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
             CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo);
             Assert.IsNotNull(vm);
+            Assert.AreEqual(processo.Id, vm.IdProcessoCotacao);
+            Assert.AreEqual(cotacao.Id, vm.IdCotacao);
+
             Assert.AreEqual(cotacao.CondicaoDePagamento.Codigo,  vm.CodigoCondicaoPagamento);
             Assert.AreEqual(cotacao.Incoterm.Codigo, vm.CodigoIncoterm);
             Assert.AreEqual("Desc Incoterm", vm.DescricaoIncoterm);
-            Assert.AreEqual(processo.RequisicaoDeCompra.Descricao, vm.DescricaoDoProcessoDeCotacao);
             Assert.AreEqual(fornecedor.Codigo, vm.CodigoFornecedor);
             Assert.IsTrue(processo.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
-            Assert.AreEqual(processo.Produto.Descricao, vm.Material);
-            Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
+            Assert.AreEqual((int) cotacao.TipoDeFrete, vm.CodigoTipoDeFrete);
+
+            Assert.AreEqual("Aberto", vm.Status);
+        }
+
+
+        [TestMethod]
+        public void QuandoConsultoUmaCotacaoDoFornecedorParaUmItemQueJaFoiPreenchidaRetornaOsDadosEsperados()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
+            var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                     DefaultObjects.ObtemIncotermPadrao(),
+                                     "Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+            var processoCotacaoItem = processo.Itens.First();
+            var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
+
+            var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
+            var itemDoProcesso = (ProcessoDeCotacaoDeMaterialItem)processo.Itens.First();
+            RequisicaoDeCompra requisicaoDeCompra = itemDoProcesso.RequisicaoDeCompra;
+
+            CotacaoMaterialItemCadastroVm vm = consulta.ConsultarCotacaoDeItemDeMaterial(processo.Id, fornecedor.Codigo,requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem);
+            
+            Assert.IsNotNull(vm);
+
+            Assert.AreEqual(processo.Id, vm.IdProcessoCotacao);
+            Assert.AreEqual(cotacao.Id,vm.IdCotacao);
+            Assert.AreEqual(cotacaoItem.Id,vm.IdCotacaoItem);
+            Assert.AreEqual(itemDoProcesso.Id,vm.IdProcessoCotacaoItem);
+
+            Assert.AreEqual(itemDoProcesso.Produto.Descricao, vm.Material);
+            Assert.AreEqual(itemDoProcesso.Quantidade, vm.Quantidade);
+            Assert.AreEqual(itemDoProcesso.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.AreEqual(100, vm.ValorComImpostos);
             Assert.AreEqual(100, vm.ValorLiquido);
             Assert.AreEqual(120, vm.Mva);
-            Assert.AreEqual("Aberto", vm.Status);
         }
+
 
         [TestMethod]
         public void QuandoConsultaUmaCotacaoQueParticipaMaisDeUmFornecedorRetornaOsDadoDoFornecedorInformado()
@@ -81,13 +132,16 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             processo.AdicionarFornecedor(fornecedor2);
             processo.Abrir();
 
-            processo.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
+            var processoDeCotacaoItem = processo.Itens.First();
+            var cotacao1 = processo.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
 
-            processo.InformarCotacao(fornecedor2.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 120, 130, 14, DateTime.Today.AddMonths(1), "observacoes");
+            cotacao1.InformarCotacaoDeItem(processoDeCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
+
+            var cotacao2 = processo.InformarCotacao(fornecedor2.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Fob);
+
+            cotacao2.InformarCotacaoDeItem(processoDeCotacaoItem, 120, 130, 14, DateTime.Today.AddMonths(1),"observacoes");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
@@ -97,19 +151,17 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             CotacaoMaterialCadastroVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor1.Codigo);
 
             Assert.IsNotNull(vm);
+            Assert.AreEqual(processo.Id, vm.IdProcessoCotacao);
+            Assert.AreEqual(cotacao.Id, vm.IdCotacao);
+
             Assert.AreEqual(cotacao.CondicaoDePagamento.Codigo, vm.CodigoCondicaoPagamento);
             Assert.AreEqual(cotacao.Incoterm.Codigo, vm.CodigoIncoterm);
             Assert.AreEqual("Desc Incoterm", vm.DescricaoIncoterm);
-            Assert.AreEqual(processo.RequisicaoDeCompra.Descricao, vm.DescricaoDoProcessoDeCotacao);
+            Assert.AreEqual((int) cotacao.TipoDeFrete, vm.CodigoTipoDeFrete);
+            //Assert.AreEqual(processo.RequisicaoDeCompra.Descricao, vm.DescricaoDoProcessoDeCotacao);
             Assert.AreEqual(fornecedor1.Codigo, vm.CodigoFornecedor);
             Assert.IsTrue(processo.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
-            Assert.AreEqual(processo.Produto.Descricao, vm.Material);
-            Assert.AreEqual(processo.Quantidade, vm.Quantidade);
-            Assert.AreEqual(processo.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
-            Assert.AreEqual(100, vm.ValorComImpostos);
-            Assert.AreEqual(100, vm.ValorLiquido);
-            Assert.AreEqual(120, vm.Mva);
             Assert.AreEqual("Aberto", vm.Status);
             
         }
@@ -119,21 +171,24 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
-            Cotacao cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm", 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
+            var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
 
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1,2);
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
-            cotacao.InformarImposto(Enumeradores.TipoDeImposto.PisCofins,3,0);
-            //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Pis, 31, 32);
-            //cotacao.InformarImposto(Enumeradores.TipoDeImposto.Cofins, 41, 42);
+            var itemDoProcesso = (ProcessoDeCotacaoDeMaterialItem) processo.Itens.First();
+
+            RequisicaoDeCompra requisicaoDeCompra = itemDoProcesso.RequisicaoDeCompra;
+
+            var cotacaoItem = cotacao.InformarCotacaoDeItem(itemDoProcesso, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
+
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1, 2);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.PisCofins, 3, 0);
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
             var consulta = ObjectFactory.GetInstance<IConsultaCotacaoDoFornecedor>();
-            CotacaoImpostosVm vm = consulta.ConsultarCotacaoDeMaterial(processo.Id, fornecedor.Codigo).Impostos;
+            CotacaoImpostosVm vm = consulta.ConsultarCotacaoDeItemDeMaterial(processo.Id, fornecedor.Codigo, requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem).Impostos;
 
             Assert.AreEqual(1, vm.IcmsAliquota);
             Assert.AreEqual(2, vm.IcmsValor);
@@ -142,17 +197,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(21, vm.IpiAliquota);
             Assert.AreEqual(22, vm.IpiValor);
             Assert.AreEqual(3, vm.PisCofinsAliquota);
-            //Assert.AreEqual(31, vm.PisAliquota);
-            //Assert.AreEqual(32, vm.PisValor);
-            //Assert.AreEqual(41, vm.CofinsAliquota);
-            //Assert.AreEqual(42, vm.CofinsValor);
-
-            
         }
-
-
-
     }
-
-
 }

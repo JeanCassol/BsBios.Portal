@@ -1,5 +1,5 @@
 ﻿GridFornecedor = {
-    CarregarGrid: function (codigoProduto, divParaCarregar, url, incluirBotaoAdicionar, funcaoFiltros) {
+    CarregarGrid: function (divParaCarregar, url, incluirBotaoAdicionar, funcaoFiltros) {
         var arrayDeColunas = new Array();
         if (incluirBotaoAdicionar) {
             arrayDeColunas.push({
@@ -13,7 +13,7 @@
         arrayDeColunas = arrayDeColunas.concat(
             {
                 field: "Codigo",
-                width: 80,
+                width: 90,
                 title: "Codigo"
             },
             {

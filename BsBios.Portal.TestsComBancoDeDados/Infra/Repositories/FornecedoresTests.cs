@@ -4,7 +4,6 @@ using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -163,6 +162,40 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             IList < Fornecedor > fornecedoresNaoVinculados = fornecedores.List();
             Assert.AreEqual(1,fornecedoresNaoVinculados.Count(x => x.Codigo == fornecedor03.Codigo) );
             Assert.AreEqual(1, fornecedoresNaoVinculados.Count(x => x.Codigo == fornecedor04.Codigo));
+
+        }
+
+        [TestMethod]
+        public void QuandoConsultaFornecedoresNaoVinculadosAUmaListaDeProdutosNenhumDosFornecedoresRetornadosEstaVinculadoAAlgumProdutoDaLista()
+        {
+            RemoveQueries.RemoverProdutosCadastrados();
+            RemoveQueries.RemoverFornecedoresCadastrados();
+            //cenário:
+            //três fornecedores e três produtos: Os fornecedores 1 e 2 estão ligados aos produtos 1 e 2. Já o fornecedor 3 está ligado ao produto 3 . 
+            //vou passsar na lista de produtos, apenas os produtos 1 e 2. Deve retornar na lista de fornecedores apenas o fornecedor 3, que embora
+            //esteja ligado ao produto 3, não está ligado a nenhum dos produtos da lista (1, 2).
+            Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
+            Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
+            Produto produto3 = DefaultObjects.ObtemProdutoPadrao();
+
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
+
+            produto1.AdicionarFornecedores(new List<Fornecedor>{fornecedor1});
+            produto2.AdicionarFornecedores(new List<Fornecedor> { fornecedor2 });
+            produto3.AdicionarFornecedores(new List<Fornecedor> { fornecedor3 });
+
+            DefaultPersistedObjects.PersistirProduto(produto1);
+            DefaultPersistedObjects.PersistirProduto(produto2);
+            DefaultPersistedObjects.PersistirProduto(produto3);
+
+            var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
+            IList<Fornecedor> fornecedoresNaoVinculados =
+                fornecedores.FornecedoresNaoVinculadosAosProdutos(new[] {produto1.Codigo, produto2.Codigo}).List();
+
+            Assert.AreEqual(1, fornecedoresNaoVinculados.Count);
+            Assert.IsTrue(fornecedoresNaoVinculados.Any(x => x.Codigo == fornecedor3.Codigo));
 
         }
 

@@ -54,9 +54,13 @@
     <Compile Include="Exceptions\FecharProcessoDeCotacaoFechadoException.cs" />
     <Compile Include="Exceptions\DataDeAgendamentoExpiradaException.cs" />
     <Compile Include="Exceptions\ExcluirQuotaComAgendamentoException.cs" />
+    <Compile Include="Exceptions\FileAlreadyExistsException.cs" />
     <Compile Include="Exceptions\OperacaoNaoPermitidaParaAgendamentoRealizadoException.cs" />
     <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoAlterarItensException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoSemItemException.cs" />
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />
+    <Compile Include="Exceptions\RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException.cs" />
     <Compile Include="Exceptions\UsuarioSemEmailException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />
     <Compile Include="Exceptions\MvaNaoInformadoException.cs" />

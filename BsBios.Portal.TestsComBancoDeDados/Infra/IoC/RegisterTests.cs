@@ -32,11 +32,21 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
 
             foreach (TypeInfo tipo in interfaces)
             {
-                var objeto = ObjectFactory.TryGetInstance(tipo);
-                if (objeto == null)
+                try
+                {
+                    var objeto = ObjectFactory.TryGetInstance(tipo);
+                    if (objeto == null)
+                    {
+                        interfacesNaoRegistradas++;
+                        Console.WriteLine("interface Não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    }
+
+                }
+                catch (Exception )
                 {
                     interfacesNaoRegistradas++;
-                    Console.WriteLine("interface Não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    Console.WriteLine("interface ou dependência não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    
                 }
             }
 

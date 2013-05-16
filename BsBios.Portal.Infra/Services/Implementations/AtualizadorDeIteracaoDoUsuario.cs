@@ -24,6 +24,11 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 ProcessoCotacaoIteracaoUsuario iteracaoUsuario = _processoCotacaoIteracoesUsuario.BuscaPorIdParticipante(idIteracaoUsuario);
+                if (iteracaoUsuario.VisualizadoPeloFornecedor)
+                {
+                    _unitOfWork.RollBack();
+                    return;
+                }
                 iteracaoUsuario.FornecedorVisualizou();
                 _processoCotacaoIteracoesUsuario.Save(iteracaoUsuario);
                 _unitOfWork.Commit();

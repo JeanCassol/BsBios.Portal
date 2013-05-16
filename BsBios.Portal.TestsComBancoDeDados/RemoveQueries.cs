@@ -1,5 +1,8 @@
 ﻿using System;
+using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories.Implementations;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados
@@ -120,11 +123,40 @@ namespace BsBios.Portal.TestsComBancoDeDados
             try
             {
                 UnitOfWork.BeginTransaction();
-                UnitOfWork.Session.Delete("from ProcessoDeCotacao");
+
+                //var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+                var processosDeCotacao = new ProcessosDeCotacao(UnitOfWork);
+                //processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Material);
+                var cotacoesDeMaterial = processosDeCotacao.List();
+                foreach (var processoDeCotacao in cotacoesDeMaterial)
+                {
+                    if (processoDeCotacao.GetType() == typeof(ProcessoDeCotacaoDeMaterial))
+                    {
+                        foreach (ProcessoDeCotacaoDeMaterialItem processoDeCotacaoItem in processoDeCotacao.Itens)
+                        {
+                            var requisicaoDeCompra = processoDeCotacaoItem.RequisicaoDeCompra;
+                            if (requisicaoDeCompra != null)
+                            {
+                                requisicaoDeCompra.DesvincularDeProcessoDeCotacao();
+                                UnitOfWork.Session.Save(requisicaoDeCompra);
+                            }
+                        }
+                        
+                    }
+                    UnitOfWork.Session.Delete(processoDeCotacao);
+                }
 
                 UnitOfWork.Commit();
 
                 UnitOfWork.Session.Clear();
+
+                //UnitOfWork.Session.BeginTransaction();
+                
+                //UnitOfWork.Session.Delete("from ProcessoDeCotacao");
+
+                //UnitOfWork.Commit();
+
+                //UnitOfWork.Session.Clear();
 
             }
             catch (Exception)

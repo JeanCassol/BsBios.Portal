@@ -1,4 +1,6 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
 {

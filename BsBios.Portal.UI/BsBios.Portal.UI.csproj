@@ -138,7 +138,9 @@
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\CotacaoMaterialItemController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoAnexoController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialEmailController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteEmailController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialFechamentoController.cs" />
@@ -152,10 +154,13 @@
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialAberturaController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoFornecedorController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoItensServiceController.cs" />
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
+    <Compile Include="Controllers\RequisicaoDeCompraController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -169,6 +174,7 @@
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialSelecionarController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
+    <Compile Include="Controllers\UploadApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />
     <Compile Include="Controllers\IvaApiController.cs" />
@@ -195,7 +201,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\CheckHeader.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\jquery.loadmask.css" />
     <Content Include="Content\kendo\2012.3.1114\Default\editor.png" />
@@ -311,11 +316,13 @@
     <Content Include="Images\bg_logo.gif" />
     <Content Include="Images\icons\add_16.png" />
     <Content Include="Images\icons\DeleteRed_16.png" />
+    <Content Include="Images\icons\download_16.png" />
     <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\enviar_email_16.png" />
     <Content Include="Images\icons\information_16.png" />
     <Content Include="Images\icons\mag_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
+    <Content Include="Images\icons\select_16.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
@@ -336,6 +343,8 @@
     <Content Include="Scripts\jquery-ui-extension.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
+    <Content Include="Scripts\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.loadmask.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.meio.mask.js" />
@@ -394,6 +403,9 @@
     <Content Include="Scripts\methods_pt.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoAnexo.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoItensGrid.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\SelecionarItens.js" />
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
@@ -410,24 +422,9 @@
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\AlterarSenha.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -451,7 +448,7 @@
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
     <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
     <Content Include="Views\Shared\_ProcessoDeCotacaoOperacoes.cshtml" />
-    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoMaterial\EditarCadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
     <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
@@ -469,6 +466,11 @@
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeQuotas.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeAgendamentos.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\PlanejadoRealizadoPorData.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
+    <Content Include="Views\Shared\_ProcessoCotacaoItem.cshtml" />
+    <Content Include="Views\Shared\_SelecionarItens.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_ConsultarCadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

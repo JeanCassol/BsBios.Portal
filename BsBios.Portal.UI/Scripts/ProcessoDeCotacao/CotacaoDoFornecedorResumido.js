@@ -1,5 +1,59 @@
 ﻿GridCotacaoResumida = {
-    Configurar: function(idProcessoCotacao) {
+    Configurar: function (configuracao) {
+        var arrayDeColunas = [
+            {
+                width: 60,
+                field: "Codigo",
+                title: "Código"
+            },
+            {
+                field: "Nome",
+                width: 195,
+                title: "Nome"
+            },
+            {
+                field: "VisualizadoPeloFornecedor",
+                width: 60,
+                title: "Visualizado?"
+            },
+            {
+                width: 65,
+                title: "Reenviar E-mail",
+                template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
+            },
+            {
+                field: 'Selecionado',
+                title: 'Selecionado?',
+                width: 60
+            }
+        ];
+
+        if (configuracao.ExibirDadosDeItens) {
+            arrayDeColunas = arrayDeColunas.concat(
+            {
+                field: "QuantidadeDisponivel",
+                width: 50,
+                title: "Disponivel",
+                format: "{0:n2}"
+            },
+            {
+                field: "ValorComImpostos",
+                width: 80,
+                title: "Valor Com Impostos",
+                format: "{0:n2}"
+            });
+        }
+        
+        if (configuracao.ExibirBotaoVisualizar) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button_visualize"></input>'
+            });
+        }
+
+
+
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
                 schema: {
@@ -22,54 +76,14 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: UrlPadrao.CotacaoResumida + '/?idProcessoCotacao=' + idProcessoCotacao,
+                        url: UrlPadrao.CotacaoResumida + '/?idProcessoCotacao=' + configuracao.IdProcessoCotacao,
                         type: 'GET',
                         cache: false
                     }
                 }
             },
-            groupable: false,
-            selectable: 'row',
-            columns:
-            [
-                {
-                    width: 60,
-                    field: "Codigo",
-                    title: "Código"
-                },
-                {
-                    field: "Nome",
-                    width: 195,
-                    title: "Nome"
-                },
-                {
-                    field: "VisualizadoPeloFornecedor",
-                    width: 60,
-                    title: "Visualizado?"
-                },
-                {
-                    width: 65,
-                    title: "Reenviar E-mail",
-                    template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
-                },
-                {
-                    field: 'Selecionado',
-                    title: 'Selecionado?',
-                    width: 60
-                },
-                {
-                    field: "QuantidadeDisponivel",
-                    width: 50,
-                    title: "Disponivel",
-                    format: "{0:n2}"
-                },
-                {
-                    field: "ValorComImpostos",
-                    width: 80,
-                    title: "Valor Com Impostos",
-                    format: "{0:n2}"
-                }
-            ]
+            pageable:false,
+            columns: arrayDeColunas
         });
 
         $("#gridCotacaoFornecedor").find('.button_sendmail').die('click');
@@ -79,7 +93,7 @@
             $.ajax({
                 url: UrlPadrao.EnviarEmail,
                 type: 'GET',
-                data: { IdProcessoCotacao: idProcessoCotacao, IdFornecedorParticipante: idFornecedorParticipante },
+                data: { IdProcessoCotacao: configuracao.IdProcessoCotacao, IdFornecedorParticipante: idFornecedorParticipante },
                 cache: false,
                 dataType: 'json',
                 success: function (data) {

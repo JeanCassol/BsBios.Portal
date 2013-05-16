@@ -33,6 +33,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IFornecedores FornecedoresNaoVinculadosAosProdutos(string[] codigoDosProdutos)
+        {
+            Query = Query.Where(fornecedor => fornecedor.Produtos.All(produto => !codigoDosProdutos.Contains(produto.Codigo)));
+            return this;
+        }
+
         public IFornecedores NomeContendo(string filtroNome)
         {
             if (!string.IsNullOrEmpty(filtroNome))

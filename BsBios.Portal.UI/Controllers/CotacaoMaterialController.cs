@@ -14,16 +14,18 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaCotacaoDoFornecedor _consultaCotacaoDoFornecedor;
         private readonly IConsultaCondicaoPagamento _consultaCondicaoPagamento;
         private readonly IConsultaIncoterm _consultaIncoterms;
+        private readonly IConsultaTipoDeFrete _consultaTipoDeFrete;
         private readonly IAtualizadorDeIteracaoDoUsuario _atualizadorDeIteracaoDoUsuario;
 
         
         public CotacaoMaterialController(IConsultaCotacaoDoFornecedor consultaCotacaoDoFornecedor, IConsultaCondicaoPagamento consultaCondicaoPagamento, 
-            IConsultaIncoterm consultaIncoterms, IAtualizadorDeIteracaoDoUsuario atualizadorDeIteracaoDoUsuario)
+            IConsultaIncoterm consultaIncoterms, IAtualizadorDeIteracaoDoUsuario atualizadorDeIteracaoDoUsuario, IConsultaTipoDeFrete consultaTipoDeFrete)
         {
             _consultaCotacaoDoFornecedor = consultaCotacaoDoFornecedor;
             _consultaCondicaoPagamento = consultaCondicaoPagamento;
             _consultaIncoterms = consultaIncoterms;
             _atualizadorDeIteracaoDoUsuario = atualizadorDeIteracaoDoUsuario;
+            _consultaTipoDeFrete = consultaTipoDeFrete;
         }
 
         [HttpGet]
@@ -34,10 +36,14 @@ namespace BsBios.Portal.UI.Controllers
             _atualizadorDeIteracaoDoUsuario.Atualizar(viewModel.IdFornecedorParticipante);
             ViewBag.Incoterms = _consultaIncoterms.ListarTodos();
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
-
-            return View("Cadastro",viewModel);
+            ViewBag.TiposDeFrete = _consultaTipoDeFrete.Listar();
+            return View(viewModel);
         }
 
-
+        public ActionResult ConsultarCadastro(int idProcessoCotacao, string codigoFornecedor)
+        {
+            CotacaoMaterialConsultarCadastroVm vm = _consultaCotacaoDoFornecedor.ConsultarCotacaoDeMaterialParaVisualizacao(idProcessoCotacao, codigoFornecedor);
+            return PartialView("_ConsultarCadastro",vm);
+        }
     }
 }

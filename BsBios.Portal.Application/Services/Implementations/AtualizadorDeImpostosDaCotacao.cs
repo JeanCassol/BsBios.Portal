@@ -6,7 +6,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 {
     public abstract class AtualizadorDeImpostosDaCotacao
     {
-        public void AtualizarImpostos(Cotacao cotacao, CotacaoImpostosVm cotacaoInformarVm)
+        public void AtualizarImpostos(CotacaoItem cotacao, CotacaoImpostosVm cotacaoInformarVm)
         {
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.Icms, cotacaoInformarVm.IcmsAliquota.Value, cotacaoInformarVm.IcmsValor.Value);
             cotacao.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, cotacaoInformarVm.IcmsStAliquota.Value, cotacaoInformarVm.IcmsStValor.Value);

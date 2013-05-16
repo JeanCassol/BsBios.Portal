@@ -1,6 +1,5 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Xml.Serialization;
@@ -24,7 +23,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
-            if (processo.Produto.Tipo.ToUpper() == "NLAG")
+            ProcessoDeCotacaoItem item = processo.Itens.First();
+            if (item.Produto.Tipo.ToUpper() == "NLAG")
             {
                 //Cotações de frete para empresas do grupo que não utilizam o SAP deverão ser realizadas com material NLAG 
                 //(Material não estocável). Para este tipo de material a cotação não deverá ser enviada para o SAP;
@@ -46,18 +46,21 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             foreach (var fornecedorParticipante in processoAuxiliar.FornecedoresParticipantes)
             {
-                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
+                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Itens.First().Selecionada)
                 {
-                    mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoVm
+                    CotacaoItem itemDaCotacao = fornecedorParticipante.Cotacao.Itens.First();
+                    mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
                         {
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
-                            CodigoMaterial = processoAuxiliar.Produto.Codigo,
-                            CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.CodigoInterno,
+                            //CodigoMaterial = processoAuxiliar.Produto.Codigo,
+                            CodigoMaterial =  item.Produto.Codigo,
+                            //CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.CodigoInterno,
+                            CodigoUnidadeMedida = item.UnidadeDeMedida.CodigoInterno,
                             CodigoItinerario = processoAuxiliar.Itinerario.Codigo,
                             DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToString("yyyyMMdd"),
                             DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToString("yyyyMMdd"),
                             NumeroDoContrato = processoAuxiliar.NumeroDoContrato ?? "",
-                            Valor = fornecedorParticipante.Cotacao.ValorComImpostos
+                            Valor = itemDaCotacao.ValorComImpostos
                         });
                 }
             }

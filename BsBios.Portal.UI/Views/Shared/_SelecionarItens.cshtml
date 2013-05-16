@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+<form id="formFiltroItens">
+    <div class="divFiltros">
+        <fieldset>
+        <legend>Filtros</legend>
+            <div class="linha">
+                <div class="coluna">
+                    @Html.Label("Data de Solitação De")
+                    @Html.TextBox("DataDeSolicitacaoInicial","", new{@class="campoDatePicker maskdata campopequeno"})
+                </div>
+                <div class="coluna">
+                    @Html.Label("Data de Solicitação Até")
+                    @Html.TextBox("DataDeSolicitacaoFinal","", new{@class="campoDatePicker maskdata campopequeno"})
+                </div>
+            </div>
+            <div class="linha">
+                @Html.Label("Grupo de Compras")
+                @Html.TextBox("CodigoDoGrupoDeCompras","", new{@class="campopequeno"})
+            </div>
+
+            <div class="divBotao">
+                <input id="btnPesquisarItens" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimparFiltroItens" type="button" value="Limpar" class="blue"/>
+            </div>
+        </fieldset>
+    </div>
+</form>
+
+<div id="divGridRequisicoesParaSelecionar" class="divGrid"></div>
+<div class="separador">Itens Selecionados</div>
+<div id="divGridRequisicoesSelecionadas" class="divGrid"></div>
+
+<script type="text/javascript">
+
+</script>

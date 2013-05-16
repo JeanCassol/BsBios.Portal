@@ -29,7 +29,7 @@
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao atualizar os Fornecedores do Processo de Cotação. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
                 },
@@ -46,7 +46,7 @@
                 type: 'GET',
                 async: false,
                 cache: false,
-                data: { IdProcessoCotacao: $('#Id').val(), QuantidadeAdquiridaTotal: quantidadeAdquiridaTotal },
+                data: { IdProcessoCotacao: $('#Id').val(), IdItem: $('#IdProcessoCotacaoItem').val(), QuantidadeAdquiridaTotal: quantidadeAdquiridaTotal },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
@@ -128,7 +128,7 @@
                         url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.SelecionarCotacoesDeMaterial: UrlPadrao.SelecionarCotacoesDeFrete,
                         type: 'POST',
                         cache: false,
-                        data: JSON.stringify({ IdProcessoCotacao: $('#Id').val(), Cotacoes: cotacoes}),
+                        data: JSON.stringify({ IdProcessoCotacao: $('#Id').val(), IdProcessoCotacaoItem: $('#IdProcessoCotacaoItem').val(), Cotacoes: cotacoes}),
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
@@ -143,9 +143,6 @@
                             Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao selecionar as Cotações. Detalhe: ' + textStatus + errorThrown);
                         }
                     });
-                        
-
-
                 },
                 "Cancelar": function () {
                     $(this).dialog("close");
@@ -159,8 +156,7 @@
                 return;
             }
             $('#divSelecionarFornecedores').load(UrlPadrao.SelecionarFornecedores
-                + "/?codigoProduto=" + $('#CodigoMaterial').val()
-                + "&idProcessoCotacao=" + $('#Id').val()
+                + "/?idProcessoCotacao=" + $('#Id').val()
                 + "&TipoDeCotacao=" + tipoDeCotacao,
                 function(response, status, xhr) {
                     $('#divSelecionarFornecedores').dialog('open');
@@ -201,14 +197,14 @@
             });
 
         });
-
-        $('#btnFecharProcesso').click(function () {
+        
+        function fecharProcessoDeCotacao(urlDeFechamento) {
             bloqueiaPagina();
             $.ajax({
-                url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.FecharProcessoDeCotacaoDeMaterial : UrlPadrao.FecharProcessoDeCotacaoDeFrete,
+                url: urlDeFechamento,
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val() },
+                data: { idProcessoCotacao: $('#Id').val(), Justificativa: $('#Justificativa').val() },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
@@ -225,7 +221,36 @@
                     desbloqueiaPagina();
                 }
             });
+        }
 
+        $('#divFecharProcessoDeCotacaoDeMaterial').customDialog({
+            title: 'Fechar Processo de Cotação',
+            buttons: {
+                "Confirmar": function () {
+                    var form = $('#formFecharProcesso');
+                    if (!$(form).validate().form()) {
+                        return;
+                    }
+                    fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeMaterial);
+                    $(this).dialog("close");
+                },
+                "Cancelar": function() {
+                    $(this).dialog("close");
+                }
+            }
         });
-}
+
+        $('#btnFecharProcesso').click(function () {
+            if (tipoDeCotacao == TipoDeCotacao.Material) {
+                $('#divFecharProcessoDeCotacaoDeMaterial').load(UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial,
+                    function (response, status, xhr) {
+                        jQuery.validator.unobtrusive.parse('#divFecharProcessoDeCotacaoDeMaterial');
+                        $('#divFecharProcessoDeCotacaoDeMaterial').dialog("open");
+                    });
+            }
+            if (tipoDeCotacao == TipoDeCotacao.Frete) {
+                fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);
+            }
+        });
+    }
 }

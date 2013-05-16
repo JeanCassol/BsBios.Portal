@@ -46,6 +46,10 @@
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
+    <Compile Include="CotacaoMaterialConsultarVm.cs" />
+    <Compile Include="TipoDeFreteVm.cs" />
+    <Compile Include="CotacaoMaterialItemCadastroVm.cs" />
+    <Compile Include="FileDownloadVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />
@@ -55,7 +59,8 @@
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
-    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
+    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />
@@ -64,6 +69,7 @@
     <Compile Include="QuotaSalvarVm.cs" />
     <Compile Include="RealizacaoDeAgendamentoVm.cs" />
     <Compile Include="RelatorioAgendamentoFiltroVm.cs" />
+    <Compile Include="RequisicaoDeCompraFiltroVm.cs" />
     <Compile Include="StatusProcessoCotacaoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />
@@ -72,7 +78,7 @@
     <Compile Include="CotacaoSelecionarVm.cs" />
     <Compile Include="PerfilVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
-    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
@@ -80,7 +86,7 @@
     <Compile Include="IncotermCadastroVm.cs" />
     <Compile Include="KendoGridVm.cs" />
     <Compile Include="ListagemVm.cs" />
-    <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
+    <Compile Include="ProcessoCotacaoFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
     <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />

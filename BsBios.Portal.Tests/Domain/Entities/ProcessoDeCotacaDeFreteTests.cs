@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
@@ -18,12 +19,19 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var dataLimiteDeRetorno = DateTime.Today.AddDays(10);
             var dataValidadeInicial = DateTime.Today.AddMonths(1);
             var dataValidadeFinal = DateTime.Today.AddMonths(2);
-            var processo = new ProcessoDeCotacaoDeFrete(produto, 100,unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
+            var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Fretes",
                 "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario);
 
-            Assert.AreSame(produto, processo.Produto);
-            Assert.AreEqual(100, processo.Quantidade);
-            Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            processo.AdicionarItem(produto, 100, unidadeDeMedida);
+
+            var item = processo.Itens.First();
+            //Assert.AreSame(produto, processo.Produto);
+            //Assert.AreEqual(100, processo.Quantidade);
+            //Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            Assert.AreSame(produto, item.Produto);
+            Assert.AreEqual(100, item.Quantidade);
+            Assert.AreSame(unidadeDeMedida, item.UnidadeDeMedida);
+
             Assert.AreEqual("Requisitos do Processo de Cotação de Fretes",processo.Requisitos);
             Assert.AreEqual("10001", processo.NumeroDoContrato);
             Assert.AreEqual(dataLimiteDeRetorno, processo.DataLimiteDeRetorno);
@@ -46,12 +54,18 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var dataValidadeFinal = DateTime.Today.AddMonths(3);
 
 
-            processo.Atualizar(produto, 1500, unidadeDeMedida,"requisitos alterados","1500",dataLimiteDeRetorno, 
+            processo.Atualizar("requisitos alterados","1500",dataLimiteDeRetorno, 
                 dataValidadeInicial, dataValidadeFinal, itinerario);
 
-            Assert.AreSame(produto, processo.Produto);
-            Assert.AreEqual(1500, processo.Quantidade);
-            Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            processo.AtualizarItem(produto, 1500, unidadeDeMedida);
+
+            var item = processo.Itens.First();
+            //Assert.AreSame(produto, processo.Produto);
+            //Assert.AreEqual(1500, processo.Quantidade);
+            //Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            Assert.AreSame(produto, item.Produto);
+            Assert.AreEqual(1500, item.Quantidade);
+            Assert.AreSame(unidadeDeMedida, item.UnidadeDeMedida);
             Assert.AreEqual("requisitos alterados", processo.Requisitos);
             Assert.AreEqual("1500", processo.NumeroDoContrato);
             Assert.AreEqual(dataLimiteDeRetorno, processo.DataLimiteDeRetorno);
@@ -68,8 +82,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
             processoDeCotacaoDeFrete.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             processoDeCotacaoDeFrete.Abrir();
-            processoDeCotacaoDeFrete.Atualizar(processoDeCotacaoDeFrete.Produto, 1500, processoDeCotacaoDeFrete.UnidadeDeMedida, 
-                "requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
+            processoDeCotacaoDeFrete.Atualizar("requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
                 processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario);
         }
 
@@ -87,7 +100,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarFecharUmProcessoDeCotacaoQueJaEstaFechadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
-            processoDeCotacao.Fechar();   
+            processoDeCotacao.Fechar("justificativa");   
         }
     }
 }

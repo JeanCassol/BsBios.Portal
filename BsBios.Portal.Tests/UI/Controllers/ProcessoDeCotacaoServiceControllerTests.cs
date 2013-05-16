@@ -14,17 +14,20 @@ namespace BsBios.Portal.Tests.UI.Controllers
     public class ProcessoDeCotacaoServiceControllerTests
     {
         [TestMethod]
-        public void QuandoAtualizaOProcessoComSucessoDeveIrParaPaginaDeListagem()
+        public void QuandoAtualizaOProcessoComSucessoRecebeMensagemDeSucesso()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()));
+            processoDeCotacaoServiceMock.Setup(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()))
+                .Returns(1);
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            var redirectResult = (RedirectToRouteResult) processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
+            var retorno = processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
-            Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
-            
+            dynamic data = retorno.Data;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
+
+            Assert.IsTrue(props.Find("Sucesso", true).GetValue(data));
+
             processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
         }
 
@@ -36,18 +39,18 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .Throws(new ExcecaoDeTeste("Erro ao Atualizar Processo de Cotação"));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            var redirectResult = (RedirectToRouteResult)processoDeCotacaoController.AtualizarProcesso(
+            var retorno = processoDeCotacaoController.AtualizarProcesso(
                 new ProcessoDeCotacaoAtualizarVm()
                     {
                         Id = 10,
                         DataLimiteRetorno = DateTime.Today
                     });
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
-            Assert.AreEqual("EditarCadastro", redirectResult.RouteValues["action"]);
-            Assert.AreEqual(10, redirectResult.RouteValues["idProcessoCotacao"]); 
-            Assert.IsNotNull(processoDeCotacaoController.ViewData["erro"]);
-            Assert.AreEqual("Erro ao Atualizar Processo de Cotação", processoDeCotacaoController.ViewData["erro"]);
+            dynamic data = retorno.Data;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
+
+            Assert.IsFalse(props.Find("Sucesso", true).GetValue(data));
+            Assert.AreEqual("Erro ao Atualizar Processo de Cotação",props.Find("Mensagem",true).GetValue(data));
 
             processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
             
@@ -57,7 +60,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoCompararQuantidadeAdquiridaComSucessoRetornaResultadoDaComparacao()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<decimal>()))
+            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<decimal>()))
                                         .Returns(new VerificacaoDeQuantidadeAdquiridaVm
                                             {
                                                 QuantidadeSolicitadaNoProcessoDeCotacao = 1000,
@@ -65,7 +68,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                                             });
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10, 1000);
+            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10,1, 1000);
 
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);
@@ -82,11 +85,11 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoCompararQuantidadeAdquiridaComErroRetornaMensagemDeErro()
         {
             var processoDeCotacaoServiceMock = new Mock<IProcessoDeCotacaoDeMaterialService>(MockBehavior.Strict);
-            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(), It.IsAny<decimal>()))
+            processoDeCotacaoServiceMock.Setup(x => x.VerificarQuantidadeAdquirida(It.IsAny<int>(),It.IsAny<int>(), It.IsAny<decimal>()))
                                         .Throws(new ExcecaoDeTeste("Erro ao comparar quantidade adquirida."));
 
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
-            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10, 1000);
+            JsonResult retorno = processoDeCotacaoController.VerificarQuantidadeAdquirida(10,1, 1000);
 
             dynamic data = retorno.Data;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(retorno.Data);

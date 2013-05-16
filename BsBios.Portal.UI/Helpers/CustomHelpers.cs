@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace BsBios.Portal.UI.Helpers
 {
@@ -62,6 +63,12 @@ namespace BsBios.Portal.UI.Helpers
                     GeraColuna(coluna,"") +
                 "</div>";
             return new HtmlString(retorno);
+        }
+
+        public static MvcHtmlString RadioButtonComLabel(this HtmlHelper htmlHelper, string name, string label, object value, bool @checked)
+        {
+            return new MvcHtmlString(htmlHelper.RadioButton("RelatorioDeAgendamento", value, @checked).ToHtmlString() + Environment.NewLine
+            + htmlHelper.Label(label, new { @class = "labelNaLinha" }).ToHtmlString()); 
         }
 
     }

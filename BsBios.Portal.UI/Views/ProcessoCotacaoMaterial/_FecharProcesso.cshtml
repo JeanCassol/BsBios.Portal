@@ -1,0 +1,21 @@
+﻿@model ProcessoDeCotacaoFechamentoVm
+@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@{
+    Layout = null;
+}
+<style type="text/css">
+    form {
+        padding: 5px
+    }
+</style>
+<form id="formFecharProcesso">
+    @Html.LinhaComUmaColuna(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.Justificativa))
+    <fieldset>
+        <legend>Gerar no SAP</legend>
+        @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
+        @Html.RadioButtonComLabel("DocumentoDoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
+    </fieldset>
+</form>
+

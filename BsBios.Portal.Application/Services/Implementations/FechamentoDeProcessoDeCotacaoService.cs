@@ -3,6 +3,7 @@ using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
@@ -23,13 +24,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             _comunicacaoSap = comunicacaoSap;
         }
 
-        public void Executar(int idProcessoCotacao)
+        public void Executar(ProcessoDeCotacaoFechamentoVm processoDeCotacaoFechamentoVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-                processoDeCotacao.Fechar();
+                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(processoDeCotacaoFechamentoVm.IdProcessoCotacao).Single();
+                processoDeCotacao.Fechar(processoDeCotacaoFechamentoVm.Justificativa);
                 _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
                 _geradorDeEmail.GerarEmail(processoDeCotacao);
                 _processosDeCotacao.Save(processoDeCotacao);

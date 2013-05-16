@@ -49,7 +49,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ItinerarioCadastroBuilder>();
 
-            For< IBuilder<Cotacao, CotacaoImpostosVm>>()
+            For< IBuilder<CotacaoItem, CotacaoImpostosVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CotacaoImpostosBuilder>();
 
@@ -81,7 +81,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<NotaFiscalBuilder>();
 
-            For<IBuilder<Enumeradores.RealizacaoDeAgendamento, RealizacaoDeAgendamentoVm    >>()
+            For<IBuilder<Enumeradores.RealizacaoDeAgendamento, RealizacaoDeAgendamentoVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RealizacaoDeAgendamentoBuilder>();
 
@@ -89,6 +89,13 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<StatusProcessoCotacaoBuilder>();
 
+            For<IBuilder<RequisicaoDeCompra,RequisicaoDeCompraVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<RequisicaoDeCompraBuilder>();
+
+            For<IBuilder<Enumeradores.TipoDeFrete, TipoDeFreteVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<TipoDeFreteBuilder>();
 
         }
     }

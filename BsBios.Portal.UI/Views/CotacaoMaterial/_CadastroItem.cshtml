@@ -1,0 +1,38 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model CotacaoMaterialItemCadastroVm
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SalvarItem", "CotacaoDeMaterialAtualizar",FormMethod.Post,new{id="formCotacaoItem"}))
+{
+    @Html.HiddenFor(x => x.IdProcessoCotacao,new {id = "_idProcessoCotacao"})
+    @Html.HiddenFor(x => x.IdProcessoCotacaoItem, new{id="_idProcessoCotacaoItem"})
+    @Html.HiddenFor(x => x.IdCotacao, new{id="_idCotacao"})
+    <fieldset>
+        <legend>Item</legend>
+        @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialItemCadastroVm, string>(x => x.Material))
+        @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialItemCadastroVm, decimal>(x => x.Quantidade),
+                                  new ColunaComLabel<CotacaoMaterialItemCadastroVm, string>(x => x.UnidadeDeMedida))
+
+    </fieldset>
+    
+    Html.RenderPartial("_CotacaoImpostos", Model.Impostos);
+    
+    <fieldset>
+        <legend>Cotação do Fornecedor</legend>
+        <span class="aviso">O Valor do IPI não deve ser incluido no campo "Valor Com Impostos"</span>
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
+                                  new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.ValorLiquido, "campoDesabilitado maskmoeda"))
+            
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.QuantidadeDisponivel, "maskquantidade"),
+                                  new ColunaComTextBox<CotacaoMaterialItemCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker maskdata"))
+        
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.Mva, "maskmoeda"),
+        new ColunaComTextArea<CotacaoMaterialItemCadastroVm, string>(x => x.ObservacoesDoFornecedor))
+
+    </fieldset>
+}
+        
+
+

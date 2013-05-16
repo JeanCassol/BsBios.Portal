@@ -39,10 +39,11 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["ActionListagem"] = Url.Action("Listar","ProcessoCotacaoMaterial");
             ViewBag.TituloDaPagina = "Cotações de Material";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
+            ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Material;
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material;
@@ -53,6 +54,12 @@ namespace BsBios.Portal.UI.Controllers
 
             var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ViewResult NovoCadastro()
+        {
+            return View("Cadastro");
         }
 
         public ViewResult EditarCadastro(int idProcessoCotacao)
@@ -76,34 +83,38 @@ namespace BsBios.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SelecionarFornecedores(int idProcessoCotacao, string codigoProduto, Enumeradores.TipoDeCotacao tipoDeCotacao)
+        public ActionResult SelecionarFornecedores(int idProcessoCotacao, Enumeradores.TipoDeCotacao tipoDeCotacao)
         {
-            ViewData["CodigoProduto"] = codigoProduto;
             ViewData["IdProcessoCotacao"] = idProcessoCotacao;
             ViewData["TipoDeCotacao"] = tipoDeCotacao;
             return PartialView("_SelecionarFornecedores");
         }
 
-        public PartialViewResult SelecionarCotacoes(int idProcessoCotacao)
+        public ActionResult SelecionarItens()
+        {
+            return PartialView("_SelecionarItens");
+        }
+
+        public PartialViewResult SelecionarCotacoes(int idProcessoCotacaoItem)
         {
             try
             {
-                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["IdProcessoCotacaoItem"] = idProcessoCotacaoItem;
                 return PartialView("_SelecionarCotacao");
 
             }
             catch (Exception ex)
             {
-                ViewData["IdProcessoCotacao"] = idProcessoCotacao;
+                ViewData["IdProcessoCotacaoItem"] = idProcessoCotacaoItem;
                 ViewData["erro"] = ex.Message;
                 return PartialView("_SelecionarCotacao");
             }
         }
 
         [HttpGet]
-        public JsonResult ListarCotacoes(int idProcessoCotacao)
+        public JsonResult ListarCotacoes(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
-            IList<CotacaoMaterialSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao);
+            IList<CotacaoMaterialSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDosFornecedores(idProcessoCotacao, idProcessoCotacaoItem);
             return Json(new {Registros = cotacoes}, JsonRequestBehavior.AllowGet);
         }
 
@@ -114,6 +125,17 @@ namespace BsBios.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ListarItens(int idProcessoCotacao)
+        {
+            KendoGridVm kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.ListarItens(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
 
+
+        public ActionResult FecharProcesso()
+        {
+            return PartialView("_FecharProcesso");
+        }
     }
 }

@@ -85,6 +85,7 @@ namespace BsBios.Portal.Infra.Builders
             : base("Cotações de Materiais")
         {
             AdicionarItem("Listar", "ProcessoCotacaoMaterial", "Index");
+            AdicionarItem("Adicionar", "ProcessoCotacaoMaterial", "NovoCadastro");
         }
     }
 

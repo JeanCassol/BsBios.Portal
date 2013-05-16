@@ -68,7 +68,8 @@
     }
     @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
-            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete)
+            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
+            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true)
         })
     <div id="divSelecionarProduto" class="janelaModal"></div>
     <div id="divSelecionarItinerario" class="janelaModal"></div>
@@ -86,7 +87,7 @@
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar(idProcessoCotacao);
+            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirDadosDeItens: true});
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
 
             aplicaMascaraData();

@@ -1,7 +1,9 @@
-﻿namespace BsBios.Portal.Application.Services.Contracts
+﻿using BsBios.Portal.ViewModel;
+
+namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface IFechamentoDeProcessoDeCotacaoService
     {
-        void Executar(int idProcessoCotacao);
+        void Executar(ProcessoDeCotacaoFechamentoVm processoDeCotacaoFechamentoVm);
     }
 }

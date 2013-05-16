@@ -9,7 +9,6 @@ using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
-using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -18,20 +17,22 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
+        private readonly IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> _builderRequisicaoDeCompra;
         //private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
 
 
         public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
-            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario /*, 
+            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario, IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> builderRequisicaoDeCompra /*, 
             IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao*/)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderFornecedor = builderFornecedor;
             _iteracoesUsuario = iteracoesUsuario;
+            _builderRequisicaoDeCompra = builderRequisicaoDeCompra;
             //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(
                 (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
@@ -51,31 +52,35 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
             }
 
-            var query = (from p in _processosDeCotacao.GetQuery()
-                         select new 
-                         {
-                             CodigoMaterial = p.Produto.Codigo,
-                             Material = p.Produto.Descricao,
-                             DataTermino = p.DataLimiteDeRetorno,
-                             Id = p.Id,
-                             Quantidade = p.Quantidade,
-                             Status = p.Status,
-                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao
-                         }
-                        );
+            //var query = (from p in _processosDeCotacao.GetQuery()
+            //             select new 
+            //             {
+            //                 //CodigoMaterial = p.Produto.Codigo,
+            //                 //Material = p.Produto.Descricao,
+            //                 DataTermino = p.DataLimiteDeRetorno,
+            //                 Id = p.Id,
+            //                 //Quantidade = p.Quantidade,
+            //                 Status = p.Status,
+            //                 //UnidadeDeMedida = p.UnidadeDeMedida.Descricao
+            //             }
+            //            );
+
+            var query = _processosDeCotacao.GetQuery();
 
             var quantidadeDeRegistros = query.Count();
 
-            var registros = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()
+            var processosListados = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList();
+
+            var registros = processosListados
                              .Select(x => new ProcessoCotacaoMaterialListagemVm()
                                  {
                                      Id = x.Id,
-                                     CodigoMaterial = x.CodigoMaterial,
-                                     Material = x.Material,
-                                     DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString(): "",
-                                     Quantidade = x.Quantidade,
+                                     //CodigoMaterial = x.CodigoMaterial,
+                                     Material = String.Join(", ", x.Itens.Select(i => i.Produto.Descricao)),
+                                     DataTermino = x.DataLimiteDeRetorno.HasValue ? x.DataLimiteDeRetorno.Value.ToShortDateString(): "",
+                                     //Quantidade = x.Quantidade,
                                      Status = x.Status.Descricao(),
-                                     UnidadeDeMedida = x.UnidadeDeMedida
+                                     //UnidadeDeMedida = x.UnidadeDeMedida
                                  }).Cast<ListagemVm>().ToList();
 
             var kendoGridVm = new KendoGridVm()
@@ -99,20 +104,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              DataTerminoLeilao = p.DataLimiteDeRetorno,
                                              processo.Status,
                                              processo.Requisitos,
-                                             processo.RequisicaoDeCompra.Numero,
-                                             processo.RequisicaoDeCompra.NumeroItem,
-                                             processo.RequisicaoDeCompra.Centro,
-                                             CodigoMaterial = processo.Produto.Codigo,
-                                             Material = processo.Produto.Descricao,
-                                             processo.RequisicaoDeCompra.Descricao,
-                                             processo.Quantidade,
-                                             processo.RequisicaoDeCompra.DataDeLiberacao,
-                                             processo.RequisicaoDeCompra.DataDeRemessa,
-                                             processo.RequisicaoDeCompra.DataDeSolicitacao,
-                                             FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
-                                             Criador = processo.RequisicaoDeCompra.Criador.Nome, 
-                                             processo.RequisicaoDeCompra.Requisitante,
-                                             processo.RequisicaoDeCompra.UnidadeMedida
+                                             //processo.RequisicaoDeCompra.Numero,
+                                             //processo.RequisicaoDeCompra.NumeroItem,
+                                             //processo.RequisicaoDeCompra.Centro,
+                                             //CodigoMaterial = processo.Produto.Codigo,
+                                             //Material = processo.Produto.Descricao,
+                                             //processo.RequisicaoDeCompra.Descricao,
+                                             //processo.Quantidade,
+                                             //processo.RequisicaoDeCompra.DataDeLiberacao,
+                                             //processo.RequisicaoDeCompra.DataDeRemessa,
+                                             //processo.RequisicaoDeCompra.DataDeSolicitacao,
+                                             //FornecedorPretendido = processo.RequisicaoDeCompra.FornecedorPretendido.Nome,
+                                             //Criador = processo.RequisicaoDeCompra.Criador.Nome, 
+                                             //processo.RequisicaoDeCompra.Requisitante,
+                                             //processo.RequisicaoDeCompra.UnidadeMedida
                                          }).Single();
 
             return new ProcessoCotacaoMaterialCadastroVm()
@@ -120,24 +125,24 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Id = processoDeCotacao.Id,
                     DataLimiteRetorno = processoDeCotacao.DataTerminoLeilao.HasValue ? processoDeCotacao.DataTerminoLeilao.Value.ToShortDateString(): null,
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    CodigoMaterial = processoDeCotacao.CodigoMaterial,
+                    //CodigoMaterial = processoDeCotacao.CodigoMaterial,
                     Requisitos =  processoDeCotacao.Requisitos,
-                    RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
-                        {
-                            Centro = processoDeCotacao.Centro,
-                            Criador = processoDeCotacao.Criador,
-                            DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
-                            DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
-                            DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
-                            Descricao = processoDeCotacao.Descricao,
-                            FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
-                            Material = processoDeCotacao.Material,
-                            NumeroItem = processoDeCotacao.NumeroItem,
-                            NumeroRequisicao = processoDeCotacao.Numero,
-                            Quantidade = processoDeCotacao.Quantidade,
-                            Requisitante = processoDeCotacao.Requisitante,
-                            UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
-                        }
+                    //RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
+                    //    {
+                    //        Centro = processoDeCotacao.Centro,
+                    //        Criador = processoDeCotacao.Criador,
+                    //        DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
+                    //        DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
+                    //        DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
+                    //        Descricao = processoDeCotacao.Descricao,
+                    //        FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
+                    //        Material = processoDeCotacao.Material,
+                    //        NumeroItem = processoDeCotacao.NumeroItem,
+                    //        NumeroRequisicao = processoDeCotacao.Numero,
+                    //        Quantidade = processoDeCotacao.Quantidade,
+                    //        Requisitante = processoDeCotacao.Requisitante,
+                    //        UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
+                    //    }
                 };
         }
 
@@ -158,13 +163,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         }
 
-        public IList<CotacaoMaterialSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
+        public IList<CotacaoMaterialSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
             var retorno = new List<CotacaoMaterialSelecionarVm>();
             ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
             {
-                var cotacaoSelecionarVm = new CotacaoMaterialSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
+                var cotacaoSelecionarVm = new CotacaoMaterialSelecionarVm
+                    {
+                        CodigoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
+                        Fornecedor = fornecedorParticipante.Fornecedor.Nome
+                    };
                 retorno.Add(cotacaoSelecionarVm);
 
                 if (fornecedorParticipante.Cotacao == null)
@@ -175,28 +184,30 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
 
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
-                cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
-                cotacaoSelecionarVm.CodigoIva = cotacao.Iva != null ? cotacao.Iva.Codigo : null;
                 cotacaoSelecionarVm.CondicaoDePagamento = cotacao.CondicaoDePagamento.Descricao;
                 cotacaoSelecionarVm.Incoterm = cotacao.Incoterm.Descricao;
-                cotacaoSelecionarVm.ValorLiquido = cotacao.ValorLiquido;
-                cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
-                cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
 
-                Imposto imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Icms);
+                var cotacaoItem = (CotacaoMaterialItem)cotacao.Itens.SingleOrDefault(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+
+                if (cotacaoItem == null)
+                {
+                    continue;
+                }
+
+                cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
+                cotacaoSelecionarVm.CodigoIva = cotacaoItem.Iva != null ? cotacaoItem.Iva.Codigo : null;
+                cotacaoSelecionarVm.ValorLiquido = cotacaoItem.ValorLiquido;
+                cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
+
+                Imposto imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Icms);
                 cotacaoSelecionarVm.ValorIcms = imposto != null ? imposto.Valor : (decimal?) null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
+                imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.IcmsSubstituicao);
                 cotacaoSelecionarVm.ValorIcmsSt = imposto != null ? imposto.Valor : (decimal?)null;
 
-                imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Ipi);
+                imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Ipi);
                 cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);
-                //cotacaoSelecionarVm.ValorPis = imposto != null ? imposto.Valor : (decimal?)null;
-
-                //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Cofins);
-                //cotacaoSelecionarVm.ValorCofins = imposto != null ? imposto.Valor : (decimal?)null;
 
             }
 
@@ -263,18 +274,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         Codigo = fornecedorParticipante.Fornecedor.Codigo,
                         Nome = fornecedorParticipante.Fornecedor.Nome,
                         Selecionado =
-                            (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada
+                            (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Itens.Any(x => x.Selecionada)
                                  ? "Sim"
                                  : "Não"),
-                        ValorLiquido =
-                            (fornecedorParticipante.Cotacao != null
-                                 ? fornecedorParticipante.Cotacao.ValorLiquido
-                                 : (decimal?) null),
-                        ValorComImpostos =
-                            (fornecedorParticipante.Cotacao != null
-                                 ? fornecedorParticipante.Cotacao.ValorComImpostos
-                                 : (decimal?) null),
-                        QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
+                        //ValorLiquido =
+                        //    (fornecedorParticipante.Cotacao != null
+                        //         ? fornecedorParticipante.Cotacao.ValorLiquido
+                        //         : (decimal?) null),
+                        //ValorComImpostos =
+                        //    (fornecedorParticipante.Cotacao != null
+                        //         ? fornecedorParticipante.Cotacao.ValorComImpostos
+                        //         : (decimal?) null),
+                        //QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
                         VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
                     });
             }
@@ -288,6 +299,29 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
 
             return kendoGridVm;
+        }
+
+        public KendoGridVm ListarItens(int idProcessoCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            var requisicoes = (from pc in _processosDeCotacao.GetQuery()
+                               from item in pc.Itens
+                               let itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item
+                               select itemMaterial.RequisicaoDeCompra).ToList();
+
+            return new KendoGridVm
+                {
+                    QuantidadeDeRegistros = requisicoes.Count,
+                    Registros = _builderRequisicaoDeCompra.BuildList(requisicoes).Cast<ListagemVm>().ToList()
+                };
+        }
+
+        public string[] CodigoDosProdutos(int idProcessoCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            return (from pc in _processosDeCotacao.GetQuery()
+             from item in pc.Itens
+             select item.Produto.Codigo).Distinct().ToArray();
         }
     }
 }

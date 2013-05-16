@@ -2,7 +2,6 @@
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
@@ -44,6 +43,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
             Assert.AreEqual(requisicaoDeCompra.Numero, requisicaoConsultada.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, requisicaoConsultada.NumeroItem);            
+            Assert.AreEqual(requisicaoDeCompra.CodigoGrupoDeCompra, requisicaoConsultada.CodigoGrupoDeCompra);
+            Assert.AreEqual(requisicaoDeCompra.Mrp, requisicaoConsultada.Mrp);
         }
 
         [TestMethod]

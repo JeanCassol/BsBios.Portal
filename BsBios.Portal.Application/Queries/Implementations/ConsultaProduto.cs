@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
@@ -23,6 +24,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
         public KendoGridVm FornecedoresDoProduto(PaginacaoVm paginacaoVm, string codigoProduto)
         {
             Produto produto = _produtos.BuscaPeloCodigo(codigoProduto);
+            if (produto == null)
+            {
+                return new KendoGridVm
+                {
+                    Registros = new List<ListagemVm>()
+                };
+            }
+
             var kendoGrid = new KendoGridVm
             {
                 QuantidadeDeRegistros = produto.Fornecedores.Count,
@@ -35,6 +44,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
 
             return kendoGrid;
+        }
+
+        public KendoGridVm FornecedoresDosProdutos(PaginacaoVm paginacaoVm, string[] codigoDosProdutos)
+        {
+            _produtos.FiltraPorListaDeCodigos(codigoDosProdutos);
+            var query = (from p in _produtos.GetQuery()
+                                from f in p.Fornecedores
+                                                  select f).Distinct();
+
+            return new KendoGridVm
+                {
+                    QuantidadeDeRegistros = query.Count(),
+                    Registros = _builderFornecedor.BuildList(query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()).Cast<ListagemVm>().ToList()
+                };
         }
 
         public ProdutoCadastroVm ConsultaPorCodigo(string codigoProduto)
