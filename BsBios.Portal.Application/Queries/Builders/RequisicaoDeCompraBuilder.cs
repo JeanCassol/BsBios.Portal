@@ -23,7 +23,7 @@ namespace BsBios.Portal.Application.Queries.Builders
                     Quantidade = model.Quantidade,
                     Requisitante = model.Requisitante,
                     UnidadeMedida = model.UnidadeMedida.Descricao,
-                    IdProcessoCotacaoItem = model.ProcessoDeCotacaoItem.Id
+                    IdProcessoCotacaoItem = model.ProcessoDeCotacaoItem != null ? model.ProcessoDeCotacaoItem.Id: (int?) null
                 };
         }
     }

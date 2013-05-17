@@ -18,7 +18,7 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Salvar(CotacaoMaterialInformarVm cotacaoInformarVm,[ModelBinder(typeof(CotacaoImpostoModelBinder))] CotacaoImpostosVm cotacaoImpostosVm)
+        public JsonResult Salvar(CotacaoMaterialInformarVm cotacaoInformarVm)
         {
             try
             {
