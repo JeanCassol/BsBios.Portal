@@ -51,6 +51,7 @@ SelecionarItens = {
             transportUrl: UrlPadrao.ListarRequisicoesDeCompra,
             transportData: function() {
                 return {
+                    IdProcessoCotacao: $('#Id').val(),
                     DataDeSolicitacaoInicial: $('#DataDeSolicitacaoInicial').val(),
                     DataDeSolicitacaoFinal: $('#DataDeSolicitacaoFinal').val(),
                     CodigoDoGrupoDeCompras: $('#CodigoDoGrupoDeCompras').val()
@@ -89,6 +90,7 @@ SelecionarItens = {
                     renderTo: '#divGridRequisicoesSelecionadas',
                     exibirBotaoAdicionar: false,
                     exibirBotaoRemover: true,
+                    exibirDetalhesDaRequisicao: true,
                     pageable: false
                 });
             },
@@ -111,6 +113,10 @@ SelecionarItens = {
             title: 'Selecionar Itens',
             buttons: {
                 "Confirmar": function () {
+                    if (requisicoesSelecionadas.length == 0) {
+                        Mensagem.ExibirMensagemDeErro('É necessário selecionar pelo menos um item para o Processo de Cotação.');
+                        return;
+                    }
                     var idDasRequisicoesSelecionadas = new Array();
                     $.each(requisicoesSelecionadas, function (indice, requisicaoSelecionada) {
                         idDasRequisicoesSelecionadas.push(requisicaoSelecionada.Id);

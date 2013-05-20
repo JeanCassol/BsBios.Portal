@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
-using NHibernate.Criterion;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -39,6 +38,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IRequisicoesDeCompra SemProcessoDeCotacao()
         {
             Query = Query.Where(x => x.ProcessoDeCotacaoItem == null);
+            return this;
+        }
+
+        public IRequisicoesDeCompra DisponiveisParaProcessoDeCotacao(int idProcessoCotacao)
+        {
+            Query = Query.Where(x => x.ProcessoDeCotacaoItem == null || x.ProcessoDeCotacaoItem.ProcessoDeCotacao.Id == idProcessoCotacao);
             return this;
         }
 

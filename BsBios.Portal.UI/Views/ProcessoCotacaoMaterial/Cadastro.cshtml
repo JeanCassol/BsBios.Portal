@@ -150,7 +150,7 @@
             });
 
             $('#btnSalvarProcesso').click(function () {
-                $('.error').empty();
+                $('#divErro').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
