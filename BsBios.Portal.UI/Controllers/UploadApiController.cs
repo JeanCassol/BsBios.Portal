@@ -26,6 +26,12 @@ namespace BsBios.Portal.UI.Controllers
             string mensagensDeErro = "";
             try
             {
+                string usuario="";
+                var windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                if (windowsIdentity != null)
+                {
+                    usuario = windowsIdentity.Name;
+                }
                 string idProcessoCotacao = HttpContext.Current.Request.Form["IdProcessoCotacao"];
                 //foreach (string nomeDoArquivo in HttpContext.Current.Request.Files)
                 for (int i = 0; i < HttpContext.Current.Request.Files.Count ; i++)
@@ -33,9 +39,23 @@ namespace BsBios.Portal.UI.Controllers
                     try
                     {
                         HttpPostedFile file = HttpContext.Current.Request.Files[i];
-                        _fileService.Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads"),
-                            idProcessoCotacao, file.FileName, file.InputStream);
+                        string filePath = "";
+                        try
+                        {
+                            filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
+                            _fileService.Save(filePath,
+                                idProcessoCotacao, file.FileName, file.InputStream);
 
+                        }
+                        catch (Exception ex)
+                        {
+                            ocorreuErro = true;
+                            if (!string.IsNullOrEmpty(mensagensDeErro))
+                            {
+                                mensagensDeErro += Environment.NewLine;
+                            }
+                            mensagensDeErro += "Erro salvando arquivo - Caminho: " + filePath + "Usuário: " + usuario + Environment.NewLine   + ex.Message;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -44,13 +64,12 @@ namespace BsBios.Portal.UI.Controllers
                         {
                             mensagensDeErro += Environment.NewLine;
                         }
-                        mensagensDeErro += ex.Message;
+                        mensagensDeErro += "Erro lendo arquivo: " +  ex.Message;
                     }
                 }
 
                 // Now we need to wire up a response so that the calling script understands what happened
                 HttpContext.Current.Response.ContentType = "text/plain";
-                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
                 //HttpContext.Current.Response.Write(serializer.Serialize(mensagensDeErro));
                 HttpContext.Current.Response.Write(mensagensDeErro);
@@ -62,7 +81,7 @@ namespace BsBios.Portal.UI.Controllers
 
             catch (Exception ex)
             {
-                HttpContext.Current.Response.Write(ex.Message);
+                HttpContext.Current.Response.Write("Erro tratado: " +  ex.Message);
                 HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 // For compatibility with IE's "done" event we need to return a result as well as setting the context.response
