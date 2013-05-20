@@ -34,7 +34,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 {
                     Port = _contaDeEmail.Porta,
                     Credentials = new NetworkCredential(_contaDeEmail.Usuario, _contaDeEmail.Senha, _contaDeEmail.Dominio),
-                    EnableSsl = true
+                    EnableSsl = _contaDeEmail.HabilitarSsl
                 };
 
             //smtpClient.UseDefaultCredentials = true;
