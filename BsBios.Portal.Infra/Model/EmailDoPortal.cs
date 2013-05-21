@@ -67,6 +67,16 @@ namespace BsBios.Portal.Infra.Model
             }
         }
 
+        [ConfigurationProperty("HabilitarSsl", DefaultValue = false, IsRequired = false)]
+        public bool HabilitarSsl
+        {
+            get
+            {
+                return this["HabilitarSsl"] is bool && (bool) this["HabilitarSsl"];
+            }
+        }
+        
+
 
     }
 }
