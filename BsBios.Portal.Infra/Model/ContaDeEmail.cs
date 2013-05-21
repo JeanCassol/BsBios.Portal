@@ -11,8 +11,10 @@
         public string Senha { get; protected set; }
         public string ServidorSmtp { get; protected set; }
         public int Porta { get; protected set; }
+        public bool HabilitarSsl { get; protected set; }
 
-        public ContaDeEmail(string emailDoRemetente, string dominio, string usuario, string senha, string servidorSmtp, int porta)
+        public ContaDeEmail(string emailDoRemetente, string dominio, string usuario, string senha, 
+            string servidorSmtp, int porta, bool habilitarSsl)
         {
             EmailDoRemetente = emailDoRemetente;
             Dominio = dominio;
@@ -20,6 +22,7 @@
             Senha = senha;
             ServidorSmtp = servidorSmtp;
             Porta = porta;
+            HabilitarSsl = habilitarSsl;
         }
     }
 }
