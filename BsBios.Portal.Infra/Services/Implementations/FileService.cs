@@ -16,7 +16,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 Directory.CreateDirectory(folderPath);
             }
-            string filePath = Path.Combine(folderPath, fileName);
+            var nome = Path.GetFileName(fileName);
+            if (string.IsNullOrEmpty(nome))
+            {
+                throw new Exception("Nome do arquivo inválido");
+            }
+            string filePath = Path.Combine(folderPath, nome);
             if (File.Exists(filePath))
             {
                 throw new FileAlreadyExistsException(filePath);

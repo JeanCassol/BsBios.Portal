@@ -61,14 +61,16 @@
             })
         <fieldset>
             <legend>Enviar Anexos</legend>
-            <div>
-                <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
-            </div>
-            <div @*class="well hide"*@ id="filelistholder"></div>
-            <div class="divBotao">
-                <input type="button" id="btnEnviarArquivos" class="blue" value="Enviar"/>
-            </div>
-            <div id="divUploadErro" class="message-error"></div>
+            <form action="/api/upload/upload" enctype="multipart/form-data">
+                <div>
+                    <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
+                </div>
+                <div @*class="well hide"*@ id="filelistholder"></div>
+                <div class="divBotao">
+                    <input type="button" id="btnEnviarArquivos" class="blue" value="Enviar"/>
+                </div>
+                <div id="divUploadErro" class="message-error"></div>
+            </form>
         </fieldset>
         <fieldset>
             <legend>Anexos Enviados</legend>
@@ -176,8 +178,7 @@
                 limitConcurrentUploads: 1,
                 singleFileUploads: false,
                 sequentialUploads: true,
-                /*progressInterval: 100,
-                maxChunkSize: 10000,*/
+                maxFileSize: 2000000,
                 formData: { IdProcessoCotacao: $('#Id').val() },
                 add: function (e, data) {
                     $.each(data.files, function(indice, arquivo) {

@@ -162,5 +162,5 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
-*.stackdump
-BsBios.Portal.UI\Uploads\131*/
+*uploads
+BsBios.Portal.UI\Uploads\

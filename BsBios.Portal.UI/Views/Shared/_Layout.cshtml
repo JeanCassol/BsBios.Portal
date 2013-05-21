@@ -9,7 +9,9 @@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
         @Styles.Render("~/Content/themes/base/css")
-    </head>
+        <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        </head>
     <body>
         <div id="todaPagina">
             @Html.Partial("_Header")
