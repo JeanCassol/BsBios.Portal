@@ -178,10 +178,13 @@
                 limitConcurrentUploads: 1,
                 singleFileUploads: false,
                 sequentialUploads: true,
-                maxFileSize: 2000000,
                 formData: { IdProcessoCotacao: $('#Id').val() },
                 add: function (e, data) {
-                    $.each(data.files, function(indice, arquivo) {
+                    $.each(data.files, function (indice, arquivo) {
+                        if (arquivo.size > 4000000) {
+                            $('#divUploadErro').append('O arquivo ' + arquivo.name + ' ultrapassou o tamanho máximo permitido de 4 MB.');
+                            return;
+                        }
                         data.context = $('<div />').text(arquivo.name).appendTo('#filelistholder');
                         $('#btnEnviarArquivos').bind('click.uploadsubmit', function () {
                             data.submit();
@@ -191,8 +194,12 @@
                 done: function (e, data) {
                     data.context.text(data.files[0].name + '... Concluído');
                 },
-                fail: function(e, data) {
-                    $('#divUploadErro').html(data.jqXHR.responseText.replace('\r\n', '<br/>'));
+                fail: function (e, data) {
+                    if (data.messages.uploadedBytes) {
+                        $('#divUploadErro').html(data.messages.uploadedBytes);
+                    } else {
+                        $('#divUploadErro').html(data.jqXHR.responseText.replace('\r\n', '<br/>'));
+                    }
                 },
                 always: function (e, data) {
                     $('#filelistholder').empty();
