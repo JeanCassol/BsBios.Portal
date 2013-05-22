@@ -86,10 +86,6 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaRequisicaoDeCompra>();
 
-            For<IConsultaTipoDeFrete>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ConsultaTipoDeFrete>();
-            
         }
 
     }

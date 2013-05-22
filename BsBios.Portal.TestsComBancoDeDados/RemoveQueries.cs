@@ -106,6 +106,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
         {
             try
             {
+                RemoverProcessosDeCotacaoCadastrados();
                 UnitOfWork.BeginTransaction();
                 UnitOfWork.Session.Delete("from RequisicaoDeCompra");
                 UnitOfWork.Commit();

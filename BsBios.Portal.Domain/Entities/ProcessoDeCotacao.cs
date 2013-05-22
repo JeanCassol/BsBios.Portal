@@ -179,12 +179,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
         {
             AdicionarItem();
-            if (requisicaoDeCompra.ProcessoDeCotacaoItem != null)
+            if (requisicaoDeCompra.GerouProcessoDeCotacao)
             {
-                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,
-                                                                                      requisicaoDeCompra.NumeroItem,
-                                                                                      requisicaoDeCompra.ProcessoDeCotacaoItem.ProcessoDeCotacao.Id);
-
+                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
             }
             var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
             Itens.Add(item);
@@ -209,7 +206,7 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         public virtual CotacaoMaterial InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento,
-            Incoterm incoterm, string descricaoDoIncoterm,Enumeradores.TipoDeFrete tipoDeFrete)
+            Incoterm incoterm, string descricaoDoIncoterm)
         {
             base.InformarCotacao();
             //busca a cotação do fornecedor
@@ -219,12 +216,12 @@ namespace BsBios.Portal.Domain.Entities
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm,tipoDeFrete);
+                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
             else
             {
-                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm, tipoDeFrete);
+                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
             }
 
             return cotacao;

@@ -43,7 +43,6 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.CondicaoDePagamento).Column("CodigoCondicaoPagamento");
             References(x => x.Incoterm).Column("CodigoIncoterm");
             Map(x => x.DescricaoIncoterm);
-            Map(x => x.TipoDeFrete).CustomType<Enumeradores.TipoDeFrete>();
         }
     }
     public class CotacaoFreteMap : SubclassMap<CotacaoFrete>

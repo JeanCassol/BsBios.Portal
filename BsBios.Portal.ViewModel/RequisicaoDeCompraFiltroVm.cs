@@ -8,5 +8,10 @@ namespace BsBios.Portal.ViewModel
         public string CodigoDoGrupoDeCompras { get; set; }
         public DateTime? DataDeSolicitacaoInicial { get; set; }
         public DateTime? DataDeSolicitacaoFinal { get; set; }
+
+        public RequisicaoDeCompraFiltroVm(int idProcessoCotacao)
+        {
+            IdProcessoCotacao = idProcessoCotacao;
+        }
     }
 }

@@ -304,15 +304,32 @@ namespace BsBios.Portal.Application.Queries.Implementations
         public KendoGridVm ListarItens(int idProcessoCotacao)
         {
             _processosDeCotacao.BuscaPorId(idProcessoCotacao);
-            var requisicoes = (from pc in _processosDeCotacao.GetQuery()
+            //var requisicoes = (from pc in _processosDeCotacao.GetQuery()
+            //                   from item in pc.Itens
+            //                   let itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item
+            //                   select itemMaterial.RequisicaoDeCompra).ToList();
+
+            var itens = (from pc in _processosDeCotacao.GetQuery()
                                from item in pc.Itens
                                let itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item
-                               select itemMaterial.RequisicaoDeCompra).ToList();
+                               select new ProcessoDeCotacaoDeMaterialItemVm
+                                   {
+                                       Id = pc.Id,
+                                       IdProcessoCotacaoItem = itemMaterial.Id ,
+                                       NumeroRequisicao = itemMaterial.RequisicaoDeCompra.Numero,
+                                       NumeroItem = itemMaterial.RequisicaoDeCompra.NumeroItem ,
+                                       Material = itemMaterial.Produto.Descricao ,
+                                       Quantidade = itemMaterial.Quantidade,
+                                       UnidadeMedida = itemMaterial.UnidadeDeMedida.Descricao ,
+                                       DataDeSolicitacao = itemMaterial.RequisicaoDeCompra.DataDeSolicitacao.ToShortDateString() ,
+                                       CodigoGrupoDeCompra = itemMaterial.RequisicaoDeCompra.CodigoGrupoDeCompra ,
+                                   }).ToList();
+
 
             return new KendoGridVm
                 {
-                    QuantidadeDeRegistros = requisicoes.Count,
-                    Registros = _builderRequisicaoDeCompra.BuildList(requisicoes).Cast<ListagemVm>().ToList()
+                    QuantidadeDeRegistros = itens.Count,
+                    Registros = itens.Cast<ListagemVm>().ToList()
                 };
         }
 

@@ -62,7 +62,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+                                     "Desc Incoterm");
             var processoCotacaoItem = processo.Itens.First();
             cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
@@ -81,7 +81,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor.Codigo, vm.CodigoFornecedor);
             Assert.IsTrue(processo.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
-            Assert.AreEqual((int) cotacao.TipoDeFrete, vm.CodigoTipoDeFrete);
 
             Assert.AreEqual("Aberto", vm.Status);
         }
@@ -94,7 +93,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
-                                     "Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+                                     "Desc Incoterm");
             var processoCotacaoItem = processo.Itens.First();
             var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
@@ -134,12 +133,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var processoDeCotacaoItem = processo.Itens.First();
             var cotacao1 = processo.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm");
 
             cotacao1.InformarCotacaoDeItem(processoDeCotacaoItem, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
             var cotacao2 = processo.InformarCotacao(fornecedor2.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Fob);
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm");
 
             cotacao2.InformarCotacaoDeItem(processoDeCotacaoItem, 120, 130, 14, DateTime.Today.AddMonths(1),"observacoes");
 
@@ -157,8 +156,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(cotacao.CondicaoDePagamento.Codigo, vm.CodigoCondicaoPagamento);
             Assert.AreEqual(cotacao.Incoterm.Codigo, vm.CodigoIncoterm);
             Assert.AreEqual("Desc Incoterm", vm.DescricaoIncoterm);
-            Assert.AreEqual((int) cotacao.TipoDeFrete, vm.CodigoTipoDeFrete);
-            //Assert.AreEqual(processo.RequisicaoDeCompra.Descricao, vm.DescricaoDoProcessoDeCotacao);
             Assert.AreEqual(fornecedor1.Codigo, vm.CodigoFornecedor);
             Assert.IsTrue(processo.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processo.DataLimiteDeRetorno.Value.ToShortDateString(), vm.DataLimiteDeRetorno);
@@ -172,7 +169,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm",Enumeradores.TipoDeFrete.Cif);
+                                     DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm");
 
             var itemDoProcesso = (ProcessoDeCotacaoDeMaterialItem) processo.Itens.First();
 

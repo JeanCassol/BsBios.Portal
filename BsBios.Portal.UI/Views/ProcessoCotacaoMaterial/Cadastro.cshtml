@@ -16,16 +16,6 @@
     {
         @Html.HiddenFor(model => model.Id)
         
-        @*<fieldset>
-            <legend>Requisição de Compra</legend>
-
-            @Html.HiddenFor(model => model.CodigoMaterial)
-            
-            @if (Model != null && Model.RequisicaoDeCompraVm != null)
-            {
-                @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
-            }
-        </fieldset>*@
         <fieldset>
             <legend>Processo de Cotação</legend>
             <div class="coluna">
@@ -118,7 +108,7 @@
                 pageable: false
             });
             SelecionarItens.ConfigurarJanelaModal();
-            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirBotaoVisualizar:true });
+            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeMaterialResumida, IdProcessoCotacao: idProcessoCotacao, ExibirBotaoVisualizar: true });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 

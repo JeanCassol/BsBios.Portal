@@ -87,7 +87,6 @@
     <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeFreteTests.cs" />
     <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Infra\Repositories\ProdutosTests.cs" />
-    <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
     <Compile Include="Infra\Repositories\UnidadesDeMedidaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
     <Compile Include="Infra\Repositories\QuotasTests.cs" />

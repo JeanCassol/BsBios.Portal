@@ -161,21 +161,23 @@ namespace BsBios.Portal.Tests.Application.Services
         }
 
         [TestMethod]
-        public void QuandoCadastroUmaRequisicaoGeraUmaProcessoDeCompraDeMaterialRelacionadoARequisicao()
+        public void QuandoCadastroUmaRequisicaoDeCompraNaoGeraUmaProcessoDeCompraDeMaterialRelacionadoARequisicao()
         {
-            _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
-                                   .Callback((ProcessoDeCotacao processoDeCotacao) =>
-                                       {
-                                           Assert.IsNotNull(processoDeCotacao);
-                                           var processoDeCotacaoDeMaterial = (ProcessoDeCotacaoDeMaterial) processoDeCotacao;
-                                           var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacaoDeMaterial.Itens.First();
-                                           Assert.AreEqual("REQ001", item.RequisicaoDeCompra.Numero);
-                                           Assert.AreEqual("0001", item.RequisicaoDeCompra.NumeroItem);
-                                           Assert.AreEqual("PROD0001", item.Produto.Codigo);
-                                           Assert.AreEqual(100, item.Quantidade);
-                                       });
+            //22/05/2013 - comentei porque ao criar a requisição não está mais gerando o processo de cotação automaticamente
+            //_processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
+            //                       .Callback((ProcessoDeCotacao processoDeCotacao) =>
+            //                           {
+            //                               Assert.IsNotNull(processoDeCotacao);
+            //                               var processoDeCotacaoDeMaterial = (ProcessoDeCotacaoDeMaterial) processoDeCotacao;
+            //                               var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacaoDeMaterial.Itens.First();
+            //                               Assert.AreEqual("REQ001", item.RequisicaoDeCompra.Numero);
+            //                               Assert.AreEqual("0001", item.RequisicaoDeCompra.NumeroItem);
+            //                               Assert.AreEqual("PROD0001", item.Produto.Codigo);
+            //                               Assert.AreEqual(100, item.Quantidade);
+            //                           });
             _cadastroRequisicao.NovaRequisicao(_requisicaoDeCompraVm);
-            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
+            //_processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
+            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Never());
         }
     }
 }

@@ -87,7 +87,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processoDeCotacaoDeMaterial.Abrir();
             var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                        DefaultObjects.ObtemIncotermPadrao(), "inc",Enumeradores.TipoDeFrete.Cif);
+                                                        DefaultObjects.ObtemIncotermPadrao(), "inc");
             var processoDeCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
 
@@ -102,7 +102,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(cotacao.Incoterm, cotacaoConsultada.Incoterm.CastEntity());
             Assert.AreEqual(cotacao.DescricaoIncoterm, cotacaoConsultada.DescricaoIncoterm);
             Assert.AreEqual(cotacao.CondicaoDePagamento, cotacaoConsultada.CondicaoDePagamento.CastEntity());
-            Assert.AreEqual(Enumeradores.TipoDeFrete.Cif, cotacaoConsultada.TipoDeFrete);
             Console.WriteLine("Consultando Cotacao - FIM");
         }
 
@@ -129,7 +128,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
             processoDeCotacaoDeMaterial.Abrir();
-            var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc", Enumeradores.TipoDeFrete.Cif);
+            var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc");
             var processoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
             var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
             cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);

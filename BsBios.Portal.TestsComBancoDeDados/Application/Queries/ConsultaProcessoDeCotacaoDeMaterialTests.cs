@@ -211,15 +211,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.ListarItens(processoDeCotacao.Id);
-            IList<RequisicaoDeCompraVm> requisicoesDeCompraVm = kendoGridVm.Registros.Cast<RequisicaoDeCompraVm>().ToList();
+            IList<ProcessoDeCotacaoDeMaterialItemVm> itens = kendoGridVm.Registros.Cast<ProcessoDeCotacaoDeMaterialItemVm>().ToList();
 
-            Assert.IsNotNull(requisicoesDeCompraVm);
-            Assert.AreEqual(1, requisicoesDeCompraVm.Count);
-            var requisicaoDeCompraVm = requisicoesDeCompraVm.First();
+            Assert.IsNotNull(itens);
+            Assert.AreEqual(1, itens.Count);
+            var requisicaoDeCompraVm = itens.First();
             var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
             Assert.AreEqual(item.RequisicaoDeCompra.Numero, requisicaoDeCompraVm.NumeroRequisicao);
             Assert.AreEqual(item.RequisicaoDeCompra.NumeroItem,requisicaoDeCompraVm.NumeroItem);
-            Assert.AreEqual(item.Id, requisicaoDeCompraVm.IdProcessoCotacaoItem);
 
         }
 

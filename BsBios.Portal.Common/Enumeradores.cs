@@ -77,10 +77,5 @@ namespace BsBios.Portal.Common
             Pedido = 1,
             Contrato = 2
         }
-        public enum TipoDeFrete
-        {
-            Cif = 1,
-            Fob = 2
-        }
     }
 }

@@ -103,7 +103,6 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.CodigoCondicaoPagamento = cotacao.CondicaoDePagamento.Codigo;
                 vm.CodigoIncoterm = cotacao.Incoterm.Codigo;
                 vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
-                vm.CodigoTipoDeFrete = (int) cotacao.TipoDeFrete;
 
             }
             return vm;
@@ -130,7 +129,6 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.CondicaoPagamento = cotacao.CondicaoDePagamento.Descricao;
                 vm.Incoterm = cotacao.Incoterm.Descricao;
                 vm.DescricaoIncoterm = cotacao.DescricaoIncoterm;
-                vm.TipoDeFrete = cotacao.TipoDeFrete.Descricao();
             }
             else
             {

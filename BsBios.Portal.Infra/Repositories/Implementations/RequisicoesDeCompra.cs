@@ -37,13 +37,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IRequisicoesDeCompra SemProcessoDeCotacao()
         {
-            Query = Query.Where(x => x.ProcessoDeCotacaoItem == null);
-            return this;
-        }
-
-        public IRequisicoesDeCompra DisponiveisParaProcessoDeCotacao(int idProcessoCotacao)
-        {
-            Query = Query.Where(x => x.ProcessoDeCotacaoItem == null || x.ProcessoDeCotacaoItem.ProcessoDeCotacao.Id == idProcessoCotacao);
+            Query = Query.Where(x => !x.GerouProcessoDeCotacao);
             return this;
         }
 

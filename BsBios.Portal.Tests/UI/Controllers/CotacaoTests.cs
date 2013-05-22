@@ -19,7 +19,6 @@ namespace BsBios.Portal.Tests.UI.Controllers
         private readonly Mock<IConsultaCotacaoDoFornecedor> _consultaCotacaoDoFornecedorMock;
         private readonly Mock<IConsultaCondicaoPagamento> _consultaCondicaoPagamentoMock;
         private readonly Mock<IConsultaIncoterm> _consultaIncotermsMock;
-        private readonly Mock<IConsultaTipoDeFrete> _consultaTipoDeFreteMock;
         private readonly Mock<IAtualizadorDeIteracaoDoUsuario> _atualizadorDeIteracaoDoUsuarioMock;
 
         public CotacaoTests()
@@ -36,22 +35,18 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaIncotermsMock.Setup(x => x.ListarTodos())
                 .Returns(new List<IncotermCadastroVm>());
 
-            _consultaTipoDeFreteMock= new Mock<IConsultaTipoDeFrete>(MockBehavior.Strict);
-            _consultaTipoDeFreteMock.Setup(x => x.Listar())
-                                    .Returns(new List<TipoDeFreteVm>());
-
             _atualizadorDeIteracaoDoUsuarioMock = new Mock<IAtualizadorDeIteracaoDoUsuario>(MockBehavior.Strict);
             _atualizadorDeIteracaoDoUsuarioMock.Setup(x => x.Atualizar(It.IsAny<int>()));
 
             _controller = new CotacaoMaterialController(_consultaCotacaoDoFornecedorMock.Object,
-                _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object,_atualizadorDeIteracaoDoUsuarioMock.Object, _consultaTipoDeFreteMock.Object);
+                _consultaCondicaoPagamentoMock.Object, _consultaIncotermsMock.Object,_atualizadorDeIteracaoDoUsuarioMock.Object);
         }
 
         [TestMethod]
         public void QuandoEditarACotacaoRetornaAViewCorretaComModelo()
         {
             ViewResult viewResult = _controller.EditarCadastro(10);
-            Assert.AreEqual("Cadastro", viewResult.ViewName);
+            Assert.AreEqual("", viewResult.ViewName);
             Assert.IsInstanceOfType(viewResult.Model, typeof(CotacaoMaterialCadastroVm));
 
             _consultaCotacaoDoFornecedorMock.Verify(x => x.ConsultarCotacaoDeMaterial(It.IsAny<int>(), It.IsAny<string>()), Times.Once());

@@ -34,7 +34,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public AtualizadorDeCotacaoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
-            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
             _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
                                    .Callback(
@@ -49,10 +49,6 @@ namespace BsBios.Portal.Tests.Application.Services
                                            }
                                        });
 
-            //ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            //processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
-            //processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br"));
-            //processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br"));
             _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
                                    .Returns(_processosDeCotacaoMock.Object)
                                    .Callback((int id) =>
@@ -99,13 +95,13 @@ namespace BsBios.Portal.Tests.Application.Services
             _cotacaoItemAtualizarVm = new CotacaoMaterialItemInformarVm
                 {
                     IdProcessoCotacao = _processoDeCotacao.Id,
-                    IdCotacao = _processoDeCotacao.Id,
+                    IdCotacao = 0,
                     IdProcessoCotacaoItem = _processoDeCotacao.Itens.First().Id,
                     ValorLiquido = 110,
                     ValorComImpostos = 125,
                     Mva = 0,
                     QuantidadeDisponivel = 150,
-                    Impostos = new CotacaoImpostosVm()
+                    Impostos = new CotacaoImpostosVm
                     {
                         IcmsAliquota = 17,
                         IcmsValor = 12,
@@ -132,7 +128,6 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void QuandoAtualizoItemDaCotacaoDoFornecedorOcorrePersistencia()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
             _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
             CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
@@ -195,8 +190,6 @@ namespace BsBios.Portal.Tests.Application.Services
                     Imposto icms = cotacaoItem.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
                     Assert.AreEqual(17, icms.Aliquota);
                     Assert.AreEqual(12, icms.Valor);
-
-
                 });
             _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
 

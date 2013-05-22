@@ -93,10 +93,6 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RequisicaoDeCompraBuilder>();
 
-            For<IBuilder<Enumeradores.TipoDeFrete, TipoDeFreteVm>>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<TipoDeFreteBuilder>();
-
         }
     }
 }

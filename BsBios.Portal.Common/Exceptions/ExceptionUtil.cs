@@ -32,7 +32,7 @@ namespace BsBios.Portal.Common.Exceptions
 
             while (excecao.InnerException != null)
             {
-                mensagem += Environment.NewLine + Environment.NewLine + 
+                mensagem += Environment.NewLine + 
                    "Exceção interna: " + excecao.InnerException.Message;
                 excecao = excecao.InnerException;
             }

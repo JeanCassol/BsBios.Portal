@@ -39,7 +39,7 @@ namespace BsBios.Portal.Domain.Entities
                 requisicaoDeCompra.UnidadeMedida)
         {
             RequisicaoDeCompra = requisicaoDeCompra;
-            requisicaoDeCompra.VincularComProcessoDeCotacao(this);
+            requisicaoDeCompra.VincularComProcessoDeCotacao();
         }
     }
     public class ProcessoDeCotacaoDeFreteItem : ProcessoDeCotacaoItem

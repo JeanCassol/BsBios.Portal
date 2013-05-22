@@ -40,7 +40,8 @@
         @Scripts.Render("~/bundles/scriptsgerais")
         <script type="text/javascript">
             UrlPadrao.SelecionarFornecedor = '@Url.Action("Selecionar","SelecionarFornecedor")';
-            UrlPadrao.CotacaoResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial")';
+            UrlPadrao.CotacaoDeMaterialResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial")';
+            UrlPadrao.CotacaoDeFreteResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoFrete")';
             UrlPadrao.EnviarEmail = '@Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")';
             UrlPadrao.AtualizarFornecedoresDoProcessoDeCotacao = '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")';
             UrlPadrao.AtualizarItensDoProcessoDeCotacao = '@Url.Action("AtualizarItens","ProcessoDeCotacaoItensService")';

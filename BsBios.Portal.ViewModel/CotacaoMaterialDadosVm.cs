@@ -18,10 +18,6 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Incoterm 2")]
         public string DescricaoIncoterm { get; set; }
 
-        [Required(ErrorMessage = "Tipo de Frete é obrigatório")]
-        [Display(Name = "Tipo de Frete")]
-        public int CodigoTipoDeFrete { get; set; }
-
     }
 
     public class CotacaoMaterialItemDadosVm:CotacaoDadosVm

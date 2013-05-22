@@ -14,23 +14,17 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoCotacaoFreteController : Controller
     {
         private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
-        //private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
 
-        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida
-            /*, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial*/, 
+        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida,
             IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, 
             IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
-            //_consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
         }
-
-        //
-        // GET: /CotacaoFrete/
 
         [HttpGet]
         public ActionResult Index()
@@ -104,9 +98,9 @@ namespace BsBios.Portal.UI.Controllers
             return View("_SelecionarItinerario", itinerarioCadastroVm);
         }
 
-        public JsonResult ListarCotacoes(int idProcessoCotacao, int idProcessoCotacaoItem)
+        public JsonResult ListarCotacoes(int idProcessoCotacao)
         {
-            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedores(idProcessoCotacao,idProcessoCotacaoItem);
+            IList<CotacaoSelecionarVm> cotacoes = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedores(idProcessoCotacao);
             return Json(new { Registros = cotacoes }, JsonRequestBehavior.AllowGet);
         }
 
@@ -126,5 +120,10 @@ namespace BsBios.Portal.UI.Controllers
             }
         }
 
+        public JsonResult ListarCotacoesResumido(int idProcessoCotacao)
+        {
+            KendoGridVm kendoGridVm = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedoresResumido(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
     }
 }

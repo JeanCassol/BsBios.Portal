@@ -76,7 +76,7 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: UrlPadrao.CotacaoResumida + '/?idProcessoCotacao=' + configuracao.IdProcessoCotacao,
+                        url: configuracao.Url + '/?idProcessoCotacao=' + configuracao.IdProcessoCotacao,
                         type: 'GET',
                         cache: false
                     }

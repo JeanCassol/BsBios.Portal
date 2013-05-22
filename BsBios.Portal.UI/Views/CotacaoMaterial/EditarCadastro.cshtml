@@ -43,18 +43,8 @@
                                                                                                             .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento }),
                                                                                                         "CodigoCondicaoPagamento");
 
-                var comboTipoDeFrete = new ColunaComDropDown<CotacaoMaterialCadastroVm, int>
-                    (x => x.CodigoTipoDeFrete,
-                    ((List<TipoDeFreteVm>)ViewBag.TiposDeFrete)
-                        .Select(x => new SelectListItem()
-                            {
-                                Text = x.Descricao, 
-                                Value = Convert.ToString(x.Codigo), 
-                                Selected = Model != null && x.Codigo == Model.CodigoTipoDeFrete
-                            }),"CodigoTipoDeFrete");
-                                                                                                        
 
-                @Html.LinhaComDuasColunas(comboCondicaoDePagamento,comboTipoDeFrete)
+                @Html.LinhaComUmaColuna(comboCondicaoDePagamento)
                 
             }
             

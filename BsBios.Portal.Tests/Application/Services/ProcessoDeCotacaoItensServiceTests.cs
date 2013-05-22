@@ -87,7 +87,7 @@ namespace BsBios.Portal.Tests.Application.Services
             var ids = new List<int> {_requisicoesDeCompras.Select(x => x.Id).ElementAt(0),_requisicoesDeCompras.Select(x => x.Id).ElementAt(1)};
             _requisicoesDeCompraMock.Setup(x => x.Save(It.IsAny<RequisicaoDeCompra>()))
                 //callback verifica que a requisição de compra está vinculada ao item do processo de cotação
-                                    .Callback((RequisicaoDeCompra requisicao) => Assert.IsNotNull(requisicao.ProcessoDeCotacaoItem));
+                                    .Callback((RequisicaoDeCompra requisicao) => Assert.IsTrue(requisicao.GerouProcessoDeCotacao));
             Assert.AreEqual(1, _processoDeCotacao.Itens.Count);
             _service.AtualizarItens(_processoDeCotacao.Id,  ids);
             Assert.AreEqual(2, _processoDeCotacao.Itens.Count);
@@ -109,7 +109,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _requisicoesDeCompraMock.Setup(x => x.Save(It.IsAny<RequisicaoDeCompra>()))
                 //callback verifica que o vincuulo entre a requisição de compra e o processo de cotação foi removido
-                                    .Callback((RequisicaoDeCompra requisicao) => Assert.IsNull(requisicao.ProcessoDeCotacaoItem));
+                                    .Callback((RequisicaoDeCompra requisicao) => Assert.IsFalse(requisicao.GerouProcessoDeCotacao));
 
             _service.AtualizarItens(_processoDeCotacao.Id, ids);
             Assert.AreEqual(1, _processoDeCotacao.Itens.Count);

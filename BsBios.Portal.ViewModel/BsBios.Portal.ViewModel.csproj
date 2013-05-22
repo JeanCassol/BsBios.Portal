@@ -47,6 +47,7 @@
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
     <Compile Include="CotacaoMaterialConsultarVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
     <Compile Include="TipoDeFreteVm.cs" />
     <Compile Include="CotacaoMaterialItemCadastroVm.cs" />
     <Compile Include="FileDownloadVm.cs" />

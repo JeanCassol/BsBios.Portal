@@ -6,19 +6,17 @@ namespace BsBios.Portal.Common.Exceptions
     {
         private readonly string _numeroDaRequisicao;
         private readonly string _numeroDoItem;
-        private readonly int _idProcessoCotacao;
         
-        public RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(string numeroDaRequisicao, string numeroDoItem, int idProcessoCotacao)
+        public RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(string numeroDaRequisicao, string numeroDoItem)
         {
             _numeroDaRequisicao = numeroDaRequisicao;
             _numeroDoItem = numeroDoItem;
-            _idProcessoCotacao = idProcessoCotacao;
         }
 
         public override string Message
         {
             get { return "O Item nº " + _numeroDaRequisicao + " da  Requisição de Compra de nº " + _numeroDoItem +
-                " já está sendo utilizada pelo Processo de Cotação " + Convert.ToString(_idProcessoCotacao); }
+                " já está sendo utilizada por outro Processo de Cotação."; }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
@@ -12,11 +13,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
     public class ConsultaProcessoDeCotacaoDeFrete : IConsultaProcessoDeCotacaoDeFrete
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
 
 
-        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao)
+        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao, IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
+            _iteracoesUsuario = iteracoesUsuario;
         }
 
 
@@ -48,47 +51,48 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 };
         }
 
-        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
+        public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
         {
             //var retorno = new List<CotacaoSelecionarVm>();
-            ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
 
-            var retorno = (from pc in _processosDeCotacao.GetQuery()
-                     from fp in pc.FornecedoresParticipantes
-                     from item in fp.Cotacao.Itens
-                     where item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem
-                     select new CotacaoSelecionarVm
-                         {
-                             Fornecedor = fp.Fornecedor.Nome,
-                             IdCotacao = item.Cotacao != null ? item.Cotacao.Id : 0,
-                             QuantidadeAdquirida = item.Cotacao != null ? item.QuantidadeAdquirida : (decimal?) null,
-                             QuantidadeDisponivel = item.Cotacao != null ? item.QuantidadeDisponivel : (decimal?) null,
-                             ValorComImpostos = item.Cotacao != null ? item.ValorComImpostos : (decimal?) null,
-                             Selecionada = item.Cotacao != null && item.Selecionada,
-                             ObservacaoDoFornecedor = item.Cotacao != null ? item.Observacoes : null,
+            var retorno = new List<CotacaoSelecionarVm>();
 
-                         }
-                    ).ToList();
+            var fornecedoresParticipantes = (from pc in _processosDeCotacao.GetQuery()
+                                             from fp in pc.FornecedoresParticipantes
+                                            select fp).ToList();
 
-            //foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
-            //{
-            //    var cotacaoSelecionarVm = new CotacaoSelecionarVm { Fornecedor = fornecedorParticipante.Fornecedor.Nome };
-            //    retorno.Add(cotacaoSelecionarVm);
+            foreach (var fornecedorParticipante in fornecedoresParticipantes)
+            {
+                var cotacaoSelecionarVm = new CotacaoSelecionarVm
+                    {
+                        CodigoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
+                        Fornecedor = fornecedorParticipante.Fornecedor.Nome,
+                        Cnpj = fornecedorParticipante.Fornecedor.Cnpj
+                    };
+                retorno.Add(cotacaoSelecionarVm);
 
-            //    if (fornecedorParticipante.Cotacao == null)
-            //    {
-            //        continue;
-            //    }
+                if (fornecedorParticipante.Cotacao == null)
+                {
+                    continue;
+                }
 
-            //    var cotacao = fornecedorParticipante.Cotacao;
+                var cotacao = fornecedorParticipante.Cotacao;
+                cotacaoSelecionarVm.IdCotacao = cotacao.Id;
 
-            //    cotacaoSelecionarVm.IdCotacao = cotacao.Id;
-            //    cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
-            //    cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
-            //    cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
-            //    cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
-            //    cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacao.Observacoes;
-            //}
+                var cotacaoItem = cotacao.Itens.SingleOrDefault();
+
+                if (cotacaoItem == null)
+                {
+                    continue;
+                }
+
+                cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
+                cotacaoSelecionarVm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
+                cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
+                cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacaoItem.Observacoes;
+            }
 
             return retorno;
         }
@@ -151,6 +155,52 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     QuantidadeDeRegistros = quantidadeDeRegistros,
                     Registros = registros
                 };
+
+            return kendoGridVm;
+        }
+
+        public KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao)
+        {
+            List<FornecedorParticipante> fornecedoresParticipantes = (from p in
+                                                                          _processosDeCotacao.BuscaPorId(idProcessoCotacao).GetQuery()
+                                                                      from fp in p.FornecedoresParticipantes
+                                                                      select fp).ToList();
+
+
+            var registros = new List<ProcessoCotacaoFornecedorVm>();
+
+            foreach (var fornecedorParticipante in fornecedoresParticipantes)
+            {
+                ProcessoCotacaoIteracaoUsuario iteracaoUsuario = _iteracoesUsuario.BuscaPorIdParticipante(fornecedorParticipante.Id);
+                var vm = new ProcessoCotacaoFornecedorVm
+                    {
+                        IdFornecedorParticipante = fornecedorParticipante.Id,
+                        Codigo = fornecedorParticipante.Fornecedor.Codigo,
+                        Nome = fornecedorParticipante.Fornecedor.Nome,
+                        VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
+                    };
+
+                if (fornecedorParticipante.Cotacao != null)
+                {
+                    var cotacaoItem = fornecedorParticipante.Cotacao.Itens.SingleOrDefault();
+                    if (cotacaoItem != null)
+                    {
+                        vm.Selecionado = (cotacaoItem.Selecionada ? "Sim" : "Não");
+                        vm.ValorLiquido = cotacaoItem.ValorLiquido;
+                        vm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                        vm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
+                    }
+
+                }
+
+                registros.Add(vm);
+            }
+
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = registros.Count,
+                Registros = registros.Cast<ListagemVm>().ToList()
+            };
 
             return kendoGridVm;
         }
