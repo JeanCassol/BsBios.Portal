@@ -25,6 +25,7 @@ namespace BsBios.Portal.ViewModel
        
     }
 
+    [KnownType(typeof(ListaProcessoDeCotacaoDeFreteFechamento))]
     [CollectionDataContract]
     public class ListaProcessoDeCotacaoDeFreteFechamento : List<ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm> { }
 

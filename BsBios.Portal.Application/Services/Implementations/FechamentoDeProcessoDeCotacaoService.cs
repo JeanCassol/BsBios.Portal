@@ -12,11 +12,11 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IGeradorDeEmailDeFechamentoDeProcessoDeCotacao _geradorDeEmail;
-        private readonly IComunicacaoSap _comunicacaoSap;
+        private readonly IProcessoDeCotacaoComunicacaoSap _comunicacaoSap;
 
         public FechamentoDeProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,
             IGeradorDeEmailDeFechamentoDeProcessoDeCotacao geradorDeEmail, 
-            IComunicacaoSap comunicacaoSap)
+            IProcessoDeCotacaoComunicacaoSap comunicacaoSap)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;

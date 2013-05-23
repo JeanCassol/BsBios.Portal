@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
@@ -13,7 +14,7 @@ using StructureMap;
 
 namespace BsBios.Portal.Tests.Infra.Services
 {
-    //[TestClass]
+    [TestClass]
     public class ComunicacaoSapTests
     {
         [TestMethod]
@@ -161,8 +162,8 @@ namespace BsBios.Portal.Tests.Infra.Services
             processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "obs");
             processo.SelecionarCotacao(cotacaoFrete.Id,50);
-            var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
-            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(credencialSap);
+            var comunicacaoSap = ObjectFactory.GetInstance<IComunicacaoSap>();
+            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(comunicacaoSap);
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
             Assert.AreEqual("S", mensagem.Retorno.Codigo);
         }

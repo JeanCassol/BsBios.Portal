@@ -1,10 +1,10 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Contracts
 {
     public interface IComunicacaoSap
     {
-        ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo);
+        ApiResponseMessage EnviarMensagem(string endereco, Object mensagem);
     }
 }

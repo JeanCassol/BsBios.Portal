@@ -20,11 +20,11 @@ namespace BsBios.Portal.Application.Services.Implementations
                 .GetInstance<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
 
             var comunicacaoSap =
-                ObjectFactory.GetNamedInstance<IComunicacaoSap>(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
+                ObjectFactory.GetNamedInstance<IProcessoDeCotacaoComunicacaoSap>(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
 
             return ObjectFactory
                 .With(typeof(IGeradorDeEmailDeFechamentoDeProcessoDeCotacao), geradorDeEmail)
-                .With(typeof(IComunicacaoSap), comunicacaoSap)
+                .With(typeof(IProcessoDeCotacaoComunicacaoSap), comunicacaoSap)
                 .GetInstance<IFechamentoDeProcessoDeCotacaoService>();
         }
     }

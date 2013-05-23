@@ -21,7 +21,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly Mock<IGeradorDeEmailDeAberturaDeProcessoDeCotacao> _geradorDeEmailMock;
-        private readonly Mock<IComunicacaoSap> _comunicacaoSapMock;
+        private readonly Mock<IProcessoDeCotacaoComunicacaoSap> _comunicacaoSapMock;
         private readonly Mock<IGerenciadorUsuario> _gerenciadorUsuarioMock;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
         private readonly IAberturaDeProcessoDeCotacaoService _service;
@@ -70,7 +70,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
-            _comunicacaoSapMock = new Mock<IComunicacaoSap>(MockBehavior.Strict);
+            _comunicacaoSapMock = new Mock<IProcessoDeCotacaoComunicacaoSap>(MockBehavior.Strict);
             _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()))
                 .Returns(new ApiResponseMessage
                     {

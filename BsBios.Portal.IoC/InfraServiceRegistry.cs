@@ -63,22 +63,22 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoAberturaProcessoCotacaoFrete>()
                 .Named(Constantes.ComunicacaoAberturaProcessoCotacaoFrete);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoAberturaProcessoCotacaoMaterial>()
                 .Named(Constantes.ComunicacaoAberturaProcessoCotacaoMaterial);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoFechamentoProcessoCotacaoFrete>()
                 .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoFechamentoProcessoCotacaoMaterial>()
                 .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
@@ -91,6 +91,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FileService>();
 
+            For<IComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ComunicacaoSap>();
 
         }
     }

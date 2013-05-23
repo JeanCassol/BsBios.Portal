@@ -85,7 +85,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             //removi IComunicacaoSap dos testes porque estão sendo instanciados manualmente. Se isto mudar tem que remover
             var interfacesDesconsideradas = new List<Type>()
                 {
-                    typeof (IComunicacaoSap),
+                    typeof (IProcessoDeCotacaoComunicacaoSap),
                     typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory)
                 };
             VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts",interfacesDesconsideradas);

@@ -4,7 +4,7 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
-    public class ComunicacaoFechamentoProcessoCotacaoMaterial : IComunicacaoSap
+    public class ComunicacaoFechamentoProcessoCotacaoMaterial : IProcessoDeCotacaoComunicacaoSap
     {
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
