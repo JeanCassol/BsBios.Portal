@@ -14,16 +14,18 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IGerenciadorUsuario _gerenciadorUsuario;
         private readonly IGeradorDeEmailDeAberturaDeProcessoDeCotacao _geradorDeEmailDeProcessoDeAberturaDeCotacao;
         private readonly IComunicacaoSap _comunicacaoSap;
+        private readonly IUsuarios _usuarios;
 
         public AberturaDeProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, 
             IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmailDeProcessoDeAberturaDeCotacao, 
-            IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario)
+            IComunicacaoSap comunicacaoSap, IGerenciadorUsuario gerenciadorUsuario, IUsuarios usuarios)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;
             _geradorDeEmailDeProcessoDeAberturaDeCotacao = geradorDeEmailDeProcessoDeAberturaDeCotacao;
             _comunicacaoSap = comunicacaoSap;
             _gerenciadorUsuario = gerenciadorUsuario;
+            _usuarios = usuarios;
         }
 
         public void Executar(int idProcessoCotacao)
@@ -32,7 +34,8 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-                processoDeCotacao.Abrir();
+                Usuario usuarioComprador = _usuarios.UsuarioConectado();
+                processoDeCotacao.Abrir(usuarioComprador);
                 _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
                 _gerenciadorUsuario.CriarSenhaParaUsuariosSemSenha(processoDeCotacao.FornecedoresParticipantes.Select(x => x.Fornecedor.Codigo).ToArray());
                 _geradorDeEmailDeProcessoDeAberturaDeCotacao.GerarEmail(processoDeCotacao);

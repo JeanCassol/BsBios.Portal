@@ -51,7 +51,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processo.AdicionarFornecedor(fornecedor);
 
-            processo.Abrir();
+            processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             processo.InformarCotacao(fornecedor.Codigo, 120, 100, "obs fornec");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo);

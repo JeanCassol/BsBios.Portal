@@ -13,6 +13,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual ProcessoDeCotacaoItem ProcessoDeCotacaoItem { get; set; }
         public virtual bool Selecionada { get; protected set; }
         public virtual decimal ValorLiquido { get; protected set; }
+        public virtual decimal ValorLiquidoInicial { get; protected set; }
         public virtual decimal ValorComImpostos { get; protected set; }
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
         public virtual decimal QuantidadeDisponivel { get; protected set; }
@@ -33,7 +34,7 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeDisponivel = quantidadeDisponivel;
             Observacoes = observacoes;
             CalculaValorLiquido();
-
+            ValorLiquidoInicial = ValorLiquido;
         }
 
         private decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)

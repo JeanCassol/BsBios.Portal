@@ -108,7 +108,7 @@ namespace BsBios.Portal.Tests.DataProvider
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAtualizado();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
             return processoDeCotacao;
         }
 
@@ -119,7 +119,7 @@ namespace BsBios.Portal.Tests.DataProvider
             var processoDeCotacaoItem = processoDeCotacao.Itens.First();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, null, 100, DateTime.Today.AddMonths(1), "obs");
             processoDeCotacao.SelecionarCotacao(cotacao.Id, processoDeCotacaoItem.Id, 100, ObtemIvaPadrao());
-            processoDeCotacao.Fechar("justificativa");
+            processoDeCotacao.Fechar("texto de cabeçalho", "nota de cabeçalho");
             return processoDeCotacao;
         }
 
@@ -254,7 +254,7 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao  = ObtemProcessoDeCotacaoDeFrete();
             processoDeCotacao.AdicionarFornecedor(ObtemFornecedorPadrao());
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
             return processoDeCotacao;
         }
 
@@ -263,7 +263,7 @@ namespace BsBios.Portal.Tests.DataProvider
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
             processoDeCotacao.InformarCotacao(fornecedor.Codigo, 100, 10, "teste");
             return processoDeCotacao;
         }
@@ -280,7 +280,7 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            processoDeCotacao.Fechar("justificativa");
+            processoDeCotacao.Fechar("texto de cabeçalho", "nota de cabeçalho");
             return processoDeCotacao;
         }
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)

@@ -69,7 +69,7 @@
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoAtualizacaoCotacaoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException.cs" />
     <Compile Include="Exceptions\ExceptionUtil.cs" />
-    <Compile Include="Exceptions\ProcessoDeCotacaoAbertoAtualizacaoDadosException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoAtualizacaoDadosException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFecharSemCotacaoSelecionadaException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemDataLimiteRetornoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemFornecedoresException.cs" />

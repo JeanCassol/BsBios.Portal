@@ -27,7 +27,8 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly ProcessoDeCotacaoFechamentoVm _processoDeCotacaoFechamentoVm = new ProcessoDeCotacaoFechamentoVm
         {
             IdProcessoCotacao = 20,
-            Justificativa = "justificativa"
+            TextoDeCabecalho = "texto de cabeçalho",
+            NotaDeCabecalho = "nota de cabeçalho"
         };
 
 
@@ -127,7 +128,8 @@ namespace BsBios.Portal.Tests.Application.Services
                                        Assert.IsNotNull(processoDeCotacao);
                                        Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado,
                                                        processoDeCotacao.Status);
-                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.Justificativa, processoDeCotacao.Justificativa);
+                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.TextoDeCabecalho, processoDeCotacao.TextoDeCabecalho);
+                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.NotaDeCabecalho, processoDeCotacao.NotaDeCabecalho);
                                    });
 
 
@@ -149,7 +151,7 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             try
             {
-                _fechamentoDeProcessoDeCotacaoService.Executar(new ProcessoDeCotacaoFechamentoVm{IdProcessoCotacao = 30, Justificativa = "nenhuma"});
+                _fechamentoDeProcessoDeCotacaoService.Executar(new ProcessoDeCotacaoFechamentoVm{IdProcessoCotacao = 30, TextoDeCabecalho = "nenhuma"});
                 Assert.Fail("Deveria ter gerado excessão");
             }
             catch (FecharProcessoDeCotacaoFechadoException)

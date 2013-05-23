@@ -39,6 +39,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.IsNull(cotacaoItem.Iva);
             Assert.IsNull(cotacaoItem.QuantidadeAdquirida);
             Assert.AreEqual(110, cotacaoItem.ValorLiquido);
+            Assert.AreEqual(110, cotacaoItem.ValorLiquidoInicial);
             Assert.AreEqual(110, cotacaoItem.ValorComImpostos);
             Assert.AreEqual(5, cotacaoItem.Mva);
             Assert.AreEqual(80, cotacaoItem.QuantidadeDisponivel);
@@ -69,10 +70,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var cotacao = processoDeCotacao.InformarCotacao(fornecedor, condicaoDePagamento, incoterm, "Descrição do Incoterm");
             var itemDoProcesso = processoDeCotacao.Itens.First();
             var cotacaoItem = (CotacaoMaterialItem)cotacao.InformarCotacaoDeItem(itemDoProcesso, 110, 0, 80, DateTime.Today.AddMonths(1), "observacoes");
+
+            decimal valorLiquidoInicial = cotacaoItem.ValorLiquido;
             cotacaoItem.Atualizar(220, 10,90, DateTime.Today.AddMonths(2), "observacoes alteradas");
 
-
             Assert.AreEqual(220, cotacaoItem.ValorLiquido);
+            Assert.AreEqual(valorLiquidoInicial, cotacaoItem.ValorLiquidoInicial);
             Assert.AreEqual(220, cotacaoItem.ValorComImpostos);
             Assert.AreEqual(10, cotacaoItem.Mva);
             Assert.AreEqual(DateTime.Today.AddMonths(2), cotacaoItem.PrazoDeEntrega);

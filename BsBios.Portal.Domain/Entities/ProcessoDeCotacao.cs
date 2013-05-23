@@ -17,7 +17,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Requisitos { get; protected set; }
         public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
-        public virtual string Justificativa { get; protected set; }
+        public virtual string TextoDeCabecalho { get; protected set; }
+        public virtual string NotaDeCabecalho { get; protected set; }
+        public virtual Usuario Comprador { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
@@ -88,7 +90,7 @@ namespace BsBios.Portal.Domain.Entities
             FornecedoresParticipantes.Remove(fornecedorParticipante);
         }
 
-        public virtual void Abrir()
+        public virtual void Abrir(Usuario comprador)
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Aberto)
             {
@@ -108,6 +110,8 @@ namespace BsBios.Portal.Domain.Entities
             }
 
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
+            Comprador = comprador;
+
         }
 
         protected virtual void InformarCotacao()
@@ -127,7 +131,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public virtual void Fechar(string justificativa)
+        public virtual void Fechar(string textoDeCabecalho, string notaDeCabecalho)
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
@@ -138,7 +142,8 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
-            Justificativa = justificativa;
+            TextoDeCabecalho = textoDeCabecalho;
+            NotaDeCabecalho = notaDeCabecalho;
         }
 
         protected void SelecionarCotacao()
@@ -157,25 +162,11 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
         }
-
-        //public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
-        //{
-        //    return quantidadeTotalAdquirida > Quantidade;
-        //}
     }
 
     public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao
     {
-        //public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
-
-        //protected ProcessoDeCotacaoDeMaterial()
-        //{}
-        //public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
-        //    :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
-        //{
-        //    RequisicaoDeCompra = requisicaoDeCompra;
-        //}
-        
+       
         public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
         {
             AdicionarItem();
@@ -197,9 +188,9 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
         {
-            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
-                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
             }
             DataLimiteDeRetorno = dataLimiteDeRetorno;
             Requisitos = requisitos;
@@ -293,7 +284,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
-                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
             }
 
             //Produto = produto;

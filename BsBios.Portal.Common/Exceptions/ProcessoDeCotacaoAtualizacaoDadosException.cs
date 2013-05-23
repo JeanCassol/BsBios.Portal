@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BsBios.Portal.Common.Exceptions
 {
-    public class ProcessoDeCotacaoAbertoAtualizacaoDadosException: Exception
+    public class ProcessoDeCotacaoAtualizacaoDadosException: Exception
     {
         private readonly string _statusAtual;
 
-        public ProcessoDeCotacaoAbertoAtualizacaoDadosException(string statusAtual)
+        public ProcessoDeCotacaoAtualizacaoDadosException(string statusAtual)
         {
             _statusAtual = statusAtual;
         }

@@ -11,7 +11,8 @@
     }
 </style>
 <form id="formFecharProcesso">
-    @Html.LinhaComUmaColuna(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.Justificativa))
+    @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.TextoDeCabecalho),
+    new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.NotaDeCabecalho))
     <fieldset>
         <legend>Gerar no SAP</legend>
         @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)

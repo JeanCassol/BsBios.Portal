@@ -30,7 +30,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(processoDeCotacaoFechamentoVm.IdProcessoCotacao).Single();
-                processoDeCotacao.Fechar(processoDeCotacaoFechamentoVm.Justificativa);
+                processoDeCotacao.Fechar(processoDeCotacaoFechamentoVm.TextoDeCabecalho, processoDeCotacaoFechamentoVm.NotaDeCabecalho);
                 _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
                 _geradorDeEmail.GerarEmail(processoDeCotacao);
                 _processosDeCotacao.Save(processoDeCotacao);

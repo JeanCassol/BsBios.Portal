@@ -41,7 +41,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id ,processoConsultado.Id);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno, processoConsultado.DataLimiteDeRetorno);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Requisitos, processoConsultado.Requisitos);
-            Assert.IsNull(processoConsultado.Justificativa);
+            Assert.IsNull(processoConsultado.TextoDeCabecalho);
 
             var item = (ProcessoDeCotacaoDeMaterialItem)processoDeCotacaoDeMaterial.Itens.First();
             var itemConsultado = (ProcessoDeCotacaoDeMaterialItem) processoConsultado.Itens.First();
@@ -84,12 +84,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
-
-            processoDeCotacaoDeMaterial.Abrir();
+            var usuarioComprador = DefaultObjects.ObtemUsuarioPadrao();
+            processoDeCotacaoDeMaterial.Abrir(usuarioComprador);
             var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                                         DefaultObjects.ObtemIncotermPadrao(), "inc");
             var processoDeCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
-            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
+            var cotacaoItem = cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -102,11 +102,23 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(cotacao.Incoterm, cotacaoConsultada.Incoterm.CastEntity());
             Assert.AreEqual(cotacao.DescricaoIncoterm, cotacaoConsultada.DescricaoIncoterm);
             Assert.AreEqual(cotacao.CondicaoDePagamento, cotacaoConsultada.CondicaoDePagamento.CastEntity());
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Comprador.Login, processoConsultado.Comprador.Login);
+
+            var cotacaoItemConsultada = (CotacaoMaterialItem) cotacaoConsultada.Itens.First().CastEntity();
+
+            Assert.AreEqual(cotacaoItem.ValorComImpostos, cotacaoItemConsultada.ValorComImpostos);
+            Assert.AreEqual(cotacaoItem.ValorLiquido, cotacaoItemConsultada.ValorLiquido);
+            Assert.AreEqual(cotacaoItem.ValorLiquidoInicial, cotacaoItemConsultada.ValorLiquidoInicial);
+            Assert.AreEqual(cotacaoItem.Selecionada, cotacaoItemConsultada.Selecionada);
+            Assert.AreEqual(cotacaoItem.QuantidadeDisponivel, cotacaoItemConsultada.QuantidadeDisponivel);
+            Assert.AreEqual(cotacaoItem.QuantidadeAdquirida, cotacaoItemConsultada.QuantidadeAdquirida);
+            Assert.AreEqual(cotacaoItem.Observacoes, cotacaoItemConsultada.Observacoes);
+
             Console.WriteLine("Consultando Cotacao - FIM");
         }
 
         [TestMethod]
-        public void ConsigoPersistirEConsultarUmProcessoComJustificativas()
+        public void ConsigoPersistirEConsultarUmProcessoComNotaETextoDeCabecalho()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
@@ -114,7 +126,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
 
             var processoDeCotacaoConsultado = (ProcessoDeCotacaoDeMaterial) processosDeCotacao.BuscaPorId(processoDeCotacao.Id).Single();
-            Assert.AreEqual("justificativa", processoDeCotacaoConsultado.Justificativa);
+            Assert.AreEqual("texto de cabeçalho", processoDeCotacaoConsultado.TextoDeCabecalho);
+            Assert.AreEqual("nota de cabeçalho", processoDeCotacaoConsultado.NotaDeCabecalho);
 
         }
 
@@ -127,7 +140,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
 
-            processoDeCotacaoDeMaterial.Abrir();
+            processoDeCotacaoDeMaterial.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc");
             var processoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
             var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");

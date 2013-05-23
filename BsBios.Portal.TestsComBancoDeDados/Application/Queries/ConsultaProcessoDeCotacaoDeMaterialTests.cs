@@ -77,16 +77,16 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             ProcessoDeCotacaoDeMaterial processoDeCotacao4 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
             processoDeCotacao1.AdicionarFornecedor(fornecedor1);
-            processoDeCotacao1.Abrir();
+            processoDeCotacao1.Abrir(DefaultObjects.ObtemUsuarioPadrao());
 
             processoDeCotacao2.AdicionarFornecedor(fornecedor1);
-            processoDeCotacao2.Abrir();
+            processoDeCotacao2.Abrir(DefaultObjects.ObtemUsuarioPadrao());
 
             processoDeCotacao3.AdicionarFornecedor(fornecedor2);
-            processoDeCotacao3.Abrir();
+            processoDeCotacao3.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             
             processoDeCotacao4.AdicionarFornecedor(fornecedor2);
-            processoDeCotacao4.Abrir();
+            processoDeCotacao4.Abrir(DefaultObjects.ObtemUsuarioPadrao());
 
             DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>()
                 {processoDeCotacao1, processoDeCotacao2, processoDeCotacao3, processoDeCotacao4});
@@ -115,7 +115,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
 
             processoDeCotacao1.AdicionarFornecedor(fornecedor1);
-            processoDeCotacao1.Abrir();
+            processoDeCotacao1.Abrir(DefaultObjects.ObtemUsuarioPadrao());
 
             processoDeCotacao2.AdicionarFornecedor(fornecedor1);
 
@@ -197,9 +197,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor.Codigo, processoCotacaoFornecedorVm.Codigo);
             Assert.AreEqual(fornecedor.Nome, processoCotacaoFornecedorVm.Nome);
             Assert.AreEqual("Sim", processoCotacaoFornecedorVm.Selecionado);
-            //Assert.AreEqual(100,processoCotacaoFornecedorVm.ValorLiquido);
-            //Assert.AreEqual(100,processoCotacaoFornecedorVm.ValorComImpostos);
-            //Assert.AreEqual(10,processoCotacaoFornecedorVm.QuantidadeDisponivel);
             Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
 

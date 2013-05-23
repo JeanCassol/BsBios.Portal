@@ -158,7 +158,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes();
             var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true);
             processo.AdicionarFornecedor(fornecedor);
-            processo.Abrir();
+            processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "obs");
             processo.SelecionarCotacao(cotacaoFrete.Id,50);
             var credencialSap = ObjectFactory.GetInstance<CredencialSap>();

@@ -136,6 +136,11 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 {
                     PersistirRequisicaoDeCompra(processoDeCotacaoItem.RequisicaoDeCompra);
                 }
+
+                if (processoDeCotacaoDeMaterial.Comprador != null)
+                {
+                    PersistirUsuario(processoDeCotacaoDeMaterial.Comprador);    
+                }
                 
 
                 foreach (var fornecedorParticipante in processoDeCotacaoDeMaterial.FornecedoresParticipantes)
@@ -204,6 +209,12 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 {
                     Session.BeginTransaction();
                 }
+
+                if (processo.Comprador != null)
+                {
+                    PersistirUsuario(processo.Comprador);
+                }
+
 
                 foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
                 {

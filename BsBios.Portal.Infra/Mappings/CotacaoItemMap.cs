@@ -21,6 +21,7 @@ namespace BsBios.Portal.Infra.Mappings
 
             Map(x => x.QuantidadeAdquirida);
             Map(x => x.ValorLiquido);
+            Map(x => x.ValorLiquidoInicial);
             Map(x => x.ValorComImpostos);
             Map(x => x.Selecionada);
             Map(x => x.QuantidadeDisponivel);

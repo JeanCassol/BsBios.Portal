@@ -129,7 +129,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor2= DefaultObjects.ObtemFornecedorPadrao();
             processo.AdicionarFornecedor(fornecedor1);
             processo.AdicionarFornecedor(fornecedor2);
-            processo.Abrir();
+            processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
 
             var processoDeCotacaoItem = processo.Itens.First();
             var cotacao1 = processo.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),

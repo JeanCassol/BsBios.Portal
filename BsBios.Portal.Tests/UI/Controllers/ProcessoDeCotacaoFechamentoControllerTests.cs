@@ -15,7 +15,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         private readonly ProcessoDeCotacaoFechamentoVm _processoDeCotacaoFechamentoVm = new ProcessoDeCotacaoFechamentoVm
             {
                 IdProcessoCotacao = 10,
-                Justificativa = "justificativa"
+                TextoDeCabecalho = "justificativa"
             };
         #region testes do fechamento do processo de cotação de frete
         [TestMethod]
