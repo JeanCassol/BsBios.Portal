@@ -25,14 +25,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
             var clientHandler = new HttpClientHandler { Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha) };
 
             var httpClient = new HttpClient(clientHandler);
-
             var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + endereco, mensagem);
 
             if (!response.Result.IsSuccessStatusCode)
             {
                 string erro = response.Result.Content.ReadAsStringAsync().Result;
-                throw new ComunicacaoSapException(erro);
+                throw new ComunicacaoSapException(response.Result.Content.Headers.ContentType.MediaType, erro);
             }
+            
 
             Stream content = response.Result.Content.ReadAsStreamAsync().Result;
             var serializer = new XmlSerializer(typeof(ApiResponseMessage));
