@@ -323,10 +323,32 @@ $(document).ajaxComplete(function (event, request, ajaxOptions) {
     if (ajaxOptions.dataType != "json") {
         return;
     }
-    var resposta = JSON.parse(request.responseText);
+    verificaSessaoExpirada(request.responseText);
+});
+
+function verificaSessaoExpirada(responseText) {
+    var resposta = JSON.parse(responseText);
     if (resposta.SessaoExpirada) {
         Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
         location.href = resposta.ReturnUrl;
+        return true;
     }
-});
+    return false;
+}
+
+$.fn.customLoad = function (configuracao) {
+    $(this).load(configuracao.url,
+    function (response, status, xhr) {
+        if (xhr.getResponseHeader('Content-Type').indexOf('json') > -1) {
+            if (verificaSessaoExpirada(response)) {
+                return;
+            }
+        }
+        if (configuracao.validar) {
+            jQuery.validator.unobtrusive.parse(this);
+        }
+        $(this).dialog('open');
+    });
+};
+
 

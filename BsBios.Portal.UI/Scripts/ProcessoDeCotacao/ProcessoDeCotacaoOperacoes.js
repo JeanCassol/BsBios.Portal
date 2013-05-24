@@ -246,11 +246,7 @@
 
         $('#btnFecharProcesso').click(function () {
             if (tipoDeCotacao == TipoDeCotacao.Material) {
-                $('#divFecharProcessoDeCotacaoDeMaterial').load(UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial,
-                    function (response, status, xhr) {
-                        jQuery.validator.unobtrusive.parse('#divFecharProcessoDeCotacaoDeMaterial');
-                        $('#divFecharProcessoDeCotacaoDeMaterial').dialog("open");
-                    });
+                $('#divFecharProcessoDeCotacaoDeMaterial').customLoad({url:UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial, validar:true});
             }
             if (tipoDeCotacao == TipoDeCotacao.Frete) {
                 fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);

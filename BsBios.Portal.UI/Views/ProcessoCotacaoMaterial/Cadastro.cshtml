@@ -112,16 +112,12 @@
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 
-            $('#divGridItens').find('.button_select').die("click");
-            $('#divGridItens').find('.button_select').live("click", function() {
+            $('#divGridItens').off('click', '.button_select', false);
+            $('#divGridItens').on('click','.button_select', function () {
                 var grid = $('#divGridItens').data("kendoGrid");
                 var dataItem = grid.dataItem(grid.select());
-                $('#divSelecionarCotacoes').load((UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial)
-                    + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem,
-                    function (response, status, xhr) {
-                        $('#divSelecionarCotacoes').dialog('open');
-                    });
-
+                $('#divSelecionarCotacoes').customLoad({url:UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial
+                    + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem});
             });
             
             $('#divVisualizarCotacaoDoFornecedor').customDialog({
@@ -133,11 +129,9 @@
             $("#gridCotacaoFornecedor").find('.button_visualize').live("click", function() {
                 var grid = $("#gridCotacaoFornecedor").data("kendoGrid");
                 var dataItem = grid.dataItem($(this).parents('tr:first'));
-                $('#divVisualizarCotacaoDoFornecedor').load('@Url.Action("ConsultarCadastro","CotacaoMaterial")'
+                $('#divVisualizarCotacaoDoFornecedor').customLoad({url:'@Url.Action("ConsultarCadastro","CotacaoMaterial")'
                 + '?idProcessoCotacao=' + $('#Id').val()
-                + '&codigoFornecedor=' + dataItem.Codigo, function () {
-                    $('#divVisualizarCotacaoDoFornecedor').dialog('open');
-                });
+                + '&codigoFornecedor=' + dataItem.Codigo});
 
             });
 
