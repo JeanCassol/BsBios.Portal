@@ -23,7 +23,12 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _service.Executar(processoDeCotacaoFechamentoVm);
-                return Json(new { Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso." });
+                return Json(new {Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso."});
+            }
+            catch (ComunicacaoSapException ex)
+            {
+                return Json(new { Sucesso = false, ex.MediaType, Mensagem = ex.Message });
+                
             }
             catch (Exception ex)
             {

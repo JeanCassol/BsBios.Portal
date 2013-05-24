@@ -10,7 +10,19 @@ Mensagem = {
     },
     Confirmacao: function(mensagem) {
         return confirm(mensagem);
-    }
+    },
+    ExibirJanelaComHtml: function (html) {
+        var janela = $('#divJanelaComHtml');
+        if (janela.length == 0) {
+            $('body').append('<div id="divJanelaComHtml"></div>');
+
+            $('#divJanelaComHtml').customDialog({
+                title: 'Mensagem'
+            });
+        }
+        $('#divJanelaComHtml').html(html);
+        $('#divJanelaComHtml').dialog('open');
+    }    
 };
 
 String.prototype.boolean = function () {
@@ -317,3 +329,4 @@ $(document).ajaxComplete(function (event, request, ajaxOptions) {
         location.href = resposta.ReturnUrl;
     }
 });
+
