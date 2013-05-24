@@ -1,10 +1,9 @@
-﻿using System;
-using BsBios.Portal.ViewModel;
+﻿using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Contracts
 {
-    public interface IComunicacaoSap
+    public interface IComunicacaoSap<in T>
     {
-        ApiResponseMessage EnviarMensagem(string endereco, Object mensagem);
+        ApiResponseMessage EnviarMensagem(string endereco, T mensagem);
     }
 }

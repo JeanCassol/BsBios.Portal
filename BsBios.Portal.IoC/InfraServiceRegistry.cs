@@ -91,9 +91,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FileService>();
 
-            For<IComunicacaoSap>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ComunicacaoSap>();
+            //For<IComunicacaoSap>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<ComunicacaoSap>();
 
         }
     }

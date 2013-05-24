@@ -11,7 +11,7 @@ using BsBios.Portal.ViewModel;
 namespace BsBios.Portal.Infra.Services.Implementations
 {
 
-    public class ComunicacaoSap : IComunicacaoSap
+    public class ComunicacaoSap<T> : IComunicacaoSap<T>
     {
         private readonly CredencialSap _credencialSap;
 
@@ -20,10 +20,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
             _credencialSap = credencialSap;
         }
 
-        public ApiResponseMessage EnviarMensagem(string endereco, Object mensagem)
+        public ApiResponseMessage EnviarMensagem(string endereco, T mensagem)
         {
+            
             var clientHandler = new HttpClientHandler { Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha) };
-
             var httpClient = new HttpClient(clientHandler);
             var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + endereco, mensagem);
 
@@ -32,7 +32,6 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 string erro = response.Result.Content.ReadAsStringAsync().Result;
                 throw new ComunicacaoSapException(response.Result.Content.Headers.ContentType.MediaType, erro);
             }
-            
 
             Stream content = response.Result.Content.ReadAsStreamAsync().Result;
             var serializer = new XmlSerializer(typeof(ApiResponseMessage));

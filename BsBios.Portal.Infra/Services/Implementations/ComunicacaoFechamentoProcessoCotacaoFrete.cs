@@ -2,6 +2,7 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -9,11 +10,16 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class ComunicacaoFechamentoProcessoCotacaoFrete : IProcessoDeCotacaoComunicacaoSap
     {
-        private readonly IComunicacaoSap _comunicacaoSap;
+        private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
 
-        public ComunicacaoFechamentoProcessoCotacaoFrete(IComunicacaoSap comunicacaoSap)
+        //public ComunicacaoFechamentoProcessoCotacaoFrete(IComunicacaoSap comunicacaoSap)
+        //{
+        //    _comunicacaoSap = comunicacaoSap;
+        //}
+
+        public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
         {
-            _comunicacaoSap = comunicacaoSap;
+            _comunicacaoSap = new ComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento>(credencialSap);
         }
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
@@ -64,7 +70,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                     , mensagemParaEnviar);
             if (apiResponseMessage.Retorno.Codigo == "E")
             {
-                throw new ComunicacaoSapException("Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
+                throw new ComunicacaoSapException("json","Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
             }
             return apiResponseMessage;
 
