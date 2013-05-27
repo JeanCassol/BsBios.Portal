@@ -135,7 +135,6 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.CondicaoPagamento = ValorNaoInformado;
                 vm.Incoterm = ValorNaoInformado;
                 vm.DescricaoIncoterm = ValorNaoInformado;
-                vm.TipoDeFrete = ValorNaoInformado;
             }
             return vm;
         }

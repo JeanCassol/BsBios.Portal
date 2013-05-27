@@ -3,7 +3,6 @@
 @model CotacaoMaterialConsultarCadastroVm
 
 @{
-    ViewBag.TituloDaPagina = "Cotação de Material";
     Layout = null;
 }
 <div class="paginaCadastro">
@@ -17,8 +16,7 @@
         @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.Incoterm)
                                   , new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.DescricaoIncoterm))
             
-        @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.CondicaoPagamento)
-                                  , new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.TipoDeFrete))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.CondicaoPagamento))
             
     </fieldset>
 
