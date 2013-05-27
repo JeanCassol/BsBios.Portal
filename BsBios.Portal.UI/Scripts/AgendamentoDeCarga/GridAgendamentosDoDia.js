@@ -75,7 +75,7 @@ GridAgendamentosDeCarga = {
         $("#gridAgendamentosDeCarga").find('.button_edit,.button_visualize').die("click");
         $("#gridAgendamentosDeCarga").find('.button_edit,.button_visualize').live("click", function (e) {
             e.preventDefault();
-            $('#divCadastroAgendamento').customload({url: configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento'), validar:true });
+            $('#divCadastroAgendamento').customLoad({url: configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + $(this).attr('data-idagendamento'), validar:true });
         });
         
         $("#gridAgendamentosDeCarga").find('.button_remove').die("click");

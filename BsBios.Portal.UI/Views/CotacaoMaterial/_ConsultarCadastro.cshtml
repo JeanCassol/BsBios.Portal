@@ -29,6 +29,12 @@
     <div id="divCotacaoItem" class="janelaModal"></div>
 </div>
 <script type="text/javascript">
+    function DesabilitaEdicaoDosCamposDoItem() {
+        var inputs = $('#formCotacaoItem').find('input,textarea');
+        $(inputs).addClass('campoDesabilitado');
+        $(inputs).attr('readonly', true);
+    };
+
     $(function () {
         var idCotacao = $('#IdCotacao').val();
         ProcessoDeCotacaoItensGrid.configurar({
@@ -45,14 +51,15 @@
             var grid = $('#divGridItensVisualizar').data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
             $('#divCotacaoItem').customLoad({url:'@Url.Action("EditarCadastro", "CotacaoMaterialItem")' 
-                + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
-                + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
-                + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
-                + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem},
+                    + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
+                    + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
+                    + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
+                    + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem},
                 function () {
                     aplicaMascaraMoeda('#divCotacaoItem');
                     aplicaMascaraQuantidade('#divCotacaoItem');
                     aplicaMascaraData('#divCotacaoItem');
+                    DesabilitaEdicaoDosCamposDoItem();
                 }
             );
         });

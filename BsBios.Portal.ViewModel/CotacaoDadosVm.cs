@@ -18,5 +18,7 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Quantidade Disponível")]
         public decimal? QuantidadeDisponivel { get; set; }
 
+        public bool PermiteEditar { get; set; }
+
     }
 }
