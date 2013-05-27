@@ -44,16 +44,15 @@
                 
             var grid = $('#divGridItensVisualizar').data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
-            $('#divCotacaoItem').load('@Url.Action("EditarCadastro", "CotacaoMaterialItem")' 
+            $('#divCotacaoItem').customLoad({url:'@Url.Action("EditarCadastro", "CotacaoMaterialItem")' 
                 + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
                 + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
                 + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
-                + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
+                + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem},
                 function () {
                     aplicaMascaraMoeda('#divCotacaoItem');
                     aplicaMascaraQuantidade('#divCotacaoItem');
                     aplicaMascaraData('#divCotacaoItem');
-                    $('#divCotacaoItem').dialog('open');
                 }
             );
         });

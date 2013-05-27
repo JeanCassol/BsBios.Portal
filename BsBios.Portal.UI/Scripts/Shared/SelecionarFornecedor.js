@@ -20,12 +20,8 @@
             }
         });
         $('#btnSelecionarFornecedor').click(function() {
-
-            $('#divSelecionarFornecedor').load(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val()),
-                function(response, status, xhr) {
-                    $('#divSelecionarFornecedor').dialog('open');
-                });
+            $('#divSelecionarFornecedor').customLoad({url:UrlPadrao.SelecionarFornecedor
+                + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val())});
         });
 
     }

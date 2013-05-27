@@ -85,7 +85,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
             GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeFreteResumida, IdProcessoCotacao: idProcessoCotacao, ExibirDadosDeItens: true });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
@@ -136,19 +136,15 @@
             });
 
             $('#btnSelecionarProduto').click(function() {
-                $('#divSelecionarProduto').load('@Url.Action("SelecionarProduto")'
-                    + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val()),
-                    function(response, status, xhr) {
-                        $('#divSelecionarProduto').dialog('open');
+                $('#divSelecionarProduto').customLoad({
+                        url: '@Url.Action("SelecionarProduto")'
+                            + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val())
                     });
             });
 
             $('#btnSelecionarItinerario').click(function() {
-                $('#divSelecionarItinerario').load('@Url.Action("SelecionarItinerario")'
-                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val()),
-                    function(response, status, xhr) {
-                        $('#divSelecionarItinerario').dialog('open');
-                    });
+                $('#divSelecionarItinerario').customLoad({url: '@Url.Action("SelecionarItinerario")'
+                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val())});
             });
 
             $('#btnSalvar').click(function() {
@@ -159,10 +155,10 @@
                 }
 
                 var formData = $(form).serialize();
-                $.post('@Url.Action("Salvar","ProcessoDeCotacaoDeFreteService" )', formData,
+                $.post('@Url.Action("Salvar", "ProcessoDeCotacaoDeFreteService")', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoFrete")';
+                            location.href = '@Url.Action("Index", "ProcessoCotacaoFrete")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

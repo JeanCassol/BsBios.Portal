@@ -336,7 +336,7 @@ function verificaSessaoExpirada(responseText) {
     return false;
 }
 
-$.fn.customLoad = function (configuracao) {
+$.fn.customLoad = function (configuracao, functionBeforeOpen) {
     $(this).load(configuracao.url,
     function (response, status, xhr) {
         if (xhr.getResponseHeader('Content-Type').indexOf('json') > -1) {
@@ -346,6 +346,9 @@ $.fn.customLoad = function (configuracao) {
         }
         if (configuracao.validar) {
             jQuery.validator.unobtrusive.parse(this);
+        }
+        if (functionBeforeOpen) {
+            functionBeforeOpen();
         }
         $(this).dialog('open');
     });

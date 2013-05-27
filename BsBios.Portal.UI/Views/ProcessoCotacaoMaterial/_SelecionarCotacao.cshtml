@@ -153,10 +153,9 @@
         $("#gridCotacoes").find('.button_visualize').live("click", function () {
             var grid = $("#gridCotacoes").data("kendoGrid");
             var dataItem = grid.dataItem($(this).parents('tr:first'));
-            $('#divVisualizarCotacaoDoFornecedor').load('@Url.Action("ConsultarCadastro","CotacaoMaterial")'
+            $('#divVisualizarCotacaoDoFornecedor').customLoad({url:'@Url.Action("ConsultarCadastro","CotacaoMaterial")'
                 + '?idProcessoCotacao=' + $('#Id').val()
-                + '&codigoFornecedor=' + dataItem.CodigoFornecedor, function () {
-                $('#divVisualizarCotacaoDoFornecedor').dialog('open');
+                + '&codigoFornecedor=' + dataItem.CodigoFornecedor
             });
         });
 

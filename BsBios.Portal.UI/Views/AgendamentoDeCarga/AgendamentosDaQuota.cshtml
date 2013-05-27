@@ -54,7 +54,7 @@
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/Cadastro.js")"></script>
     <script src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridAgendamentosDoDia.js")"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             GridAgendamentosDeCarga.ConfigurarGrid(
                 {
                     UrlDeLeitura: '@Url.Action("ListarPorQuota", "AgendamentoDeCarga")',
@@ -62,7 +62,7 @@
                     UrlDeExclusao: '@Url.Action("Excluir", "AgendamentoDeCargaService")',
                     IdQuota: '@Model.IdQuota'
                 });
-            
+
             @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
             {
                 @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento('@Url.Action("SalvarAgendamentoDeCarregamento", "AgendamentoDeCargaService")');    
@@ -72,16 +72,10 @@
                 @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento", "AgendamentoDeCargaService")');
             }
 
-            $('#btnAdicionarAgendamento').click(function () {
-                $('#divCadastroAgendamento').load('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
-                    function (response, status, xhr) {
-                        jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
-                        $('#divCadastroAgendamento').dialog('open');
-                    });
+            $('#btnAdicionarAgendamento').click(function() {
+                $('#divCadastroAgendamento').customLoad({ url: '@Html.Raw(Url.Action("NovoCadastro", "AgendamentoDeCarga", new {Model.IdQuota, Model.CodigoFluxoDeCarga}))', validar: true });
             });
         });
     </script>
-
-     
 }
 

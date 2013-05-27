@@ -91,11 +91,11 @@
 
             var valorLiquido = valorComImpostos - valorIcms - valorIcmsSt - valorIpi;
 
-            $('#ValorLiquido').val(Globalize.format(valorLiquido,"n2"));
+            $('#ValorLiquido').val(Globalize.format(valorLiquido, "n2"));
 
         }
 
-        $(function () {
+        $(function() {
 
             GridAnexo.Configurar($('#IdProcessoCotacao').val(), "#divAnexos", false);
 
@@ -107,12 +107,12 @@
                 exibirBotaoAdicionar: false,
                 exibirBotaoRemover: false,
                 exibirBotaoEditar: true,
-                exibirBotaoSelecionarCotacao:false,
+                exibirBotaoSelecionarCotacao: false,
                 pageable: false
             });
 
             $('#divGridItens').find('.button_edit').die("click");
-            $('#divGridItens').find('.button_edit').live("click", function () {
+            $('#divGridItens').find('.button_edit').live("click", function() {
                 var idCotacao = $('#IdCotacao').val();
                 if (idCotacao == 0) {
                     Mensagem.ExibirMensagemDeErro('Não é possível informar a cotação de um item antes de salvar as Informações Gerais.');
@@ -120,23 +120,24 @@
                 }
                 var grid = $('#divGridItens').data("kendoGrid");
                 var dataItem = grid.dataItem(grid.select());
-                $('#divCotacaoItem').load('@Url.Action("EditarCadastro", "CotacaoMaterialItem")' 
-                    + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
-                    + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
-                    + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
-                    + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
-                    function () {
-                        jQuery.validator.unobtrusive.parse('#divCotacaoItem');
+                $('#divCotacaoItem').customLoad({
+                        url: '@Url.Action("EditarCadastro", "CotacaoMaterialItem")'
+                            + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
+                            + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
+                            + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
+                            + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
+                        validar: true
+                    },
+                    function() {
                         aplicaMascaraMoeda('#divCotacaoItem');
                         aplicaMascaraQuantidade('#divCotacaoItem');
                         aplicaMascaraData('#divCotacaoItem');
                         inicializaCamposDatePicker('#divCotacaoItem');
-                        $('#divCotacaoItem').dialog('open');
                     }
                 );
-                
+
             });
-            
+
             aplicaMascaraData();
             aplicaMascaraMoeda();
             aplicaMascaraQuantidade();
@@ -151,17 +152,17 @@
             });
 
             $('#IcmsValor').die("change");
-            $('#IcmsValor').live("change", function () {
+            $('#IcmsValor').live("change", function() {
                 calculaValorLiquido();
             });
-            
+
             $('#IcmsStValor').die("change");
-            $('#IcmsStValor').live("change",function () {
+            $('#IcmsStValor').live("change", function() {
                 calculaValorLiquido();
             });
-            
+
             $('#IpiValor').die("change");
-            $('#IpiValor').live("change", function () {
+            $('#IpiValor').live("change", function() {
                 calculaValorLiquido();
             });
 
@@ -184,11 +185,11 @@
                     });
 
             });
-            
+
             $('#divCotacaoItem').customDialog({
                 title: 'Cotação do Item',
                 buttons: {
-                    "Confirmar": function () {
+                    "Confirmar": function() {
                         var form = $('#formCotacaoItem');
                         if (!$(form).validate().form()) {
                             return;
@@ -196,16 +197,16 @@
 
                         var formData = $(form).serialize();
                         $.post('@Url.Action("SalvarItem", "CotacaoDeMaterialAtualizar")', formData,
-                        function (data) {
-                            if (data.Sucesso) {
-                                $('#divCotacaoItem').dialog("close");
-                            } else {
-                                Mensagem.ExibirMensagemDeErro(data.Mensagem);
-                            }
-                        });
+                            function(data) {
+                                if (data.Sucesso) {
+                                    $('#divCotacaoItem').dialog("close");
+                                } else {
+                                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                }
+                            });
 
                     },
-                    "Cancelar": function () {
+                    "Cancelar": function() {
                         $(this).dialog("close");
                     }
                 }

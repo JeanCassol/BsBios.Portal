@@ -145,10 +145,9 @@
             $('#gridAgendamentos').find('.button_visualize').die('click');
             $('#gridAgendamentos').find('.button_visualize').live('click', function(e) {
                 e.preventDefault();
-                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
-                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
-                        $('#divRealizarAgendamento').dialog("open");
-                    });
+                $('#divRealizarAgendamento').customLoad({url:'@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
+                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento')
+                });
 
             });
 

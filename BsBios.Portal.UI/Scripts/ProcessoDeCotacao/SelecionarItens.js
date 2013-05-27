@@ -152,11 +152,7 @@ SelecionarItens = {
         });
 
         $('#btnSelecionarItens').click(function () {
-            $('#divSelecionarItens').load(UrlPadrao.SelecionarItens, function () {
-                $('#divSelecionarItens').dialog('open');
-                SelecionarItens.ConfigurarTela();
-            });
+            $('#divSelecionarItens').customLoad({ url: UrlPadrao.SelecionarItens }, SelecionarItens.ConfigurarTela);
         });
-
     }
 };
