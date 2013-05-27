@@ -64,6 +64,28 @@ Formato = {
 };
 
 $.fn.customKendoGrid = function (configuracao) {
+
+    //configuracao.dataSource.schema.errors = function (response) {
+    //    if (response.hasOwnProperty('SessaoExpirada')) {
+    //        return {SessaoExpirada:true};
+    //    }
+    //    return undefined;
+    //};
+
+    configuracao.dataSource.schema.errors = "SessaoExpirada";
+    configuracao.dataSource.error = function(response) {
+        if (response.xhr) {
+            if (responseIsJson(response.xhr)) {
+                Mensagem.ExibirMensagemDeErro(response.xhr.responseText);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response.xhr.responseText);
+            }
+        } else {
+            Mensagem.ExibirMensagemDeErro('A sessão expirou.');
+            location.href = '/';
+        }
+    };
+
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;
@@ -336,10 +358,14 @@ function verificaSessaoExpirada(responseText) {
     return false;
 }
 
+function responseIsJson(xhr) {
+    return xhr.getResponseHeader('Content-Type').indexOf('json') > -1;
+}
+
 $.fn.customLoad = function (configuracao, functionBeforeOpen) {
     $(this).load(configuracao.url,
     function (response, status, xhr) {
-        if (xhr.getResponseHeader('Content-Type').indexOf('json') > -1) {
+        if (responseIsJson(xhr)) {
             if (verificaSessaoExpirada(response)) {
                 return;
             }
