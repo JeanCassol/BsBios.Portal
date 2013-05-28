@@ -13,5 +13,7 @@ namespace BsBios.Portal.ViewModel
         {
             IdProcessoCotacao = idProcessoCotacao;
         }
+
+        public RequisicaoDeCompraFiltroVm(){}
     }
 }

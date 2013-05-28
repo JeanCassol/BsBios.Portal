@@ -65,6 +65,28 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         }
 
         [TestMethod]
+        public void QuandoConsultaListagemDeUmProcessoQueNaoPossuiItensRetornaObjetoEsperado()
+        {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
+            var processoDeCotacaoDeMaterial = new ProcessoDeCotacaoDeMaterial();
+            processoDeCotacaoDeMaterial.Atualizar(DateTime.Today, "requisitos");
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
+                new ProcessoCotacaoFiltroVm() { TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Material });
+
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            ProcessoCotacaoMaterialListagemVm processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
+            Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoListagem.Id);
+            Assert.AreEqual("Sem Materiais", processoListagem.Material);
+            Assert.AreEqual("Não Iniciado", processoListagem.Status);
+            Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
+            Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoListagem.DataTermino);
+            
+        }
+
+        [TestMethod]
         public void QuandoListaProcessosDeCotacaoDeUmDeterminadoFornecedorRetornaApenasProcessosDesteFornecedor()
         {
             //crio dois fornecedores e adiciono cada um deles em duas cotações distintas

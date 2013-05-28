@@ -52,31 +52,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
             }
 
-            //var query = (from p in _processosDeCotacao.GetQuery()
-            //             select new 
-            //             {
-            //                 //CodigoMaterial = p.Produto.Codigo,
-            //                 //Material = p.Produto.Descricao,
-            //                 DataTermino = p.DataLimiteDeRetorno,
-            //                 Id = p.Id,
-            //                 //Quantidade = p.Quantidade,
-            //                 Status = p.Status,
-            //                 //UnidadeDeMedida = p.UnidadeDeMedida.Descricao
-            //             }
-            //            );
-
             var query = _processosDeCotacao.GetQuery();
 
             var quantidadeDeRegistros = query.Count();
 
             var processosListados = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList();
 
-            var registros = processosListados
-                             .Select(x => new ProcessoCotacaoMaterialListagemVm()
+            var registros = (from x in processosListados
+                             let material = String.Join(", ", x.Itens.Select(i => i.Produto.Descricao))
+                                 select
+                                 new ProcessoCotacaoMaterialListagemVm()
                                  {
                                      Id = x.Id,
                                      //CodigoMaterial = x.CodigoMaterial,
-                                     Material = String.Join(", ", x.Itens.Select(i => i.Produto.Descricao)),
+                                     Material = string.IsNullOrEmpty(material) ? "Sem Materiais": material,
                                      DataTermino = x.DataLimiteDeRetorno.HasValue ? x.DataLimiteDeRetorno.Value.ToShortDateString(): "",
                                      //Quantidade = x.Quantidade,
                                      Status = x.Status.Descricao(),
