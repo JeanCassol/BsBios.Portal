@@ -55,7 +55,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 var processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(cotacaoMaterialItemInformarVm.IdProcessoCotacao).Single();
                 CotacaoItem cotacaoItem = processoDeCotacao.InformarCotacaoDeItem(cotacaoMaterialItemInformarVm.IdProcessoCotacaoItem,
                                                         cotacaoMaterialItemInformarVm.IdCotacao,
-                                                        cotacaoMaterialItemInformarVm.ValorComImpostos.Value,
+                                                        cotacaoMaterialItemInformarVm.Preco.Value,
                                                         cotacaoMaterialItemInformarVm.Mva,
                                                         cotacaoMaterialItemInformarVm.QuantidadeDisponivel.Value,
                                                         Convert.ToDateTime(cotacaoMaterialItemInformarVm.PrazoDeEntrega),

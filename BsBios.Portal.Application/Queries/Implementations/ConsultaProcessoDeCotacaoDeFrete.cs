@@ -186,7 +186,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     if (cotacaoItem != null)
                     {
                         vm.Selecionado = (cotacaoItem.Selecionada ? "Sim" : "Não");
-                        vm.ValorLiquido = cotacaoItem.ValorLiquido;
+                        vm.ValorLiquido = cotacaoItem.Preco;
                         vm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                         vm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
                     }

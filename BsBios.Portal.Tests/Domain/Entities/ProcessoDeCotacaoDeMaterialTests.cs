@@ -298,7 +298,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var idProcessoCotacaoItem = processoDeCotacao.Itens.First().Id;
             var cotacaoItem = (CotacaoMaterialItem) processoDeCotacao.InformarCotacaoDeItem(idProcessoCotacaoItem, idCotacao, 180, 10, 100, DateTime.Today.AddMonths(1), "obs fornec");
 
-            Assert.AreEqual(new decimal(180), cotacaoItem.ValorLiquido);
+            Assert.AreEqual(new decimal(180), cotacaoItem.Preco);
             Assert.AreEqual(180, cotacaoItem.ValorComImpostos);
             Assert.AreEqual(10, cotacaoItem.Mva);
             Assert.AreEqual(100, cotacaoItem.QuantidadeDisponivel);

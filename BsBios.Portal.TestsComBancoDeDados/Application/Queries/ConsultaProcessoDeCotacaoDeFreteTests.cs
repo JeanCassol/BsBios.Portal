@@ -74,7 +74,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(cotacaoItem.QuantidadeDisponivel,vm.QuantidadeDisponivel);
             Assert.AreEqual("Não",vm.Selecionado);
             Assert.AreEqual(cotacaoItem.ValorComImpostos,vm.ValorComImpostos);
-            Assert.AreEqual(cotacaoItem.ValorLiquido, vm.ValorLiquido);
+            Assert.AreEqual(cotacaoItem.Preco, vm.ValorLiquido);
 
         }
 

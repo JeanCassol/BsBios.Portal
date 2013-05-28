@@ -185,7 +185,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
                 cotacaoSelecionarVm.CodigoIva = cotacaoItem.Iva != null ? cotacaoItem.Iva.Codigo : null;
-                cotacaoSelecionarVm.ValorLiquido = cotacaoItem.ValorLiquido;
+                cotacaoSelecionarVm.ValorLiquido = cotacaoItem.Preco;
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
 

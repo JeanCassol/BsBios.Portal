@@ -85,6 +85,8 @@
     <Compile Include="Domain\Entities\QuotaTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeCarregamentoFactoryTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeDescarregamentoFactoryTests.cs" />
+    <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoTests.cs" />
+    <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoFactoryTests.cs" />
     <Compile Include="Domain\Services\VerificaSePermiteEditarAgendamentoTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />

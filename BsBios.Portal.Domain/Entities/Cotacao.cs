@@ -60,17 +60,17 @@ namespace BsBios.Portal.Domain.Entities
             DescricaoIncoterm = descricaoIncoterm;
         }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal? mva, 
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal preco, decimal? mva, 
             decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
             var cotacaoItem = (CotacaoMaterialItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
             if (cotacaoItem != null)
             {
-                cotacaoItem.Atualizar(valorTotalComImpostos, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
+                cotacaoItem.Atualizar(preco, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
             }
             else
             {
-                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, preco, quantidadeDisponivel, observacoes);
                 Itens.Add(cotacaoItem);
             }
 

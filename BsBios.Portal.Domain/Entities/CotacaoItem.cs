@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Domain.Services;
+using BsBios.Portal.Domain.Services.Contracts;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -12,86 +14,93 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Cotacao Cotacao { get; protected set; }
         public virtual ProcessoDeCotacaoItem ProcessoDeCotacaoItem { get; set; }
         public virtual bool Selecionada { get; protected set; }
-        public virtual decimal ValorLiquido { get; protected set; }
-        public virtual decimal ValorLiquidoInicial { get; protected set; }
+        public virtual decimal Preco { get; protected set; }
+        public virtual decimal PrecoInicial { get; protected set; }
         public virtual decimal ValorComImpostos { get; protected set; }
+        public virtual decimal Custo { get; protected set; }
         public virtual decimal? QuantidadeAdquirida { get; protected set; }
         public virtual decimal QuantidadeDisponivel { get; protected set; }
         public virtual string Observacoes { get; protected set; }
         public virtual IList<Imposto> Impostos { get; protected set; }
+        private readonly CalculadorDeBaseDeCalculoFactory _calculadorDeBaseDeCalculoFactory;
+        
 
         protected CotacaoItem()
         {
             Impostos = new List<Imposto>();
             Selecionada = false;
+            _calculadorDeBaseDeCalculoFactory = new CalculadorDeBaseDeCalculoFactory();
         }
-        protected CotacaoItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal valorTotalComImpostos, 
+        protected CotacaoItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal preco, 
             decimal quantidadeDisponivel,string observacoes):this()
         {
             Cotacao = cotacao;
             ProcessoDeCotacaoItem = processoDeCotacaoItem;
-            ValorComImpostos = valorTotalComImpostos;
+            Preco = preco;
+            PrecoInicial = preco;
             QuantidadeDisponivel = quantidadeDisponivel;
             Observacoes = observacoes;
-            CalculaValorLiquido();
-            ValorLiquidoInicial = ValorLiquido;
+            CalculaValorComImpostos();
+            CalculaCusto();
         }
 
-        private decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
+        public decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
         {
             var imposto = Imposto(tipoDeImposto);
             return imposto != null ? imposto.Valor : 0;
         }
 
-        private void CalculaValorLiquido()
+        private void CalculaValorComImpostos()
         {
-
-            ValorLiquido = ValorComImpostos - ValorDoImposto(Enumeradores.TipoDeImposto.Icms)
-                - ValorDoImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao)
-                - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
+            ValorComImpostos = Preco + ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
         }
 
-        public virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        private void CalculaCusto()
         {
-            ValorComImpostos = valorTotalComImpostos;
-            QuantidadeDisponivel = quantidadeDisponivel;
-            Observacoes = observacoes;
-            CalculaValorLiquido();
-        }
-
-        /// <summary>
-        /// remove imposto por tipo, caso exista
-        /// </summary>
-        /// <param name="tipoDeImposto"></param>
-        private void RemoverImposto(Enumeradores.TipoDeImposto tipoDeImposto)
-        {
-            var imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
-            if (imposto != null)
+            Produto produto = ProcessoDeCotacaoItem.Produto;
+            if (produto.MaterialPrima)
             {
-                Impostos.Remove(imposto);
-            }
-        }
-
-        private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
-        {
-            Imposto imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
-            if (imposto != null)
-            {
-                imposto.Atualizar(aliquota, valor);
+                Custo = Preco - ValorDoImposto(Enumeradores.TipoDeImposto.Icms) -
+                        ValorDoImposto(Enumeradores.TipoDeImposto.PisCofins) - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
             }
             else
             {
-                imposto = new Imposto(this, tipoDeImposto, aliquota, valor);
+                Custo = ValorComImpostos;
+            }
+        }
+
+        public virtual void Atualizar(decimal preco, decimal quantidadeDisponivel, string observacoes)
+        {
+            Preco = preco;
+            QuantidadeDisponivel = quantidadeDisponivel;
+            Observacoes = observacoes;
+            CalculaValorComImpostos();
+            CalculaCusto();
+        }
+
+        private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota)
+        {
+            ICalculadorDeBaseDeCalculo calculadorDeBaseDeCalculo = _calculadorDeBaseDeCalculoFactory.Construir(tipoDeImposto, ProcessoDeCotacaoItem.Produto);
+            decimal baseDeCalculo = calculadorDeBaseDeCalculo.Calcular(this);
+            Imposto imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
+            if (imposto != null)
+            {
+                imposto.Atualizar(aliquota, baseDeCalculo);
+            }
+            else
+            {
+                imposto = new Imposto(this, tipoDeImposto, aliquota, baseDeCalculo);
                 Impostos.Add(imposto);
             }
 
         }
 
-        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota)
         {
-            AtualizarImposto(tipoDeImposto, aliquota, valor);
+            AtualizarImposto(tipoDeImposto, aliquota);
 
-            CalculaValorLiquido();
+            CalculaValorComImpostos();
+            CalculaCusto();
         }
 
 
@@ -149,16 +158,16 @@ namespace BsBios.Portal.Domain.Entities
         protected CotacaoMaterialItem(){}
 
         internal CotacaoMaterialItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem, decimal? mva, DateTime prazoDeEntrega,
-            decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes) 
-            : base(cotacao, processoDeCotacaoItem,valorTotalComImpostos, quantidadeDisponivel, observacoes)
+            decimal preco, decimal quantidadeDisponivel, string observacoes) 
+            : base(cotacao, processoDeCotacaoItem,preco, quantidadeDisponivel, observacoes)
         {
             Mva = mva;
             PrazoDeEntrega = prazoDeEntrega;
         }
 
-        public virtual void Atualizar(decimal valorTotalComImpostos,decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
+        public virtual void Atualizar(decimal preco,decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
-            base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+            base.Atualizar(preco, quantidadeDisponivel, observacoes);
             Mva = mva;
             PrazoDeEntrega = prazoDeEntrega;
         }
@@ -174,15 +183,16 @@ namespace BsBios.Portal.Domain.Entities
             Iva = iva;
         }
 
-        public override void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+        public override void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota)
         {
+            base.InformarImposto(tipoDeImposto, aliquota);
+
             if (tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao
-            && valor > 0 && (!Mva.HasValue || Mva.Value == 0))
+            && ValorDoImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao) > 0 && (!Mva.HasValue || Mva.Value == 0))
             {
                 throw new MvaNaoInformadoException();
             }
 
-            base.InformarImposto(tipoDeImposto, aliquota, valor);
         }
 
     }

@@ -33,11 +33,10 @@ namespace BsBios.Portal.Tests.DataProvider
             return codigoFornecedor.Substring(9);
         }
 
-        public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
+        private static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao(Produto produto)
         {
             var usuarioCriador = ObtemUsuarioPadrao();
             var fornecedorPretendido = ObtemFornecedorPadrao();
-            var material = ObtemProdutoPadrao();
 
             var dataDeRemessa = DateTime.Today.AddDays(-2);
             var dataDeLiberacao = DateTime.Today.AddDays(-1);
@@ -50,9 +49,15 @@ namespace BsBios.Portal.Tests.DataProvider
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
-                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1",false);
-            
+                produto, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1", false);
+
             return requisicaoDeCompra;
+            
+        }
+
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
+        {
+            return ObtemRequisicaoDeCompraPadrao(ObtemProdutoPadrao());
         }
 
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraComId()
@@ -95,6 +100,16 @@ namespace BsBios.Portal.Tests.DataProvider
             return requisicaoDeCompra;
         }
 
+        private static RequisicaoDeCompra ObtemRequisicaoDeMateriaPrima()
+        {
+            Produto produto = ObtemMateriaPrima();
+            return ObtemRequisicaoDeCompraPadrao(produto);
+        }
+
+        private static Produto ObtemMateriaPrima()
+        {
+            return  ObtemProdutoPadrao("ROH");
+        }
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialNaoIniciado()
         {
@@ -164,11 +179,17 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static Produto ObtemProdutoPadrao()
         {
+            return ObtemProdutoPadrao("01");
+        }
+
+        private static Produto ObtemProdutoPadrao(string tipoDeProduto)
+        {
             _contadorProdutos++;
             var codigo = GeraCodigo(_contadorProdutos, 18);
-            var produto = new Produto(codigo, "PRODUTO " + codigo, "01");
+            var produto = new Produto(codigo, "PRODUTO " + codigo, tipoDeProduto);
             return produto;
         }
+
 
         public static Incoterm ObtemIncotermPadrao()
         {
@@ -215,6 +236,14 @@ namespace BsBios.Portal.Tests.DataProvider
             ProcessoDeCotacaoDeMaterial processo = ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             processo.Atualizar(DateTime.Today.AddDays(10), "Requisitos do Processo de Cotação de Materiais");
             return processo;
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialDeMateriaPrima()
+        {
+            RequisicaoDeCompra requisicaoDeCompra = ObtemRequisicaoDeMateriaPrima();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10),"requisitos");
+            return processoDeCotacao;
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
@@ -371,6 +400,7 @@ namespace BsBios.Portal.Tests.DataProvider
                     Take = 10
                 };
         }
+
     }
 
     internal class RequisicaoDeCompraTeste:RequisicaoDeCompra

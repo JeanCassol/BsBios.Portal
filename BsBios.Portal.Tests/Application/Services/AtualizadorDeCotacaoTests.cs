@@ -3,7 +3,6 @@ using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.Common;
@@ -29,7 +28,6 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly CotacaoMaterialInformarVm _cotacaoAtualizarVm;
         private readonly CotacaoMaterialItemInformarVm _cotacaoItemAtualizarVm;
         private Incoterm _incotermRetorno;
-
 
         public AtualizadorDeCotacaoTests()
         {
@@ -97,8 +95,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     IdProcessoCotacao = _processoDeCotacao.Id,
                     IdCotacao = 0,
                     IdProcessoCotacaoItem = _processoDeCotacao.Itens.First().Id,
-                    ValorLiquido = 110,
-                    ValorComImpostos = 125,
+                    Preco = 110,
                     Mva = 0,
                     QuantidadeDisponivel = 150,
                     Impostos = new CotacaoImpostosVm
@@ -184,12 +181,12 @@ namespace BsBios.Portal.Tests.Application.Services
                     Assert.IsNotNull(fornecedorParticipante.Cotacao);
                     var cotacaoItem = (CotacaoMaterialItem) fornecedorParticipante.Cotacao.Itens.First();
 
-                    Assert.AreEqual(109, cotacaoItem.ValorLiquido);
-                    Assert.AreEqual(125, cotacaoItem.ValorComImpostos);
+                    Assert.AreEqual(110, cotacaoItem.Preco);
+                    Assert.AreEqual((decimal) 115.5, cotacaoItem.ValorComImpostos);
                     Assert.AreEqual(0, cotacaoItem.Mva);
                     Imposto icms = cotacaoItem.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
                     Assert.AreEqual(17, icms.Aliquota);
-                    Assert.AreEqual(12, icms.Valor);
+                    Assert.AreEqual((decimal) 18.7, icms.Valor);
                 });
             _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
 

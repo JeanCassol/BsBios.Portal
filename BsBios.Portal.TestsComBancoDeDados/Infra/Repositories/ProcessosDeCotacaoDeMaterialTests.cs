@@ -107,8 +107,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var cotacaoItemConsultada = (CotacaoMaterialItem) cotacaoConsultada.Itens.First().CastEntity();
 
             Assert.AreEqual(cotacaoItem.ValorComImpostos, cotacaoItemConsultada.ValorComImpostos);
-            Assert.AreEqual(cotacaoItem.ValorLiquido, cotacaoItemConsultada.ValorLiquido);
-            Assert.AreEqual(cotacaoItem.ValorLiquidoInicial, cotacaoItemConsultada.ValorLiquidoInicial);
+            Assert.AreEqual(cotacaoItem.Preco, cotacaoItemConsultada.Preco);
+            Assert.AreEqual(cotacaoItem.PrecoInicial, cotacaoItemConsultada.PrecoInicial);
             Assert.AreEqual(cotacaoItem.Selecionada, cotacaoItemConsultada.Selecionada);
             Assert.AreEqual(cotacaoItem.QuantidadeDisponivel, cotacaoItemConsultada.QuantidadeDisponivel);
             Assert.AreEqual(cotacaoItem.QuantidadeAdquirida, cotacaoItemConsultada.QuantidadeAdquirida);

@@ -25,7 +25,7 @@ namespace BsBios.Portal.ViewModel
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Valor Líquido é obrigatório")]
         [Display(Name = "Valor Líquido")]
-        public decimal? ValorLiquido { get; set; }
+        public decimal? Preco { get; set; }
 
         [Required(ErrorMessage = "Prazo de Entrega é obrigatório")]
         [DataType(DataType.Date)]

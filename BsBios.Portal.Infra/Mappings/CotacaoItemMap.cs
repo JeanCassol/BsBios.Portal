@@ -20,8 +20,8 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
 
             Map(x => x.QuantidadeAdquirida);
-            Map(x => x.ValorLiquido);
-            Map(x => x.ValorLiquidoInicial);
+            Map(x => x.Preco);
+            Map(x => x.PrecoInicial);
             Map(x => x.ValorComImpostos);
             Map(x => x.Selecionada);
             Map(x => x.QuantidadeDisponivel);

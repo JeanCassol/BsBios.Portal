@@ -175,7 +175,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.IdCotacao = fp.Cotacao.Id;
                 vm.IdCotacaoItem = itemCotacaoMaterial.Id;
                 vm.Mva = itemCotacaoMaterial.Mva;
-                vm.ValorLiquido = itemCotacaoMaterial.ValorLiquido;
+                vm.Preco = itemCotacaoMaterial.Preco;
                 vm.ValorComImpostos = itemCotacaoMaterial.ValorComImpostos;
                 vm.ObservacoesDoFornecedor = itemCotacaoMaterial.Observacoes;
                 vm.PrazoDeEntrega = itemCotacaoMaterial.PrazoDeEntrega.ToShortDateString();

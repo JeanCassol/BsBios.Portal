@@ -50,7 +50,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(itemDoProcesso.Quantidade, vm.Quantidade);
             Assert.AreEqual(itemDoProcesso.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.IsNull(vm.ValorComImpostos);
-            Assert.IsNull(vm.ValorLiquido);
+            Assert.IsNull(vm.Preco);
             Assert.IsNull(vm.Mva);
             
         }
@@ -116,7 +116,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(itemDoProcesso.Quantidade, vm.Quantidade);
             Assert.AreEqual(itemDoProcesso.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.AreEqual(100, vm.ValorComImpostos);
-            Assert.AreEqual(100, vm.ValorLiquido);
+            Assert.AreEqual(100, vm.Preco);
             Assert.AreEqual(120, vm.Mva);
         }
 
