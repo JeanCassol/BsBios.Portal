@@ -24,6 +24,11 @@ Mensagem = {
         $('#divJanelaComHtml').dialog('open');
     }    
 };
+ContentType = {
+    html: 1,
+    xml: 2,
+    outro:3
+};
 
 String.prototype.boolean = function () {
     return this.match(/^(true|True)$/i) !== null;
@@ -75,7 +80,8 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.schema.errors = "SessaoExpirada";
     configuracao.dataSource.error = function(response) {
         if (response.xhr) {
-            if (responseIsJson(response.xhr)) {
+            var responseType = getContentType(response.xhr);
+            if (responseType == ContentType.json) {
                 Mensagem.ExibirMensagemDeErro(response.xhr.responseText);
             } else {
                 Mensagem.ExibirJanelaComHtml(response.xhr.responseText);
@@ -358,17 +364,34 @@ function verificaSessaoExpirada(responseText) {
     return false;
 }
 
-function responseIsJson(xhr) {
-    return xhr.getResponseHeader('Content-Type').indexOf('json') > -1;
+
+function getContentType(xhr) {
+    var type = xhr.getResponseHeader('Content-Type');
+    if (type.indexOf('json') > -1) {
+        return ContentType.json;
+    }
+    if (type.indexOf('html') > -1) {
+        return ContentType.html;
+    }
+    return ContentType.outro;
 }
 
 $.fn.customLoad = function (configuracao, functionBeforeOpen) {
     $(this).load(configuracao.url,
     function (response, status, xhr) {
-        if (responseIsJson(xhr)) {
+        var responseType = getContentType(xhr);
+        if (responseType == ContentType.json) {
             if (verificaSessaoExpirada(response)) {
                 return;
             }
+        }
+        if (status == "error") {
+            if (responseType == ContentType.json && response.Mensagem) {
+                Mensagem.ExibirMensagemDeErro(response.Mensagem);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response);
+            }
+            return;
         }
         if (configuracao.validar) {
             jQuery.validator.unobtrusive.parse(this);
