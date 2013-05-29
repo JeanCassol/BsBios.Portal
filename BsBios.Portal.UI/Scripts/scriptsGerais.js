@@ -69,14 +69,14 @@ Formato = {
 };
 
 $.fn.customKendoGrid = function (configuracao) {
-
-    //configuracao.dataSource.schema.errors = function (response) {
-    //    if (response.hasOwnProperty('SessaoExpirada')) {
-    //        return {SessaoExpirada:true};
-    //    }
-    //    return undefined;
-    //};
-
+    var container = $(this);
+    this.addClass('k-loading-image');
+    if (!configuracao.dataBound) {
+        configuracao.dataBound = function() {
+            container.removeClass('k-loading-image');
+            container.removeClass('alturaMinima');
+        };
+    }
     configuracao.dataSource.schema.errors = "SessaoExpirada";
     configuracao.dataSource.error = function(response) {
         if (response.xhr) {
@@ -338,6 +338,7 @@ UrlPadrao = {};
 TipoDeCotacao = {};
 
 $(function () {
+    $('.divGrid').addClass('alturaMinima');
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
     $('#btnPesquisar').die("click");

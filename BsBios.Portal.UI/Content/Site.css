@@ -659,7 +659,11 @@ input[type="checkbox"].input-validation-error {
 
 .divGrid {
     font:11px Arial,Helvetica,sans-serif!important;
-    font-weight: normal
+    font-weight: normal;
+    
+}
+.alturaMinima {
+    min-height: 150px;
 }
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;
