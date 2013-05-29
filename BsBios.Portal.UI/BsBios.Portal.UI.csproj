@@ -309,7 +309,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\banner.png" />
-    <Content Include="Images\bg_logo.gif" />
     <Content Include="Images\icons\add_16.png" />
     <Content Include="Images\icons\DeleteRed_16.png" />
     <Content Include="Images\icons\editar_16.png" />
