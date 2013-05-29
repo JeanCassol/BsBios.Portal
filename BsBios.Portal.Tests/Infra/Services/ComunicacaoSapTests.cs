@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
@@ -52,22 +53,22 @@ namespace BsBios.Portal.Tests.Infra.Services
             Assert.IsNotNull(responseMessage);
             Assert.AreEqual("24", responseMessage.Retorno.Codigo);
 
-             //*await*/ httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_envioStatus_portal&qos=be"
-             //   , mensagemParaEnviar).ContinueWith(
-             //   requestTask =>
-             //       {
-             //           Console.WriteLine("requestTask");
-             //           HttpResponseMessage response = requestTask.Result;
-             //           response.EnsureSuccessStatusCode();
+            //*await*/ httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_envioStatus_portal&qos=be"
+            //   , mensagemParaEnviar).ContinueWith(
+            //   requestTask =>
+            //       {
+            //           Console.WriteLine("requestTask");
+            //           HttpResponseMessage response = requestTask.Result;
+            //           response.EnsureSuccessStatusCode();
 
-             //           response.Content.ReadAsAsync<ApiResponseMessage>().ContinueWith(
-             //               readTask =>
-             //                   {
-             //                       Console.WriteLine("readTask");
-             //                       Assert.AreEqual("200", readTask.Result.Retorno.Codigo);
-             //                   });
-             //       });
-            
+            //           response.Content.ReadAsAsync<ApiResponseMessage>().ContinueWith(
+            //               readTask =>
+            //                   {
+            //                       Console.WriteLine("readTask");
+            //                       Assert.AreEqual("200", readTask.Result.Retorno.Codigo);
+            //                   });
+            //       });
+
             Console.WriteLine("Fim do Teste");
         }
 
@@ -156,14 +157,14 @@ namespace BsBios.Portal.Tests.Infra.Services
         public void ConsigoEnviarMensagemDeFechamentoDoProcessoDeCotacaoDeFreteUtilizandoServico()
         {
             ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes();
-            var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true);
+            var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA", "transp@airgas.com.br", "", "Passo Fundo", "RS", true);
             processo.AdicionarFornecedor(fornecedor);
             processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             CotacaoFrete cotacaoFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "obs");
-            processo.SelecionarCotacao(cotacaoFrete.Id,50);
-            //var comunicacaoSap = ObjectFactory.GetInstance<IComunicacaoSap>();
-            var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
-            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(credencialSap);
+            processo.SelecionarCotacao(cotacaoFrete.Id, 50);
+            var comunicacaoSap = ObjectFactory.GetInstance<IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento>>();
+            //var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
+            var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(comunicacaoSap);
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);
             Assert.AreEqual("S", mensagem.Retorno.Codigo);
         }
@@ -191,7 +192,7 @@ namespace BsBios.Portal.Tests.Infra.Services
         //    var responseMessage = retorno.Result;
         //    Assert.IsNotNull(responseMessage);
         //    Assert.AreEqual("24", responseMessage.Retorno.Codigo);
-            
+
         //}
 
         [TestMethod]
@@ -207,7 +208,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                             Texto = "testando"
                         }
                 });
-            
+
             Assert.IsTrue(stream.Length > 0);
             var streamReader = new StreamReader(stream);
             stream.Position = 0;
@@ -238,7 +239,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             var responseMessage = (ApiResponseMessage)serializer.Deserialize(stream);
             Assert.IsNotNull(responseMessage);
             Assert.AreEqual("24", responseMessage.Retorno.Codigo);
-            
+
         }
 
 
