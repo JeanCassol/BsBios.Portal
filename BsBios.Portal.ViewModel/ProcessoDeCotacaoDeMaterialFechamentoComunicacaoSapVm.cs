@@ -21,9 +21,7 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string Incoterm2 { get; set; }
         [DataMember]
-        public decimal ValorTotalSemImpostos { get; set; }
-        [DataMember]
-        public decimal ValorTotalComImpostos { get; set; }
+        public decimal Preco { get; set; }
         [DataMember]
         public bool Selecionada { get; set; }
         [DataMember]
@@ -32,6 +30,6 @@ namespace BsBios.Portal.ViewModel
     }
 
     [CollectionDataContract]
-    public class ListaProcessoDeCotacaoFechamento: List<ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm>{}
+    public class ListaProcessoDeCotacaoDeMaterialFechamento: List<ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm>{}
 
 }

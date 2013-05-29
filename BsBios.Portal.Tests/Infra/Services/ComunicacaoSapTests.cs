@@ -79,9 +79,9 @@ namespace BsBios.Portal.Tests.Infra.Services
             clientHandler.Credentials = new NetworkCredential("fusion_lucas", "fusion123");
 
             var httpClient = new HttpClient(clientHandler);
-            var mensagemParaEnviar = new ListaProcessoDeCotacaoAbertura()
+            var mensagemParaEnviar = new ListaProcessoDeCotacaoDeMaterialAbertura()
             {
-                new ProcessoDeCotacaoAberturaVm()
+                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
                     {
                         CodigoFornecedor = "FORNEC0001",
                         DataLimiteRetorno = DateTime.Today.AddDays(10) ,
@@ -89,7 +89,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                         NumeroItem = "00001" ,
                         DataCriacao = DateTime.Today
                     },
-                new ProcessoDeCotacaoAberturaVm()
+                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
                     {
                         CodigoFornecedor = "FORNEC0002",
                         DataLimiteRetorno = DateTime.Today.AddDays(10) ,
@@ -98,7 +98,7 @@ namespace BsBios.Portal.Tests.Infra.Services
                         DataCriacao = DateTime.Today
                     },
 
-                new ProcessoDeCotacaoAberturaVm()
+                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
                     {
                         CodigoFornecedor = "FORNEC0003",
                         DataLimiteRetorno = DateTime.Today.AddDays(10) ,
