@@ -185,8 +185,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida;
                 cotacaoSelecionarVm.CodigoIva = cotacaoItem.Iva != null ? cotacaoItem.Iva.Codigo : null;
-                cotacaoSelecionarVm.ValorLiquido = cotacaoItem.Preco;
+                cotacaoSelecionarVm.Preco = cotacaoItem.Preco;
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                cotacaoSelecionarVm.Custo = cotacaoItem.Custo;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
 
                 Imposto imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Icms);
@@ -197,6 +198,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.Ipi);
                 cotacaoSelecionarVm.ValorIpi = imposto != null ? imposto.Valor : (decimal?)null;
+
+                imposto = cotacaoItem.Imposto(Enumeradores.TipoDeImposto.PisCofins);
+                cotacaoSelecionarVm.ValorPisCofins = imposto != null ? imposto.Valor : (decimal?)null; ;
 
             }
 

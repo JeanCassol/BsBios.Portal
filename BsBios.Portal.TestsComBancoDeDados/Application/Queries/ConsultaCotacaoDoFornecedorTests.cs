@@ -116,6 +116,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(itemDoProcesso.Quantidade, vm.Quantidade);
             Assert.AreEqual(itemDoProcesso.UnidadeDeMedida.Descricao, vm.UnidadeDeMedida);
             Assert.AreEqual(100, vm.ValorComImpostos);
+            Assert.AreEqual(100, vm.Custo);
             Assert.AreEqual(100, vm.Preco);
             Assert.AreEqual(120, vm.Mva);
         }
@@ -177,10 +178,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var cotacaoItem = cotacao.InformarCotacaoDeItem(itemDoProcesso, 100, 120, 12, DateTime.Today.AddMonths(1), "observacoes");
 
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1, 2);
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11, 12);
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21, 22);
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.PisCofins, 3, 0);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 1);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao, 11);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 21);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.PisCofins, 3);
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
 
@@ -188,11 +189,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             CotacaoImpostosVm vm = consulta.ConsultarCotacaoDeItemDeMaterial(processo.Id, fornecedor.Codigo, requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem).Impostos;
 
             Assert.AreEqual(1, vm.IcmsAliquota);
-            Assert.AreEqual(2, vm.IcmsValor);
+            Assert.AreEqual(1, vm.IcmsValor);
             Assert.AreEqual(11, vm.IcmsStAliquota);
-            Assert.AreEqual(12, vm.IcmsStValor);
+            Assert.AreEqual(11, vm.IcmsStValor);
             Assert.AreEqual(21, vm.IpiAliquota);
-            Assert.AreEqual(22, vm.IpiValor);
+            Assert.AreEqual(21, vm.IpiValor);
+            Assert.AreEqual(3, vm.PisCofinsValor);
             Assert.AreEqual(3, vm.PisCofinsAliquota);
         }
     }

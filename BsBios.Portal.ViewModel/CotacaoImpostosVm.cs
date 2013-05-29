@@ -4,7 +4,7 @@ namespace BsBios.Portal.ViewModel
 {
     public class CotacaoImpostosVm
     {
-        [Required(ErrorMessage = "Valor do ICMS é obrigatório")]
+        //[Required(ErrorMessage = "Valor do ICMS é obrigatório")]
         [DataType(DataType.Currency)]
         [Display(Name = "Valor do ICMS")]
         public decimal? IcmsValor { get; set; }
@@ -24,7 +24,7 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Alíquota do ICMS ST")]
         public decimal? IcmsStAliquota { get; set; }
 
-        [Required(ErrorMessage = "Valor do IPI é obrigatório")]
+        //[Required(ErrorMessage = "Valor do IPI é obrigatório")]
         [DataType(DataType.Currency)]
         [Display(Name = "Valor do IPI")]
         public decimal? IpiValor { get; set; }
@@ -34,26 +34,13 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Alíquota do IPI")]
         public decimal? IpiAliquota { get; set; }
 
+        [DataType(DataType.Currency)]
+        [Display(Name = "Valor do Pis / Cofins")]
+        public decimal? PisCofinsValor { get; set; }
+
         [Required(ErrorMessage = "Alíquota do Pis/Cofins é obrigatório")]
         [Display(Name = "Alíquota Pis / Cofins")]
         [DataType(DataType.Currency)]
         public decimal? PisCofinsAliquota { get; set; }
-
-        //[Display(Name = "Valor do Pis")]
-        //[DataType(DataType.Currency)]
-        //public decimal? PisValor { get; set; }
-
-        //[DataType(DataType.Currency)]
-        //[Display(Name = "Alíquota do Pis")]
-        //public decimal? PisAliquota { get; set; }
-
-        //[DataType(DataType.Currency)]
-        //[Display(Name = "Valor do Cofins")]
-        //public decimal? CofinsValor { get; set; }
-
-        //[DataType(DataType.Currency)]
-        //[Display(Name = "Alíquota do Cofins")]
-        //public decimal? CofinsAliquota { get; set; }
-
     }
 }

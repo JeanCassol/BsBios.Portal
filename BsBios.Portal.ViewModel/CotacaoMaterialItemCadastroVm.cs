@@ -10,6 +10,8 @@ namespace BsBios.Portal.ViewModel
         public decimal Quantidade { get; set; }
         [DisplayName("Unidade de Medida: ")]
         public string UnidadeDeMedida { get; set; }
+
+        public bool PermiteVisualizarCustos { get; set; }
                 
     }
 }

@@ -76,7 +76,7 @@
                             CodigoFornecedor: { type: "string" },
                             Fornecedor: { type: "string"},
                             CodigoIva: { type: "string" },
-                            ValorLiquido: { type: "number"},
+                            Preco: { type: "number"},
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
                             CondicaoDePagamento: { type: "string" },
@@ -84,8 +84,7 @@
                             ValorIcms: { type: "number" },
                             ValorIcmsSt: { type: "number" },
                             ValorIpi: { type: "number" },
-                            ValorPis: { type: "number" },
-                            ValorCofins: { type: "number" }
+                            ValorPisCofins: { type: "number" }
                         }
                     },
                     type: 'json'
@@ -129,13 +128,15 @@
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
-                { field: "ValorLiquido", title: ' Valor Líquido', width: 80, format: "{0:n2}" },
-                { field: "ValorComImpostos", title: 'Líquido + Imp.', width: 80, format: "{0:n2}" },
-                { field: "CondicaoDePagamento", title:'Condição', width: 200 },
-                { field: "Incoterm", width: 150 },
-                { field: "ValorIcms", title: 'ICMS (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorIpi", title: 'IPI (R$)', width: 80, format: "{0:n2}" }
+                { field: "Preco", title: 'Preço', width: 80, format: "{0:n2}" },
+                { field: "ValorComImpostos", title: 'Preço + Imp.', width: 80, format: "{0:n2}" },
+                { field: "Custo", width: 80, format: "{0:n2}" },
+                { field: "ValorIcms", title: 'ICMS (R$)', width: 70, format: "{0:n2}" },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 70, format: "{0:n2}" },
+                { field: "ValorPisCofins", title: 'Pis/Cofins (R$)', width: 100, format: "{0:n2}" },
+                { field: "CondicaoDePagamento", title: 'Condição', width: 200 },
+                { field: "Incoterm", width: 150 }
+
             ]
         });
 

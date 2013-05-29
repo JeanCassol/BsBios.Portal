@@ -12,12 +12,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
     {
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IBuilder<CotacaoItem, CotacaoImpostosVm> _builderImpostos;
+        private readonly IUsuarios _usuarios;
         private const string ValorNaoInformado = "Não informado";
 
-        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<CotacaoItem, CotacaoImpostosVm> builderImpostos)
+
+        public ConsultaCotacaoDoFornecedor(IProcessosDeCotacao processosDeCotacao, IBuilder<CotacaoItem, CotacaoImpostosVm> builderImpostos, IUsuarios usuarios)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderImpostos = builderImpostos;
+            _usuarios = usuarios;
         }
 
         //public CotacaoCadastroVm ConsultarCotacao(int idProcessoCotacao, string codigoFornecedor)
@@ -177,6 +180,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 vm.Mva = itemCotacaoMaterial.Mva;
                 vm.Preco = itemCotacaoMaterial.Preco;
                 vm.ValorComImpostos = itemCotacaoMaterial.ValorComImpostos;
+                vm.Custo = itemCotacaoMaterial.Custo;
                 vm.ObservacoesDoFornecedor = itemCotacaoMaterial.Observacoes;
                 vm.PrazoDeEntrega = itemCotacaoMaterial.PrazoDeEntrega.ToShortDateString();
                 vm.QuantidadeDisponivel = itemCotacao.QuantidadeDisponivel;
@@ -188,6 +192,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 vm.Impostos = new CotacaoImpostosVm();
             }
+            Usuario usuarioConectado = _usuarios.UsuarioConectado();
+            vm.PermiteVisualizarCustos = usuarioConectado.Permissao.PermiteVisualizarCustos;
 
             return vm;
 

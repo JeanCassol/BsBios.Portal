@@ -86,7 +86,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             var interfacesDesconsideradas = new List<Type>()
                 {
                     typeof (IProcessoDeCotacaoComunicacaoSap),
-                    typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory)
+                    typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory),
+                    typeof(IComunicacaoSap<>)
                 };
             VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts",interfacesDesconsideradas);
         }

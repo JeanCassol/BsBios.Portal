@@ -94,9 +94,13 @@
             $('#ValorLiquido').val(Globalize.format(valorLiquido, "n2"));
 
         }
+        
+        function ocultaCamposDeValorDosImpostos() {
+            $('#formCotacaoItem').find('.campoDesabilitado').hide();
+        };
 
         $(function() {
-
+            
             GridAnexo.Configurar($('#IdProcessoCotacao').val(), "#divAnexos", false);
 
             ProcessoDeCotacaoItensGrid.configurar({
@@ -128,7 +132,8 @@
                             + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
                         validar: true
                     },
-                    function() {
+                    function () {
+                        //ocultaCamposDeValorDosImpostos();
                         aplicaMascaraMoeda('#divCotacaoItem');
                         aplicaMascaraQuantidade('#divCotacaoItem');
                         aplicaMascaraData('#divCotacaoItem');
@@ -146,25 +151,25 @@
                 $('.error').html(mensagem);
             }
 
-            $('#ValorComImpostos').die("change");
-            $('#ValorComImpostos').live("change", function() {
-                calculaValorLiquido();
-            });
+            //$('#ValorComImpostos').die("change");
+            //$('#ValorComImpostos').live("change", function() {
+            //    calculaValorLiquido();
+            //});
 
-            $('#IcmsValor').die("change");
-            $('#IcmsValor').live("change", function() {
-                calculaValorLiquido();
-            });
+            //$('#IcmsValor').die("change");
+            //$('#IcmsValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
 
-            $('#IcmsStValor').die("change");
-            $('#IcmsStValor').live("change", function() {
-                calculaValorLiquido();
-            });
+            //$('#IcmsStValor').die("change");
+            //$('#IcmsStValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
 
-            $('#IpiValor').die("change");
-            $('#IpiValor').live("change", function() {
-                calculaValorLiquido();
-            });
+            //$('#IpiValor').die("change");
+            //$('#IpiValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
 
             $('#btnSalvarCotacao').click(function() {
                 $('.error').empty();

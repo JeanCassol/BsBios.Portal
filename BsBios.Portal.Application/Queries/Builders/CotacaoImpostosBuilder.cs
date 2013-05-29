@@ -1,5 +1,4 @@
 ﻿using BsBios.Portal.Common;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 
@@ -36,6 +35,7 @@ namespace BsBios.Portal.Application.Queries.Builders
             if (imposto != null)
             {
                 vm.PisCofinsAliquota = imposto.Aliquota;
+                vm.PisCofinsValor = imposto.Valor;
             }
 
             //imposto = cotacao.Imposto(Enumeradores.TipoDeImposto.Pis);

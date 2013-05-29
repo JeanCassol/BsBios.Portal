@@ -2,7 +2,6 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -12,20 +11,20 @@ namespace BsBios.Portal.Infra.Services.Implementations
     {
         private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
 
-        //public ComunicacaoFechamentoProcessoCotacaoFrete(IComunicacaoSap comunicacaoSap)
-        //{
-        //    _comunicacaoSap = comunicacaoSap;
-        //}
-
-        public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        public ComunicacaoFechamentoProcessoCotacaoFrete(IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> comunicacaoSap)
         {
-            _comunicacaoSap = new ComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento>(credencialSap);
+            _comunicacaoSap = comunicacaoSap;
         }
+
+        //public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        //{
+        //    _comunicacaoSap = new ComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento>(credencialSap);
+        //}
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
             ProcessoDeCotacaoItem item = processo.Itens.First();
-            if (item.Produto.Tipo.ToUpper() == "NLAG")
+            if (item.Produto.NaoEstocavel)
             {
                 //Cotações de frete para empresas do grupo que não utilizam o SAP deverão ser realizadas com material NLAG 
                 //(Material não estocável). Para este tipo de material a cotação não deverá ser enviada para o SAP;

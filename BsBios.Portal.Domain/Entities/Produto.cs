@@ -9,9 +9,14 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Descricao { get; protected set; }
         public virtual string Tipo { get; protected set; }
         public virtual IList<Fornecedor> Fornecedores { get; protected set; }
-        public bool MaterialPrima
+        public virtual bool MaterialPrima
         {
-            get { return Tipo.Equals("ROH"); }
+            get { return Tipo.ToUpper().Equals("ROH"); }
+        }
+
+        public virtual bool NaoEstocavel
+        {
+            get { return Tipo.ToUpper().Equals("NLAG"); }
         }
 
         protected Produto()

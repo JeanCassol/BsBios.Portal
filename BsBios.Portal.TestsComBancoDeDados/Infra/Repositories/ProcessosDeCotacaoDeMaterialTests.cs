@@ -144,8 +144,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var cotacao = processoDeCotacaoDeMaterial.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "inc");
             var processoCotacaoItem = processoDeCotacaoDeMaterial.Itens.First();
             var cotacaoItem = cotacao.InformarCotacaoDeItem(processoCotacaoItem, 100, 120, 100, DateTime.Today.AddMonths(1), "obs fornec");
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17, 34);
-            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 5, 13);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Icms, 17);
+            cotacaoItem.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 5);
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
