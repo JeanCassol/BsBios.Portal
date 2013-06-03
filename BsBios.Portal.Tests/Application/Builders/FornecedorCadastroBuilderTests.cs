@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

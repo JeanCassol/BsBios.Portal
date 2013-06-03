@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

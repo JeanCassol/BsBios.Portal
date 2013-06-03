@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -70,7 +70,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
         [TestMethod]
         public void TodasQueriesEstaoRegistradas()
         {
-            VerificaInterfacesRegistradas(typeof(IConsultaCondicaoPagamento), "BsBios.Portal.Application.Queries.Contracts");
+            VerificaInterfacesRegistradas(typeof(IConsultaCondicaoPagamento), "BsBios.Portal.Infra.Queries.Contracts");
         }
 
         [TestMethod]

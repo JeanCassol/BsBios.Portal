@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;

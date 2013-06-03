@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.TestsComBanco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Tests.DataProvider", "BsBios.Portal.Tests.DataProvider\BsBios.Portal.Tests.DataProvider.csproj", "{2566A7D2-FDF6-4112-83B6-633ABE7502EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ProcessoCotacaoMrp", "BsBios.Portal.ProcessoCotacaoMrp\BsBios.Portal.ProcessoCotacaoMrp.csproj", "{570670AF-E45C-428F-8292-4C339EFD3BBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2566A7D2-FDF6-4112-83B6-633ABE7502EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

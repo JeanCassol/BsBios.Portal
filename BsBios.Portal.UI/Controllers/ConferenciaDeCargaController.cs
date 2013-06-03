@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 
 namespace BsBios.Portal.UI.Controllers

@@ -1,6 +1,6 @@
-﻿using BsBios.Portal.Application.Queries.Builders;
-using BsBios.Portal.Common;
+﻿using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.ViewModel;
 using StructureMap;
 using StructureMap.Configuration.DSL;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
