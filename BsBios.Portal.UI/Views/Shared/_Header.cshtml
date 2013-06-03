@@ -3,19 +3,13 @@
     var usuarioConectado = (UsuarioConectado) ViewBag.UsuarioConectado;
 }
 <header >
-    <div class="content-wrapper">
-        <div class="float-left" style="padding-left: 10px">
-            <img src="@Url.Content("~/Images/bg_logo.gif")" alt="Portal Bs Bios"/>
-        </div>
+    <div class="content-wrapper" style="background-image: url(/Images/banner.png)">
         <div style="display:block" >
-            <div style="width: 650px; display: inline">
-                <span style="color: white; font-size: 50px; font-weight: bold; margin-left: 150px; margin-top: 20px; width: 600px;" >Portal BSBIOS</span>
-            </div>
             @if (usuarioConectado != null)
             {
                 <div style="width: 300px; display: inline; float: right; margin-right: 10px">
                     <div style="width: 100%; ">
-                        <p style="color: yellow; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
+                        <p style="color: black; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
                     </div>
                     <div style="width: 100%">
                         <p style="text-align: right;margin: 0">@Html.ActionLink("Sair", "LogOff","Account")</p>
