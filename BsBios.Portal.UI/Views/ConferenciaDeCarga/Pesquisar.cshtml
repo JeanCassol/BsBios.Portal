@@ -1,5 +1,4 @@
-﻿@using BsBios.Portal.Common
-@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.ViewModel
 @{
     ViewBag.TituloDaPagina = "Conferência de Cargas";
 }
@@ -11,39 +10,41 @@
 
 <fieldset id="fieldSetFiltros">
     <legend>Filtros</legend>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Terminal")
-            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
+    <form>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Terminal")
+                @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
+            </div>
+            <div class="coluna">
+                @Html.Label("Data de Agendamento")
+                @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
+            </div>
         </div>
-        <div class="coluna">
-            @Html.Label("Data de Agendamento")
-            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Placa")
+                @Html.TextBox("Placa")
+            </div>
+            <div class="coluna">
+                @Html.Label("Número NF")
+                @Html.TextBox("NumeroNf")
+            </div>
         </div>
-    </div>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Placa")
-            @Html.TextBox("Placa")
-        </div>
-        <div class="coluna">
-            @Html.Label("Número NF")
-            @Html.TextBox("NumeroNf")
-        </div>
-    </div>
-    @Html.Label("Realização")
-     @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
-     new SelectListItem
-         {
-             Value =  Convert.ToString(x.Codigo),
-             Text =  x.Descricao,
-             Selected =  x.Padrao
-         }),"Todos")
+        @Html.Label("Realização")
+        @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
+            new SelectListItem
+            {
+            Value =  Convert.ToString(x.Codigo),
+            Text =  x.Descricao,
+            Selected =  x.Padrao
+            }),"Todos")
 
-    <div class="divBotao">
-        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
-        <input type="button" id="btnLimpar" value="Limpar" class="blue"/>
-    </div>
+        <div class="divBotao">
+            <input type="submit" id="btnPesquisar" value="Pesquisar" class="blue"/>
+            <input type="reset" id="btnLimpar" value="Limpar" class="blue"/>
+        </div>
+    </form>
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
@@ -153,11 +154,11 @@
 
             });
 
-            $('#btnLimpar').click(function() {
+@*            $('#btnLimpar').click(function() {
                 $('#fieldSetFiltros').find('input[type!=button][name!=CodigoTerminal][name!=RealizacaoDeAgendamento]').val('');
                 $('#RealizacaoDeAgendamento').val('@((int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
             });
-
+*@
             function atualizaGrid() {
                 var grid = $('#gridAgendamentos').data("kendoGrid");
                 grid.dataSource.read();

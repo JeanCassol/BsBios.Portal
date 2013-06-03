@@ -7,23 +7,20 @@
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 }
-<div id="cadastroProdutos">
-    <div id="divFiltros">
-        <fieldset>
-            <legend>Filtros</legend>
-            <div class="coluna">
-                @Html.Label("Descrição")
-                @Html.TextBox("Descricao","", new{@class="campogrande"})
-            </div>
-            <div class="divBotao">
-                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-            </div>
-        </fieldset>
-    </div>
-    <div id="gridProdutos" class="divGrid"></div>
-
-</div>
+<form>
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="coluna">
+            @Html.Label("Descrição")
+            @Html.TextBox("Descricao","", new{@class="campogrande"})
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+    </fieldset>
+</form>
+<div id="gridProdutos" class="divGrid"></div>
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
@@ -85,13 +82,8 @@
 
                 ]
             });
-
-            //$('#btnPesquisar').click(function() {
-            //    $("#gridProdutos").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('#divFiltros input[type!=button]').val('');
+            $('#btnPesquisar').click(function(e){
+                e.preventDefault();
             });
 
             $('.button_visualize').die("click");

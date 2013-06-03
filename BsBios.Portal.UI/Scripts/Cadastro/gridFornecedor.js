@@ -73,9 +73,7 @@
                     }
                 }
             },
-            groupable: false,
             scrollable: true,
-            selectable: 'row',
             columns: arrayDeColunas
         });
 

@@ -6,26 +6,24 @@
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 }
-<div id="divFornecedores">
-    <div id="divFiltros">
-        <fieldset>
-            <legend>Filtros</legend>
-            <div class="colunaFiltro">
-                @Html.Label("Codigo")
-                @Html.TextBox("Codigo","", new{@class="campomedio"})
-            </div>
-            <div class="colunaFiltro">
-                @Html.Label("Nome")
-                @Html.TextBox("Nome","", new{@class="campomedio"})
-            </div>
-            <div class="divBotao">
-                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-            </div>
-        </fieldset>
-    </div>
-    <div id="gridFornecedores" class="divGrid"></div>
-</div>
+<form>
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="colunaFiltro">
+            @Html.Label("Codigo")
+            @Html.TextBox("Codigo","", new{@class="campomedio"})
+        </div>
+        <div class="colunaFiltro">
+            @Html.Label("Nome")
+            @Html.TextBox("Nome","", new{@class="campomedio"})
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+    </fieldset>
+</form>
+<div id="gridFornecedores" class="divGrid"></div>
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
@@ -88,14 +86,9 @@
         ]
             });
 
-            //$('#btnPesquisar').click(function() {
-            //    $("#gridFornecedores").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('#divFiltros input[type!=button]').val('');
+            $('#btnPesquisar').click(function (e) {
+                e.preventDefault();
             });
-
             $('.button_visualize').die("click");
             $('.button_visualize').live("click", function(e) {
                 e.preventDefault();
