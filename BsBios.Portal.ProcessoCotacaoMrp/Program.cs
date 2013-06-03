@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.IoC;
@@ -30,7 +27,7 @@ namespace BsBios.Portal.PrecessoCotacaoMrp
            }
             else
             {
-                Console.WriteLine("Não foram encontradas requisicoes");
+                Console.WriteLine("Não foram encontradas requisicões");
             }
         }
     }
