@@ -70,9 +70,9 @@ Formato = {
 
 $.fn.customKendoGrid = function (configuracao) {
     var container = $(this);
-    this.addClass('k-loading-image');
     if (!configuracao.dataBound) {
-        configuracao.dataBound = function() {
+        this.addClass('k-loading-image');
+        configuracao.dataBound = function () {
             container.removeClass('k-loading-image');
             container.removeClass('alturaMinima');
         };

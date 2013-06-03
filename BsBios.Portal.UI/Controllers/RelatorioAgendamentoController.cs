@@ -20,9 +20,5 @@ namespace BsBios.Portal.UI.Controllers
             return View();
         }
 
-        public string Gerar()
-        {
-            return "Abrindo uma janela para exibir dados dos relatórios";
-        }
     }
 }

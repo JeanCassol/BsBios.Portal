@@ -104,9 +104,6 @@ SelecionarItens = {
             $("#divGridRequisicoesParaSelecionar").data("kendoGrid").dataSource.read();
         });
 
-        $('#btnLimparFiltroItens').click(function() {
-            $('#formFiltroItens input[type!=button][type!=submit]').val('');
-        });
     },
     ConfigurarJanelaModal: function() {
         $('#divSelecionarItens').customDialog({

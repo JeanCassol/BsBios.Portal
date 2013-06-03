@@ -17,7 +17,7 @@
             </div>
             <div class="divBotao">
                 <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
-                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
             </div>
         </form>
 
@@ -110,14 +110,6 @@
 
         $('form').submit(function(e) {
             e.preventDefault();
-        });
-        //$('#btnPesquisar').click(function() {
-        //    $("#gridFornecedores").data("kendoGrid").dataSource.page(1);
-        //});
-
-        $('#btnLimpar').click(function (e) {
-            e.preventDefault();
-            $('.divFiltros input[type!=button][type!=submit]').val('');
         });
 
         $('#gridFornecedores').find('input[name=radioFornecedor]').die("change");

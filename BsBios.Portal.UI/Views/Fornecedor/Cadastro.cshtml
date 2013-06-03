@@ -5,9 +5,11 @@
 @{
     ViewBag.Title = "Fornecedor - Consulta";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 <fieldset>
     <legend>Dados do Fornecedor</legend>
     @Html.LinhaComDuasColunas(new ColunaComLabel<FornecedorCadastroVm, string>(x => x.Codigo),

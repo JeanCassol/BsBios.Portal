@@ -5,11 +5,12 @@
 @{
     ViewBag.TituloDaPagina = "Usuário - Editar";
 }
-
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+}
 <style type="text/css">
     .gridPerfil {
         width: 280px;

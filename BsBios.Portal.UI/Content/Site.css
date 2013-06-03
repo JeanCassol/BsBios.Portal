@@ -324,6 +324,7 @@ input[type="radio"] {
 }
 .divBotao input[type="submit"],
 .divBotao input[type="button"],
+.divBotao input[type="reset"],
 .divBotao button,
 .divBotao a {
 	display: inline-block;

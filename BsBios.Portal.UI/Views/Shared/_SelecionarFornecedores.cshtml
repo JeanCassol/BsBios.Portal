@@ -34,7 +34,7 @@
                         </div>
                         <div class="divBotao">
                             <input id="btnPesquisarFornecedorGeral" type="submit" value="Pesquisar" class="blue"/>
-                            <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
+                            <input id="btnLimparFornecedorGeral" type="reset" value="Limpar" class="blue"/>
                         </div>
                     </fieldset>
                 </div>
@@ -146,11 +146,6 @@
             e.preventDefault();
             $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
         });
-
-        $('#btnLimparFornecedorGeral').click(function () {
-            $('#divFornecedoresGerais input[type!=button]').val('');
-        });
-
 
         GridFornecedor.CarregarGrid('#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDosProdutos", "ProcessoDeCotacaoFornecedor")', true,
             function () { return { IdProcessoCotacao: idProcessoCotacao }; });
