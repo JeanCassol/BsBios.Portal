@@ -92,6 +92,15 @@ $.fn.customKendoGrid = function (configuracao) {
         }
     };
 
+    if (!configuracao.dataSource.schema.data) {
+        configuracao.dataSource.schema.data = 'Registros';
+    }
+    
+    if (!configuracao.dataSource.schema.total) {
+        configuracao.dataSource.schema.total = 'QuantidadeDeRegistros';
+    }
+
+
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;

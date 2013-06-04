@@ -179,5 +179,48 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
         }
 
+        [TestMethod]
+        public void RepositorioDoProcessoDeCotacaoDeMateriasContemApenasProcessosDeCotacaoDeMaterial()
+        {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+            //crio dois processos de cotação (um de frete e um de materiais) e persisto
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacaoDeFrete);
+
+            //listo todos os processsos do repositório: deve retornar apenas o processo de cotação de  material
+            var processosDeCotacaoDeMaterias = ObjectFactory.GetInstance<IProcessosDeCotacaoDeMaterial>();
+            var todosProcessos = processosDeCotacaoDeMaterias.List();
+            Assert.AreEqual(1, todosProcessos.Count);
+            Assert.IsInstanceOfType(todosProcessos.Single(), typeof(ProcessoDeCotacaoDeMaterial));
+        }
+
+        [TestMethod]
+        public void QuandoBuscoProcessosDeCotacaoDeUmCompradorEspecificoTodosProcessosSaoDesteComprador()
+        {
+            //crio dois processos de cotação: 1 para cada comprador
+            Usuario comprador1 = DefaultObjects.ObtemUsuarioPadrao();
+            comprador1.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(comprador1);
+
+            Usuario comprador2 = DefaultObjects.ObtemUsuarioPadrao();
+            comprador2.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(comprador2);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao1);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao2);
+
+            var processosDeCotacaoDeMaterias = ObjectFactory.GetInstance<IProcessosDeCotacaoDeMaterial>();
+            IList<ProcessoDeCotacao> processosConsultados = processosDeCotacaoDeMaterias.EfetuadosPeloComprador(comprador1.Login).List();
+
+            Assert.AreEqual(1, processosConsultados.Count);
+
+            Assert.AreEqual(processoDeCotacao1.Id, processosConsultados.Single().Id);
+
+
+
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
@@ -8,7 +8,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaCotacaoDoFornecedorTests

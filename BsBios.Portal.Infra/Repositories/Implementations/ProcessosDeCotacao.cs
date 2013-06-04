@@ -81,5 +81,16 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Status == status);
             return this;
         }
+
+        public IProcessosDeCotacao Fechado()
+        {
+            return FiltraPorStatus(Enumeradores.StatusProcessoCotacao.Fechado);
+        }
+
+        public IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador)
+        {
+            Query = Query.Where(x => x.Comprador.Login == loginComprador);
+            return this;
+        }
     }
 }

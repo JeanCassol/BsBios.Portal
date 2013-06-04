@@ -1,5 +1,3 @@
-﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
@@ -9,7 +7,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaProcessoDeCotacaoDeFreteTests
@@ -72,7 +70,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor.Nome, vm.Nome);
             Assert.AreEqual(fornecedorParticipante.Id,vm.IdFornecedorParticipante);
             Assert.AreEqual(cotacaoItem.QuantidadeDisponivel,vm.QuantidadeDisponivel);
-            Assert.AreEqual("Não",vm.Selecionado);
+            Assert.AreEqual("N�o",vm.Selecionado);
             Assert.AreEqual(cotacaoItem.ValorComImpostos,vm.ValorComImpostos);
             Assert.AreEqual(cotacaoItem.Preco, vm.ValorLiquido);
 

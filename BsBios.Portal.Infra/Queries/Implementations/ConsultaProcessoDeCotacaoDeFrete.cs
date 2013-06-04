@@ -23,10 +23,10 @@ namespace BsBios.Portal.Infra.Queries.Implementations
         }
 
 
-        public ProcessoCotacaoFreteCadastroVm ConsultaProcesso(int idProcessoCotacaoMaterial)
+        public ProcessoCotacaoFreteCadastroVm ConsultaProcesso(int idProcessoCotacao)
         {
              
-            var processoDeCotacao = (ProcessoDeCotacaoDeFrete)  _processosDeCotacao.BuscaPorId(idProcessoCotacaoMaterial).Single();
+            var processoDeCotacao = (ProcessoDeCotacaoDeFrete)  _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
             ProcessoDeCotacaoItem item = processoDeCotacao.Itens.First();
 
             return new ProcessoCotacaoFreteCadastroVm()
@@ -99,9 +99,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
-            _processosDeCotacao.FiltraPorTipo(
-                (Enumeradores.TipoDeCotacao)
-                Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
+            _processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
             if (filtro.CodigoFornecedor != null)
             {
                 _processosDeCotacao

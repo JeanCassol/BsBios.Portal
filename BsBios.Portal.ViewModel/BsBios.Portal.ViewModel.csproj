@@ -46,6 +46,9 @@
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
+    <Compile Include="RelatorioEficienciaNegociacaoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoValoresVm.cs" />
+    <Compile Include="RelatorioEficienciaNegociacaoFiltroVm.cs" />
     <Compile Include="CotacaoMaterialConsultarVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
     <Compile Include="TipoDeFreteVm.cs" />

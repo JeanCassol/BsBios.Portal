@@ -46,7 +46,6 @@ namespace BsBios.Portal.UI.Controllers
         public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material;
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 filtro.CodigoFornecedor = usuarioConectado.Login;

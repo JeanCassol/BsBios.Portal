@@ -1,4 +1,4 @@
-ï»¿using System.Linq;
+using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Tests.DataProvider;
@@ -6,7 +6,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaRequisicaoDeCompraTests
@@ -32,9 +32,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoUmaRequisicaoDeCompraJaGerouUmProcessoDeCotacaoNaoApareceMaisDisponivelParaOutrosProcessos()
         {
-            //Cria duas requisiÃ§Ãµes de compra: 1 e 2
-            //Cria um processo de cotaÃ§Ã£o e associa a requisiÃ§Ã£o 1 com este processo
-            //Cria um novo processo de cotaÃ§Ã£o, salva e Lista as requisiÃ§Ãµes para este processo. A requisiÃ§Ã£o ' nÃ£o deve aparecer.
+            //Cria duas requisições de compra: 1 e 2
+            //Cria um processo de cotação e associa a requisição 1 com este processo
+            //Cria um novo processo de cotação, salva e Lista as requisições para este processo. A requisição ' não deve aparecer.
             RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
 
             RequisicaoDeCompra requisicao1 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
@@ -63,10 +63,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultoRequisicoesDisponiveisParaUmProcessoDeCotacaoListaAsRequisicoesQueJaEstaoAssociadasAoProcessoETambemAsQueNaoEstaoAssociadasANenhumOutroProcesso()
         {
-            //Cria duas requisiÃ§Ãµes de compra: 1 e 2
-            //Cria um processo de cotaÃ§Ã£o 1 e associa a requisiÃ§Ã£o 1 com este processo
+            //Cria duas requisições de compra: 1 e 2
+            //Cria um processo de cotação 1 e associa a requisição 1 com este processo
             //Salva os registros
-            //Depois consultar novamente as requisiÃ§Ãµes para o processo 1: deve listar as requisiÃµes 1 e 2
+            //Depois consultar novamente as requisições para o processo 1: deve listar as requisiões 1 e 2
             RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
 
             RequisicaoDeCompra requisicao1 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();

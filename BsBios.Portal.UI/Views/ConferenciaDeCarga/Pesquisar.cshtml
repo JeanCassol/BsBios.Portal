@@ -154,19 +154,11 @@
 
             });
 
-@*            $('#btnLimpar').click(function() {
-                $('#fieldSetFiltros').find('input[type!=button][name!=CodigoTerminal][name!=RealizacaoDeAgendamento]').val('');
-                $('#RealizacaoDeAgendamento').val('@((int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
-            });
-*@
             function atualizaGrid() {
                 var grid = $('#gridAgendamentos').data("kendoGrid");
                 grid.dataSource.read();
             }
 
-            //$('#btnPesquisar').click(function() {
-            //    atualizaGrid();
-            //});
             $('#divRealizarAgendamento').customDialog({
                 title: 'Realizar Agendamento',
                 buttons: {

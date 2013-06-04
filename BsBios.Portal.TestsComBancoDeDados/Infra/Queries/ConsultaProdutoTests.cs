@@ -1,4 +1,4 @@
-Ôªøusing System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Queries.Contracts;
@@ -7,7 +7,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaProdutoTests
@@ -15,7 +15,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultarFornecedoresDoProdutoRetornaListaDeViewModels()
         {
-            //preparando o cen√°rios
+            //preparando o cen·rios
 
             Fornecedor fornecedor01 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor02 = DefaultObjects.ObtemFornecedorPadrao();
@@ -44,9 +44,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultaForneceedoresDeVariosProdutosRetornaListaDeTodosOFornecedoresVinculadosAosProdutosSemRepetir()
         {
-            //cen√°rio: dois produtos, tr√™s fornecedores distintos. Sendo que um dos fornecedores est√° vinculado a ambos produtos.
-            //Os outros dois fornecedores, cada um est√° vinculado a um produto.
-            //Deve retornar uma lista com 3 fornecedores, sem repetir o fornecedor que est√° compartilhado com os dois produtos.
+            //cen·rio: dois produtos, trÍs fornecedores distintos. Sendo que um dos fornecedores est· vinculado a ambos produtos.
+            //Os outros dois fornecedores, cada um est· vinculado a um produto.
+            //Deve retornar uma lista com 3 fornecedores, sem repetir o fornecedor que est· compartilhado com os dois produtos.
             Produto produto1 = DefaultObjects.ObtemProdutoPadrao(); 
             Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
 

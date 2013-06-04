@@ -40,6 +40,12 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
         }
 
+        public KendoGridVm ListarCompradoresDeSuprimentos(PaginacaoVm paginacaoVm, UsuarioFiltroVm usuarioFiltroVm)
+        {
+            _usuarios.ContendoPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            return Listar(paginacaoVm, usuarioFiltroVm);
+        }
+
         public UsuarioConsultaVm ConsultaPorLogin(string login)
         {
             return _builderUsuario.BuildSingle(_usuarios.BuscaPorLogin(login));

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Relatório de Eficiência de Negociação";
+}
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
+<fieldset>
+    <legend>Filtros</legend>
+    <form>
+        @Html.Partial("_Filtro")
+        <div class="divBotao">
+            <input type="submit" id="btnGerarRelatorio" value="Gerar" class="blue" />
+        </div>
+    </form>
+</fieldset>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarComprador.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            aplicaMascaraData();
+            SelecionarComprador.ConfigurarJanelaModal();
+            $('#btnGerarRelatorio').click(function (e) {
+                e.preventDefault();
+                window.open('@Url.Action("GerarRelatorio","RelatorioAgendamentoVisualizacao")' + '/?' + $('form').serialize() +
+                    '&RelatorioDeAgendamento=' + $('input[name=RelatorioDeAgendamento]:checked').val());
+            });
+        })
+    </script>
+}
+

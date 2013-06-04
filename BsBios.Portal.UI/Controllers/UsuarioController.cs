@@ -35,6 +35,11 @@ namespace BsBios.Portal.UI.Controllers
             KendoGridVm kendoGridVm = _consultaUsuario.Listar(paginacaoVm, usuarioFiltroVm);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ListarCompradoresDeSuprimentos(PaginacaoVm paginacaoVm, UsuarioFiltroVm usuarioFiltroVm)
+        {
+            KendoGridVm kendoGridVm = _consultaUsuario.ListarCompradoresDeSuprimentos(paginacaoVm, usuarioFiltroVm);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public JsonResult PerfisDoUsuario(string login)

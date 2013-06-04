@@ -1,4 +1,4 @@
-Ôªøusing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
@@ -9,7 +9,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaQuotaRelatorioTests: RepositoryTest
@@ -29,7 +29,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void ConsultaPrevistoRealizadoRetornaOsValoresAgrupadosCorretamente()
         {
             //cria duas quotas, dois fornecedores. Os fornecedores tem agendamentos nas duas quotas. 
-            //Apenas uma das quotas de cada fornecedor est√° realizada.
+            //Apenas uma das quotas de cada fornecedor est· realizada.
             RemoveQueries.RemoverQuotasCadastradas();
 
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
@@ -87,7 +87,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void ConsultaPrevistoRealizadoFiltraPorFornecedorCorretamente()
         {
             //cria duas quotas, dois fornecedores. Os fornecedores tem agendamentos nas duas quotas. 
-            //Apenas uma das quotas de cada fornecedor est√° realizada.
+            //Apenas uma das quotas de cada fornecedor est· realizada.
             RemoveQueries.RemoverQuotasCadastradas();
 
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
@@ -131,7 +131,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void ConsultaPrevistoRealizadoPorDataRetornaOsValoresAgrupadosCorretamente()
         {
             //cria duas quotas, dois fornecedores. Os fornecedores tem agendamentos nas duas quotas. 
-            //Apenas uma das quotas de cada fornecedor est√° realizada.
+            //Apenas uma das quotas de cada fornecedor est· realizada.
             RemoveQueries.RemoverQuotasCadastradas();
 
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();

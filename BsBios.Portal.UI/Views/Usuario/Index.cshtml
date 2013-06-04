@@ -8,7 +8,7 @@
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 }
 <div id="cadastroUsuarios">
-    <div id="divFiltros">
+    <form>
         <fieldset>
             <legend>Filtros</legend>
             <div class="coluna">
@@ -21,11 +21,11 @@
                 @Html.TextBox("Nome","", new{@class="campogrande"})
             </div>
             <div class="divBotao">
-                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
             </div>
         </fieldset>
-    </div>
+    </form>
     <div id="gridUsuarios" class="divGrid"></div>
 
 </div>
@@ -97,14 +97,6 @@
 
 
                 ]
-            });
-
-            //$('#btnPesquisar').click(function() {
-            //    $("#gridUsuarios").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('#divFiltros input[type!=button]').val('');
             });
 
             $('.button_edit').die("click");

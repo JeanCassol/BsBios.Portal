@@ -62,22 +62,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Application\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaPerfilTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
-    <Compile Include="Application\Queries\ConsultaQuotaTests.cs" />
-    <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
-    <Compile Include="Application\Queries\ConsultaQuotaRelatorioTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeFreteTests.cs" />
-    <Compile Include="Application\Queries\ConsultaRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Application\Services\AberturaDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Application\Services\FechamentoDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaFornecedorTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaPerfilTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProcessoDeCotacaoDeFreteTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProdutoTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaQuotaRelatorioTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaQuotaTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaRequisicaoDeCompraTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaUsuarioTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaEficienciaNegociacaoTests.cs" />
     <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />

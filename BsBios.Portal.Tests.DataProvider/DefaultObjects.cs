@@ -120,12 +120,18 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
         {
+            return ObtemProcessoDeCotacaoDeMaterialAberto(ObtemUsuarioPadrao());
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialAberto(Usuario comprador)
+        {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAtualizado();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
+            processoDeCotacao.Abrir(comprador);
             return processoDeCotacao;
         }
+
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
         {
@@ -176,6 +182,14 @@ namespace BsBios.Portal.Tests.DataProvider
                 "usuario" + codigo + "@empresa.com.br");
             return usuario;
         }
+
+        public static Usuario ObtemCompradorDeSuprimentos()
+        {
+            var usuario = ObtemUsuarioPadrao();
+            usuario.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            return usuario;
+        }
+
 
         public static Produto ObtemProdutoPadrao()
         {
@@ -246,7 +260,7 @@ namespace BsBios.Portal.Tests.DataProvider
             return processoDeCotacao;
         }
 
-        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
+ public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
         {
             var processo = new ProcessoDeCotacaoDeFrete("Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());

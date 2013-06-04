@@ -1,7 +1,6 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Tests.DataProvider;
@@ -9,7 +8,7 @@ using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
 
-namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
+namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
     public class ConsultaProcessoDeCotacaoDeMaterialTests: RepositoryTest
@@ -38,8 +37,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             //Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Codigo,processoCotacaoMaterialCadastroVm.CodigoMaterial);
             Assert.IsTrue(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.HasValue);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoCotacaoMaterialCadastroVm.DataLimiteRetorno);
-            Assert.AreEqual("NÃ£o Iniciado",processoCotacaoMaterialCadastroVm.DescricaoStatus);
-            Assert.AreEqual("Requisitos do Processo de CotaÃ§Ã£o de Materiais", processoCotacaoMaterialCadastroVm.Requisitos);
+            Assert.AreEqual("Não Iniciado",processoCotacaoMaterialCadastroVm.DescricaoStatus);
+            Assert.AreEqual("Requisitos do Processo de Cotação de Materiais", processoCotacaoMaterialCadastroVm.Requisitos);
         }
 
         [TestMethod]
@@ -51,7 +50,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10}, 
-                new ProcessoCotacaoFiltroVm(){TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material});
+                new ProcessoCotacaoFiltroVm());
 
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             ProcessoCotacaoMaterialListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
@@ -59,7 +58,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             //Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Codigo, processoListagem.CodigoMaterial);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Itens.First().Produto.Descricao, processoListagem.Material);
             //Assert.AreEqual(1000, processoListagem.Quantidade);
-            Assert.AreEqual("NÃ£o Iniciado", processoListagem.Status);
+            Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoListagem.DataTermino);
         }
@@ -74,13 +73,13 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
-                new ProcessoCotacaoFiltroVm() { TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Material });
+                new ProcessoCotacaoFiltroVm());
 
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             ProcessoCotacaoMaterialListagemVm processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoListagem.Id);
             Assert.AreEqual("Sem Materiais", processoListagem.Material);
-            Assert.AreEqual("NÃ£o Iniciado", processoListagem.Status);
+            Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoListagem.DataTermino);
             
@@ -89,7 +88,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoListaProcessosDeCotacaoDeUmDeterminadoFornecedorRetornaApenasProcessosDesteFornecedor()
         {
-            //crio dois fornecedores e adiciono cada um deles em duas cotaÃ§Ãµes distintas
+            //crio dois fornecedores e adiciono cada um deles em duas cotações distintas
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
 
@@ -122,7 +121,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                    });
             Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
-            //verifico que estÃ¡ retornado os dois processos vinculados ao fornecedor 1
+            //verifico que está retornado os dois processos vinculados ao fornecedor 1
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao2.Id));
         }
@@ -130,7 +129,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultaProcessosDeCotacaoDeUmDeterminadoFornecedorNaoConsideraOsProcessosNaoIniciados()
         {
-            //crio um fornecedor e adiciono ele em uma cotaÃ§Ã£o aberta e uma nÃ£o iniciada
+            //crio um fornecedor e adiciono ele em uma cotação aberta e uma não iniciada
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
 
             ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
@@ -152,7 +151,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                });
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
-            //verifico que estÃ¡ retornado apenas o processo que foi aberto
+            //verifico que está retornado apenas o processo que foi aberto
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
             
         }
@@ -195,11 +194,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedorParticipante.Id, processoCotacaoFornecedorVm.IdFornecedorParticipante);
             Assert.AreEqual(fornecedor.Codigo, processoCotacaoFornecedorVm.Codigo);
             Assert.AreEqual(fornecedor.Nome, processoCotacaoFornecedorVm.Nome);
-            Assert.AreEqual("NÃ£o",processoCotacaoFornecedorVm.Selecionado);
+            Assert.AreEqual("Não",processoCotacaoFornecedorVm.Selecionado);
             Assert.IsNull(processoCotacaoFornecedorVm.ValorLiquido);
             Assert.IsNull(processoCotacaoFornecedorVm.ValorComImpostos);
             Assert.IsNull(processoCotacaoFornecedorVm.QuantidadeDisponivel);
-            Assert.AreEqual("NÃ£o", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
+            Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
 
         [TestMethod]
@@ -219,7 +218,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor.Codigo, processoCotacaoFornecedorVm.Codigo);
             Assert.AreEqual(fornecedor.Nome, processoCotacaoFornecedorVm.Nome);
             Assert.AreEqual("Sim", processoCotacaoFornecedorVm.Selecionado);
-            Assert.AreEqual("NÃ£o", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
+            Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
 
         [TestMethod]

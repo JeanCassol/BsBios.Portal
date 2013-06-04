@@ -12,5 +12,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacao CodigoDoProdutoContendo(string codigo);
         IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao);
         IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status);
+        IProcessosDeCotacao Fechado();
+        IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador);
     }
 }

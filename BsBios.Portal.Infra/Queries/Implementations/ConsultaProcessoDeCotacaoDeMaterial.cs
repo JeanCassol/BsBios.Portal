@@ -33,8 +33,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
-            _processosDeCotacao.FiltraPorTipo(
-                (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
+            _processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Material);
             if (filtro.CodigoFornecedor != null)
             {
                 _processosDeCotacao

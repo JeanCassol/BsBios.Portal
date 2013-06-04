@@ -41,6 +41,10 @@ namespace BsBios.Portal.IoC
             For<IProcessosDeCotacao>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessosDeCotacao>();
+            For<IProcessosDeCotacaoDeMaterial>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessosDeCotacaoDeMaterial>();
+
             For<IItinerarios>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Itinerarios>();
