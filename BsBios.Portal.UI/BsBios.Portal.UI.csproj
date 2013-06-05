@@ -138,6 +138,7 @@
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\ConfiguracaoController.cs" />
     <Compile Include="Controllers\CotacaoMaterialItemController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoAnexoController.cs" />
@@ -345,8 +346,6 @@
     <Content Include="Scripts\jquery-ui-extension.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
-    <Content Include="Scripts\jquery.fileupload.js" />
-    <Content Include="Scripts\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.loadmask.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.meio.mask.js" />

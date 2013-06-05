@@ -53,15 +53,12 @@
             })
         <fieldset>
             <legend>Enviar Anexos</legend>
-            <form action="/api/upload/upload" enctype="multipart/form-data">
+            <form>
                 <div>
-                    <input type="file" id="fileupload" name="fileupload" accept="*" multiple="multiple"/>
+                    <div>
+                        <input name="files" id="files" type="file" />
+                    </div>
                 </div>
-                <div @*class="well hide"*@ id="filelistholder"></div>
-                <div class="divBotao">
-                    <input type="button" id="btnEnviarArquivos" class="blue" value="Enviar"/>
-                </div>
-                <div id="divUploadErro" class="message-error"></div>
             </form>
         </fieldset>
         <fieldset>
@@ -69,14 +66,10 @@
             <div id="divAnexos" class="divGrid"></div>            
         </fieldset>
     </div>
-
 </div>
 <div id="divVisualizarCotacaoDoFornecedor" class="janelaModal"></div>
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/fileupload")
     <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
@@ -86,8 +79,12 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/SelecionarItens.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
-    <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
     <script type="text/javascript">
+        function adicionarCorAzulNosBotoesDeUpload() {
+            $('.k-button').addClass('blue');
+        }
+
         $(function() {
             aplicaMascaraData();
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
@@ -101,7 +98,7 @@
 
             ProcessoDeCotacaoItensGrid.configurar({
                 schemaData: 'Registros',
-                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao='+ idProcessoCotacao,
+                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + idProcessoCotacao,
                 renderTo: '#divGridItens',
                 exibirDetalhesDaRequisicao: true,
                 exibirBotaoSelecionarCotacao: true,
@@ -115,13 +112,15 @@
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 
             $('#divGridItens').off('click', '.button_select', false);
-            $('#divGridItens').on('click','.button_select', function () {
+            $('#divGridItens').on('click', '.button_select', function() {
                 var grid = $('#divGridItens').data("kendoGrid");
                 var dataItem = grid.dataItem(grid.select());
-                $('#divSelecionarCotacoes').customLoad({url:UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial
-                    + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem});
+                $('#divSelecionarCotacoes').customLoad({
+                    url: UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial
+                        + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem
+                });
             });
-            
+
             $('#divVisualizarCotacaoDoFornecedor').customDialog({
                 title: 'Cotações do Fornecedor',
                 width: 815
@@ -131,13 +130,15 @@
             $("#gridCotacaoFornecedor").find('.button_visualize').live("click", function() {
                 var grid = $("#gridCotacaoFornecedor").data("kendoGrid");
                 var dataItem = grid.dataItem($(this).parents('tr:first'));
-                $('#divVisualizarCotacaoDoFornecedor').customLoad({url:'@Url.Action("ConsultarCadastro","CotacaoMaterial")'
-                + '?idProcessoCotacao=' + $('#Id').val()
-                + '&codigoFornecedor=' + dataItem.Codigo});
+                $('#divVisualizarCotacaoDoFornecedor').customLoad({
+                    url: '@Url.Action("ConsultarCadastro", "CotacaoMaterial")'
+                        + '?idProcessoCotacao=' + $('#Id').val()
+                        + '&codigoFornecedor=' + dataItem.Codigo
+                });
 
             });
 
-            $('#btnSalvarProcesso').click(function () {
+            $('#btnSalvarProcesso').click(function() {
                 $('#divErro').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
@@ -145,56 +146,70 @@
                 }
 
                 var formData = $(form).serialize();
-                $.post('@Url.Action("AtualizarProcesso","ProcessoDeCotacaoService" )', formData,
-                    function (data) {
+                $.post('@Url.Action("AtualizarProcesso", "ProcessoDeCotacaoService")', formData,
+                    function(data) {
                         if (data.Sucesso) {
                             $('#Id').val(data.IdProcessoCotacao);
                             $('#divOutrasOperacoes').show();
                             Mensagem.ExibirMensagemDeErro("O Processo de Cotação foi salvo com sucesso.");
-                            
+
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }
                     });
             });
-            
-            $('#fileupload').fileupload({
-                dataType: "json",
-                url: "/api/upload/upload",
-                limitConcurrentUploads: 1,
-                singleFileUploads: false,
-                sequentialUploads: true,
-                formData: { IdProcessoCotacao: $('#Id').val() },
-                add: function (e, data) {
-                    $.each(data.files, function (indice, arquivo) {
-                        if (arquivo.size > 4000000) {
-                            $('#divUploadErro').append('O arquivo ' + arquivo.name + ' ultrapassou o tamanho máximo permitido de 4 MB.');
-                            return;
-                        }
-                        data.context = $('<div />').text(arquivo.name).appendTo('#filelistholder');
-                        $('#btnEnviarArquivos').bind('click.uploadsubmit', function () {
-                            data.submit();
-                        });
-                    });
-                },
-                done: function (e, data) {
-                    data.context.text(data.files[0].name + '... Concluído');
-                },
-                fail: function (e, data) {
-                    if (data.messages.uploadedBytes) {
-                        $('#divUploadErro').html(data.messages.uploadedBytes);
-                    } else {
-                        $('#divUploadErro').html(data.jqXHR.responseText.replace('\r\n', '<br/>'));
+
+            var configuracao;
+            $.ajax({
+                url: '@Url.Action("Consultar", "Configuracao")',
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (!data.Sucesso) {
+                        return;
                     }
+                    configuracao = data.configuracao;
                 },
-                always: function (e, data) {
-                    $('#filelistholder').empty();
-                    GridAnexo.Atualizar();
-                },
-                stop: function(e) {
-                    $('#btnEnviarArquivos').unbind('click.uploadsubmit');
+                complete: function() {
+                    if (configuracao) {
+
+                    } else {
+                        configuracao = { TamanhoMaximoDaRequisicaoEmBytes: 4000000, TamanhoMaximoDaRequisicaoEmMegaBytes: 4 };
+                    }
+
+                    $("#files").kendoUpload({
+                        async: {
+                            //saveUrl: '/api/Upload/Upload',
+                            saveUrl: '@Url.HttpRouteUrl("ActionApi", new {controller = "Upload", action = "Upload"})',
+                            autoUpload: false
+                        },
+                        localization: {
+                            select: 'Selecione...',
+                            uploadSelectedFiles: 'Enviar arquivos'
+                        },
+                        select: function(e) {
+                            $.each(e.files, function(index, file) {
+                                if (file.size > configuracao.TamanhoMaximoDaRequisicaoEmBytes) {
+                                    Mensagem.ExibirMensagemDeErro('O arquivo ' + file.name + ' não será adicionado, pois superou o tamanho máximo de ' + configuracao.TamanhoMaximoDaRequisicaoEmMegaBytes + ' MB.');
+                                    e.preventDefault();
+                                }
+                            });
+                            //adicionarCorAzulNosBotoesDeUpload();
+                        },
+                        upload: function(e) {
+                            e.data = { IdProcessoCotacao: $('#Id').val() };
+                        },
+                        success: function(e) {
+                            GridAnexo.Atualizar();
+                        },
+                        error: function(e) {
+                            Mensagem.ExibirMensagemDeErro(e.XMLHttpRequest.responseText);
+                        }
+                    });
                 }
             });
-        })
+
+        });
     </script>
 }

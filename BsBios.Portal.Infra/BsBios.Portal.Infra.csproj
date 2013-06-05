@@ -96,6 +96,7 @@
     <Compile Include="Mappings\ProdutoMap.cs" />
     <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
+    <Compile Include="Model\Configuracao.cs" />
     <Compile Include="Model\ContaDeEmail.cs" />
     <Compile Include="Model\CredencialSap.cs" />
     <Compile Include="Model\EmailDoPortal.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
     <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
+    <Compile Include="Services\Contracts\IServicoDeConfiguracao.cs" />
     <Compile Include="Services\Contracts\IFileService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Services\Implementations\GeradorDeSenha.cs" />
     <Compile Include="Services\Implementations\GeradorDeMensagemDeEmail.cs" />
     <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
+    <Compile Include="Services\Implementations\ServicoDeConfiguracao.cs" />
     <Compile Include="Services\Implementations\ValidadorUsuario.cs" />
   </ItemGroup>
   <ItemGroup>

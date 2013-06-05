@@ -37,8 +37,8 @@ namespace BsBios.Portal.UI
             bundles.Add(new ScriptBundle("~/bundles/scriptsgerais")
                 .Include("~/Scripts/scriptsGerais.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/fileupload")
-                .Include("~/Scripts/jquery.fileupload.js", "~/Scripts/jquery.iframe-transport.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/fileupload")
+            //    .Include("~/Scripts/jquery.fileupload.js", "~/Scripts/jquery.iframe-transport.js"));
 
             //bundle não funciona com minified files
             //para fazer funcionar teria que alterar a IgnoreList em bundles.IgnoreList, conforme fórum http://stackoverflow.com/questions/11980458/mvc4-bundler-not-including-min-files
