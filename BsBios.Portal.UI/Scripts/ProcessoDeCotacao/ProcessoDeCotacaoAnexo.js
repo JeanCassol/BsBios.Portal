@@ -20,7 +20,7 @@
                 {
                     width: 70,
                     title: "Excluir",
-                    template: '<input type="button" class="button_remove" data-filename="${FileName}"></input>'
+                    template: '<input type="button" class="button16 button_remove" data-filename="${FileName}"></input>'
                 });
         }
         $(divGrid).customKendoGrid({

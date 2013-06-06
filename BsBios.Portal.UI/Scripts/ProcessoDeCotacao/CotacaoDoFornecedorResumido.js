@@ -19,7 +19,7 @@
             {
                 width: 65,
                 title: "Reenviar E-mail",
-                template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
+                template: '<input type="button" class="button16 button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
             },
             {
                 field: 'Selecionado',
@@ -48,7 +48,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_visualize"></input>'
+                template: '<input type="button" class="button16 button_visualize"></input>'
             });
         }
 

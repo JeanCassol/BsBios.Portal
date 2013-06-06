@@ -96,14 +96,14 @@ GridNotasFiscais = {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
                     sortable: false,
-                    template: '<input type="button" class="button_remove"></input>'
+                    template: '<input type="button" class="button16 button_remove"></input>'
                 });
         } else {
             arrayDeColunas.push({
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
                 width: 30,
                 sortable: false,
-                template: '<input type="button" class="button_visualize"></input>'
+                template: '<input type="button" class="button16 button_visualize"></input>'
             });
         }
 

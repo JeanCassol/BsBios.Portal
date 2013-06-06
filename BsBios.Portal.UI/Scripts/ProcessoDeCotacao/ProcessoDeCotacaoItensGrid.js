@@ -60,7 +60,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_add"></input>'
+                template: '<input type="button" class="button16 button_add"></input>'
             });
         }
         
@@ -68,7 +68,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_edit"></input>'
+                template: '<input type="button" class="button16 button_edit"></input>'
             });
         }
         
@@ -76,7 +76,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_visualize"></input>'
+                template: '<input type="button" class="button16 button_visualize"></input>'
             });
         }
 
@@ -93,7 +93,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_remove"></input>'
+                template: '<input type="button" class="button16 button_remove"></input>'
             });
         }
 
