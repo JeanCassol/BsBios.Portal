@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Web.Script.Serialization;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
@@ -57,7 +62,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComFornecedores()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacaoDeMaterial);
 
@@ -211,16 +216,70 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao2);
 
-            var processosDeCotacaoDeMaterias = ObjectFactory.GetInstance<IProcessosDeCotacaoDeMaterial>();
-            IList<ProcessoDeCotacao> processosConsultados = processosDeCotacaoDeMaterias.EfetuadosPeloComprador(comprador1.Login).List();
+            var processosDeCotacaoDeMateriais = ObjectFactory.GetInstance<IProcessosDeCotacaoDeMaterial>();
+            IList<ProcessoDeCotacao> processosConsultados = processosDeCotacaoDeMateriais.EfetuadosPeloComprador(comprador1.Login).List();
 
             Assert.AreEqual(1, processosConsultados.Count);
 
             Assert.AreEqual(processoDeCotacao1.Id, processosConsultados.Single().Id);
 
+        }
+
+        [TestMethod]
+        public void QuandoFiltroProcessosDeCotacaoPorRequisicaoDeCompraRetornaApenasProcessosVinculadosComARequisicao()
+        {
+            //crio duas requisicoes de compra e  um processo para cada requisicão
+            ProcessoDeCotacaoDeMaterial processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            RequisicaoDeCompra requisicaoDeCompra1 = ((ProcessoDeCotacaoDeMaterialItem) processoDeCotacao1.Itens.Single()).RequisicaoDeCompra;
+            ProcessoDeCotacaoDeMaterial processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+
+            DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>{processoDeCotacao1,processoDeCotacao2});
+
+            //filtra os processos por uma das requisições
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+            var processosConsultados = processosDeCotacao.GeradosPelaRequisicaoDeCompra(requisicaoDeCompra1.Numero, requisicaoDeCompra1.NumeroItem).List();
+
+            //retorna apenas o processo vinculado com a requisição indicada
+            Assert.AreEqual(1, processosConsultados.Count);
+            Assert.AreEqual(processoDeCotacao1.Id, processosConsultados.Single().Id);
+
+        }
+
+        [TestMethod]
+        public void TesteRelatorioDinamico()
+        {
+            IList<dynamic> listaDinamica = FornecedoresDinamicos.RetornoDinamico();
+            foreach (dynamic o in listaDinamica)
+            {
+                Assert.AreEqual("Bob", o.FirstName);
+                Assert.AreEqual("Smith", o.LastName);
+            }
+
+            //var serializer = new JavaScriptSerializer();
+            //Console.WriteLine(serializer.Serialize(listaDinamica));
+
+            Console.WriteLine(JsonConvert.SerializeObject( listaDinamica, new KeyValuePairConverter( ) ));
 
 
         }
 
+    }
+
+    internal static class FornecedoresDinamicos
+    {
+
+        public static IList<dynamic> RetornoDinamico()
+        {
+            dynamic data = new ExpandoObject();
+            IList<dynamic> listaDinamica = new List<dynamic>();
+
+            var dictionary = (IDictionary<string, object>)data;
+            dictionary.Add("FirstName", "Bob");
+            dictionary.Add("LastName", "Smith");
+
+            listaDinamica.Add(dictionary);
+
+            return listaDinamica;
+        }
     }
 }

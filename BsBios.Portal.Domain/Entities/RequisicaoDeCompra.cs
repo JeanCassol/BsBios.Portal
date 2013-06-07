@@ -1,4 +1,5 @@
 ﻿using System;
+using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -21,6 +22,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string CodigoGrupoDeCompra { get; protected set; }
         public virtual bool Mrp { get; protected set; }
         public virtual bool GerouProcessoDeCotacao { get; protected set; }
+        public virtual Enumeradores.StatusRequisicaoCompra  Status { get; protected set; }
 
         protected RequisicaoDeCompra(){}
 
@@ -45,6 +47,7 @@ namespace BsBios.Portal.Domain.Entities
             CodigoGrupoDeCompra = codigoGrupoDeCompra;
             Mrp = mrp;
             GerouProcessoDeCotacao = false;
+            Status = Enumeradores.StatusRequisicaoCompra.Ativo;
         }
 
         public virtual ProcessoDeCotacaoDeMaterial GerarProcessoDeCotacaoDeMaterial()
@@ -63,6 +66,12 @@ namespace BsBios.Portal.Domain.Entities
         {
             GerouProcessoDeCotacao = false;
         }
+
+        public virtual void Bloquear()
+        {
+            Status = Enumeradores.StatusRequisicaoCompra.Bloqueado;
+        }
+
 
         #region Equals
 
@@ -87,5 +96,6 @@ namespace BsBios.Portal.Domain.Entities
             return Equals((RequisicaoDeCompra) obj);
         }
         #endregion
+
     }
 }

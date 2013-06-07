@@ -24,6 +24,12 @@ namespace BsBios.Portal.Common
             Cancelado = 4*/
         }
 
+        public enum StatusRequisicaoCompra
+        {
+            Ativo = 1,
+            Bloqueado = 2
+        }
+
         public enum StatusUsuario
         {
             Ativo = 1,

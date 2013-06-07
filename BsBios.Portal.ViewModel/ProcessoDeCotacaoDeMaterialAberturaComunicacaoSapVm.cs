@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
@@ -11,16 +10,29 @@ namespace BsBios.Portal.ViewModel
     public class ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm
     {
         [DataMember]
-        public DateTime DataCriacao { get; set; }
+        public int IdProcessoCotacao { get; set; } 
+        //[DataMember]
+        //public DateTime DataCriacao { get; set; }
         [DataMember]
         public string CodigoFornecedor { get; set; }
+        //[DataMember]
+        //public DateTime DataLimiteRetorno { get; set; }
+
         [DataMember]
-        public DateTime DataLimiteRetorno { get; set; }
+        public ListaProcessoDeCotacaoDeMaterialAberturaItemVm Itens { get; set; }
+    }
+
+    public  class ProcessoDeCotacaoDeMaterialAberturaItemVm
+    {
         [DataMember]
         public string NumeroRequisicao { get; set; }
         [DataMember]
         public string NumeroItem { get; set; }
     }
+
     [CollectionDataContract]
-    public class ListaProcessoDeCotacaoDeMaterialAbertura: List<ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm>{}
+    public class ListaProcessoDeCotacaoDeMaterialAberturaItemVm : List<ProcessoDeCotacaoDeMaterialAberturaItemVm>{}
+
+    //[CollectionDataContract]
+    //public class ListaProcessoDeCotacaoDeMaterialAbertura: List<ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm>{}
 }

@@ -58,7 +58,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     }
                     if (idProcessoCotacao == 20)
                     {
-                        _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+                        _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
                         var codigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
                         var cotacao = _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                                            DefaultObjects.ObtemIncotermPadrao(), "inc");

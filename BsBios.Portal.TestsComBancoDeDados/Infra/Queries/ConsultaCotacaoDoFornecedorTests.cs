@@ -16,7 +16,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
         [TestMethod]
         public void QuandoConsultoUmaCotacaoDoFornecedorQueAindaNaoFoiPreenchidaRetornaOsDadosEsperados()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
 
@@ -37,7 +37,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
         [TestMethod]
         public void QuandoConsultoUmaCotacaoDoFornecedorParaUmItemQueAindaNaoFoiPreenchidaRetornaOsDadosEsperados()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var itemDoProcesso = (ProcessoDeCotacaoDeMaterialItem) processo.Itens.First();
@@ -58,7 +58,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
         [TestMethod]
         public void QuandoConsultoUmaCotacaoDoFornecedorQueJaFoiPreenchidaRetornaOsDadosEsperados()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
@@ -89,7 +89,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
         [TestMethod]
         public void QuandoConsultoUmaCotacaoDoFornecedorParaUmItemQueJaFoiPreenchidaRetornaOsDadosEsperados()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),
@@ -167,7 +167,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
         [TestMethod]
         public void QuandoInformoImpostosDeUmaCotacaoRetornaOsDadosDosImpostos()
         {
-            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             Fornecedor fornecedor = processo.FornecedoresParticipantes.First().Fornecedor;
             var cotacao = processo.InformarCotacao(fornecedor.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                      DefaultObjects.ObtemIncotermPadrao(),"Desc Incoterm");

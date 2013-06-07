@@ -70,7 +70,7 @@ Formato = {
 
 $.fn.customKendoGrid = function (configuracao) {
     var container = $(this);
-    if (!configuracao.dataBound) {
+    if (!configuracao.dataBound || (configuracao.autoBind !== undefined && !configuracao.autoBind)) {
         this.addClass('k-loading-image');
         configuracao.dataBound = function () {
             container.removeClass('k-loading-image');
@@ -347,7 +347,7 @@ UrlPadrao = {};
 TipoDeCotacao = {};
 
 $(function () {
-    $('.divGrid').addClass('alturaMinima');
+    $('.divGrid:not([data-autobind=false])').addClass('alturaMinima');
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
     $('#btnPesquisar').die("click");

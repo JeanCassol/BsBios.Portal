@@ -1,12 +1,12 @@
-﻿using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BsBios.Portal.Tests.Application.Builders
+namespace BsBios.Portal.Tests.Infra.Builders
 {
     [TestClass]
     public class FornecedorCadastroBuilderTests

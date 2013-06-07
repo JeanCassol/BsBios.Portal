@@ -118,7 +118,7 @@ namespace BsBios.Portal.Tests.DataProvider
             return processo;
         }
 
-        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialAbertoPadrao()
         {
             return ObtemProcessoDeCotacaoDeMaterialAberto(ObtemUsuarioPadrao());
         }
@@ -146,7 +146,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             CotacaoMaterial cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(), "Descrição do Incotem");
             var processoDeCotacaoItem = processoDeCotacao.Itens.First();

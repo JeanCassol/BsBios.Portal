@@ -454,7 +454,7 @@ input[type="checkbox"].input-validation-error {
     width: 250px;
 } 
 .campogrande, select {
-    width: 350px;
+    width: 340px;
 }
 .campoextragrande {
     width: 700px;
@@ -548,6 +548,11 @@ input[type="checkbox"].input-validation-error {
     color: red;
     font-weight: bold;
 }
+.labelTotal {
+    font-size: 14px;
+    font-weight: bold;
+}
+
 .mensagemErro {
     margin: 0;
 }

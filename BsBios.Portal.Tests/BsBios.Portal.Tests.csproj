@@ -72,7 +72,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Application\Builders\FornecedorCadastroBuilderTests.cs" />
     <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
@@ -82,12 +81,14 @@
     <Compile Include="Application\Services\CadastroQuotaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoAberturaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoItensServiceTests.cs" />
+    <Compile Include="Application\Services\AlteradorDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Domain\Entities\QuotaTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeCarregamentoFactoryTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeDescarregamentoFactoryTests.cs" />
     <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoTests.cs" />
     <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoFactoryTests.cs" />
     <Compile Include="Domain\Services\VerificaSePermiteEditarAgendamentoTests.cs" />
+    <Compile Include="Infra\Builders\FornecedorCadastroBuilderTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />

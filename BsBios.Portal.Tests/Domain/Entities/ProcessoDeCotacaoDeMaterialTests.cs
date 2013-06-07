@@ -220,14 +220,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoFecharSemCotacaoSelecionadaException))]
         public void QuandoFecharUmProcessoDeCotacaoENaoHouverPeloMenosFornecedorSelecionadoDeveGerarExcecao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             processoDeCotacaoDeMaterial.Fechar("texto de cabeçalho", "nota de cabeçalho");
         }
 
         [TestMethod]
         public void QuandoFecharUmProcessoDeCotacaoDevePassarParaStatusFechado()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             string codigoDoFornecedor = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo;
             var cotacao =  processoDeCotacaoDeMaterial.InformarCotacao(codigoDoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                                         DefaultObjects.ObtemIncotermPadrao(), "inc");
@@ -385,7 +385,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
         public void NaoEPermitidoAdicionarItensEmUmProcessoDeCotacaoAberto()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             processoDeCotacao.AdicionarItem(DefaultObjects.ObtemRequisicaoDeCompraPadrao());
         }
 
@@ -393,7 +393,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof(ProcessoDeCotacaoAlterarItensException))]
         public void NaoEPermitidoRemoverItensDeUmProcessoDeCotacaoAberto()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             processoDeCotacao.RemoverItem(processoDeCotacao.Itens.First());
         }
 

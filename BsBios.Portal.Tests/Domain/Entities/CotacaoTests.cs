@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             var fornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             var cotacao = processoDeCotacao.InformarCotacao(fornecedor, condicaoDePagamento, incoterm,"Descrição do Incoterm");
             Assert.AreSame(incoterm, cotacao.Incoterm);
@@ -29,7 +29,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             var fornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             var cotacao = processoDeCotacao.InformarCotacao(fornecedor, condicaoDePagamento, incoterm, "Descrição do Incoterm");
             var itemDoProcesso = processoDeCotacao.Itens.First();
@@ -66,7 +66,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             CondicaoDePagamento condicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
             Incoterm incoterm = DefaultObjects.ObtemIncotermPadrao();
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             var fornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             var cotacao = processoDeCotacao.InformarCotacao(fornecedor, condicaoDePagamento, incoterm, "Descrição do Incoterm");
             var itemDoProcesso = processoDeCotacao.Itens.First();
@@ -128,7 +128,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [ExpectedException(typeof (MvaNaoInformadoException))]
         public void QuandoACotacaoPossuiIcmsDeSubstituicaoTributariaEoCampoMvaNaoForPreenchidoDeveDispararExcecao()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             ProcessoDeCotacaoItem processoDeCotacaoItem = processoDeCotacao.Itens.First();
             var cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),DefaultObjects.ObtemIncotermPadrao(), "INC");

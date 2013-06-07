@@ -2,7 +2,7 @@
 @using BsBios.Portal.ViewModel
 @model RelatorioEficienciaNegociacaoFiltroVm
 @Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioEficienciaNegociacaoFiltroVm,DateTime?>(x => x.DataDe,"campoDatePicker maskdata"),
-new ColunaComTextBox<RelatorioEficienciaNegociacaoFiltroVm,DateTime?>(x => x.DataAte,"campoDatePicker maskdata"))
+                              new ColunaComTextBox<RelatorioEficienciaNegociacaoFiltroVm,DateTime?>(x => x.DataAte,"campoDatePicker maskdata"))
 <div class="linha">
     <div class="coluna">
         @Html.HiddenFor(x => x.LoginComprador)

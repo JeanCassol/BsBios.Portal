@@ -140,6 +140,7 @@
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
     <Compile Include="Controllers\ConfiguracaoController.cs" />
     <Compile Include="Controllers\CotacaoMaterialItemController.cs" />
+    <Compile Include="Controllers\EficienciaDeNegociacaoController.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoAnexoController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialEmailController.cs" />

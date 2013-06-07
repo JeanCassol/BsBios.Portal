@@ -6,9 +6,9 @@ using StructureMap.Pipeline;
 
 namespace BsBios.Portal.IoC
 {
-    public class AplicationServiceRegistry : Registry
+    public class ApplicationServiceRegistry : Registry
     {
-        public  AplicationServiceRegistry()
+        public  ApplicationServiceRegistry()
         {
             For<ICadastroUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
@@ -99,6 +99,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoDeMaterialItensService>();
 
+            For<IServicoDeEficienciaDeNegociacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ServicoDeEficienciaDeNegociacao>();
 
         }
     }

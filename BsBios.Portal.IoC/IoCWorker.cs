@@ -35,7 +35,7 @@ namespace BsBios.Portal.IoC
                  .HybridHttpOrThreadLocalScoped()
                  .Use(ctx => ctx.GetInstance<UnitOfWorkNh>());
 
-                x.AddRegistry<AplicationServiceRegistry>();
+                x.AddRegistry<ApplicationServiceRegistry>();
                 x.AddRegistry<QueriesRegistry>();
                 x.AddRegistry<BuildersRegistry>();
                 x.AddRegistry<DomainServiceRegistry>();

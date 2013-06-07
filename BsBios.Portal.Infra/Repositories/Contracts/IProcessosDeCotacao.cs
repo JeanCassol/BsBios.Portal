@@ -14,5 +14,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status);
         IProcessosDeCotacao Fechado();
         IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador);
+        IProcessosDeCotacao GeradosPelaRequisicaoDeCompra(string numeroDaRequisicao, string numeroDoItem);
     }
 }

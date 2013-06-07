@@ -92,5 +92,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Comprador.Login == loginComprador);
             return this;
         }
+
+        public IProcessosDeCotacao GeradosPelaRequisicaoDeCompra(string numeroDaRequisicao, string numeroDoItem)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
