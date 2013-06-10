@@ -163,6 +163,7 @@
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
     <Compile Include="Controllers\RelatorioProcessoCotacaoMaterialController.cs" />
+    <Compile Include="Controllers\RequisicaoDeCompraAlteracaoController.cs" />
     <Compile Include="Controllers\RequisicaoDeCompraController.cs" />
     <Compile Include="Controllers\SelecionarCompradorController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
@@ -319,6 +320,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\icons\add_16.png" />
+    <Content Include="Images\icons\bloquear_16.png" />
     <Content Include="Images\icons\DeleteRed_16.png" />
     <Content Include="Images\icons\download_16.png" />
     <Content Include="Images\icons\editar_16.png" />
@@ -470,7 +472,6 @@
     <Content Include="Views\RelatorioAgendamentoVisualizacao\ListagemDeAgendamentos.cshtml" />
     <Content Include="Views\RelatorioAgendamentoVisualizacao\PlanejadoRealizadoPorData.cshtml" />
     <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
-    <Content Include="Views\Shared\_ProcessoCotacaoItem.cshtml" />
     <Content Include="Views\Shared\_SelecionarItens.cshtml" />
     <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
     <Content Include="Views\CotacaoMaterial\_ConsultarCadastro.cshtml" />

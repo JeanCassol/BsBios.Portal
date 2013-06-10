@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Application.Services.Implementations;
+﻿using System;
+using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
@@ -15,6 +16,7 @@ namespace BsBios.Portal.Tests.Application.Services
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IRequisicoesDeCompra> _requisicoesDeCompraMock;
+        private readonly Mock<IProcessosDeCotacaoDeMaterial> _processosDeCotacaoDeMaterialMock;
 
         public AlteradorDeRequisicaoDeCompraTests()
         {
@@ -25,22 +27,39 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _requisicoesDeCompraMock.Setup(x => x.Save(It.IsAny<RequisicaoDeCompra>()))
                                     .Callback(CommonGenericMocks<RequisicaoDeCompra>.DefaultSaveCallBack(_unitOfWorkMock));
+
+            _processosDeCotacaoDeMaterialMock = new Mock<IProcessosDeCotacaoDeMaterial>(MockBehavior.Strict);
+            _processosDeCotacaoDeMaterialMock.Setup(x => x.GeradosPelaRequisicaoDeCompra(It.IsAny<int>()))
+                                             .Returns(_processosDeCotacaoDeMaterialMock.Object);
+
+            _processosDeCotacaoDeMaterialMock.Setup(x => x.Count())
+                                             .Returns(0);
         }
 
         [TestMethod]
         public void QuandoBloqueioRequisicaoDeCompraComSucessoOcorrePersistencia()
         {
-            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object,_requisicoesDeCompraMock.Object);
-            alterador.Alterar(10);
+            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object,_requisicoesDeCompraMock.Object, _processosDeCotacaoDeMaterialMock.Object);
+            alterador.Bloquear(10);
             CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
-        public void QuandoOcorreAlgumErroAoAlterarRequisicaoDeCompraNaoOcorrePersistencia()
+        public void QuandoOcorreAlgumErroAoBloquearRequisicaoDeCompraNaoOcorrePersistencia()
         {
-            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object);
-            alterador.Alterar(10);
-            CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
+            //faço disparar uma exceção no método save do repositório
+            _requisicoesDeCompraMock.Setup(x => x.Save(It.IsAny<RequisicaoDeCompra>()))
+                                    .Throws(new ExcecaoDeTeste("erro ao salvar requisição"));
+            try
+            {
+                var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object, _processosDeCotacaoDeMaterialMock.Object);
+                alterador.Bloquear(10);
+                Assert.Fail("Deveria ter gerado exceção");
+            }
+            catch (Exception)
+            {
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
+            }
         }
 
         [TestMethod]
@@ -49,8 +68,8 @@ namespace BsBios.Portal.Tests.Application.Services
             _requisicoesDeCompraMock.Setup(x => x.Save(It.IsAny<RequisicaoDeCompra>()))
                                     .Callback((RequisicaoDeCompra req) => Assert.AreEqual(Enumeradores.StatusRequisicaoCompra.Bloqueado,req.Status ));
 
-            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object);
-            alterador.Alterar(10);
+            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object, _processosDeCotacaoDeMaterialMock.Object);
+            alterador.Bloquear(10);
             _requisicoesDeCompraMock.Verify(x => x.Save(It.IsAny<RequisicaoDeCompra>()), Times.Once());
         }
 
@@ -58,7 +77,12 @@ namespace BsBios.Portal.Tests.Application.Services
         [ExpectedException(typeof (RequisicaoDeCompraComProcessoDeCotacaoBloqueioException))]
         public void NaoDevePermtirBloquearUmaRequisicaDeCompraQueJaEstejaVinculadaComUmProcessoDeCotacaoDeMateriais()
         {
-            
+            //configuro count para retornar 1. Com isso consulta que verifica o número de processo vinculados a requisicaodecompra retorna 1.
+            _processosDeCotacaoDeMaterialMock.Setup(x => x.Count()).Returns(1);
+            var alterador = new AlteradorDeRequisicaoDeCompra(_unitOfWorkMock.Object, _requisicoesDeCompraMock.Object, _processosDeCotacaoDeMaterialMock.Object);
+            alterador.Bloquear(10);
+            _processosDeCotacaoDeMaterialMock.Verify(x => x.Count(), Times.Once());
+            CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
         }
     }
 }

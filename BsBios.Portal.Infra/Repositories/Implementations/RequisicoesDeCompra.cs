@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 
@@ -44,6 +45,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IList<RequisicaoDeCompra> FiltraPorIds(int[] itensParaAdicionar)
         {
             return Query.Where(x => itensParaAdicionar.Contains(x.Id)).ToList();
+        }
+
+        public IRequisicoesDeCompra SomenteAtivas()
+        {
+            Query = Query.Where(req => req.Status == Enumeradores.StatusRequisicaoCompra.Ativo);
+            return this;
         }
     }
 }

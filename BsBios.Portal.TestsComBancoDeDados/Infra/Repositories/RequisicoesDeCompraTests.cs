@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
@@ -71,6 +72,24 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual("Requisição de Compra enviada pelo SAP", requisicaoConsultada.Descricao);
             Assert.AreEqual("REQ0001", requisicaoConsultada.Numero);
             Assert.AreEqual("00001", requisicaoConsultada.NumeroItem);
+        }
+
+        [TestMethod]
+        public void QuandoFiltroRequisicoesAtivasTodasRequisicaoRetornadasEstaoAtivas()
+        {
+            RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
+
+            RequisicaoDeCompra requisicaoDeCompra1 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            RequisicaoDeCompra requisicaoDeCompra2 = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            requisicaoDeCompra2.Bloquear();
+
+            DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicaoDeCompra1);
+            DefaultPersistedObjects.PersistirRequisicaoDeCompra(requisicaoDeCompra2);
+
+            var requisicoesDeCompra = ObjectFactory.GetInstance<IRequisicoesDeCompra>();
+            var requisicoesAtivas = requisicoesDeCompra.SomenteAtivas().List();
+            Assert.AreEqual(1, requisicoesAtivas.Count);
+            Assert.AreEqual(requisicaoDeCompra1.Id, requisicoesAtivas.Single().Id);
         }
 
     }

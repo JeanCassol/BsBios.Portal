@@ -22,18 +22,19 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal QuantidadeDisponivel { get; protected set; }
         public virtual string Observacoes { get; protected set; }
         public virtual IList<Imposto> Impostos { get; protected set; }
+        public virtual IList<HistoricoDePreco> HistoricosDePreco { get; protected set; }
         private readonly CalculadorDeBaseDeCalculoFactory _calculadorDeBaseDeCalculoFactory;
-        
 
         protected CotacaoItem()
         {
             Impostos = new List<Imposto>();
-            Selecionada = false;
+            HistoricosDePreco = new List<HistoricoDePreco>();
             _calculadorDeBaseDeCalculoFactory = new CalculadorDeBaseDeCalculoFactory();
         }
         protected CotacaoItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal preco, 
             decimal quantidadeDisponivel,string observacoes):this()
         {
+            Selecionada = false;
             Cotacao = cotacao;
             ProcessoDeCotacaoItem = processoDeCotacaoItem;
             Preco = preco;
@@ -163,10 +164,20 @@ namespace BsBios.Portal.Domain.Entities
         {
             Mva = mva;
             PrazoDeEntrega = prazoDeEntrega;
+            AdicionarHistoricoDePreco(preco);
+        }
+
+        private void AdicionarHistoricoDePreco(decimal preco)
+        {
+            HistoricosDePreco.Add(new HistoricoDePreco(preco));
         }
 
         public virtual void Atualizar(decimal preco,decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
+            if (preco != Preco)
+            {
+                AdicionarHistoricoDePreco(preco);
+            }
             base.Atualizar(preco, quantidadeDisponivel, observacoes);
             Mva = mva;
             PrazoDeEntrega = prazoDeEntrega;

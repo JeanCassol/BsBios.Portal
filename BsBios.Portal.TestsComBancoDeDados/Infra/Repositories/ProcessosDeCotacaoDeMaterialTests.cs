@@ -164,6 +164,27 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             
         }
 
+        [TestMethod]
+        public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComHistoricoDePrecos()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(DefaultObjects.ObtemCompradorDeSuprimentos());
+            string codigoFornecedor = processo.FornecedoresParticipantes.Single().Fornecedor.Codigo;
+            int idProcessoCotacaoItem = processo.Itens.Single().Id;
+            CotacaoMaterial cotacao = processo.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(), DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var cotacaoItem = (CotacaoMaterialItem)processo.InformarCotacaoDeItem(idProcessoCotacaoItem, cotacao.Id, 100, 0, 20, DateTime.Today.AddDays(5), "obs");
+            cotacaoItem.Atualizar(95,0,20,DateTime.Today.AddDays(5),"obs");
+            Assert.AreEqual(2, cotacaoItem.HistoricosDePreco.Count);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processo);
+
+            var  processosDeCotacaoDeMaterial = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+
+            var processoConsultado = processosDeCotacaoDeMaterial.BuscaPorId(processo.Id).Single();
+
+            Assert.AreEqual(2, processoConsultado.FornecedoresParticipantes.Single().Cotacao.Itens.Single().HistoricosDePreco.Count);
+
+        }
+
 
         [TestMethod]
         public void FiltrarUmProcessoDeCotacaoPorStatusRetornaProcessoEsperado()
@@ -236,50 +257,16 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             DefaultPersistedObjects.PersistirProcessosDeCotacaoDeMaterial(new List<ProcessoDeCotacaoDeMaterial>{processoDeCotacao1,processoDeCotacao2});
 
             //filtra os processos por uma das requisições
-            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
-            var processosConsultados = processosDeCotacao.GeradosPelaRequisicaoDeCompra(requisicaoDeCompra1.Numero, requisicaoDeCompra1.NumeroItem).List();
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacaoDeMaterial>();
+            var processosConsultados = processosDeCotacao.GeradosPelaRequisicaoDeCompra(requisicaoDeCompra1.Id).Count();
 
             //retorna apenas o processo vinculado com a requisição indicada
-            Assert.AreEqual(1, processosConsultados.Count);
-            Assert.AreEqual(processoDeCotacao1.Id, processosConsultados.Single().Id);
+            Assert.AreEqual(1, processosConsultados);
+            //Assert.AreEqual(processoDeCotacao1.Id, processosConsultados.Single().Id);
 
         }
 
-        [TestMethod]
-        public void TesteRelatorioDinamico()
-        {
-            IList<dynamic> listaDinamica = FornecedoresDinamicos.RetornoDinamico();
-            foreach (dynamic o in listaDinamica)
-            {
-                Assert.AreEqual("Bob", o.FirstName);
-                Assert.AreEqual("Smith", o.LastName);
-            }
-
-            //var serializer = new JavaScriptSerializer();
-            //Console.WriteLine(serializer.Serialize(listaDinamica));
-
-            Console.WriteLine(JsonConvert.SerializeObject( listaDinamica, new KeyValuePairConverter( ) ));
-
-
-        }
 
     }
 
-    internal static class FornecedoresDinamicos
-    {
-
-        public static IList<dynamic> RetornoDinamico()
-        {
-            dynamic data = new ExpandoObject();
-            IList<dynamic> listaDinamica = new List<dynamic>();
-
-            var dictionary = (IDictionary<string, object>)data;
-            dictionary.Add("FirstName", "Bob");
-            dictionary.Add("LastName", "Smith");
-
-            listaDinamica.Add(dictionary);
-
-            return listaDinamica;
-        }
-    }
 }

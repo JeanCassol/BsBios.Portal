@@ -103,6 +103,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ServicoDeEficienciaDeNegociacao>();
 
+            For<IAlteradorDeRequisicaoDeCompra>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AlteradorDeRequisicaoDeCompra>();
         }
     }
 }

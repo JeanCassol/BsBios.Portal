@@ -70,7 +70,7 @@ Formato = {
 
 $.fn.customKendoGrid = function (configuracao) {
     var container = $(this);
-    if (!configuracao.dataBound || (configuracao.autoBind !== undefined && !configuracao.autoBind)) {
+    if (!configuracao.dataBound || ("autoBind" in configuracao && !configuracao.autoBind)) {
         this.addClass('k-loading-image');
         configuracao.dataBound = function () {
             container.removeClass('k-loading-image');
@@ -92,11 +92,11 @@ $.fn.customKendoGrid = function (configuracao) {
         }
     };
 
-    if (!configuracao.dataSource.schema.data) {
+    if (!("data" in configuracao.dataSource.schema)) {
         configuracao.dataSource.schema.data = 'Registros';
     }
     
-    if (!configuracao.dataSource.schema.total) {
+    if (! ("total" in configuracao.dataSource.schema)) {
         configuracao.dataSource.schema.total = 'QuantidadeDeRegistros';
     }
 
@@ -104,7 +104,7 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;
-    if (configuracao.pageable == undefined) {
+    if (!("pageable" in configuracao)) {
         configuracao.pageable =
         {
             refresh: true,
@@ -138,7 +138,7 @@ $.fn.customDialog = function (configuracao) {
         $(this).empty();
     };
 
-    if (!configuracao.width) {
+    if (!("width" in configuracao)) {
         configuracao.width = 800;
     }
 

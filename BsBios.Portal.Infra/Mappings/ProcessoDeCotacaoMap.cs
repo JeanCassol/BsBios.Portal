@@ -33,6 +33,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Status).CustomType<Enumeradores.StatusProcessoCotacao>();
             //Map(x => x.Quantidade);
             Map(x => x.DataLimiteDeRetorno).Column("DataLimiteRetorno");
+            Map(x => x.DataDeFechamento,"DataFechamento");
             Map(x => x.Requisitos);
             Map(x => x.TextoDeCabecalho);
             Map(x => x.NotaDeCabecalho);

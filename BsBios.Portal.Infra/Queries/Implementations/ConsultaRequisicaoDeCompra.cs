@@ -24,7 +24,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, RequisicaoDeCompraFiltroVm filtro)
         {
-            //_requisicoesDeCompra.DisponiveisParaProcessoDeCotacao(filtro.IdProcessoCotacao);
+            _requisicoesDeCompra.SomenteAtivas();
             if (!string.IsNullOrEmpty(filtro.CodigoDoGrupoDeCompras))
             {
                 _requisicoesDeCompra.PertencentesAoGrupoDeCompra(filtro.CodigoDoGrupoDeCompras);

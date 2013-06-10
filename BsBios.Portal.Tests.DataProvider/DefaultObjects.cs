@@ -240,6 +240,10 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static UnidadeDeMedida ObtemUnidadeDeMedidaPadrao()
         {
+            if (_contadorUnidadeMedida > 99)
+            {
+                _contadorUnidadeMedida = 0;
+            }
             _contadorUnidadeMedida++;
             string codigo = GeraCodigo(_contadorUnidadeMedida, 2);
             return new UnidadeDeMedida("I" +  codigo, "E" + codigo, "Unidade de Medida " + codigo);

@@ -42,6 +42,7 @@
     <Compile Include="Entities\AgendamentoDeCarga.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\CotacaoItem.cs" />
+    <Compile Include="Entities\HistoricoDePreco.cs" />
     <Compile Include="Entities\Imposto.cs" />
     <Compile Include="Entities\Itinerario.cs" />
     <Compile Include="Entities\Cotacao.cs" />

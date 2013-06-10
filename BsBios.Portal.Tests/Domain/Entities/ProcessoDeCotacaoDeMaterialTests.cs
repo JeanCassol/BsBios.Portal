@@ -32,6 +32,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Assert.AreEqual(0, processoDeCotacao.FornecedoresParticipantes.Count);
             Assert.IsNull(processoDeCotacao.DataLimiteDeRetorno);
+            Assert.IsNull(processoDeCotacao.DataDeFechamento);
             Assert.IsNull(processoDeCotacao.TextoDeCabecalho);
 
         }
@@ -225,7 +226,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        public void QuandoFecharUmProcessoDeCotacaoDevePassarParaStatusFechado()
+        public void QuandoFecharUmProcessoDeCotacaoDevePassarParaStatusFechadoEPreencherDataDeFechamento()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
             string codigoDoFornecedor = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo;
@@ -238,6 +239,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             cotacaoItem.Selecionar(100,iva);
             processoDeCotacaoDeMaterial.Fechar("texto de cabeçalho","nota de cabeçalho");
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
+            Assert.AreEqual(DateTime.Now.Date, processoDeCotacaoDeMaterial.DataDeFechamento);
             Assert.AreEqual("texto de cabeçalho", processoDeCotacaoDeMaterial.TextoDeCabecalho);
             Assert.AreEqual("nota de cabeçalho", processoDeCotacaoDeMaterial.NotaDeCabecalho);
         }

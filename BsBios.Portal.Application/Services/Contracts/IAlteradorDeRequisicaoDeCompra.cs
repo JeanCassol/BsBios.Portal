@@ -2,6 +2,6 @@
 {
     public interface IAlteradorDeRequisicaoDeCompra
     {
-        void Alterar(int idRequisicaoDeCompra);
+        void Bloquear(int idRequisicaoDeCompra);
     }
 }

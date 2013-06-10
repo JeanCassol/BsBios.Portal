@@ -501,6 +501,9 @@ input[type="checkbox"].input-validation-error {
 .button_select{
     background-image: url(/images/icons/select_16.png);
 }
+.button_block {
+    background-image: url(/images/icons/bloquear_16.png);
+}
 
 .button16 {
     background-color: transparent;
@@ -510,7 +513,6 @@ input[type="checkbox"].input-validation-error {
     cursor: pointer;
     height: 16px;
     width: 16px;
-    padding-left: 32px;
     vertical-align: middle;
 }
 

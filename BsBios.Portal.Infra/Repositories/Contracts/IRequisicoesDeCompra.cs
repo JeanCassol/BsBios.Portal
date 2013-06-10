@@ -12,5 +12,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IRequisicoesDeCompra SolicitadasAte(DateTime data);
         IRequisicoesDeCompra SemProcessoDeCotacao();
         IList<RequisicaoDeCompra> FiltraPorIds(int[] itensParaAdicionar);
+        IRequisicoesDeCompra SomenteAtivas();
     }
 }

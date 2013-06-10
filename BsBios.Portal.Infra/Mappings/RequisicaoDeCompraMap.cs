@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -27,6 +28,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.CodigoGrupoDeCompra);
             Map(x => x.Mrp);
             Map(x => x.GerouProcessoDeCotacao);
+            Map(x => x.Status).CustomType<Enumeradores.StatusRequisicaoCompra>();
         }
     }
 }

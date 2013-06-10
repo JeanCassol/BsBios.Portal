@@ -72,52 +72,52 @@ namespace BsBios.Portal.Tests.Infra.Services
             Console.WriteLine("Fim do Teste");
         }
 
-        [TestMethod]
-        public void ConsigoEnviarMensagemDeAberturaDoProcessoDeCotacao()
-        {
-            var clientHandler = new HttpClientHandler();
-            clientHandler.Credentials = new NetworkCredential("fusion_lucas", "fusion123");
+        //[TestMethod]
+        //public void ConsigoEnviarMensagemDeAberturaDoProcessoDeCotacao()
+        //{
+        //    var clientHandler = new HttpClientHandler();
+        //    clientHandler.Credentials = new NetworkCredential("fusion_lucas", "fusion123");
 
-            var httpClient = new HttpClient(clientHandler);
-            var mensagemParaEnviar = new ListaProcessoDeCotacaoDeMaterialAbertura()
-            {
-                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
-                    {
-                        CodigoFornecedor = "FORNEC0001",
-                        DataLimiteRetorno = DateTime.Today.AddDays(10) ,
-                        NumeroRequisicao = "000111",
-                        NumeroItem = "00001" ,
-                        DataCriacao = DateTime.Today
-                    },
-                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
-                    {
-                        CodigoFornecedor = "FORNEC0002",
-                        DataLimiteRetorno = DateTime.Today.AddDays(10) ,
-                        NumeroRequisicao = "000111",
-                        NumeroItem = "00001" ,
-                        DataCriacao = DateTime.Today
-                    },
+        //    var httpClient = new HttpClient(clientHandler);
+        //    var mensagemParaEnviar = new ListaProcessoDeCotacaoDeMaterialAbertura()
+        //    {
+        //        new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
+        //            {
+        //                CodigoFornecedor = "FORNEC0001",
+        //                DataLimiteRetorno = DateTime.Today.AddDays(10) ,
+        //                NumeroRequisicao = "000111",
+        //                NumeroItem = "00001" ,
+        //                DataCriacao = DateTime.Today
+        //            },
+        //        new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
+        //            {
+        //                CodigoFornecedor = "FORNEC0002",
+        //                DataLimiteRetorno = DateTime.Today.AddDays(10) ,
+        //                NumeroRequisicao = "000111",
+        //                NumeroItem = "00001" ,
+        //                DataCriacao = DateTime.Today
+        //            },
 
-                new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
-                    {
-                        CodigoFornecedor = "FORNEC0003",
-                        DataLimiteRetorno = DateTime.Today.AddDays(10) ,
-                        NumeroRequisicao = "000111",
-                        NumeroItem = "00001" ,
-                        DataCriacao = DateTime.Today
-                    },
+        //        new ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm()
+        //            {
+        //                CodigoFornecedor = "FORNEC0003",
+        //                DataLimiteRetorno = DateTime.Today.AddDays(10) ,
+        //                NumeroRequisicao = "000111",
+        //                NumeroItem = "00001" ,
+        //                DataCriacao = DateTime.Today
+        //            },
 
-            };
+        //    };
 
-            var response = httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cadCotacaoAbertura_portal&qos=be"
-                , mensagemParaEnviar);
-            Assert.IsTrue(response.Result.IsSuccessStatusCode);
-            Stream content = response.Result.Content.ReadAsStreamAsync().Result;
-            var serializer = new XmlSerializer(typeof(ApiResponseMessage));
-            var responseMessage = (ApiResponseMessage)serializer.Deserialize(content);
-            Assert.IsNotNull(responseMessage);
-            Assert.AreEqual("100", responseMessage.Retorno.Codigo);
-        }
+        //    var response = httpClient.PostAsXmlAsync("http://sap-pid.bsbios.com:50000/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cadCotacaoAbertura_portal&qos=be"
+        //        , mensagemParaEnviar);
+        //    Assert.IsTrue(response.Result.IsSuccessStatusCode);
+        //    Stream content = response.Result.Content.ReadAsStreamAsync().Result;
+        //    var serializer = new XmlSerializer(typeof(ApiResponseMessage));
+        //    var responseMessage = (ApiResponseMessage)serializer.Deserialize(content);
+        //    Assert.IsNotNull(responseMessage);
+        //    Assert.AreEqual("100", responseMessage.Retorno.Codigo);
+        //}
 
 
         [TestMethod]

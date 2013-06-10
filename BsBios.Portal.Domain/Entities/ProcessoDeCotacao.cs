@@ -14,6 +14,7 @@ namespace BsBios.Portal.Domain.Entities
         //public virtual decimal Quantidade { get; protected set; }
         //public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
+        public virtual DateTime? DataDeFechamento { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
@@ -142,6 +143,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
+            DataDeFechamento = DateTime.Now.Date;
             TextoDeCabecalho = textoDeCabecalho;
             NotaDeCabecalho = notaDeCabecalho;
         }
@@ -218,7 +220,7 @@ namespace BsBios.Portal.Domain.Entities
             return cotacao;
         }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal valorTotalComImpostos, 
+        public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal preco, 
             decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
 
@@ -227,7 +229,7 @@ namespace BsBios.Portal.Domain.Entities
 
             ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.Single(item => item.Id == idProcessoDeCotacaoItem);
 
-            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
+            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, preco, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
 
         }
 

@@ -191,5 +191,48 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
         }
 
+        [TestMethod]
+        public void QuandoCrioUmaCotacaoParaUmItemEAdicionadoHistoricoDePreco()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(DefaultObjects.ObtemCompradorDeSuprimentos());
+            string codigoFornecedor = processo.FornecedoresParticipantes.Single().Fornecedor.Codigo;
+            int idProcessoCotacaoItem = processo.Itens.Single().Id;
+            CotacaoMaterial cotacao = processo.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(), DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var cotacaoItem = (CotacaoMaterialItem)processo.InformarCotacaoDeItem(idProcessoCotacaoItem, cotacao.Id, 100, 0, 20, DateTime.Today.AddDays(5), "obs");
+
+            Assert.AreEqual(1, cotacaoItem.HistoricosDePreco.Count);
+            Assert.AreEqual(100, cotacaoItem.HistoricosDePreco.Single().Valor);
+            
+        }
+
+        [TestMethod]
+        public void QuandoAtualizoUmaItemDaCotacaoEoPrecoNaoEAlteradoNaoAdicionaHistoricoDePreco()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(DefaultObjects.ObtemCompradorDeSuprimentos());
+            string codigoFornecedor = processo.FornecedoresParticipantes.Single().Fornecedor.Codigo;
+            int idProcessoCotacaoItem = processo.Itens.Single().Id;
+            CotacaoMaterial cotacao = processo.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(), DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var cotacaoItem = (CotacaoMaterialItem)processo.InformarCotacaoDeItem(idProcessoCotacaoItem, cotacao.Id, 100, 0, 20, DateTime.Today.AddDays(5), "obs");
+            Assert.AreEqual(1, cotacaoItem.HistoricosDePreco.Count);
+            cotacaoItem.Atualizar(100,0,20,DateTime.Now.Date,"obs");
+            Assert.AreEqual(1, cotacaoItem.HistoricosDePreco.Count);
+            
+        }
+
+        [TestMethod]
+        public void QuandoAtualizoUmaItemDaCotacaoEoPrecoEAlteradoAdicionaHistoricoDePreco()
+        {
+            ProcessoDeCotacaoDeMaterial processo = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(DefaultObjects.ObtemCompradorDeSuprimentos());
+            string codigoFornecedor = processo.FornecedoresParticipantes.Single().Fornecedor.Codigo;
+            int idProcessoCotacaoItem = processo.Itens.Single().Id;
+            CotacaoMaterial cotacao = processo.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(), DefaultObjects.ObtemIncotermPadrao(), "inc");
+            var cotacaoItem = (CotacaoMaterialItem)processo.InformarCotacaoDeItem(idProcessoCotacaoItem, cotacao.Id, 100, 0, 20, DateTime.Today.AddDays(5), "obs");
+            Assert.AreEqual(1, cotacaoItem.HistoricosDePreco.Count);
+            cotacaoItem.Atualizar(95, 0, 20, DateTime.Now.Date, "obs");
+            Assert.AreEqual(2, cotacaoItem.HistoricosDePreco.Count);
+            Assert.AreEqual(95,cotacaoItem.HistoricosDePreco.Last().Valor);
+        }
+
+
     }
 }

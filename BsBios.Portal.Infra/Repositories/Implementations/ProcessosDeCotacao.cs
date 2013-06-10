@@ -93,9 +93,5 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IProcessosDeCotacao GeradosPelaRequisicaoDeCompra(string numeroDaRequisicao, string numeroDoItem)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

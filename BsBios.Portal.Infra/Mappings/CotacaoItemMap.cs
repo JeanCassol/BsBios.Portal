@@ -34,6 +34,11 @@ namespace BsBios.Portal.Infra.Mappings
                 .KeyColumn("IdCotacaoItem")
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
+
+            HasMany(x => x.HistoricosDePreco)
+                .KeyColumn("IdCotacaoItem")
+                .Cascade.AllDeleteOrphan();
+
         }
     }
 
