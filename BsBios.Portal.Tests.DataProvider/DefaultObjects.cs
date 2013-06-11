@@ -24,8 +24,11 @@ namespace BsBios.Portal.Tests.DataProvider
         private static string GeraCodigo(int contador, int tamanho)
         {
             string contadorToString = Convert.ToString(contador);
+            if (contadorToString.Length == tamanho)
+            {
+                return contadorToString;
+            }
             return new string('0', tamanho - contadorToString.Length) + contador;
-
         }
 
         public static string ObtemSufixoCodigoFornecedor(string codigoFornecedor)
@@ -240,11 +243,11 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static UnidadeDeMedida ObtemUnidadeDeMedidaPadrao()
         {
+            _contadorUnidadeMedida++;
             if (_contadorUnidadeMedida > 99)
             {
                 _contadorUnidadeMedida = 0;
             }
-            _contadorUnidadeMedida++;
             string codigo = GeraCodigo(_contadorUnidadeMedida, 2);
             return new UnidadeDeMedida("I" +  codigo, "E" + codigo, "Unidade de Medida " + codigo);
         }

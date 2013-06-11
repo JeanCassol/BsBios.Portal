@@ -550,9 +550,10 @@ input[type="checkbox"].input-validation-error {
     color: red;
     font-weight: bold;
 }
-.labelTotal {
+.gridTotalizador {
     font-size: 14px;
     font-weight: bold;
+    background-color: darkturquoise;
 }
 
 .mensagemErro {

@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common;
+﻿using System;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Infra.Repositories.Contracts
@@ -14,5 +15,8 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status);
         IProcessosDeCotacao Fechado();
         IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador);
+        IProcessosDeCotacao FechadosAPartirDe(DateTime data);
+        IProcessosDeCotacao FechadosAte(DateTime data);
+
     }
 }

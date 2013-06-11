@@ -35,7 +35,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
             var processoDeCotacaoItem11 = (ProcessoDeCotacaoDeMaterialItem) processo11.Itens.Single();
 
-            cotacaoItem11.Atualizar(95,50,"obs11");
+            //cotacaoItem11.Atualizar(95,50,"obs11");
             cotacaoItem11.Selecionar(50);
             processo11.Fechar("texto cabeçalho","nota de cabeçalho");
 
@@ -47,10 +47,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
                                        DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
                                        DefaultObjects.ObtemIncotermPadrao(), "incoterm 2");
 
-            var cotacaoItem21 = cotacaoMaterial21.InformarCotacaoDeItem(processo11.Itens.Single(), 110, 0, 50, DateTime.Today.AddDays(5), "obs21");
+            var cotacaoItem21 = cotacaoMaterial21.InformarCotacaoDeItem(processo21.Itens.Single(), 110, 0, 50, DateTime.Today.AddDays(5), "obs21");
             cotacaoItem21.InformarImposto(Enumeradores.TipoDeImposto.Icms, 12);
             cotacaoItem21.InformarImposto(Enumeradores.TipoDeImposto.Ipi, 10);
             cotacaoItem21.InformarImposto(Enumeradores.TipoDeImposto.PisCofins, 9);
+
+            cotacaoItem21.Atualizar(99,50,"obs21");
 
             cotacaoItem21.Selecionar(50);
 
@@ -67,25 +69,29 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
 
             var consulta = ObjectFactory.GetInstance<IConsultaEficienciaNegociacao>();
-            var eficiencias = consulta.Consultar(new RelatorioEficienciaNegociacaoFiltroVm());
+            var eficiencias = consulta.Consultar(DefaultObjects.ObtemPaginacaoDefault(),  new EficienciaNegociacaoFiltroVm());
             //retorna um registro para cada comprador
-            Assert.AreEqual(2, eficiencias.Count);
+            Assert.AreEqual(3, eficiencias.Count);
 
-            var eficienciaDoComprador1 = eficiencias.Single(x => x.Login == comprador1.Login);
-            Assert.AreEqual(cotacaoItem11.ProcessoDeCotacaoItem.Produto.Codigo,eficienciaDoComprador1.CodigoDoProduto);
-            Assert.AreEqual(cotacaoItem11.ProcessoDeCotacaoItem.Produto.Descricao,eficienciaDoComprador1.DescricaoDoProduto);
+            var eficienciaDoComprador1 = eficiencias.Single(x => x.Comprador == comprador1.Nome);
+            Assert.AreEqual(cotacaoItem11.ProcessoDeCotacaoItem.Produto.Descricao,eficienciaDoComprador1.Produto);
             Assert.AreEqual(processoDeCotacaoItem11.RequisicaoDeCompra.Numero, eficienciaDoComprador1.NumeroDaRequisicao);
             Assert.AreEqual(processoDeCotacaoItem11.RequisicaoDeCompra.NumeroItem, eficienciaDoComprador1.NumeroDoItem);
-            Assert.AreEqual(cotacaoItem11.PrecoInicial, eficienciaDoComprador1.PrecoInicial);
-            Assert.AreEqual(cotacaoItem11.Preco, eficienciaDoComprador1.PrecoDeFechamento);
+            Assert.AreEqual(0, eficienciaDoComprador1.ValorDeEficiencia);
+            Assert.AreEqual(0, eficienciaDoComprador1.PercentualDeEficiencia);
 
-            var eficienciaDoComprador2 = eficiencias.Single(x => x.Login == comprador2.Login);
-            Assert.AreEqual(cotacaoItem21.ProcessoDeCotacaoItem.Produto.Codigo, eficienciaDoComprador2.CodigoDoProduto);
-            Assert.AreEqual(cotacaoItem21.ProcessoDeCotacaoItem.Produto.Descricao, eficienciaDoComprador2.DescricaoDoProduto);
+            var eficienciaDoComprador2 = eficiencias.Single(x => x.Comprador == comprador2.Nome);
+            Assert.AreEqual(cotacaoItem21.ProcessoDeCotacaoItem.Produto.Descricao, eficienciaDoComprador2.Produto);
             Assert.AreEqual(processoDeCotacaoItem21.RequisicaoDeCompra.Numero, eficienciaDoComprador2.NumeroDaRequisicao);
             Assert.AreEqual(processoDeCotacaoItem21.RequisicaoDeCompra.NumeroItem, eficienciaDoComprador2.NumeroDoItem);
-            Assert.AreEqual(cotacaoItem21.PrecoInicial, eficienciaDoComprador2.PrecoInicial);
-            Assert.AreEqual(cotacaoItem21.Preco, eficienciaDoComprador2.PrecoDeFechamento);
+            Assert.AreEqual(550, eficienciaDoComprador2.ValorDeEficiencia);
+            Assert.AreEqual(10, eficienciaDoComprador2.PercentualDeEficiencia);
+
+            var eficienciaTotal = eficiencias.Single(x => x.Produto == "TOTAL");
+
+            Assert.IsNotNull(eficienciaTotal);
+            Assert.AreEqual(550, eficienciaTotal.ValorDeEficiencia);
+            Assert.AreEqual((decimal) 5.24, eficienciaTotal.PercentualDeEficiencia);
 
         }
     }

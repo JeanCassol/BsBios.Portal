@@ -35,10 +35,18 @@ namespace BsBios.Portal.Infra.Mappings
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
 
+            //Para fazer relacionamento unidirecional sem que o NHibernate faça update adicionais desnecessários 
+            //(INSERT e depois UPDATE na chave estrangeira (IdCotacaoItem)) é necessário que as seguintes configurações
+            //sejam feitas:
+                //.Not.Inverse()
+                //.Not.KeyNullable()
+                //.Not.KeyUpdate()
             HasMany(x => x.HistoricosDePreco)
                 .KeyColumn("IdCotacaoItem")
-                .Cascade.AllDeleteOrphan();
-
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
+                .Cascade.All();
         }
     }
 

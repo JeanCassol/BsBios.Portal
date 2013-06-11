@@ -34,18 +34,19 @@
                         data: 'Registros',
                         model: {
                             fields: {
+                                Comprador: { type: "string" },
                                 NumeroDaRequisicao: { type: "string" },
                                 NumeroDoItem: { type: "string" },
                                 Produto: { type: "string" },
                                 PercentualDeEficiencia: { type: "number" },
-                                ValorDaEficiencia: { type: "number" }
+                                ValorDeEficiencia: { type: "number" }
                             }
                         },
                         total: 'QuantidadeDeRegistros'
                     },
                     transport: {
                         read: {
-                            url: '@Url.Action("CalcularResumo", "EficienciaDeNegociacao")',
+                            url: '@Url.Action("CalcularResumo", "EficienciaDeNegociacaoCalculo")',
                             type: 'GET',
                             cache: false,
                             data: function () {
@@ -58,11 +59,14 @@
                         }
                     }
                 },
-                columns: [{ field: "NumeroDaRequisicao", title: "Requisição" },
-                { field: "NumeroDoItem", title: "Item" },
-                { field: "Produto", title: "Produto/Serviço" },
-                { field: "PercentualDeEficiencia", title: "Eficiência (%)", format: "{0:n2}" },
-                { field: "ValorDaEficiencia", title: "Eficiência (R$)", format: "{0:n2}"}],
+                columns: [
+                    { field: "Comprador"},
+                    { field: "NumeroDaRequisicao", title: "Requisição" },
+                    { field: "NumeroDoItem", title: "Item" },
+                    { field: "Produto", title: "Produto/Serviço" },
+                    { field: "PercentualDeEficiencia", title: "Eficiência (%)", format: "{0:n2}" },
+                    { field: "ValorDeEficiencia", title: "Eficiência (R$)", format: "{0:n2}" }
+                ],
                 detailTemplate: '<div class="divGrid"></div>',
                 detailInit: detailInit
             });
@@ -70,7 +74,7 @@
             function detailInit(e) {
 
                 $.ajax({
-                    url: '@Url.Action("ListarColunas","EficienciaDeNegociacao")' +
+                    url: '@Url.Action("ListarColunas","EficienciaDeNegociacaoCalculo")' +
                     '/?numeroDaRequisicao=' + e.data.NumeroDaRequisicao +
                     '&numeroDoItem=' + e.data.NumeroDoItem,
                     type: 'GET',
@@ -101,7 +105,7 @@
                                 transport: {
                                     read: {
                                         dataType:'json',
-                                        url: '@Url.Action("CalcularDetalhe","EficienciaDeNegociacao")' + 
+                                        url: '@Url.Action("CalcularDetalhe","EficienciaDeNegociacaoCalculo")' + 
                                         '/?numeroDaRequisicao=' + e.data.NumeroDaRequisicao +
                                         '&numeroDoItem=' + e.data.NumeroDoItem,
                                         type: 'GET',
@@ -126,7 +130,7 @@
                     /*esconde o ícone de mostrar detalhes da última linha, pois esta linha é sempre um total e não precisa ser expandida*/
                     var ultimaLinha = this.tbody.find("tr.k-master-row:last");
                     ultimaLinha.find('.k-plus').hide();
-                    ultimaLinha.addClass('labelTotal');
+                    ultimaLinha.addClass('gridTotalizador');
                 });
                 grid.dataSource.fetch();
             });
