@@ -16,19 +16,14 @@ namespace BsBios.Portal.Infra.Queries.Implementations
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
-        private readonly IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> _builderRequisicaoDeCompra;
-        //private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
 
 
         public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
-            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario, IBuilder<RequisicaoDeCompra, RequisicaoDeCompraVm> builderRequisicaoDeCompra /*, 
-            IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao*/)
+            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderFornecedor = builderFornecedor;
             _iteracoesUsuario = iteracoesUsuario;
-            _builderRequisicaoDeCompra = builderRequisicaoDeCompra;
-            //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
@@ -205,6 +200,56 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             return retorno;
         }
 
+        public IList<FornecedorCotacaoVm> CotacoesDetalhadaDosFornecedores(int idProcessoCotacao, int idProcessoCotacaoItem)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            //return (from pc in _processosDeCotacao.GetQuery()
+            //        from fp in pc.FornecedoresParticipantes
+            //        from cotacaoItem in fp.Cotacao.Itens
+            //        where cotacaoItem.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem
+            //        select new FornecedorCotacaoVm
+            //            {
+            //                Codigo = fp.Fornecedor.Codigo,
+            //                PrecoInicial = cotacaoItem.PrecoInicial,
+            //                PrecoFinal = cotacaoItem.Preco,
+            //                QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida ?? 0,
+            //                Selecionada = cotacaoItem.Selecionada,
+            //                //Precos = (from historico in cotacaoItem.HistoricosDePreco select historico.Valor).ToArray()
+            //                //Precos =  cotacaoItem.HistoricosDePreco.Select(x => x.Valor).ToList()
+            //                Precos = (from historico in cotacaoItem.HistoricosDePreco orderby historico.DataHora ascending select historico.Valor).ToList()
+            //            }).ToArray();
+            var cotacoes = (from pc in _processosDeCotacao.GetQuery()
+                    from fp in pc.FornecedoresParticipantes
+                    from cotacaoItem in fp.Cotacao.Itens
+                    from historico in cotacaoItem.HistoricosDePreco
+                    where cotacaoItem.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem
+                    select new
+                        {
+                            fp.Fornecedor.Codigo,
+                            cotacaoItem.PrecoInicial,
+                            PrecoFinal = cotacaoItem.Preco,
+                            QuantidadeAdquirida = cotacaoItem.QuantidadeAdquirida ?? 0,
+                            cotacaoItem.Selecionada,
+                            //Precos = (from historico in cotacaoItem.HistoricosDePreco select historico.Valor).ToArray()
+                            //Precos =  cotacaoItem.HistoricosDePreco.Select(x => x.Valor).ToList()
+                            Historico = historico.Valor
+                        }).ToList();
+
+            return (from r in cotacoes
+             group r by new {r.Codigo, r.PrecoInicial, r.PrecoFinal, r.QuantidadeAdquirida, r.Selecionada}
+             into grupo
+             select new FornecedorCotacaoVm
+                 {
+                     Codigo = grupo.Key.Codigo,
+                     PrecoInicial = grupo.Key.PrecoInicial,
+                     PrecoFinal = grupo.Key.PrecoFinal,
+                     QuantidadeAdquirida = grupo.Key.QuantidadeAdquirida,
+                     Selecionada = grupo.Key.Selecionada,
+                     Precos = grupo.Select(x => x.Historico).ToArray()
+
+                 }).ToList();
+        }
+
         public KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao)
         {
             
@@ -331,5 +376,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
              from item in pc.Itens
              select item.Produto.Codigo).Distinct().ToArray();
         }
+
     }
 }

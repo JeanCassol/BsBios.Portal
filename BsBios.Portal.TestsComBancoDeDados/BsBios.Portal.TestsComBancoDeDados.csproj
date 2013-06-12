@@ -84,7 +84,7 @@
     <Compile Include="Infra\Queries\ConsultaQuotaTests.cs" />
     <Compile Include="Infra\Queries\ConsultaRequisicaoDeCompraTests.cs" />
     <Compile Include="Infra\Queries\ConsultaUsuarioTests.cs" />
-    <Compile Include="Infra\Queries\ConsultaEficienciaNegociacaoTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaEficienciaDeNegociacaoTests.cs" />
     <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />

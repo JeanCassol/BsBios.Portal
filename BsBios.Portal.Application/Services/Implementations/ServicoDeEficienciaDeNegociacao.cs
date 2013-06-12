@@ -1,180 +1,79 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Infra.Queries.Contracts;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
     public class ServicoDeEficienciaDeNegociacao : IServicoDeEficienciaDeNegociacao
     {
-        public string[] ListarFornecedores(string numeroDaRequisicao, string numeroDoItem)
+        private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+
+        public ServicoDeEficienciaDeNegociacao(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
         {
-            if (numeroDoItem == "ITEM001")
-            {
-                return new[] { "Madrilins", "Rolate", "Rodol", "Videl", "Paludo" };
-            }
-
-            return new[] { "Arlins", "Proar", "Aclimar", "	Aclipasso", "Soar" };
-
+            _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
         }
 
-        private IList<dynamic> CalculaEficienciaItem001()
+        public IList<dynamic> CalcularEficienciaDoItemDoProcesso(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
+            IList<FornecedorCotacaoVm> cotacoes = _consultaProcessoDeCotacaoDeMaterial.CotacoesDetalhadaDosFornecedores(idProcessoCotacao, idProcessoCotacaoItem);
+
+            int numeroMaximoDeHistoricos = cotacoes.Select(x => x.Precos.Count()).Max();
+
             IList<dynamic> listaDinamica = new List<dynamic>();
 
-            dynamic data;
+            //dynamic data;
             IDictionary<string, object> dictionary;
 
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 1");
-            dictionary.Add("Madrilins", 1000);
-            dictionary.Add("Rolate", 1050);
-            dictionary.Add("Rodol", 1010);
-            dictionary.Add("Videl", 990);
-            dictionary.Add("Paludo", 1000);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 2");
-            dictionary.Add("Madrilins", 995);
-            dictionary.Add("Rolate", 1000);
-            dictionary.Add("Rodol", 1000);
-            dictionary.Add("Videl", 980);
-            dictionary.Add("Paludo", 980);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 3");
-            dictionary.Add("Rolate", 995);
-            dictionary.Add("Rodol", 980);
-            dictionary.Add("Videl", 975);
-            dictionary.Add("Paludo", 950);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 4");
-            dictionary.Add("Rolate", 900);
-            dictionary.Add("Videl", 950);
-            dictionary.Add("Paludo", 900);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Preço Negociado");
-            dictionary.Add("Rolate", 900);
-            dictionary.Add("Videl", 900);
-            dictionary.Add("Paludo", 850);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação (%)");
-            dictionary.Add("Rolate", 10.45);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação (R$)");
-            dictionary.Add("Rolate", 150);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação Total(R$)");
-            dictionary.Add("Rolate", 30000);
-
-            listaDinamica.Add(dictionary);
-
-            return listaDinamica;
-        }
-
-        private IList<dynamic> CalculaEficienciaItem002()
-        {
-            IList<dynamic> listaDinamica = new List<dynamic>();
-
-            dynamic data;
-            IDictionary<string, object> dictionary;
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 1");
-            dictionary.Add("Arlins", 30000);
-            dictionary.Add("Proar", 32000);
-            dictionary.Add("Aclimar", 50000);
-            dictionary.Add("Aclipasso", 18000);
-            dictionary.Add("Soar", 18000);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Cotação 2");
-            dictionary.Add("Soar", 17500);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Preço Negociado");
-            dictionary.Add("Soar", 17000);
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação (%)");
-            dictionary.Add("Soar", 5.55);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação (R$)");
-            dictionary.Add("Soar", 1000);
-
-            listaDinamica.Add(dictionary);
-
-            data = new ExpandoObject();
-            dictionary = (IDictionary<string, object>)data;
-
-            dictionary.Add("Fornecedor", "Eficiencia de Negociação Total(R$)");
-            dictionary.Add("Soar", 1000);
-
-            listaDinamica.Add(dictionary);
-
-            return listaDinamica;
-        }
-
-
-        public IList<dynamic> CalcularEficienciaDoItemDoProcesso(string numeroDaRequisicao, string numeroDoItem)
-        {
-            if (numeroDoItem == "ITEM001")
+            //cálculo das linhas de cotações
+            for (int i = 0; i < numeroMaximoDeHistoricos; i++)
             {
-                return CalculaEficienciaItem001();
+                //data = new ExpandoObject();
+                //dictionary = (IDictionary<string, object>)data;
+                dictionary = new Dictionary<string, object> {{"Fornecedor", "Cotação " + Convert.ToString(i + 1)}};
+
+                foreach (FornecedorCotacaoVm fornecedorCotacaoVm in cotacoes)
+                {
+                    if (i < fornecedorCotacaoVm.Precos.Count())
+                    {
+                        dictionary.Add("F" + fornecedorCotacaoVm.Codigo,  fornecedorCotacaoVm.Precos[i]);    
+                    }
+                }
+
+                listaDinamica.Add(dictionary);
+
             }
-            return CalculaEficienciaItem002();
+
+            ////calculo da eficiência em percentual (gera um linha)
+            var dictionaryPercentualDeEficiencia = new Dictionary<string, object>();
+            dictionaryPercentualDeEficiencia.Add("Fornecedor","Eficiência de Negociação (%)");
+
+            var dictionaryValorUnitarioDeEficiencia = new Dictionary<string, object>();
+            dictionaryValorUnitarioDeEficiencia.Add("Fornecedor","Eficiência de Negociação (R$)");
+
+            var dictionaryValorTotalDeEficiencia = new Dictionary<string, object>();
+            dictionaryValorTotalDeEficiencia.Add("Fornecedor","Eficiência de Negociação Total (R$)");
+
+            IList<FornecedorCotacaoVm> cotacoesSelecionadas = cotacoes.Where(x => x.Selecionada).ToList();
+
+            foreach (FornecedorCotacaoVm cotacaoSelecionada in cotacoesSelecionadas)
+            {
+                dictionaryPercentualDeEficiencia.Add("F" + cotacaoSelecionada.Codigo,
+                    Math.Round(((cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal) / cotacaoSelecionada.PrecoInicial) * 100,2));
+
+                dictionaryValorUnitarioDeEficiencia.Add("F" + cotacaoSelecionada.Codigo, cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal);
+
+                dictionaryValorTotalDeEficiencia.Add("F" + cotacaoSelecionada.Codigo, 
+                    (cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal) * cotacaoSelecionada.QuantidadeAdquirida);
+            }
+
+            listaDinamica.Add(dictionaryPercentualDeEficiencia);
+            listaDinamica.Add(dictionaryValorUnitarioDeEficiencia);
+            listaDinamica.Add(dictionaryValorTotalDeEficiencia);
+            
+            return listaDinamica;
 
         }
     }

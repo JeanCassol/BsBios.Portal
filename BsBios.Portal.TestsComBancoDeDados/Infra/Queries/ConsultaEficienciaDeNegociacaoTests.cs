@@ -12,7 +12,7 @@ using StructureMap;
 namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 {
     [TestClass]
-    public class ConsultaEficienciaNegociacaoTests
+    public class ConsultaEficienciaDeNegociacaoTests
     {
         [TestMethod]
         public void QuandoConsultaEficienciaNegociacaoRetornaEficienciaDosProcessosFechados()
@@ -68,12 +68,16 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
                 });
 
 
-            var consulta = ObjectFactory.GetInstance<IConsultaEficienciaNegociacao>();
-            var eficiencias = consulta.Consultar(DefaultObjects.ObtemPaginacaoDefault(),  new EficienciaNegociacaoFiltroVm());
+            var consulta = ObjectFactory.GetInstance<IConsultaEficienciaDeNegociacao>();
+            KendoGridVm kendoGridVm = consulta.ConsultarResumo(DefaultObjects.ObtemPaginacaoDefault(),  new EficienciaNegociacaoFiltroVm());
             //retorna um registro para cada comprador
-            Assert.AreEqual(3, eficiencias.Count);
+            Assert.AreEqual(3, kendoGridVm.QuantidadeDeRegistros);
+
+            var eficiencias = kendoGridVm.Registros.Cast<EficienciaDeNegociacaoResumoVm>().ToList();
 
             var eficienciaDoComprador1 = eficiencias.Single(x => x.Comprador == comprador1.Nome);
+            Assert.AreEqual(processo11.Id, eficienciaDoComprador1.IdProcessoCotacao);
+            Assert.AreEqual(processoDeCotacaoItem11.Id, eficienciaDoComprador1.IdProcessoCotacaoItem);
             Assert.AreEqual(cotacaoItem11.ProcessoDeCotacaoItem.Produto.Descricao,eficienciaDoComprador1.Produto);
             Assert.AreEqual(processoDeCotacaoItem11.RequisicaoDeCompra.Numero, eficienciaDoComprador1.NumeroDaRequisicao);
             Assert.AreEqual(processoDeCotacaoItem11.RequisicaoDeCompra.NumeroItem, eficienciaDoComprador1.NumeroDoItem);
@@ -81,6 +85,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
             Assert.AreEqual(0, eficienciaDoComprador1.PercentualDeEficiencia);
 
             var eficienciaDoComprador2 = eficiencias.Single(x => x.Comprador == comprador2.Nome);
+            Assert.AreEqual(processo21.Id, eficienciaDoComprador2.IdProcessoCotacao);
+            Assert.AreEqual(processoDeCotacaoItem21.Id, eficienciaDoComprador2.IdProcessoCotacaoItem);
             Assert.AreEqual(cotacaoItem21.ProcessoDeCotacaoItem.Produto.Descricao, eficienciaDoComprador2.Produto);
             Assert.AreEqual(processoDeCotacaoItem21.RequisicaoDeCompra.Numero, eficienciaDoComprador2.NumeroDaRequisicao);
             Assert.AreEqual(processoDeCotacaoItem21.RequisicaoDeCompra.NumeroItem, eficienciaDoComprador2.NumeroDoItem);
@@ -92,6 +98,34 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
             Assert.IsNotNull(eficienciaTotal);
             Assert.AreEqual(550, eficienciaTotal.ValorDeEficiencia);
             Assert.AreEqual((decimal) 5.24, eficienciaTotal.PercentualDeEficiencia);
+
+        }
+
+        [TestMethod]
+        public void RetornaListaComTodosFornecedoresParticipantesDoProcessoDeCotacao()
+        {
+            //crio um processo de cotação de materiais
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
+            processoDeCotacao.Atualizar(DateTime.Today.AddDays(4),"req");
+
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
+            processoDeCotacao.AdicionarFornecedor(fornecedor1);
+            processoDeCotacao.AdicionarFornecedor(fornecedor2);
+            processoDeCotacao.AdicionarFornecedor(fornecedor3);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
+
+            var consulta = ObjectFactory.GetInstance<IConsultaEficienciaDeNegociacao>();
+
+            FornecedorVm[] fornecedores = consulta.ListarFornecedores(processoDeCotacao.Id);
+
+            Assert.AreEqual(3,fornecedores.Count());
+
+            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor1.Codigo && x.Nome == fornecedor1.Nome));
+            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor2.Codigo && x.Nome == fornecedor2.Nome));
+            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor3.Codigo && x.Nome == fornecedor3.Nome));
 
         }
     }

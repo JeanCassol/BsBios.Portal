@@ -240,5 +240,88 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
         }
 
+        [TestMethod]
+        public void ConsigoConsultarAsCotacoesDetalhadasDeTodosOsFornecedores()
+        {
+            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
+            //crio um processo de cotação com um item e três fornecedores.
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+
+            ProcessoDeCotacaoItem processoDeCotacaoItem = processoDeCotacao.Itens.Single();
+
+            processoDeCotacao.AdicionarFornecedor(fornecedor1);
+            processoDeCotacao.AdicionarFornecedor(fornecedor2);
+            processoDeCotacao.AdicionarFornecedor(fornecedor3);
+
+            processoDeCotacao.Abrir(DefaultObjects.ObtemCompradorDeSuprimentos());
+
+            //para os fornecedores 1 e 3 informo o preço duas vezes
+            CotacaoMaterial cotacaoFornecedor1 = processoDeCotacao.InformarCotacao(fornecedor1.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                DefaultObjects.ObtemIncotermPadrao(), "inc");
+
+            CotacaoItem cotacaoItemFornecedor1 = cotacaoFornecedor1.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 0, 200, DateTime.Today.AddDays(10), "OBS");
+            cotacaoFornecedor1.InformarCotacaoDeItem(processoDeCotacaoItem, 995, 0, 200, DateTime.Today.AddDays(10), "OBS");
+
+            CotacaoMaterial cotacaoFornecedor3 = processoDeCotacao.InformarCotacao(fornecedor3.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                DefaultObjects.ObtemIncotermPadrao(), "inc");
+
+            cotacaoFornecedor3.InformarCotacaoDeItem(processoDeCotacaoItem, 1010, 0, 100, DateTime.Today.AddDays(10), "OBS");
+            cotacaoFornecedor3.InformarCotacaoDeItem(processoDeCotacaoItem, 1000, 0, 100, DateTime.Today.AddDays(10), "OBS");
+
+            //para o fornecedor 2 informo o preço apenas uma vez
+            CotacaoMaterial cotacaoFornecedor2 = processoDeCotacao.InformarCotacao(fornecedor2.Codigo, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
+                DefaultObjects.ObtemIncotermPadrao(), "inc");
+
+            cotacaoFornecedor2.InformarCotacaoDeItem(processoDeCotacaoItem, 1200, 0, 100, DateTime.Today.AddDays(10), "OBS");
+
+            //seleciono apenas o fornecedor 1
+            cotacaoItemFornecedor1.Selecionar(200);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            IList<FornecedorCotacaoVm> cotacoes = consultaProcesso.CotacoesDetalhadaDosFornecedores(processoDeCotacao.Id, processoDeCotacaoItem.Id);
+
+            Assert.AreEqual(3, cotacoes.Count);
+
+            //asserts fornecedor 1
+            FornecedorCotacaoVm fornecedorCotacaoVm1 = cotacoes.Single(x => x.Codigo == fornecedor1.Codigo);
+            Assert.AreEqual(1000, fornecedorCotacaoVm1.PrecoInicial);
+            Assert.AreEqual(995, fornecedorCotacaoVm1.PrecoFinal);
+            Assert.IsTrue(fornecedorCotacaoVm1.Selecionada);
+            Assert.AreEqual(200, fornecedorCotacaoVm1.QuantidadeAdquirida);
+            //Assert.AreEqual(2, fornecedorCotacaoVm1.Precos.Length);
+            Assert.AreEqual(2, fornecedorCotacaoVm1.Precos.Count());
+
+            Assert.AreEqual(1000, fornecedorCotacaoVm1.Precos[0]);
+            Assert.AreEqual(995, fornecedorCotacaoVm1.Precos[1]);
+
+            //asserts fornecedor 2
+            FornecedorCotacaoVm fornecedorCotacaoVm2 = cotacoes.Single(x => x.Codigo == fornecedor2.Codigo);
+            Assert.AreEqual(1200, fornecedorCotacaoVm2.PrecoInicial);
+            Assert.AreEqual(1200, fornecedorCotacaoVm2.PrecoFinal);
+            Assert.IsFalse(fornecedorCotacaoVm2.Selecionada);
+            Assert.AreEqual(0, fornecedorCotacaoVm2.QuantidadeAdquirida);
+            //Assert.AreEqual(1, fornecedorCotacaoVm2.Precos.Length);
+            Assert.AreEqual(1, fornecedorCotacaoVm2.Precos.Count());
+
+            Assert.AreEqual(1200, fornecedorCotacaoVm2.Precos[0]);
+
+            //asserts fornecedor 3
+            FornecedorCotacaoVm fornecedorCotacaoVm3 = cotacoes.Single(x => x.Codigo == fornecedor3.Codigo);
+            Assert.AreEqual(1010, fornecedorCotacaoVm3.PrecoInicial);
+            Assert.AreEqual(1000, fornecedorCotacaoVm3.PrecoFinal);
+            Assert.IsFalse(fornecedorCotacaoVm3.Selecionada);
+            Assert.AreEqual(0, fornecedorCotacaoVm3.QuantidadeAdquirida);
+            //Assert.AreEqual(2, fornecedorCotacaoVm3.Precos.Length);
+            Assert.AreEqual(2, fornecedorCotacaoVm3.Precos.Count());
+
+            Assert.AreEqual(1010, fornecedorCotacaoVm3.Precos[0]);
+            Assert.AreEqual(1000, fornecedorCotacaoVm3.Precos[1]);
+
+        }
+
     }
 }

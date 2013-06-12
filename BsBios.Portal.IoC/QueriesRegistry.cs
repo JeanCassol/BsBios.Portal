@@ -86,9 +86,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaRequisicaoDeCompra>();
 
-            For<IConsultaEficienciaNegociacao>()
+            For<IConsultaEficienciaDeNegociacao>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ConsultaEficienciaNegociacao>();
+                .Use<ConsultaEficienciaDeNegociacao>();
 
         }
 

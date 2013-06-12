@@ -49,6 +49,8 @@
     <Compile Include="EficienciaDeNegociacaoResumoVm.cs" />
     <Compile Include="EficienciaNegociacaoFiltroVm.cs" />
     <Compile Include="CotacaoMaterialConsultarVm.cs" />
+    <Compile Include="FornecedorCotacaoVm.cs" />
+    <Compile Include="FornecedorVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
     <Compile Include="TipoDeFreteVm.cs" />
     <Compile Include="CotacaoMaterialItemCadastroVm.cs" />

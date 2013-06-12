@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 using Newtonsoft.Json;
@@ -15,23 +12,23 @@ namespace BsBios.Portal.UI.Controllers
     public class EficienciaDeNegociacaoCalculoController : Controller
     {
         private readonly IServicoDeEficienciaDeNegociacao _servicoDeEficienciaDeNegociacao;
+        private readonly IConsultaEficienciaDeNegociacao _consultaEficienciaDeNegociacao;
 
-        public EficienciaDeNegociacaoCalculoController(IServicoDeEficienciaDeNegociacao servicoDeEficienciaDeNegociacao)
+        public EficienciaDeNegociacaoCalculoController(IServicoDeEficienciaDeNegociacao servicoDeEficienciaDeNegociacao, IConsultaEficienciaDeNegociacao consultaEficienciaDeNegociacao)
         {
             _servicoDeEficienciaDeNegociacao = servicoDeEficienciaDeNegociacao;
+            _consultaEficienciaDeNegociacao = consultaEficienciaDeNegociacao;
         }
 
-        public JsonResult ListarColunas(string numeroDaRequisicao, string numeroDoItem)
+        public JsonResult ListarColunas(int idProcessoCotacao)
         {
-            return Json(new {Colunas = _servicoDeEficienciaDeNegociacao.ListarFornecedores(numeroDaRequisicao, numeroDoItem) }, JsonRequestBehavior.AllowGet);
+            return Json(new {Colunas = _consultaEficienciaDeNegociacao.ListarFornecedores(idProcessoCotacao)}, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CalcularDetalhe(string numeroDaRequisicao, string numeroDoItem)
+        public ActionResult CalcularDetalhe(int idProcessoCotacao, int idProcessoCotacaoItem)
         {
-            //return Json(new {Registros = _servicoDeEficienciaDeNegociacao.CalcularEficienciaDoItemDoProcesso("", "")},JsonRequestBehavior.AllowGet);
-            var listaDinamica = _servicoDeEficienciaDeNegociacao.CalcularEficienciaDoItemDoProcesso(numeroDaRequisicao, numeroDoItem);
+            var listaDinamica = _servicoDeEficienciaDeNegociacao.CalcularEficienciaDoItemDoProcesso(idProcessoCotacao, idProcessoCotacaoItem);
             var kendoGridVm = new {Registros = listaDinamica, QuantidadeDeRegistros = listaDinamica.Count};
-            //var jsonSerializado = JsonConvert.SerializeObject(listaDinamica, new KeyValuePairConverter());
             var jsonSerializado = JsonConvert.SerializeObject(kendoGridVm, new KeyValuePairConverter());
             return Content(jsonSerializado);
         }
@@ -42,37 +39,7 @@ namespace BsBios.Portal.UI.Controllers
             paginacaoVm.PageSize--;
             paginacaoVm.Take--;
 
-            var kendoGridVm = new
-                {
-                    QuantidadeDeRegistros = 2,
-                    Registros = new List<dynamic>
-                        {
-                            new
-                                {
-                                    NumeroDaRequisicao = "REQ001",
-                                    NumeroDoItem = "ITEM001",
-                                    Produto = "Rolamento RT254",
-                                    PercentualDeEficiencia = 14.28,
-                                    ValorDaEficiencia = 30000
-                                },
-                            new
-                                {
-                                    NumeroDaRequisicao = "REQ001",
-                                    NumeroDoItem = "ITEM002",
-                                    Produto = "Conserto Ar Condicionado",
-                                    PercentualDeEficiencia = 5.55,
-                                    ValorDaEficiencia = 1000
-                                },
-                            new
-                                {
-                                    Produto = "TOTAL",
-                                    PercentualDeEficiencia = 5.77,
-                                    ValorDaEficiencia = 31000
-                                }
-
-
-                        }
-                };
+            var kendoGridVm = _consultaEficienciaDeNegociacao.ConsultarResumo(paginacaoVm, filtro);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }

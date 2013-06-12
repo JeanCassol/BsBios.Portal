@@ -132,7 +132,7 @@
     <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Contracts\IConsultaCotacaoDoFornecedor.cs" />
-    <Compile Include="Queries\Contracts\IConsultaEficienciaNegociacao.cs" />
+    <Compile Include="Queries\Contracts\IConsultaEficienciaDeNegociacao.cs" />
     <Compile Include="Queries\Contracts\IConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
-    <Compile Include="Queries\Implementations\ConsultaEficienciaNegociacao.cs" />
+    <Compile Include="Queries\Implementations\ConsultaEficienciaDeNegociacao.cs" />
     <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
