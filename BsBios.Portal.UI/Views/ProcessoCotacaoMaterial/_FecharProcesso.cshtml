@@ -11,8 +11,24 @@
     }
 </style>
 <form id="formFecharProcesso">
-    @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.TextoDeCabecalho),
-    new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.NotaDeCabecalho))
+@*    @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.TextoDeCabecalho),
+    new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.NotaDeCabecalho))*@
+    <div class="linha">
+        <div class="coluna">
+            @Html.LabelFor(x => x.TextoDeCabecalho)
+            @Html.TextAreaFor(x => x.TextoDeCabecalho, new { maxlength = 255, rows=5 })
+            <p class="mensagemErro">
+                @Html.ValidationMessageFor(x => x.TextoDeCabecalho)    
+            </p>
+        </div>
+        <div class="coluna">
+            @Html.LabelFor(x => x.NotaDeCabecalho)
+            @Html.TextAreaFor(x => x.NotaDeCabecalho, new { maxlength = 255,rows=5 })
+            <p class="mensagemErro">
+                @Html.ValidationMessageFor(x => x.NotaDeCabecalho)    
+            </p>
+        </div>
+    </div>
     <fieldset>
         <legend>Gerar no SAP</legend>
         @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
