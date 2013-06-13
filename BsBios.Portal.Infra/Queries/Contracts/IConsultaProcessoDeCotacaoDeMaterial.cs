@@ -13,5 +13,6 @@ namespace BsBios.Portal.Infra.Queries.Contracts
             KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao);
             KendoGridVm ListarItens(int idProcessoCotacao);
             string[] CodigoDosProdutos(int idProcessoCotacao);
+            FornecedorVm[] ListarFornecedores(int idProcessoCotacao);
         }
 }

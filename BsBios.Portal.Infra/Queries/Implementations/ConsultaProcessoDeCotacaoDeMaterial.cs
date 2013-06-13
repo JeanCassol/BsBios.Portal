@@ -223,6 +223,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     from cotacaoItem in fp.Cotacao.Itens
                     from historico in cotacaoItem.HistoricosDePreco
                     where cotacaoItem.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem
+                    orderby historico.DataHora, historico.Id
                     select new
                         {
                             fp.Fornecedor.Codigo,
@@ -377,5 +378,16 @@ namespace BsBios.Portal.Infra.Queries.Implementations
              select item.Produto.Codigo).Distinct().ToArray();
         }
 
+        public FornecedorVm[] ListarFornecedores(int idProcessoCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idProcessoCotacao);
+            return (from pc in _processosDeCotacao.GetQuery()
+                    from pf in pc.FornecedoresParticipantes
+                    select new FornecedorVm
+                    {
+                        Codigo = pf.Fornecedor.Codigo,
+                        Nome = pf.Fornecedor.Nome
+                    }).ToArray();
+        }
     }
 }

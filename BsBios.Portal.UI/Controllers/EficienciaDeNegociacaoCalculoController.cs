@@ -12,17 +12,15 @@ namespace BsBios.Portal.UI.Controllers
     public class EficienciaDeNegociacaoCalculoController : Controller
     {
         private readonly IServicoDeEficienciaDeNegociacao _servicoDeEficienciaDeNegociacao;
-        private readonly IConsultaEficienciaDeNegociacao _consultaEficienciaDeNegociacao;
 
         public EficienciaDeNegociacaoCalculoController(IServicoDeEficienciaDeNegociacao servicoDeEficienciaDeNegociacao, IConsultaEficienciaDeNegociacao consultaEficienciaDeNegociacao)
         {
             _servicoDeEficienciaDeNegociacao = servicoDeEficienciaDeNegociacao;
-            _consultaEficienciaDeNegociacao = consultaEficienciaDeNegociacao;
         }
 
         public JsonResult ListarColunas(int idProcessoCotacao)
         {
-            return Json(new {Colunas = _consultaEficienciaDeNegociacao.ListarFornecedores(idProcessoCotacao)}, JsonRequestBehavior.AllowGet);
+            return Json(new { Colunas = _servicoDeEficienciaDeNegociacao.ListarFornecedores(idProcessoCotacao) }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CalcularDetalhe(int idProcessoCotacao, int idProcessoCotacaoItem)
@@ -39,7 +37,7 @@ namespace BsBios.Portal.UI.Controllers
             paginacaoVm.PageSize--;
             paginacaoVm.Take--;
 
-            var kendoGridVm = _consultaEficienciaDeNegociacao.ConsultarResumo(paginacaoVm, filtro);
+            var kendoGridVm = _servicoDeEficienciaDeNegociacao.CalcularResumo(paginacaoVm, filtro);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }

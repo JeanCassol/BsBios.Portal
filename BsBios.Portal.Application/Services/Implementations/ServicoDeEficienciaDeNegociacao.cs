@@ -10,10 +10,22 @@ namespace BsBios.Portal.Application.Services.Implementations
     public class ServicoDeEficienciaDeNegociacao : IServicoDeEficienciaDeNegociacao
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly IConsultaEficienciaDeNegociacao _consultaEficienciaDeNegociacao;
 
-        public ServicoDeEficienciaDeNegociacao(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial)
+        public ServicoDeEficienciaDeNegociacao(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaEficienciaDeNegociacao consultaEficienciaDeNegociacao)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
+            _consultaEficienciaDeNegociacao = consultaEficienciaDeNegociacao;
+        }
+
+        public FornecedorVm[] ListarFornecedores(int idProcessoCotacao)
+        {
+            return _consultaProcessoDeCotacaoDeMaterial.ListarFornecedores(idProcessoCotacao);
+        }
+
+        public KendoGridVm CalcularResumo(PaginacaoVm paginacaoVm, EficienciaNegociacaoFiltroVm filtro)
+        {
+            return _consultaEficienciaDeNegociacao.ConsultarResumo(paginacaoVm, filtro);
         }
 
         public IList<dynamic> CalcularEficienciaDoItemDoProcesso(int idProcessoCotacao, int idProcessoCotacaoItem)
@@ -25,14 +37,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             IList<dynamic> listaDinamica = new List<dynamic>();
 
             //dynamic data;
-            IDictionary<string, object> dictionary;
 
             //cálculo das linhas de cotações
             for (int i = 0; i < numeroMaximoDeHistoricos; i++)
             {
                 //data = new ExpandoObject();
                 //dictionary = (IDictionary<string, object>)data;
-                dictionary = new Dictionary<string, object> {{"Fornecedor", "Cotação " + Convert.ToString(i + 1)}};
+                IDictionary<string, object> dictionary = new Dictionary<string, object> {{"Fornecedor", "Cotação " + Convert.ToString(i + 1)}};
 
                 foreach (FornecedorCotacaoVm fornecedorCotacaoVm in cotacoes)
                 {
@@ -46,29 +57,45 @@ namespace BsBios.Portal.Application.Services.Implementations
 
             }
 
-            ////calculo da eficiência em percentual (gera um linha)
-            var dictionaryPercentualDeEficiencia = new Dictionary<string, object>();
-            dictionaryPercentualDeEficiencia.Add("Fornecedor","Eficiência de Negociação (%)");
+            //calculo da eficiência em percentual (gera um linha)
 
-            var dictionaryValorUnitarioDeEficiencia = new Dictionary<string, object>();
-            dictionaryValorUnitarioDeEficiencia.Add("Fornecedor","Eficiência de Negociação (R$)");
+            var dictionaryQuantidadeAdquirida = new Dictionary<string, object>()
+                {
+                    {"Fornecedor","Quantidade Adquirida"}
+                };
+            var dictionaryPercentualDeEficiencia = new Dictionary<string, object>
+                {
+                    {"Fornecedor", "Eficiência de Negociação (%)"}
+                };
 
-            var dictionaryValorTotalDeEficiencia = new Dictionary<string, object>();
-            dictionaryValorTotalDeEficiencia.Add("Fornecedor","Eficiência de Negociação Total (R$)");
+            var dictionaryValorUnitarioDeEficiencia = new Dictionary<string, object>
+                {
+                    {"Fornecedor", "Eficiência de Negociação (R$)"}
+                };
+
+            var dictionaryValorTotalDeEficiencia = new Dictionary<string, object>
+                {
+                    {"Fornecedor", "Eficiência de Negociação Total (R$)"}
+                };
 
             IList<FornecedorCotacaoVm> cotacoesSelecionadas = cotacoes.Where(x => x.Selecionada).ToList();
 
             foreach (FornecedorCotacaoVm cotacaoSelecionada in cotacoesSelecionadas)
             {
-                dictionaryPercentualDeEficiencia.Add("F" + cotacaoSelecionada.Codigo,
+                string codigoDoFornecedor = "F" + cotacaoSelecionada.Codigo;
+
+                dictionaryQuantidadeAdquirida.Add(codigoDoFornecedor, cotacaoSelecionada.QuantidadeAdquirida);
+
+                dictionaryPercentualDeEficiencia.Add(codigoDoFornecedor,
                     Math.Round(((cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal) / cotacaoSelecionada.PrecoInicial) * 100,2));
 
-                dictionaryValorUnitarioDeEficiencia.Add("F" + cotacaoSelecionada.Codigo, cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal);
+                dictionaryValorUnitarioDeEficiencia.Add(codigoDoFornecedor, cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal);
 
-                dictionaryValorTotalDeEficiencia.Add("F" + cotacaoSelecionada.Codigo, 
+                dictionaryValorTotalDeEficiencia.Add(codigoDoFornecedor, 
                     (cotacaoSelecionada.PrecoInicial - cotacaoSelecionada.PrecoFinal) * cotacaoSelecionada.QuantidadeAdquirida);
             }
 
+            listaDinamica.Add(dictionaryQuantidadeAdquirida);
             listaDinamica.Add(dictionaryPercentualDeEficiencia);
             listaDinamica.Add(dictionaryValorUnitarioDeEficiencia);
             listaDinamica.Add(dictionaryValorTotalDeEficiencia);

@@ -101,32 +101,5 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
         }
 
-        [TestMethod]
-        public void RetornaListaComTodosFornecedoresParticipantesDoProcessoDeCotacao()
-        {
-            //crio um processo de cotação de materiais
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            processoDeCotacao.Atualizar(DateTime.Today.AddDays(4),"req");
-
-            Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
-            Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
-            Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            processoDeCotacao.AdicionarFornecedor(fornecedor1);
-            processoDeCotacao.AdicionarFornecedor(fornecedor2);
-            processoDeCotacao.AdicionarFornecedor(fornecedor3);
-
-            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
-
-            var consulta = ObjectFactory.GetInstance<IConsultaEficienciaDeNegociacao>();
-
-            FornecedorVm[] fornecedores = consulta.ListarFornecedores(processoDeCotacao.Id);
-
-            Assert.AreEqual(3,fornecedores.Count());
-
-            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor1.Codigo && x.Nome == fornecedor1.Nome));
-            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor2.Codigo && x.Nome == fornecedor2.Nome));
-            Assert.IsTrue(fornecedores.Any(x => x.Codigo == fornecedor3.Codigo && x.Nome == fornecedor3.Nome));
-
-        }
     }
 }

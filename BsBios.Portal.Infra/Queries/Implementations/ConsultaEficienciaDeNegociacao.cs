@@ -119,19 +119,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 };
         }
 
-        public FornecedorVm[] ListarFornecedores(int idProcessoCotacao)
-        {
-            _processosDeCotacaoDeMaterial.BuscaPorId(idProcessoCotacao);
-            return (from pc in _processosDeCotacaoDeMaterial.GetQuery()
-                    from pf in pc.FornecedoresParticipantes
-                    select new FornecedorVm
-                        {
-                            Codigo = pf.Fornecedor.Codigo ,
-                            Nome = pf.Fornecedor.Nome
-                        }).ToArray();
-        }
-
-
         //Comentei o método porque não consegui fazer a consulta com IQueryable. O Linq to NHibernate não permite fazer
         // group new {classes}  by {campos} quando classes é uma lista de classes. Só permite fazer se for uma única classe
 
