@@ -16,23 +16,24 @@ using Moq;
 namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
-    public class ProcessoDeCotacaoFechamentoTests
+    public class ProcessoDeCotacaoDeMaterialFechamentoTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao> _geradorDeEmailMock;
-        private readonly Mock<IProcessoDeCotacaoComunicacaoSap> _comunicacaoSapMock;
-        private readonly IFechamentoDeProcessoDeCotacaoService _fechamentoDeProcessoDeCotacaoService;
+        private readonly Mock<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap> _comunicacaoSapMock;
+        private readonly IFechamentoDeProcessoDeCotacaoDeMaterialService _fechamentoDeProcessoDeCotacaoService;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
-        private readonly ProcessoDeCotacaoFechamentoVm _processoDeCotacaoFechamentoVm = new ProcessoDeCotacaoFechamentoVm
+        private readonly ProcessoDeCotacaoDeMaterialFechamentoInfoVm _processoDeCotacaoFechamentoVm = new ProcessoDeCotacaoDeMaterialFechamentoInfoVm
         {
             IdProcessoCotacao = 20,
             TextoDeCabecalho = "texto de cabeçalho",
-            NotaDeCabecalho = "nota de cabeçalho"
+            NotaDeCabecalho = "nota de cabeçalho",
+            DocumentoParaGerarNoSap = (int) Enumeradores.DocumentoDoSap.Pedido
         };
 
 
-        public ProcessoDeCotacaoFechamentoTests()
+        public ProcessoDeCotacaoDeMaterialFechamentoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
@@ -81,15 +82,14 @@ namespace BsBios.Portal.Tests.Application.Services
             _geradorDeEmailMock = new Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>(MockBehavior.Strict);
             _geradorDeEmailMock.Setup(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()));
 
-            _comunicacaoSapMock = new Mock<IProcessoDeCotacaoComunicacaoSap>(MockBehavior.Strict);
-            _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()))
+            _comunicacaoSapMock = new Mock<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>(MockBehavior.Strict);
+            _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(), It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoVm>()))
                 .Returns(new ApiResponseMessage
                     {
                         Retorno = new Retorno{Codigo = "200", Texto = "S"}
                     });
 
-            _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,
-                _geradorDeEmailMock.Object,_comunicacaoSapMock.Object);
+            _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoDeMaterialService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,_comunicacaoSapMock.Object);
 
         }
 
@@ -128,8 +128,6 @@ namespace BsBios.Portal.Tests.Application.Services
                                        Assert.IsNotNull(processoDeCotacao);
                                        Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado,
                                                        processoDeCotacao.Status);
-                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.TextoDeCabecalho, processoDeCotacao.TextoDeCabecalho);
-                                       Assert.AreEqual(_processoDeCotacaoFechamentoVm.NotaDeCabecalho, processoDeCotacao.NotaDeCabecalho);
                                    });
 
 
@@ -151,12 +149,18 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             try
             {
-                _fechamentoDeProcessoDeCotacaoService.Executar(new ProcessoDeCotacaoFechamentoVm{IdProcessoCotacao = 30, TextoDeCabecalho = "nenhuma"});
+                _fechamentoDeProcessoDeCotacaoService.Executar(new ProcessoDeCotacaoDeMaterialFechamentoInfoVm
+                    {
+                        IdProcessoCotacao = 30, 
+                        TextoDeCabecalho = "texto",
+                        NotaDeCabecalho = "nota",
+                        DocumentoParaGerarNoSap = (int) Enumeradores.DocumentoDoSap.Pedido
+                    });
                 Assert.Fail("Deveria ter gerado excessão");
             }
             catch (FecharProcessoDeCotacaoFechadoException)
             {
-                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(),It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoVm>()), Times.Never());
                 _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
             }
 

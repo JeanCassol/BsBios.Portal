@@ -121,6 +121,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             var query = (from p in _processosDeCotacao.GetQuery()
                          from item in p.Itens
+                         orderby p.Status
                          select new
                              {
                                  CodigoMaterial = item.Produto.Codigo,

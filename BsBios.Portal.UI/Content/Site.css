@@ -345,12 +345,24 @@ input[type="radio"] {
 	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
 }
+
 .blue:active {
 	color: #80bed6;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
+
+.gray {
+	color: white;
+	border: solid 1px #cad2d4;
+	background: #aaadae;
+	background: -webkit-gradient(linear, left top, left bottom, from(#babdbe), to(#aaadae));
+	background: -moz-linear-gradient(top,  #babdbe,  #aaadae);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#babdbe', endColorstr='#aaadae');
+    cursor: default!important;
+}
+
 
 .botaoMedio {
     width: 140px!important

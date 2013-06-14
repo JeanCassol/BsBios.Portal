@@ -52,8 +52,6 @@
             });
         }
 
-
-
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
                 schema: {
@@ -76,13 +74,17 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: configuracao.Url + '/?idProcessoCotacao=' + configuracao.IdProcessoCotacao,
+                        url: configuracao.Url,
                         type: 'GET',
-                        cache: false
+                        cache: false,
+                        data: function() {
+                            return { IdProcessoCotacao: $('#Id').val() };
+                        }
                     }
                 }
             },
-            pageable:false,
+            pageable: false,
+            autoBind: configuracao.autoBind,
             columns: arrayDeColunas
         });
 

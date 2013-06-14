@@ -143,6 +143,10 @@
             configuracaoDoGrid.pageable = false;
         }
 
+        if ("autoBind" in configuracao) {
+            configuracaoDoGrid.autoBind = configuracao.autoBind;
+        }
+
         $(configuracao.renderTo).customKendoGrid(configuracaoDoGrid);
 
     }

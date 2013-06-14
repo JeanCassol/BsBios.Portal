@@ -10,40 +10,19 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual int Id { get; protected set; }
         public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
-        //public virtual Produto Produto { get; protected set; }
-        //public virtual decimal Quantidade { get; protected set; }
-        //public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual DateTime? DataDeFechamento { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
-        public virtual string TextoDeCabecalho { get; protected set; }
-        public virtual string NotaDeCabecalho { get; protected set; }
         public virtual Usuario Comprador { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
             FornecedoresParticipantes = new List<FornecedorParticipante>();
             Itens = new List<ProcessoDeCotacaoItem>();
-            //Cotacoes = new List<Cotacao>();
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
-
-        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida):this()
-        //{
-        //    Produto = produto;
-        //    Quantidade = quantidade;
-        //    UnidadeDeMedida = unidadeDeMedida;
-        //}
-
-        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
-        //    string requisitos, DateTime dataLimiteRetorno)//:this(produto, quantidade, unidadeDeMedida)
-        //{
-        //    Requisitos = requisitos;
-        //    DataLimiteDeRetorno = dataLimiteRetorno;
-
-        //}
 
         protected void AdicionarItem()
         {
@@ -132,7 +111,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public virtual void Fechar(string textoDeCabecalho, string notaDeCabecalho)
+        public virtual void Fechar()
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
@@ -144,8 +123,6 @@ namespace BsBios.Portal.Domain.Entities
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
             DataDeFechamento = DateTime.Now.Date;
-            TextoDeCabecalho = textoDeCabecalho;
-            NotaDeCabecalho = notaDeCabecalho;
         }
 
         protected void SelecionarCotacao()

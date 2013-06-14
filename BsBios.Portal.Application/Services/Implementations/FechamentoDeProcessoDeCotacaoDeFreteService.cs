@@ -3,19 +3,18 @@ using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
-using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
-    public class FechamentoDeProcessoDeCotacaoService: IFechamentoDeProcessoDeCotacaoService
+    public class FechamentoDeProcessoDeCotacaoDeFreteService: IFechamentoDeProcessoDeCotacaoDeFreteService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IGeradorDeEmailDeFechamentoDeProcessoDeCotacao _geradorDeEmail;
         private readonly IProcessoDeCotacaoComunicacaoSap _comunicacaoSap;
 
-        public FechamentoDeProcessoDeCotacaoService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,
-            IGeradorDeEmailDeFechamentoDeProcessoDeCotacao geradorDeEmail, 
+        public FechamentoDeProcessoDeCotacaoDeFreteService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao,
+            IGeradorDeEmailDeFechamentoDeProcessoDeCotacao geradorDeEmail,
             IProcessoDeCotacaoComunicacaoSap comunicacaoSap)
         {
             _unitOfWork = unitOfWork;
@@ -24,18 +23,19 @@ namespace BsBios.Portal.Application.Services.Implementations
             _comunicacaoSap = comunicacaoSap;
         }
 
-        public void Executar(ProcessoDeCotacaoFechamentoVm processoDeCotacaoFechamentoVm)
+        public void Executar(int idProcessoCotacao)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(processoDeCotacaoFechamentoVm.IdProcessoCotacao).Single();
-                processoDeCotacao.Fechar(processoDeCotacaoFechamentoVm.TextoDeCabecalho, processoDeCotacaoFechamentoVm.NotaDeCabecalho);
+
+                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
+                processoDeCotacao.Fechar();
                 _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
                 _geradorDeEmail.GerarEmail(processoDeCotacao);
                 _processosDeCotacao.Save(processoDeCotacao);
-                _unitOfWork.Commit();
 
+                _unitOfWork.Commit();
             }
             catch (Exception)
             {

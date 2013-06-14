@@ -45,9 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
     <Compile Include="Services\Contracts\IAlteradorDeRequisicaoDeCompra.cs" />
-    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
     <Compile Include="Services\Contracts\ICadastroQuota.cs" />
@@ -85,11 +86,11 @@
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />

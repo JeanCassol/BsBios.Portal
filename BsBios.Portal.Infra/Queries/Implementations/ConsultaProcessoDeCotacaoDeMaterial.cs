@@ -47,6 +47,8 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             var query = _processosDeCotacao.GetQuery();
 
+            query = query.OrderBy(x => x.Status);
+
             var quantidadeDeRegistros = query.Count();
 
             var processosListados = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList();
@@ -107,24 +109,12 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     Id = processoDeCotacao.Id,
                     DataLimiteRetorno = processoDeCotacao.DataTerminoLeilao.HasValue ? processoDeCotacao.DataTerminoLeilao.Value.ToShortDateString(): null,
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    //CodigoMaterial = processoDeCotacao.CodigoMaterial,
                     Requisitos =  processoDeCotacao.Requisitos,
-                    //RequisicaoDeCompraVm = new RequisicaoDeCompraVm()
-                    //    {
-                    //        Centro = processoDeCotacao.Centro,
-                    //        Criador = processoDeCotacao.Criador,
-                    //        DataDeLiberacao = processoDeCotacao.DataDeLiberacao.ToShortDateString(),
-                    //        DataDeRemessa = processoDeCotacao.DataDeRemessa.ToShortDateString(),
-                    //        DataDeSolicitacao = processoDeCotacao.DataDeSolicitacao.ToShortDateString(),
-                    //        Descricao = processoDeCotacao.Descricao,
-                    //        FornecedorPretendido = processoDeCotacao.FornecedorPretendido,
-                    //        Material = processoDeCotacao.Material,
-                    //        NumeroItem = processoDeCotacao.NumeroItem,
-                    //        NumeroRequisicao = processoDeCotacao.Numero,
-                    //        Quantidade = processoDeCotacao.Quantidade,
-                    //        Requisitante = processoDeCotacao.Requisitante,
-                    //        UnidadeMedida = processoDeCotacao.UnidadeMedida.Descricao
-                    //    }
+                    PermiteAlterarFornecedores = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                    PermiteFecharProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                    PermiteSalvar = processoDeCotacao.Status != Enumeradores.StatusProcessoCotacao.Fechado,
+                    PermitirAbrirProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                    PermiteSelecionarCotacoes = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
                 };
         }
 

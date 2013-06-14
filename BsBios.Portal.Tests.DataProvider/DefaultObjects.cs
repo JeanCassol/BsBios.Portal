@@ -143,7 +143,7 @@ namespace BsBios.Portal.Tests.DataProvider
             var processoDeCotacaoItem = processoDeCotacao.Itens.First();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, null, 100, DateTime.Today.AddMonths(1), "obs");
             processoDeCotacao.SelecionarCotacao(cotacao.Id, processoDeCotacaoItem.Id, 100, ObtemIvaPadrao());
-            processoDeCotacao.Fechar("texto de cabeçalho", "nota de cabeçalho");
+            processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
 
@@ -330,7 +330,7 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            processoDeCotacao.Fechar("texto de cabeçalho", "nota de cabeçalho");
+            processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)

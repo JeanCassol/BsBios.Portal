@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -39,10 +38,10 @@ namespace BsBios.Portal.Domain.Entities
 
     public class CotacaoMaterial: Cotacao
     {
-
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
+        public virtual string NumeroDaCotacao { get; protected set; }
 
         protected CotacaoMaterial(){}
 
@@ -75,6 +74,11 @@ namespace BsBios.Portal.Domain.Entities
             }
 
             return cotacaoItem;
+        }
+
+        public virtual void AtualizarNumeroDaCotacao(string numeroDaCotacao)
+        {
+            NumeroDaCotacao = numeroDaCotacao;
         }
 
     }

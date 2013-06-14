@@ -28,7 +28,7 @@
                                       new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
             <div id="divErro" class="error"></div>
             <div class="divBotao">
-                <input type="button" id="btnSalvarProcesso" value="Salvar" class="blue" />
+                <input type="button" id="btnSalvarProcesso" value="Salvar" class="@(Model == null || Model.PermiteSalvar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteSalvar? "disabled":"") />
             </div>
         </fieldset>
 
@@ -39,9 +39,9 @@
         <fieldset>
             <legend>Itens</legend>
             <div class="divBotao">
-                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="blue botaoMedio"/>
+                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="@(Model == null || Model.PermiteAlterarFornecedores ? Html.Raw("blue"): Html.Raw("gray")) botaoMedio" @(Model != null && !Model.PermiteAlterarFornecedores? "disabled":"") />
             </div>
-            <div id="divGridItens" class="divGrid"></div>
+            <div id="divGridItens" class="divGrid" data-autobind="@(Model != null ? "true":"false")"></div>
         </fieldset>
 
 
@@ -49,7 +49,9 @@
             {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
                 new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
                 new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail")),
-                new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false)
+                new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false),
+                new KeyValuePair<string, object>("ProcessoNaoIniciado", Model == null || Model.PermitirAbrirProcesso),
+                new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)
             })
         <fieldset>
             <legend>Enviar Anexos</legend>
@@ -94,20 +96,24 @@
             /// <param name="configuracao.renderTo">elemento html que o grid deve ser renderizado</param>
             /// <param name="configuracao.exibirBotaoAdicionar">indica se deve ser exibida uma coluna com botão "Adicionar" para cada registro do grid</param>
             /// <param name="configuracao.exibirBotaoRemover">indica se deve ser exibida uma coluna com botão "Remover" para cada registro do grid</param>
-            /// <param name="configuracao.pageable">true = para paginar o gride; false = para não paginar o grid</param>
+            /// <param name="configuracao.pageable">true = para paginar o grid; false = para não paginar o grid</param>
 
             ProcessoDeCotacaoItensGrid.configurar({
                 schemaData: 'Registros',
-                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + idProcessoCotacao,
+                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+                transportData: function() {
+                    return { IdProcessoCotacao: $('#Id').val() };
+                },
                 renderTo: '#divGridItens',
                 exibirDetalhesDaRequisicao: true,
-                exibirBotaoSelecionarCotacao: true,
+                exibirBotaoSelecionarCotacao: '@(Model != null && Model.PermiteSelecionarCotacoes)'.boolean(),
                 exibirBotaoAdicionar: false,
                 exibirBotaoRemover: false,
-                pageable: false
+                pageable: false,
+                autoBind: idProcessoCotacao > 0
             });
             SelecionarItens.ConfigurarJanelaModal();
-            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeMaterialResumida, IdProcessoCotacao: idProcessoCotacao, ExibirBotaoVisualizar: true });
+            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeMaterialResumida, ExibirBotaoVisualizar: true, autoBind: idProcessoCotacao > 0 });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
             GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
 

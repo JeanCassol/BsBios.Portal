@@ -17,14 +17,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Services
         }
 
         [TestMethod]
-        public void FactoryDoServicoDeFechamentoDoProcessoDeCotacaoDeMaterialFunciona()
-        {
-            var factory = new FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory();
-            var service = factory.Construir();
-            Assert.IsNotNull(service);
-        }
-
-        [TestMethod]
         public void ConsigoInstanciarControllerDeFechamentoDeProcessoDeCotacaoDeFrete()
         {
             var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeFreteFechamentoController>();
@@ -37,7 +29,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Services
             var controller = ObjectFactory.GetInstance<ProcessoDeCotacaoDeMaterialFechamentoController>();
             Assert.IsNotNull(controller);
         }
-
 
     }
 }

@@ -1,6 +1,5 @@
 ﻿ProcessoDeCotacaoOperacoes = {
     Configurar: function(tipoDeCotacao) {
-        var idProcessoCotacao = $('#Id').val();
         $('#divSelecionarFornecedores').customDialog({
             title: 'Selecionar Fornecedores',
             buttons: {
@@ -15,7 +14,7 @@
                         type: 'POST',
                         cache: false,
                         data: JSON.stringify({
-                            IdProcessoCotacao: idProcessoCotacao,
+                            IdProcessoCotacao: $('#Id').val(),
                             CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
                         }),
                         contentType: "application/json; charset=utf-8",
@@ -180,6 +179,8 @@
                 success: function(data) {
                     if (data.Sucesso) {
                         $('#spanStatus').html('Aberto');
+                        desabilitarBotao('#btnAbrirProcesso,#btnFecharProcesso,#btnSelecionarFornecedores,#btnSelecionarItens');
+                        habilitarBotao('#btnFecharProcesso');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);
@@ -196,16 +197,24 @@
         });
         
         function fecharProcessoDeCotacao(urlDeFechamento) {
+            var dados = {
+                IdProcessoCotacao: $('#Id').val(),
+                TextoDeCabecalho: $('#TextoDeCabecalho').val(),
+                NotaDeCabecalho: $('#NotaDeCabecalho').val(),
+                DocumentoParaGerarNoSap: $('#DocumentoParaGerarNoSap:checked').val()
+            };
+            dados.IdProcessoCotacao = $('#Id').val();
             bloqueiaPagina();
             $.ajax({
                 url: urlDeFechamento,
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val(), Justificativa: $('#Justificativa').val() },
+                data: dados,
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
                         $('#spanStatus').html('Fechado');
+                        desabilitarBotao('#btnFecharProcesso,#btnSalvarProcesso');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         if (data.MediaType == "text/html") {

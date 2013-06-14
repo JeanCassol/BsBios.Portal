@@ -46,7 +46,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id ,processoConsultado.Id);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno, processoConsultado.DataLimiteDeRetorno);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Requisitos, processoConsultado.Requisitos);
-            Assert.IsNull(processoConsultado.TextoDeCabecalho);
 
             var item = (ProcessoDeCotacaoDeMaterialItem)processoDeCotacaoDeMaterial.Itens.First();
             var itemConsultado = (ProcessoDeCotacaoDeMaterialItem) processoConsultado.Itens.First();
@@ -120,20 +119,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(cotacaoItem.Observacoes, cotacaoItemConsultada.Observacoes);
 
             Console.WriteLine("Consultando Cotacao - FIM");
-        }
-
-        [TestMethod]
-        public void ConsigoPersistirEConsultarUmProcessoComNotaETextoDeCabecalho()
-        {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialFechado();
-            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeMaterial(processoDeCotacao);
-
-            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
-
-            var processoDeCotacaoConsultado = (ProcessoDeCotacaoDeMaterial) processosDeCotacao.BuscaPorId(processoDeCotacao.Id).Single();
-            Assert.AreEqual("texto de cabeçalho", processoDeCotacaoConsultado.TextoDeCabecalho);
-            Assert.AreEqual("nota de cabeçalho", processoDeCotacaoConsultado.NotaDeCabecalho);
-
         }
 
         [TestMethod]

@@ -208,6 +208,7 @@
     <Compile Include="Repositories\Implementations\RepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
     <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
     <Compile Include="Services\Contracts\IServicoDeConfiguracao.cs" />
@@ -230,7 +231,6 @@
     <Compile Include="Services\Implementations\ComunicacaoAberturaProcessoCotacaoFrete.cs" />
     <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoFrete.cs" />
     <Compile Include="Services\Implementations\ComunicacaoAberturaProcessoCotacaoMaterial.cs" />
-    <Compile Include="Services\Implementations\ComunicacaoFechamentoProcessoCotacaoMaterial.cs" />
     <Compile Include="Services\Implementations\ComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\FileService.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFreteFactory.cs" />
@@ -242,6 +242,7 @@
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\GeradorDeSenha.cs" />
     <Compile Include="Services\Implementations\GeradorDeMensagemDeEmail.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
     <Compile Include="Services\Implementations\ServicoDeConfiguracao.cs" />
     <Compile Include="Services\Implementations\ValidadorUsuario.cs" />

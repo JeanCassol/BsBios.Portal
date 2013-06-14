@@ -1,16 +1,14 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using StructureMap;
-using StructureMap.Pipeline;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
     public class FechamentoDeProcessoDeCotacaoDeFreteServiceFactory : IFechamentoDeProcessoDeCotacaoServiceFactory
     {
-        public IFechamentoDeProcessoDeCotacaoService Construir()
+        public IFechamentoDeProcessoDeCotacaoDeFreteService Construir()
         {
             var emailService = ObjectFactory
                 .With(typeof(ContaDeEmail),
@@ -27,7 +25,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             return ObjectFactory
                 .With(typeof(IGeradorDeEmailDeFechamentoDeProcessoDeCotacao), geradorDeEmail)
                 .With(typeof(IProcessoDeCotacaoComunicacaoSap), comunicacaoSap)
-                .GetInstance<IFechamentoDeProcessoDeCotacaoService>(/*Constantes.FechamentoDeProcessoDeCotacao*/);
+                .GetInstance<IFechamentoDeProcessoDeCotacaoDeFreteService>(/*Constantes.FechamentoDeProcessoDeCotacao*/);
 
 
             //return ObjectFactory

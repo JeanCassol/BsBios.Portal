@@ -2,9 +2,8 @@
 
 namespace BsBios.Portal.ViewModel
 {
-    public class ProcessoDeCotacaoFechamentoVm
+    public class ProcessoDeCotacaoDeMaterialFechamentoVm
     {
-        public int IdProcessoCotacao { get; set; }
         [Required(ErrorMessage = "Texto de Cabeçalho é obrigatório")]
         [Display(Name = "Texto de Cabeçalho")]
         public string TextoDeCabecalho { get; set; }
@@ -15,4 +14,9 @@ namespace BsBios.Portal.ViewModel
 
     }
 
+    public class ProcessoDeCotacaoDeMaterialFechamentoInfoVm : ProcessoDeCotacaoDeMaterialFechamentoVm
+    {
+        public int IdProcessoCotacao { get; set; }
+        public int DocumentoParaGerarNoSap { get; set; }
+    }
 }

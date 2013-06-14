@@ -37,7 +37,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
             //cotacaoItem11.Atualizar(95,50,"obs11");
             cotacaoItem11.Selecionar(50);
-            processo11.Fechar("texto cabeçalho","nota de cabeçalho");
+            processo11.Fechar();
 
             ProcessoDeCotacaoDeMaterial processo12 = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAberto(comprador1);
 
@@ -56,7 +56,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Queries
 
             cotacaoItem21.Selecionar(50);
 
-            processo21.Fechar("texto cabeçalho", "nota de cabeçalho");
+            processo21.Fechar();
 
             var processoDeCotacaoItem21 = (ProcessoDeCotacaoDeMaterialItem)processo21.Itens.Single();
 

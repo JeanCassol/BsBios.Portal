@@ -65,7 +65,7 @@
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
-    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />

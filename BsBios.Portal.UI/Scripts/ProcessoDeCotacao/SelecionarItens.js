@@ -46,6 +46,7 @@ SelecionarItens = {
             exibirDetalhesDaRequisicao: true,
             exibirBotaoAdicionar: true,
             exibirBotaoBloquear: true,
+            pageable:true,
             transportUrl: UrlPadrao.ListarRequisicoesDeCompra,
             transportData: function() {
                 return {

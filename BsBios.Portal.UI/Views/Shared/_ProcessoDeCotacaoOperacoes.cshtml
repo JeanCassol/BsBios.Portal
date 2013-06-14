@@ -1,13 +1,15 @@
 ﻿@{
     Layout = null;
     var blnExibirBotacaoSelecionarCotacoes = (bool) ViewData["ExibirBotacaoSelecionarCotacao"];
+    var processoNaoIniciado = (bool)ViewData["ProcessoNaoIniciado"];
+    var permiteFecharProcesso = (bool)ViewData["PermiteFecharProcesso"];
 }
 <fieldset>
     <legend>Fornecedores</legend>
     <div class="divBotao">
-        <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 220px"/>
+        <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="@(processoNaoIniciado ? Html.Raw("blue"): Html.Raw("gray"))" @(!processoNaoIniciado ? "disabled":"") style="width: 220px"/>
     </div>
-    <div id="gridCotacaoFornecedor" class="divGrid" style="clear: both"></div>
+    <div id="gridCotacaoFornecedor" class="divGrid" data-autobind="@((Convert.ToInt32(ViewData["IdProcessoCotacao"]) > 0) ? "true":"false")" style="clear: both"></div>
     <div id="divFecharProcessoDeCotacaoDeMaterial" class="janelaModal"></div>
 </fieldset>
            
@@ -16,12 +18,12 @@
 <fieldset>
     <legend>Ações</legend>
     <div class="divBotao">
-        <input type="button" id="btnAbrirProcesso" value="Abrir" class="blue" />
+        <input type="button" id="btnAbrirProcesso" value="Abrir" class="@(processoNaoIniciado ? Html.Raw("blue"): Html.Raw("gray"))" @(!processoNaoIniciado ? "disabled":"")  />
         @if (blnExibirBotacaoSelecionarCotacoes)
         {
-            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
+            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação"  style="width: 175px" />
         }
-        <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+        <input type="button" id="btnFecharProcesso" value="Fechar" class="@(permiteFecharProcesso ? Html.Raw("blue"): Html.Raw("gray"))" @(!permiteFecharProcesso ? "disabled":"") />
     </div>
 </fieldset>
 

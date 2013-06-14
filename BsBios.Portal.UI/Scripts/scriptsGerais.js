@@ -70,11 +70,10 @@ Formato = {
 
 $.fn.customKendoGrid = function (configuracao) {
     var container = $(this);
-    if (!configuracao.dataBound || ("autoBind" in configuracao && !configuracao.autoBind)) {
+    if (!configuracao.dataBound && (!("autoBind" in configuracao) || configuracao.autoBind)) {
         this.addClass('k-loading-image');
         configuracao.dataBound = function () {
-            container.removeClass('k-loading-image');
-            container.removeClass('alturaMinima');
+            container.removeClass('k-loading-image alturaMinima');
         };
     }
     configuracao.dataSource.schema.errors = "SessaoExpirada";
@@ -413,4 +412,13 @@ $.fn.customLoad = function (configuracao, functionBeforeOpen) {
     });
 };
 
+function habilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('gray').addClass('blue').removeAttr('disabled');
+}
+
+function desabilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('blue').addClass('gray').attr('disabled', true);
+}
 

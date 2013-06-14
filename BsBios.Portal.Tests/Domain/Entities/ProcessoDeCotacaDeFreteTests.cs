@@ -100,7 +100,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarFecharUmProcessoDeCotacaoQueJaEstaFechadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
-            processoDeCotacao.Fechar("texto de cabeçalho", "nota de cabeçalho");   
+            processoDeCotacao.Fechar();   
         }
     }
 }

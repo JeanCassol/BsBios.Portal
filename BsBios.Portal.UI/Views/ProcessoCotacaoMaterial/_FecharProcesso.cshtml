@@ -1,4 +1,4 @@
-﻿@model ProcessoDeCotacaoFechamentoVm
+﻿@model ProcessoDeCotacaoDeMaterialFechamentoVm
 @using BsBios.Portal.Common
 @using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
@@ -31,8 +31,8 @@
     </div>
     <fieldset>
         <legend>Gerar no SAP</legend>
-        @Html.RadioButtonComLabel("DocumentoDoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
-        @Html.RadioButtonComLabel("DocumentoDoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
+        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
+        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
     </fieldset>
 </form>
 

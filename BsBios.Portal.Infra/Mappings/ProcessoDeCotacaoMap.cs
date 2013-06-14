@@ -35,8 +35,6 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.DataLimiteDeRetorno).Column("DataLimiteRetorno");
             Map(x => x.DataDeFechamento,"DataFechamento");
             Map(x => x.Requisitos);
-            Map(x => x.TextoDeCabecalho);
-            Map(x => x.NotaDeCabecalho);
 
             //Não usar DiscriminateSubClassesOnColumn porque deve ser utilizado apenas quando a estratégia é uma tabela para toda a hierarquia
             //DiscriminateSubClassesOnColumn("TipoCotacao").CustomType<Enumeradores.TipoDeCotacao>();

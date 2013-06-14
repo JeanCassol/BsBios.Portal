@@ -78,10 +78,9 @@ namespace BsBios.Portal.IoC
                 .Use<ComunicacaoFechamentoProcessoCotacaoFrete>()
                 .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
 
-            For<IProcessoDeCotacaoComunicacaoSap>()
+            For<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ComunicacaoFechamentoProcessoCotacaoMaterial>()
-                .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
+                .Use<ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>();
 
             For<IAtualizadorDeIteracaoDoUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
