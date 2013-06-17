@@ -6,7 +6,7 @@
         ///<param name="seletorIdProcessoCotacao">seletor jQuery para obter o id do processo de cotação</param>
 
         //faz o autoBind quando o processo de cotação já tiver sido salvo.
-        var autoBind = isNaN($(seletorIdProcessoCotacao).val());
+        var autoBind =$.isNumeric($(seletorIdProcessoCotacao).val());
         GridAnexo.container = divGrid;
         var colunas = [                 
         {
@@ -17,7 +17,7 @@
         {
             width: 70,
             title: "Download",
-            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + $().val(seletorIdProcessoCotacao).val() + '&nomeDoArquivo=${FileName}' + '" ><img src="/Images/icons/download_16.png"></img></a>'
+            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + $(seletorIdProcessoCotacao).val() + '&nomeDoArquivo=${FileName}' + '" ><img src="/Images/icons/download_16.png"></img></a>'
         }];
         if (permitirExclusao) {
             colunas.push(

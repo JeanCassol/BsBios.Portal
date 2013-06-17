@@ -81,11 +81,13 @@
                         if (!dadosValidos) {
                             return;
                         }
-                        var idCotacao = $(this).find('input[name=IdCotacao]').val();
-                        if (idCotacao == 0) {
-                            //cotação ainda não preenchida pelo fornecedor. O valor 0 indica que a cotação não foi criada
+                        var dataItem = $('#gridCotacoes').data("kendoGrid").dataItem(this);
+                        
+                        if (dataItem.ValorComImpostos == null) {
+                            //cotação ainda não preenchida pelo fornecedor. O valor null indica que a cotação não foi criada
                             return;
                         }
+
                         var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
                         var quantidadeAdquirida = Numero.GetFloat($(this).find('input[name=QuantidadeAdquirida]').val());
                         if (selecionada && quantidadeAdquirida <= 0) {
@@ -95,13 +97,18 @@
                         }
 
                         var cotacao = {
-                            IdCotacao: idCotacao,
+                            IdCotacao: dataItem.IdCotacao,
                             Selecionada: selecionada,
                             QuantidadeAdquirida: quantidadeAdquirida
                         };
                         
                         if (tipoDeCotacao == TipoDeCotacao.Material){
                             var codigoIva = $(this).find('select[name=CodigoIva]').val();
+                            if (codigoIva == "") {
+                                Mensagem.ExibirMensagemDeErro("Deve ser preenchido o Iva de todos os Fornecedores selecionados.");
+                                dadosValidos = false;
+                                return;
+                            }
                             cotacao.CodigoIva = codigoIva;
                         }
 

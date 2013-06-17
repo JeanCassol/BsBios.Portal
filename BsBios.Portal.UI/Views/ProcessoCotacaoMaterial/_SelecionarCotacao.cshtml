@@ -19,7 +19,7 @@
         }
 
         geraCombo = function (valorSelecionado, valorComImpostos) {
-            var items = "";
+            var items = "<option value>Selecione >></option> ";
             $.each(ivas, function (index, iva) {
                 items += geraDropDownItem(iva, valorSelecionado);
             });
@@ -110,10 +110,6 @@
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
                     template: '<input type="button" class="button16 button_visualize"></input>'
-                },
-                {
-                    field: 'IdCotacao', hidden:true,
-                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
                 },
                 {
                     field: "Selecionada", title: ' ', width: 30,

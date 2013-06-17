@@ -40,18 +40,19 @@ namespace BsBios.Portal.Infra.Services.Implementations
                         Itens = itens
                     };
 
-                ApiResponseMessage resposta =  _comunicacaoSap.EnviarMensagem("", vm);
-                if (resposta.Retorno.Codigo.Equals("200"))
-                {
-                    if (cotacaoMaterial != null)
-                    {
-                        cotacaoMaterial.AtualizarNumeroDaCotacao(resposta.Retorno.Texto);
-                    }
-                }
-                else
-                {
-                    throw new Exception(resposta.Retorno.Texto);
-                }
+                //comentado enquanto o serviço do SAP não é implementado
+                //ApiResponseMessage resposta =  _comunicacaoSap.EnviarMensagem("", vm);
+                //if (resposta.Retorno.Codigo.Equals("200"))
+                //{
+                //    if (cotacaoMaterial != null)
+                //    {
+                //        cotacaoMaterial.AtualizarNumeroDaCotacao(resposta.Retorno.Texto);
+                //    }
+                //}
+                //else
+                //{
+                //    throw new Exception(resposta.Retorno.Texto);
+                //}
 
             }
             return new ApiResponseMessage(){Retorno = new Retorno(){Codigo = "200" ,Texto = "OK" }};

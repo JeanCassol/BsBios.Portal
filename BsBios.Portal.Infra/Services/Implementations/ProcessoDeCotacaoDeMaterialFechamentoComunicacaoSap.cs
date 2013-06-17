@@ -49,7 +49,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
                         Itens = itens
                     };
 
-                _comunicacaoSap.EnviarMensagem("", vm);
+                //comentado enquanto o serviço do sap não é implementado
+                //_comunicacaoSap.EnviarMensagem("", vm);
 
             }
         }
