@@ -5,7 +5,7 @@ namespace BsBios.Portal.ViewModel
     /// <summary>
     /// Classe utilizada na tela detalhe de cotação de materiais
     /// </summary>
-    public class ProcessoCotacaoMaterialCadastroVm
+    public class ProcessoCotacaoMaterialCadastroVm: ProcessoCotacaoCadastroPermissaoVm
     {
         public int? Id { get; set; }
         [Display(Name = "Status: ")]
@@ -21,10 +21,5 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Requisitos é obrigatório")]
         public string Requisitos { get; set; }
 
-        public bool PermiteAlterarFornecedores { get; set; }
-        public bool PermiteSelecionarCotacoes { get; set; }
-        public bool PermitirAbrirProcesso { get; set; }
-        public bool PermiteFecharProcesso { get; set; }
-        public bool PermiteSalvar { get; set; }
     }
 }

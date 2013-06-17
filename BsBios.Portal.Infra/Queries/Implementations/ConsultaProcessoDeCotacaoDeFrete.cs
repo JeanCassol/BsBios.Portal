@@ -34,10 +34,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     Id = processoDeCotacao.Id,
                     DataLimiteRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
                     DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    //CodigoMaterial = processoDeCotacao.Produto.Codigo,
-                    //DescricaoMaterial = processoDeCotacao.Produto.Descricao,
-                    //QuantidadeMaterial = processoDeCotacao.Quantidade ,
-                    //CodigoUnidadeMedida = processoDeCotacao.UnidadeDeMedida.CodigoInterno ,
                     CodigoMaterial = item.Produto.Codigo,
                     DescricaoMaterial = item.Produto.Descricao,
                     QuantidadeMaterial = item.Quantidade,
@@ -48,6 +44,13 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
                     DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
                     DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString() ,
+
+                    PermiteAlterarFornecedores = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                    PermiteFecharProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                    PermiteSalvar = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                    PermitirAbrirProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                    PermiteSelecionarCotacoes = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+
                 };
         }
 

@@ -27,7 +27,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             _processoDeCotacaoFactory = processoDeCotacaoFactory;
         }
 
-        public void Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm)
+        public int Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm)
         {
             try
             {
@@ -64,6 +64,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _processosDeCotacao.Save(processo);
 
                 _unitOfWork.Commit();
+
+                return processo.Id;
             }
             catch (Exception)
             {

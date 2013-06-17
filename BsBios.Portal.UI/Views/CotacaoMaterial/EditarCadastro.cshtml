@@ -52,7 +52,7 @@
             
             <div class="error linha"></div>
             <div class="divBotao">
-                <input type="button" id="btnSalvarCotacao" value="Salvar" class="blue" />
+                <input type="button" id="btnSalvarCotacao" value="Salvar" class="@(Model == null || Model.PermiteEditar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteEditar? "disabled":"") />
             </div>
         </fieldset>
         
@@ -78,9 +78,11 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoItensGrid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/CotacaoMaterial/Cadastro.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
+        var permiteEditar = '@Model.PermiteEditar'.boolean();
         function calculaValorLiquido() {
             var valorComImpostos = Numero.GetFloat($('#ValorComImpostos').val());
             if (valorComImpostos == 0) {
@@ -103,47 +105,29 @@
 
         $(function() {
             $('#DescricaoIncoterm').attr('maxlength', 255);
-            GridAnexo.Configurar($('#IdProcessoCotacao').val(), "#divAnexos", false);
+            GridAnexo.Configurar('#IdProcessoCotacao', "#divAnexos", false);
 
             ProcessoDeCotacaoItensGrid.configurar({
                 schemaData: 'Registros',
-                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + $('#IdProcessoCotacao').val(),
+                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+                transportData: function() {
+                    return {IdProcessoCotacao: $('#IdProcessoCotacao').val()};
+                },
                 renderTo: '#divGridItens',
                 exibirDetalhesDaRequisicao: false,
                 exibirBotaoAdicionar: false,
                 exibirBotaoRemover: false,
-                exibirBotaoEditar: true,
+                exibirBotaoEditar: permiteEditar,
+                exibirBotaoVisualizar: !permiteEditar,
                 exibirBotaoSelecionarCotacao: false,
                 pageable: false
             });
 
-            $('#divGridItens').find('.button_edit').die("click");
-            $('#divGridItens').find('.button_edit').live("click", function() {
-                var idCotacao = $('#IdCotacao').val();
-                if (idCotacao == 0) {
-                    Mensagem.ExibirMensagemDeErro('Não é possível informar a cotação de um item antes de salvar as Informações Gerais.');
-                    return;
-                }
-                var grid = $('#divGridItens').data("kendoGrid");
-                var dataItem = grid.dataItem(grid.select());
-                $('#divCotacaoItem').customLoad({
-                        url: '@Url.Action("EditarCadastro", "CotacaoMaterialItem")'
-                            + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
-                            + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
-                            + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
-                            + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
-                        validar: true
-                    },
-                    function () {
-                        //ocultaCamposDeValorDosImpostos();
-                        aplicaMascaraMoeda('#divCotacaoItem');
-                        aplicaMascaraQuantidade('#divCotacaoItem');
-                        aplicaMascaraData('#divCotacaoItem');
-                        inicializaCamposDatePicker('#divCotacaoItem');
-                    }
-                );
-
-            });
+            if (permiteEditar) {
+                configurarEventoDeEdicaoDoGrid();
+            } else {
+                configurarEventoDeConsultaDoGrid();
+            }
 
             aplicaMascaraData();
             aplicaMascaraMoeda();
@@ -193,9 +177,9 @@
 
             });
 
-            $('#divCotacaoItem').customDialog({
-                title: 'Cotação do Item',
-                buttons: {
+            var buttonsDialog = {};
+            if (permiteEditar) {
+                buttonsDialog = {
                     "Confirmar": function() {
                         var form = $('#formCotacaoItem');
                         if (!$(form).validate().form()) {
@@ -216,7 +200,12 @@
                     "Cancelar": function() {
                         $(this).dialog("close");
                     }
-                }
+                };
+            }
+
+            $('#divCotacaoItem').customDialog({
+                title: 'Cotação do Item',
+                buttons: buttonsDialog
             });
 
         });

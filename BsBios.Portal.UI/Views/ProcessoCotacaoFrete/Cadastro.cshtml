@@ -65,14 +65,16 @@
             @Html.ValidationSummary(true)
         <div class="error"></div>
         <div class="divBotao">
-            <input type="button" id="btnSalvar" value="Salvar" class="blue" />
+            <input type="button" id="btnSalvar" value="Salvar" class="@(Model == null || Model.PermiteSalvar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteSalvar? "disabled":"") />
         </div>
         </fieldset>
     }
     @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
-            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true)
+            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true),
+            new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
+            new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)            
         })
     <div id="divSelecionarProduto" class="janelaModal"></div>
     <div id="divSelecionarItinerario" class="janelaModal"></div>
@@ -88,9 +90,14 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeFreteResumida, IdProcessoCotacao: idProcessoCotacao, ExibirDadosDeItens: true });
+            GridCotacaoResumida.Configurar(
+                {
+                    Url: UrlPadrao.CotacaoDeFreteResumida,
+                    ExibirDadosDeItens: true,
+                    autoBind: idProcessoCotacao > 0
+                });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
 
             aplicaMascaraData();
@@ -161,7 +168,9 @@
                 $.post('@Url.Action("Salvar", "ProcessoDeCotacaoDeFreteService")', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index", "ProcessoCotacaoFrete")';
+                            $('#Id').val(data.IdProcessoCotacao);
+                            habilitarBotao('#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

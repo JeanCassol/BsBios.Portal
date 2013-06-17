@@ -179,8 +179,12 @@
                 success: function(data) {
                     if (data.Sucesso) {
                         $('#spanStatus').html('Aberto');
-                        desabilitarBotao('#btnAbrirProcesso,#btnFecharProcesso,#btnSelecionarFornecedores,#btnSelecionarItens');
-                        habilitarBotao('#btnFecharProcesso');
+                        var seletorDesabilitar = '#btnAbrirProcesso,#btnSelecionarFornecedores,#btnSelecionarItens';
+                        if (tipoDeCotacao == TipoDeCotacao.Frete) {
+                            seletorDesabilitar += ',#btnSalvar';
+                        }
+                        desabilitarBotao(seletorDesabilitar);
+                        habilitarBotao('#btnFecharProcesso,#btnSelecionarCotacoes');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);

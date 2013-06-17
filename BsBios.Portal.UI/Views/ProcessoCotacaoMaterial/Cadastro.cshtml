@@ -5,7 +5,7 @@
 
 @{
     ViewBag.TituloDaPagina = "Processo de Cotação de Material";
-    string displayStyle = Model == null ? "none" : "inherit";
+    string dataAutoBind = Model != null ? "true" : "false";
 }
 @section styles
 {
@@ -33,24 +33,23 @@
         </fieldset>
 
     }
-    <div id="divOutrasOperacoes" style="display: @displayStyle">
+    <div id="divOutrasOperacoes">
         <div id="divSelecionarItens" class="janelaModal" ></div>
     
         <fieldset>
             <legend>Itens</legend>
             <div class="divBotao">
-                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="@(Model == null || Model.PermiteAlterarFornecedores ? Html.Raw("blue"): Html.Raw("gray")) botaoMedio" @(Model != null && !Model.PermiteAlterarFornecedores? "disabled":"") />
+                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="@(Model != null && Model.PermiteAlterarFornecedores ? Html.Raw("blue"): Html.Raw("gray")) botaoMedio" @(Model == null || !Model.PermiteAlterarFornecedores? "disabled":"") />
             </div>
-            <div id="divGridItens" class="divGrid" data-autobind="@(Model != null ? "true":"false")"></div>
+            <div id="divGridItens" class="divGrid" data-autobind="@dataAutoBind"></div>
         </fieldset>
-
 
         @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
             {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
                 new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
                 new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail")),
                 new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false),
-                new KeyValuePair<string, object>("ProcessoNaoIniciado", Model == null || Model.PermitirAbrirProcesso),
+                new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
                 new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)
             })
         <fieldset>
@@ -65,7 +64,7 @@
         </fieldset>
         <fieldset>
             <legend>Anexos Enviados</legend>
-            <div id="divAnexos" class="divGrid"></div>            
+            <div id="divAnexos" class="divGrid" data-autobind="@dataAutoBind"></div>            
         </fieldset>
     </div>
 </div>
@@ -106,7 +105,7 @@
                 },
                 renderTo: '#divGridItens',
                 exibirDetalhesDaRequisicao: true,
-                exibirBotaoSelecionarCotacao: '@(Model != null && Model.PermiteSelecionarCotacoes)'.boolean(),
+                exibirBotaoSelecionarCotacao: true,
                 exibirBotaoAdicionar: false,
                 exibirBotaoRemover: false,
                 pageable: false,
@@ -115,7 +114,7 @@
             SelecionarItens.ConfigurarJanelaModal();
             GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeMaterialResumida, ExibirBotaoVisualizar: true, autoBind: idProcessoCotacao > 0 });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
-            GridAnexo.Configurar(idProcessoCotacao, "#divAnexos", true);
+            GridAnexo.Configurar('#Id', "#divAnexos", true);
 
             $('#divGridItens').off('click', '.button_select', false);
             $('#divGridItens').on('click', '.button_select', function() {
@@ -156,8 +155,8 @@
                     function(data) {
                         if (data.Sucesso) {
                             $('#Id').val(data.IdProcessoCotacao);
-                            $('#divOutrasOperacoes').show();
-                            Mensagem.ExibirMensagemDeErro("O Processo de Cotação foi salvo com sucesso.");
+                            habilitarBotao('#btnSelecionarItens,#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
 
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
