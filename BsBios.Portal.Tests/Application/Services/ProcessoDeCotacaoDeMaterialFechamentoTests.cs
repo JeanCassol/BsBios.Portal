@@ -83,11 +83,7 @@ namespace BsBios.Portal.Tests.Application.Services
             _geradorDeEmailMock.Setup(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()));
 
             _comunicacaoSapMock = new Mock<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>(MockBehavior.Strict);
-            _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(), It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoVm>()))
-                .Returns(new ApiResponseMessage
-                    {
-                        Retorno = new Retorno{Codigo = "200", Texto = "S"}
-                    });
+            _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(), It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoInfoVm>()));
 
             _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoDeMaterialService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,_comunicacaoSapMock.Object);
 
@@ -160,7 +156,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (FecharProcessoDeCotacaoFechadoException)
             {
-                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(),It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoVm>()), Times.Never());
+                _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(),It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoInfoVm>()), Times.Never());
                 _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
             }
 

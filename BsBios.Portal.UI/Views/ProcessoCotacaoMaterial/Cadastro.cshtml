@@ -156,6 +156,8 @@
                         if (data.Sucesso) {
                             $('#Id').val(data.IdProcessoCotacao);
                             habilitarBotao('#btnSelecionarItens,#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            var upload = $("#files").data("kendoUpload");
+                            upload.enable();
                             Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
 
                         } else {
@@ -193,6 +195,7 @@
                             select: 'Selecione...',
                             uploadSelectedFiles: 'Enviar arquivos'
                         },
+                        enabled: idProcessoCotacao > 0,
                         select: function(e) {
                             $.each(e.files, function(index, file) {
                                 if (file.size > configuracao.TamanhoMaximoDaRequisicaoEmBytes) {

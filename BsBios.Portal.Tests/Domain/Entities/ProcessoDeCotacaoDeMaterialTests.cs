@@ -446,6 +446,16 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(SelecionarRequisicaoDeCompraBloqueadaException))]
+        public void NaoEPermitidoAdicionarSelecionarUmaRequisicaoDeCompraBloqueadaParaUmProcessoDeCotacao()
+        {
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            requisicaoDeCompra.Bloquear();
+
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            processoDeCotacao.AdicionarItem(requisicaoDeCompra);
+        }
 
     }
 }

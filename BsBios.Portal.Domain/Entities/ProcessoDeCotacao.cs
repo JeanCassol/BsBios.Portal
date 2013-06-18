@@ -153,6 +153,12 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
             }
+
+            if (requisicaoDeCompra.Status == Enumeradores.StatusRequisicaoCompra.Bloqueado)
+            {
+                throw new SelecionarRequisicaoDeCompraBloqueadaException(requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem);
+            }
+
             var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
             Itens.Add(item);
             return item;
