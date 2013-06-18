@@ -62,6 +62,7 @@
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />
     <Compile Include="Exceptions\RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException.cs" />
     <Compile Include="Exceptions\RequisicaoDeCompraComProcessoDeCotacaoBloqueioException.cs" />
+    <Compile Include="Exceptions\SelecionarRequisicaoDeCompraBloqueadaException.cs" />
     <Compile Include="Exceptions\UsuarioSemEmailException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />
     <Compile Include="Exceptions\MvaNaoInformadoException.cs" />
