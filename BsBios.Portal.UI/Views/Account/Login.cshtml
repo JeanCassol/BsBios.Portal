@@ -33,8 +33,8 @@
                     <input type="submit" value="Log in" class="blue"/>
                 </div>
                 <div class="elementosCentralizados">
-                    @Html.ActionLink("Esqueci minha senha","EsqueciMinhaSenha")
-                    @Html.ActionLink("Alterar senha","AlterarSenha")
+                    <a href="#" id="esqueciMinhaSenha">Esqueci minha senha</a>
+                    <a href="#" id="alterarSenha">Alterar senha</a>
                 </div>
             }
         </div>
@@ -63,7 +63,11 @@
 
                 $("#esqueciMinhaSenha").click(function(e) {
                     e.preventDefault();
-                    location.href = '@Url.Action("EsqueciMinhaSenha")';
+                    location.href = '@Url.Action("EsqueciMinhaSenha")' + '/?login=' + $('#Usuario').val();
+                });
+                $('#alterarSenha').click(function(e) {
+                    e.preventDefault();
+                    location.href = '@Url.Action("AlterarSenha")' + '/?login=' + $('#Usuario').val();
                 });
                 $('form').submit(function(e) {
                     var form = $('form');
