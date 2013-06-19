@@ -5,9 +5,9 @@
 }
 
 function configurarEventoDeConsultaDoGrid() {
-    $('#divGridItens').off('click', '.button_visualize', false);
-    $('#divGridItens').on('click', '.button_visualize', function () {
-        var grid = $('#divGridItens').data("kendoGrid");
+    $('#divGridItensCotacao').off('click', '.button_visualize', false);
+    $('#divGridItensCotacao').on('click', '.button_visualize', function () {
+        var grid = $('#divGridItensCotacao').data("kendoGrid");
         var dataItem = grid.dataItem(grid.select());
         $('#divCotacaoItem').customLoad({
             url: UrlPadrao.EditarItemDoCadastroDeCotacaoDeMaterial
@@ -28,14 +28,14 @@ function configurarEventoDeConsultaDoGrid() {
 }
 
 function configurarEventoDeEdicaoDoGrid() {
-    $('#divGridItens').off('click','.button_edit',false);
-    $('#divGridItens').on('click', '.button_edit', function () {
+    $('#divGridItensCotacao').off('click','.button_edit',false);
+    $('#divGridItensCotacao').on('click', '.button_edit', function () {
         var idCotacao = $('#IdCotacao').val();
         if (idCotacao == 0) {
             Mensagem.ExibirMensagemDeErro('Não é possível informar a cotação de um item antes de salvar as Informações Gerais.');
             return;
         }
-        var grid = $('#divGridItens').data("kendoGrid");
+        var grid = $('#divGridItensCotacao').data("kendoGrid");
         var dataItem = grid.dataItem(grid.select());
         $('#divCotacaoItem').customLoad({
             url: UrlPadrao.EditarItemDoCadastroDeCotacaoDeMaterial

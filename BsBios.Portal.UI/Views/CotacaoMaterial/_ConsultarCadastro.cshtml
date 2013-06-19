@@ -22,7 +22,7 @@
 
     <fieldset id="fieldSetItens">
         <legend>Itens</legend>
-        <div id="divGridItens" class="divGrid"></div>
+        <div id="divGridItensCotacao" class="divGrid"></div>
     </fieldset>
     <div id="divCotacaoItem" class="janelaModal"></div>
 </div>
@@ -37,7 +37,7 @@
             transportData: function (){
                 return { IdProcessoCotacao: $('#IdProcessoCotacao').val() };
             },
-            renderTo: '#divGridItens',
+            renderTo: '#divGridItensCotacao',
             exibirBotaoVisualizar: (idCotacao > 0),
             pageable: false
         });

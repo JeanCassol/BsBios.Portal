@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace BsBios.Portal.ViewModel
@@ -15,8 +16,8 @@ namespace BsBios.Portal.ViewModel
         //public DateTime DataCriacao { get; set; }
         [DataMember]
         public string CodigoFornecedor { get; set; }
-        //[DataMember]
-        //public DateTime DataLimiteRetorno { get; set; }
+        [DataMember]
+        public DateTime DataLimiteRetorno { get; set; }
 
         [DataMember]
         public ListaProcessoDeCotacaoDeMaterialAberturaItemVm Itens { get; set; }

@@ -70,7 +70,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button16 button_add" title="Selecionar Item"></input>'
+                template: '<input type="button" class="button16 button_add" title="Adicionar Item"></input>'
             });
         }
         
@@ -94,7 +94,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button16 button_select"></input>'
+                template: '<input type="button" class="button16 button_select" title="Selecionar cotações"></input>'
             });
         }
 

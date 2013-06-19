@@ -74,6 +74,7 @@ $.fn.customKendoGrid = function (configuracao) {
         this.addClass('k-loading-image');
         configuracao.dataBound = function () {
             container.removeClass('k-loading-image alturaMinima');
+            $(container).find('.k-grid-content').css('height', 'auto');
         };
     }
     configuracao.dataSource.schema.errors = "SessaoExpirada";
