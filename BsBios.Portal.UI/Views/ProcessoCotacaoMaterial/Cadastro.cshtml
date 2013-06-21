@@ -82,10 +82,6 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
     <script type="text/javascript">
-        function adicionarCorAzulNosBotoesDeUpload() {
-            $('.k-button').addClass('blue');
-        }
-
         $(function() {
             aplicaMascaraData();
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
@@ -203,7 +199,6 @@
                                     e.preventDefault();
                                 }
                             });
-                            //adicionarCorAzulNosBotoesDeUpload();
                         },
                         upload: function(e) {
                             e.data = { IdProcessoCotacao: $('#Id').val() };

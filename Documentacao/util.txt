@@ -1,0 +1,16 @@
+﻿xP:83426013
+
+
+xico: 96695464
+
+sap:s0007394385
+senha:inicial
+
+
+verificar dependências de DLLs.
+dumpbin /dependents sapnco_utils.dll
+digitar apenas "dumpbin" para ver ajuda.
+
+
+COMANDO PARA GERAR XSD
+SVCUTIL /DATACONTRACTONLY BsBios.Portal.ViewModel.DLL
