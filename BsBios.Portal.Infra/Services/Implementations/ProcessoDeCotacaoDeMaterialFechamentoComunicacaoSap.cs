@@ -38,7 +38,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 var vm = new ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm
                     {
                         IdProcessoCotacao = processo.Id,
-                        NumeroCotacao = cotacao.NumeroDaCotacao,
+                        NumeroCotacao = fornecedorParticipante.NumeroDaCotacao,
                         CodigoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
                         DocumentoDoSap = fechamentoVm.DocumentoParaGerarNoSap,
                         NotaDeCabecalho = fechamentoVm.NotaDeCabecalho,

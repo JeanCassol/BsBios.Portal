@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 using Newtonsoft.Json;
@@ -13,7 +12,7 @@ namespace BsBios.Portal.UI.Controllers
     {
         private readonly IServicoDeEficienciaDeNegociacao _servicoDeEficienciaDeNegociacao;
 
-        public EficienciaDeNegociacaoCalculoController(IServicoDeEficienciaDeNegociacao servicoDeEficienciaDeNegociacao, IConsultaEficienciaDeNegociacao consultaEficienciaDeNegociacao)
+        public EficienciaDeNegociacaoCalculoController(IServicoDeEficienciaDeNegociacao servicoDeEficienciaDeNegociacao)
         {
             _servicoDeEficienciaDeNegociacao = servicoDeEficienciaDeNegociacao;
         }

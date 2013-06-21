@@ -7,7 +7,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual int Id { get; protected set; }
         public virtual ProcessoDeCotacao ProcessoDeCotacao { get; protected set; }
         public virtual Fornecedor Fornecedor { get; protected set; }
-        public virtual Cotacao Cotacao { get; protected set; }   
+        public virtual Cotacao Cotacao { get; protected set; }
+        public virtual string NumeroDaCotacao { get; protected set; }
         
         protected FornecedorParticipante(){}
 
@@ -22,5 +23,11 @@ namespace BsBios.Portal.Domain.Entities
             Cotacao = cotacao;
             return Cotacao;
         }
+
+        public virtual void AtualizarNumeroDaCotacao(string numeroDaCotacao)
+        {
+            NumeroDaCotacao = numeroDaCotacao;
+        }
+
     }
 }

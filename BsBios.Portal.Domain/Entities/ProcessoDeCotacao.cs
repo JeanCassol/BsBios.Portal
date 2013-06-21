@@ -206,6 +206,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal preco, 
             decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
+            base.InformarCotacao();
 
             var cotacao = (CotacaoMaterial)  FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
                                          .Select(fp => fp.Cotacao).Single().CastEntity();

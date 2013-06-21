@@ -17,7 +17,7 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         public string CodigoFornecedor { get; set; }
         [DataMember]
-        public DateTime DataLimiteRetorno { get; set; }
+        public string DataLimiteRetorno { get; set; }
 
         [DataMember]
         public ListaProcessoDeCotacaoDeMaterialAberturaItemVm Itens { get; set; }
