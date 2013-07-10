@@ -41,7 +41,6 @@ namespace BsBios.Portal.Domain.Entities
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
-        public virtual string NumeroDaCotacao { get; protected set; }
 
         protected CotacaoMaterial(){}
 
@@ -74,11 +73,6 @@ namespace BsBios.Portal.Domain.Entities
             }
 
             return cotacaoItem;
-        }
-
-        public virtual void AtualizarNumeroDaCotacao(string numeroDaCotacao)
-        {
-            NumeroDaCotacao = numeroDaCotacao;
         }
 
     }

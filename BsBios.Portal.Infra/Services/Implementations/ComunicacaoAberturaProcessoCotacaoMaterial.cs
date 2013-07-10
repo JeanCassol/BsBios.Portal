@@ -26,8 +26,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             //pois isto faria com que fosse criado duas cotações para o mesmo fornecedor e item de requisição, o que é errado.
             var participantesSemCotacaoNoSap = (from fp in processo.FornecedoresParticipantes
                                                 let cotacaoMaterial = (CotacaoMaterial) fp.Cotacao.CastEntity()
-                                                where cotacaoMaterial != null
-                                                      && string.IsNullOrEmpty(cotacaoMaterial.NumeroDaCotacao)
+                                                where string.IsNullOrEmpty(fp.NumeroDaCotacao)
                                                 select fp);
             
             foreach (var fornecedorParticipante in participantesSemCotacaoNoSap )
@@ -44,19 +43,20 @@ namespace BsBios.Portal.Infra.Services.Implementations
                     {
                         IdProcessoCotacao = processo.Id,
                         CodigoFornecedor = fornecedorParticipante.Fornecedor.Codigo ,
+                        DataLimiteRetorno = processo.DataLimiteDeRetorno.Value.ToString("dd.MM.yyyy"),
                         Itens = itens
                     };
 
                 //comentado enquanto o serviço do SAP não é implementado
-                //ApiResponseMessage resposta =  _comunicacaoSap.EnviarMensagem("", vm);
-                //if (resposta.Retorno.Codigo.Equals("200"))
-                //{
-                //    cotacaoMaterial.AtualizarNumeroDaCotacao(resposta.Retorno.Texto);
-                //}
-                //else
-                //{
-                //    throw new Exception(resposta.Retorno.Texto);
-                //}
+                ApiResponseMessage resposta = _comunicacaoSap.EnviarMensagem("/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cadCotacaoAbertura_portal&qos=be", vm);
+                if (resposta.Retorno.Codigo.Equals("200") && !string.IsNullOrEmpty(resposta.Retorno.Texto))
+                {
+                     fornecedorParticipante.AtualizarNumeroDaCotacao(resposta.Retorno.Texto);
+                }
+                else
+                {
+                    throw new Exception("Ocorreu um erro ao enviar os dados do Processo de Cotação para o SAP.");
+                }
 
             }
             return new ApiResponseMessage(){Retorno = new Retorno(){Codigo = "200" ,Texto = "OK" }};
