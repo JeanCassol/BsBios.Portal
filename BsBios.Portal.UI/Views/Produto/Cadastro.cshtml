@@ -5,10 +5,11 @@
 @{
     ViewBag.Title = "Produto - Consulta";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 <div >
     <fieldset>
         <legend>Dados do Produto</legend>
@@ -23,15 +24,13 @@
 
     </fieldset>
 </div>
-
-
 @section Scripts {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="~/Scripts/Cadastro/gridFornecedor.js"></script>
     <script type="text/javascript">
         $(function () {
-            GridFornecedor.CarregarGrid('@Model.Codigo', "#divGridFornecedoresDoProduto", '@Url.Action("FornecedoresDoProduto","Produto")', false,
+            GridFornecedor.CarregarGrid("#divGridFornecedoresDoProduto", '@Url.Action("FornecedoresDoProduto","Produto")', false,
                 function () { return {CodigoProduto:'@Model.Codigo'}; });
         });
     </script>

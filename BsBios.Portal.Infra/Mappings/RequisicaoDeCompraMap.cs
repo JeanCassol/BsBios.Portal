@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -14,7 +15,6 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.FornecedorPretendido).Column("CodigoFornecedorPretendido");
             References(x => x.Criador).Column("LoginCriador");
             References(x => x.UnidadeMedida).Column("UnidadeMedida");
-            References(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
 
             Map(x => x.Centro);
             Map(x => x.Requisitante);
@@ -27,6 +27,8 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Quantidade);
             Map(x => x.CodigoGrupoDeCompra);
             Map(x => x.Mrp);
+            Map(x => x.GerouProcessoDeCotacao);
+            Map(x => x.Status).CustomType<Enumeradores.StatusRequisicaoCompra>();
         }
     }
 }

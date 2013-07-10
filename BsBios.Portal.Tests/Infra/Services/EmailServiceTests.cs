@@ -14,7 +14,7 @@ namespace BsBios.Portal.Tests.Infra.Services
         [TestMethod]
         public void ConsigoEnviarEmailUtilizandoGmail()
         {
-            var contaDeEmail = new ContaDeEmail("mauroscl@gmail.com", "", "mauroscl", "@#20mscl10@#", "smtp.gmail.com",587);
+            var contaDeEmail = new ContaDeEmail("mauroscl@gmail.com", "", "mauroscl", "@#20mscl10@#", "smtp.gmail.com",587,true);
             var emailService = new EmailService(contaDeEmail);
             emailService.AdicionarDestinatario("mauro.leal@fusionconsultoria.com.br");
             var mensagemDeEmail = new MensagemDeEmail("Teste Portal " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"),
@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Infra.Services
         [TestMethod]
         public void ConsigoEnviarEmailUtilizandoContaDaBsBios()
         {
-            var contaDeEmail = new ContaDeEmail("compras@bsbios.com","bsbios.com", "sistemas", "B5@dm99", "mail.bsbios.com",25);
+            var contaDeEmail = new ContaDeEmail("compras@bsbios.com","bsbios.com", "sistemas", "B5@dm99", "mail.bsbios.com",25,false);
             var emailService = new EmailService(contaDeEmail);
             emailService.AdicionarDestinatario("mauro.leal@fusionconsultoria.com.br");
             var mensagemDeEmail = new MensagemDeEmail("Teste Portal " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"),

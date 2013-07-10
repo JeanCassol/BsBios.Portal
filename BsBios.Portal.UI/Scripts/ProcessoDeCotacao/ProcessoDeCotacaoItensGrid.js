@@ -9,6 +9,7 @@
         /// <param name="configuracao.exibirBotaoAdicionar">indica se deve ser exibida uma coluna com botão "Adicionar" para cada registro do grid</param>
         /// <param name="configuracao.exibirBotaoEditar">indica se deve ser exibida uma coluna com botão "Editar" para cada registro do grid</param>
         /// <param name="configuracao.exibirBotaoRemover">indica se deve ser exibida uma coluna com botão "Remover" para cada registro do grid</param>
+        /// <param name="configuracao.exibirBotaoBloquear">indica se deve ser exibida uma coluna com botão "Bloquear" para cada registro do grid</param>
         /// <param name="configuracao.pageable">true = para paginar o gride; false = para não paginar o grid</param>
         /// <param name="configuracao.exibirDetalhesDaRequisicao">indica se devem ser exibidos campos especificos da requisição de compra</param>
         /// <param name="configuracao.exibirBotaoSelecionarCotacao">indica se deve ser exibida uma coluna com botão "Selecionar Cotações" para cada registro do grid</param>
@@ -55,12 +56,21 @@
                 }
             );
         }
+        
+        if (configuracao.exibirBotaoBloquear) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button16 button_block" title="Bloquear Item da Requisição"></input>'
+            });
+        }
+
         if (configuracao.exibirBotaoAdicionar) {
             //unshift adiciona elemento no início do array
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_add"></input>'
+                template: '<input type="button" class="button16 button_add" title="Adicionar Item"></input>'
             });
         }
         
@@ -68,7 +78,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_edit"></input>'
+                template: '<input type="button" class="button16 button_edit"></input>'
             });
         }
         
@@ -76,7 +86,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_visualize"></input>'
+                template: '<input type="button" class="button16 button_visualize"></input>'
             });
         }
 
@@ -84,7 +94,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button16 button_select"></input>'
+                template: '<input type="button" class="button16 button_select" title="Selecionar cotações"></input>'
             });
         }
 
@@ -93,7 +103,7 @@
             arrayDeColunas.unshift({
                 title: ' ',
                 width: 30,
-                template: '<input type="button" class="button_remove"></input>'
+                template: '<input type="button" class="button16 button_remove"></input>'
             });
         }
 
@@ -131,6 +141,10 @@
 
         if (!configuracao.pageable) {
             configuracaoDoGrid.pageable = false;
+        }
+
+        if ("autoBind" in configuracao) {
+            configuracaoDoGrid.autoBind = configuracao.autoBind;
         }
 
         $(configuracao.renderTo).customKendoGrid(configuracaoDoGrid);

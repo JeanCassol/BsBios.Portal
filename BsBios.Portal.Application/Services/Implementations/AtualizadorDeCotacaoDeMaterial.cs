@@ -32,9 +32,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 CondicaoDePagamento condicaoDePagamento = _condicoesDePagamento.BuscaPeloCodigo(cotacaoInformarVm.CodigoCondicaoPagamento);
                 Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
 
-                var tipoDeFrete = (Enumeradores.TipoDeFrete) Enum.Parse(typeof (Enumeradores.TipoDeFrete), Convert.ToString(cotacaoInformarVm.CodigoTipoDeFrete));
                 var cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
-                    cotacaoInformarVm.DescricaoIncoterm,tipoDeFrete);
+                    cotacaoInformarVm.DescricaoIncoterm);
 
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
@@ -56,13 +55,14 @@ namespace BsBios.Portal.Application.Services.Implementations
                 var processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(cotacaoMaterialItemInformarVm.IdProcessoCotacao).Single();
                 CotacaoItem cotacaoItem = processoDeCotacao.InformarCotacaoDeItem(cotacaoMaterialItemInformarVm.IdProcessoCotacaoItem,
                                                         cotacaoMaterialItemInformarVm.IdCotacao,
-                                                        cotacaoMaterialItemInformarVm.ValorComImpostos.Value,
+                                                        cotacaoMaterialItemInformarVm.Preco.Value,
                                                         cotacaoMaterialItemInformarVm.Mva,
                                                         cotacaoMaterialItemInformarVm.QuantidadeDisponivel.Value,
                                                         Convert.ToDateTime(cotacaoMaterialItemInformarVm.PrazoDeEntrega),
                                                         cotacaoMaterialItemInformarVm.ObservacoesDoFornecedor);
 
                 AtualizarImpostos(cotacaoItem, cotacaoMaterialItemInformarVm.Impostos);
+                _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
             }
             catch (Exception)

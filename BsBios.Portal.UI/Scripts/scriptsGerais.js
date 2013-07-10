@@ -10,7 +10,24 @@ Mensagem = {
     },
     Confirmacao: function(mensagem) {
         return confirm(mensagem);
-    }
+    },
+    ExibirJanelaComHtml: function (html) {
+        var janela = $('#divJanelaComHtml');
+        if (janela.length == 0) {
+            $('body').append('<div id="divJanelaComHtml"></div>');
+
+            $('#divJanelaComHtml').customDialog({
+                title: 'Mensagem'
+            });
+        }
+        $('#divJanelaComHtml').html(html);
+        $('#divJanelaComHtml').dialog('open');
+    }    
+};
+ContentType = {
+    html: 1,
+    xml: 2,
+    outro:3
 };
 
 String.prototype.boolean = function () {
@@ -52,10 +69,42 @@ Formato = {
 };
 
 $.fn.customKendoGrid = function (configuracao) {
+    var container = $(this);
+    if (!configuracao.dataBound && (!("autoBind" in configuracao) || configuracao.autoBind)) {
+        this.addClass('k-loading-image');
+        configuracao.dataBound = function () {
+            container.removeClass('k-loading-image alturaMinima');
+            $(container).find('.k-grid-content').css('height', 'auto');
+        };
+    }
+    configuracao.dataSource.schema.errors = "SessaoExpirada";
+    configuracao.dataSource.error = function(response) {
+        if (response.xhr) {
+            var responseType = getContentType(response.xhr);
+            if (responseType == ContentType.json) {
+                Mensagem.ExibirMensagemDeErro(response.xhr.responseText);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response.xhr.responseText);
+            }
+        } else {
+            Mensagem.ExibirMensagemDeErro('A sessão expirou.');
+            location.href = '/';
+        }
+    };
+
+    if (!("data" in configuracao.dataSource.schema)) {
+        configuracao.dataSource.schema.data = 'Registros';
+    }
+    
+    if (! ("total" in configuracao.dataSource.schema)) {
+        configuracao.dataSource.schema.total = 'QuantidadeDeRegistros';
+    }
+
+
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;
-    if (configuracao.pageable == undefined) {
+    if (!("pageable" in configuracao)) {
         configuracao.pageable =
         {
             refresh: true,
@@ -89,7 +138,7 @@ $.fn.customDialog = function (configuracao) {
         $(this).empty();
     };
 
-    if (!configuracao.width) {
+    if (!("width" in configuracao)) {
         configuracao.width = 800;
     }
 
@@ -298,6 +347,7 @@ UrlPadrao = {};
 TipoDeCotacao = {};
 
 $(function () {
+    $('.divGrid:not([data-autobind=false])').addClass('alturaMinima');
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
     $('#btnPesquisar').die("click");
@@ -311,9 +361,65 @@ $(document).ajaxComplete(function (event, request, ajaxOptions) {
     if (ajaxOptions.dataType != "json") {
         return;
     }
-    var resposta = JSON.parse(request.responseText);
+    verificaSessaoExpirada(request.responseText);
+});
+
+function verificaSessaoExpirada(responseText) {
+    var resposta = JSON.parse(responseText);
     if (resposta.SessaoExpirada) {
         Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
         location.href = resposta.ReturnUrl;
+        return true;
     }
-});
+    return false;
+}
+
+
+function getContentType(xhr) {
+    var type = xhr.getResponseHeader('Content-Type');
+    if (type.indexOf('json') > -1) {
+        return ContentType.json;
+    }
+    if (type.indexOf('html') > -1) {
+        return ContentType.html;
+    }
+    return ContentType.outro;
+}
+
+$.fn.customLoad = function (configuracao, functionBeforeOpen) {
+    $(this).load(configuracao.url,
+    function (response, status, xhr) {
+        var responseType = getContentType(xhr);
+        if (responseType == ContentType.json) {
+            if (verificaSessaoExpirada(response)) {
+                return;
+            }
+        }
+        if (status == "error") {
+            if (responseType == ContentType.json && response.Mensagem) {
+                Mensagem.ExibirMensagemDeErro(response.Mensagem);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response);
+            }
+            return;
+        }
+        if (configuracao.validar) {
+            jQuery.validator.unobtrusive.parse(this);
+        }
+        if (functionBeforeOpen) {
+            functionBeforeOpen();
+        }
+        $(this).dialog('open');
+    });
+};
+
+function habilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('gray').addClass('blue').removeAttr('disabled');
+}
+
+function desabilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('blue').addClass('gray').attr('disabled', true);
+}
+

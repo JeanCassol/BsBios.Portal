@@ -2,7 +2,7 @@
 
 namespace BsBios.Portal.ViewModel
 {
-    public class ProcessoCotacaoFreteCadastroVm
+    public class ProcessoCotacaoFreteCadastroVm : ProcessoCotacaoCadastroPermissaoVm
     {
         public int? Id { get; set; }
         [Display(Name = "Status")]

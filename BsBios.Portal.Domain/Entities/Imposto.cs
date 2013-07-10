@@ -1,3 +1,4 @@
+using System;
 using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
@@ -7,22 +8,30 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual CotacaoItem CotacaoItem { get; protected set; }
         public virtual Enumeradores.TipoDeImposto Tipo { get; protected set; }
+        public virtual decimal BaseDeCalculo { get; protected set; }
         public virtual decimal Aliquota { get; protected set; }
         public virtual decimal Valor { get; protected set; }
 
         protected  Imposto(){}
-        public Imposto(CotacaoItem cotacaoItem, Enumeradores.TipoDeImposto tipo, decimal aliquota, decimal valor)
+        public Imposto(CotacaoItem cotacaoItem, Enumeradores.TipoDeImposto tipo, decimal aliquota, decimal baseDeCalculo)
         {
             CotacaoItem = cotacaoItem;
             Tipo = tipo;
             Aliquota = aliquota;
-            Valor = valor;
+            BaseDeCalculo = baseDeCalculo;
+            CalculaValor();
         }
 
-        public virtual void Atualizar(decimal aliquota, decimal valor)
+        private void CalculaValor()
+        {
+            Valor = Math.Round(BaseDeCalculo * (Aliquota/100),2);
+        }
+
+        public virtual void Atualizar(decimal aliquota, decimal baseDeCalculo)
         {
             Aliquota = aliquota;
-            Valor = valor;
+            BaseDeCalculo = baseDeCalculo;
+            CalculaValor();
         }
 
         #region override members

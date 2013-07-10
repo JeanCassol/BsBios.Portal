@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -31,7 +32,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(login))
             {
-                Query = Query.Where(x => x.Login.ToLower() == login.ToLower());
+                Query = Query.Where(x => x.Login.ToLower().Contains(login.ToLower()));
             }
 
             return this;
@@ -52,6 +53,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IUsuarios SemSenha()
         {
             Query = Query.Where(x => x.Senha == null);
+            return this;
+        }
+
+        public IUsuarios ContendoPerfil(Enumeradores.Perfil perfil)
+        {
+            Query = Query.Where(x => x.Perfis.Contains(perfil));
             return this;
         }
     }

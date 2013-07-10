@@ -6,14 +6,35 @@
 }
 <fieldset id="fieldSetImpostos">
     <legend>Impostos</legend>
-    <span class="aviso">É indispensável que as alíquotas e os valores do impostos sejam informados corretamente</span>
-    @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsAliquota, "maskmoeda"),
-                              new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsValor, "maskmoeda"))
-    @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsStAliquota, "maskmoeda"),
-                              new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsStValor, "maskmoeda"))
-    @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IpiAliquota, "maskmoeda"),
-                              new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IpiValor, "maskmoeda"))
-    @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.PisCofinsAliquota, "maskmoeda"))
+    <span class="aviso">É indispensável que as alíquotas dos impostos sejam informados corretamente</span>
+    @*    @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsAliquota, "maskmoeda"))
+    @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IpiAliquota, "maskmoeda"))
+    @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.PisCofinsAliquota, "maskmoeda"))*@
+    @{
+        var campoAliquotaIcms = new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsAliquota, "maskmoeda");
+        var campoAliquotaIpi = new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IpiAliquota, "maskmoeda");
+        var campoAliquotaPisCofins = new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.PisCofinsAliquota, "maskmoeda");
+        bool permiteVisualizar = ViewBag.PermiteVisualizarValorDosImpostos;
+        if (permiteVisualizar)
+        {
+            @Html.LinhaComDuasColunas(campoAliquotaIcms, 
+                            new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsValor, "maskmoeda campoDesabilitado"))
+
+            @Html.LinhaComDuasColunas(campoAliquotaIpi,
+                                      new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IpiValor, "maskmoeda  campoDesabilitado"))
+            @Html.LinhaComDuasColunas(campoAliquotaPisCofins,
+            new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.PisCofinsValor, "maskmoeda campoDesabilitado"))
+        }
+        else
+        {
+            @Html.LinhaComUmaColuna(campoAliquotaIcms)
+            @Html.LinhaComUmaColuna(campoAliquotaIpi)
+            @Html.LinhaComUmaColuna(campoAliquotaPisCofins)
+        }    
+    }
+    
+    @*    @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsStAliquota, "maskmoeda"),
+                              new ColunaComTextBox<CotacaoImpostosVm, decimal?>(x => x.IcmsStValor, "maskmoeda"))*@
 
 </fieldset>
 

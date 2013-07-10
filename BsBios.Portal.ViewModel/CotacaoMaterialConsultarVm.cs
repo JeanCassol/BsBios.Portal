@@ -18,7 +18,5 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Incoterm 2: ")]
         public string DescricaoIncoterm { get; set; }
 
-        [Display(Name = "Tipo de Frete: ")]
-        public string TipoDeFrete { get; set; }
     }
 }

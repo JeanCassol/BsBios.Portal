@@ -28,11 +28,13 @@ namespace BsBios.Portal.Infra.Mappings
 
             //References(x => x.UnidadeDeMedida).Column("CodigoUnidadeMedida");
 
+            References(x => x.Comprador, "LoginComprador");
+
             Map(x => x.Status).CustomType<Enumeradores.StatusProcessoCotacao>();
             //Map(x => x.Quantidade);
             Map(x => x.DataLimiteDeRetorno).Column("DataLimiteRetorno");
+            Map(x => x.DataDeFechamento,"DataFechamento");
             Map(x => x.Requisitos);
-            Map(x => x.Justificativa);
 
             //Não usar DiscriminateSubClassesOnColumn porque deve ser utilizado apenas quando a estratégia é uma tabela para toda a hierarquia
             //DiscriminateSubClassesOnColumn("TipoCotacao").CustomType<Enumeradores.TipoDeCotacao>();

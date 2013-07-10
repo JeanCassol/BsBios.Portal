@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,6 +40,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual("ITEM001", requisicaoDeCompra.NumeroItem);
             Assert.AreEqual("GC1", requisicaoDeCompra.CodigoGrupoDeCompra);
             Assert.IsFalse(requisicaoDeCompra.Mrp);
+            Assert.AreEqual(Enumeradores.StatusRequisicaoCompra.Ativo, requisicaoDeCompra.Status);
 
         }
 
@@ -52,6 +54,15 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var item = (ProcessoDeCotacaoDeMaterialItem) processoDeCotacao.Itens.First();
             Assert.AreEqual(requisicaoDeCompra.Numero, item.RequisicaoDeCompra.Numero);
             Assert.AreEqual(requisicaoDeCompra.NumeroItem, item.RequisicaoDeCompra.NumeroItem);
+        }
+
+        [TestMethod]
+        public void QuandoBloqueioRequisicaoDeCompraPassaParaEstadoBloqueado()
+        {
+            RequisicaoDeCompra requisicaoDeCompra = DefaultObjects.ObtemRequisicaoDeCompraPadrao();
+            requisicaoDeCompra.Bloquear();
+            Assert.AreEqual(Enumeradores.StatusRequisicaoCompra.Bloqueado, requisicaoDeCompra.Status);
+
         }
 
     }

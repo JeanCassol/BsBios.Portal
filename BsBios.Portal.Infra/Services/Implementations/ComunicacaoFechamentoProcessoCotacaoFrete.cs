@@ -1,30 +1,30 @@
-﻿using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Xml.Serialization;
+﻿using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
-    public class ComunicacaoFechamentoProcessoCotacaoFrete : IComunicacaoSap
+    public class ComunicacaoFechamentoProcessoCotacaoFrete : IProcessoDeCotacaoComunicacaoSap
     {
-        private readonly CredencialSap _credencialSap;
+        private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
 
-        public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        public ComunicacaoFechamentoProcessoCotacaoFrete(IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> comunicacaoSap)
         {
-            _credencialSap = credencialSap;
+            _comunicacaoSap = comunicacaoSap;
         }
+
+        //public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        //{
+        //    _comunicacaoSap = new ComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento>(credencialSap);
+        //}
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
             ProcessoDeCotacaoItem item = processo.Itens.First();
-            if (item.Produto.Tipo.ToUpper() == "NLAG")
+            if (item.Produto.NaoEstocavel)
             {
                 //Cotações de frete para empresas do grupo que não utilizam o SAP deverão ser realizadas com material NLAG 
                 //(Material não estocável). Para este tipo de material a cotação não deverá ser enviada para o SAP;
@@ -37,9 +37,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
                             }
                     };
             }
-            var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha)};
 
-            var httpClient = new HttpClient(clientHandler);
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
 
             var processoAuxiliar = (ProcessoDeCotacaoDeFrete) processo.CastEntity();
@@ -65,18 +63,15 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 }
             }
 
-            var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + 
-                "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
-                , mensagemParaEnviar);
-
-            Stream content = response.Result.Content.ReadAsStreamAsync().Result;
-            var serializer = new XmlSerializer(typeof(ApiResponseMessage));
-            var mensagem = (ApiResponseMessage)serializer.Deserialize(content);
-            if (mensagem.Retorno.Codigo == "E")
+            ApiResponseMessage apiResponseMessage =
+                _comunicacaoSap.EnviarMensagem(
+                    "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+                    , mensagemParaEnviar);
+            if (apiResponseMessage.Retorno.Codigo == "E")
             {
-                throw new ComunicacaoSapException("Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + mensagem.Retorno.Texto);
+                throw new ComunicacaoSapException("json","Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
             }
-            return mensagem;
+            return apiResponseMessage;
 
         }
     }

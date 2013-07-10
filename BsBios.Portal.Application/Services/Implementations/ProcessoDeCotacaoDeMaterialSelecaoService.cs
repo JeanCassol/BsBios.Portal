@@ -34,7 +34,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                     var ivaSelecionado = ivasSelecionados.Single(x => x.Codigo == cotacaoSelecaoVm.CodigoIva);
                     if (cotacaoSelecaoVm.Selecionada)
                     {
-                        processoDeCotacao.SelecionarCotacao(cotacaoSelecaoVm.IdCotacao,processoDeCotacaoSelecaoAtualizarVm.IdProcessoCotacaoItem, cotacaoSelecaoVm.QuantidadeAdquirida.Value,ivaSelecionado);
+                        processoDeCotacao.SelecionarCotacao(cotacaoSelecaoVm.IdCotacao,processoDeCotacaoSelecaoAtualizarVm.IdProcessoCotacaoItem, cotacaoSelecaoVm.QuantidadeAdquirida ?? 0,ivaSelecionado);
                     }
                     else
                     {

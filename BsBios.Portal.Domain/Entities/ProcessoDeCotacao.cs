@@ -10,37 +10,19 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual int Id { get; protected set; }
         public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
-        //public virtual Produto Produto { get; protected set; }
-        //public virtual decimal Quantidade { get; protected set; }
-        //public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
+        public virtual DateTime? DataDeFechamento { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<ProcessoDeCotacaoItem> Itens { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
-        public virtual string Justificativa { get; protected set; }
+        public virtual Usuario Comprador { get; protected set; }
 
         protected ProcessoDeCotacao()
         {
             FornecedoresParticipantes = new List<FornecedorParticipante>();
             Itens = new List<ProcessoDeCotacaoItem>();
-            //Cotacoes = new List<Cotacao>();
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
-
-        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida):this()
-        //{
-        //    Produto = produto;
-        //    Quantidade = quantidade;
-        //    UnidadeDeMedida = unidadeDeMedida;
-        //}
-
-        //protected ProcessoDeCotacao(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
-        //    string requisitos, DateTime dataLimiteRetorno)//:this(produto, quantidade, unidadeDeMedida)
-        //{
-        //    Requisitos = requisitos;
-        //    DataLimiteDeRetorno = dataLimiteRetorno;
-
-        //}
 
         protected void AdicionarItem()
         {
@@ -88,7 +70,7 @@ namespace BsBios.Portal.Domain.Entities
             FornecedoresParticipantes.Remove(fornecedorParticipante);
         }
 
-        public virtual void Abrir()
+        public virtual void Abrir(Usuario comprador)
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Aberto)
             {
@@ -108,6 +90,8 @@ namespace BsBios.Portal.Domain.Entities
             }
 
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
+            Comprador = comprador;
+
         }
 
         protected virtual void InformarCotacao()
@@ -127,7 +111,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public virtual void Fechar(string justificativa)
+        public virtual void Fechar()
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
@@ -138,7 +122,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
-            Justificativa = justificativa;
+            DataDeFechamento = DateTime.Now.Date;
         }
 
         protected void SelecionarCotacao()
@@ -157,35 +141,24 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
         }
-
-        //public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
-        //{
-        //    return quantidadeTotalAdquirida > Quantidade;
-        //}
     }
 
     public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao
     {
-        //public virtual RequisicaoDeCompra RequisicaoDeCompra { get; protected set; }
-
-        //protected ProcessoDeCotacaoDeMaterial()
-        //{}
-        //public ProcessoDeCotacaoDeMaterial(RequisicaoDeCompra requisicaoDeCompra)
-        //    :base(requisicaoDeCompra.Material, requisicaoDeCompra.Quantidade, requisicaoDeCompra.UnidadeMedida)
-        //{
-        //    RequisicaoDeCompra = requisicaoDeCompra;
-        //}
-        
+       
         public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
         {
             AdicionarItem();
-            if (requisicaoDeCompra.ProcessoDeCotacaoItem != null)
+            if (requisicaoDeCompra.GerouProcessoDeCotacao)
             {
-                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,
-                                                                                      requisicaoDeCompra.NumeroItem,
-                                                                                      requisicaoDeCompra.ProcessoDeCotacaoItem.ProcessoDeCotacao.Id);
-
+                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
             }
+
+            if (requisicaoDeCompra.Status == Enumeradores.StatusRequisicaoCompra.Bloqueado)
+            {
+                throw new SelecionarRequisicaoDeCompraBloqueadaException(requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem);
+            }
+
             var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
             Itens.Add(item);
             return item;
@@ -200,16 +173,16 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
         {
-            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+            if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
-                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
             }
             DataLimiteDeRetorno = dataLimiteDeRetorno;
             Requisitos = requisitos;
         }
 
         public virtual CotacaoMaterial InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento,
-            Incoterm incoterm, string descricaoDoIncoterm,Enumeradores.TipoDeFrete tipoDeFrete)
+            Incoterm incoterm, string descricaoDoIncoterm)
         {
             base.InformarCotacao();
             //busca a cotação do fornecedor
@@ -219,18 +192,18 @@ namespace BsBios.Portal.Domain.Entities
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm,tipoDeFrete);
+                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
             else
             {
-                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm, tipoDeFrete);
+                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
             }
 
             return cotacao;
         }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal valorTotalComImpostos, 
+        public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal preco, 
             decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
 
@@ -239,7 +212,7 @@ namespace BsBios.Portal.Domain.Entities
 
             ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.Single(item => item.Id == idProcessoDeCotacaoItem);
 
-            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
+            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, preco, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
 
         }
 
@@ -296,7 +269,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
-                throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
+                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
             }
 
             //Produto = produto;

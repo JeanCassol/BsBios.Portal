@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -79,6 +80,29 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status)
         {
             Query = Query.Where(x => x.Status == status);
+            return this;
+        }
+
+        public IProcessosDeCotacao Fechado()
+        {
+            return FiltraPorStatus(Enumeradores.StatusProcessoCotacao.Fechado);
+        }
+
+        public IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador)
+        {
+            Query = Query.Where(x => x.Comprador.Login == loginComprador);
+            return this;
+        }
+
+        public IProcessosDeCotacao FechadosAPartirDe(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeFechamento >= data);
+            return this;
+        }
+
+        public IProcessosDeCotacao FechadosAte(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeFechamento <= data);
             return this;
         }
     }

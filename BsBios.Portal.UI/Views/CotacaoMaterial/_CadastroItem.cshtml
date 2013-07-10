@@ -16,15 +16,18 @@
                                   new ColunaComLabel<CotacaoMaterialItemCadastroVm, string>(x => x.UnidadeDeMedida))
 
     </fieldset>
-    
+    ViewBag.PermiteVisualizarValorDosImpostos = Model.PermiteVisualizarCustos;
     Html.RenderPartial("_CotacaoImpostos", Model.Impostos);
     
     <fieldset>
         <legend>Cotação do Fornecedor</legend>
-        <span class="aviso">O Valor do IPI não deve ser incluido no campo "Valor Com Impostos"</span>
-        @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
-                                  new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.ValorLiquido, "campoDesabilitado maskmoeda"))
-            
+        <span class="aviso">O Valor do IPI não deve ser incluido no campo "Preço"</span>
+        @Html.LinhaComUmaColuna(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.Preco, "maskmoeda"))
+        @if (Model.PermiteVisualizarCustos)
+        {
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda campoDesabilitado"),
+            new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.Custo, "maskmoeda campoDesabilitado"))
+        }
         @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoMaterialItemCadastroVm, decimal?>(x => x.QuantidadeDisponivel, "maskquantidade"),
                                   new ColunaComTextBox<CotacaoMaterialItemCadastroVm, string>(x => x.PrazoDeEntrega, "campoDatePicker maskdata"))
         

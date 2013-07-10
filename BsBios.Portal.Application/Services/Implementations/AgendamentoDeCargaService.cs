@@ -1,7 +1,7 @@
 ﻿using System;
-using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 

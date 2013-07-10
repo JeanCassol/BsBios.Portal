@@ -24,6 +24,12 @@ namespace BsBios.Portal.Common
             Cancelado = 4*/
         }
 
+        public enum StatusRequisicaoCompra
+        {
+            Ativo = 1,
+            Bloqueado = 2
+        }
+
         public enum StatusUsuario
         {
             Ativo = 1,
@@ -76,11 +82,6 @@ namespace BsBios.Portal.Common
         {
             Pedido = 1,
             Contrato = 2
-        }
-        public enum TipoDeFrete
-        {
-            Cif = 1,
-            Fob = 2
         }
     }
 }

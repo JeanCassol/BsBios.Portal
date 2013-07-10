@@ -21,11 +21,12 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
         private readonly Mock<IGeradorDeEmailDeAberturaDeProcessoDeCotacao> _geradorDeEmailMock;
-        private readonly Mock<IComunicacaoSap> _comunicacaoSapMock;
+        private readonly Mock<IProcessoDeCotacaoComunicacaoSap> _comunicacaoSapMock;
         private readonly Mock<IGerenciadorUsuario> _gerenciadorUsuarioMock;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
         private readonly IAberturaDeProcessoDeCotacaoService _service;
-
+        private readonly Usuario _usuarioConectado = DefaultObjects.ObtemUsuarioPadrao();
+        private readonly Mock<IUsuarios> _usuariosMock;
 
         public ProcessoDeCotacaoAberturaTests()
         {
@@ -57,10 +58,10 @@ namespace BsBios.Portal.Tests.Application.Services
                     }
                     if (idProcessoCotacao == 20)
                     {
-                        _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
+                        _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
                         var codigoFornecedor = _processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
                         var cotacao = _processoDeCotacao.InformarCotacao(codigoFornecedor, DefaultObjects.ObtemCondicaoDePagamentoPadrao(),
-                                                           DefaultObjects.ObtemIncotermPadrao(), "inc",Enumeradores.TipoDeFrete.Cif);
+                                                           DefaultObjects.ObtemIncotermPadrao(), "inc");
                         var processoCotacaoItem = _processoDeCotacao.Itens.First();
                         var cotacaoItem = (CotacaoMaterialItem)cotacao.InformarCotacaoDeItem(processoCotacaoItem, 150, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
                         cotacaoItem.Selecionar(100, DefaultObjects.ObtemIvaPadrao());
@@ -69,7 +70,7 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
-            _comunicacaoSapMock = new Mock<IComunicacaoSap>(MockBehavior.Strict);
+            _comunicacaoSapMock = new Mock<IProcessoDeCotacaoComunicacaoSap>(MockBehavior.Strict);
             _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()))
                 .Returns(new ApiResponseMessage
                     {
@@ -86,8 +87,11 @@ namespace BsBios.Portal.Tests.Application.Services
             _gerenciadorUsuarioMock = new Mock<IGerenciadorUsuario>(MockBehavior.Strict);
             _gerenciadorUsuarioMock.Setup(x => x.CriarSenhaParaUsuariosSemSenha(It.IsAny<string[]>()));
 
+            _usuariosMock = new Mock<IUsuarios>(MockBehavior.Strict);
+            _usuariosMock.Setup(x => x.UsuarioConectado()).Returns(_usuarioConectado);
+
             _service = new AberturaDeProcessoDeCotacaoService(_unitOfWorkMock.Object, _processosDeCotacaoMock.Object,
-                _geradorDeEmailMock.Object,_comunicacaoSapMock.Object,_gerenciadorUsuarioMock.Object);
+                _geradorDeEmailMock.Object,_comunicacaoSapMock.Object,_gerenciadorUsuarioMock.Object,_usuariosMock.Object);
         }
 
 
@@ -97,16 +101,7 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             _service.Executar(10);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
-        }
-
-        [TestMethod]
-        public void QuandoOProcessoEAbertoComSucessoOcorreCommitDaTransacao()
-        {
-            _service.Executar(10);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
-
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -121,9 +116,7 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
         }
 
@@ -134,8 +127,8 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Callback((ProcessoDeCotacao processoDeCotacao) =>
                                    {
                                        Assert.IsNotNull(processoDeCotacao);
-                                       Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Aberto,
-                                                       processoDeCotacao.Status);
+                                       Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Aberto,processoDeCotacao.Status);
+                                       Assert.AreEqual(_usuarioConectado, processoDeCotacao.Comprador);
                                    });
 
             _service.Executar(10);

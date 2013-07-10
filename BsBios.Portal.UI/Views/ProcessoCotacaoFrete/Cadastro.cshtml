@@ -6,9 +6,12 @@
 @{
     ViewBag.TituloDaPagina = "Processo de Cotação de Frete";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+}
 <div class="paginaCadastro">
     @using (Html.BeginForm()) {
 
@@ -26,7 +29,7 @@
                 @Html.HiddenFor(x => x.CodigoMaterial)
                 @Html.LabelFor(x => x.DescricaoMaterial)
                 @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
-                <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
+                <input type="button" id="btnSelecionarProduto" class="button16 button_visualize" />        
                 <p class="mensagemErro">
                     @Html.ValidationMessageFor(x => x.DescricaoMaterial)    
                 </p>
@@ -50,7 +53,7 @@
                 @Html.HiddenFor(x => x.CodigoItinerario)
                 @Html.LabelFor(x => x.DescricaoItinerario)
                 @Html.TextBoxFor(x => x.DescricaoItinerario,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
-                <input type="button"  id="btnSelecionarItinerario" class="button_visualize" />        
+                <input type="button"  id="btnSelecionarItinerario" class="button16 button_visualize" />        
                 <p class="mensagemErro">
                     @Html.ValidationMessageFor(x => x.DescricaoItinerario)
                 </p>
@@ -62,14 +65,16 @@
             @Html.ValidationSummary(true)
         <div class="error"></div>
         <div class="divBotao">
-            <input type="button" id="btnSalvar" value="Salvar" class="blue" />
+            <input type="button" id="btnSalvar" value="Salvar" class="@(Model == null || Model.PermiteSalvar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteSalvar? "disabled":"") />
         </div>
         </fieldset>
     }
     @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
-            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true)
+            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true),
+            new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
+            new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)            
         })
     <div id="divSelecionarProduto" class="janelaModal"></div>
     <div id="divSelecionarItinerario" class="janelaModal"></div>
@@ -87,7 +92,12 @@
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar({IdProcessoCotacao: idProcessoCotacao,ExibirDadosDeItens: true});
+            GridCotacaoResumida.Configurar(
+                {
+                    Url: UrlPadrao.CotacaoDeFreteResumida,
+                    ExibirDadosDeItens: true,
+                    autoBind: idProcessoCotacao > 0
+                });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
 
             aplicaMascaraData();
@@ -136,19 +146,15 @@
             });
 
             $('#btnSelecionarProduto').click(function() {
-                $('#divSelecionarProduto').load('@Url.Action("SelecionarProduto")'
-                    + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val()),
-                    function(response, status, xhr) {
-                        $('#divSelecionarProduto').dialog('open');
+                $('#divSelecionarProduto').customLoad({
+                        url: '@Url.Action("SelecionarProduto")'
+                            + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val())
                     });
             });
 
             $('#btnSelecionarItinerario').click(function() {
-                $('#divSelecionarItinerario').load('@Url.Action("SelecionarItinerario")'
-                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val()),
-                    function(response, status, xhr) {
-                        $('#divSelecionarItinerario').dialog('open');
-                    });
+                $('#divSelecionarItinerario').customLoad({url: '@Url.Action("SelecionarItinerario")'
+                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val())});
             });
 
             $('#btnSalvar').click(function() {
@@ -159,10 +165,12 @@
                 }
 
                 var formData = $(form).serialize();
-                $.post('@Url.Action("Salvar","ProcessoDeCotacaoDeFreteService" )', formData,
+                $.post('@Url.Action("Salvar", "ProcessoDeCotacaoDeFreteService")', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoFrete")';
+                            $('#Id').val(data.IdProcessoCotacao);
+                            habilitarBotao('#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

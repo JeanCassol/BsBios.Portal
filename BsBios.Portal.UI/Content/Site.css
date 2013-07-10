@@ -6,7 +6,6 @@
 body {
     background-color: #fff;
     color: #333;
-    /*font-size: .85em;*/
     font-family: "Segoe UI",Verdana, Helvetica, Sans-Serif;
     margin: 0 auto;
     padding: 0;
@@ -24,24 +23,18 @@ a,img {
     border:none
 }
 
-    a:link, a:visited,
-    a:active, a:hover {
-        color: #333;
-    }
+a:link, a:visited,
+a:active, a:hover {
+    color: #333;
+}
 
-    a:hover {
-        background-color: #c7d1d6;
-    }
+a:hover {
+    background-color: #c7d1d6;
+}
 
 header, footer, hgroup,
 nav, section {
     display: block;
-}
-
-mark {
-    background-color: #a6dbed;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
 .float-left {
@@ -101,29 +94,13 @@ h5, h6 {
 }
 
 #body {
-    /*background-color: #efeeef;*/
-    margin-left: 10px;
+    margin-left: 5px;
     width: 814px;
-    /*clear: both;
-    padding-bottom: 35px;*/
 }
 
 header .content-wrapper {
     padding-top: 10px;
-    /*border-bottom: solid 2px gray;*/
     height: 110px !important;
-    /*background-color: darkcyan*/
-    background: #b4ddb4; /* Old browsers */
-    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I0ZGRiNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE1JSIgc3RvcC1jb2xvcj0iIzgzYzc4MyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQxJSIgc3RvcC1jb2xvcj0iIzUyYjE1MiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY3JSIgc3RvcC1jb2xvcj0iIzAwOGEwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijg2JSIgc3RvcC1jb2xvcj0iIzAwNTcwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDI0MDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top,  #b4ddb4 0%, #83c783 15%, #52b152 41%, #008a00 67%, #005700 86%, #002400 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b4ddb4), color-stop(15%,#83c783), color-stop(41%,#52b152), color-stop(67%,#008a00), color-stop(86%,#005700), color-stop(100%,#002400)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #b4ddb4 0%,#83c783 15%,#52b152 41%,#008a00 67%,#005700 86%,#002400 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #b4ddb4 0%,#83c783 15%,#52b152 41%,#008a00 67%,#005700 86%,#002400 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #b4ddb4 0%,#83c783 15%,#52b152 41%,#008a00 67%,#005700 86%,#002400 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #b4ddb4 0%,#83c783 15%,#52b152 41%,#008a00 67%,#005700 86%,#002400 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4ddb4', endColorstr='#002400',GradientType=0 ); /* IE6-8 */
-
 }
 
 #middle {
@@ -142,7 +119,7 @@ footer {
 /* menu
 ----------------------------------------------------------*/
 #menuprincipal {
-width: 200px;
+width: 205px;
 padding: 0 0 0 0;
 margin-bottom: 1em;
 font-size: 14px;
@@ -155,48 +132,34 @@ color: #333;
 list-style: none;
 margin: 0;
 padding: 0;
-border: none;
-font-weight: bold;
-}		
-#menuprincipal li {
 border-top: 1px solid #90bade;
 border-bottom: 1px solid #90bade;
 border-collapse: collapse;
-margin: 0;
-width: auto;
-font-weight: normal
+}		
+#menuprincipal li {
+    border-top: 1px solid #90bade;
+    border-bottom: 1px solid #90bade;
+    border-collapse: collapse;
+    margin: 0;
+    width: auto;
+    font-weight: normal;
 }
+
 #menuprincipal li a {
 display: block;
 padding: 3px 0 3px 30px;
-/*border-left: 5px solid #8AA1B6;
-border-right: 5px solid #8AA1B6;*/
 background-color: #6898d0;
 color: #fff;
 text-decoration: none;
 width: auto;
 }
 #menuprincipal li a:hover {
-/*border-left: 5px solid #800000;
-border-right: 5px solid #800000;*/
 background-color: #FF7C3E;
 color: #fff;
 }
 
 /* page elements
 ----------------------------------------------------------*/
-
-.featured .content-wrapper {
-    background-color: #7ac0da;
-    background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-    background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-    background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-    background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-    background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-    color: #3e5667;
-    padding: 20px 40px 30px 40px;
-}
-
 /* page titles */
 hgroup.title {
     margin-bottom: 10px;
@@ -267,9 +230,7 @@ article {
         width: auto;
     }
 
-#logoutForm {
-    display: inline;
-}
+
 
 /* forms */
 fieldset {
@@ -337,38 +298,45 @@ input[type="radio"] {
 }
 .divBotao input[type="submit"],
 .divBotao input[type="button"],
+.divBotao input[type="reset"],
 .divBotao button,
 .divBotao a {
-	display: inline-block;
+    display: inline-block;
 	outline: none;
 	cursor: pointer;
-	text-align: center;
 	text-decoration: none;
 	font: 12px/100% Arial, Helvetica, sans-serif;
 	padding: .5em 2em .55em;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	-webkit-border-radius: .5em; 
 	-moz-border-radius: .5em;
 	border-radius: .5em;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
     width: 110px;
 }
-    
+
 .divBotao a {
     width: 50px;
-    color: #d9eef7
+    color: #d9eef7;
 }
 
-.divBotao .button:hover {
+/*.divBotao .button:hover {
 	text-decoration: none;
 }
 .divBotao .button:active {
 	position: relative;
 	top: 1px;
-}
+}*/
 
+
+.blue:hover {
+	background: #007ead;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
 .blue {
 	color: #d9eef7;
 	border: solid 1px #0076a3;
@@ -377,18 +345,24 @@ input[type="radio"] {
 	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
 }
-.blue:hover {
-	background: #007ead;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
+
 .blue:active {
 	color: #80bed6;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
+
+.gray {
+	color: white;
+	border: solid 1px #cad2d4;
+	background: #aaadae;
+	background: -webkit-gradient(linear, left top, left bottom, from(#babdbe), to(#aaadae));
+	background: -moz-linear-gradient(top,  #babdbe,  #aaadae);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#babdbe', endColorstr='#aaadae');
+    cursor: default!important;
+}
+
 
 .botaoMedio {
     width: 140px!important
@@ -489,7 +463,7 @@ input[type="checkbox"].input-validation-error {
     width: 250px;
 } 
 .campogrande, select {
-    width: 350px;
+    width: 340px;
 }
 .campoextragrande {
     width: 700px;
@@ -505,102 +479,39 @@ input[type="checkbox"].input-validation-error {
 .paginaCadastro fieldset {
     margin-left: 1px;
     padding-right: 1px;
-    /*border: solid 0.5px gray*/
 }
-/*.paginaCadastro legend .visivel {
-    display: inline
-}*/
+
 .button_edit{
-    background-image: url(/images/icons/editar_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/editar_16.png);
 }
 .button_remove{
-    background-image: url(/images/icons/DeleteRed_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/DeleteRed_16.png);
 }
 .button_add{
-    background-image: url(/images/icons/add_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/add_16.png);
 }
 .button_visualize{
-    background-image: url(/images/icons/mag_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    /*padding-left: 32px; */    /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/mag_16.png); 
 }
 
 .button_schedule{
-    background-image: url(/images/icons/schedule_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/schedule_16.png);
 }
 
 .button_sendmail{
-    background-image: url(/images/icons/enviar_email_16.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    width: 16px;
-    padding-left: 32px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
+    background-image: url(/images/icons/enviar_email_16.png);
 }
 .button_information{
     background-image: url(/images/icons/information_16.png);
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    border: none;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-    padding-left: 32px;
-    vertical-align: middle;
 }
 .button_download{
     background-image: url(/images/icons/download_16.png);
 }
 .button_select{
     background-image: url(/images/icons/select_16.png);
+}
+.button_block {
+    background-image: url(/images/icons/bloquear_16.png);
 }
 
 .button16 {
@@ -611,7 +522,6 @@ input[type="checkbox"].input-validation-error {
     cursor: pointer;
     height: 16px;
     width: 16px;
-    padding-left: 32px;
     vertical-align: middle;
 }
 
@@ -649,6 +559,12 @@ input[type="checkbox"].input-validation-error {
     color: red;
     font-weight: bold;
 }
+.gridTotalizador {
+    font-size: 14px;
+    font-weight: bold;
+    background-color: darkturquoise!important;
+}
+
 .mensagemErro {
     margin: 0;
 }
@@ -659,7 +575,11 @@ input[type="checkbox"].input-validation-error {
 
 .divGrid {
     font:11px Arial,Helvetica,sans-serif!important;
-    font-weight: normal
+    font-weight: normal;
+    
+}
+.alturaMinima {
+    min-height: 150px;
 }
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;
@@ -677,10 +597,6 @@ input[type="checkbox"].input-validation-error {
     font-size: 12px!important;
     background-color: #efeeef!important
 }
-
-/*.janelaModal input, textarea {
-    font-size: 12px!important;
-}*/
 .ui-dialog-buttonpane {
     margin: 0!important;
     padding: 0!important;
@@ -689,7 +605,7 @@ input[type="checkbox"].input-validation-error {
     font-size: 14px!important;
 }
 .ui-dialog-title {
-    font-size: 18px!important;
+    font-size: 14px!important;
 }
 .separador {
     margin-top: 10px;
@@ -698,6 +614,3 @@ input[type="checkbox"].input-validation-error {
     font-weight: bold;
     font-size: 14px;
 }
-
-
-

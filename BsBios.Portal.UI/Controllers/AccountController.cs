@@ -76,12 +76,12 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult EsqueciMinhaSenha(string login)
         {
             ViewBag.ReturnUrl = "";
-            return View("EsqueciMinhaSenha",login);
+            return View("EsqueciMinhaSenha",(object) login);
         }
         
-        public ActionResult AlterarSenha()
+        public ActionResult AlterarSenha(string login)
         {
-            return View();
+            return View(new AlterarSenhaVm {Login = login});
         }
 
         #region Helpers

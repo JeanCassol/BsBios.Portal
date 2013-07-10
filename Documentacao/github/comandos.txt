@@ -22,3 +22,8 @@ git merge <nome da branch atualizada>
 git merge master
 3) fazer o push da branch qas
 git push origin qas
+
+
+Para desfazer um merge
+git reset --hard origin/<branch>
+ex:git reset --hard origin/master

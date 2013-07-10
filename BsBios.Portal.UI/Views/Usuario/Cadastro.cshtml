@@ -5,11 +5,12 @@
 @{
     ViewBag.TituloDaPagina = "Usuário - Editar";
 }
-
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+}
 <style type="text/css">
     .gridPerfil {
         width: 280px;
@@ -143,7 +144,7 @@
                                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                                         width: 40,
                                         sortable: false,
-                                        template: '<input type="button" class="button_add" data-codigoperfil="${Codigo}"></input>'
+                                        template: '<input type="button" class="button16 button_add" data-codigoperfil="${Codigo}"></input>'
                                     },
                                     {
                                         field: "Descricao",
@@ -174,7 +175,7 @@
                                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                                         width: 40,
                                         sortable: false,
-                                        template: '<input type="button" class="button_remove" data-codigoperfil="${Codigo}"></input>'
+                                        template: '<input type="button" class="button16 button_remove" data-codigoperfil="${Codigo}"></input>'
                                     },
                                     {
                                         field: "Descricao",

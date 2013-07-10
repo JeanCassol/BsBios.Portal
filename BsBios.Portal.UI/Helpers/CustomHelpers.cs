@@ -67,7 +67,7 @@ namespace BsBios.Portal.UI.Helpers
 
         public static MvcHtmlString RadioButtonComLabel(this HtmlHelper htmlHelper, string name, string label, object value, bool @checked)
         {
-            return new MvcHtmlString(htmlHelper.RadioButton("RelatorioDeAgendamento", value, @checked).ToHtmlString() + Environment.NewLine
+            return new MvcHtmlString(htmlHelper.RadioButton(name, value, @checked).ToHtmlString() + Environment.NewLine
             + htmlHelper.Label(label, new { @class = "labelNaLinha" }).ToHtmlString()); 
         }
 

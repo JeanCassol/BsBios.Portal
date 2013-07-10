@@ -76,12 +76,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]
+        [ExpectedException(typeof(ProcessoDeCotacaoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAtualizarOsDadosComplementares()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
             processoDeCotacaoDeFrete.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
-            processoDeCotacaoDeFrete.Abrir();
+            processoDeCotacaoDeFrete.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             processoDeCotacaoDeFrete.Atualizar("requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
                 processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario);
         }
@@ -91,8 +91,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarAbrirUmProcessoDeCotacaoQueJaEstaAbertoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComFornecedor();
-            processoDeCotacao.Abrir();
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(DefaultObjects.ObtemUsuarioPadrao());
+            processoDeCotacao.Abrir(DefaultObjects.ObtemUsuarioPadrao());
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarFecharUmProcessoDeCotacaoQueJaEstaFechadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
-            processoDeCotacao.Fechar("justificativa");   
+            processoDeCotacao.Fechar();   
         }
     }
 }

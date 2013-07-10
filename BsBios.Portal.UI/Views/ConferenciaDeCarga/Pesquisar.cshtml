@@ -1,47 +1,50 @@
-﻿@using BsBios.Portal.Common
-@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.ViewModel
 @{
     ViewBag.TituloDaPagina = "Conferência de Cargas";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 
 <fieldset id="fieldSetFiltros">
     <legend>Filtros</legend>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Terminal")
-            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
+    <form>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Terminal")
+                @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
+            </div>
+            <div class="coluna">
+                @Html.Label("Data de Agendamento")
+                @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
+            </div>
         </div>
-        <div class="coluna">
-            @Html.Label("Data de Agendamento")
-            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Placa")
+                @Html.TextBox("Placa")
+            </div>
+            <div class="coluna">
+                @Html.Label("Número NF")
+                @Html.TextBox("NumeroNf")
+            </div>
         </div>
-    </div>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Placa")
-            @Html.TextBox("Placa")
-        </div>
-        <div class="coluna">
-            @Html.Label("Número NF")
-            @Html.TextBox("NumeroNf")
-        </div>
-    </div>
-    @Html.Label("Realização")
-     @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
-     new SelectListItem
-         {
-             Value =  Convert.ToString(x.Codigo),
-             Text =  x.Descricao,
-             Selected =  x.Padrao
-         }),"Todos")
+        @Html.Label("Realização")
+        @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
+            new SelectListItem
+            {
+            Value =  Convert.ToString(x.Codigo),
+            Text =  x.Descricao,
+            Selected =  x.Padrao
+            }),"Todos")
 
-    <div class="divBotao">
-        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
-        <input type="button" id="btnLimpar" value="Limpar" class="blue"/>
-    </div>
+        <div class="divBotao">
+            <input type="submit" id="btnPesquisar" value="Pesquisar" class="blue"/>
+            <input type="reset" id="btnLimpar" value="Limpar" class="blue"/>
+        </div>
+    </form>
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
@@ -100,7 +103,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_visualize" data-idquota="${IdQuota}" data-idagendamento="${IdAgendamento}"></input>'
+                        template: '<input type="button" class="button16 button_visualize" data-idquota="${IdQuota}" data-idagendamento="${IdAgendamento}"></input>'
                     },
                     {
                         width: 120,
@@ -145,16 +148,10 @@
             $('#gridAgendamentos').find('.button_visualize').die('click');
             $('#gridAgendamentos').find('.button_visualize').live('click', function(e) {
                 e.preventDefault();
-                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
-                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
-                        $('#divRealizarAgendamento').dialog("open");
-                    });
+                $('#divRealizarAgendamento').customLoad({url:'@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
+                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento')
+                });
 
-            });
-
-            $('#btnLimpar').click(function() {
-                $('#fieldSetFiltros').find('input[type!=button][name!=CodigoTerminal][name!=RealizacaoDeAgendamento]').val('');
-                $('#RealizacaoDeAgendamento').val('@((int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
             });
 
             function atualizaGrid() {
@@ -162,9 +159,6 @@
                 grid.dataSource.read();
             }
 
-            //$('#btnPesquisar').click(function() {
-            //    atualizaGrid();
-            //});
             $('#divRealizarAgendamento').customDialog({
                 title: 'Realizar Agendamento',
                 buttons: {

@@ -1,9 +1,11 @@
 ﻿@{
     ViewBag.TituloDaPagina = "Quotas";
 }
-
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 <div id="gridQuotas" class="divGrid"></div>
 
 @section scripts
@@ -47,7 +49,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 40,
                         sortable: false,
-                        template: '<input type="button" class="button_schedule" data-idquota="${IdQuota}" ></input>'
+                        template: '<input type="button" class="button16 button_schedule" data-idquota="${IdQuota}" ></input>'
                     },
                     {
                         width: 100,

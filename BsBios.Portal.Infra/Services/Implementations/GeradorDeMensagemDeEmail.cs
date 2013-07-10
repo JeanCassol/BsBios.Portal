@@ -34,13 +34,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
             string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
                               "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
                               "conforme informações descritas abaixo. " + Environment.NewLine +
-                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" + Environment.NewLine + Environment.NewLine +
-                              //"Material: " + processoDeCotacaoDeFrete.Produto.Descricao + Environment.NewLine +
+                              "Caso tenha interesse em participar favor acessar o Portal de Cotações (http://bsnet.bsbios.com/)." + Environment.NewLine + Environment.NewLine +
                               "Material: " + item.Produto.Descricao + Environment.NewLine +
-                              //"Quantidade: " + processoDeCotacaoDeFrete.Quantidade + Environment.NewLine +
                               "Quantidade: " + item.Quantidade + Environment.NewLine +
                               "Itinerário: " + processoDeCotacaoDeFrete.Itinerario.Descricao + Environment.NewLine +
-                              //"Unidade de Medida: " + processoDeCotacaoDeFrete.UnidadeDeMedida.Descricao + Environment.NewLine +
                               "Unidade de Medida: " + item.UnidadeDeMedida.Descricao + Environment.NewLine +
                               "Data Limite de Retorno: " + (processoDeCotacaoDeFrete.DataLimiteDeRetorno.HasValue ? processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
                               "Requisitos: " + processoDeCotacaoDeFrete.Requisitos + Environment.NewLine;
@@ -53,7 +50,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
                               "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
                               "conforme informações descritas abaixo. " + Environment.NewLine +
-                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" +
+                              "Caso tenha interesse em participar favor acessar o Portal de Cotações (http://bsnet.bsbios.com/)." +
                               Environment.NewLine + Environment.NewLine;
 
             for (int i = 0; i < processoDeCotacao.Itens.Count; i++)
@@ -65,12 +62,16 @@ namespace BsBios.Portal.Infra.Services.Implementations
                   "Quantidade: " + item.Quantidade + Environment.NewLine +
                   "Unidade de Medida: " + item.UnidadeDeMedida.Descricao + Environment.NewLine + 
                   SeparadorDeItems  + Environment.NewLine;
-        
             }
 
             mensagem +=
-            "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
-            "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine;
+                "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue
+                     ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+                "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
+                SeparadorDeItems + Environment.NewLine +
+                "Comprador" + Environment.NewLine +
+                "Nome: " + processoDeCotacao.Comprador.Nome + Environment.NewLine +
+                "E-mail: " + processoDeCotacao.Comprador.Email;
 
             return new MensagemDeEmail("Cotação de Material", mensagem);
         }

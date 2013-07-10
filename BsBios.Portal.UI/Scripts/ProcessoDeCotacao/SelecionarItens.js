@@ -45,9 +45,8 @@ SelecionarItens = {
             renderTo: '#divGridRequisicoesParaSelecionar',
             exibirDetalhesDaRequisicao: true,
             exibirBotaoAdicionar: true,
-            exibirBotaoRemover: false,
-            exibirBotaoSelecionarCotacao: false,
-            pageable: true,
+            exibirBotaoBloquear: true,
+            pageable:true,
             transportUrl: UrlPadrao.ListarRequisicoesDeCompra,
             transportData: function() {
                 return {
@@ -63,6 +62,36 @@ SelecionarItens = {
         $('#divGridRequisicoesParaSelecionar').find('.button_add').live("click", function() {
             selecionarRequisicaoDoGrid();
         });
+        
+        $('#divGridRequisicoesParaSelecionar').off('click', '.button_block', false);
+        $('#divGridRequisicoesParaSelecionar').on('click', '.button_block', function () {
+            var grid = $('#divGridRequisicoesParaSelecionar').data("kendoGrid");
+            var dataItem = grid.dataItem($(this).parents('tr:first'));
+            if (!confirm('Confirma o bloqueio do item ' + dataItem.NumeroItem + ' da Requisão de Compra ' + dataItem.NumeroRequisicao + '?')) {
+                return;
+            }
+            
+            $.ajax({
+                url: UrlPadrao.BloquearRequisicaoDeCompra,
+                type: 'POST',
+                data: JSON.stringify({ IdRequisicaoCompra: dataItem.Id}),
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        $('#divGridRequisicoesParaSelecionar').data("kendoGrid").dataSource.read();
+                        Mensagem.ExibirMensagemDeSucesso('A Requisição de Compra foi bloqueada com sucesso.');
+                    } else {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao bloquear a Requisição de Compra. Detalhe: ' + data.Mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao bloquear a Requisição de Compra. Detalhe: ' + textStatus + errorThrown);
+                }
+            });
+
+        });
 
         $('#divGridRequisicoesSelecionadas').find('.button_remove').die('click');
         $('#divGridRequisicoesSelecionadas').find('.button_remove').live('click', function() {
@@ -70,6 +99,7 @@ SelecionarItens = {
             requisicoesSelecionadas.splice(indice, 1);
             atualizaGrid();
         });
+
 
         var idProcessoCotacao = $('#Id').val();
         $.ajax({
@@ -104,9 +134,6 @@ SelecionarItens = {
             $("#divGridRequisicoesParaSelecionar").data("kendoGrid").dataSource.read();
         });
 
-        $('#btnLimparFiltroItens').click(function() {
-            $('#formFiltroItens input[type!=button][type!=submit]').val('');
-        });
     },
     ConfigurarJanelaModal: function() {
         $('#divSelecionarItens').customDialog({
@@ -152,11 +179,7 @@ SelecionarItens = {
         });
 
         $('#btnSelecionarItens').click(function () {
-            $('#divSelecionarItens').load(UrlPadrao.SelecionarItens, function () {
-                $('#divSelecionarItens').dialog('open');
-                SelecionarItens.ConfigurarTela();
-            });
+            $('#divSelecionarItens').customLoad({ url: UrlPadrao.SelecionarItens }, SelecionarItens.ConfigurarTela);
         });
-
     }
 };

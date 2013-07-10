@@ -91,10 +91,6 @@
             columns:
             [
                 {
-                    field: 'IdCotacao', hidden:true,
-                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
-                },
-                {
                     field: "Selecionada", title: ' ', width: 30,
                     template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
                 },

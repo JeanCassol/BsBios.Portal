@@ -1,16 +1,19 @@
 @using BsBios.Portal.ViewModel
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+@section styles
+{
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
         <div class="linha">
             <div class="coluna">
-                @Html.Label("Codigo")
+                @Html.Label("CodigoProduto","Código")
                 @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
             </div>
             <div class="coluna">
-                @Html.Label("Material")
+                @Html.Label("DescricaoProduto","Material")
                 @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
             </div>
         </div>
@@ -24,7 +27,7 @@
         </div>
         <div class="divBotao">
             <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
         </div>
     </form>
 </fieldset>
@@ -41,7 +44,7 @@
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
                 width: 40,
                 sortable: false,
-                template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
+                template: '<input type="button" title="Editar Processo de Cotação" class="button16 button_edit" data-idprocessocotacao="${Id}"></input>'
             }];
 
             if ('@((int)ViewBag.TipoDeCotacao)' == TipoDeCotacao.Frete) {
@@ -139,17 +142,6 @@
                 e.preventDefault();
                 location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao');
             });
-
-            //$('#btnPesquisar').click(function(e) {
-            //    e.preventDefault();
-            //    $("#gridCotacaoMaterial").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('form input[type!=button][type!=submit]').val('');
-                $("#Status").prop('selectedIndex', 0);
-            });
-
         });
     </script>
 

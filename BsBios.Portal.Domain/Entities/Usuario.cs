@@ -12,6 +12,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Email { get; protected set; }
         public virtual Enumeradores.StatusUsuario Status { get; protected set; }
         public virtual IList< Enumeradores.Perfil> Perfis { get; set; }
+        public virtual Permissao Permissao { get; protected internal set; }
 
         public Usuario(string nome, string login, string email):this()
         {
@@ -24,6 +25,7 @@ namespace BsBios.Portal.Domain.Entities
         protected Usuario()
         {
             Perfis = new List<Enumeradores.Perfil>();
+            Permissao = new Permissao(this);
         }
 
 
@@ -66,6 +68,22 @@ namespace BsBios.Portal.Domain.Entities
                 throw new SenhaIncorretaException("A senha atual informada está incorreta");
             }
             Senha = senhaNovaCriptografada;
+        }
+    }
+
+    public class Permissao
+    {
+        private readonly Usuario _usuario;
+        internal Permissao(Usuario usuario)
+        {
+            _usuario = usuario;
+        }
+        public bool PermiteVisualizarCustos
+        {
+            get
+            {
+                return _usuario.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos);
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿ProcessoDeCotacaoOperacoes = {
     Configurar: function(tipoDeCotacao) {
-        var idProcessoCotacao = $('#Id').val();
         $('#divSelecionarFornecedores').customDialog({
             title: 'Selecionar Fornecedores',
             buttons: {
@@ -15,7 +14,7 @@
                         type: 'POST',
                         cache: false,
                         data: JSON.stringify({
-                            IdProcessoCotacao: idProcessoCotacao,
+                            IdProcessoCotacao: $('#Id').val(),
                             CodigoFornecedoresSelecionados: codigosDosFornecedoresSelecionados
                         }),
                         contentType: "application/json; charset=utf-8",
@@ -82,11 +81,13 @@
                         if (!dadosValidos) {
                             return;
                         }
-                        var idCotacao = $(this).find('input[name=IdCotacao]').val();
-                        if (idCotacao == 0) {
-                            //cotação ainda não preenchida pelo fornecedor. O valor 0 indica que a cotação não foi criada
+                        var dataItem = $('#gridCotacoes').data("kendoGrid").dataItem(this);
+                        
+                        if (dataItem.ValorComImpostos == null) {
+                            //cotação ainda não preenchida pelo fornecedor. O valor null indica que a cotação não foi criada
                             return;
                         }
+
                         var selecionada = $(this).find('input[type=checkbox][name=Selecionada]').is(':checked');
                         var quantidadeAdquirida = Numero.GetFloat($(this).find('input[name=QuantidadeAdquirida]').val());
                         if (selecionada && quantidadeAdquirida <= 0) {
@@ -96,13 +97,18 @@
                         }
 
                         var cotacao = {
-                            IdCotacao: idCotacao,
+                            IdCotacao: dataItem.IdCotacao,
                             Selecionada: selecionada,
                             QuantidadeAdquirida: quantidadeAdquirida
                         };
                         
                         if (tipoDeCotacao == TipoDeCotacao.Material){
                             var codigoIva = $(this).find('select[name=CodigoIva]').val();
+                            if (codigoIva == "") {
+                                Mensagem.ExibirMensagemDeErro("Deve ser preenchido o Iva de todos os Fornecedores selecionados.");
+                                dadosValidos = false;
+                                return;
+                            }
                             cotacao.CodigoIva = codigoIva;
                         }
 
@@ -155,21 +161,18 @@
                 Mensagem.ExibirMensagemDeErro("Não é possível selecionar Fornecedores antes de salvar o Processo de Cotação.");
                 return;
             }
-            $('#divSelecionarFornecedores').load(UrlPadrao.SelecionarFornecedores
-                + "/?idProcessoCotacao=" + $('#Id').val()
-                + "&TipoDeCotacao=" + tipoDeCotacao,
-                function(response, status, xhr) {
-                    $('#divSelecionarFornecedores').dialog('open');
+            $('#divSelecionarFornecedores').customLoad({
+                    url: UrlPadrao.SelecionarFornecedores
+                        + "/?idProcessoCotacao=" + $('#Id').val()
+                        + "&TipoDeCotacao=" + tipoDeCotacao
                 });
 
         });
 
         $('#btnSelecionarCotacoes').click(function () {
-            $('#divSelecionarCotacoes').load((tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
-                + "/?idProcessoCotacao=" + $('#Id').val(),
-                function (response, status, xhr) {
-                    $('#divSelecionarCotacoes').dialog('open');
-                });
+            $('#divSelecionarCotacoes').customLoad({
+                    url: (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
+                        + "/?idProcessoCotacao=" + $('#Id').val()});
         });
 
         $('#btnAbrirProcesso').click(function () {
@@ -183,6 +186,12 @@
                 success: function(data) {
                     if (data.Sucesso) {
                         $('#spanStatus').html('Aberto');
+                        var seletorDesabilitar = '#btnAbrirProcesso,#btnSelecionarFornecedores,#btnSelecionarItens';
+                        if (tipoDeCotacao == TipoDeCotacao.Frete) {
+                            seletorDesabilitar += ',#btnSalvar';
+                        }
+                        desabilitarBotao(seletorDesabilitar);
+                        habilitarBotao('#btnFecharProcesso,#btnSelecionarCotacoes');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);
@@ -199,19 +208,31 @@
         });
         
         function fecharProcessoDeCotacao(urlDeFechamento) {
+            var dados = {
+                IdProcessoCotacao: $('#Id').val(),
+                TextoDeCabecalho: $('#TextoDeCabecalho').val(),
+                NotaDeCabecalho: $('#NotaDeCabecalho').val(),
+                DocumentoParaGerarNoSap: $('#DocumentoParaGerarNoSap:checked').val()
+            };
+            dados.IdProcessoCotacao = $('#Id').val();
             bloqueiaPagina();
             $.ajax({
                 url: urlDeFechamento,
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val(), Justificativa: $('#Justificativa').val() },
+                data: dados,
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
                         $('#spanStatus').html('Fechado');
+                        desabilitarBotao('#btnFecharProcesso,#btnSalvarProcesso');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
-                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        if (data.MediaType == "text/html") {
+                            Mensagem.ExibirJanelaComHtml(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -242,11 +263,7 @@
 
         $('#btnFecharProcesso').click(function () {
             if (tipoDeCotacao == TipoDeCotacao.Material) {
-                $('#divFecharProcessoDeCotacaoDeMaterial').load(UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial,
-                    function (response, status, xhr) {
-                        jQuery.validator.unobtrusive.parse('#divFecharProcessoDeCotacaoDeMaterial');
-                        $('#divFecharProcessoDeCotacaoDeMaterial').dialog("open");
-                    });
+                $('#divFecharProcessoDeCotacaoDeMaterial').customLoad({url:UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial, validar:true});
             }
             if (tipoDeCotacao == TipoDeCotacao.Frete) {
                 fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);

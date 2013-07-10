@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
@@ -32,6 +33,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
             RemoveQueries.RemoverUnidadesDeMedidaCadastradas();
             RemoveQueries.RemoverProcessoCotacaoIteracaoUsuarioCadastradas();
 
+            CadastrarUsuarioConectado();
             RestaurarUsuarioConectado();
 
             var emailDoPortal = ConfigurationManager.GetSection("emailDoPortal") as EmailDoPortal;
@@ -45,15 +47,22 @@ namespace BsBios.Portal.TestsComBancoDeDados
                          .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteLogistica + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDaLogistica);
+                                               emailDoPortal.Porta, emailDoPortal.HabilitarSsl)).Named(Constantes.ContaDeEmailDaLogistica);
 
                         x.For<ContaDeEmail>()
                          .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDeSuprimentos);
+                                               emailDoPortal.Porta, emailDoPortal.HabilitarSsl)).Named(Constantes.ContaDeEmailDeSuprimentos);
                     }
                 });
+        }
+
+        private static void CadastrarUsuarioConectado()
+        {
+            var usuarioConectado = new Usuario("Usuário de Teste", "teste", "teste@teste.com.br");
+            usuarioConectado.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            DefaultPersistedObjects.PersistirUsuario(usuarioConectado);
         }
 
         public static void RestaurarUsuarioConectado()

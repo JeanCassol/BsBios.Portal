@@ -3,7 +3,6 @@
 @model CotacaoMaterialConsultarCadastroVm
 
 @{
-    ViewBag.TituloDaPagina = "Cotação de Material";
     Layout = null;
 }
 <div class="paginaCadastro">
@@ -17,46 +16,33 @@
         @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.Incoterm)
                                   , new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.DescricaoIncoterm))
             
-        @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.CondicaoPagamento)
-                                  , new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.TipoDeFrete))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.CondicaoPagamento))
             
     </fieldset>
 
     <fieldset id="fieldSetItens">
         <legend>Itens</legend>
-        <div id="divGridItensVisualizar" class="divGrid"></div>
+        <div id="divGridItensCotacao" class="divGrid"></div>
     </fieldset>
     <div id="divCotacaoItem" class="janelaModal"></div>
 </div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/CotacaoMaterial/Cadastro.js")"></script>
 <script type="text/javascript">
+
     $(function () {
         var idCotacao = $('#IdCotacao').val();
         ProcessoDeCotacaoItensGrid.configurar({
             schemaData: 'Registros',
-            transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + $('#IdProcessoCotacao').val(),
-            renderTo: '#divGridItensVisualizar',
+            transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+            transportData: function (){
+                return { IdProcessoCotacao: $('#IdProcessoCotacao').val() };
+            },
+            renderTo: '#divGridItensCotacao',
             exibirBotaoVisualizar: (idCotacao > 0),
             pageable: false
         });
 
-        $('#divGridItensVisualizar').find('.button_visualize').die("click");
-        $('#divGridItensVisualizar').find('.button_visualize').live("click", function () {
-                
-            var grid = $('#divGridItensVisualizar').data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            $('#divCotacaoItem').load('@Url.Action("EditarCadastro", "CotacaoMaterialItem")' 
-                + "/?idProcessoCotacao=" + $('#IdProcessoCotacao').val()
-                + "&codigoDoFornecedor=" + $('#CodigoFornecedor').val()
-                + "&numeroDaRequisicao=" + dataItem.NumeroRequisicao
-                + "&numeroDoItemDaRequisicao=" + dataItem.NumeroItem,
-                function () {
-                    aplicaMascaraMoeda('#divCotacaoItem');
-                    aplicaMascaraQuantidade('#divCotacaoItem');
-                    aplicaMascaraData('#divCotacaoItem');
-                    $('#divCotacaoItem').dialog('open');
-                }
-            );
-        });
+        configurarEventoDeConsultaDoGrid();
             
         $('#divCotacaoItem').customDialog({
             title: 'Cotação do Item'

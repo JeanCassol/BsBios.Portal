@@ -38,6 +38,11 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BsBios.Portal.UI\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
@@ -47,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <Choose>
@@ -62,22 +68,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Application\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaFornecedorTests.cs" />
-    <Compile Include="Application\Queries\ConsultaPerfilTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
-    <Compile Include="Application\Queries\ConsultaQuotaTests.cs" />
-    <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
-    <Compile Include="Application\Queries\ConsultaQuotaRelatorioTests.cs" />
-    <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeFreteTests.cs" />
-    <Compile Include="Application\Queries\ConsultaRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Application\Services\AberturaDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Application\Services\FechamentoDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaCotacaoDoFornecedorTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaFornecedorTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaPerfilTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProcessoDeCotacaoDeFreteTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaProdutoTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaQuotaRelatorioTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaQuotaTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaRequisicaoDeCompraTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaUsuarioTests.cs" />
+    <Compile Include="Infra\Queries\ConsultaEficienciaDeNegociacaoTests.cs" />
     <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />
     <Compile Include="Infra\Repositories\FornecedoresTests.cs" />
@@ -87,7 +94,6 @@
     <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeFreteTests.cs" />
     <Compile Include="Infra\Repositories\ProcessosDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Infra\Repositories\ProdutosTests.cs" />
-    <Compile Include="Infra\Repositories\RequisicaoDeCompraTests.cs" />
     <Compile Include="Infra\Repositories\UnidadesDeMedidaTests.cs" />
     <Compile Include="Infra\Repositories\UnitOfWorkTests.cs" />
     <Compile Include="Infra\Repositories\QuotasTests.cs" />

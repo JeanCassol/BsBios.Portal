@@ -20,8 +20,10 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.ProcessoDeCotacaoItem, "IdProcessoCotacaoItem");
 
             Map(x => x.QuantidadeAdquirida);
-            Map(x => x.ValorLiquido);
+            Map(x => x.Preco);
+            Map(x => x.PrecoInicial);
             Map(x => x.ValorComImpostos);
+            Map(x => x.Custo);
             Map(x => x.Selecionada);
             Map(x => x.QuantidadeDisponivel);
             Map(x => x.Observacoes);
@@ -32,6 +34,19 @@ namespace BsBios.Portal.Infra.Mappings
                 .KeyColumn("IdCotacaoItem")
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
+
+            //Para fazer relacionamento unidirecional sem que o NHibernate faça update adicionais desnecessários 
+            //(INSERT e depois UPDATE na chave estrangeira (IdCotacaoItem)) é necessário que as seguintes configurações
+            //sejam feitas:
+                //.Not.Inverse()
+                //.Not.KeyNullable()
+                //.Not.KeyUpdate()
+            HasMany(x => x.HistoricosDePreco)
+                .KeyColumn("IdCotacaoItem")
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
+                .Cascade.All();
         }
     }
 

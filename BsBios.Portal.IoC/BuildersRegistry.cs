@@ -1,6 +1,6 @@
-﻿using BsBios.Portal.Application.Queries.Builders;
-using BsBios.Portal.Common;
+﻿using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.ViewModel;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -92,10 +92,6 @@ namespace BsBios.Portal.IoC
             For<IBuilder<RequisicaoDeCompra,RequisicaoDeCompraVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RequisicaoDeCompraBuilder>();
-
-            For<IBuilder<Enumeradores.TipoDeFrete, TipoDeFreteVm>>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<TipoDeFreteBuilder>();
 
         }
     }

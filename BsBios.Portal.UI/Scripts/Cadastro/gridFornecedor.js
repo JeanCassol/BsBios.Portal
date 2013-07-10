@@ -7,7 +7,7 @@
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
                 width: 30,
                 sortable: false,
-                template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
+                template: '<input type="button" class="button16 button_add" data-codigofornecedor="${Codigo}"></input>'
             });
         }
         arrayDeColunas = arrayDeColunas.concat(
@@ -73,9 +73,7 @@
                     }
                 }
             },
-            groupable: false,
             scrollable: true,
-            selectable: 'row',
             columns: arrayDeColunas
         });
 

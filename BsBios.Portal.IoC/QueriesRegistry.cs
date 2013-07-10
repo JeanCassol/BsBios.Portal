@@ -1,5 +1,5 @@
-﻿using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Application.Queries.Implementations;
+﻿using BsBios.Portal.Infra.Queries.Contracts;
+using BsBios.Portal.Infra.Queries.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Pipeline;
@@ -86,10 +86,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaRequisicaoDeCompra>();
 
-            For<IConsultaTipoDeFrete>()
+            For<IConsultaEficienciaDeNegociacao>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ConsultaTipoDeFrete>();
-            
+                .Use<ConsultaEficienciaDeNegociacao>();
+
         }
 
     }

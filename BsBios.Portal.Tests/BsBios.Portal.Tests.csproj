@@ -72,7 +72,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Application\Builders\FornecedorCadastroBuilderTests.cs" />
     <Compile Include="Application\Services\CadastroUsuarioTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoTests.cs" />
     <Compile Include="Application\Services\CadastroFornecedorTests.cs" />
@@ -80,19 +79,24 @@
     <Compile Include="Application\Services\CadastroIvaTests.cs" />
     <Compile Include="Application\Services\CadastroProdutoFornecedorTests.cs" />
     <Compile Include="Application\Services\CadastroQuotaTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoDeFreteFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoAberturaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoItensServiceTests.cs" />
+    <Compile Include="Application\Services\AlteradorDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Domain\Entities\QuotaTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeCarregamentoFactoryTests.cs" />
     <Compile Include="Domain\Services\AgendamentoDeDescarregamentoFactoryTests.cs" />
+    <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoTests.cs" />
+    <Compile Include="Domain\Services\CalculadorDeBaseDeCalculoFactoryTests.cs" />
     <Compile Include="Domain\Services\VerificaSePermiteEditarAgendamentoTests.cs" />
+    <Compile Include="Infra\Builders\FornecedorCadastroBuilderTests.cs" />
     <Compile Include="Infra\Services\ComunicacaoSapTests.cs" />
     <Compile Include="Application\Services\CadastroDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Application\Services\CadastroIncotermTests.cs" />
     <Compile Include="Application\Services\CadastroItinerarioTests.cs" />
     <Compile Include="Application\Services\CadastroUnidadeDeMedidaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoDeMaterialServiceTests.cs" />
-    <Compile Include="Application\Services\ProcessoDeCotacaoFechamentoTests.cs" />
+    <Compile Include="Application\Services\ProcessoDeCotacaoDeMaterialFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoFornecedoresServiceTests.cs" />
     <Compile Include="Application\Services\AtualizadorDeCotacaoTests.cs" />
     <Compile Include="Application\Services\GerenciadorUsuarioTests.cs" />
@@ -123,9 +127,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Controllers\AccountControllerTests.cs" />
     <Compile Include="UI\Controllers\CondicaoPagamentoApiTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoDeCotacaoDeFreteFechamentoControllerTests.cs" />
     <Compile Include="UI\Controllers\UnidadeDeMedidaApiTests.cs" />
     <Compile Include="UI\Controllers\ItinerarioApiTests.cs" />
-    <Compile Include="UI\Controllers\ProcessoDeCotacaoFechamentoControllerTests.cs" />
+    <Compile Include="UI\Controllers\ProcessoDeCotacaoDeMaterialFechamentoControllerTests.cs" />
     <Compile Include="UI\Controllers\ProcessoDeCotacaoFornecedoresServiceControllerTests.cs" />
     <Compile Include="UI\Controllers\IncotermApiTests.cs" />
     <Compile Include="UI\Controllers\RequisicaoCompraApiTests.cs" />

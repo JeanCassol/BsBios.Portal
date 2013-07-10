@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -39,45 +38,47 @@ namespace BsBios.Portal.Domain.Entities
 
     public class CotacaoMaterial: Cotacao
     {
-
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
-        public virtual Enumeradores.TipoDeFrete TipoDeFrete { get; protected set; }
+        public virtual string NumeroDaCotacao { get; protected set; }
 
         protected CotacaoMaterial(){}
 
-        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, Enumeradores.TipoDeFrete tipoDeFrete)
+        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            TipoDeFrete = tipoDeFrete;
         }
 
-        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, Enumeradores.TipoDeFrete tipoDeFrete)
+        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            TipoDeFrete = tipoDeFrete;
         }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal? mva, 
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal preco, decimal? mva, 
             decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
             var cotacaoItem = (CotacaoMaterialItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
             if (cotacaoItem != null)
             {
-                cotacaoItem.Atualizar(valorTotalComImpostos, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
+                cotacaoItem.Atualizar(preco, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
             }
             else
             {
-                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, preco, quantidadeDisponivel, observacoes);
                 Itens.Add(cotacaoItem);
             }
 
             return cotacaoItem;
+        }
+
+        public virtual void AtualizarNumeroDaCotacao(string numeroDaCotacao)
+        {
+            NumeroDaCotacao = numeroDaCotacao;
         }
 
     }

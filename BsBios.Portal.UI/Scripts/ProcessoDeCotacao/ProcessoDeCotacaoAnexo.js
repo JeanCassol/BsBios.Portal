@@ -2,7 +2,11 @@
     Atualizar: function () {
         $(GridAnexo.container).data("kendoGrid").dataSource.read();
     },
-    Configurar: function (idProcessoCotacao, divGrid, permitirExclusao) {
+    Configurar: function (seletorIdProcessoCotacao, divGrid, permitirExclusao) {
+        ///<param name="seletorIdProcessoCotacao">seletor jQuery para obter o id do processo de cotação</param>
+
+        //faz o autoBind quando o processo de cotação já tiver sido salvo.
+        var autoBind =$.isNumeric($(seletorIdProcessoCotacao).val());
         GridAnexo.container = divGrid;
         var colunas = [                 
         {
@@ -13,14 +17,14 @@
         {
             width: 70,
             title: "Download",
-            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + idProcessoCotacao + '&nomeDoArquivo=${FileName}' + '" ><img src="/Images/icons/download_16.png"></img></a>'
+            template: '<a href="' + UrlPadrao.ProcessoCotacaoDownloadAnexo + '/?idProcessoCotacao=' + $(seletorIdProcessoCotacao).val() + '&nomeDoArquivo=${FileName}' + '" ><img src="/Images/icons/download_16.png"></img></a>'
         }];
         if (permitirExclusao) {
             colunas.push(
                 {
                     width: 70,
                     title: "Excluir",
-                    template: '<input type="button" class="button_remove" data-filename="${FileName}"></input>'
+                    template: '<input type="button" class="button16 button_remove" data-filename="${FileName}"></input>'
                 });
         }
         $(divGrid).customKendoGrid({
@@ -38,14 +42,18 @@
                 serverFiltering: true,
                 transport: {
                     read: {
-                        url: UrlPadrao.ProcessoCotacaoListarAnexos + '/?idProcessoCotacao=' + idProcessoCotacao,
+                        url: UrlPadrao.ProcessoCotacaoListarAnexos,
+                        data: function() {
+                            return { IdProcessoCotacao: $(seletorIdProcessoCotacao).val() };
+                        },
                         type: 'GET',
                         cache: false
                     }
                 }
             },
             pageable: false,
-            columns: colunas
+            columns: colunas,
+            autoBind: autoBind
         });
         
         //$(divGrid).find('.button_download').die('click');
@@ -61,7 +69,7 @@
             $.ajax({
                 url: UrlPadrao.ProcessoCotacaoExcluirAnexo,
                 type: 'POST',
-                data: JSON.stringify({IdProcessoCotacao:idProcessoCotacao,NomeDoArquivo:nomeDoArquivo }),
+                data: JSON.stringify({IdProcessoCotacao:$(seletorIdProcessoCotacao).val(),NomeDoArquivo:nomeDoArquivo }),
                 cache: false,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',

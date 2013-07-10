@@ -30,13 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BsBios.Portal.UI\bin\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BsBios.Portal.UI\bin\StructureMap.dll</HintPath>
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,73 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\Builders\AgendamentoDeCargaCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\AgendamentoDeCargaListarBuilder.cs" />
-    <Compile Include="Queries\Builders\TipoDeFreteBuilder.cs" />
-    <Compile Include="Queries\Builders\RequisicaoDeCompraBuilder.cs" />
-    <Compile Include="Queries\Builders\StatusProcessoCotacaoBuilder.cs" />
-    <Compile Include="Queries\Builders\IBuilderMulti.cs" />
-    <Compile Include="Queries\Builders\RealizacaoDeAgendamentoBuilder.cs" />
-    <Compile Include="Queries\Builders\NotaFiscalBuilder.cs" />
-    <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\QuotaPesoBuilder.cs" />
-    <Compile Include="Queries\Builders\MaterialDeCargaBuilder.cs" />
-    <Compile Include="Queries\Builders\FluxoDeCargaBuilder.cs" />
-    <Compile Include="Queries\Builders\ProcessoCotacaoFornecedorBuilder.cs" />
-    <Compile Include="Queries\Builders\CotacaoImpostosBuilder.cs" />
-    <Compile Include="Queries\Builders\ItinerarioCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\QuotaConsultarBuilder.cs" />
-    <Compile Include="Queries\Builders\QuotaPorFornecedorBuilder.cs" />
-    <Compile Include="Queries\Builders\UnidadeDeMedidaSelecaoBuilder.cs" />
-    <Compile Include="Queries\Builders\PerfilBuilder.cs" />
-    <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
-    <Compile Include="Queries\Builders\ProdutoCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\IvaCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
-    <Compile Include="Queries\Builders\IBuilder.cs" />
-    <Compile Include="Queries\Contracts\IConsultaTipoDeFrete.cs" />
-    <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
-    <Compile Include="Queries\Contracts\IConsultaRequisicaoDeCompra.cs" />
-    <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
-    <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
-    <Compile Include="Queries\Contracts\IConsultaMaterialDeCarga.cs" />
-    <Compile Include="Queries\Contracts\IConsultaFluxoDeCarga.cs" />
-    <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeFrete.cs" />
-    <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
-    <Compile Include="Queries\Contracts\IConsultaQuota.cs" />
-    <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
-    <Compile Include="Queries\Contracts\IConsultaIva.cs" />
-    <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
-    <Compile Include="Queries\Contracts\IConsultaCotacaoDoFornecedor.cs" />
-    <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
-    <Compile Include="Queries\Contracts\IConsultaPerfil.cs" />
-    <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
-    <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
-    <Compile Include="Queries\Contracts\IConsultaProduto.cs" />
-    <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
-    <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
-    <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
-    <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
-    <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
-    <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
-    <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
-    <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
-    <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
-    <Compile Include="Queries\Implementations\ConsultaIva.cs" />
-    <Compile Include="Queries\Implementations\ConsultaQuota.cs" />
-    <Compile Include="Queries\Implementations\ConsultaQuotaRelatorio.cs" />
-    <Compile Include="Queries\Implementations\ConsultaRequisicaoDeCompra.cs" />
-    <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
-    <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
-    <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />
-    <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
-    <Compile Include="Queries\Implementations\ConsultaMaterialDeCarga.cs" />
-    <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
-    <Compile Include="Queries\Implementations\ConsultaStatusProcessoCotacao.cs" />
-    <Compile Include="Queries\Implementations\ConsultaTipoDeFrete.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
-    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IAlteradorDeRequisicaoDeCompra.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
     <Compile Include="Services\Contracts\ICadastroQuota.cs" />
@@ -141,21 +74,23 @@
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacaoFactory.cs" />
+    <Compile Include="Services\Contracts\IServicoDeEficienciaDeNegociacao.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AgendamentoDeCargaService.cs" />
+    <Compile Include="Services\Implementations\AlteradorDeRequisicaoDeCompra.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
     <Compile Include="Services\Implementations\CadastroItinerario.cs" />
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />
@@ -172,6 +107,7 @@
     <Compile Include="Services\Implementations\CadastroIncoterm.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacao.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeFreteFactory.cs" />
+    <Compile Include="Services\Implementations\ServicoDeEficienciaDeNegociacao.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
@@ -190,6 +126,9 @@
       <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
       <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

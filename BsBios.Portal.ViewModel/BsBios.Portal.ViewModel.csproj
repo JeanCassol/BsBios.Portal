@@ -46,7 +46,13 @@
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
+    <Compile Include="EficienciaDeNegociacaoResumoVm.cs" />
+    <Compile Include="EficienciaNegociacaoFiltroVm.cs" />
     <Compile Include="CotacaoMaterialConsultarVm.cs" />
+    <Compile Include="FornecedorCotacaoVm.cs" />
+    <Compile Include="FornecedorVm.cs" />
+    <Compile Include="ProcessoCotacaoCadastroPermissaoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
     <Compile Include="TipoDeFreteVm.cs" />
     <Compile Include="CotacaoMaterialItemCadastroVm.cs" />
     <Compile Include="FileDownloadVm.cs" />
@@ -60,7 +66,7 @@
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
-    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />
@@ -88,7 +94,7 @@
     <Compile Include="ListagemVm.cs" />
     <Compile Include="ProcessoCotacaoFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
-    <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />
     <Compile Include="ProcessoCotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />

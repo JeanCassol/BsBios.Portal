@@ -44,7 +44,7 @@
         @Html.ValidationSummary(true)
 
         <div class="divBotao">
-            <input type="button" id="btnSalvarCotacao" value="Salvar" class="blue" />
+            <input type="button" id="btnSalvarCotacao" value="Salvar" class="@(Model == null || Model.PermiteEditar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteEditar? "disabled":"")  />
         </div>
     }
 </div>

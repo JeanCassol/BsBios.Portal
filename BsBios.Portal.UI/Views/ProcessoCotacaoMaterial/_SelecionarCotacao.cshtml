@@ -19,7 +19,7 @@
         }
 
         geraCombo = function (valorSelecionado, valorComImpostos) {
-            var items = "";
+            var items = "<option value>Selecione >></option> ";
             $.each(ivas, function (index, iva) {
                 items += geraDropDownItem(iva, valorSelecionado);
             });
@@ -76,7 +76,7 @@
                             CodigoFornecedor: { type: "string" },
                             Fornecedor: { type: "string"},
                             CodigoIva: { type: "string" },
-                            ValorLiquido: { type: "number"},
+                            Preco: { type: "number"},
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
                             CondicaoDePagamento: { type: "string" },
@@ -84,8 +84,7 @@
                             ValorIcms: { type: "number" },
                             ValorIcmsSt: { type: "number" },
                             ValorIpi: { type: "number" },
-                            ValorPis: { type: "number" },
-                            ValorCofins: { type: "number" }
+                            ValorPisCofins: { type: "number" }
                         }
                     },
                     type: 'json'
@@ -110,11 +109,7 @@
                 {
                     title: ' ', /*coloco um espaço para deixar o header sem título*/
                     width: 30,
-                    template: '<input type="button" class="button_visualize"></input>'
-                },
-                {
-                    field: 'IdCotacao', hidden:true,
-                    template: '<input type="hidden" name="IdCotacao" value="#=IdCotacao #" ></input>'
+                    template: '<input type="button" class="button16 button_visualize"></input>'
                 },
                 {
                     field: "Selecionada", title: ' ', width: 30,
@@ -129,13 +124,15 @@
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 { field: "Fornecedor", width: 200 },
-                { field: "ValorLiquido", title: ' Valor Líquido', width: 80, format: "{0:n2}" },
-                { field: "ValorComImpostos", title: 'Líquido + Imp.', width: 80, format: "{0:n2}" },
-                { field: "CondicaoDePagamento", title:'Condição', width: 200 },
-                { field: "Incoterm", width: 150 },
-                { field: "ValorIcms", title: 'ICMS (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorIcmsSt", title: 'ICMS ST (R$)', width: 80, format: "{0:n2}" },
-                { field: "ValorIpi", title: 'IPI (R$)', width: 80, format: "{0:n2}" }
+                { field: "Preco", title: 'Preço', width: 80, format: "{0:n2}" },
+                { field: "ValorComImpostos", title: 'Preço + Imp.', width: 80, format: "{0:n2}" },
+                { field: "Custo", width: 80, format: "{0:n2}" },
+                { field: "ValorIcms", title: 'ICMS (R$)', width: 70, format: "{0:n2}" },
+                { field: "ValorIpi", title: 'IPI (R$)', width: 70, format: "{0:n2}" },
+                { field: "ValorPisCofins", title: 'Pis/Cofins (R$)', width: 100, format: "{0:n2}" },
+                { field: "CondicaoDePagamento", title: 'Condição', width: 200 },
+                { field: "Incoterm", width: 150 }
+
             ]
         });
 
@@ -153,10 +150,9 @@
         $("#gridCotacoes").find('.button_visualize').live("click", function () {
             var grid = $("#gridCotacoes").data("kendoGrid");
             var dataItem = grid.dataItem($(this).parents('tr:first'));
-            $('#divVisualizarCotacaoDoFornecedor').load('@Url.Action("ConsultarCadastro","CotacaoMaterial")'
+            $('#divVisualizarCotacaoDoFornecedor').customLoad({url:'@Url.Action("ConsultarCadastro","CotacaoMaterial")'
                 + '?idProcessoCotacao=' + $('#Id').val()
-                + '&codigoFornecedor=' + dataItem.CodigoFornecedor, function () {
-                $('#divVisualizarCotacaoDoFornecedor').dialog('open');
+                + '&codigoFornecedor=' + dataItem.CodigoFornecedor
             });
         });
 

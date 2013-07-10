@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.UI.Filters;
-using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
     public class ProcessoDeCotacaoDeFreteFechamentoController : Controller
     {
-        private readonly IFechamentoDeProcessoDeCotacaoService _service;
+        private readonly IFechamentoDeProcessoDeCotacaoDeFreteService _service;
 
         public ProcessoDeCotacaoDeFreteFechamentoController(IFechamentoDeProcessoDeCotacaoServiceFactory serviceFactory)
         {
@@ -17,16 +17,21 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult FecharProcesso(ProcessoDeCotacaoFechamentoVm processoDeCotacaoFechamentoVm)
+        public JsonResult FecharProcesso(int idProcessoCotacao)
         {
             try
             {
-                _service.Executar(processoDeCotacaoFechamentoVm);
-                return Json(new { Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso." });
+                _service.Executar(idProcessoCotacao);
+                return Json(new {Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso."});
+            }
+            catch (ComunicacaoSapException ex)
+            {
+                return Json(new { Sucesso = false, ex.MediaType, Mensagem = ex.Message });
+                
             }
             catch (Exception ex)
             {
-                return Json(new { Sucesso = false, Mensagem = "Ocorreu um erro ao fechar o Processo de Cotação. Detalhes: " + ex.Message });
+                return Json(new { Sucesso = false, Mensagem = "Ocorreu um erro ao fechar o Processo de Cotação. Detalhes: " + ExceptionUtil.ExibeDetalhes(ex) });
             }
         }
     }

@@ -34,7 +34,7 @@
                         </div>
                         <div class="divBotao">
                             <input id="btnPesquisarFornecedorGeral" type="submit" value="Pesquisar" class="blue"/>
-                            <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
+                            <input id="btnLimparFornecedorGeral" type="reset" value="Limpar" class="blue"/>
                         </div>
                     </fieldset>
                 </div>
@@ -147,11 +147,6 @@
             $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
         });
 
-        $('#btnLimparFornecedorGeral').click(function () {
-            $('#divFornecedoresGerais input[type!=button]').val('');
-        });
-
-
         GridFornecedor.CarregarGrid('#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDosProdutos", "ProcessoDeCotacaoFornecedor")', true,
             function () { return { IdProcessoCotacao: idProcessoCotacao }; });
         GridFornecedor.CarregarGrid('#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "ProcessoDeCotacaoFornecedor")', true,
@@ -191,7 +186,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
+                        template: '<input type="button" class="button16 button_remove" data-codigofornecedor="${Codigo}"></input>'
                     },
                     {
                         field: "Codigo",

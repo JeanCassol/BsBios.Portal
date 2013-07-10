@@ -28,7 +28,7 @@ namespace BsBios.Portal.UI.Controllers
             {
                 string idProcessoCotacao = HttpContext.Current.Request.Form["IdProcessoCotacao"];
                 //foreach (string nomeDoArquivo in HttpContext.Current.Request.Files)
-                for (int i = 0; i < HttpContext.Current.Request.Files.Count ; i++)
+                for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
                 {
                     try
                     {
@@ -50,14 +50,13 @@ namespace BsBios.Portal.UI.Controllers
 
                 // Now we need to wire up a response so that the calling script understands what happened
                 HttpContext.Current.Response.ContentType = "text/plain";
-                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
                 //HttpContext.Current.Response.Write(serializer.Serialize(mensagensDeErro));
                 HttpContext.Current.Response.Write(mensagensDeErro);
                 HttpContext.Current.Response.StatusCode = ocorreuErro ? (int)HttpStatusCode.InternalServerError : (int)HttpStatusCode.OK;
 
                 // For compatibility with IE's "done" event we need to return a result as well as setting the context.response
-                return new HttpResponseMessage(ocorreuErro? HttpStatusCode.InternalServerError : HttpStatusCode.OK );
+                return new HttpResponseMessage(ocorreuErro ? HttpStatusCode.InternalServerError : HttpStatusCode.OK);
             }
 
             catch (Exception ex)
