@@ -7,7 +7,6 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using NHibernate;
-using NHibernate.Transform;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {

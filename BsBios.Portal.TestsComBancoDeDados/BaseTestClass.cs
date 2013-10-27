@@ -45,13 +45,13 @@ namespace BsBios.Portal.TestsComBancoDeDados
                          .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteLogistica + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDaLogistica);
+                                               emailDoPortal.Porta, emailDoPortal.HabilitarSsl)).Named(Constantes.ContaDeEmailDaLogistica);
 
                         x.For<ContaDeEmail>()
                          .Singleton()
                          .Use(new ContaDeEmail("Portal De Cotações <" + emailDoPortal.RemetenteSuprimentos + ">", emailDoPortal.Dominio,
                                                emailDoPortal.Usuario, emailDoPortal.Senha, emailDoPortal.Servidor,
-                                               emailDoPortal.Porta)).Named(Constantes.ContaDeEmailDeSuprimentos);
+                                               emailDoPortal.Porta, emailDoPortal.HabilitarSsl)).Named(Constantes.ContaDeEmailDeSuprimentos);
                     }
                 });
         }
