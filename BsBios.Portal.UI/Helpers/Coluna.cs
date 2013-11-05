@@ -106,5 +106,17 @@ namespace BsBios.Portal.UI.Helpers
         }
     }
 
+    public class ColunaComCheckBox<TModel, TValue> : Coluna<TModel, TValue>
+    {
+        public ColunaComCheckBox(Expression<Func<TModel, TValue>> expressao): base(expressao, "", "labelNaLinha", false)
+        {
+        }
+
+        public override MvcHtmlString GeraInput()
+        {
+            return System.Web.Mvc.Html.InputExtensions.CheckBoxFor(HtmlHelper,(Expression<Func<TModel, bool>>) (object)  Expressao);
+        }
+    }
+
 
 }

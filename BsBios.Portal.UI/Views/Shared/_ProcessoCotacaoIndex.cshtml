@@ -19,13 +19,12 @@
             <div class="coluna">
                 @Html.Label("Status")
                 @Html.DropDownList("Status", ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao)
-                .Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
+                    .Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
             </div>
         </div>
-        <div class="divBotao">
-            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-        </div>
+        @{
+            Html.RenderPartial("_BotoesDeFiltro");
+        }
     </form>
 </fieldset>
 <div id="gridCotacaoMaterial" class="divGrid" ></div>
@@ -126,16 +125,6 @@
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
                 location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
-            });
-
-            //$('#btnPesquisar').click(function(e) {
-            //    e.preventDefault();
-            //    $("#gridCotacaoMaterial").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('form input[type!=button][type!=submit]').val('');
-                $("#Status").prop('selectedIndex', 0);
             });
 
         });

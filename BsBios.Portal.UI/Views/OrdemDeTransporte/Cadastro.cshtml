@@ -1,0 +1,91 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model OrdemDeTransporteCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Cotação de Frete";
+}
+<div class="paginaCadastro">
+    @Html.HiddenFor(model => model.Id)
+        
+    <fieldset>
+        <legend>Processo de Cotação</legend>
+        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.NomeDoFornecedor))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.EnderecoDoFornecedor))
+        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.MunicipioDeOrigem),
+                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.MunicipioDeDestino))
+        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeInicial),
+                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeFinal))
+        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Classificacao),
+                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, int>(x => x.Cadencia))
+        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Requisitos))
+
+    </fieldset>
+    @using(Html.BeginForm())       
+    {
+        <fieldset>
+            <legend>Ordem de Transporte</legend>
+            @{
+                Coluna<OrdemDeTransporteCadastroVm, decimal> campoDeQuantidadeLiberada;
+
+                if (Model.PermiteAlterar)
+                {
+                    campoDeQuantidadeLiberada = new ColunaComTextBox<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada, "maskquantidade");
+                }
+                else
+                {
+                    campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada);
+                }
+                
+            }
+            @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora),
+                                        new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.NumeroDoContrato))
+            @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Material),
+                                        new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.UnidadeDeMedida))
+            @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada), campoDeQuantidadeLiberada)
+
+        </fieldset>
+        @if (Model.PermiteAlterar)
+        {
+            <div class="divBotao">
+                <input type="button" id="btnSalvarOrdemDeTransporte" value="Salvar" class="blue" />
+            </div>
+        }
+    }
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/scriptsgerais")
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript">
+
+    $(function () {
+        aplicaMascaraQuantidade();
+
+
+        $('#btnSalvarOrdemDeTransporte').click(function () {
+            var form = $('form');
+            if (!$(form).validate().form()) {
+                return;
+            }
+
+            var formData = $(form).serialize();
+            $.post('@Url.Action("Salvar", "OrdemDeTransporte")', formData,
+                    function(data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro(errorThrown);
+                    });
+
+            });
+        });
+    </script>
+}
+
+

@@ -70,6 +70,17 @@
             return retorno;
 
         }
+        
+        function obterIdProcesso(mensagemDeErro) {
+            var idDoProcessoDeCotacao = $('#Id').val();
+            if (!idDoProcessoDeCotacao) {
+                Mensagem.ExibirMensagemDeErro(mensagemDeErro);
+            }
+
+            return idDoProcessoDeCotacao;
+
+        }
+
 
         $('#divSelecionarCotacoes').customDialog({
             title: 'Selecionar Cotações',
@@ -177,12 +188,16 @@
         });
 
         $('#btnAbrirProcesso').click(function () {
+            var idDoProcessoDeCotacao = obterIdProcesso('Não é possível abrir o Processo de Cotação antes de salvá-lo.');
+            if (!idDoProcessoDeCotacao) {
+                return;
+            }
             bloqueiaPagina();
             $.ajax({
                 url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirProcessoDeCotacaoDeMaterial : UrlPadrao.AbrirProcessoDeCotacaoDeFrete,
                 type: 'POST',
                 cache: false,
-                data: {idProcessoCotacao: $('#Id').val()},
+                data: { idProcessoCotacao: idDoProcessoDeCotacao },
                 dataType: 'json',
                 success: function(data) {
                     if (data.Sucesso) {
@@ -203,12 +218,16 @@
         });
 
         $('#btnFecharProcesso').click(function () {
+            var idDoProcessoDeCotacao = obterIdProcesso('Não é possível fechar o Processo de Cotação antes de salvá-lo.');
+            if (!idDoProcessoDeCotacao) {
+                return;
+            }
             bloqueiaPagina();
             $.ajax({
                 url: tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.FecharProcessoDeCotacaoDeMaterial : UrlPadrao.FecharProcessoDeCotacaoDeFrete,
                 type: 'POST',
                 cache: false,
-                data: { idProcessoCotacao: $('#Id').val() },
+                data: { idProcessoCotacao: idDoProcessoDeCotacao },
                 dataType: 'json',
                 success: function (data) {
                     if (data.Sucesso) {
@@ -227,5 +246,39 @@
             });
 
         });
-}
+        
+        $('#btnCancelarProcesso').click(function () {
+            var idDoProcessoDeCotacao = obterIdProcesso('Não é possível cancelar o Processo de Cotação antes de salvá-lo.');
+            if (!idDoProcessoDeCotacao) {
+                return;
+            }
+            
+            bloqueiaPagina();
+            $.ajax({
+                url: UrlPadrao.CancelarProcessoDeCotacao,
+                type: 'POST',
+                cache: false,
+                data: { idProcessoCotacao: idDoProcessoDeCotacao},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Sucesso) {
+                        $('#spanStatus').html('Cancelado');
+                        Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                    } else {
+                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao cancelar o Processo. Detalhe: ' + textStatus + errorThrown);
+                },
+                complete: function () {
+                    desbloqueiaPagina();
+                }
+            });
+
+        });
+
+    }
+    
+
 }

@@ -3,6 +3,7 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;
 using StructureMap.Pipeline;
 
@@ -17,18 +18,22 @@ namespace BsBios.Portal.Application.Services.Implementations
                       ObjectFactory.GetNamedInstance<ContaDeEmail>(Constantes.ContaDeEmailDaLogistica))
                 .GetInstance<IEmailService>();
 
-            var geradorDeEmail = ObjectFactory
-                .With(typeof(IEmailService), emailService)
-                .GetInstance<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
+            //var geradorDeEmail = ObjectFactory
+            //    .With(typeof(IEmailService), emailService)
+            //    .GetInstance<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
+            var geradorDeEmail = new GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete(ObjectFactory.GetInstance<IGeradorDeMensagemDeEmail>(),emailService);
 
             var comunicacaoSap =
                 ObjectFactory.GetNamedInstance<IComunicacaoSap>(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
 
-            return ObjectFactory
-                .With(typeof(IGeradorDeEmailDeFechamentoDeProcessoDeCotacao), geradorDeEmail)
-                .With(typeof(IComunicacaoSap), comunicacaoSap)
-                .GetInstance<IFechamentoDeProcessoDeCotacaoService>(/*Constantes.FechamentoDeProcessoDeCotacao*/);
+            //return ObjectFactory
+            //    .With(typeof(IGeradorDeEmailDeFechamentoDeProcessoDeCotacao), geradorDeEmail)
+            //    .With(typeof(IComunicacaoSap), comunicacaoSap)
+            //    .GetInstance<IFechamentoDeProcessoDeCotacaoService>(/*Constantes.FechamentoDeProcessoDeCotacao*/);
 
+            return new FechamentoDeProcessoDeCotacaoDeFreteService(ObjectFactory.GetInstance<IUnitOfWork>(), 
+                ObjectFactory.GetInstance<IProcessosDeCotacao>(),geradorDeEmail, comunicacaoSap, 
+                ObjectFactory.GetInstance<IOrdensDeTransporte>());
 
             //return ObjectFactory
             //    .With(typeof(IUnitOfWork),ObjectFactory.GetInstance<IUnitOfWork>())

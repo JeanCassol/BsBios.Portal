@@ -41,7 +41,7 @@
             dataType: 'json',
             success: function (data) {
                 if (!data.Sucesso) {
-                    alert('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + data.Mensagem);
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + data.Mensagem);
                     return;
                 }
                 $.each(data.Registros, function (indexInArray, valueOfElement) {
@@ -50,7 +50,7 @@
                 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + textStatus + errorThrown);
+                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Ivas cadastrados. Detalhe: ' + textStatus + errorThrown);
             }
         });
         

@@ -16,7 +16,7 @@ using Moq;
 namespace BsBios.Portal.Tests.Application.Services
 {
     [TestClass]
-    public class ProcessoDeCotacaoFechamentoTests
+    public class ProcessoDeCotacaoDeMaterialFechamentoTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
@@ -26,7 +26,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
 
 
-        public ProcessoDeCotacaoFechamentoTests()
+        public ProcessoDeCotacaoDeMaterialFechamentoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
@@ -80,7 +80,7 @@ namespace BsBios.Portal.Tests.Application.Services
                         Retorno = new Retorno{Codigo = "200", Texto = "S"}
                     });
 
-            _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,
+            _fechamentoDeProcessoDeCotacaoService = new FechamentoDeProcessoDeCotacaoDeMaterialService(_unitOfWorkMock.Object,_processosDeCotacaoMock.Object,
                 _geradorDeEmailMock.Object,_comunicacaoSapMock.Object);
 
         }
@@ -151,7 +151,6 @@ namespace BsBios.Portal.Tests.Application.Services
             }
 
         }
-
 
         #endregion
     }

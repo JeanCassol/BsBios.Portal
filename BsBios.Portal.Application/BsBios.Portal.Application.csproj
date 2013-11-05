@@ -72,6 +72,8 @@
     <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMunicipio.cs" />
+    <Compile Include="Queries\Contracts\IConsultaOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
     <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
@@ -94,6 +96,8 @@
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMunicipio.cs" />
+    <Compile Include="Queries\Implementations\ConsultaOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
+    <Compile Include="Services\Contracts\ICancelamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
@@ -144,6 +149,7 @@
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
+    <Compile Include="Services\Implementations\CancelamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />

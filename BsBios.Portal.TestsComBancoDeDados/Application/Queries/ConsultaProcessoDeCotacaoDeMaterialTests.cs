@@ -55,7 +55,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                 new ProcessoCotacaoMaterialFiltroVm(){TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material});
 
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            ProcessoCotacaoMaterialListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().First();
+            ProcessoCotacaoListagemVm  processoListagem = kendoGridVm.Registros.Cast<ProcessoCotacaoListagemVm>().First();
             Assert.AreEqual(processoDeCotacaoDeMaterial.Id, processoListagem.Id);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Codigo, processoListagem.CodigoMaterial);
             Assert.AreEqual(processoDeCotacaoDeMaterial.Produto.Descricao, processoListagem.Material);
@@ -63,6 +63,30 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual("Não Iniciado", processoListagem.Status);
             Assert.IsNotNull(processoDeCotacaoDeMaterial.DataLimiteDeRetorno);
             Assert.AreEqual(processoDeCotacaoDeMaterial.DataLimiteDeRetorno.Value.ToShortDateString(), processoListagem.DataTermino);
+        }
+
+        [TestMethod]
+        public void ListagemRetornaOsProcessosDeCotacaoNaOrdemInversaDaSuaCriacao()
+        {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
+            ProcessoDeCotacaoDeFrete processo1 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            ProcessoDeCotacaoDeFrete processo2 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo1);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo2);
+
+            var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
+            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
+                new ProcessoCotacaoMaterialFiltroVm() { TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Frete });
+
+            Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
+
+            var primeiroProcessoDaLista = kendoGridVm.Registros.Cast<ProcessoCotacaoListagemVm>().First();
+            var segundoProcessoDaLista = kendoGridVm.Registros.Cast<ProcessoCotacaoListagemVm>().Last();
+
+            Assert.IsTrue(primeiroProcessoDaLista.Id > segundoProcessoDaLista.Id);
+
         }
 
         [TestMethod]
@@ -100,7 +124,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                        CodigoFornecedor  = fornecedor1.Codigo
                    });
             Assert.AreEqual(2,kendoGridVm.QuantidadeDeRegistros);
-            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
+            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoListagemVm>().ToList();
             //verifico que está retornado os dois processos vinculados ao fornecedor 1
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao2.Id));
@@ -130,7 +154,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                    CodigoFornecedor = fornecedor1.Codigo
                });
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoMaterialListagemVm>().ToList();
+            var viewModels = kendoGridVm.Registros.Cast<ProcessoCotacaoListagemVm>().ToList();
             //verifico que está retornado apenas o processo que foi aberto
             Assert.IsNotNull(viewModels.First(x => x.Id == processoDeCotacao1.Id));
             

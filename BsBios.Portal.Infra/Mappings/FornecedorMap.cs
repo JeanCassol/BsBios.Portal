@@ -14,6 +14,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Cnpj);
             Map(x => x.Municipio);
             Map(x => x.Uf);
+            Map(x => x.Endereco);
             Map(x => x.Transportadora);
             HasManyToMany(x => x.Produtos)
                 .Cascade.All()

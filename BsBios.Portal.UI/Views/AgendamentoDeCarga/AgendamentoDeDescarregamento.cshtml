@@ -163,8 +163,12 @@
                     }
                 });
             } else {
-                Mensagem.ExibirMensagemDeErro("CNPJ inválido.");
-                $(this).focus();
+                var campo = this;
+                Mensagem.ExibirMensagemDeErro("CNPJ inválido.", function () {
+                    $(campo).focus();
+                });
+                
+                
             }
         });
     });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Domain.ValueObjects;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -16,6 +17,16 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
         public virtual string Requisitos { get; protected set; }
         public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
+
+        public virtual IList<FornecedorParticipante> FornecedoresSelecionados
+        {
+            get
+            {
+                return FornecedoresParticipantes
+                    .Where(fp => fp.Cotacao != null && fp.Cotacao.Selecionada)
+                    .ToList();
+            }
+        }
 
         protected ProcessoDeCotacao()
         {
@@ -109,12 +120,22 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new FecharProcessoDeCotacaoFechadoException();
             }
-            if (FornecedoresParticipantes.Count(x => x.Cotacao  != null && x.Cotacao.Selecionada) == 0)
+            if (FornecedoresSelecionados.Count == 0)
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
         }
+
+        public virtual void Cancelar()
+        {
+            if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
+            {
+                throw new CancelarProcessoDeCotacaoFechadoException();
+            }
+            Status = Enumeradores.StatusProcessoCotacao.Cancelado;
+        }
+
 
         protected void SelecionarCotacao()
         {
@@ -210,20 +231,36 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime DataDeValidadeFinal { get; protected set; }
         public virtual Itinerario Itinerario { get; protected set; }
 
+        public virtual Fornecedor Fornecedor { get; protected set; }
+
+        public virtual int Cadencia { get; protected set; }
+
+        public virtual bool Classificacao { get; protected set; }
+
+        public virtual Municipio MunicipioDeOrigem { get; protected set; }
+        public virtual Municipio MunicipioDeDestino { get; protected set; }
+
         protected ProcessoDeCotacaoDeFrete(){}
         public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
-            DateTime dataDeValidadeFinal, Itinerario itinerario):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedor, int cadencia, bool classificacao,
+            Municipio municipioDeOrigem, Municipio municipioDeDestino):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
         {
             NumeroDoContrato = numeroDoContrato;
             DataDeValidadeInicial = dataDeValidadeInicial;
             DataDeValidadeFinal = dataDeValidadeFinal;
             Itinerario = itinerario;
+            Fornecedor = fornecedor;
+            Cadencia = cadencia;
+            Classificacao = classificacao;
+            MunicipioDeOrigem = municipioDeOrigem;
+            MunicipioDeDestino = municipioDeDestino;
         }
 
         public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
-            DateTime dataDeValidadeFinal, Itinerario itinerario)
+            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedor, int cadencia, bool classificacao,
+            Municipio municipioDeOrigem, Municipio municipioDeDestino)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
@@ -239,21 +276,26 @@ namespace BsBios.Portal.Domain.Entities
             DataDeValidadeInicial = dataDeValidadeInicial;
             DataDeValidadeFinal = dataDeValidadeFinal;
             Itinerario = itinerario;
+            Fornecedor = fornecedor;
+            Cadencia = cadencia;
+            Classificacao = classificacao;
+            MunicipioDeOrigem = municipioDeOrigem;
+            MunicipioDeDestino = municipioDeDestino;
 
         }
 
-        public virtual CotacaoFrete InformarCotacao(string codigoFornecedor, decimal valorTotalComImpostos,
+        public virtual CotacaoDeFrete InformarCotacao(string codigoFornecedor, decimal valorTotalComImpostos,
             decimal quantidadeDisponivel, string observacoes)
         {
             base.InformarCotacao();
             //busca a cotação do fornecedor
             FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            var cotacao = (CotacaoFrete)fornecedorParticipante.Cotacao.CastEntity();
+            var cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
 
             if (cotacao == null)
             {
-                cotacao = new CotacaoFrete(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                cotacao = new CotacaoDeFrete(valorTotalComImpostos, quantidadeDisponivel, observacoes);
                 fornecedorParticipante.InformarCotacao(cotacao);
             }
             else
@@ -268,7 +310,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida)
         {
             SelecionarCotacao();
-            var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
+            var cotacao = (CotacaoDeFrete)BuscarPodId(idCotacao).CastEntity();
 
             cotacao.Selecionar(quantidadeAdquirida);
         }
@@ -276,8 +318,18 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void RemoverSelecaoDaCotacao(int idCotacao)
         {
             RemoverSelecaoDaCotacao();
-            var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
+            var cotacao = (CotacaoDeFrete)BuscarPodId(idCotacao).CastEntity();
             cotacao.RemoverSelecao();
+        }
+
+        public virtual IList<OrdemDeTransporte> FecharProcesso()
+        {
+            base.Fechar();
+            var ordensDeTransporte = FornecedoresSelecionados
+                .Select(fornecedorSelecionado => new OrdemDeTransporte(this, fornecedorSelecionado.Fornecedor, 
+                    fornecedorSelecionado.Cotacao.QuantidadeAdquirida.Value, fornecedorSelecionado.Cotacao.ValorComImpostos)).ToList();
+
+            return ordensDeTransporte;
         }
 
     }

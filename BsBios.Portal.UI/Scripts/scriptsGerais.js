@@ -1,13 +1,58 @@
 ﻿Globalize.culture('pt-BR');
 
 Mensagem = {
-    ExibirMensagemDeErro: function (mensagem) {
-        alert(mensagem);
+
+    gerarCaixaDeMensagem: function (mensagem, titulo, classeParaAdicionar, classeParaRemover, funcaoConfirmacao, exibirBotaoCancelar) {
+
+        var mensagemModal = $('.mensagemModal');
+
+        if (mensagemModal.length == 0) {
+
+            $('body').append(
+                '<div class="mensagemModal" title="BS NET - '+ titulo + '" class="janelaModal">' +
+                        '<span class="ui-icon ' + classeParaAdicionar + '" style="float: left; margin: 0 7px 50px 0;"></span>' +
+                        '<span id="conteudoDoMessageBox">' + mensagem + '</span>' +
+                '</div>');
+        } else {
+            $(mensagemModal).find('#conteudoDoMessageBox').text(mensagem);
+            $(mensagemModal).find('.ui-icon')
+                .removeClass(classeParaRemover)
+                .addClass(classeParaAdicionar);
+        }
+        
+        var botoes = {
+            OK: function () {
+                Mensagem.confirmado = true;
+                $(this).dialog("close");
+                if (funcaoConfirmacao) {
+                    funcaoConfirmacao();
+                }
+            }
+        };
+
+        if (exibirBotaoCancelar) {
+            botoes.Cancelar = function() {
+                $(this).dialog("close");
+            };
+        }
+
+        $(".mensagemModal").dialog({
+            modal: true,
+            buttons: botoes
+        });
+    },
+
+    ExibirMensagemDeErro: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Erro', 'ui-icon-alert', 'ui-icon-check', funcaoConfirmacao);
     },
 
     ExibirMensagemDeSucesso: function (mensagem) {
-        alert(mensagem);
-    }
+        this.gerarCaixaDeMensagem(mensagem,'Sucesso','ui-icon-check','ui-icon-alert');
+    },
+    ExibirMensagemDeConfirmacao: function (mensagem, funcaoConfirmacao) {
+        this.gerarCaixaDeMensagem(mensagem, 'Confirmação', 'ui-icon-check', 'ui-icon-alert',funcaoConfirmacao, true);
+    },
+
 };
 
 String.prototype.boolean = function () {
@@ -75,6 +120,11 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.pageSize = 10;
 
     this.kendoGrid(configuracao);
+
+    this.data("kendoGrid").obterRegistroSelecionado = function () {
+        var linhaSelecionada = this.select();
+        return this.dataItem(linhaSelecionada);
+    };
 };
 
 $.fn.customDialog = function (configuracao) {
@@ -215,6 +265,17 @@ function aplicaMascaraQuantidade() {
     $(campos).setMask('quantidade-portal');
 
 }
+
+function aplicaMascaraInteiro() {
+    var campos = $('.masknumerointeiro');
+    if ($(campos).length == 0) {
+        return;
+    }
+
+    $(campos).setMask('integer');
+
+}
+
 function aplicaMascaraData() {
     var camposData = $('.maskdata');
     if ($(camposData).length == 0) {
@@ -224,8 +285,13 @@ function aplicaMascaraData() {
     {
         completed: function () {
             if (!dataValida(this.val())) {
-                alert("Data inválida.");
-                this.focus();
+                var campo = this;
+                campo.datepicker("hide");
+                campo.val('');
+                Mensagem.ExibirMensagemDeErro("Data inválida.", function() {
+                    campo.focus();
+                });
+                
             }
               
          }

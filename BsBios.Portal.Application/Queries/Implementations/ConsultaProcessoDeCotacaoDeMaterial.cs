@@ -9,7 +9,7 @@ using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
-using StructureMap;
+using NHibernate.Criterion;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -18,17 +18,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
-        //private readonly IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> _builderProcessoCotacao;  
-
 
         public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
-            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario /*, 
-            IBuilder<FornecedorParticipante, ProcessoCotacaoFornecedorVm> builderProcessoCotacao*/)
+            , IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
             _builderFornecedor = builderFornecedor;
             _iteracoesUsuario = iteracoesUsuario;
-            //_builderProcessoCotacao = builderProcessoCotacao;
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
@@ -52,22 +48,24 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
 
             var query = (from p in _processosDeCotacao.GetQuery()
+                         orderby p.Id descending 
                          select new 
                          {
                              CodigoMaterial = p.Produto.Codigo,
                              Material = p.Produto.Descricao,
                              DataTermino = p.DataLimiteDeRetorno,
-                             Id = p.Id,
-                             Quantidade = p.Quantidade,
-                             Status = p.Status,
+                             p.Id,
+                             p.Quantidade,
+                             p.Status,
                              UnidadeDeMedida = p.UnidadeDeMedida.Descricao
                          }
+                         
                         );
 
             var quantidadeDeRegistros = query.Count();
 
             var registros = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()
-                             .Select(x => new ProcessoCotacaoMaterialListagemVm()
+                             .Select(x => new ProcessoCotacaoListagemVm()
                                  {
                                      Id = x.Id,
                                      CodigoMaterial = x.CodigoMaterial,

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.ViewModel;
 
@@ -192,16 +194,29 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
         {
-            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100,ObtemUnidadeDeMedidaPadrao(), 
-                "Requisitos do Processo de Cotação de Frete","1000",DateTime.Today.AddDays(10),
-                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+            return ObtemProcessoDeCotacaoDeFrete(ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
+        }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete(Municipio municipioOrigem, Municipio municipioDestino)
+        {
+            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
+                "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
+                ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino);
+        }
+
+
+        private static Municipio ObtemMunicipioPadrao()
+        {
+            return new Municipio("1000", "Torres");
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato()
         {
             return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
-                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
+                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
@@ -212,7 +227,8 @@ namespace BsBios.Portal.Tests.DataProvider
 
             return new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
-                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario);
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario,
+                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
 
         }
 
@@ -226,22 +242,45 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada()
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete();
+            return ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
+        }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(Municipio municipioOrigem, Municipio municipioDestino)
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete(municipioOrigem, municipioDestino);
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
             processoDeCotacao.Abrir();
             processoDeCotacao.InformarCotacao(fornecedor.Codigo, 100, 10, "teste");
             return processoDeCotacao;
+            
         }
 
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada()
         {
+            return ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(9);
+        }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(decimal quantidadeAdquirida)
+        {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
-            var cotacao = (CotacaoFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            cotacao.Selecionar(quantidadeAdquirida);
+            return processoDeCotacao;
+        }
+
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(Municipio municipioOrigem, Municipio municipioDestino)
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(municipioOrigem, municipioDestino);
+            var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
             cotacao.Selecionar(9);
             return processoDeCotacao;
         }
+
+
+
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
@@ -253,7 +292,8 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
-                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao());
+                DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
+                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
         }
 
 
@@ -326,5 +366,10 @@ namespace BsBios.Portal.Tests.DataProvider
             return (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
         }
 
+        public static OrdemDeTransporte ObtemOrdemDeTransporteComQuantidade(decimal quantidade)
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            return processoDeCotacaoDeFrete.FecharProcesso().First();
+        }
     }
 }

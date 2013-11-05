@@ -203,6 +203,10 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 PersistirUnidadeDeMedida(processo.UnidadeDeMedida);
                 PersistirItinerario(processo.Itinerario);
                 PersistirProduto(processo.Produto);
+                if (processo.Fornecedor != null)
+                {
+                    PersistirFornecedor(processo.Fornecedor);
+                }
 
                 Session.Save(processo);
                 if (controlarTransacao)
@@ -253,6 +257,36 @@ namespace BsBios.Portal.Tests.DefaultProvider
                     Session.BeginTransaction();
                 }
                 Session.Save(agendamento);
+                if (controlarTransacao)
+                {
+                    Session.Transaction.Commit();
+                }
+
+            }
+            catch (Exception)
+            {
+                RollbackSessionTransaction();
+                throw;
+            }
+        }
+
+        public static void PersistirOrdensDeTransporte(IList<OrdemDeTransporte> ordensDeTransporte, ProcessoDeCotacaoDeFrete processoDeCotacao)
+        {
+            try
+            {
+                bool controlarTransacao = !Session.Transaction.IsActive;
+                if (controlarTransacao)
+                {
+                    Session.BeginTransaction();
+                }
+
+                PersistirProcessoDeCotacaoDeFrete(processoDeCotacao);
+
+                foreach (var ordemDeTransporte in ordensDeTransporte)
+                {
+                    Session.Save(ordemDeTransporte);
+                }
+
                 if (controlarTransacao)
                 {
                     Session.Transaction.Commit();

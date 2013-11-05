@@ -121,12 +121,12 @@ namespace BsBios.Portal.Domain.Entities
 
     }
 
-    public class CotacaoFrete: Cotacao
+    public class CotacaoDeFrete: Cotacao
     {
-        public CotacaoFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
             : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
 
-        protected CotacaoFrete(){}
+        protected CotacaoDeFrete(){}
 
         public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {

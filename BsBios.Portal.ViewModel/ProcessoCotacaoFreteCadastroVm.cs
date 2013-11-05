@@ -50,5 +50,30 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Número do Contrato")]
         public string NumeroDoContrato { get; set; }
 
+        [Display(Name = "Classificação")]
+        public bool Classificacao { get; set; }
+
+        [Display(Name = "Cadência")]
+        [Required(ErrorMessage = "Cadência é obrigatório")]
+        public string Cadencia { get; set; }
+
+        public string CodigoFornecedor { get; set; }
+
+        [Display(Name = "Fornecedor")]
+        public string Fornecedor { get; set; }
+
+
+        public string CodigoDoMunicipioDeOrigem { get; set; }
+
+        [Display(Name = "Município de Origem")]
+        [Required(ErrorMessage = "Município de Origem é obrigatório")]
+        public string NomeDoMunicipioDeOrigem { get; set; }
+
+        public string CodigoDoMunicipioDeDestino { get; set; }
+
+        [Display(Name = "Município de Destino")]
+        [Required(ErrorMessage = "Município de Destino é obrigatório")]
+        public string NomeDoMunicipioDeDestino { get; set; }
+
     }
 }

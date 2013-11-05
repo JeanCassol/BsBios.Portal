@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.UI", "BsBios.Portal.UI\BsBios.Portal.UI.csproj", "{ADF235AC-A253-430D-B311-56D46157E3CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Domain", "BsBios.Portal.Domain\BsBios.Portal.Domain.csproj", "{2B790B52-C827-486C-B871-1392CFAD1C48}"

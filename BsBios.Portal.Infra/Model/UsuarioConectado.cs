@@ -14,6 +14,10 @@ namespace BsBios.Portal.Infra.Model
             NomeCompleto = nomeCompleto;
             Perfis = perfis;
         }
-        
+
+        public bool PermiteAlterarOrdemDeTransporte()
+        {
+            return Perfis.Contains(Enumeradores.Perfil.CompradorLogistica);
+        }
     }
 }

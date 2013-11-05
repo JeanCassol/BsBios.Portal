@@ -24,6 +24,9 @@ namespace BsBios.Portal.Tests.Infra.Services
                 x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<Cotacao>()))
                                          .Returns(new MensagemDeEmail("assunto", "conteudo"));
 
+            _geradorDeMensagemDeEmailMock.Setup(x => x.AutorizacaoDeTransporte(It.IsAny<ProcessoDeCotacaoDeFrete>()))
+                .Returns(new MensagemDeEmail("autorizacao", "conteudo"));
+
             _emailServiceMock = new Mock<IEmailService>(MockBehavior.Strict);
             _emailServiceMock.Setup(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>())).Returns(true);
             _geradorDeEmail = new GeradorDeEmailDeFechamentoDeProcessoDeCotacao(_geradorDeMensagemDeEmailMock.Object,_emailServiceMock.Object);
@@ -47,13 +50,24 @@ namespace BsBios.Portal.Tests.Infra.Services
             _geradorDeMensagemDeEmailMock.Verify(x => x.FornecedoresSelecionadosNoProcessoDeCotacao(It.IsAny<ProcessoDeCotacao>(),It.IsAny<Cotacao>() ), Times.Once());
         }
         [TestMethod]
-        public void QuandoCotacaoNaoForSelecionadaEnviaEmailDeeCotacaoNaoSelecionada()
+        public void QuandoCotacaoNaoForSelecionadaEnviaEmailDeCotacaoNaoSelecionada()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
             _geradorDeEmail.GerarEmail(processoDeCotacao);
             _emailServiceMock.Verify(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>()), Times.Once());
             _geradorDeMensagemDeEmailMock.Verify(x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<Cotacao>()), Times.Once());
             
+        }
+
+        [TestMethod]
+        public void QuandoFecharProcessoDeCotacaoQuePossuaFornecedorDaMercadoriaDeveSerEnviadoEmailParaOFornecedor()
+        {
+            var geradorDeEmailDeFrete = new GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete(_geradorDeMensagemDeEmailMock.Object, _emailServiceMock.Object);
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            geradorDeEmailDeFrete.GerarEmail(processoDeCotacao);
+            _emailServiceMock.Verify(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>()), Times.Exactly(2));
+            _geradorDeMensagemDeEmailMock.Verify(x => x.AutorizacaoDeTransporte(It.IsAny<ProcessoDeCotacaoDeFrete>()), Times.Once());
+
         }
     }
 }

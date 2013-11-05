@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,8 +21,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var dataLimiteDeRetorno = DateTime.Today.AddDays(10);
             var dataValidadeInicial = DateTime.Today.AddMonths(1);
             var dataValidadeFinal = DateTime.Today.AddMonths(2);
+            var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            var municipioOrigem = new Municipio("1000", "Torres");
+            var municipioDestino = new Municipio("2000", "Porto Alegre");
             var processo = new ProcessoDeCotacaoDeFrete(produto, 100,unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
-                "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario);
+                "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario,fornecedor, 1000,true,municipioOrigem, municipioDestino);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(100, processo.Quantidade);
@@ -30,6 +36,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(dataValidadeInicial, processo.DataDeValidadeInicial);
             Assert.AreEqual(dataValidadeFinal, processo.DataDeValidadeFinal);
             Assert.AreSame(itinerario, processo.Itinerario);
+            Assert.AreSame(fornecedor, processo.Fornecedor);
+            Assert.AreSame(municipioOrigem, processo.MunicipioDeOrigem);
+            Assert.AreSame(municipioDestino, processo.MunicipioDeDestino);
+            Assert.AreEqual(1000, processo.Cadencia);
+            Assert.IsTrue(processo.Classificacao);
         }
 
         [TestMethod]
@@ -44,10 +55,13 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var dataLimiteDeRetorno = DateTime.Today.AddDays(15);
             var dataValidadeInicial = DateTime.Today.AddMonths(2);
             var dataValidadeFinal = DateTime.Today.AddMonths(3);
+            var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            var municipioOrigem = new Municipio("2000", "Porto Alegre");
+            var municipioDestino = new Municipio("1500", "Torres");
 
 
-            processo.Atualizar(produto, 1500, unidadeDeMedida,"requisitos alterados","1500",dataLimiteDeRetorno, 
-                dataValidadeInicial, dataValidadeFinal, itinerario);
+            processo.Atualizar(produto, 1500, unidadeDeMedida,"requisitos alterados","1500",dataLimiteDeRetorno,
+                dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem, municipioDestino);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(1500, processo.Quantidade);
@@ -58,6 +72,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(dataValidadeInicial, processo.DataDeValidadeInicial);
             Assert.AreEqual(dataValidadeFinal, processo.DataDeValidadeFinal);
             Assert.AreSame(itinerario, processo.Itinerario);
+            Assert.AreSame(fornecedor, processo.Fornecedor);
+            Assert.AreSame(municipioOrigem, processo.MunicipioDeOrigem);
+            Assert.AreSame(municipioDestino, processo.MunicipioDeDestino);
+            Assert.AreEqual(2000, processo.Cadencia);
+            Assert.IsFalse(processo.Classificacao);
+
 
         }
 
@@ -70,7 +90,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeFrete.Abrir();
             processoDeCotacaoDeFrete.Atualizar(processoDeCotacaoDeFrete.Produto, 1500, processoDeCotacaoDeFrete.UnidadeDeMedida, 
                 "requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
-                processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario);
+                processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario,
+                processoDeCotacaoDeFrete.Fornecedor,processoDeCotacaoDeFrete.Cadencia, processoDeCotacaoDeFrete.Classificacao,
+                processoDeCotacaoDeFrete.MunicipioDeOrigem, processoDeCotacaoDeFrete.MunicipioDeDestino);
         }
 
         [TestMethod]
@@ -89,5 +111,24 @@ namespace BsBios.Portal.Tests.Domain.Entities
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
             processoDeCotacao.Fechar();   
         }
+
+        [TestMethod]
+        public void QuandoCanceloProcessoDeCotacaoDeFretePassaParaStatusCancelado()
+        {
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            Assert.AreNotEqual(Enumeradores.StatusProcessoCotacao.Cancelado, processo.Status);
+            processo.Cancelar();
+            Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Cancelado, processo.Status);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CancelarProcessoDeCotacaoFechadoException))]
+        public void NaoConsigoCancelarUmProcessoDeCotacaoFechado()
+        {
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
+            processo.Cancelar();
+        }
+
     }
 }

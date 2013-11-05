@@ -3,7 +3,7 @@
     /// <summary>
     /// Classe utilizada no grid de processo de cotação de material
     /// </summary>
-    public class ProcessoCotacaoMaterialListagemVm: ListagemVm
+    public class ProcessoCotacaoListagemVm: ListagemVm
     {
         public int Id { get; set; }
         public string CodigoMaterial { get; set; }

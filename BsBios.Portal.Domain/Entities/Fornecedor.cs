@@ -12,6 +12,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Cnpj { get; protected set; }
         public virtual string Municipio { get; protected set; }
         public virtual string Uf { get; protected set; }
+        public virtual string Endereco { get; set; }
+
         public virtual bool Transportadora { get; protected set; }
         public virtual IList<Produto>  Produtos { get; protected set; }
 

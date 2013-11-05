@@ -56,6 +56,15 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoCotacaoIteracoesUsuario>();
 
+            For<IMunicipios>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<Municipios>();
+
+            For<IOrdensDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<OrdensDeTransporte>();
+
+
         }
     }
 }

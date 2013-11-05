@@ -138,7 +138,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
             {
-                var cotacao = (CotacaoFrete)fornecedorParticipante.Cotacao;
+                var cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao;
                 Assert.IsTrue(cotacao.Selecionada);
             }
 

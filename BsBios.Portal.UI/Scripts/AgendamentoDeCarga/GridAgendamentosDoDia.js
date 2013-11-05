@@ -10,7 +10,7 @@ GridAgendamentosDeCarga = {
                     data: 'Registros',
                     model: {
                         fields: {
-                            Id: { type: "number" },
+                            IdAgendamento: { type: "number" },
                             Peso: { type: "number" },
                             Placa: { type: "string" },
                             Realizado: { type: "string" }
@@ -86,29 +86,33 @@ GridAgendamentosDeCarga = {
         $("#gridAgendamentosDeCarga").find('.button_remove').die("click");
         $("#gridAgendamentosDeCarga").find('.button_remove').live("click", function (e) {
             e.preventDefault();
-            var resposta = confirm("Confirma a exclusão do Agendamento?");
-            if (!resposta) {
-                return;
-            }
-            var idAgendamento = $(this).attr('data-idagendamento');
-            $.ajax({
-                url: configuracao.UrlDeExclusao,
-                type: 'POST',
-                data: JSON.stringify({ IdQuota: configuracao.IdQuota, IdAgendamento: idAgendamento}),
-                cache: false,
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                success: function (data) {
-                    if (data.Sucesso) {
-                        GridAgendamentosDeCarga.AtualizarTela(data.Quota);
-                    } else {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + data.Mensagem);
+
+            var removerAgendamento = function () {
+                var agendamento = $("#gridAgendamentosDeCarga").data("kendoGrid").obterRegistroSelecionado();
+                $.ajax({
+                    url: configuracao.UrlDeExclusao,
+                    type: 'POST',
+                    data: JSON.stringify({ IdQuota: agendamento.IdQuota, IdAgendamento: agendamento.IdAgendamento }),
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            GridAgendamentosDeCarga.AtualizarTela(data.Quota);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + textStatus + errorThrown);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao excluir o Agendamento. Detalhe: ' + textStatus + errorThrown);
-                }
-            });
+                });
+
+            };
+            
+            //var resposta = confirm("Confirma a exclusão do Agendamento?");
+            Mensagem.ExibirMensagemDeConfirmacao("Confirma a exclusão do Agendamento?",removerAgendamento);
+
         });
     },
     AtualizarTela: function (quota) {

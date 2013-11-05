@@ -58,10 +58,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             UnitOfWorkNh.Session.Clear();
 
-            var processosDeCotacaoDeMaterial = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+            var processosDeCotacaoDeFrete = ObjectFactory.GetInstance<IProcessosDeCotacao>();
 
             Console.WriteLine("Consultando Cotacao - INICIO");
-            var processoConsultado = (ProcessoDeCotacaoDeFrete)processosDeCotacaoDeMaterial.BuscaPorId(processo.Id).Single();
+            var processoConsultado = (ProcessoDeCotacaoDeFrete)processosDeCotacaoDeFrete.BuscaPorId(processo.Id).Single();
             Assert.AreEqual(processo.FornecedoresParticipantes.Count(x => x.Cotacao != null), processoConsultado.FornecedoresParticipantes.Count(x => x.Cotacao != null));
             Console.WriteLine("Consultando Cotacao - FIM");
         }

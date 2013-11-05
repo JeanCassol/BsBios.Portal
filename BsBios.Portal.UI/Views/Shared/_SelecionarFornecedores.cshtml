@@ -105,7 +105,7 @@
             var grid = $(idDivGrid).data("kendoGrid");
             var dataItem = grid.dataItem(grid.select());
             if (dataItem.Email == undefined || dataItem.Email == null || dataItem.Email == '') {
-                alert('Não é possível selecionar um fornecedor sem E-mail.');
+                Mensagem.ExibirMensagemDeErro('Não é possível selecionar um fornecedor sem E-mail.');
                 return;
             }
             adicionarFornecedor({
@@ -149,7 +149,7 @@
                 carregarGridDosFornecedoresSelecionados();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
+                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os Fornecedores Selecionados. Detalhe: ' + textStatus + errorThrown);
             }
         });
         

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -37,7 +38,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Requisitos = processoDeCotacao.Requisitos ,
                     NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
                     DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
-                    DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString() ,
+                    DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
+                    Cadencia = Convert.ToString(processoDeCotacao.Cadencia),
+                    Classificacao = processoDeCotacao.Classificacao,
+                    CodigoFornecedor = processoDeCotacao.Fornecedor != null ? processoDeCotacao.Fornecedor.Codigo: null,
+                    Fornecedor = processoDeCotacao.Fornecedor != null ? processoDeCotacao.Fornecedor.Nome: null ,
+                    CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Codigo ,
+                    NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Nome,
+                    CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Codigo ,
+                    NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Nome 
                 };
         }
 

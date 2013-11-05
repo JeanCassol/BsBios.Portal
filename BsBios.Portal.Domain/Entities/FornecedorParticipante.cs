@@ -7,8 +7,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual int Id { get; protected set; }
         public virtual ProcessoDeCotacao ProcessoDeCotacao { get; protected set; }
         public virtual Fornecedor Fornecedor { get; protected set; }
-        public virtual Cotacao Cotacao { get; protected set; }   
-        
+        public virtual Cotacao Cotacao { get; protected set; }
         protected FornecedorParticipante(){}
 
         public FornecedorParticipante(ProcessoDeCotacao processoDeCotacao, Fornecedor fornecedor)

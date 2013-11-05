@@ -81,7 +81,16 @@ namespace BsBios.Portal.IoC
             For<IConsultaQuotaRelatorio>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaQuotaRelatorio>();
-            
+
+            For<IConsultaMunicipio>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaMunicipio>();
+
+            For<IConsultaOrdemDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaOrdemDeTransporte>();
+
+
         }
 
     }

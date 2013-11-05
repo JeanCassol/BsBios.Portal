@@ -210,6 +210,20 @@ namespace BsBios.Portal.TestsComBancoDeDados
             }
         }
 
-       
+
+        public static void RemoverOrdensDeTransporteCadastradas()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from OrdemDeTransporte");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

@@ -7,19 +7,24 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class GeradorDeMensagemDeEmail : IGeradorDeMensagemDeEmail
     {
-        public MensagemDeEmail CriacaoAutomaticaDeSenha(Usuario usuario, string novaSenha)
-        {
-            string mensagem = "Prezado(a) " + usuario.Nome + Environment.NewLine + Environment.NewLine +
-            "Conforme foi solicitado através do Portal de Cotações da BSBIOS, segue abaixo a sua nova senha de acesso ao site. " + 
-            "Esta senha foi gerada automaticamente no momento da sua solicitação. "+
-            "Recomenda-se que acesse o site http://bsnet.bsbios.com/ e altere a senha para uma de sua preferência." + Environment.NewLine + Environment.NewLine +
-            "Dados de Acesso:" + Environment.NewLine + Environment.NewLine + 
-            "Login: " + usuario.Login + Environment.NewLine +
-            "Nova Senha: " + novaSenha + Environment.NewLine +
-            "Atenciosamente," + Environment.NewLine +
+
+        private readonly string _mensagemDeRodape = "Atenciosamente," + Environment.NewLine +
             "BSBIOS" + Environment.NewLine + Environment.NewLine +
             "Esta é uma mensagem gerada automaticamente, portanto, não deve ser respondida." + Environment.NewLine +
             "© BSBIOS. Todos os direitos reservados. Termos e Condições e Política de Privacidade." + Environment.NewLine;
+
+
+        public MensagemDeEmail CriacaoAutomaticaDeSenha(Usuario usuario, string novaSenha)
+        {
+            string mensagem = "Prezado(a) " + usuario.Nome + Environment.NewLine + Environment.NewLine +
+                              "Conforme foi solicitado através do Portal de Cotações da BSBIOS, segue abaixo a sua nova senha de acesso ao site. " +
+                              "Esta senha foi gerada automaticamente no momento da sua solicitação. " +
+                              "Recomenda-se que acesse o site http://bsnet.bsbios.com/ e altere a senha para uma de sua preferência." +
+                              Environment.NewLine + Environment.NewLine +
+                              "Dados de Acesso:" + Environment.NewLine + Environment.NewLine +
+                              "Login: " + usuario.Login + Environment.NewLine +
+                              "Nova Senha: " + novaSenha + Environment.NewLine +
+                              _mensagemDeRodape;
 
             return new MensagemDeEmail("Geração automática de senha",mensagem);
         }
@@ -77,6 +82,27 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 "Ficaremos gratos caso tenha interesse em participar de nossas futuras cotações.";
 
             return new MensagemDeEmail("Fechamento do Processo de Cotacão",mensagem);
+        }
+
+        public MensagemDeEmail AutorizacaoDeTransporte(ProcessoDeCotacaoDeFrete processoDeCotacao)
+        {
+            var mensagem = "Prezado Fornecedor." + Environment.NewLine +
+                           "Informamos que as seguintes transportadoras foram autorizadas a coletar " +
+                           processoDeCotacao.Quantidade + " " + processoDeCotacao.UnidadeDeMedida.Descricao +
+                           " de " + processoDeCotacao.Produto.Descricao + " entre " +
+                           processoDeCotacao.DataDeValidadeInicial.ToShortDateString() + " e " +
+                           processoDeCotacao.DataDeValidadeFinal.ToShortDateString() + ":" + Environment.NewLine +
+                           Environment.NewLine;
+
+            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresSelecionados)
+            {
+                mensagem += fornecedorParticipante.Fornecedor.Nome + " - Quantidade: " + fornecedorParticipante.Cotacao.QuantidadeAdquirida + Environment.NewLine;
+            }
+
+            mensagem += _mensagemDeRodape;
+
+            return new MensagemDeEmail("Autorização de transporte de mercadoria", mensagem);
+
         }
     }
 }

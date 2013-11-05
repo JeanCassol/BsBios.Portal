@@ -17,12 +17,15 @@ namespace BsBios.Portal.Common
 
         public enum StatusProcessoCotacao
         {
-            [Description("Não Iniciado")] NaoIniciado = 1,
-            [Description("Aberto")] Aberto = 2,
-            [Description("Fechado")] Fechado = 3 /*,
+            [Description("Não Iniciado")] 
+            NaoIniciado = 1,
+            [Description("Aberto")] 
+            Aberto = 2,
+            [Description("Fechado")]
+            Fechado = 3,
             [Description("Cancelado")]
-            Cancelado = 4*/
-        }
+            Cancelado = 4
+       }
 
         public enum StatusUsuario
         {
@@ -60,7 +63,8 @@ namespace BsBios.Portal.Common
 
         public enum RealizacaoDeAgendamento
         {
-            [Description("Não realizado")] NaoRealizado = 0,
+            [Description("Não realizado")] 
+            NaoRealizado = 0,
             Realizado = 1
         }
 
@@ -71,5 +75,6 @@ namespace BsBios.Portal.Common
             PlanejadoVersusRealizado = 3,
             PlanejadoVersusRealizadoPorData = 4
         }
+
     }
 }

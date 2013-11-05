@@ -58,6 +58,30 @@
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
             new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
+            
+            @Html.LinhaComDuasColunas(new ColunaComCheckBox<ProcessoCotacaoFreteCadastroVm, bool>(x => x.Classificacao),
+             new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.Cadencia, "campomedio masknumerointeiro"))
+            
+            <div class="linha">
+                @Html.HiddenFor(x => x.CodigoFornecedor)
+                @Html.LabelFor(x => x.Fornecedor)
+                @Html.TextBoxFor(x => x.Fornecedor, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
+                <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
+            </div>
+            
+            <div class="linha">
+                <div class="coluna">
+                    @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
+                    @Html.LabelFor(x => x.NomeDoMunicipioDeOrigem)
+                    @Html.TextBoxFor(x => x.NomeDoMunicipioDeOrigem, new {@class = "campogrande" })
+                </div>
+                <div class="coluna">
+                    @Html.HiddenFor(x => x.CodigoDoMunicipioDeDestino)
+                    @Html.LabelFor(x => x.NomeDoMunicipioDeDestino)
+                    @Html.TextBoxFor(x => x.NomeDoMunicipioDeDestino, new { @class = "campogrande" })
+                </div>
+
+            </div>
 
             @Html.ValidationSummary(true)
         <div class="error"></div>
@@ -83,6 +107,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
@@ -92,6 +117,9 @@
             aplicaMascaraData();
             aplicaMascaraQuantidade();
             aplicaMascaraNumeroContrato();
+            aplicaMascaraInteiro();
+            
+            SelecionarFornecedor.Configurar();
 
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
@@ -148,6 +176,33 @@
                     function(response, status, xhr) {
                         $('#divSelecionarItinerario').dialog('open');
                     });
+            });
+
+
+            $('#NomeDoMunicipioDeOrigem').autocomplete({
+                source: UrlPadrao.BuscaDeMunicipios,
+                minLength: 3,
+                select: function (event, ui) {
+                    $('#CodigoDoMunicipioDeOrigem').val(ui.item.Codigo);
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $('#NomeDoMunicipioDeOrigem,#CodigoDoMunicipioDeOrigem').val('');
+                    }
+                }
+            });
+            
+            $('#NomeDoMunicipioDeDestino').autocomplete({
+                source: UrlPadrao.BuscaDeMunicipios,
+                minLength: 3,
+                select: function (event, ui) {
+                    $('#CodigoDoMunicipioDeDestino').val(ui.item.Codigo);
+                },
+                change: function(event, ui) {
+                    if (!ui.item) {
+                        $('#NomeDoMunicipioDeDestino,#CodigoDoMunicipioDeDestino').val('');
+                    }
+                }
             });
 
             $('#btnSalvar').click(function() {
