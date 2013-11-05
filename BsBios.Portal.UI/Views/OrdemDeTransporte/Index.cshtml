@@ -1,0 +1,110 @@
+﻿@using BsBios.Portal.ViewModel
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+<fieldset class="divFiltros">
+    <legend>Filtros</legend>
+    <form>
+        <div class="colunaFiltro">
+            @Html.Label("Código")
+            @Html.TextBox("CodigoDoFornecedor", "", new { @class = "campomedio" })
+        </div>
+        <div class="colunaFiltro">
+            @Html.Label("Nome")
+            @Html.TextBox("NomeDoFornecedor", "", new { @class = "campogrande" })
+        </div>
+        @{
+            Html.RenderPartial("_BotoesDeFiltro");
+        }
+    </form>
+</fieldset>
+<div id="gridOrdemDeTransporte" class="divGrid"></div>
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+            $("#gridOrdemDeTransporte").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Id: { type: "number" },
+                                Material: { type: "string" },
+                                CodigoDoFornecedor: { type: "string" },
+                                NomeDoFornecedor: {type: "string"},
+                                QuantidadeAdquirida: { type: "number" },
+                                QuantidadeLiberada: { type: "number" },
+                            }
+                        },
+                        total: 'totalCount',
+                        type: 'json'
+                    },
+                    transport: {
+                        read: {
+                            url: '@Url.Action("Listar","OrdemDeTransporte")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    CodigoDoFornecedor: $('#CodigoFornecedor').val()
+                                };
+                            }
+                        }
+                    }
+                },
+                scrollable:true,
+                columns:
+                [
+                    {
+                        title: ' ',
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
+                    },
+                    {
+                        field: "Id",
+                        width: 60,
+                        title: "Nº Ordem"
+                    }, {
+                        field: "Material",
+                        width: 200,
+                        title: "Material"
+                    },
+                    {
+                        width: 60,
+                        field: "CodigoDoFornecedor",
+                        title: "Código"
+                    },
+                    {
+                        width: 200,
+                        field: "NomeDoFornecedor",
+                        title: "Fornecedor"
+                    },
+                    {
+                        width: 80,
+                        field: "QuantidadeAdquirida",
+                        title: "Adquirida"
+                    },
+                    {
+                        width: 80,
+                        field: "QuantidadeLiberada",
+                        title: "Liberada"
+                    }
+
+                ]
+            });
+
+            $("#gridOrdemDeTransporte").off('click', '.button_edit');
+            $("#gridOrdemDeTransporte").on("click",'.button_edit', function(e) {
+                e.preventDefault();
+                location.href = '@Url.Action("Cadastro","OrdemDeTransporte")' + '/?idOrdemTransporte=' + $(this).attr('data-idordemtransporte') ;
+            });
+
+        });
+    </script>
+
+}
