@@ -6,7 +6,7 @@
         public string Material { get; set; }
         public string CodigoDoFornecedor { get; set; }
         public string NomeDoFornecedor { get; set; }
-        public decimal QuantidadeAdquirida { get; set; }
+        public decimal QuantidadeColetada { get; set; }
         public decimal QuantidadeLiberada { get; set; }
     }
 }

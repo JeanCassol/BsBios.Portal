@@ -55,6 +55,7 @@ namespace BsBios.Portal.ViewModel
 
         [Display(Name = "Cadência")]
         [Required(ErrorMessage = "Cadência é obrigatório")]
+        //[Required]
         public string Cadencia { get; set; }
 
         public string CodigoFornecedor { get; set; }

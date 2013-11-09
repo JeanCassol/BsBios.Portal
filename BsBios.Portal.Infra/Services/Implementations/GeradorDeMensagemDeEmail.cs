@@ -64,12 +64,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
         public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao)
         {
             string mensagem = "Prezado Fornecedor." + Environment.NewLine +
-                              "Estamos confirmando o fechamento da negociação referente " + cotacao.Id + "." + Environment.NewLine +
+                              "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação nº " + cotacao.Id + "." + Environment.NewLine +
                               "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine +  
                               "Material: "  + processoDeCotacao.Produto.Descricao + Environment.NewLine +
                               "Quantidade: " + cotacao.QuantidadeAdquirida + Environment.NewLine +
                               "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              " Para maiores esclarecimentos, favor entrar em contato através com o comprador.";
+                              "Para maiores esclarecimentos, favor entrar em contato com o comprador.";
 
             return new MensagemDeEmail("Fechamento do Processo de Cotacão", mensagem);
         }
@@ -86,9 +86,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail AutorizacaoDeTransporte(ProcessoDeCotacaoDeFrete processoDeCotacao)
         {
+            var descricaoDaUnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao;
             var mensagem = "Prezado Fornecedor." + Environment.NewLine +
                            "Informamos que as seguintes transportadoras foram autorizadas a coletar " +
-                           processoDeCotacao.Quantidade + " " + processoDeCotacao.UnidadeDeMedida.Descricao +
+                           processoDeCotacao.Quantidade + " " + descricaoDaUnidadeDeMedida +
                            " de " + processoDeCotacao.Produto.Descricao + " entre " +
                            processoDeCotacao.DataDeValidadeInicial.ToShortDateString() + " e " +
                            processoDeCotacao.DataDeValidadeFinal.ToShortDateString() + ":" + Environment.NewLine +
@@ -96,10 +97,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresSelecionados)
             {
-                mensagem += fornecedorParticipante.Fornecedor.Nome + " - Quantidade: " + fornecedorParticipante.Cotacao.QuantidadeAdquirida + Environment.NewLine;
+                mensagem += string.Format("Transportada: {0} - Quantidade: {1} - Unidade de Medida: {2}",
+                    fornecedorParticipante.Fornecedor.Nome, fornecedorParticipante.Cotacao.QuantidadeAdquirida, descricaoDaUnidadeDeMedida)
+                    + Environment.NewLine;
             }
 
-            mensagem += _mensagemDeRodape;
+            mensagem += Environment.NewLine + _mensagemDeRodape;
 
             return new MensagemDeEmail("Autorização de transporte de mercadoria", mensagem);
 

@@ -70,7 +70,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(processoDeCotacao.Produto.Descricao, ordemDeTransporteVm.Material);
             Assert.AreEqual(fornecedorSelecionado.Codigo, ordemDeTransporteVm.CodigoDoFornecedor);
             Assert.AreEqual(fornecedorSelecionado.Nome, ordemDeTransporteVm.NomeDoFornecedor);
-            Assert.AreEqual(ordemDeTransporte.QuantidadeAdquirida, ordemDeTransporteVm.QuantidadeAdquirida);
+            Assert.AreEqual(ordemDeTransporte.QuantidadeAdquirida, ordemDeTransporteVm.QuantidadeColetada);
             Assert.AreEqual(ordemDeTransporte.QuantidadeLiberada, ordemDeTransporteVm.QuantidadeLiberada);
 
         }

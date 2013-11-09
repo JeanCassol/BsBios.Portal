@@ -36,7 +36,7 @@
                                 Material: { type: "string" },
                                 CodigoDoFornecedor: { type: "string" },
                                 NomeDoFornecedor: {type: "string"},
-                                QuantidadeAdquirida: { type: "number" },
+                                QuantidadeColetada: { type: "number" },
                                 QuantidadeLiberada: { type: "number" },
                             }
                         },
@@ -63,7 +63,7 @@
                         title: ' ',
                         width: 40,
                         sortable: false,
-                        template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
+                        template: '<input type="button" class="button_edit"></input>'
                     },
                     {
                         field: "Id",
@@ -86,14 +86,14 @@
                     },
                     {
                         width: 80,
-                        field: "QuantidadeAdquirida",
-                        title: "Adquirida"
+                        field: "QuantidadeLiberada",
+                        title: "Liberada"
                     },
                     {
                         width: 80,
-                        field: "QuantidadeLiberada",
-                        title: "Liberada"
-                    }
+                        field: "QuantidadeColetada",
+                        title: "Coletada"
+                    },
 
                 ]
             });
@@ -101,7 +101,9 @@
             $("#gridOrdemDeTransporte").off('click', '.button_edit');
             $("#gridOrdemDeTransporte").on("click",'.button_edit', function(e) {
                 e.preventDefault();
-                location.href = '@Url.Action("Cadastro","OrdemDeTransporte")' + '/?idOrdemTransporte=' + $(this).attr('data-idordemtransporte') ;
+                var grid = $("#gridOrdemDeTransporte").data("kendoGrid");
+                var ordemDeTransporte = grid.obterRegistroSelecionado();
+                location.href = '@Url.Action("Cadastro","OrdemDeTransporte")' + '/?id=' + ordemDeTransporte.Id ;
             });
 
         });

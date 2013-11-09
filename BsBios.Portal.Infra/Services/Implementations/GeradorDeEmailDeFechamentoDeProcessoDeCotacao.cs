@@ -40,12 +40,13 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         }
 
-        public void GerarEmail(ProcessoDeCotacaoDeFrete processoDeCotacao)
+        public override void GerarEmail(ProcessoDeCotacao processoDeCotacao)
         {
-            Fornecedor fornecedorDaMercadoria = processoDeCotacao.Fornecedor;
+            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processoDeCotacao;
+            Fornecedor fornecedorDaMercadoria = processoDeCotacaoDeFrete.Fornecedor;
             if (fornecedorDaMercadoria != null)
             {
-                MensagemDeEmail mensagemDeEmail = GeradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacao);
+                MensagemDeEmail mensagemDeEmail = GeradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacaoDeFrete);
                 EmailService.Enviar(fornecedorDaMercadoria.Email, mensagemDeEmail);
             }
             base.GerarEmail(processoDeCotacao);

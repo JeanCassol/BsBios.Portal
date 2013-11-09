@@ -19,5 +19,10 @@ namespace BsBios.Portal.Infra.Model
         {
             return Perfis.Contains(Enumeradores.Perfil.CompradorLogistica);
         }
+
+        public bool PermiteAlterarColeta()
+        {
+            return Perfis.Contains(Enumeradores.Perfil.Fornecedor);
+        }
     }
 }

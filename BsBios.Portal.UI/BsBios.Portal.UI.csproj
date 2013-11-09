@@ -129,6 +129,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Mensagens.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagens.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ControllerRegistry.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -475,6 +480,7 @@
     <Content Include="Views\Shared\_BotoesDeFiltro.cshtml" />
     <Content Include="Views\OrdemDeTransporte\Index.cshtml" />
     <Content Include="Views\OrdemDeTransporte\Cadastro.cshtml" />
+    <Content Include="Views\OrdemDeTransporte\Coleta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -504,6 +510,12 @@
       <Project>{01c438cd-9055-4299-9f5c-a4086ee1cc00}</Project>
       <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Mensagens.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Mensagens.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -45,6 +45,7 @@
     <Compile Include="AgendamentoDeDescarregamentoCadastroVm.cs" />
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="AutoCompleteVm.cs" />
+    <Compile Include="ColetaVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="OrdemDeTransporteCadastroVm.cs" />
+    <Compile Include="ColetaListagemVm.cs" />
     <Compile Include="OrdemDeTransporteListagemFiltroVm.cs" />
     <Compile Include="OrdemDeTransporteListagemVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />

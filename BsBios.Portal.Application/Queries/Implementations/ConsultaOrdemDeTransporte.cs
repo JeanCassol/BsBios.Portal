@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -50,7 +51,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              CodigoDoFornecedor = ordemDeTransporte.Fornecedor.Codigo,
                              NomeDoFornecedor = ordemDeTransporte.Fornecedor.Nome,
                              Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
-                             QuantidadeAdquirida = ordemDeTransporte.QuantidadeAdquirida,
+                             QuantidadeColetada = ordemDeTransporte.QuantidadeColetada,
                              QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada
                          });
 
@@ -66,6 +67,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             bool permiteAlterar = usuarioConectado.PermiteAlterarOrdemDeTransporte();
+            bool permiteAdicionarColeta = usuarioConectado.PermiteAlterarColeta();
             _ordensDeTransporte.BuscaPorId(id);
 
             return (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
@@ -86,10 +88,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco: "Não informado",
                     DataDeValidadeInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
                     DataDeValidadeFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
-                    MunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.ToString(),
-                    MunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.ToString() ,
+                    MunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Nome + "/" + processoDeCotacao.MunicipioDeOrigem.UF,
+                    MunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Nome + "/" + processoDeCotacao.MunicipioDeDestino.UF,
                     Requisitos = processoDeCotacao.Requisitos ,
-                    PermiteAlterar = permiteAlterar
+                    PermiteAlterar = permiteAlterar,
+                    PermiteAdicionarColeta = permiteAdicionarColeta
 
                 }).Single();
         }

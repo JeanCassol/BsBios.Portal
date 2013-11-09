@@ -46,12 +46,74 @@ namespace BsBios.Portal.UI.Controllers
         public ActionResult Cadastro(int id)
         {
             OrdemDeTransporteCadastroVm cadastro = _consultaOrdemDeTransporte.ConsultarOrdem(id);
-            return View("Cadastro");
+            return View("Cadastro",cadastro);
         }
 
+        [HttpPost]
         public ActionResult Salvar()
         {
             throw new NotImplementedException();
         }
+
+        [HttpGet]
+        public JsonResult ListarColetas()
+        {
+
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+
+            bool permiteEditar = usuarioConectado.PermiteAlterarColeta();
+
+            var coleta = new ColetaListagemVm
+            {
+                Id = 1,
+                DataDePrevisaoDeChegada = DateTime.Now.Date.AddDays(2).ToShortDateString(),
+                Motorista = "Mauro Leal",
+                Placa = "IOQ-5338",
+                Peso = 150,
+                PermiteEditar = permiteEditar
+
+            };
+
+            var kendoGridVm = new KendoGridVm
+            {
+                QuantidadeDeRegistros = 1,
+                Registros = new List<ListagemVm> {coleta}
+            };
+
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult NovaColeta()
+        {
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            
+            var coletaVm = new ColetaVm();
+            coletaVm.PermiteEditar = usuarioConectado.PermiteAlterarColeta();
+            return PartialView("Coleta", coletaVm);
+        }
+
+        [HttpGet]
+        public ActionResult EditarColeta()
+        {
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+
+            var coletaVm = new ColetaVm
+            {
+                PermiteEditar = usuarioConectado.PermiteAlterarColeta(),
+                Id = 1,
+                DataDePrevisaoDeChegada = new DateTime(2013,11,18).ToShortDateString(),
+                Motorista = "Mauro Leal",
+                Placa = "IOQ-5339",
+                Peso = 80,
+                ValorDoFrete = 1789
+                
+            };
+            
+            return PartialView("Coleta", coletaVm);
+        }
+
+
+
     }
 }
