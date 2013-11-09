@@ -1,8 +1,8 @@
 ﻿SelecionarFornecedor = {
     FornecedorSelecionado: null,
-    Configurar: function() {
-        $('body').append('<div id="divSelecionarFornecedor" class="janelaModal"></div>');
-        $('#divSelecionarFornecedor').customDialog({
+    Configurar: function (idDoCampoDoCodigoDoFornecedor, idDoCampoDoNomeDoFornecedor, idDaDivDaJanelaDeDialogo, idDoBotaoDeSelecaoDoFornecedor) {
+        $('body').append('<div id="' + idDaDivDaJanelaDeDialogo + '" class="janelaModal"></div>');
+        $('#' + idDaDivDaJanelaDeDialogo).customDialog({
             title: 'Selecionar Fornecedor',
             buttons: {
                 "Confirmar": function() {
@@ -10,8 +10,9 @@
                         Mensagem.ExibirMensagemDeErro("É necessário selecionar um Fornecedor.");
                         return;
                     }
-                    $('#CodigoFornecedor').val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
-                    $('#Fornecedor').val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
+                    $(idDoCampoDoCodigoDoFornecedor).val(SelecionarFornecedor.FornecedorSelecionado.Codigo);
+                    $(idDoCampoDoNomeDoFornecedor).val(unescape(SelecionarFornecedor.FornecedorSelecionado.Nome));
+                    SelecionarFornecedor.FornecedorSelecionado = null;
                     $(this).dialog("close");
                 },
                 "Cancelar": function() {
@@ -19,12 +20,12 @@
                 }
             }
         });
-        $('#btnSelecionarFornecedor').click(function() {
+        $(idDoBotaoDeSelecaoDoFornecedor).click(function() {
 
-            $('#divSelecionarFornecedor').load(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + $('#CodigoFornecedor').val() + '&Nome=' + escape($('#Fornecedor').val()),
+            $('#' + idDaDivDaJanelaDeDialogo).load(UrlPadrao.SelecionarFornecedor
+                + '/?Codigo=' + $(idDoCampoDoCodigoDoFornecedor).val() + '&Nome=' + escape($(idDoCampoDoNomeDoFornecedor).val()),
                 function(response, status, xhr) {
-                    $('#divSelecionarFornecedor').dialog('open');
+                    $('#' + idDaDivDaJanelaDeDialogo).dialog('open');
                 });
         });
 

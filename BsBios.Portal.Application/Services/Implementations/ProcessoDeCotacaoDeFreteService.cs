@@ -45,7 +45,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 Fornecedor deposito = null;
 
-                if (string.IsNullOrEmpty(processoCotacaoFreteCadastroVm.CodigoDoDeposito))
+                if (!string.IsNullOrEmpty(processoCotacaoFreteCadastroVm.CodigoDoDeposito))
                 {
                     deposito = _fornecedores.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoDoDeposito);
                 }

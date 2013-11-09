@@ -60,13 +60,21 @@
             new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
             
             @Html.LinhaComDuasColunas(new ColunaComCheckBox<ProcessoCotacaoFreteCadastroVm, bool>(x => x.Classificacao),
-             new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.Cadencia, "campomedio masknumerointeiro"))
+             new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.Cadencia, "campopequeno maskquantidade"))
             
-            <div class="linha">
+            <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoFornecedorDaMercadoria)
                 @Html.LabelFor(x => x.FornecedorDaMercadoria)
-                @Html.TextBoxFor(x => x.FornecedorDaMercadoria, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
+                @Html.TextBoxFor(x => x.FornecedorDaMercadoria, new { @readonly = true, @class = "campogrande campoDesabilitado" })
                 <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
+                @Html.ValidationMessageFor(x => x.FornecedorDaMercadoria)
+            </div>
+            
+            <div class="coluna">
+                @Html.HiddenFor(x => x.CodigoDoDeposito)
+                @Html.LabelFor(x => x.Deposito)
+                @Html.TextBoxFor(x => x.Deposito, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+                <input type="button" id="btnSelecionarDeposito" class="button_visualize" />
             </div>
             
             <div class="linha">
@@ -74,11 +82,13 @@
                     @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
                     @Html.LabelFor(x => x.NomeDoMunicipioDeOrigem)
                     @Html.TextBoxFor(x => x.NomeDoMunicipioDeOrigem, new {@class = "campogrande" })
+                    @Html.ValidationMessageFor(x => x.NomeDoMunicipioDeOrigem)
                 </div>
                 <div class="coluna">
                     @Html.HiddenFor(x => x.CodigoDoMunicipioDeDestino)
                     @Html.LabelFor(x => x.NomeDoMunicipioDeDestino)
                     @Html.TextBoxFor(x => x.NomeDoMunicipioDeDestino, new { @class = "campogrande" })
+                    @Html.ValidationMessageFor(x => x.NomeDoMunicipioDeDestino)
                 </div>
 
             </div>
@@ -119,7 +129,9 @@
             aplicaMascaraNumeroContrato();
             aplicaMascaraInteiro();
             
-            SelecionarFornecedor.Configurar();
+            SelecionarFornecedor.Configurar("#CodigoDoFornecedorDaMercadoria", "#FornecedorDaMercadoria","divSelecionarFornecedor", "#btnSelecionarFornecedor");
+            
+            SelecionarFornecedor.Configurar("#CodigoDoDeposito", "#Deposito", "divSelecionarDeposito", "#btnSelecionarDeposito");
 
             function atualizaMensagemDeErro(mensagem) {
                 $('.error').html(mensagem);
@@ -218,7 +230,7 @@
                         if (data.Sucesso) {
                             location.href = '@Url.Action("Index","ProcessoCotacaoFrete")';
                         } else {
-                            atualizaMensagemDeErro(data.Mensagem);
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
                     });
             });

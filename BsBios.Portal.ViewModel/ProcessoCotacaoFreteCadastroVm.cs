@@ -61,6 +61,7 @@ namespace BsBios.Portal.ViewModel
         public string CodigoDoFornecedorDaMercadoria { get; set; }
 
         [Display(Name = "Fornecedor da Mercadoria")]
+        [Required(ErrorMessage = "Fornecedor da Mercadoria é obrigatório")]
         public string FornecedorDaMercadoria { get; set; }
 
 
@@ -78,7 +79,7 @@ namespace BsBios.Portal.ViewModel
 
         public string CodigoDoDeposito { get; set; }
 
-        [Display(Name = "Fornecedor da Mercadoria")]
+        [Display(Name = "Depósito")]
         public string Deposito { get; set; }
 
 
