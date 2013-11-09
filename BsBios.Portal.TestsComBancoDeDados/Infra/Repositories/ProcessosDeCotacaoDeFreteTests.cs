@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -26,7 +28,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirUmProcessoDeCotacaoDeFreteEConsultarPosteriormente()
         {
-            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo);
 
@@ -45,7 +49,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void ConsigoPersistirEConsultarUmProcessoDeCotacaoComCotacoes()
         {
-            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
 
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
 

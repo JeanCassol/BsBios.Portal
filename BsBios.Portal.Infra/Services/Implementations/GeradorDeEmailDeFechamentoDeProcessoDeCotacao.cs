@@ -43,7 +43,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
         public override void GerarEmail(ProcessoDeCotacao processoDeCotacao)
         {
             var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processoDeCotacao;
-            Fornecedor fornecedorDaMercadoria = processoDeCotacaoDeFrete.Fornecedor;
+            Fornecedor fornecedorDaMercadoria = processoDeCotacaoDeFrete.FornecedorDaMercadoria;
             if (fornecedorDaMercadoria != null)
             {
                 MensagemDeEmail mensagemDeEmail = GeradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacaoDeFrete);

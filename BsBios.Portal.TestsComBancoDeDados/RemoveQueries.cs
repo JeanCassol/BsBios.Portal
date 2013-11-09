@@ -119,7 +119,10 @@ namespace BsBios.Portal.TestsComBancoDeDados
         {
             try
             {
+                RemoverOrdensDeTransporteCadastradas();
+
                 UnitOfWork.BeginTransaction();
+
                 UnitOfWork.Session.Delete("from ProcessoDeCotacao");
 
                 UnitOfWork.Commit();

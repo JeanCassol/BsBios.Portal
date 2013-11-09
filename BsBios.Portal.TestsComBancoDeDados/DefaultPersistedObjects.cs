@@ -203,9 +203,9 @@ namespace BsBios.Portal.Tests.DefaultProvider
                 PersistirUnidadeDeMedida(processo.UnidadeDeMedida);
                 PersistirItinerario(processo.Itinerario);
                 PersistirProduto(processo.Produto);
-                if (processo.Fornecedor != null)
+                if (processo.FornecedorDaMercadoria != null)
                 {
-                    PersistirFornecedor(processo.Fornecedor);
+                    PersistirFornecedor(processo.FornecedorDaMercadoria);
                 }
 
                 Session.Save(processo);

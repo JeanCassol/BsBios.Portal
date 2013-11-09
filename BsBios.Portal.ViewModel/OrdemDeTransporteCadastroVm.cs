@@ -30,7 +30,7 @@ namespace BsBios.Portal.ViewModel
         public string Classificacao { get; set; }
 
         [DisplayName("Cadência: ")]
-        public int Cadencia { get; set; }
+        public decimal Cadencia { get; set; }
         [DisplayName("Requisitos: ")]
         public string Requisitos { get; set; }
 

@@ -5,6 +5,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using NHibernate.Action;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
@@ -40,14 +41,16 @@ namespace BsBios.Portal.Application.Services.Implementations
                 Municipio municipioOrigem = _municipios.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoDoMunicipioDeOrigem);
                 Municipio municipioDestino = _municipios.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoDoMunicipioDeDestino);
 
-                Fornecedor fornecedor = null;
+                Fornecedor fornecedorDaMercadoria = _fornecedores.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoDoFornecedorDaMercadoria);
 
-                if (!string.IsNullOrEmpty(processoCotacaoFreteCadastroVm.CodigoFornecedor) )
+                Fornecedor deposito = null;
+
+                if (string.IsNullOrEmpty(processoCotacaoFreteCadastroVm.CodigoDoDeposito))
                 {
-                    fornecedor = _fornecedores.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoFornecedor);
+                    deposito = _fornecedores.BuscaPeloCodigo(processoCotacaoFreteCadastroVm.CodigoDoDeposito);
                 }
                 
-                int cadencia = int.Parse(processoCotacaoFreteCadastroVm.Cadencia, NumberStyles.AllowThousands, CultureInfo.CurrentCulture);
+                decimal cadencia = processoCotacaoFreteCadastroVm.Cadencia;
                 DateTime dataDeValidadeInicial = Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoInicial);
                 DateTime dataDeValidadeFinal = Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoFinal);
                 DateTime dataLimiteDeRetorno = Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataLimiteRetorno);
@@ -58,15 +61,15 @@ namespace BsBios.Portal.Application.Services.Implementations
                     processo = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(processoCotacaoFreteCadastroVm.Id.Value).Single();
                     processo.Atualizar(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
-                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedor, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino);
+                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
+                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito);
                 }
                 else
                 {
                     processo = new ProcessoDeCotacaoDeFrete(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
-                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedor, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino);
+                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
+                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito);
                 }
 
                 _processosDeCotacao.Save(processo);

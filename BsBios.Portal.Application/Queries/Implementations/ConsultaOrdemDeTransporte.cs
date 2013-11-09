@@ -72,7 +72,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             return (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                     let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
-                    let fornecedor = processoDeCotacao.Fornecedor
+                    let fornecedor = processoDeCotacao.FornecedorDaMercadoria
                 select new OrdemDeTransporteCadastroVm
                 {
                     Id = ordemDeTransporte.Id,

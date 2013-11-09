@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
@@ -129,10 +130,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         {
             RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();            
+
             Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
-            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
+            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1, municipios.First(), municipios.Last());
             Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
-            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
+            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2, municipios.First(), municipios.Last());
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);
@@ -151,10 +154,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         {
             RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();            
+
             Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
-            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
+            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1, municipios.First(), municipios.Last());
             Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
-            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
+            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2, municipios.First(), municipios.Last());
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);

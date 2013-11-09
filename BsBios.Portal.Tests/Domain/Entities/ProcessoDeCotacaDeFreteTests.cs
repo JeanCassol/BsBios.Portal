@@ -22,10 +22,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var dataValidadeInicial = DateTime.Today.AddMonths(1);
             var dataValidadeFinal = DateTime.Today.AddMonths(2);
             var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            var deposito = DefaultObjects.ObtemFornecedorPadrao();
             var municipioOrigem = new Municipio("1000", "Torres");
             var municipioDestino = new Municipio("2000", "Porto Alegre");
             var processo = new ProcessoDeCotacaoDeFrete(produto, 100,unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
-                "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario,fornecedor, 1000,true,municipioOrigem, municipioDestino);
+                "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario,fornecedor, 1000,true,municipioOrigem, 
+                municipioDestino, deposito);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(100, processo.Quantidade);
@@ -36,11 +38,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(dataValidadeInicial, processo.DataDeValidadeInicial);
             Assert.AreEqual(dataValidadeFinal, processo.DataDeValidadeFinal);
             Assert.AreSame(itinerario, processo.Itinerario);
-            Assert.AreSame(fornecedor, processo.Fornecedor);
+            Assert.AreSame(fornecedor, processo.FornecedorDaMercadoria);
             Assert.AreSame(municipioOrigem, processo.MunicipioDeOrigem);
             Assert.AreSame(municipioDestino, processo.MunicipioDeDestino);
             Assert.AreEqual(1000, processo.Cadencia);
             Assert.IsTrue(processo.Classificacao);
+            Assert.AreSame(deposito, processo.Deposito);
         }
 
         [TestMethod]
@@ -58,10 +61,11 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             var municipioOrigem = new Municipio("2000", "Porto Alegre");
             var municipioDestino = new Municipio("1500", "Torres");
-
+            var deposito = DefaultObjects.ObtemFornecedorPadrao();
 
             processo.Atualizar(produto, 1500, unidadeDeMedida,"requisitos alterados","1500",dataLimiteDeRetorno,
-                dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem, municipioDestino);
+                dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem, 
+                municipioDestino, deposito);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(1500, processo.Quantidade);
@@ -72,12 +76,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(dataValidadeInicial, processo.DataDeValidadeInicial);
             Assert.AreEqual(dataValidadeFinal, processo.DataDeValidadeFinal);
             Assert.AreSame(itinerario, processo.Itinerario);
-            Assert.AreSame(fornecedor, processo.Fornecedor);
+            Assert.AreSame(fornecedor, processo.FornecedorDaMercadoria);
             Assert.AreSame(municipioOrigem, processo.MunicipioDeOrigem);
             Assert.AreSame(municipioDestino, processo.MunicipioDeDestino);
             Assert.AreEqual(2000, processo.Cadencia);
             Assert.IsFalse(processo.Classificacao);
-
+            Assert.AreSame(deposito, processo.Deposito);
 
         }
 
@@ -91,8 +95,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeFrete.Atualizar(processoDeCotacaoDeFrete.Produto, 1500, processoDeCotacaoDeFrete.UnidadeDeMedida, 
                 "requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
                 processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario,
-                processoDeCotacaoDeFrete.Fornecedor,processoDeCotacaoDeFrete.Cadencia, processoDeCotacaoDeFrete.Classificacao,
-                processoDeCotacaoDeFrete.MunicipioDeOrigem, processoDeCotacaoDeFrete.MunicipioDeDestino);
+                processoDeCotacaoDeFrete.FornecedorDaMercadoria,processoDeCotacaoDeFrete.Cadencia, processoDeCotacaoDeFrete.Classificacao,
+                processoDeCotacaoDeFrete.MunicipioDeOrigem, processoDeCotacaoDeFrete.MunicipioDeDestino, processoDeCotacaoDeFrete.Deposito);
         }
 
         [TestMethod]

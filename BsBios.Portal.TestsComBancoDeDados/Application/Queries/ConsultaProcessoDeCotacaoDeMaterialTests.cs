@@ -4,8 +4,10 @@ using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
+using BsBios.Portal.TestsComBancoDeDados.Infra;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -70,8 +72,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
 
-            ProcessoDeCotacaoDeFrete processo1 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
-            ProcessoDeCotacaoDeFrete processo2 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processo1 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
+            ProcessoDeCotacaoDeFrete processo2 = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo1);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo2);
@@ -183,7 +187,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultaCotacaoResumidaAntesDoFornecedorInformarCotacaoRetornaObjetoEsperado()
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             FornecedorParticipante fornecedorParticipante = processoDeCotacao.AdicionarFornecedor(fornecedor);
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao);
@@ -208,7 +214,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoConsultaCotacaoResumidaAposFornecedorInformarCotacaoRetornaObjetoEsperado()
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
             FornecedorParticipante fornecedorParticipante = processoDeCotacao.FornecedoresParticipantes.First();
             Fornecedor fornecedor = fornecedorParticipante.Fornecedor;
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao);

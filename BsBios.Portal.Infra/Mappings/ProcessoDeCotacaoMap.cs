@@ -54,15 +54,16 @@ namespace BsBios.Portal.Infra.Mappings
             KeyColumn("Id");
 
             References(x => x.Itinerario).Column("CodigoItinerario");
-            References(x => x.Fornecedor).Column("CodigoFornecedor").Nullable();
+            References(x => x.FornecedorDaMercadoria).Column("CodigoFornecedor").Nullable();
             References(x => x.MunicipioDeOrigem).Column("CodigoMunicipioOrigem");
             References(x => x.MunicipioDeDestino).Column("CodigoMunicipioDestino");
+            References(x => x.Deposito).Column("CodigoDeposito");
 
             Map(x => x.DataDeValidadeInicial).Column("DataValidadeInicial");
             Map(x => x.DataDeValidadeFinal).Column("DataValidadeFinal");
             Map(x => x.NumeroDoContrato).Column("NumeroContrato");
-            Map(x => x.Classificacao).Not.Nullable();
-            Map(x => x.Cadencia).Not.Nullable();
+            Map(x => x.Classificacao);
+            Map(x => x.Cadencia);
 
         }
     }

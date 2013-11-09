@@ -56,12 +56,12 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Cadência")]
         [Required(ErrorMessage = "Cadência é obrigatório")]
         //[Required]
-        public string Cadencia { get; set; }
+        public decimal Cadencia { get; set; }
 
-        public string CodigoFornecedor { get; set; }
+        public string CodigoDoFornecedorDaMercadoria { get; set; }
 
-        [Display(Name = "Fornecedor")]
-        public string Fornecedor { get; set; }
+        [Display(Name = "Fornecedor da Mercadoria")]
+        public string FornecedorDaMercadoria { get; set; }
 
 
         public string CodigoDoMunicipioDeOrigem { get; set; }
@@ -75,6 +75,12 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Município de Destino")]
         [Required(ErrorMessage = "Município de Destino é obrigatório")]
         public string NomeDoMunicipioDeDestino { get; set; }
+
+        public string CodigoDoDeposito { get; set; }
+
+        [Display(Name = "Fornecedor da Mercadoria")]
+        public string Deposito { get; set; }
+
 
     }
 }

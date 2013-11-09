@@ -63,9 +63,9 @@
              new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.Cadencia, "campomedio masknumerointeiro"))
             
             <div class="linha">
-                @Html.HiddenFor(x => x.CodigoFornecedor)
-                @Html.LabelFor(x => x.Fornecedor)
-                @Html.TextBoxFor(x => x.Fornecedor, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
+                @Html.HiddenFor(x => x.CodigoDoFornecedorDaMercadoria)
+                @Html.LabelFor(x => x.FornecedorDaMercadoria)
+                @Html.TextBoxFor(x => x.FornecedorDaMercadoria, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
                 <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
             </div>
             
