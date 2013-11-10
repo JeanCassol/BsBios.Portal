@@ -27,6 +27,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             _ordensDeTransporte.NomeDoFornecedorContendo(filtro.NomeDoFornecedor);
 
+            if (filtro.NumeroDaOrdemDeTransporte.HasValue)
+            {
+                _ordensDeTransporte.BuscaPorId(filtro.NumeroDaOrdemDeTransporte.Value);    
+            }
+            
+
             //var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
 
             //fornecedores

@@ -1,17 +1,15 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model OrdemDeTransporteListagemFiltroVm
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
-        <div class="colunaFiltro">
-            @Html.Label("Código")
-            @Html.TextBox("CodigoDoFornecedor", "", new { @class = "campomedio" })
-        </div>
-        <div class="colunaFiltro">
-            @Html.Label("Nome")
-            @Html.TextBox("NomeDoFornecedor", "", new { @class = "campogrande" })
-        </div>
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.CodigoDoFornecedor,"campomedio"),
+        new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.NomeDoFornecedor,"campogrande"))
+        @Html.LinhaComUmaColuna(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, int?>(x => x.NumeroDaOrdemDeTransporte, "campomedio masknumerointeiro"))
+
         @{
             Html.RenderPartial("_BotoesDeFiltro");
         }
@@ -21,10 +19,13 @@
 @section scripts
 {
     <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+
+            aplicaMascaraInteiro();
             $("#gridOrdemDeTransporte").customKendoGrid({
                 dataSource: {
                     schema: {
@@ -50,7 +51,9 @@
                             cache: false,
                             data: function() {
                                 return {
-                                    CodigoDoFornecedor: $('#CodigoFornecedor').val()
+                                    CodigoDoFornecedor: $('#CodigoDoFornecedor').val(),
+                                    NomeDoFornecedor: $('#NomeDoFornecedor').val(),
+                                    NumeroDaOrdemDeTransporte: $('#NumeroDaOrdemDeTransporte').val()
                                 };
                             }
                         }

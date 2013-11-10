@@ -42,7 +42,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             UnitOfWorkNh.Commit();
 
-            OrdemDeTransporte ordemDeTransporteConsultada = ordensDeTransporte.BuscaPorId(ordemDeTransporte.Id);
+            OrdemDeTransporte ordemDeTransporteConsultada = ordensDeTransporte.BuscaPorId(ordemDeTransporte.Id).Single();
 
             Assert.AreEqual(ordemDeTransporte.Id, ordemDeTransporteConsultada.Id);
             Assert.AreSame(ordemDeTransporte.Fornecedor, ordemDeTransporteConsultada.Fornecedor);

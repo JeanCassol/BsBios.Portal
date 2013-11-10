@@ -9,9 +9,10 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public OrdensDeTransporte(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
-        public OrdemDeTransporte BuscaPorId(int id)
+        public IOrdensDeTransporte BuscaPorId(int id)
         {
-            return Query.SingleOrDefault(ordem => ordem.Id == id);
+            Query = Query.Where(ordem => ordem.Id == id);
+            return this;
         }
 
         public IOrdensDeTransporte AutorizadasParaOFornecedor(string codigoDoFornecedor)
