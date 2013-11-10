@@ -44,7 +44,7 @@
         $(function () {
             aplicaMascaraData();
             aplicaMascaraPlaca();
-            SelecionarFornecedor.Configurar();
+            SelecionarFornecedor.Configurar("#CodigoFornecedor", "#Fornecedor", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
                 window.open('@Url.Action("GerarRelatorio","RelatorioAgendamentoVisualizacao")' + '/?' + $('form').serialize() +
