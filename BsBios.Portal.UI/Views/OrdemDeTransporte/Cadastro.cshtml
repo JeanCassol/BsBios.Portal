@@ -7,6 +7,7 @@
 @{
     ViewBag.TituloDaPagina = "Ordem de Transporte";
 }
+<div id="novaColeta" style="display: none" >@Html.Partial("Coleta", new ColetaVm { UnidadeDeMedida = Model.Cabecalho.UnidadeDeMedida, PermiteEditar = true })</div>
 <div class="paginaCadastro">
     @{
         Html.RenderPartial("_CabecalhoDoProcessoDeCotacaoDeFrete", Model.Cabecalho);
@@ -35,6 +36,7 @@
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
             @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada, new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada))
             
+            
             @if (Model.PermiteAlterar)
             {
                 <div class="divBotao">
@@ -51,7 +53,7 @@
                     <input type="button" id="btnAdicionarColeta" value="Adicionar" class="blue" />
                 </div>
             }
-            <div id="gridColetas"></div>
+            <div id="gridColetas" class="divGrid"></div>
 
         </fieldset>
         <div id="divCadastroColeta" class="janelaModal"></div>
@@ -64,6 +66,7 @@
     @Scripts.Render("~/bundles/scriptsgerais")
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
 
@@ -208,15 +211,22 @@
                 }
             });
 
+            $('#btnAdicionarColeta').click(function () {
+                $('#divCadastroColeta').html($('#novaColeta').html());
+                $.validator.unobtrusive.parse('#divCadastroColeta');
+                $('#divCadastroColeta').dialog('open');
+                
 
-            $('#btnAdicionarColeta').click(function() {
+            });
+
+            @*$('#btnAdicionarColeta').click(function() {
                 $('#divCadastroColeta').load('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte"))',
                 function (response, status, xhr) {
                     jQuery.validator.unobtrusive.parse('#divCadastroColeta');
                     $('#divCadastroColeta').dialog('open');
                 });
 
-        });
+            });*@
 
 
     });

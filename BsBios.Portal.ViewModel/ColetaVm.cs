@@ -6,15 +6,18 @@ namespace BsBios.Portal.ViewModel
     public class ColetaVm: ColetaListagemVm
     {
 
-        //[DisplayName("Peso Total")]
-        //public decimal PesoTotal { get; set; }
-
         [DisplayName("Valor do Frete")]
         public decimal ValorDoFrete { get; set; }
 
         public NotaFiscalDeColetaVm NotaFiscal { get; set; }
         //public bool PermiteEditar { get; set; }
         public bool PermiteRealizar { get; set; }
+        
+        [DisplayName("Unidade de Medida")]
+        public string UnidadeDeMedida { get; set; }
+
+        [DisplayName("Valor Unitário")]
+        public decimal ValorUnitario { get; set; }
     }
 
     public class NotaFiscalDeColetaVm

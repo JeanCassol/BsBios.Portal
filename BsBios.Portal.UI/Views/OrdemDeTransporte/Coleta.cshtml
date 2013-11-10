@@ -6,27 +6,30 @@
 }
 <div class="divFiltros">
     <fieldset >
-        <legend>Ordem de Transporte</legend>
+        <legend>Dados da Coleta</legend>
         <form id="formAgendamento"> 
             @Html.HiddenFor(x => x.Id)
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.Placa, "maskplaca"),
-            new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,""))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.Placa, "campopequeno maskplaca"),
+            new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,"campogrande"))
             
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campoDatePicker maskdata"))
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "maskquantidade campoDesabilitado"),
-                     new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "maskquantidade campoDesabilitado"))
-</form>
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
+                new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorUnitario, "campopequeno maskquantidade campoDesabilitado"),
+            new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskquantidade campoDesabilitado"))
+        </form>
     </fieldset>
     <fieldset id="fieldSetNotaFiscal">
         <legend>Nota Fiscal</legend>
         <form id="formNotaFiscal">
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "masknumeronf"),
-                                               new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "maskserienf"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "campopequeno masknumeronf"),
+                                    new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
 
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campoDatePicker maskdata" : ""))
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : ""))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "maskmoeda" ),
-            new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "maskmoeda campoDesabilitado"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskmoeda"),
+                     new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
             
 
             @if (Model.PermiteEditar)
@@ -69,15 +72,10 @@
         } else {
             aplicaMascaraNumeroNf();
             aplicaMascaraSerieNf();
-            aplicaMascaraNumeroContrato();
             aplicaMascaraPlaca();
-            aplicaMascaraCnpj();
             aplicaMascaraData();
             aplicaMascaraQuantidade();
             aplicaMascaraMoeda();
-
-            $('#NotaFiscal_NomeDoEmitente').attr('maxlength', 35);
-            $('#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
         }
 
 
@@ -92,10 +90,6 @@
                 Numero: $('#NotaFiscal_Numero').val(),
                 Serie: $('#NotaFiscal_Serie').val(),
                 DataDeEmissao: $('#NotaFiscal_DataDeEmissao').val(),
-                CnpjDoEmitente: $('#NotaFiscal_CnpjDoEmitente').val().replace(/[^\d]+/g, ''),
-                NomeDoEmitente: $('#NotaFiscal_NomeDoEmitente').val(),
-                CnpjDoContratante: $('#NotaFiscal_CnpjDoContratante').val().replace(/[^\d]+/g, ''),
-                NomeDoContratante: $('#NotaFiscal_NomeDoContratante').val(),
                 NumeroDoContrato: $('#NotaFiscal_NumeroDoContrato').val(),
                 Valor: Globalize.parseFloat($('#NotaFiscal_Valor').val()),
                 Peso: Globalize.parseFloat($('#NotaFiscal_Peso').val())
@@ -121,47 +115,6 @@
             $(this).hide();
         });
 
-        $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_CnpjDoContratante').blur(function() {
-            var cnpj = $(this).val();
-            cnpj = cnpj.replace(/[^\d]+/g, '');
-            if (cnpj == '') {
-                return;
-            }
-            var idCampoNome = "";
-            if ($(this)[0].name.indexOf("Emitente") >= 0) {
-                idCampoNome = "#NotaFiscal_NomeDoEmitente";
-            }
-            if ($(this)[0].name.indexOf("Contratante") >= 0) {
-                idCampoNome = "#NotaFiscal_NomeDoContratante";
-            }
-
-            if (validarCNPJ(cnpj)) {
-                $.ajax({
-                    url: '@Url.Action("ConsultaPeloCnpj","Fornecedor")',
-                    type: 'GET',
-                    data: { Cnpj: cnpj},
-                    cache: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.Sucesso) {
-                            $(idCampoNome).val(data.Nome);
-                        } else {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + data.Mensagem);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
-            } else {
-                var campo = this;
-                Mensagem.ExibirMensagemDeErro("CNPJ inválido.", function () {
-                    $(campo).focus();
-                });
-                
-                
-            }
-        });
     });
 </script>
 
