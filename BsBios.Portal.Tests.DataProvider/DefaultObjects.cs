@@ -205,6 +205,14 @@ namespace BsBios.Portal.Tests.DataProvider
                 ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao());
         }
 
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteCancelado(Municipio municipioOrigem, Municipio municipioDestino)
+        {
+            var processoDeCotacao = ObtemProcessoDeCotacaoDeFrete(municipioOrigem, municipioDestino);
+            processoDeCotacao.Cancelar();
+            return processoDeCotacao;
+        }
+        
+
 
         private static Municipio ObtemMunicipioPadrao()
         {
@@ -279,15 +287,20 @@ namespace BsBios.Portal.Tests.DataProvider
             return processoDeCotacao;
         }
 
-
-
-
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
             processoDeCotacao.Fechar();
             return processoDeCotacao;
         }
+
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado(Municipio municipioOrigem, Municipio municipioDestino)
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipioOrigem, municipioDestino);
+            processoDeCotacao.Fechar();
+            return processoDeCotacao;
+        }
+
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto)
         {
             return ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto, ObtemMunicipioPadrao(),ObtemMunicipioPadrao());

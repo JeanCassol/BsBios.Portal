@@ -8,5 +8,7 @@
         public string CodigoProduto { get; set; }
         public string DescricaoProduto { get; set; }
         public int? CodigoStatusProcessoCotacao { get; set; }
+
+
     }
 }

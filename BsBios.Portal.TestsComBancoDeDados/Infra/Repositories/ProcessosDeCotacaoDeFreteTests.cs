@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -71,5 +72,32 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(processo.FornecedoresParticipantes.Count(x => x.Cotacao != null), processoConsultado.FornecedoresParticipantes.Count(x => x.Cotacao != null));
             Console.WriteLine("Consultando Cotacao - FIM");
         }
+
+        [TestMethod]
+        public void QuandoDesconsideroProcessosDeCotacaoCanceladosRetornaApenasProcessosDeCotacaoEmOutrosEstados()
+        {
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+            //criar 4 processos um em cada estado
+            ProcessoDeCotacaoDeFrete processoNaoIniciado = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());
+            ProcessoDeCotacaoDeFrete processoAberto = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(municipios.First(), municipios.Last());
+            ProcessoDeCotacaoDeFrete processoFechado = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado(municipios.First(), municipios.Last());
+            ProcessoDeCotacaoDeFrete processoCancelado = DefaultObjects.ObtemProcessoDeCotacaoDeFreteCancelado(municipios.First(), municipios.Last());
+
+            Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Cancelado, processoCancelado.Status);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoNaoIniciado);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoAberto);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoFechado);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoCancelado);
+
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+
+            var processos = processosDeCotacao.DesconsideraCancelados().List();
+
+            Assert.AreEqual(3, processos.Count);
+            Assert.IsTrue(processos.All(x => x.Status != Enumeradores.StatusProcessoCotacao.Cancelado));
+
+        }
+
     }
 }

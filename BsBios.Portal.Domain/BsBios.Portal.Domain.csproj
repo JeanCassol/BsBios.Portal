@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AgendamentoDeCarga.cs" />
+    <Compile Include="Entities\Coleta.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\Imposto.cs" />
     <Compile Include="Entities\Itinerario.cs" />

@@ -44,7 +44,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (filtro.CodigoStatusProcessoCotacao.HasValue)
             {
-                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
+                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), 
+                    Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
+            }
+            else
+            {
+                _processosDeCotacao.DesconsideraCancelados();
             }
 
             var query = (from p in _processosDeCotacao.GetQuery()

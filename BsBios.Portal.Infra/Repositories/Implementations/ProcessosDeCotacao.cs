@@ -72,5 +72,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.Status == status);
             return this;
         }
+
+        public IProcessosDeCotacao DesconsideraCancelados()
+        {
+            Query = Query.Where(x => x.Status != Enumeradores.StatusProcessoCotacao.Cancelado);
+            return this;
+        }
     }
 }

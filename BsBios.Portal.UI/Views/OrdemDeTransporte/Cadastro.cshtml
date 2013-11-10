@@ -18,7 +18,7 @@
         @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeInicial),
                                     new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeFinal))
         @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Classificacao),
-                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, int>(x => x.Cadencia))
+                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.Cadencia))
         @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Requisitos))
 
     </fieldset>
@@ -91,7 +91,7 @@
             }
 
             var formData = $(form).serialize();
-            $.post('@Url.Action("Salvar", "OrdemDeTransporte")', formData,
+            $.post('@Url.Action("SalvarOrdem", "OrdemDeTransporteService")', formData,
                 function (data) {
                     if (data.Sucesso) {
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);

@@ -49,12 +49,6 @@ namespace BsBios.Portal.UI.Controllers
             return View("Cadastro",cadastro);
         }
 
-        [HttpPost]
-        public ActionResult Salvar()
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpGet]
         public JsonResult ListarColetas()
         {
@@ -88,8 +82,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             
-            var coletaVm = new ColetaVm();
-            coletaVm.PermiteEditar = usuarioConectado.PermiteAlterarColeta();
+            var coletaVm = new ColetaVm {PermiteEditar = usuarioConectado.PermiteAlterarColeta()};
             return PartialView("Coleta", coletaVm);
         }
 

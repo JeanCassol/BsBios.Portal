@@ -146,6 +146,7 @@
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\MunicipioController.cs" />
     <Compile Include="Controllers\OrdemDeTransporteController.cs" />
+    <Compile Include="Controllers\OrdemDeTransporteServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoCancelamentoController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialEmailController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteEmailController.cs" />

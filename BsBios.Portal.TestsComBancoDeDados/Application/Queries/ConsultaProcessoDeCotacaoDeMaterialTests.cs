@@ -164,6 +164,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             
         }
 
+
+
         [TestMethod]
         public void ConsultaFornecedoresParticipantesRetornaObjetoEsperado()
         {
