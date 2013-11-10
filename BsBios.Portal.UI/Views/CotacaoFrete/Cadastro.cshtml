@@ -10,19 +10,8 @@
     {
         @Html.HiddenFor(model => model.IdProcessoCotacao)
         @Html.HiddenFor(model => model.CodigoFornecedor)
-        
-        <fieldset>
-            <legend>Processo de Cotação</legend>
-            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Status),
-                                      new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataLimiteDeRetorno))
-            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataDeValidadeInicial),
-                                      new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.DataDeValidadeFinal))
-            @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Material))
-            @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoFreteCadastroVm, decimal>(x => x.Quantidade),
-                                      new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.UnidadeDeMedida))
-                @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Itinerario))
-            @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoFreteCadastroVm, string>(x => x.Requisitos))
-        </fieldset>
+
+        Html.RenderPartial("_CabecalhoDoProcessoDeCotacaoDeFrete", Model.Cabecalho);        
        
         <fieldset>
             <legend>Cotação do Fornecedor</legend>

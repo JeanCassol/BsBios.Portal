@@ -482,6 +482,7 @@
     <Content Include="Views\OrdemDeTransporte\Index.cshtml" />
     <Content Include="Views\OrdemDeTransporte\Cadastro.cshtml" />
     <Content Include="Views\OrdemDeTransporte\Coleta.cshtml" />
+    <Content Include="Views\Shared\_CabecalhoDoProcessoDeCotacaoDeFrete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,6 +61,7 @@
     <Compile Include="ColetaListagemVm.cs" />
     <Compile Include="OrdemDeTransporteListagemFiltroVm.cs" />
     <Compile Include="OrdemDeTransporteListagemVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />

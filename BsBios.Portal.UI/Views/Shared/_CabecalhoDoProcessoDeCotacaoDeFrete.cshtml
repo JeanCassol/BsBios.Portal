@@ -1,0 +1,27 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model ProcessoDeCotacaoDeFreteCabecalhoVm
+@{
+    Layout = null;
+}
+<fieldset>
+    <legend>Processo de Cotação</legend>
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Status),
+                                new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.DataLimiteDeRetorno))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.DataDeValidadeInicial),
+                                new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.DataDeValidadeFinal))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Material),
+            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NumeroDoContrato))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Quantidade),
+                                new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.UnidadeDeMedida))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Classificacao),
+            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Cadencia))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Itinerario))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.MunicipioDeOrigem),
+            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.MunicipioDeDestino))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NomeDoFornecedor),
+            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoFornecedor))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NomeDoDeposito),
+            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoDeposito))
+    @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Requisitos))
+</fieldset>

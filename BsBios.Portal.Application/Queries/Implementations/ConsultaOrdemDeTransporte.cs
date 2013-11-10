@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using JetBrains.Annotations;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -70,31 +73,47 @@ namespace BsBios.Portal.Application.Queries.Implementations
             bool permiteAdicionarColeta = usuarioConectado.PermiteAlterarColeta();
             _ordensDeTransporte.BuscaPorId(id);
 
-            return (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+            var ordemDeTransporteCadastroVm =  (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                     let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
                     let fornecedor = processoDeCotacao.FornecedorDaMercadoria
+                    let deposito = processoDeCotacao.Deposito
                 select new OrdemDeTransporteCadastroVm
                 {
                     Id = ordemDeTransporte.Id,
-                    Material = processoDeCotacao.Produto.Descricao,
-                    UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
                     QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada ,
                     QuantidadeColetada = ordemDeTransporte.QuantidadeColetada ,
-                    Cadencia = processoDeCotacao.Cadencia ,
-                    Classificacao = processoDeCotacao.Classificacao ? "Sim": "Não" ,
-                    Transportadora = ordemDeTransporte.Fornecedor.Nome,
-                    NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
-                    NomeDoFornecedor =  fornecedor != null ? fornecedor.Nome: "Não informado",
-                    EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco: "Não informado",
-                    DataDeValidadeInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
-                    DataDeValidadeFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
-                    MunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Nome + "/" + processoDeCotacao.MunicipioDeOrigem.UF,
-                    MunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Nome + "/" + processoDeCotacao.MunicipioDeDestino.UF,
-                    Requisitos = processoDeCotacao.Requisitos ,
                     PermiteAlterar = permiteAlterar,
-                    PermiteAdicionarColeta = permiteAdicionarColeta
+                    PermiteAdicionarColeta = permiteAdicionarColeta,
+                    Transportadora = ordemDeTransporte.Fornecedor.Nome,
+                    Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
+                    {
+                        Material = processoDeCotacao.Produto.Descricao,
+                        UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
+                        Cadencia = processoDeCotacao.Cadencia,
+                        Classificacao = processoDeCotacao.Classificacao ? "Sim" : "Não",
+                        NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
+                        NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
+                        EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
+                        NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
+                        EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
+                        DataDeValidadeInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString(),
+                        DataDeValidadeFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
+                        MunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Nome + "/" + processoDeCotacao.MunicipioDeOrigem.UF,
+                        MunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Nome + "/" + processoDeCotacao.MunicipioDeDestino.UF,
+                        Requisitos = processoDeCotacao.Requisitos,
+                        Quantidade = processoDeCotacao.Quantidade,
+                        DataLimiteDeRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
+                        Itinerario = processoDeCotacao.Itinerario.Descricao,
+                        Status = processoDeCotacao.Status.ToString()
+                    }
 
                 }).Single();
+
+            var status = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao),ordemDeTransporteCadastroVm.Cabecalho.Status);
+
+            ordemDeTransporteCadastroVm.Cabecalho.Status = status.Descricao();
+
+            return ordemDeTransporteCadastroVm;
         }
     }
 }

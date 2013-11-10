@@ -2,6 +2,7 @@
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Application.Queries.Builders;
@@ -129,21 +130,38 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
 
+            Fornecedor fornecedor = processo.FornecedorDaMercadoria;
+            Fornecedor deposito = processo.Deposito;
+            Municipio municipioDeOrigem = processo.MunicipioDeOrigem;
+            Municipio municipioDeDestino = processo.MunicipioDeDestino;
+
             var vm = new CotacaoFreteCadastroVm
             {
                 PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
                 IdProcessoCotacao = processo.Id,
                 CodigoFornecedor = fp.Fornecedor.Codigo,
-                Status = processo.Status.Descricao(),
-                Requisitos = processo.Requisitos,
-                DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
-                Material = processo.Produto.Descricao,
-                Quantidade = processo.Quantidade,
-                UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
-                DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
-                DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
-                Itinerario = processo.Itinerario.Descricao,
-                IdFornecedorParticipante = fp.Id
+                IdFornecedorParticipante = fp.Id,
+                Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
+                {
+                    Status = processo.Status.Descricao(),
+                    Requisitos = processo.Requisitos,
+                    DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
+                    Material = processo.Produto.Descricao,
+                    Quantidade = processo.Quantidade,
+                    UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
+                    DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
+                    DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
+                    Itinerario = processo.Itinerario.Descricao,
+                    Cadencia = processo.Cadencia,
+                    Classificacao = processo.Classificacao ? "Sim" : "Não",
+                    NumeroDoContrato = processo.NumeroDoContrato,
+                    NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
+                    EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
+                    NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
+                    EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
+                    MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado" ,
+                    MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado"
+                }
             };
 
             if (fp.Cotacao != null)

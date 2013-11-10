@@ -8,20 +8,10 @@
     ViewBag.TituloDaPagina = "Ordem de Transporte";
 }
 <div class="paginaCadastro">
+    @{
+        Html.RenderPartial("_CabecalhoDoProcessoDeCotacaoDeFrete", Model.Cabecalho);
+    }
         
-    <fieldset>
-        <legend>Processo de Cotação</legend>
-        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.NomeDoFornecedor))
-        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.EnderecoDoFornecedor))
-        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.MunicipioDeOrigem),
-                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.MunicipioDeDestino))
-        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeInicial),
-                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.DataDeValidadeFinal))
-        @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Classificacao),
-                                    new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.Cadencia))
-        @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Requisitos))
-
-    </fieldset>
     @using(Html.BeginForm())       
     {
         <fieldset>
@@ -42,10 +32,7 @@
                 }
                 
             }
-            @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora),
-                new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.NumeroDoContrato))
-            @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Material),
-                new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.UnidadeDeMedida))
+            @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
             @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada, new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada))
             
             @if (Model.PermiteAlterar)
@@ -67,7 +54,7 @@
             <div id="gridColetas"></div>
 
         </fieldset>
-            <div id="divCadastroColeta" class="janelaModal"></div>
+        <div id="divCadastroColeta" class="janelaModal"></div>
 
     }
 </div>
