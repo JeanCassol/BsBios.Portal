@@ -36,7 +36,7 @@
             {
                 <div class="divBotao">
                     <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
-                    <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue" />
+                    <input type="reset" id="btnCancelarEdicao" value="Cancelar" class="blue" />
                 </div>
             }
 
@@ -90,7 +90,7 @@
         }
 
 
-        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar});
+        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar, exibirContratanteEEmitente: true});
         $('#btnSalvarNotaFiscal').click(function() {
             var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {
@@ -126,7 +126,7 @@
 
         $('#btnCancelarEdicao').click(function() {
             $('#btnSalvarNotaFiscal').val('Adicionar');
-            limparCamposDaNota();
+            //limparCamposDaNota();
             $(this).hide();
         });
 

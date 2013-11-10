@@ -9,7 +9,7 @@ function existeNotaFiscal(notaFiscalParaVerificar) {
         if (indice == indiceEdicao) {
             return;
         }
-        if (notaFiscal.CnpjEmitente == notaFiscalParaVerificar.CnpjEmitente
+        if (( !GridNotasFiscais.configuracao.exibirContratanteEEmitente || notaFiscal.CnpjEmitente == notaFiscalParaVerificar.CnpjEmitente)
             && notaFiscal.Numero == notaFiscalParaVerificar.Numero
             && notaFiscal.Serie == notaFiscalParaVerificar.Serie) {
             notaFiscalEncontrada = true;
@@ -27,11 +27,13 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_Numero').val(notaFiscal.Numero);
     $('#NotaFiscal_Serie').val(notaFiscal.Serie);
     $('#NotaFiscal_DataDeEmissao').val(notaFiscal.DataDeEmissao);
-    $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
-    $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
-    $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
-    $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
-    $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+    if (GridNotasFiscais.configuracao.exibirContratanteEEmitente) {
+        $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
+        $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
+        $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
+        $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
+        $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+    }
     $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso));
     $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor));
 }
@@ -81,6 +83,8 @@ GridNotasFiscais = {
     ConfigurarGrid: function (configuracao) {
         /// <summary>Configura os campos e as colunas do grid de agendamentos de um dia</summary>
         /// <param name="configuracao" type="Object">PermiteEditar: indica se pode editar as notas fiscais</param>
+
+        GridNotasFiscais.configuracao = configuracao;
         
         var arrayDeColunas = new Array();
 
@@ -122,12 +126,20 @@ GridNotasFiscais = {
                 width: 70,
                 field: "DataDeEmissao",
                 title: "Emissão"
-            },
-            {
-                width: 300,
-                field: "NomeDoEmitente",
-                title: "Emitente"
-            },
+            }
+        );
+
+        if (configuracao.exibirContratanteEEmitente) {
+            arrayDeColunas.push(
+                {
+                    width: 300,
+                    field: "NomeDoEmitente",
+                    title: "Emitente"
+                }
+            );
+        }
+
+        arrayDeColunas = arrayDeColunas.concat(
             {
                 field: "Peso",
                 width: 80,
@@ -137,7 +149,8 @@ GridNotasFiscais = {
                 field: "Valor",
                 width: 80,
                 format: "{0:n}"
-            });
+            }
+        );
 
         $("#divGridNotasFiscaisAdicionadas").customKendoGrid({
             dataSource: {
@@ -171,7 +184,7 @@ GridNotasFiscais = {
     },
     SalvarNotaFiscal: function (notaFiscal) {
         if (existeNotaFiscal(notaFiscal)) {
-            throw "Já existe Nota Fiscal cadastrada para o CNPJ " + notaFiscal.CnpjDoEmitente +
+            throw "Já existe Nota Fiscal cadastrada" + (GridNotasFiscais.configuracao.exibirContratanteEEmitente ? " para o CNPJ " + notaFiscal.CnpjDoEmitente : "") +
                 " com Número " + notaFiscal.Numero + " e Série " + notaFiscal.Serie + ". Edite a Nota Fiscal existente.";
         }
         if (indiceEdicao == -1) {
@@ -194,14 +207,14 @@ GridNotasFiscais = {
         dataType: 'json',
         success: function (data) {
             if (!data.Sucesso) {
-                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais do Agendamento. Detalhe: ' + data.Mensagem);
+                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais. Detalhe: ' + data.Mensagem);
                 return;
             }
             NotasFiscaisAdicionadas = data.NotasFiscais;
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais do Agendamento.. Detalhe: ' + textStatus + errorThrown);
+            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as Notas Fiscais. Detalhe: ' + textStatus + errorThrown);
         }
     });
         
