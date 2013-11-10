@@ -29,6 +29,8 @@ namespace BsBios.Portal.UI
             ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
             ModelBinders.Binders.Add(typeof(Decimal), new DecimalModelBinder());
             ModelBinders.Binders.Add(typeof(Decimal?), new DecimalModelBinder());
+            ModelBinders.Binders.Add(typeof(int), new IntegerModelBinder());
+            ModelBinders.Binders.Add(typeof(int?), new IntegerModelBinder());
 
             //DefaultModelBinder.ResourceClassKey = "Mensagens";
             //ValidationExtensions.ResourceClassKey = "Mensagens";
