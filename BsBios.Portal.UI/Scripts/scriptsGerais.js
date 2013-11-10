@@ -350,8 +350,15 @@ $(function () {
     //aplicaMascaras();
 });
 
+function responseIsJsonDataType(ajaxOptions) {
+    return (ajaxOptions.dataType == "json")
+        || (ajaxOptions.dataTypes && ajaxOptions.dataTypes.indexOf("json") > -1);
+}
+
+
 $(document).ajaxComplete(function (event, request, ajaxOptions) {
-    if (ajaxOptions.dataType != "json") {
+    
+    if (!responseIsJsonDataType(ajaxOptions)) {
         return;
     }
     var resposta = JSON.parse(request.responseText);
