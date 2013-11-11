@@ -15,6 +15,9 @@ namespace BsBios.Portal.ViewModel
         public decimal QuantidadeLiberada { get; set; }
         [DisplayName("Quantidade Coletada: ")]
         public decimal QuantidadeColetada { get; set; }
+
+        public decimal PrecoUnitario { get; set; }
+
         public bool PermiteAlterar { get; set; }
         public bool PermiteAdicionarColeta { get; set; }
 

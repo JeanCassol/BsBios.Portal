@@ -53,7 +53,7 @@
 <script type="text/javascript">
     inicializaCamposDatePicker();
     function limparCamposDaNota() {
-        $('#fieldSetNotaFiscal').find('input[type!=button]').val('');
+        $('#fieldSetNotaFiscal').find('input:not([type=button])').val('');
     }
 
     $(function () {

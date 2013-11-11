@@ -6,13 +6,23 @@ namespace BsBios.Portal.Common
     {
         public enum Perfil
         {
-            [Description("Comprador Suprimentos")] CompradorSuprimentos = 1,
-            [Description("Comprador Logística")] CompradorLogistica = 2,
-            [Description("Fornecedor")] Fornecedor = 3,
-            [Description("Administrador")] Administrador = 4,
-            [Description("Gerenciador de Quotas")] GerenciadorDeQuotas = 5,
-            [Description("Agendador de Cargas")] AgendadorDeCargas = 6,
-            [Description("Conferidor de Cargas")] ConferidorDeCargas = 7
+            [Description("Comprador Suprimentos")] 
+            CompradorSuprimentos = 1,
+            [Description("Comprador Logística")] 
+            CompradorLogistica = 2,
+            [Description("Fornecedor")] 
+            Fornecedor = 3,
+            [Description("Administrador")] 
+            Administrador = 4,
+            [Description("Gerenciador de Quotas")] 
+            GerenciadorDeQuotas = 5,
+            [Description("Agendador de Cargas")] 
+            AgendadorDeCargas = 6,
+            [Description("Conferidor de Cargas")] 
+            ConferidorDeCargas = 7,
+            [Description("Conferidor de Cargas em Depósito")] 
+            ConferidorDeCargasEmDeposito
+
         }
 
         public enum StatusProcessoCotacao

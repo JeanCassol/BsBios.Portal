@@ -23,6 +23,14 @@ function atualizarGrid() {
     grid.dataSource.read();
 }
 
+function atualizarTela() {
+    atualizarGrid();
+    debugger;
+    if (GridNotasFiscais.configuracao.funcaoParaExecutarAposSalvarNota) {
+        GridNotasFiscais.configuracao.funcaoParaExecutarAposSalvarNota();
+    }
+}
+
 function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_Numero').val(notaFiscal.Numero);
     $('#NotaFiscal_Serie').val(notaFiscal.Serie);
@@ -34,8 +42,8 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
         $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
         $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
     }
-    $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso));
-    $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor));
+    $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso,'n3'));
+    $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor,'n2'));
 }
 
 
@@ -59,7 +67,7 @@ function criarEventoRemove() {
         e.preventDefault();
         var indice = $(this).parents('tr:first')[0].rowIndex;
         NotasFiscaisAdicionadas.splice(indice, 1);
-        atualizarGrid();
+        atualizarTela();
     });
 
 }
@@ -193,7 +201,7 @@ GridNotasFiscais = {
             NotasFiscaisAdicionadas[indiceEdicao] = notaFiscal;
         }
         indiceEdicao = -1;
-        atualizarGrid();
+        atualizarTela();
     },
     NotasFiscais: function() {
         return NotasFiscaisAdicionadas;

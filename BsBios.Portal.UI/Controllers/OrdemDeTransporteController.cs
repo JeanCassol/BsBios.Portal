@@ -6,6 +6,7 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using Microsoft.SqlServer.Server;
 using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
@@ -59,9 +60,9 @@ namespace BsBios.Portal.UI.Controllers
             {
                 Id = 1,
                 DataDePrevisaoDeChegada = DateTime.Now.Date.AddDays(2).ToShortDateString(),
-                Motorista = "Mauro Leal",
-                Placa = "IOQ-5338",
-                Peso = 150,
+                Motorista = "MAURO S. C. LEAL",
+                Placa = "IOQ-4337",
+                Peso = 35,
                 PermiteEditar = permiteEditar
 
             };
@@ -78,9 +79,11 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult NovaColeta()
         {
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            
-            var coletaVm = new ColetaVm {PermiteEditar = usuarioConectado.PermiteAlterarColeta()};
+            var coletaVm = new ColetaVm
+            {
+                PermiteEditar = true
+
+            };
             return PartialView("Coleta", coletaVm);
         }
 

@@ -16,15 +16,15 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Unidade de Medida")]
         public string UnidadeDeMedida { get; set; }
 
-        [DisplayName("Valor Unitário")]
-        public decimal ValorUnitario { get; set; }
+        [DisplayName("Preço Unitário")]
+        public decimal PrecoUnitario { get; set; }
     }
 
     public class NotaFiscalDeColetaVm
     {
         [DisplayName("Nº do Conhecimento")]
         [Required(ErrorMessage = "Nº do Conhecimento é obrigatório")]
-        public string NumeroDoConhecimento { get; set; }
+        public string Numero { get; set; }
         
         [DisplayName("Série")]
         [Required(ErrorMessage = "Série é obrigatório")]
@@ -35,6 +35,7 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Peso é obrigatório")]
         public decimal Peso { get; set; }
 
+        [Required(ErrorMessage = "Valor é obrigatório")]
         public decimal Valor{ get; set; }
     }
 }

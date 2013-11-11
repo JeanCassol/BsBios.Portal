@@ -7,7 +7,7 @@
 @{
     ViewBag.TituloDaPagina = "Ordem de Transporte";
 }
-<div id="novaColeta" style="display: none" >@Html.Partial("Coleta", new ColetaVm { UnidadeDeMedida = Model.Cabecalho.UnidadeDeMedida, PermiteEditar = true })</div>
+
 <div class="paginaCadastro">
     @{
         Html.RenderPartial("_CabecalhoDoProcessoDeCotacaoDeFrete", Model.Cabecalho);
@@ -158,7 +158,7 @@
                     },
                     {
                         width: 80,
-                        field: "Quantidade",
+                        field: "Peso",
                         title: "Quantidade"
                     },
                     {
@@ -211,22 +211,25 @@
                 }
             });
 
-            $('#btnAdicionarColeta').click(function () {
-                $('#divCadastroColeta').html($('#novaColeta').html());
-                $.validator.unobtrusive.parse('#divCadastroColeta');
-                $('#divCadastroColeta').dialog('open');
+            //$('#btnAdicionarColeta').click(function () {
+            //    $('#divCadastroColeta').html($('#novaColeta').html());
+            //    $.validator.unobtrusive.parse('#divCadastroColeta');
+            //    $('#divCadastroColeta').dialog('open');
                 
 
-            });
+            //});
 
-            @*$('#btnAdicionarColeta').click(function() {
-                $('#divCadastroColeta').load('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte"))',
+            $('#btnAdicionarColeta').click(function () {
+                var divCadastroColeta = $('#divCadastroColeta');
+                $(divCadastroColeta).load('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte",new{Model.Cabecalho.UnidadeDeMedida}))',
                 function (response, status, xhr) {
+                    $(divCadastroColeta).find('#UnidadeDeMedida').val('@Model.Cabecalho.UnidadeDeMedida');
+                    $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'),'n2'));
                     jQuery.validator.unobtrusive.parse('#divCadastroColeta');
-                    $('#divCadastroColeta').dialog('open');
+                    $(divCadastroColeta).dialog('open');
                 });
 
-            });*@
+            });
 
 
     });

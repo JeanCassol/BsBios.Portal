@@ -16,14 +16,14 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
                 new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorUnitario, "campopequeno maskquantidade campoDesabilitado"),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskquantidade campoDesabilitado"),
             new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskquantidade campoDesabilitado"))
         </form>
     </fieldset>
     <fieldset id="fieldSetNotaFiscal">
         <legend>Nota Fiscal</legend>
         <form id="formNotaFiscal">
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "campopequeno masknumeronf"),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Numero, "campopequeno masknumeronf"),
                                     new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : ""))
@@ -51,12 +51,14 @@
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridNotasFiscais.js")"></script>
 <script type="text/javascript">
-    inicializaCamposDatePicker();
-    function limparCamposDaNota() {
-        $('#fieldSetNotaFiscal').find('input[type!=button]').val('');
-    }
 
     $(function () {
+        
+        inicializaCamposDatePicker();
+        function limparCamposDaNota() {
+            $('#fieldSetNotaFiscal').find('input:not([type=button])').val('');
+        }
+
         $('#btnCancelarEdicao').hide();
         var permiteEditar = '@Model.PermiteEditar'.boolean();
         if (permiteEditar || '@Model.PermiteRealizar'.boolean()) {
@@ -78,8 +80,25 @@
             aplicaMascaraMoeda();
         }
 
+        var funcaoAposSalvarNota = function() {
+            var valorUnitario = Globalize.parseFloat($("#PrecoUnitario").val());
+            var pesoTotal = 0;
+            var notasFiscais = GridNotasFiscais.NotasFiscais();
+            $.each(notasFiscais, function(indice, notaFiscal) {
+                pesoTotal += notaFiscal.Peso;
+            });
+            
+            var valorDoFrete = pesoTotal * valorUnitario;
 
-        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar});
+            $("#Peso").val(Globalize.format(pesoTotal, 'n3'));
+            $('#ValorDoFrete').val(Globalize.format(valorDoFrete, 'n2'));
+        };
+
+        GridNotasFiscais.ConfigurarGrid({
+            PermiteEditar: permiteEditar,
+            exibirContratanteEEmitente: false,
+            funcaoParaExecutarAposSalvarNota: funcaoAposSalvarNota
+        });
         $('#btnSalvarNotaFiscal').click(function() {
             var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {
@@ -90,7 +109,6 @@
                 Numero: $('#NotaFiscal_Numero').val(),
                 Serie: $('#NotaFiscal_Serie').val(),
                 DataDeEmissao: $('#NotaFiscal_DataDeEmissao').val(),
-                NumeroDoContrato: $('#NotaFiscal_NumeroDoContrato').val(),
                 Valor: Globalize.parseFloat($('#NotaFiscal_Valor').val()),
                 Peso: Globalize.parseFloat($('#NotaFiscal_Peso').val())
             };

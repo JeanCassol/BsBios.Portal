@@ -88,6 +88,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Id = ordemDeTransporte.Id,
                     QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada ,
                     QuantidadeColetada = ordemDeTransporte.QuantidadeColetada ,
+                    PrecoUnitario = ordemDeTransporte.PrecoUnitario,
                     PermiteAlterar = permiteAlterar,
                     PermiteAdicionarColeta = permiteAdicionarColeta,
                     Transportadora = ordemDeTransporte.Fornecedor.Nome,
