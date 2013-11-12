@@ -143,6 +143,17 @@ $.fn.customDialog = function (configuracao) {
     this.dialog(configuracao);
 };
 
+$.fn.serializeObject = function() {
+    var inputs = $(this).find(":input");
+    var object = {};
+    $.each(inputs, function (index, input) {
+        
+        object[input.name] = $(input).val();
+    });
+
+    return object;
+};
+
 function atualizaMensagemDeErro(mensagem) {
     $('#divErro').html(mensagem);
 }

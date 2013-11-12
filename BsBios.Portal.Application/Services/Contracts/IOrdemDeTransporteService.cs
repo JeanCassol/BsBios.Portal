@@ -6,6 +6,7 @@ namespace BsBios.Portal.Application.Services.Contracts
     public interface IOrdemDeTransporteService
     {
         void AtualizarOrdemDeTransporte(OrdemDeTransporteAtualizarDTO ordemDeTransporteAtualizarDTO);
+        decimal SalvarColeta(ColetaSalvarVm coletaSalvarVm);
 
     }
 }

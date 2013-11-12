@@ -7,8 +7,8 @@
 <div class="divFiltros">
     <fieldset >
         <legend>Dados da Coleta</legend>
-        <form id="formAgendamento"> 
-            @Html.HiddenFor(x => x.Id)
+        <form id="formColeta"> 
+            @Html.HiddenFor(x => x.IdColeta)
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.Placa, "campopequeno maskplaca"),
             new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,"campogrande"))
             
@@ -23,13 +23,14 @@
     <fieldset id="fieldSetNotaFiscal">
         <legend>Nota Fiscal</legend>
         <form id="formNotaFiscal">
+            @Html.HiddenFor(x => x.NotaFiscal.Id)
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Numero, "campopequeno masknumeronf"),
-                                    new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
+                new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : ""))
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskmoeda"),
-                     new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
+                new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
             
 
             @if (Model.PermiteEditar)
@@ -93,6 +94,11 @@
             $("#Peso").val(Globalize.format(pesoTotal, 'n3'));
             $('#ValorDoFrete').val(Globalize.format(valorDoFrete, 'n2'));
         };
+
+        @if (Model.IdColeta > 0)
+        {
+            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDaColeta", "OrdemDeTransporte", new { Model.IdDaOrdemDeTransporte, Model.IdColeta }))');
+        }
 
         GridNotasFiscais.ConfigurarGrid({
             PermiteEditar: permiteEditar,

@@ -104,6 +104,38 @@ namespace BsBios.Portal.UI.Helpers
         {
             return System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass });
         }
+    }    
+    
+    public class ColunaComLabelEmDestaque<TModel, TValue> : Coluna<TModel, TValue>
+    {
+        private readonly string _idDoDestaque;
+        private readonly string _formatacaoDoDestaque;
+
+        public ColunaComLabelEmDestaque(Expression<Func<TModel, TValue>> expressao, string idDoDestaque, string formatacaoDoDestaque) 
+            : base(expressao, "","labelNaLinha", false)
+        {
+            _idDoDestaque = idDoDestaque;
+            _formatacaoDoDestaque = formatacaoDoDestaque;
+        }
+
+        public override MvcHtmlString GeraInput()
+        {
+            
+            var valorDoLabel = System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass }).ToString();
+            if (!string.IsNullOrEmpty(_formatacaoDoDestaque))
+            {
+                decimal valorConvertido;
+                if (decimal.TryParse(valorDoLabel, out valorConvertido))
+                {
+                    valorDoLabel = valorConvertido.ToString(_formatacaoDoDestaque);    
+                }
+                
+                
+            }
+            var elemento = "<span class=\"labelDestaque\" id=\"" + _idDoDestaque + "\">" + valorDoLabel + "</span>";
+
+            return new MvcHtmlString(elemento);
+        }
     }
 
     public class ColunaComCheckBox<TModel, TValue> : Coluna<TModel, TValue>

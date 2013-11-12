@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -8,7 +11,7 @@ namespace BsBios.Portal.Domain.Entities
 
 
         internal OrdemDeTransporte(ProcessoDeCotacaoDeFrete processoDeCotacao, Fornecedor fornecedor, 
-            decimal quantidadeAdquirida, decimal precoUnitario)
+            decimal quantidadeAdquirida, decimal precoUnitario):this()
         {
             ProcessoDeCotacaoDeFrete = processoDeCotacao;
             Fornecedor = fornecedor;
@@ -17,7 +20,10 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeLiberada = quantidadeAdquirida;
         }
 
-        protected OrdemDeTransporte(){}
+        protected OrdemDeTransporte()
+        {
+            Coletas = new List<Coleta>();
+        }
 
         public virtual int Id { get; protected set; }
         public virtual ProcessoDeCotacaoDeFrete ProcessoDeCotacaoDeFrete { get; protected set; }
@@ -46,8 +52,23 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void AdicionarColeta(Coleta coleta)
         {
             Coletas.Add(coleta);
-            //QuantidadeColetada += coleta.Peso
+            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+            if (QuantidadeColetada > QuantidadeLiberada)
+            {
+                throw new QuantidadeColetadaUltrapassouQuantidadeLiberadaException(QuantidadeColetada, QuantidadeLiberada);
+            }
         }
+
+        public virtual void AtualizarColeta(ColetaSalvarVm coletaSalvarVm)
+        {
+            var coleta = Coletas.Single(x => x.Id == coletaSalvarVm.IdColeta);
+
+            coleta.Atualizar(coletaSalvarVm,PrecoUnitario);
+
+            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+
+        }
+
 
     }
 }

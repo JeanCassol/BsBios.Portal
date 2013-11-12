@@ -36,5 +36,23 @@ namespace BsBios.Portal.UI.Controllers
             
         }
 
+
+        [HttpPost]
+        public JsonResult SalvarColeta(ColetaSalvarVm coletaSalvarVm)
+        {
+            try
+            {
+                var quantidadeColetada = _ordemDeTransporteService.SalvarColeta(coletaSalvarVm);
+                return Json(new { Sucesso = true, QuantidadeColetada =  quantidadeColetada});
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Sucesso = false, Mensagem = ExceptionUtil.ExibeDetalhes(ex) });
+            }
+
+
+        }
+
     }
 }

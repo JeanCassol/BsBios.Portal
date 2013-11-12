@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Domain.Entities;
-using FluentNHibernate.Conventions;
+﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -23,6 +17,13 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.QuantidadeLiberada);
             Map(x => x.QuantidadeColetada);
             Map(x => x.PrecoUnitario);
+
+            HasMany(x => x.Coletas)
+                            .KeyColumn("IdOrdemTransporte")
+                            .Not.Inverse()
+                            .Not.KeyNullable()
+                            .Not.KeyUpdate()
+                            .Cascade.All();
 
         }
     }

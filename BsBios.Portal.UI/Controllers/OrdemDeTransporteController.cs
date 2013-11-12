@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
-using Microsoft.SqlServer.Server;
 using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
@@ -49,29 +49,10 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListarColetas()
+        public JsonResult ListarColetas(PaginacaoVm paginacaoVm, int idDaOrdemDeTransporte)
         {
 
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-
-            bool permiteEditar = usuarioConectado.PermiteAlterarColeta();
-
-            var coleta = new ColetaListagemVm
-            {
-                Id = 1,
-                DataDePrevisaoDeChegada = DateTime.Now.Date.AddDays(2).ToShortDateString(),
-                Motorista = "MAURO S. C. LEAL",
-                Placa = "IOQ-4337",
-                Peso = 35,
-                PermiteEditar = permiteEditar
-
-            };
-
-            var kendoGridVm = new KendoGridVm
-            {
-                QuantidadeDeRegistros = 1,
-                Registros = new List<ListagemVm> {coleta}
-            };
+            var kendoGridVm = _consultaOrdemDeTransporte.ListarColetas(paginacaoVm, idDaOrdemDeTransporte);
 
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
@@ -88,26 +69,29 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditarColeta()
+        public ActionResult EditarColeta(int idDaOrdemDeTransporte, int idDaColeta)
         {
+            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta);
+
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
 
-            var coletaVm = new ColetaVm
-            {
-                PermiteEditar = usuarioConectado.PermiteAlterarColeta(),
-                Id = 1,
-                DataDePrevisaoDeChegada = new DateTime(2013,11,18).ToShortDateString(),
-                Motorista = "Mauro Leal",
-                Placa = "IOQ-5339",
-                Peso = 80,
-                ValorDoFrete = 1789
-                
-            };
+            coletaVm.PermiteEditar = usuarioConectado.PermiteAlterarColeta();
             
             return PartialView("Coleta", coletaVm);
         }
 
 
-
+        public JsonResult NotasFiscaisDaColeta(int idDaOrdemDeTransporte, int idColeta)
+        {
+            try
+            {
+                IList<NotaFiscalDeColetaVm> notasFiscais = _consultaOrdemDeTransporte.NotasFiscaisDaColeta(idDaOrdemDeTransporte, idColeta);
+                return Json(new { Sucesso = true, NotasFiscais = notasFiscais }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

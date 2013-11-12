@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\AbrirProcessoDeCotacaoAbertoException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoSemPesoException.cs" />
+    <Compile Include="Exceptions\ColetaSemNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeDescarregamentoSemNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentosSimultaneosParaMesmaPlacaException.cs" />
     <Compile Include="Exceptions\CancelarProcessoDeCotacaoFechadoException.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Exceptions\ExcluirQuotaComAgendamentoException.cs" />
     <Compile Include="Exceptions\OperacaoNaoPermitidaParaAgendamentoRealizadoException.cs" />
     <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
+    <Compile Include="Exceptions\QuantidadeColetadaUltrapassouQuantidadeLiberadaException.cs" />
     <Compile Include="Exceptions\QuantidadeLiberadaAbaixoDaQuantidadeColetadaException.cs" />
     <Compile Include="Exceptions\QuantidadeLiberadaSuperouQuantidadeAdquiridaException.cs" />
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />

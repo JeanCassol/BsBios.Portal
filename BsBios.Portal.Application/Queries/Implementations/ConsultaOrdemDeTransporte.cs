@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
@@ -121,6 +122,77 @@ namespace BsBios.Portal.Application.Queries.Implementations
             ordemDeTransporteCadastroVm.Cabecalho.Status = status.Descricao();
 
             return ordemDeTransporteCadastroVm;
+        }
+
+        public KendoGridVm ListarColetas(PaginacaoVm paginacao, int idDaOrdemDeTransporte)
+        {
+            _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte);
+
+            var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+                from coleta in ordemDeTransporte.Coletas
+                select new ColetaListagemVm
+                {
+                    IdDaOrdemDeTransporte = idDaOrdemDeTransporte,
+                    IdColeta = coleta.Id,
+                    DataDePrevisaoDeChegada = coleta.DataDePrevisaoDeChegada.ToShortDateString(),
+                    Placa = coleta.Placa,
+                    Peso = coleta.Peso,
+                    Motorista = coleta.Motorista,
+                    Realizado = coleta.Realizado ? "Sim" : "Não"
+                });
+
+            return new KendoGridVm
+            {
+                QuantidadeDeRegistros = query.Count(),
+                Registros = query.Skip(paginacao.Skip).Take(paginacao.Take).Cast<ListagemVm>().ToList()
+            };
+        }
+
+        public ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte);
+
+            var coletaVm = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+                from coleta in ordemDeTransporte.Coletas
+                where coleta.Id == idDaColeta
+                let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
+                select new ColetaVm
+                {
+                    IdDaOrdemDeTransporte = idDaOrdemDeTransporte,
+                    IdColeta = coleta.Id,
+                    Placa = coleta.Placa,
+                    Motorista = coleta.Motorista,
+                    Peso = coleta.Peso,
+                    PrecoUnitario = ordemDeTransporte.PrecoUnitario,
+                    ValorDoFrete = coleta.ValorDoFrete,
+                    UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
+                    DataDePrevisaoDeChegada = coleta.DataDePrevisaoDeChegada.ToShortDateString(),
+                    PermiteEditar = true,
+
+                }).Single();
+
+            return coletaVm;
+        }
+
+        public IList<NotaFiscalDeColetaVm> NotasFiscaisDaColeta(int iddDaOrdemDeTransporte, int idColeta)
+        {
+            _ordensDeTransporte.BuscaPorId(iddDaOrdemDeTransporte);
+
+            var notasFiscais = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+                         from coleta in ordemDeTransporte.Coletas
+                         from notaFiscal in coleta.NotasFiscais
+                         select new NotaFiscalDeColetaVm
+                         {
+                             Peso = notaFiscal.Peso,
+                             Id = notaFiscal.Id,
+                             DataDeEmissao = notaFiscal.DataDeEmissao.ToShortDateString(),
+                             Numero = notaFiscal.Numero,
+                             Serie = notaFiscal.Serie,
+                             Valor = notaFiscal.Valor
+                         }).ToList();
+
+            return notasFiscais;
+
         }
     }
 }

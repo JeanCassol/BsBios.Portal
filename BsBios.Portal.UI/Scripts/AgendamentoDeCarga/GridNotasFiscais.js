@@ -25,7 +25,6 @@ function atualizarGrid() {
 
 function atualizarTela() {
     atualizarGrid();
-    debugger;
     if (GridNotasFiscais.configuracao.funcaoParaExecutarAposSalvarNota) {
         GridNotasFiscais.configuracao.funcaoParaExecutarAposSalvarNota();
     }
@@ -41,6 +40,8 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
         $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
         $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
         $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+    } else {
+        $('#NotaFiscal_Id').val(notaFiscal.Id);
     }
     $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso,'n3'));
     $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor,'n2'));

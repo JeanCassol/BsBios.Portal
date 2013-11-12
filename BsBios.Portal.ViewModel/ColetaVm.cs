@@ -18,10 +18,13 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Preço Unitário")]
         public decimal PrecoUnitario { get; set; }
+
+        public bool PermiteEditar { get; set; }
     }
 
     public class NotaFiscalDeColetaVm
     {
+        public int? Id { get; set; }
         [DisplayName("Nº do Conhecimento")]
         [Required(ErrorMessage = "Nº do Conhecimento é obrigatório")]
         public string Numero { get; set; }
@@ -37,5 +40,6 @@ namespace BsBios.Portal.ViewModel
 
         [Required(ErrorMessage = "Valor é obrigatório")]
         public decimal Valor{ get; set; }
+
     }
 }

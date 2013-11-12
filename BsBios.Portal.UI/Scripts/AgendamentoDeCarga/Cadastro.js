@@ -1,5 +1,4 @@
-﻿var notasFiscais = new Array();
-CadastroDeAgendamentoDeCarga = {
+﻿CadastroDeAgendamentoDeCarga = {
     CriarDialogoAgendamentoDeCarregamento: function(urlParaSalvar) {
 
         $('#divCadastroAgendamento').customDialog({
@@ -74,9 +73,6 @@ CadastroDeAgendamentoDeCarga = {
                 }
             }
         });
-    },
-    AdicionarNotaFiscal: function(notaFiscal) {
-        notasFiscais.push(notaFiscal);
     }
 };
         
