@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model OrdemDeTransporteCadastroVm
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
@@ -29,12 +30,13 @@
                 }
                 else
                 {
-                    campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada);
+                    campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada,Constantes.FormatatoDeCampoDeQuantidade);
                 }
                 
             }
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
-            @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada, new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", "0.000"))
+            @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada,
+             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade))
             
             @if (Model.PermiteAlterar)
             {
@@ -229,7 +231,7 @@
                             success: function (data) {
                                 if (data.Sucesso) {
                                     $('#divCadastroColeta').dialog("close");
-                                    $('#lblQuantidadeColetada').val(data.QuantidadeColetada);
+                                    $('#lblQuantidadeColetada').text(Globalize.format(data.QuantidadeColetada, 'n3'));
                                     var grid = $("#gridColetas").data("kendoGrid");
                                     grid.dataSource.read();
                                 } else {

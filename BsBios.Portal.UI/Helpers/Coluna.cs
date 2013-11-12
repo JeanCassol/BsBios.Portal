@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Microsoft.SqlServer.Server;
 
 namespace BsBios.Portal.UI.Helpers
 {
@@ -32,6 +33,23 @@ namespace BsBios.Portal.UI.Helpers
         }
 
         public abstract MvcHtmlString GeraInput();
+
+        protected string FormatarValor(Expression<Func<TModel, TValue>> expressao, string formatacao)
+        {
+            var valorFormatado = System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass }).ToString(); ;
+            if (string.IsNullOrEmpty(formatacao)) return valorFormatado;
+            
+            decimal valorConvertido;
+            
+            if (decimal.TryParse(valorFormatado, out valorConvertido))
+            {
+                valorFormatado = valorConvertido.ToString(formatacao);    
+            }
+
+            return valorFormatado;
+
+        }
+
     }
 
     public class ColunaComEditor<TModel, TValue> : Coluna<TModel, TValue>
@@ -95,14 +113,18 @@ namespace BsBios.Portal.UI.Helpers
     
     public class ColunaComLabel<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao) 
+        private readonly string _formatacao;
+
+        public ColunaComLabel(Expression<Func<TModel, TValue>> expressao, string formatacao = null) 
             : base(expressao, "","labelNaLinha", false)
         {
+            _formatacao = formatacao;
         }
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass });
+            var valorFormatado = FormatarValor(Expressao, _formatacao);
+            return new MvcHtmlString(valorFormatado);
         }
     }    
     
@@ -120,18 +142,7 @@ namespace BsBios.Portal.UI.Helpers
 
         public override MvcHtmlString GeraInput()
         {
-            
-            var valorDoLabel = System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass }).ToString();
-            if (!string.IsNullOrEmpty(_formatacaoDoDestaque))
-            {
-                decimal valorConvertido;
-                if (decimal.TryParse(valorDoLabel, out valorConvertido))
-                {
-                    valorDoLabel = valorConvertido.ToString(_formatacaoDoDestaque);    
-                }
-                
-                
-            }
+            var valorDoLabel = FormatarValor(Expressao, _formatacaoDoDestaque);
             var elemento = "<span class=\"labelDestaque\" id=\"" + _idDoDestaque + "\">" + valorDoLabel + "</span>";
 
             return new MvcHtmlString(elemento);

@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model ProcessoDeCotacaoDeFreteCabecalhoVm
 @{
@@ -12,10 +13,10 @@
                                 new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.DataDeValidadeFinal))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Material),
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NumeroDoContrato))
-    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Quantidade),
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Quantidade, Constantes.FormatatoDeCampoDeQuantidade),
                                 new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.UnidadeDeMedida))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Classificacao),
-            new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Cadencia))
+                    new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Cadencia, Constantes.FormatatoDeCampoDeQuantidade))
     @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Itinerario))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.MunicipioDeOrigem),
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.MunicipioDeDestino))

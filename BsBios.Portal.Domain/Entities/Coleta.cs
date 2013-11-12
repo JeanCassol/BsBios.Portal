@@ -64,7 +64,7 @@ namespace BsBios.Portal.Domain.Entities
         private void AtualizarNotasFiscais(IList<NotaFiscalDeColetaVm> notasFiscaisVm)
         {
             var notasParaExcluir = NotasFiscais.Where(notaFiscalAdicionada => notasFiscaisVm
-                .All(notaInformada => !notaInformada.Id.HasValue || notaInformada.Id != notaFiscalAdicionada.Id));
+                .All(notaInformada => !notaInformada.Id.HasValue || notaInformada.Id != notaFiscalAdicionada.Id)).ToList();
 
             foreach (var notaFiscalDeColeta in notasParaExcluir)
             {
