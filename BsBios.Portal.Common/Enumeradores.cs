@@ -21,7 +21,7 @@ namespace BsBios.Portal.Common
             [Description("Conferidor de Cargas")] 
             ConferidorDeCargas = 7,
             [Description("Conferidor de Cargas em Depósito")] 
-            ConferidorDeCargasEmDeposito
+            ConferidorDeCargasEmDeposito = 8
 
         }
 

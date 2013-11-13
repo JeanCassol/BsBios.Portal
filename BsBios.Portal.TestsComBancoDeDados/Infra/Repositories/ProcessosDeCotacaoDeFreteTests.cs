@@ -76,6 +76,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
         [TestMethod]
         public void QuandoDesconsideroProcessosDeCotacaoCanceladosRetornaApenasProcessosDeCotacaoEmOutrosEstados()
         {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
             List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
             //criar 4 processos um em cada estado
             ProcessoDeCotacaoDeFrete processoNaoIniciado = DefaultObjects.ObtemProcessoDeCotacaoDeFrete(municipios.First(), municipios.Last());

@@ -14,7 +14,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             var consultaPerfil = ObjectFactory.GetInstance<IConsultaPerfil>();
             IList<PerfilVm> perfis = consultaPerfil.Listar();
-            Assert.AreEqual(7, perfis.Count);
+            Assert.AreEqual(8, perfis.Count);
         }
     }
 }
