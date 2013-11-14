@@ -82,6 +82,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
                     let fornecedor = processoDeCotacao.FornecedorDaMercadoria
                     let deposito = processoDeCotacao.Deposito
+                    let municipioDeOrigem = processoDeCotacao.MunicipioDeOrigem
+                    let municipioDeDestino = processoDeCotacao.MunicipioDeDestino
                 select new OrdemDeTransporteCadastroVm
                 {
                     Id = ordemDeTransporte.Id,
@@ -105,8 +107,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
                         DataDeValidadeInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString(),
                         DataDeValidadeFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
-                        MunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem.Nome + "/" + processoDeCotacao.MunicipioDeOrigem.UF,
-                        MunicipioDeDestino = processoDeCotacao.MunicipioDeDestino.Nome + "/" + processoDeCotacao.MunicipioDeDestino.UF,
+                        MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF: "",
+                        MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + processoDeCotacao.MunicipioDeDestino.UF: "",
                         Requisitos = processoDeCotacao.Requisitos,
                         Quantidade = processoDeCotacao.Quantidade,
                         DataLimiteDeRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
