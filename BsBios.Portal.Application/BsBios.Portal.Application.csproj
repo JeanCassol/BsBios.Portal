@@ -75,6 +75,7 @@
     <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaMunicipio.cs" />
     <Compile Include="Queries\Contracts\IConsultaOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Contracts\IConsultaParaConferenciaDeCargas.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
     <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
     <Compile Include="Queries\Implementations\ConsultaMunicipio.cs" />
     <Compile Include="Queries\Implementations\ConsultaOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Implementations\ConsultaParaConferenciaDeCargas.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Queries\Implementations\ConsultaProduto.cs" />

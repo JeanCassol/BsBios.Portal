@@ -25,7 +25,10 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Fornecedor da Mercadoria: ")]
         public string NomeDoFornecedor { get; set; }
+
         [DisplayName("Endereço: ")]
+        public string CnpjDoFornecedor { get; set; }
+
         public string EnderecoDoFornecedor { get; set; }
         [DisplayName("Depósito:")]
         public string NomeDoDeposito { get; set; }

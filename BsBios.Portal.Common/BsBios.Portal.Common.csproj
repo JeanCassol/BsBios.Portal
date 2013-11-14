@@ -61,6 +61,7 @@
     <Compile Include="Exceptions\QuantidadeColetadaUltrapassouQuantidadeLiberadaException.cs" />
     <Compile Include="Exceptions\QuantidadeLiberadaAbaixoDaQuantidadeColetadaException.cs" />
     <Compile Include="Exceptions\QuantidadeLiberadaSuperouQuantidadeAdquiridaException.cs" />
+    <Compile Include="Exceptions\RealizacaoDeColetaRealizadaException.cs" />
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />
     <Compile Include="Exceptions\UsuarioSemEmailException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />

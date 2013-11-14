@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
-using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using Microsoft.Ajax.Utilities;
 using StructureMap;
 
 namespace BsBios.Portal.UI.Controllers
@@ -92,6 +92,17 @@ namespace BsBios.Portal.UI.Controllers
             {
                 return Json(new { Sucesso = false, Mensagem = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        public ActionResult RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta);
+
+            coletaVm.PermiteEditar = false;
+            coletaVm.PermiteRealizar = true;
+    
+            return PartialView("Coleta", coletaVm);
         }
     }
 }

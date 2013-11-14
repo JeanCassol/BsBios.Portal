@@ -9,7 +9,7 @@ function existeNotaFiscal(notaFiscalParaVerificar) {
         if (indice == indiceEdicao) {
             return;
         }
-        if (( !GridNotasFiscais.configuracao.exibirContratanteEEmitente || notaFiscal.CnpjEmitente == notaFiscalParaVerificar.CnpjEmitente)
+        if (notaFiscal.CnpjEmitente == notaFiscalParaVerificar.CnpjEmitente
             && notaFiscal.Numero == notaFiscalParaVerificar.Numero
             && notaFiscal.Serie == notaFiscalParaVerificar.Serie) {
             notaFiscalEncontrada = true;
@@ -34,12 +34,12 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_Numero').val(notaFiscal.Numero);
     $('#NotaFiscal_Serie').val(notaFiscal.Serie);
     $('#NotaFiscal_DataDeEmissao').val(notaFiscal.DataDeEmissao);
-    if (GridNotasFiscais.configuracao.exibirContratanteEEmitente) {
-        $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
-        $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
+    $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
+    $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
+    $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+    if (GridNotasFiscais.configuracao.exibirEmitente) {
         $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
         $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
-        $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
     } else {
         $('#NotaFiscal_Id').val(notaFiscal.Id);
     }
@@ -135,18 +135,14 @@ GridNotasFiscais = {
                 width: 70,
                 field: "DataDeEmissao",
                 title: "Emissão"
+            },
+            {
+                width: 300,
+                field: "NomeDoEmitente",
+                title: "Emitente"
             }
         );
 
-        if (configuracao.exibirContratanteEEmitente) {
-            arrayDeColunas.push(
-                {
-                    width: 300,
-                    field: "NomeDoEmitente",
-                    title: "Emitente"
-                }
-            );
-        }
 
         arrayDeColunas = arrayDeColunas.concat(
             {
@@ -193,7 +189,7 @@ GridNotasFiscais = {
     },
     SalvarNotaFiscal: function (notaFiscal) {
         if (existeNotaFiscal(notaFiscal)) {
-            throw "Já existe Nota Fiscal cadastrada" + (GridNotasFiscais.configuracao.exibirContratanteEEmitente ? " para o CNPJ " + notaFiscal.CnpjDoEmitente : "") +
+            throw "Já existe Nota Fiscal cadastrada para o CNPJ " + notaFiscal.CnpjDoEmitente +
                 " com Número " + notaFiscal.Numero + " e Série " + notaFiscal.Serie + ". Edite a Nota Fiscal existente.";
         }
         if (indiceEdicao == -1) {

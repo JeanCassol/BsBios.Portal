@@ -1,20 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BsBios.Portal.ViewModel
 {
     public class ConferenciaDeCargaPesquisaResultadoVm:ListagemVm
     {
-        public int IdQuota { get; set; }
-        public int IdAgendamento { get; set; }
-        public string DataAgendamento { get; set; }
-        public string DescricaoMaterial { get; set; }
-        public string DescricaoFluxo { get; set; }
-        public string  Placa { get; set; }
-        public string NumeroNf { get; set; }
-        public string CnpjEmitente { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string CodigoTerminal { get; set; }
+        public virtual int? IdQuota { get; set; }
+        public virtual int? IdAgendamento { get; set; }
+
+        public virtual int? IdOrdemTransporte { get; set; }
+        public virtual int? IdColeta { get; set; }
+        public virtual DateTime DataAgendamento { get; set; }
+
+        public virtual string DataDeAgendamentoFormatada
+        {
+            get
+            {
+                return DataAgendamento.ToShortDateString();
+            }
+        }
+        public virtual string Placa { get; set; }
+        public virtual string NumeroNf { get; set; }
+        public virtual string CnpjEmitente { get; set; }
+        public virtual string NomeEmitente { get; set; }
+        public virtual string CodigoDeposito { get; set; }
+        public virtual string DescricaoMaterial { get; set; }
+        public virtual string DescricaoFluxo { get; set; }
+        public virtual bool Realizado { get; set; }
+
     }
+
 }

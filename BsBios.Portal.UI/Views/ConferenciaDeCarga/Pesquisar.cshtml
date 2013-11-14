@@ -1,5 +1,7 @@
 ﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
+@model ConferenciaDeCargaFiltroVm
 @{
     ViewBag.TituloDaPagina = "Conferência de Cargas";
 }
@@ -19,24 +21,23 @@
             @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
         </div>
     </div>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Placa")
-            @Html.TextBox("Placa")
-        </div>
-        <div class="coluna">
-            @Html.Label("Número NF")
-            @Html.TextBox("NumeroNf")
-        </div>
-    </div>
-    @Html.Label("Realização")
-     @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
-     new SelectListItem
-         {
-             Value =  Convert.ToString(x.Codigo),
-             Text =  x.Descricao,
-             Selected =  x.Padrao
-         }),"Todos")
+
+    @Html.LinhaComDuasColunas(new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.Placa, "campopequeno maskPlaca"),
+                new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NumeroNf, "campopequeno"))
+    
+
+    @{
+        var realizacoesDeAgendamento = ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
+            new SelectListItem
+            {
+                Value = Convert.ToString(x.Codigo),
+                Text = x.Descricao,
+                Selected = x.Padrao
+            });
+    }
+    
+    @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, Enumeradores.RealizacaoDeAgendamento?>(x => x.RealizacaoDeAgendamento,realizacoesDeAgendamento,"RealizacaoDeAgendamento","", "Todos"),
+    new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NomeDoFornecedor, "campogrande"))
 
     <div class="divBotao">
         <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
@@ -47,6 +48,7 @@
     <legend>Agendamentos</legend>
     <div id="gridAgendamentos" class="divGrid" style="width: 785px"></div>
     <div id="divRealizarAgendamento" class="janelaModal"></div>
+    <div id="divRealizarColeta" class="janelaModal"></div>
 </fieldset>
 @section scripts
 {
@@ -88,7 +90,7 @@
                                     DataAgendamento: $('#DataAgendamento').val(),
                                     Placa: $('#Placa').val(),
                                     NumeroNf: $('#NumeroNf').val(),
-                                    CodigoRealizacaoDeAgendamento: $('#RealizacaoDeAgendamento :selected').val()
+                                    RealizacaoDeAgendamento: $('#RealizacaoDeAgendamento :selected').val()
                                 };
                             }
                         }
@@ -100,36 +102,38 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_visualize" data-idquota="${IdQuota}" data-idagendamento="${IdAgendamento}"></input>'
+                        template: '<input type="button" class="button_visualize"></input>'
                     },
                     {
                         width: 120,
-                        field: "IdAgendamento",
-                        title: 'Nº Agendamento'
+                        title: 'Nº Agendamento / OT',
+                        template: function(dataItem) {
+                            return dataItem.IdAgendamento || dataItem.IdOrdemTransporte;
+                        }
                     },
                     {
-                        field: "DataAgendamento",
+                        field: "DataDeAgendamentoFormatada",
                         title: "Data",
-                        width: 100
+                        width: 70
                     },
                     {
                         field: "DescricaoFluxo",
                         title: 'Fluxo de Carga',
-                        width: 140
+                        width: 100
                     },
                     {
                         field: "DescricaoMaterial",
                         title: 'Material',
-                        width: 70
+                        width: 195
                     },
                     {
                         field: "Placa",
-                        width: 70
+                        width: 65
                     },
                     {
                         field: "NumeroNf",
                         title: 'Número NF',
-                        width: 90
+                        width: 70
                     },
                     {
                         field: "CnpjEmitente",
@@ -137,18 +141,42 @@
                         template: function(dataItem) {
                             return Formato.formataCnpj(dataItem.CnpjEmitente);
                         },
-                        width: 140
+                        width: 100
                     }
                 ]
             });
 
-            $('#gridAgendamentos').find('.button_visualize').die('click');
-            $('#gridAgendamentos').find('.button_visualize').live('click', function(e) {
+            $('#gridAgendamentos').off('click','.button_visualize');
+            $('#gridAgendamentos').on('click','.button_visualize', function(e) {
                 e.preventDefault();
-                $('#divRealizarAgendamento').load('@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
-                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento'), function() {
-                        $('#divRealizarAgendamento').dialog("open");
-                    });
+                var grid = $('#gridAgendamentos').data("kendoGrid");
+                var registroSelecionado = grid.obterRegistroSelecionado();
+                
+                var url = '';
+                var divParaCarregarModal = '';
+                if (registroSelecionado.IdQuota && registroSelecionado.IdAgendamento) {
+
+                    url = '@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
+                        '/?idQuota=' + registroSelecionado.IdQuota + '&idAgendamento=' + registroSelecionado.IdAgendamento;
+                    divParaCarregarModal = '#divRealizarAgendamento';
+
+                } else if (registroSelecionado.IdOrdemTransporte && registroSelecionado.IdColeta) {
+
+                    url = '@Url.Action("RealizarColeta", "OrdemDeTransporte")' +
+                        '/?idDaOrdemDeTransporte=' + registroSelecionado.IdOrdemTransporte + '&idDaColeta=' + registroSelecionado.IdColeta;
+                    
+                    divParaCarregarModal = '#divRealizarColeta';
+
+                }
+
+                if (!url) {
+                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o registro selecionado.');
+                    return;
+                }
+                
+                $(divParaCarregarModal).load(url, function() {
+                    $(divParaCarregarModal).dialog("open");
+                 });
 
             });
 
@@ -162,47 +190,84 @@
                 grid.dataSource.read();
             }
 
-            //$('#btnPesquisar').click(function() {
-            //    atualizaGrid();
-            //});
             $('#divRealizarAgendamento').customDialog({
                 title: 'Realizar Agendamento',
                 buttons: {
-                    "Realizar": function() {
-                        var resposta = confirm("Confirma a realização do evento?");
-                        if (!resposta) {
-                            return;
-                        }
-
-                        $.ajax({
-                            url: '@Url.Action("Realizar", "AgendamentoDeCargaService")',
-                            type: 'POST',
-                            data: JSON.stringify(
-                                {
-                                    IdQuota: $('#IdQuota').val(),
-                                    IdAgendamento: $('#IdAgendamento').val()
-                                }),
-                            cache: false,
-                            contentType: "application/json; charset=utf-8",
-                            dataType: 'json',
-                            success: function(data) {
-                                if (data.Sucesso) {
-                                    atualizaGrid();
-                                    $('#divRealizarAgendamento').dialog("close");
-                                } else {
-                                    atualizaMensagemDeErro(data.Mensagem);
+                    "Realizar": function () {
+                        Mensagem.ExibirMensagemDeConfirmacao("Confirma a realização do evento?", function() {
+                            $.ajax({
+                                url: '@Url.Action("Realizar", "AgendamentoDeCargaService")',
+                                type: 'POST',
+                                data: JSON.stringify(
+                                    {
+                                        IdQuota: $('#IdQuota').val(),
+                                        IdAgendamento: $('#IdAgendamento').val()
+                                    }),
+                                cache: false,
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                success: function(data) {
+                                    if (data.Sucesso) {
+                                        atualizaGrid();
+                                        $('#divRealizarAgendamento').dialog("close");
+                                    } else {
+                                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao realizar o Agendamento. Detalhe: ' + textStatus + errorThrown);
                                 }
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao realizar o Agendamento. Detalhe: ' + textStatus + errorThrown);
-                            }
+                            });
+
                         });
+
                     },
                     "Cancelar": function() {
                         $(this).dialog("close");
                     }
                 }
             });
+            
+            $('#divRealizarColeta').customDialog({
+                title: 'Realizar Coleta',
+                buttons: {
+                    "Realizar": function () {
+
+                        var dado = {
+                            idDaOrdemDeTransporte: $('#IdDaOrdemDeTransporte').val(),
+                            idDaColeta: $('#IdColeta').val()
+                        };
+
+                        Mensagem.ExibirMensagemDeConfirmacao("Confirma a realização da Coleta?", function() {
+                            $.ajax({
+                                url: '@Url.Action("RealizarColeta", "OrdemDeTransporteService")',
+                                type: 'POST',
+                                data: JSON.stringify(dado),
+                                cache: false,
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.Sucesso) {
+                                        atualizaGrid();
+                                        $('#divRealizarColeta').dialog("close");
+                                    } else {
+                                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao realizar a Coleta. Detalhe: ' + textStatus + errorThrown);
+                                }
+                            });
+
+                        });
+
+                    },
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
         })
 
     </script>

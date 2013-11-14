@@ -8,5 +8,6 @@ namespace BsBios.Portal.Application.Services.Contracts
         void AtualizarOrdemDeTransporte(OrdemDeTransporteAtualizarDTO ordemDeTransporteAtualizarDTO);
         decimal SalvarColeta(ColetaSalvarVm coletaSalvarVm);
 
+        void RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta);
     }
 }

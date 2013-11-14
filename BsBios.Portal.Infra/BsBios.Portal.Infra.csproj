@@ -77,6 +77,7 @@
     <Compile Include="Factory\StructureMapControllerFactory.cs" />
     <Compile Include="Factory\StructureMapDependencyResolver.cs" />
     <Compile Include="Mappings\AgendamentoDeCargaMap.cs" />
+    <Compile Include="Mappings\AgendamentoDeCargaVisualizacaoMap.cs" />
     <Compile Include="Mappings\ColetaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
     <Compile Include="Mappings\MunicipioMap.cs" />

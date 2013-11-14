@@ -94,20 +94,22 @@ namespace BsBios.Portal.UI.Helpers
 
     public class ColunaComDropDown<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComDropDown(Expression<Func<TModel, TValue>> expressao,
-                                 IEnumerable<SelectListItem> items, string nome, string inputClass = "")
+        public ColunaComDropDown(Expression<Func<TModel, TValue>> expressao,IEnumerable<SelectListItem> items, 
+            string nome, string inputClass = "", string optionLabel = "Selecione >>")
             : base(expressao, inputClass,"", true)
         {
             _items = items;
             _nome = nome;
+            _optionLabel = optionLabel;
         }
 
         private readonly IEnumerable<SelectListItem> _items;
         private readonly string _nome;
+        private readonly string _optionLabel;
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.SelectExtensions.DropDownList(HtmlHelper, _nome, _items, "Selecione >>");
+            return System.Web.Mvc.Html.SelectExtensions.DropDownList(HtmlHelper, _nome, _items, _optionLabel);
         }
     }
     

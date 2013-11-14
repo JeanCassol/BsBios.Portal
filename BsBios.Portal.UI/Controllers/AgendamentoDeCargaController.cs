@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.UI.Filters;
@@ -11,10 +10,12 @@ namespace BsBios.Portal.UI.Controllers
     public class AgendamentoDeCargaController : Controller
     {
         private readonly IConsultaQuota _consultaQuota;
+        private readonly IConsultaParaConferenciaDeCargas _consultaParaConferenciaDeCargas;
 
-        public AgendamentoDeCargaController(IConsultaQuota consultaQuota)
+        public AgendamentoDeCargaController(IConsultaQuota consultaQuota, IConsultaParaConferenciaDeCargas consultaParaConferenciaDeCargas)
         {
             _consultaQuota = consultaQuota;
+            _consultaParaConferenciaDeCargas = consultaParaConferenciaDeCargas;
         }
 
         [HttpGet]
@@ -84,7 +85,7 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public JsonResult Consultar(PaginacaoVm paginacaoVm, ConferenciaDeCargaFiltroVm filtro)
         {
-            KendoGridVm kendoGridVm = _consultaQuota.Consultar(paginacaoVm, filtro);
+            KendoGridVm kendoGridVm = _consultaParaConferenciaDeCargas.Consultar(paginacaoVm, filtro);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
     }

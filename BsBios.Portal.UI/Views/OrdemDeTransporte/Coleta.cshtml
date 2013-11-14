@@ -7,17 +7,18 @@
 <div class="divFiltros">
     <fieldset >
         <legend>Dados da Coleta</legend>
-        <form id="formColeta"> 
+        <form id="formColeta">
+            @Html.HiddenFor(x => x.IdDaOrdemDeTransporte) 
             @Html.HiddenFor(x => x.IdColeta)
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.Placa, "campopequeno maskplaca"),
-            new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,"campogrande"))
+                new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,"campogrande"))
             
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
                 new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskquantidade campoDesabilitado"),
-            new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskquantidade campoDesabilitado"))
+                new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskquantidade campoDesabilitado"))
         </form>
     </fieldset>
     <fieldset id="fieldSetNotaFiscal">
@@ -28,6 +29,11 @@
                 new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
 
             @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : ""))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.CnpjDoEmitente, "campopequeno campoDesabilitado"),
+                                    new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NomeDoEmitente, "campogrande campoDesabilitado"))
+
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoContrato, "campopequeno campoDesabilitado"))
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskmoeda"),
                 new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
@@ -73,6 +79,7 @@
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
         } else {
+            $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_NomeDoEmitente,#NotaFiscal_NumeroDoContrato').attr('readonly', true);
             aplicaMascaraNumeroNf();
             aplicaMascaraSerieNf();
             aplicaMascaraPlaca();
@@ -102,7 +109,7 @@
 
         GridNotasFiscais.ConfigurarGrid({
             PermiteEditar: permiteEditar,
-            exibirContratanteEEmitente: false,
+            exibirEmitente: false,
             funcaoParaExecutarAposSalvarNota: funcaoAposSalvarNota
         });
         $('#btnSalvarNotaFiscal').click(function() {

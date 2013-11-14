@@ -18,7 +18,6 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Preço Unitário")]
         public decimal PrecoUnitario { get; set; }
-
         public bool PermiteEditar { get; set; }
     }
 
@@ -40,6 +39,13 @@ namespace BsBios.Portal.ViewModel
 
         [Required(ErrorMessage = "Valor é obrigatório")]
         public decimal Valor{ get; set; }
+        [DisplayName("Número do Contrato")]
+        public string NumeroDoContrato { get; set; }
+
+        [DisplayName("CNPJ do Emitente")]
+        public string CnpjDoEmitente { get; set; }
+        [DisplayName("Nome do Emitente")]
+        public string NomeDoEmitente { get; set; }
 
     }
 }

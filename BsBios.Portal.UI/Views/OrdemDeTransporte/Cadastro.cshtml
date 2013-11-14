@@ -251,20 +251,15 @@
                 }
             });
 
-            //$('#btnAdicionarColeta').click(function () {
-            //    $('#divCadastroColeta').html($('#novaColeta').html());
-            //    $.validator.unobtrusive.parse('#divCadastroColeta');
-            //    $('#divCadastroColeta').dialog('open');
-                
-
-            //});
-
             $('#btnAdicionarColeta').click(function () {
                 var divCadastroColeta = $('#divCadastroColeta');
                 $(divCadastroColeta).load('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte",new{Model.Cabecalho.UnidadeDeMedida}))',
                 function (response, status, xhr) {
                     $(divCadastroColeta).find('#UnidadeDeMedida').val('@Model.Cabecalho.UnidadeDeMedida');
-                    $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'),'n2'));
+                    $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
+                    $(divCadastroColeta).find('#NotaFiscal_CnpjDoEmitente').val('@Model.Cabecalho.CnpjDoFornecedor');
+                    $(divCadastroColeta).find('#NotaFiscal_NomeDoEmitente').val('@Model.Cabecalho.NomeDoFornecedor');
+                    $(divCadastroColeta).find('#NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
                     jQuery.validator.unobtrusive.parse('#divCadastroColeta');
                     $(divCadastroColeta).dialog('open');
                 });

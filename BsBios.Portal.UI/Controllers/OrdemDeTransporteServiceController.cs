@@ -54,5 +54,18 @@ namespace BsBios.Portal.UI.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            try
+            {
+                _ordemDeTransporteService.RealizarColeta(idDaOrdemDeTransporte, idDaColeta);
+                return Json(new {Sucesso = true});
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Sucesso = false, Mensagem = ExceptionUtil.ExibeDetalhes(ex)});
+            }
+        }
     }
 }

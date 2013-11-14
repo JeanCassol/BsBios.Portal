@@ -70,5 +70,10 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
+        public virtual void RealizarColeta(int idDaColeta)
+        {
+            Coleta coleta = Coletas.Single(c => c.Id == idDaColeta);
+            coleta.Realizar();
+        }
     }
 }

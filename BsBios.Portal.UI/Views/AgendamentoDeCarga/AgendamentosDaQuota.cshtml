@@ -18,11 +18,11 @@
     <div class="linha">
         <div class="coluna">
             @Html.LabelFor(x => x.PesoTotal,new{@class="labelNaLinha"})
-            <span id="lblPesoTotal">@Model.PesoTotal.ToString("0.000")</span>
+            <span id="lblPesoTotal">@Model.PesoTotal.ToString(Constantes.FormatatoDeCampoDeQuantidade)</span>
         </div>
         <div class="coluna">
             @Html.LabelFor(x => x.PesoAgendado,new{@class="labelNaLinha"})
-            <span id="lblPesoAgendado" class="labelDestaque">@Model.PesoAgendado.ToString("0.000")</span>
+            <span id="lblPesoAgendado" class="labelDestaque">@Model.PesoAgendado.ToString(Constantes.FormatatoDeCampoDeQuantidade)</span>
             
         </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="coluna"></div>
         <div class="coluna">
             @Html.LabelFor(x => x.PesoDisponivel,new{@class="labelNaLinha"})
-            <span id="lblPesoDisponivel" class="labelDestaque">@Model.PesoDisponivel.ToString("0.000")</span>
+            <span id="lblPesoDisponivel" class="labelDestaque">@Model.PesoDisponivel.ToString(Constantes.FormatatoDeCampoDeQuantidade)</span>
         </div>
     </div>
 </fieldset>

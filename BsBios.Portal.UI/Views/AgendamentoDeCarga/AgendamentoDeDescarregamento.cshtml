@@ -23,9 +23,10 @@
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente, "maskcnpj"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente,"campogrande"))
-
+            
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante,"maskcnpj"),
                                       new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante,"campogrande"))
+  
 
             @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato,"masknumerocontrato"))
 
@@ -90,7 +91,7 @@
         }
 
 
-        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar, exibirContratanteEEmitente: true});
+        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar, exibirEmitente: true});
         $('#btnSalvarNotaFiscal').click(function() {
             var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {

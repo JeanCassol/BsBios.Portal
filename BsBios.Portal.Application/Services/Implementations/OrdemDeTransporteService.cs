@@ -67,5 +67,22 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
+        public void RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                OrdemDeTransporte ordemDeTransporte = _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte).Single();
+                ordemDeTransporte.RealizarColeta(idDaColeta);
+                _ordensDeTransporte.Save(ordemDeTransporte);
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

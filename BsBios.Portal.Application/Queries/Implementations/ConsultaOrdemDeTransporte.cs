@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
-using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
-using JetBrains.Annotations;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -101,6 +99,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         Classificacao = processoDeCotacao.Classificacao ? "Sim" : "Não",
                         NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
                         NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
+                        CnpjDoFornecedor = fornecedor != null ? fornecedor.Cnpj : "Não informado",
                         EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
                         NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
                         EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
@@ -181,6 +180,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
             var notasFiscais = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                          from coleta in ordemDeTransporte.Coletas
                          from notaFiscal in coleta.NotasFiscais
+                         let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
+                         let fornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria
                          select new NotaFiscalDeColetaVm
                          {
                              Peso = notaFiscal.Peso,
@@ -188,7 +189,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              DataDeEmissao = notaFiscal.DataDeEmissao.ToShortDateString(),
                              Numero = notaFiscal.Numero,
                              Serie = notaFiscal.Serie,
-                             Valor = notaFiscal.Valor
+                             Valor = notaFiscal.Valor,
+                             NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
+                             CnpjDoEmitente = fornecedorDaMercadoria.Cnpj,
+                             NomeDoEmitente = fornecedorDaMercadoria.Nome
                          }).ToList();
 
             return notasFiscais;

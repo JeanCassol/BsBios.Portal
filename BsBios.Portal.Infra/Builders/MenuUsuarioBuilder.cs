@@ -51,7 +51,8 @@ namespace BsBios.Portal.Infra.Builders
                 menus.Add(new MenuAgendamentoDeCarga());
             }
 
-            if (_perfis.Contains(Enumeradores.Perfil.ConferidorDeCargas))
+            if (_perfis.Contains(Enumeradores.Perfil.ConferidorDeCargas) 
+                || _perfis.Contains(Enumeradores.Perfil.ConferidorDeCargasEmDeposito))
             {
                 menus.Add(new MenuConferenciaDeCargas());
             }

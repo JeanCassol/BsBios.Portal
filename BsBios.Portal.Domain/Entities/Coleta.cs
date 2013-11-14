@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Entities
@@ -102,6 +103,16 @@ namespace BsBios.Portal.Domain.Entities
             }
 
 
+        }
+
+        public virtual void Realizar()
+        {
+            if (Realizado)
+            {
+                throw new RealizacaoDeColetaRealizadaException();
+            }
+
+            Realizado = true;
         }
     }
 }
