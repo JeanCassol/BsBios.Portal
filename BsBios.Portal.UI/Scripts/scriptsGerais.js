@@ -143,10 +143,31 @@ $.fn.customDialog = function (configuracao) {
     this.dialog(configuracao);
 };
 
+$.fn.customLoad = function (url, callBack) {
+
+    var divParaCarregar = this;
+    
+    this.load(url, function (responseText, textStatus, xmlHttpRequest) {
+        var contentType = xmlHttpRequest.getResponseHeader('Content-Type');
+        if (contentType.indexOf("json") > -1) {
+            if (sessaoEstaExpirada(xmlHttpRequest)) {
+                return;
+            }
+        }
+        if (callBack) {
+            callBack();
+        }
+        
+        divParaCarregar.dialog("open");
+    });
+    
+};
+
 $.fn.serializeObject = function() {
     var inputs = $(this).find(":input");
     var object = {};
     $.each(inputs, function (index, input) {
+
         
         object[input.name] = $(input).val();
     });
@@ -366,15 +387,27 @@ function responseIsJsonDataType(ajaxOptions) {
         || (ajaxOptions.dataTypes && ajaxOptions.dataTypes.indexOf("json") > -1);
 }
 
+function sessaoEstaExpirada(request) {
 
-$(document).ajaxComplete(function (event, request, ajaxOptions) {
-    
-    if (!responseIsJsonDataType(ajaxOptions)) {
-        return;
-    }
+    var sessaoExpirada = false;
+
     var resposta = JSON.parse(request.responseText);
     if (resposta.SessaoExpirada) {
-        Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
-        location.href = resposta.ReturnUrl;
+        sessaoExpirada = true;
+        Mensagem.ExibirMensagemDeErro(resposta.Mensagem, function() {
+            location.href = resposta.ReturnUrl;
+        });
+        
     }
+
+    return sessaoExpirada;
+
+}
+
+
+$(document).ajaxComplete(function (event, request, ajaxOptions) {
+    if (responseIsJsonDataType(ajaxOptions)) {
+        sessaoEstaExpirada(request, ajaxOptions);
+    }
+    
 });

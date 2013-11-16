@@ -169,22 +169,17 @@
                 Mensagem.ExibirMensagemDeErro("Não é possível selecionar Fornecedores antes de salvar o Processo de Cotação.");
                 return;
             }
-            $('#divSelecionarFornecedores').load(UrlPadrao.SelecionarFornecedores
+            $('#divSelecionarFornecedores').customLoad(UrlPadrao.SelecionarFornecedores
                 + "/?codigoProduto=" + $('#CodigoMaterial').val()
                 + "&idProcessoCotacao=" + $('#Id').val()
-                + "&TipoDeCotacao=" + tipoDeCotacao,
-                function(response, status, xhr) {
-                    $('#divSelecionarFornecedores').dialog('open');
-                });
+                + "&TipoDeCotacao=" + tipoDeCotacao);
 
         });
 
         $('#btnSelecionarCotacoes').click(function () {
-            $('#divSelecionarCotacoes').load((tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
-                + "/?idProcessoCotacao=" + $('#Id').val(),
-                function (response, status, xhr) {
-                    $('#divSelecionarCotacoes').dialog('open');
-                });
+            var urlDaTela = (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
+                + "/?idProcessoCotacao=" + $('#Id').val();
+            $('#divSelecionarCotacoes').customLoad(urlDaTela);
         });
 
         $('#btnAbrirProcesso').click(function () {

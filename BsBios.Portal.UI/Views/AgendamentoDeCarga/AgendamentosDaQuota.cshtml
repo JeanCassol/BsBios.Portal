@@ -73,10 +73,9 @@
             }
 
             $('#btnAdicionarAgendamento').click(function () {
-                $('#divCadastroAgendamento').load('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
-                    function (response, status, xhr) {
+                $('#divCadastroAgendamento').customLoad('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
+                    function () {
                         jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
-                        $('#divCadastroAgendamento').dialog('open');
                     });
             });
         });

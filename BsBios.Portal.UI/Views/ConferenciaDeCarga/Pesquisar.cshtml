@@ -36,7 +36,7 @@
             });
     }
     
-    @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, Enumeradores.RealizacaoDeAgendamento?>(x => x.RealizacaoDeAgendamento,realizacoesDeAgendamento,"RealizacaoDeAgendamento","", "Todos"),
+    @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, int?>(x => x.RealizacaoDeAgendamento,realizacoesDeAgendamento,"RealizacaoDeAgendamento","", "Todos"),
     new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NomeDoFornecedor, "campogrande"))
 
     <div class="divBotao">
@@ -174,9 +174,7 @@
                     return;
                 }
                 
-                $(divParaCarregarModal).load(url, function() {
-                    $(divParaCarregarModal).dialog("open");
-                 });
+                $(divParaCarregarModal).customLoad(url);
 
             });
 

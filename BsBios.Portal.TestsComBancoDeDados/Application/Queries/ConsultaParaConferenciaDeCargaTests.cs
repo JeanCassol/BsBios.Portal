@@ -206,7 +206,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var filtro = new ConferenciaDeCargaFiltroVm
             {
                 CodigoTerminal = "1000",
-                RealizacaoDeAgendamento = Enumeradores.RealizacaoDeAgendamento.NaoRealizado
+                RealizacaoDeAgendamento = (int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado
             };
 
             var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();

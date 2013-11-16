@@ -21,12 +21,8 @@
             }
         });
         $(idDoBotaoDeSelecaoDoFornecedor).click(function() {
-
-            $('#' + idDaDivDaJanelaDeDialogo).load(UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + $(idDoCampoDoCodigoDoFornecedor).val() + '&Nome=' + escape($(idDoCampoDoNomeDoFornecedor).val()),
-                function(response, status, xhr) {
-                    $('#' + idDaDivDaJanelaDeDialogo).dialog('open');
-                });
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarFornecedor
+                + '/?Codigo=' + $(idDoCampoDoCodigoDoFornecedor).val() + '&Nome=' + escape($(idDoCampoDoNomeDoFornecedor).val()));
         });
 
     }

@@ -47,7 +47,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Nome : null,
                     CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Codigo : null ,
                     NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Nome: null,
-                    CodigoDoDeposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome: null ,
+                    CodigoDoDeposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Codigo: null ,
                     Deposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : null
                 };
         }

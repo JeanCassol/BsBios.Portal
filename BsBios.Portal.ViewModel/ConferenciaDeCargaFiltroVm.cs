@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text;
-using BsBios.Portal.Common;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -18,7 +16,7 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Nome do Fornecedor")]
         public string NomeDoFornecedor { get; set; }
         [DisplayName("Realização")]
-        public Enumeradores.RealizacaoDeAgendamento? RealizacaoDeAgendamento { get; set; }
+        public int? RealizacaoDeAgendamento { get; set; }
 
         public string CodigoDeposito { get; set; }
     }

@@ -34,7 +34,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (filtro.RealizacaoDeAgendamento.HasValue)
             {
-                bool realizado = (filtro.RealizacaoDeAgendamento.Value == Enumeradores.RealizacaoDeAgendamento.Realizado);
+                var realizacaoDeAgendamento = (Enumeradores.RealizacaoDeAgendamento) Enum.Parse(typeof(Enumeradores.RealizacaoDeAgendamento),
+                    Convert.ToString(filtro.RealizacaoDeAgendamento.Value));
+                bool realizado = (realizacaoDeAgendamento == Enumeradores.RealizacaoDeAgendamento.Realizado);
                 queryable = queryable.Where(x => x.Realizado == realizado);
 
             }
