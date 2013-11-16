@@ -1,0 +1,28 @@
+processo de cotaçao
+- campo de cadencia deve permitir decimais. OK
+- só mostrar cotaçoes canceladas quando o usuário colocar o filtro explicitamente. OK
+- alterar o label do campo de fornecer para "fornecedor da mercadoria". Alterar para ficar obrigatório. OK
+- incluir outro campo de depósito. O depósito é opcional e deve ser utilizado na regra da portaria. OK
+
+
+colocar campos novos no cabeçalho da tela de cotação da transportadora: inclusive fornecedor e endereço. OK
+
+na tela de ot incluir filtor pelo numero da ordem. OK
+
+Tela de coleta
+incluir no cabeçalho a unidade de medida e o valor unitário (fechado no processo de cotação)
+o campo de valor da nota fiscal deve permitir. OK
+
+
+
+incluir perfil de depósito
+quando um usuário logado com perfil de depósito estiver logado mostrar apenas as coletas das ordens de transporte cujo fornecedor de depósito tem o código do seu perfil.
+
+processo 2 (coleta)
+nome cnpj do emitente - buscar do fornecedor do processo de cotação
+fluxo de carga - valor fixo "descarregamento"
+trocar header da coluna numero do agendamento para "nº agendamento / OT"
+-nome e cnpj do contratante em branco.
+
+
+
