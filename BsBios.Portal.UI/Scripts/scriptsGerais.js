@@ -135,10 +135,25 @@ $.fn.customDialog = function (configuracao) {
     configuracao.beforeClose = function () {
         $(this).empty();
     };
+    configuracao.create = function (event, ui) {
+
+        //$(event.target).parent().find('.ui-dialog-buttonpane').addClass('divBotao');
+        var buttonSet = $(event.target).parent().find('.ui-dialog-buttonset');
+        
+        var buttons = buttonSet.children();
+        buttons.removeClass('ui-widget ui-state-default').addClass('blue');
+
+    };
 
     if (!configuracao.width) {
         configuracao.width = 800;
     }
+
+    $.each(configuracao.buttons, function(index, button) {
+        button.mousemove = function() {
+            $(this).removeClass("ui-state-hover");
+        };
+    });
 
     this.dialog(configuracao);
 };

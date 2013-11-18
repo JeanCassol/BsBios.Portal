@@ -24,9 +24,12 @@
                     }
                 </div>
                 <div id="body">
-                    <div id="tituloPagina">
-                        @ViewBag.TituloDaPagina
-                    </div>
+                    @if (ViewBag.TituloDaPagina != null)
+                    {
+                        <div id="tituloPagina" class="ui-corner-all">
+                            @ViewBag.TituloDaPagina
+                        </div>
+                    }
                     <div id="conteudoPrincipal">
                         @RenderBody()
                     </div>

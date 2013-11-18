@@ -71,129 +71,128 @@
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
 
-    $(function () {
-        aplicaMascaraQuantidade();
+        $(function() {
+            aplicaMascaraQuantidade();
 
 
-        $('#btnSalvarOrdemDeTransporte').click(function () {
-            var form = $('form');
-            if (!$(form).validate().form()) {
-                return;
-            }
-
-            var formData = $(form).serialize();
-            $.post('@Url.Action("SalvarOrdem", "OrdemDeTransporteService")', formData,
-                function (data) {
-                    if (data.Sucesso) {
-                        Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
-                    } else {
-                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    Mensagem.ExibirMensagemDeErro(errorThrown);
-                });
-
-        });
-
-        var permiteAdicionarColeta = '@Model.PermiteAdicionarColeta'.boolean();
-
-        var colunas;
-        if (permiteAdicionarColeta) {
-            colunas = [
-                {
-                    title: ' ',
-                    width: 40,
-                    sortable: false,
-                    template: '<input type="button" class="button_edit"></input>'
-                },
-                {
-                    title: ' ',
-                    width: 40,
-                    sortable: false,
-                    template: '<input type="button" class="button_remove"></input>'
+            $('#btnSalvarOrdemDeTransporte').click(function() {
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
                 }
-            ];
-        } else {
-            colunas = [
-                {
-                    title: ' ',
-                    width: 40,
-                    sortable: false,
-                    template: '<input type="button" class="button_visualize"></input>'
-                }
-            ];
-        }
 
-        colunas = colunas.concat(
-            {
-                field: "Placa",
-                width: 80,
-                title: "Placa"
-            }, {
-                field: "Motorista",
-                width: 200,
-                title: "Motorista"
-            },
-            {
-                width: 80,
-                field: "Peso",
-                title: "Quantidade"
-            },
-            {
-                width: 120,
-                field: "DataDePrevisaoDeChegada",
-                title: "Previsão de Chegada"
-            },
-            {
-                width: 80,
-                field: "Realizado",
-                title: "Realizado"
-            }
-        );
-        
-
-        $("#gridColetas").customKendoGrid({
-            dataSource: {
-                schema: {
-                    data: 'Registros',
-                    model: {
-                        id: 'Id',
-                        fields: {
-                            Id: { type: "number" },
-                            Placa: { type: "string" },
-                            Motorista: { type: "string" },
-                            Quantidade: { type: "number" },
-                            DataDePrevisaoDeChegada: { type: "string" },
-                            Realizado: { type: "string" }
+                var formData = $(form).serialize();
+                $.post('@Url.Action("SalvarOrdem", "OrdemDeTransporteService")', formData,
+                    function(data) {
+                        if (data.Sucesso) {
+                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro(errorThrown);
+                    });
+
+            });
+
+            var permiteAdicionarColeta = '@Model.PermiteAdicionarColeta'.boolean();
+
+            var colunas;
+            if (permiteAdicionarColeta) {
+                colunas = [
+                    {
+                        title: ' ',
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_edit"></input>'
                     },
-                    total: 'QuantidadeDeRegistros',
-                    type: 'json'
+                    {
+                        title: ' ',
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_remove"></input>'
+                    }
+                ];
+            } else {
+                colunas = [
+                    {
+                        title: ' ',
+                        width: 40,
+                        sortable: false,
+                        template: '<input type="button" class="button_visualize"></input>'
+                    }
+                ];
+            }
+
+            colunas = colunas.concat(
+                {
+                    field: "Placa",
+                    width: 80,
+                    title: "Placa"
+                }, {
+                    field: "Motorista",
+                    width: 200,
+                    title: "Motorista"
                 },
-                transport: {
-                    read: {
-                        url: '@Url.Action("ListarColetas", "OrdemDeTransporte")',
-                        type: 'GET',
-                        cache: false,
-                        data: function () {
-                            return {
-                                IdDaOrdemDeTransporte: $('#Id').val()
-                            };
+                {
+                    width: 80,
+                    field: "Peso",
+                    title: "Quantidade"
+                },
+                {
+                    width: 120,
+                    field: "DataDePrevisaoDeChegada",
+                    title: "Previsão de Chegada"
+                },
+                {
+                    width: 80,
+                    field: "Realizado",
+                    title: "Realizado"
+                }
+            );
+
+
+            $("#gridColetas").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Id: { type: "number" },
+                                Placa: { type: "string" },
+                                Motorista: { type: "string" },
+                                Quantidade: { type: "number" },
+                                DataDePrevisaoDeChegada: { type: "string" },
+                                Realizado: { type: "string" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros',
+                        type: 'json'
+                    },
+                    transport: {
+                        read: {
+                            url: '@Url.Action("ListarColetas", "OrdemDeTransporte")',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    IdDaOrdemDeTransporte: $('#Id').val()
+                                };
+                            }
                         }
                     }
-                }
-            },
-            scrollable: true,
-            columns: colunas
+                },
+                scrollable: true,
+                columns: colunas
+            });
 
-        });
-
-        var functionEditarColeta = function() {
-            var coletaSelecionada = $('#gridColetas').data('kendoGrid').obterRegistroSelecionado();
-                $('#divCadastroColeta').customLoad('@Html.Raw(Url.Action("EditarColeta", "OrdemDeTransporte"))' + 
+            var functionEditarColeta = function() {
+                var coletaSelecionada = $('#gridColetas').data('kendoGrid').obterRegistroSelecionado();
+                $('#divCadastroColeta').customLoad('@Html.Raw(Url.Action("EditarColeta", "OrdemDeTransporte"))' +
                     '?idDaOrdemDeTransporte=' + coletaSelecionada.IdDaOrdemDeTransporte + '&idDaColeta=' + coletaSelecionada.IdColeta,
-                    function () {
+                    function() {
                         jQuery.validator.unobtrusive.parse('#divCadastroColeta');
                     });
             };
@@ -207,65 +206,73 @@
 
             $('#divCadastroColeta').customDialog({
                 title: 'Cadastrar Coleta',
-                buttons: {
-                    "Salvar": function() {
+                buttons: [{
+                        text: "Salvar",
+                        click: function() {
 
-                        var form = $('#formColeta');
-                        if (!$(form).validate().form()) {
-                            return;
-                        }
-
-                        var formData = $(form).serializeObject();
-                        formData.IdDaOrdemDeTransporte = $('#Id').val();
-                        formData.NotasFiscais = GridNotasFiscais.NotasFiscais();
-                        
-                       
-                        $.ajax({
-                            url: '@Url.Action("SalvarColeta","OrdemDeTransporteService")',
-                            type: 'POST',
-                            data: JSON.stringify(formData),
-                            cache: false,
-                            contentType: "application/json; charset=utf-8",
-                            dataType: 'json',
-                            success: function (data) {
-                                if (data.Sucesso) {
-                                    $('#divCadastroColeta').dialog("close");
-                                    $('#lblQuantidadeColetada').text(Globalize.format(data.QuantidadeColetada, 'n3'));
-                                    var grid = $("#gridColetas").data("kendoGrid");
-                                    grid.dataSource.read();
-                                } else {
-                                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao salvar a Coleta. Detalhe: ' + textStatus + errorThrown);
+                            var form = $('#formColeta');
+                            if (!$(form).validate().form()) {
+                                return;
                             }
-                        });
+
+                            var formData = $(form).serializeObject();
+                            formData.IdDaOrdemDeTransporte = $('#Id').val();
+                            formData.NotasFiscais = GridNotasFiscais.NotasFiscais();
 
 
+                            $.ajax({
+                                url: '@Url.Action("SalvarColeta", "OrdemDeTransporteService")',
+                                type: 'POST',
+                                data: JSON.stringify(formData),
+                                cache: false,
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                success: function(data) {
+                                    if (data.Sucesso) {
+                                        $('#divCadastroColeta').dialog("close");
+                                        $('#lblQuantidadeColetada').text(Globalize.format(data.QuantidadeColetada, 'n3'));
+                                        var grid = $("#gridColetas").data("kendoGrid");
+                                        grid.dataSource.read();
+                                    } else {
+                                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao salvar a Coleta. Detalhe: ' + textStatus + errorThrown);
+                                }
+                            });
+
+
+                        }/*
+                    mousemove: function () {
+                            $(this).removeClass("ui-state-hover");
+                        }*/
+                        
                     },
-                    "Cancelar": function() {
-                        $(this).dialog("close");
-                    }
-                }
+                    {
+                        text: "Cancelar",
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }]
             });
 
-            $('#btnAdicionarColeta').click(function () {
+            $('#btnAdicionarColeta').click(function() {
                 var divCadastroColeta = $('#divCadastroColeta');
-                $(divCadastroColeta).customLoad('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte",new{Model.Cabecalho.UnidadeDeMedida}))',
-                function () {
-                    $(divCadastroColeta).find('#UnidadeDeMedida').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.UnidadeDeMedida))');
-                    $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
-                    $(divCadastroColeta).find('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
-                    $(divCadastroColeta).find('#NotaFiscal_NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
-                    $(divCadastroColeta).find('#NotaFiscal_NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
-                    jQuery.validator.unobtrusive.parse('#divCadastroColeta');
-                });
+                $(divCadastroColeta).customLoad('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte", new {Model.Cabecalho.UnidadeDeMedida}))',
+                    function() {
+                        $(divCadastroColeta).find('#UnidadeDeMedida').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.UnidadeDeMedida))');
+                        $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
+                        $(divCadastroColeta).find('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
+                        $(divCadastroColeta).find('#NotaFiscal_NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
+                        $(divCadastroColeta).find('#NotaFiscal_NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
+                        jQuery.validator.unobtrusive.parse('#divCadastroColeta');
+                    });
 
             });
-        
-    });
+
+        });
     </script>
-    }
+}
 
 
