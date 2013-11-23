@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
 
 namespace BsBios.Portal.UI.Filters
 {
@@ -18,18 +19,25 @@ namespace BsBios.Portal.UI.Filters
             //    || SessaoExpirou())
             if (!LoginInfo.UsuarioEstaLogado)
             {
-                string redirectOnSuccess = filterContext.HttpContext.Request.Url.AbsoluteUri;
-                string redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
+                string redirectUrl = "";
+
+                if (filterContext.HttpContext.Request.UrlReferrer != null)
+                {
+                    string redirectOnSuccess = filterContext.HttpContext.Request.UrlReferrer.AbsoluteUri;
+                    redirectUrl = string.Format("?ReturnUrl={0}", redirectOnSuccess);
+                }
+
                 string loginUrl = FormsAuthentication.LoginUrl + redirectUrl;
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
+
                     filterContext.Result = new JsonResult()
                         {
                             Data = new
                                 {
                                     SessaoExpirada = true,
                                     Mensagem = "A sessão expirou.",
-                                    ReturnUrl = redirectUrl
+                                    ReturnUrl = loginUrl
                                 },
                                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
 

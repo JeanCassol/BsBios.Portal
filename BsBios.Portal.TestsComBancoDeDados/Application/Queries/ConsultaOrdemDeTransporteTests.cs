@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
@@ -31,6 +32,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoListoOrdensDeTransporteRetornaDadosEsperados()
         {
+
+            RemoveQueries.RemoverOrdensDeTransporteCadastradas();
 
             List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
 
@@ -73,6 +76,34 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(ordemDeTransporte.QuantidadeColetada, ordemDeTransporteVm.QuantidadeColetada);
             Assert.AreEqual(ordemDeTransporte.QuantidadeLiberada, ordemDeTransporteVm.QuantidadeLiberada);
 
+        }
+
+        [TestMethod]
+        public void ConsigoListarMonitor()
+        {
+            RemoveQueries.RemoverOrdensDeTransporteCadastradas();
+
+            IList<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
+
+            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+
+            DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
+
+            var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaOrdemDeTransporte>();
+            var filtro = new MonitorDeOrdemDeTransporteFiltroVm
+            {
+                DataInicial = DateTime.Today.AddMonths(1),
+                DataFinal = DateTime.Today.AddMonths(2)
+            };
+            IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.ListagemDoMonitor(filtro);
+
+            Assert.AreEqual(1, dados.Count);
+
+            MonitorDeOrdemDeTransporteVm registro = dados.Single();
+
+            Assert.AreEqual(9, registro.QuantidadeLiberada);
         }
     }
 }

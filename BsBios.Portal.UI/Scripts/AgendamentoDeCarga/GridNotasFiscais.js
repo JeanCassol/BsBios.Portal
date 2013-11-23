@@ -34,17 +34,11 @@ function carregaCamposDaNotaFiscal(notaFiscal) {
     $('#NotaFiscal_Numero').val(notaFiscal.Numero);
     $('#NotaFiscal_Serie').val(notaFiscal.Serie);
     $('#NotaFiscal_DataDeEmissao').val(notaFiscal.DataDeEmissao);
-    $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
-    $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
-    $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
-    if (GridNotasFiscais.configuracao.exibirEmitente) {
-        $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
-        $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
-    } else {
-        $('#NotaFiscal_Id').val(notaFiscal.Id);
-    }
     $('#NotaFiscal_Peso').val(Globalize.format(notaFiscal.Peso,'n3'));
-    $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor,'n2'));
+    $('#NotaFiscal_Valor').val(Globalize.format(notaFiscal.Valor, 'n2'));
+
+    GridNotasFiscais.configuracao.funcaoParaSalvarCamposEspecificosDaNota(notaFiscal);
+
 }
 
 
@@ -135,14 +129,24 @@ GridNotasFiscais = {
                 width: 70,
                 field: "DataDeEmissao",
                 title: "Emissão"
-            },
-            {
+            }
+
+        );
+
+        if (configuracao.exibirEmitente) {
+            arrayDeColunas.push({
                 width: 300,
                 field: "NomeDoEmitente",
                 title: "Emitente"
-            }
-        );
+            });
+        } else {
+            arrayDeColunas.push({
+                width: 300,
+                field: "NumeroDoConhecimento",
+                title: "Número do Conhecimento"
+            });
 
+        }
 
         arrayDeColunas = arrayDeColunas.concat(
             {
@@ -155,6 +159,7 @@ GridNotasFiscais = {
                 width: 80,
                 format: "{0:n}"
             }
+
         );
 
         $("#divGridNotasFiscaisAdicionadas").customKendoGrid({
@@ -165,6 +170,7 @@ GridNotasFiscais = {
                         fields: {
                             Numero: { type: "string" },
                             Serie: { type: "string" },
+                            NumeroDoConhecimento: { type: "string" },
                             DataDeEmissao: { type: "string" },
                             NomeDoEmitente: { type: "string" },
                             Peso: { type: "number" },

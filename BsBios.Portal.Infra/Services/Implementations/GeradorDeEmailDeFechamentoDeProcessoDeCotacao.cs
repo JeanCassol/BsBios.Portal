@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 
@@ -46,6 +47,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
             Fornecedor fornecedorDaMercadoria = processoDeCotacaoDeFrete.FornecedorDaMercadoria;
             if (fornecedorDaMercadoria != null)
             {
+                if (string.IsNullOrEmpty(fornecedorDaMercadoria.Email))
+                {
+                    throw new Exception("O e-mail do fornecedor " + fornecedorDaMercadoria.Nome + " não está preenchido.");
+                }
                 MensagemDeEmail mensagemDeEmail = GeradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacaoDeFrete);
                 EmailService.Enviar(fornecedorDaMercadoria.Email, mensagemDeEmail);
             }

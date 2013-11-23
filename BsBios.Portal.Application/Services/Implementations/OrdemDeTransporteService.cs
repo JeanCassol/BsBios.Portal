@@ -68,6 +68,24 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
+        public decimal RemoverColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                OrdemDeTransporte ordemDeTransporte = _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte).Single();
+                ordemDeTransporte.RemoverColeta(idDaColeta);
+                _ordensDeTransporte.Save(ordemDeTransporte);
+                _unitOfWork.Commit();
+                return ordemDeTransporte.QuantidadeColetada;
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
         public void RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta)
         {
             try

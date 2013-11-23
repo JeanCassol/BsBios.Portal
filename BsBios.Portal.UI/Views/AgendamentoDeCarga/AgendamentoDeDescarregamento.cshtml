@@ -89,10 +89,25 @@
         {
             @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento", "Quota", new { Model.IdQuota, Model.IdAgendamento }))');
         }
+        
+        var funcaoParaSalvarCamposEspecificosDaNota = function (notaFiscal) {
+
+            $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
+            $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
+            $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+            $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
+            $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
+
+       };
 
 
-        GridNotasFiscais.ConfigurarGrid({PermiteEditar: permiteEditar, exibirEmitente: true});
-        $('#btnSalvarNotaFiscal').click(function() {
+        GridNotasFiscais.ConfigurarGrid({
+            PermiteEditar: permiteEditar,
+            exibirEmitente: true,
+            funcaoParaSalvarCamposEspecificosDaNota: funcaoParaSalvarCamposEspecificosDaNota
+        });
+
+        $('#btnSalvarNotaFiscal').click(function () {
             var form = $('#formNotaFiscal');
             if (!$(form).validate().form()) {
                 return;

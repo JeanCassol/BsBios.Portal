@@ -52,6 +52,20 @@ Mensagem = {
     ExibirMensagemDeConfirmacao: function (mensagem, funcaoConfirmacao) {
         this.gerarCaixaDeMensagem(mensagem, 'Confirmação', 'ui-icon-check', 'ui-icon-alert',funcaoConfirmacao, true);
     },
+    ExibirJanelaComHtml: function (html) {
+        var janela = $('#divJanelaComHtml');
+        if (janela.length == 0) {
+            $('body').append('<div id="divJanelaComHtml"></div>');
+
+            $('#divJanelaComHtml').customDialog({
+                title: 'Mensagem',
+                width:1024
+                
+            });
+        }
+        $('#divJanelaComHtml').html(html);
+        $('#divJanelaComHtml').dialog('open');
+    }        
 
 };
 
@@ -147,14 +161,18 @@ $.fn.customDialog = function (configuracao) {
 
     if (!configuracao.width) {
         configuracao.width = 800;
+    }    
+
+
+    if(configuracao.buttons){
+        $.each(configuracao.buttons, function(index, button) {
+            button.mousemove = function() {
+                $(this).removeClass("ui-state-hover");
+            };
+        });
+        
     }
-
-    $.each(configuracao.buttons, function(index, button) {
-        button.mousemove = function() {
-            $(this).removeClass("ui-state-hover");
-        };
-    });
-
+    
     this.dialog(configuracao);
 };
 

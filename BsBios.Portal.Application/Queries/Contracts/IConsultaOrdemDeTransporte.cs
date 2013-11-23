@@ -13,5 +13,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
         ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta);
 
         IList<NotaFiscalDeColetaVm> NotasFiscaisDaColeta(int iddDaOrdemDeTransporte, int idColeta);
+
+        IList<MonitorDeOrdemDeTransporteVm> ListagemDoMonitor(MonitorDeOrdemDeTransporteFiltroVm filtro);
     }
 }

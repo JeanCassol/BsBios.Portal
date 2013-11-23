@@ -197,11 +197,40 @@
                     });
             };
 
+            var funcaoParaRemoverColeta = function() {
+                Mensagem.ExibirMensagemDeConfirmacao("Confirma a exclusão da Coleta e todas as suas Notas Fiscais?", function () {
+                    var gridColeta = $('#gridColetas').data('kendoGrid');
+                    var coletaSelecionada = gridColeta.obterRegistroSelecionado();
+                    $.ajax({
+                        url: '@Url.Action("RemoverColeta", "OrdemDeTransporteService")',
+                        type: 'POST',
+                        data: JSON.stringify({idDaOrdemDeTransporte: coletaSelecionada.IdDaOrdemDeTransporte, idDaColeta: coletaSelecionada.IdColeta }),
+                        cache: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Sucesso) {
+                                $('#lblQuantidadeColetada').text(Globalize.format(data.QuantidadeColetada, 'n3'));
+                                gridColeta.dataSource.read();
+                            } else {
+                                Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao remover a Coleta. Detalhe: ' + textStatus + errorThrown);
+                        }
+                    });
+
+                });
+            };
+
             $("#gridColetas").off('click', '.button_edit');
             $("#gridColetas").off('click', '.button_visualize');
+            $("#gridColetas").off('click', '.button_remove');
 
             $("#gridColetas").on("click", '.button_edit', functionEditarColeta);
             $("#gridColetas").on("click", '.button_visualize', functionEditarColeta);
+            $("#gridColetas").on("click", '.button_remove', funcaoParaRemoverColeta);
 
 
             $('#divCadastroColeta').customDialog({
@@ -263,9 +292,9 @@
                     function() {
                         $(divCadastroColeta).find('#UnidadeDeMedida').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.UnidadeDeMedida))');
                         $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
-                        $(divCadastroColeta).find('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
-                        $(divCadastroColeta).find('#NotaFiscal_NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
-                        $(divCadastroColeta).find('#NotaFiscal_NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
+                        $(divCadastroColeta).find('#CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
+                        $(divCadastroColeta).find('#NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
+                        $(divCadastroColeta).find('#NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
                         jQuery.validator.unobtrusive.parse('#divCadastroColeta');
                     });
 

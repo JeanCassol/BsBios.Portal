@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using NHibernate;
+using NHibernate.Transform;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -168,7 +172,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     ValorDoFrete = coleta.ValorDoFrete,
                     UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
                     DataDePrevisaoDeChegada = coleta.DataDePrevisaoDeChegada.ToShortDateString(),
+                    CnpjDoEmitente = ordemDeTransporte.Fornecedor.Cnpj,
+                    NomeDoEmitente = ordemDeTransporte.Fornecedor.Nome ,
+                    NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
                     PermiteEditar = true,
+                    
 
                 }).Single();
 
@@ -190,14 +198,48 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              Id = notaFiscal.Id,
                              DataDeEmissao = notaFiscal.DataDeEmissao.ToShortDateString(),
                              Numero = notaFiscal.Numero,
+                             NumeroDoConhecimento = notaFiscal.NumeroDoConhecimento,
                              Serie = notaFiscal.Serie,
-                             Valor = notaFiscal.Valor,
-                             NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
-                             CnpjDoEmitente = fornecedorDaMercadoria.Cnpj,
-                             NomeDoEmitente = fornecedorDaMercadoria.Nome
+                             Valor = notaFiscal.Valor
                          }).ToList();
 
             return notasFiscais;
+
+        }
+
+        public IList<MonitorDeOrdemDeTransporteVm> ListagemDoMonitor(MonitorDeOrdemDeTransporteFiltroVm filtro)
+        {
+            var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+            ISession session = unitOfWorkNh.Session;
+
+
+            Fornecedor fornecedor = null;
+            ProcessoDeCotacaoDeFrete processoDeCotacao = null;
+            Produto produto = null;
+
+            Expression<Func<OrdemDeTransporte, bool>> whereDoPeriodo =
+                ordem => processoDeCotacao.DataDeValidadeFinal >= filtro.DataInicial
+                         && processoDeCotacao.DataDeValidadeInicial <= filtro.DataFinal;
+
+            MonitorDeOrdemDeTransporteVm registro = null;
+
+            var queryQuantidadeLiberada = session.QueryOver<OrdemDeTransporte>()
+                .Where(whereDoPeriodo)
+                .JoinAlias(ordem => ordem.Fornecedor, () => fornecedor)
+                .JoinAlias(ordem => ordem.ProcessoDeCotacaoDeFrete, () => processoDeCotacao)
+                .JoinAlias( ordem =>  processoDeCotacao.Produto, () => produto)
+                .SelectList(list => list
+                    .SelectGroup(g => fornecedor.Nome).WithAlias(() => registro.Fornecedor)
+                    .SelectGroup(g => produto.Descricao).WithAlias(() => registro.Material)
+                    .SelectSum(g => g.QuantidadeLiberada).WithAlias(() => registro.QuantidadeLiberada)
+                    )
+                    .TransformUsing(Transformers.AliasToBean<MonitorDeOrdemDeTransporteVm>())
+                    .List<MonitorDeOrdemDeTransporteVm>();
+
+
+
+            return queryQuantidadeLiberada;
+
 
         }
     }

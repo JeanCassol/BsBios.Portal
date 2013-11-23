@@ -18,7 +18,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
 
             foreach (var notaFiscalDeColetaVm in coletaSalvarVm.NotasFiscais)
             {
-                var notaFiscal = new NotaFiscalDeColeta(notaFiscalDeColetaVm.Numero, notaFiscalDeColetaVm.Serie,
+                var notaFiscal = new NotaFiscalDeColeta(notaFiscalDeColetaVm.Numero, notaFiscalDeColetaVm.Serie, notaFiscalDeColetaVm.NumeroDoConhecimento, 
                     Convert.ToDateTime(notaFiscalDeColetaVm.DataDeEmissao), notaFiscalDeColetaVm.Peso, notaFiscalDeColetaVm.Valor);
                 
                 coleta.AdicionarNotaFiscal(notaFiscal, valorUnitario);

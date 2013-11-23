@@ -389,5 +389,6 @@ namespace BsBios.Portal.Tests.DataProvider
             ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
             return processoDeCotacaoDeFrete.FecharProcesso().First();
         }
+        
     }
 }

@@ -63,10 +63,28 @@ namespace BsBios.Portal.Domain.Entities
         {
             var coleta = Coletas.Single(x => x.Id == coletaSalvarVm.IdColeta);
 
+            if (coleta.Realizado)
+            {
+                throw new Exception("Não é possível alterar uma Coleta que já foi realizada.");
+            }
+
             coleta.Atualizar(coletaSalvarVm,PrecoUnitario);
 
             QuantidadeColetada = Coletas.Sum(x => x.Peso);
 
+        }
+
+        public virtual void RemoverColeta(int idDaColeta)
+        {
+            var coleta = Coletas.Single(x => x.Id == idDaColeta);
+            if (coleta.Realizado)
+            {
+                throw new Exception("Não é possível excluir uma Coleta que já foi realizada.");
+            }
+
+            Coletas.Remove(coleta);
+
+            QuantidadeColetada = Coletas.Sum(x => x.Peso);
         }
 
 

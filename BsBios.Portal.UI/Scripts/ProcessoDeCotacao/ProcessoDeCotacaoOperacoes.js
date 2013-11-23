@@ -229,7 +229,11 @@
                         $('#spanStatus').html('Fechado');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
-                        Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        if (data.MediaType == "text/html") {
+                            Mensagem.ExibirJanelaComHtml(data.Mensagem);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

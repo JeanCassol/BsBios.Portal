@@ -18,19 +18,32 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Preço Unitário")]
         public decimal PrecoUnitario { get; set; }
+
+        [DisplayName("Número do Contrato")]
+        public string NumeroDoContrato { get; set; }
+
+        [DisplayName("CNPJ do Emitente")]
+        public string CnpjDoEmitente { get; set; }
+        [DisplayName("Nome do Emitente")]
+        public string NomeDoEmitente { get; set; }
+
         public bool PermiteEditar { get; set; }
     }
 
     public class NotaFiscalDeColetaVm
     {
         public int? Id { get; set; }
-        [DisplayName("Nº do Conhecimento")]
-        [Required(ErrorMessage = "Nº do Conhecimento é obrigatório")]
+        [DisplayName("Número")]
+        [Required(ErrorMessage = "Número é obrigatório")]
         public string Numero { get; set; }
         
         [DisplayName("Série")]
         [Required(ErrorMessage = "Série é obrigatório")]
         public string Serie { get; set; }
+
+        [DisplayName("Nº do Conhecimento")]
+        [Required(ErrorMessage = "Nº do Conhecimento é obrigatório")]
+        public string NumeroDoConhecimento { get; set; }
         [DisplayName("Data de Emissão")]
         [Required(ErrorMessage = "Data de Emissão é obrigatório")]
         public string DataDeEmissao { get; set; }
@@ -39,13 +52,14 @@ namespace BsBios.Portal.ViewModel
 
         [Required(ErrorMessage = "Valor é obrigatório")]
         public decimal Valor{ get; set; }
-        [DisplayName("Número do Contrato")]
-        public string NumeroDoContrato { get; set; }
 
-        [DisplayName("CNPJ do Emitente")]
-        public string CnpjDoEmitente { get; set; }
-        [DisplayName("Nome do Emitente")]
-        public string NomeDoEmitente { get; set; }
+        //[DisplayName("Número do Contrato")]
+        //public string NumeroDoContrato { get; set; }
+
+        //[DisplayName("CNPJ do Emitente")]
+        //public string CnpjDoEmitente { get; set; }
+        //[DisplayName("Nome do Emitente")]
+        //public string NomeDoEmitente { get; set; }
 
     }
 }

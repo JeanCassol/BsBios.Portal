@@ -57,13 +57,15 @@
     <Compile Include="CotacaoMaterialDadosVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
+    <Compile Include="MonitorDeOrdemDeTransporteFiltroVm.cs" />
+    <Compile Include="MonitorDeOrdemDeTransporteVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="OrdemDeTransporteCadastroVm.cs" />
     <Compile Include="ColetaListagemVm.cs" />
     <Compile Include="OrdemDeTransporteListagemFiltroVm.cs" />
     <Compile Include="OrdemDeTransporteListagemVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
-    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />

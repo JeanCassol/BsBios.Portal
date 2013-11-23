@@ -10,6 +10,7 @@ namespace BsBios.Portal.Infra
             Table("NOTAFISCALDECOLETA");
             Id(x => x.Id).GeneratedBy.Sequence("NOTAFISCALDECOLETA_ID_SEQUENCE");
             Map(x => x.Numero);
+            Map(x => x.NumeroDoConhecimento);
             Map(x => x.Serie);
             Map(x => x.DataDeEmissao,"DataEmissao");
             Map(x => x.Peso);

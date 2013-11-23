@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
 
@@ -87,7 +86,7 @@ namespace BsBios.Portal.Domain.Entities
                 var notaAdicionada = notaParaAlterar.NotaAdicionada;
                 var notaInformada = notaParaAlterar.NotaInformada;
 
-                notaAdicionada.Atualizar(notaInformada.Numero, notaInformada.Serie, Convert.ToDateTime(notaInformada.DataDeEmissao), 
+                notaAdicionada.Atualizar(notaInformada.Numero, notaInformada.Serie, notaInformada.NumeroDoConhecimento , Convert.ToDateTime(notaInformada.DataDeEmissao), 
                     notaInformada.Peso, notaInformada.Valor);
 
             }
@@ -96,7 +95,7 @@ namespace BsBios.Portal.Domain.Entities
 
             foreach (var notaFiscalDeColetaVm in notasParaAdicionar)
             {
-                var notaFiscalDeColeta = new NotaFiscalDeColeta(notaFiscalDeColetaVm.Numero, notaFiscalDeColetaVm.Serie,
+                var notaFiscalDeColeta = new NotaFiscalDeColeta(notaFiscalDeColetaVm.Numero, notaFiscalDeColetaVm.Serie, notaFiscalDeColetaVm.NumeroDoConhecimento,
                     Convert.ToDateTime(notaFiscalDeColetaVm.DataDeEmissao), notaFiscalDeColetaVm.Peso, notaFiscalDeColetaVm.Valor);
 
                 NotasFiscais.Add(notaFiscalDeColeta);

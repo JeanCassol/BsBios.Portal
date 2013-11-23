@@ -67,5 +67,20 @@ namespace BsBios.Portal.UI.Controllers
                 return Json(new {Sucesso = false, Mensagem = ExceptionUtil.ExibeDetalhes(ex)});
             }
         }
+
+        [HttpPost]
+        public ActionResult RemoverColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        {
+            try
+            {
+                decimal quantidadeColeta =  _ordemDeTransporteService.RemoverColeta(idDaOrdemDeTransporte, idDaColeta);
+                return Json(new { Sucesso = true, QuantidadeColetada = quantidadeColeta });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ExceptionUtil.ExibeDetalhes(ex) });
+            }
+        }
+
     }
 }

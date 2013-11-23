@@ -2,6 +2,7 @@
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
+using FluentNHibernate.Utils;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
@@ -35,14 +36,22 @@ namespace BsBios.Portal.Infra.Services.Implementations
             string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
                               "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
                               "conforme informações descritas abaixo. " + Environment.NewLine +
-                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" + Environment.NewLine + Environment.NewLine +
+                              "Caso tenha interesse em participar favor acessar o Portal de Cotações" +
+                              Environment.NewLine + Environment.NewLine +
                               "Material: " + processoDeCotacaoDeFrete.Produto.Descricao + Environment.NewLine +
                               "Quantidade: " + processoDeCotacaoDeFrete.Quantidade + Environment.NewLine +
-                              "Itinerário: " + processoDeCotacaoDeFrete.Itinerario.Descricao + Environment.NewLine +
-                              "Unidade de Medida: " + processoDeCotacaoDeFrete.UnidadeDeMedida.Descricao + Environment.NewLine +
+                              "Unidade de Medida: " + processoDeCotacaoDeFrete.UnidadeDeMedida.Descricao +
+                              Environment.NewLine +
                               "Data Limite de Retorno: " + (processoDeCotacaoDeFrete.DataLimiteDeRetorno.HasValue ? processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
-                              "Requisitos: " + processoDeCotacaoDeFrete.Requisitos + Environment.NewLine;
-
+                              "Requisitos: " + processoDeCotacaoDeFrete.Requisitos + Environment.NewLine +
+                              "Itinerário: " + processoDeCotacaoDeFrete.Itinerario.Descricao + Environment.NewLine +
+                              "Município de Origem: " + (processoDeCotacaoDeFrete.MunicipioDeOrigem != null ? processoDeCotacaoDeFrete.MunicipioDeOrigem.ToString(): "") + Environment.NewLine +
+                              "Município de Destino: " + (processoDeCotacaoDeFrete.MunicipioDeDestino != null ? processoDeCotacaoDeFrete.MunicipioDeDestino.ToString(): "") + Environment.NewLine +
+                              "Cadência: " + processoDeCotacaoDeFrete.Cadencia  + Environment.NewLine +
+                              "Classificação: " + (processoDeCotacaoDeFrete.Classificacao ? "Sim" : "Não")  + Environment.NewLine +
+                              "Fornecedor da Mercadoria: " + (processoDeCotacaoDeFrete.FornecedorDaMercadoria != null ? processoDeCotacaoDeFrete.FornecedorDaMercadoria.Nome: "") + Environment.NewLine + 
+                              "Depósito: " + (processoDeCotacaoDeFrete.Deposito != null ? processoDeCotacaoDeFrete.Deposito.Nome : "") + Environment.NewLine;
+                              
             return new MensagemDeEmail("Cotação de Frete", mensagem);
         }
 

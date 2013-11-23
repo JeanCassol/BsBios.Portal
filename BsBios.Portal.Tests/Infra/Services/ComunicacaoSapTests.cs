@@ -128,7 +128,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             var httpClient = new HttpClient(clientHandler);
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento()
             {
-                new ProcessoDeCotacaoDeFreteFechamentoVm()
+                new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm()
                     {
                         CodigoTransportadora = "0000101808",
                         CodigoMaterial = "000000000000004012" ,

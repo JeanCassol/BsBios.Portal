@@ -22,7 +22,7 @@ namespace BsBios.Portal.Infra.Mappings
                             .Not.Inverse()
                             .Not.KeyNullable()
                             .Not.KeyUpdate()
-                            .Cascade.All();
+                            .Cascade.AllDeleteOrphan();
         }
     }
 }
