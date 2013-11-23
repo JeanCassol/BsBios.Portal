@@ -40,10 +40,6 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void AlterarQuantidadeLiberada(decimal novaQuantidadeLiberada)
         {
-            if (novaQuantidadeLiberada > QuantidadeAdquirida)
-            {
-                throw new QuantidadeLiberadaSuperouQuantidadeAdquiridaException(novaQuantidadeLiberada, QuantidadeAdquirida);
-            }
             if (novaQuantidadeLiberada < QuantidadeColetada)
             {
                 throw new QuantidadeLiberadaAbaixoDaQuantidadeColetadaException(novaQuantidadeLiberada, QuantidadeColetada);

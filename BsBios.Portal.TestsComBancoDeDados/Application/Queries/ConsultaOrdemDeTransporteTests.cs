@@ -105,5 +105,23 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.AreEqual(9, registro.QuantidadeLiberada);
         }
+
+        [TestMethod]
+        public void ConsigoConsultarQuantidadeLiberadaEmTodasAsOrdensDeTransporteDeUmProcessoDeCotacao()
+        {
+            List<Municipio> municipiosCadastrados = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipiosCadastrados.First(), municipiosCadastrados.Last());
+
+            IList<OrdemDeTransporte> ordemDeTransportes = processoDeCotacao.FecharProcesso();
+
+            DefaultPersistedObjects.PersistirOrdensDeTransporte(ordemDeTransportes, processoDeCotacao);
+
+            var consulta = ObjectFactory.GetInstance<IConsultaOrdemDeTransporte>();
+
+            var quantidade = consulta.CalcularQuantidadeLiberadaPeloProcessoDeCotacao(processoDeCotacao.Id);
+
+            Assert.AreEqual(processoDeCotacao.FornecedoresSelecionados.Sum(x => x.Cotacao.QuantidadeAdquirida), quantidade);
+        }
     }
 }

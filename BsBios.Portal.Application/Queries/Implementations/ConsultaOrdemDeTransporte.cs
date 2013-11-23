@@ -9,6 +9,7 @@ using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using NHibernate;
+using NHibernate.Linq;
 using NHibernate.Transform;
 using StructureMap;
 
@@ -248,6 +249,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             return queryQuantidadeLiberada;
 
+        }
+
+        public decimal CalcularQuantidadeLiberadaPeloProcessoDeCotacao(int idDoProcessoDeCotacaoDeFrete)
+        {
+            var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+
+            var quantidade = unitOfWork.Session.Query<OrdemDeTransporte>()
+                .Where(ot => ot.ProcessoDeCotacaoDeFrete.Id == idDoProcessoDeCotacaoDeFrete)
+                .Sum(ot => ot.QuantidadeLiberada);
+
+            return quantidade;
 
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using BsBios.Portal.Application.DTO;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -13,11 +15,16 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrdensDeTransporte _ordensDeTransporte;
+        private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
+        private readonly IConsultaOrdemDeTransporte _consultaOrdemDeTransporte;
 
-        public OrdemDeTransporteService(IUnitOfWork unitOfWork, IOrdensDeTransporte ordensDeTransporte)
+        public OrdemDeTransporteService(IUnitOfWork unitOfWork, IOrdensDeTransporte ordensDeTransporte, 
+            IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaOrdemDeTransporte consultaOrdemDeTransporte)
         {
             _unitOfWork = unitOfWork;
             _ordensDeTransporte = ordensDeTransporte;
+            _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
+            _consultaOrdemDeTransporte = consultaOrdemDeTransporte;
         }
 
         public void AtualizarOrdemDeTransporte(OrdemDeTransporteAtualizarDTO ordemDeTransporteAtualizarDTO)
@@ -26,7 +33,20 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 OrdemDeTransporte ordemDeTransporte = _ordensDeTransporte.BuscaPorId(ordemDeTransporteAtualizarDTO.Id).Single();
-                ordemDeTransporte.AlterarQuantidadeLiberada(ordemDeTransporteAtualizarDTO.QuantidadeLiberada);
+                int idDoProcessoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Id;
+
+                decimal quantidadeContratada = _consultaProcessoDeCotacaoDeFrete.CalcularQuantidadeContratadaNoProcessoDeCotacao(idDoProcessoDeCotacao);
+                decimal quantidadeLiberada = _consultaOrdemDeTransporte.CalcularQuantidadeLiberadaPeloProcessoDeCotacao(idDoProcessoDeCotacao);
+                decimal quantidadeLiberadaParaOrdemDeTransporte = ordemDeTransporteAtualizarDTO.QuantidadeLiberada;
+                decimal novaQuantidadeLiberada = quantidadeLiberada - ordemDeTransporte.QuantidadeLiberada + quantidadeLiberadaParaOrdemDeTransporte;
+
+                if (novaQuantidadeLiberada > quantidadeContratada)
+                {
+                    throw new QuantidadeLiberadaSuperouQuantidadeAdquiridaException(quantidadeLiberadaParaOrdemDeTransporte, novaQuantidadeLiberada, quantidadeContratada);
+                }
+
+
+                ordemDeTransporte.AlterarQuantidadeLiberada(quantidadeLiberadaParaOrdemDeTransporte);
                 _ordensDeTransporte.Save(ordemDeTransporte);
                 _unitOfWork.Commit();
             }

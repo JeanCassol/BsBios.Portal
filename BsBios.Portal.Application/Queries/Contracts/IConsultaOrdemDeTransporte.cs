@@ -16,5 +16,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
         IList<NotaFiscalDeColetaVm> NotasFiscaisDaColeta(int iddDaOrdemDeTransporte, int idColeta);
 
         IList<MonitorDeOrdemDeTransporteVm> ListagemDoMonitor(MonitorDeOrdemDeTransporteFiltroVm filtro);
+
+        decimal CalcularQuantidadeLiberadaPeloProcessoDeCotacao(int idDoProcessoDeCotacaoDeFrete);
     }
 }

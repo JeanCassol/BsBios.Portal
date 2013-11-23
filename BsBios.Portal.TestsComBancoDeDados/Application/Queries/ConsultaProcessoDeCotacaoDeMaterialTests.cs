@@ -238,5 +238,17 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual("Não", processoCotacaoFornecedorVm.VisualizadoPeloFornecedor);
         }
 
+        [TestMethod]
+        public void ConsigoConsultarQuantidade()
+        {
+            var consulta = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeFrete>();
+
+            var quantidade = consulta.CalcularQuantidadeContratadaNoProcessoDeCotacao(1);
+
+
+            Assert.AreEqual(0, quantidade);
+
+        }
+
     }
 }

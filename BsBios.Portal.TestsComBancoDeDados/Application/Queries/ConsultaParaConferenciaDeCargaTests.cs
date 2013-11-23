@@ -181,8 +181,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void ConsigoConsultarUmAgendamentoPelaData()
         {
 
-            UnitOfWorkNh.Session.Clear();
-
             var filtro = new ConferenciaDeCargaFiltroVm{
                 CodigoTerminal = "1000",
                 DataAgendamento = DateTime.Today.ToShortDateString()

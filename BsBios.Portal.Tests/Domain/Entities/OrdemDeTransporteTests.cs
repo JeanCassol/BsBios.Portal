@@ -40,14 +40,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(8M, ordemDeTransporte.QuantidadeLiberada);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(QuantidadeLiberadaSuperouQuantidadeAdquiridaException))]
-        public void NaoEPermitidoAlterarAQuantidadeLiberadaParaUmaQuantidadeMaiorQueAQuantidadeAdquiridaNoProcessoDeCotacao()
-        {
-            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
-            ordemDeTransporte.AlterarQuantidadeLiberada(11M);
+        //[TestMethod]
+        //[ExpectedException(typeof(QuantidadeLiberadaSuperouQuantidadeAdquiridaException))]
+        //public void NaoEPermitidoAlterarAQuantidadeLiberadaParaUmaQuantidadeMaiorQueAQuantidadeAdquiridaNoProcessoDeCotacao()
+        //{
+        //    OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
+        //    ordemDeTransporte.AlterarQuantidadeLiberada(11M);
 
-        }
+        //}
 
         [TestMethod]
         [ExpectedException(typeof(QuantidadeLiberadaAbaixoDaQuantidadeColetadaException))]

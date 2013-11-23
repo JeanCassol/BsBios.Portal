@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
@@ -77,6 +78,23 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
 
             return retorno;
+        }
+
+        public decimal CalcularQuantidadeContratadaNoProcessoDeCotacao(int idDoProcessoDeCotacao)
+        {
+            //_processosDeCotacao.BuscaPorId(idDoProcessoDeCotacao);
+            //var q = (from processo in _processosDeCotacao.GetQuery()
+            //         from participante in processo.FornecedoresParticipantes
+            //         select Gro
+            //             )
+
+            return _processosDeCotacao
+                .BuscaPorId(idDoProcessoDeCotacao)
+                .GetQuery()
+                .Select(x => x.FornecedoresParticipantes.Where(fp => fp.Cotacao.Selecionada).Sum(fp => fp.Cotacao.QuantidadeAdquirida.Value)).SingleOrDefault();
+
+
+
         }
     }
 }
