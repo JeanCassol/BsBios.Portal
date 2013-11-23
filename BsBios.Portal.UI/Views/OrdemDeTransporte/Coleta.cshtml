@@ -13,17 +13,20 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.Placa, "campopequeno maskplaca"),
                 new ColunaComTextBox<ColetaVm, string>(x => x.Motorista,"campogrande"))
             
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.DataDaColeta, "campopequeno campoDatePicker maskdata"),
+            new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
+
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
                 new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskquantidade campoDesabilitado"),
-                new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskquantidade campoDesabilitado"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskmoeda campoDesabilitado"),
+                new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskmoeda campoDesabilitado"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.CnpjDoEmitente, "campopequeno campoDesabilitado"),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.CnpjDoEmitente, "campopequeno campoDesabilitado maskcnpj"),
                                     new ColunaComTextBox<ColetaVm, string>(x => x.NomeDoEmitente, "campogrande campoDesabilitado"))
 
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<ColetaVm, string>(x => x.NumeroDoContrato, "campopequeno campoDesabilitado"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NumeroDoContrato, "campopequeno campoDesabilitado"),
+                              new ColunaComTextBox<ColetaVm, string>(x => x.NomeDaTransportadora, "campogrande campoDesabilitado"))
             
 
         </form>
@@ -79,7 +82,7 @@
         }
 
         if (!permiteEditar) {
-            $('form').find('input')
+            $('#formColeta,#formNotaFiscal').find('input')
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
         } else {
@@ -88,9 +91,10 @@
             aplicaMascaraSerieNf();
             aplicaMascaraPlaca();
             aplicaMascaraData();
-            aplicaMascaraQuantidade();
-            aplicaMascaraMoeda();
         }
+        aplicaMascaraQuantidade();
+        aplicaMascaraMoeda();
+        aplicaMascaraCnpj();
 
         var funcaoAposSalvarNota = function() {
             var valorUnitario = Globalize.parseFloat($("#PrecoUnitario").val());

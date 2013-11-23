@@ -14,7 +14,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
             {
                 throw new ColetaSemNotaFiscalException();
             }
-            var coleta = new Coleta(coletaSalvarVm.Placa, coletaSalvarVm.Motorista,Convert.ToDateTime(coletaSalvarVm.DataDePrevisaoDeChegada));
+            var coleta = new Coleta(coletaSalvarVm.Placa, coletaSalvarVm.Motorista, Convert.ToDateTime(coletaSalvarVm.DataDaColeta) ,Convert.ToDateTime(coletaSalvarVm.DataDePrevisaoDeChegada));
 
             foreach (var notaFiscalDeColetaVm in coletaSalvarVm.NotasFiscais)
             {

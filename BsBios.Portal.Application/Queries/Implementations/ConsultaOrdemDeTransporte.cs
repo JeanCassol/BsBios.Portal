@@ -64,7 +64,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              NomeDoFornecedor = ordemDeTransporte.Fornecedor.Nome,
                              Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
                              QuantidadeColetada = ordemDeTransporte.QuantidadeColetada,
-                             QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada
+                             QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada,
+                             QuantidadeRealizada = ordemDeTransporte.QuantidadeRealizada
                          });
 
             return new KendoGridVm
@@ -93,6 +94,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Id = ordemDeTransporte.Id,
                     QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada ,
                     QuantidadeColetada = ordemDeTransporte.QuantidadeColetada ,
+                    QuantidadeRealizada = ordemDeTransporte.QuantidadeRealizada,
                     PrecoUnitario = ordemDeTransporte.PrecoUnitario,
                     PermiteAlterar = permiteAlterar,
                     PermiteAdicionarColeta = permiteAdicionarColeta,
@@ -139,6 +141,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 {
                     IdDaOrdemDeTransporte = idDaOrdemDeTransporte,
                     IdColeta = coleta.Id,
+                    DataDaColeta = coleta.DataDaColeta.ToShortDateString(),
                     DataDePrevisaoDeChegada = coleta.DataDePrevisaoDeChegada.ToShortDateString(),
                     Placa = coleta.Placa,
                     Peso = coleta.Peso,
@@ -153,14 +156,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
         }
 
-        public ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta)
+        public ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta, UsuarioConectado usuarioConectado)
         {
             _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte);
+
+            bool permiteAlterarColeta = usuarioConectado.PermiteAlterarColeta();
 
             var coletaVm = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                 from coleta in ordemDeTransporte.Coletas
                 where coleta.Id == idDaColeta
                 let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
+                let fornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria
                 select new ColetaVm
                 {
                     IdDaOrdemDeTransporte = idDaOrdemDeTransporte,
@@ -171,12 +177,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PrecoUnitario = ordemDeTransporte.PrecoUnitario,
                     ValorDoFrete = coleta.ValorDoFrete,
                     UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
+                    DataDaColeta = coleta.DataDaColeta.ToShortDateString(),
                     DataDePrevisaoDeChegada = coleta.DataDePrevisaoDeChegada.ToShortDateString(),
-                    CnpjDoEmitente = ordemDeTransporte.Fornecedor.Cnpj,
-                    NomeDoEmitente = ordemDeTransporte.Fornecedor.Nome ,
+                    CnpjDoEmitente = fornecedorDaMercadoria.Cnpj,
+                    NomeDoEmitente = fornecedorDaMercadoria.Nome ,
                     NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
-                    PermiteEditar = true,
-                    
+                    NomeDaTransportadora = ordemDeTransporte.Fornecedor.Nome,
+                    PermiteEditar = permiteAlterarColeta && !coleta.Realizado,
 
                 }).Single();
 
@@ -190,6 +197,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             var notasFiscais = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                          from coleta in ordemDeTransporte.Coletas
                          from notaFiscal in coleta.NotasFiscais
+                         where coleta.Id == idColeta
                          let processoDeCotacao = ordemDeTransporte.ProcessoDeCotacaoDeFrete
                          let fornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria
                          select new NotaFiscalDeColetaVm

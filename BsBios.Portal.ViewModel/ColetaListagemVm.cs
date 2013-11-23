@@ -14,6 +14,9 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Peso é obrigatório")]
         public decimal Peso { get; set; }
 
+        [DisplayName("Data da Coleta")]
+        [Required(ErrorMessage = "Data da Coleta é obrigatório")]
+        public string DataDaColeta { get; set; }
         [DisplayName("Previsão de Chegada")]
         [Required(ErrorMessage = "Previsão de Chegada é obrigatório")]
         public string DataDePrevisaoDeChegada { get; set; }

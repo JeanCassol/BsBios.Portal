@@ -71,12 +71,11 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult EditarColeta(int idDaOrdemDeTransporte, int idDaColeta)
         {
-            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta);
-
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
 
-            coletaVm.PermiteEditar = usuarioConectado.PermiteAlterarColeta();
-            
+            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta,usuarioConectado);
+
+           
             return PartialView("Coleta", coletaVm);
         }
 
@@ -97,9 +96,10 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta)
         {
-            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta);
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
 
-            coletaVm.PermiteEditar = false;
+            ColetaVm coletaVm = _consultaOrdemDeTransporte.ConsultaColeta(idDaOrdemDeTransporte, idDaColeta,usuarioConectado);
+
             coletaVm.PermiteRealizar = true;
     
             return PartialView("Coleta", coletaVm);

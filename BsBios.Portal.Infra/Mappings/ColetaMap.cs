@@ -11,6 +11,7 @@ namespace BsBios.Portal.Infra.Mappings
             Id(x => x.Id).GeneratedBy.Sequence("COLETA_ID_SEQUENCE");
 
             Map(x => x.Realizado);
+            Map(x => x.DataDaColeta);
             Map(x => x.DataDePrevisaoDeChegada);
             Map(x => x.Placa);
             Map(x => x.Motorista);

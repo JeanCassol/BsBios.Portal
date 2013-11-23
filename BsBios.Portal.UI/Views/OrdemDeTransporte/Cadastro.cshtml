@@ -35,9 +35,10 @@
                 
             }
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
-            @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada,
-             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade))
-            
+            @Html.LinhaComTresColunas(campoDeQuantidadeLiberada,
+             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade),
+             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeRealizada, "lblQuantidadeRealizada", Constantes.FormatatoDeCampoDeQuantidade))
+                
             @if (Model.PermiteAlterar)
             {
                 <div class="divBotao">
@@ -138,7 +139,13 @@
                 {
                     width: 80,
                     field: "Peso",
-                    title: "Quantidade"
+                    title: "Quantidade",
+                    format:"{0:n2}"
+                },
+                {
+                    width: 120,
+                    field: "DataDaColeta",
+                    title: "Data da Coleta"
                 },
                 {
                     width: 120,
@@ -295,6 +302,8 @@
                         $(divCadastroColeta).find('#CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
                         $(divCadastroColeta).find('#NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
                         $(divCadastroColeta).find('#NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
+                        $(divCadastroColeta).find('#NomeDaTransportadora').val('@Model.Transportadora');
+                        
                         jQuery.validator.unobtrusive.parse('#divCadastroColeta');
                     });
 

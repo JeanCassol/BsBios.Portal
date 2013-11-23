@@ -32,6 +32,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal QuantidadeLiberada { get; protected set; }
         public virtual decimal QuantidadeColetada { get; protected set; }
 
+        public virtual  decimal QuantidadeRealizada { get; protected set; }
+
         public virtual decimal PrecoUnitario { get; protected set; }
 
         public virtual IList<Coleta> Coletas { get; protected set; }
@@ -92,6 +94,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             Coleta coleta = Coletas.Single(c => c.Id == idDaColeta);
             coleta.Realizar();
+            QuantidadeRealizada = Coletas.Where(x => x.Realizado).Sum(x => x.Peso);
         }
     }
 }

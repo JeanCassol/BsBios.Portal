@@ -57,6 +57,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             var fabricaDeColeta = new ColetaFactory();
             var coletaSalvarVm = new ColetaSalvarVm
             {
+                DataDaColeta = DateTime.Now.Date.AddDays(-1).ToShortDateString(),
                 DataDePrevisaoDeChegada = DateTime.Now.Date.ToShortDateString(),
                 IdDaOrdemDeTransporte = ordemDeTransporte.Id,
                 Motorista = "Mauro",

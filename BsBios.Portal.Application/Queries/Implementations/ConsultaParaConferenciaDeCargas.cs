@@ -43,7 +43,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             if (!string.IsNullOrEmpty(filtro.Placa))
             {
                 var placa = filtro.Placa.ToLower().Replace("-", "");
-                queryable = queryable.Where(x => x.Placa.ToLower() == placa);
+                queryable = queryable.Where(x => x.Placa.Replace("-","").ToLower() == placa);
             }
 
             if (!string.IsNullOrEmpty(filtro.DataAgendamento))

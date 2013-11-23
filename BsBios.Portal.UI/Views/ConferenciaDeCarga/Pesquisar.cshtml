@@ -9,40 +9,42 @@
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 
 
-<fieldset id="fieldSetFiltros">
+<fieldset>
     <legend>Filtros</legend>
-    <div class="linha">
-        <div class="coluna">
-            @Html.Label("Terminal")
-            @Html.TextBox("CodigoTerminal","1000", new{@class="campoDesabilitado",@readonly=true})
+    <form id="formularioDeFiltros">
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Terminal")
+                @Html.TextBox("CodigoTerminal", "1000", new { @class = "campoDesabilitado", @readonly = true })
+            </div>
+            <div class="coluna">
+                @Html.Label("Data de Agendamento")
+                @Html.TextBox("DataAgendamento", DateTime.Now.Date.ToShortDateString(), new { @class = "campoDatePicker maskdata" })
+            </div>
         </div>
-        <div class="coluna">
-            @Html.Label("Data de Agendamento")
-            @Html.TextBox("DataAgendamento",DateTime.Now.Date.ToShortDateString(), new{@class="campoDatePicker maskdata"} )
-        </div>
-    </div>
 
-    @Html.LinhaComDuasColunas(new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.Placa, "campopequeno maskPlaca"),
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.Placa, "campopequeno maskplaca"),
                 new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NumeroNf, "campopequeno"))
-    
 
-    @{
-        var realizacoesDeAgendamento = ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
-            new SelectListItem
-            {
-                Value = Convert.ToString(x.Codigo),
-                Text = x.Descricao,
-                Selected = x.Padrao
-            });
-    }
-    
-    @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, int?>(x => x.RealizacaoDeAgendamento,realizacoesDeAgendamento,"RealizacaoDeAgendamento","", "Todos"),
-    new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NomeDoFornecedor, "campogrande"))
 
-    <div class="divBotao">
-        <input type="button" id="btnPesquisar" value="Pesquisar" class="blue"/>
-        <input type="button" id="btnLimpar" value="Limpar" class="blue"/>
-    </div>
+        @{
+            var realizacoesDeAgendamento = ((IList<RealizacaoDeAgendamentoVm>)ViewBag.RealizacoesDeAgendamento).Select(x =>
+                new SelectListItem
+                {
+                    Value = Convert.ToString(x.Codigo),
+                    Text = x.Descricao,
+                    Selected = x.Padrao
+                });
+        }
+
+        @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, int?>(x => x.RealizacaoDeAgendamento, realizacoesDeAgendamento, "RealizacaoDeAgendamento", "", "Todos"),
+        new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NomeDoFornecedor, "campogrande"))
+
+        <div class="divBotao">
+            <input type="button" id="btnPesquisar" value="Pesquisar" class="blue" />
+            <input type="reset" id="btnLimpar" value="Limpar" class="blue" />
+        </div>
+    </form>
 </fieldset>
 <fieldset>
     <legend>Agendamentos</legend>
@@ -59,6 +61,7 @@
     <script type="text/javascript">
         $(function() {
             aplicaMascaraData();
+            aplicaMascaraPlaca();
             $("#gridAgendamentos").customKendoGrid({
                 dataSource: {
                     schema: {
@@ -85,13 +88,7 @@
                             type: 'GET',
                             cache: false,
                             data: function() {
-                                return {
-                                    CodigoTerminal: $('#CodigoTerminal').val(),
-                                    DataAgendamento: $('#DataAgendamento').val(),
-                                    Placa: $('#Placa').val(),
-                                    NumeroNf: $('#NumeroNf').val(),
-                                    RealizacaoDeAgendamento: $('#RealizacaoDeAgendamento :selected').val()
-                                };
+                                return $('#formularioDeFiltros').serializeObject();                                    
                             }
                         }
                     }
@@ -99,7 +96,7 @@
                 columns:
                 [
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        title: ' ', 
                         width: 30,
                         sortable: false,
                         template: '<input type="button" class="button_visualize"></input>'
@@ -137,7 +134,7 @@
                     },
                     {
                         field: "CnpjEmitente",
-                        title: 'Cnpj do Emitente',
+                        title: 'CNPJ do Emitente',
                         template: function(dataItem) {
                             return Formato.formataCnpj(dataItem.CnpjEmitente);
                         },
@@ -176,11 +173,6 @@
                 
                 $(divParaCarregarModal).customLoad(url);
 
-            });
-
-            $('#btnLimpar').click(function() {
-                $('#fieldSetFiltros').find('input[type!=button][name!=CodigoTerminal][name!=RealizacaoDeAgendamento]').val('');
-                $('#RealizacaoDeAgendamento').val('@((int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado)');
             });
 
             function atualizaGrid() {

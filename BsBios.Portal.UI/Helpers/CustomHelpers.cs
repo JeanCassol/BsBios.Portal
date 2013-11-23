@@ -40,18 +40,6 @@ namespace BsBios.Portal.UI.Helpers
                 "</div>";
         }
 
-        public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html, 
-            Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
-        {
-            coluna1.HtmlHelper = html;
-            coluna2.HtmlHelper = html; 
-            string retorno =
-                "<div class=\"linha\"> " +
-                    GeraColuna(coluna1,"coluna") +
-                    GeraColuna(coluna2,"coluna") +
-                "</div>";
-            return new HtmlString(retorno);
-        }
 
         public static IHtmlString LinhaComUmaColuna<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, 
                                                                     Coluna<TModel, TValue> coluna)
@@ -63,6 +51,36 @@ namespace BsBios.Portal.UI.Helpers
                 "</div>";
             return new HtmlString(retorno);
         }
+
+        public static IHtmlString LinhaComDuasColunas<TModel1, TValue1, TValue2>(this HtmlHelper<TModel1> html,
+            Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2)
+        {
+            coluna1.HtmlHelper = html;
+            coluna2.HtmlHelper = html;
+            string retorno =
+                "<div class=\"linha\"> " +
+                    GeraColuna(coluna1, "coluna") +
+                    GeraColuna(coluna2, "coluna") +
+                "</div>";
+            return new HtmlString(retorno);
+        }
+
+        public static IHtmlString LinhaComTresColunas<TModel1, TValue1, TValue2, TValue3>(this HtmlHelper<TModel1> html,
+            Coluna<TModel1, TValue1> coluna1, Coluna<TModel1, TValue2> coluna2, Coluna<TModel1, TValue3> coluna3)
+        {
+            coluna1.HtmlHelper = html;
+            coluna2.HtmlHelper = html;
+            coluna3.HtmlHelper = html;
+            string retorno =
+                "<div class=\"linha\"> " +
+                    GeraColuna(coluna1, "colunaComUmTercoDaLinha") +
+                    GeraColuna(coluna2, "colunaComUmTercoDaLinha") +
+                    GeraColuna(coluna3, "colunaComUmTercoDaLinha") +
+                "</div>";
+            return new HtmlString(retorno);
+        }
+
+
 
     }
 

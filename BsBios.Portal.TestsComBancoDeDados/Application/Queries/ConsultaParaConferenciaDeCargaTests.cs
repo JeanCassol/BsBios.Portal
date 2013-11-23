@@ -28,7 +28,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var agendamento1Vm = new AgendamentoDeDescarregamentoSalvarVm
             {
                 IdQuota = quota1.Id,
-                Placa = "IMN1620",
+                Placa = "IMN-1620",
                 IdAgendamento = 0,
                 NotasFiscais = new List<NotaFiscalVm>
                 {
@@ -51,7 +51,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var agendamento2Vm = new AgendamentoDeDescarregamentoSalvarVm
             {
                 IdQuota = quota1.Id,
-                Placa = "IOQ5338",
+                Placa = "IOQ-5338",
                 IdAgendamento = 0,
                 NotasFiscais = new List<NotaFiscalVm>
                 {
@@ -87,7 +87,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var agendamento3Vm = new AgendamentoDeDescarregamentoSalvarVm
             {
                 IdQuota = quota1.Id,
-                Placa = "IMN1620",
+                Placa = "IMN-1620",
                 IdAgendamento = 0,
                 NotasFiscais = new List<NotaFiscalVm>
                 {
@@ -153,7 +153,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
                 filtro);
             Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
             var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.AreEqual(filtro.Placa, registro.Placa);
+            Assert.AreEqual("IOQ-5338", registro.Placa);
 
         }
 

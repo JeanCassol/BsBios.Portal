@@ -26,6 +26,8 @@ namespace BsBios.Portal.ViewModel
         public string CnpjDoEmitente { get; set; }
         [DisplayName("Nome do Emitente")]
         public string NomeDoEmitente { get; set; }
+        [DisplayName("Transportadora")]
+        public string NomeDaTransportadora { get; set; }
 
         public bool PermiteEditar { get; set; }
     }

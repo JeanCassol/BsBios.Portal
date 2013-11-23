@@ -55,6 +55,8 @@
     <Compile Include="Entities\NotaFiscalDeColeta.cs" />
     <Compile Include="Entities\OrdemDeTransporte.cs" />
     <Compile Include="Entities\ProcessoDeCotacao.cs" />
+    <Compile Include="Entities\ProcessoDeCotacaoDeFrete.cs" />
+    <Compile Include="Entities\ProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Entities\Produto.cs" />
     <Compile Include="Entities\Quota.cs" />
     <Compile Include="Entities\RequisicaoDeCompra.cs" />

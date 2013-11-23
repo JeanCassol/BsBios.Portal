@@ -26,7 +26,7 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             aplicaMascaraInteiro();
             $("#gridOrdemDeTransporte").customKendoGrid({
@@ -39,9 +39,10 @@
                                 Id: { type: "number" },
                                 Material: { type: "string" },
                                 CodigoDoFornecedor: { type: "string" },
-                                NomeDoFornecedor: {type: "string"},
-                                QuantidadeColetada: { type: "number" },
+                                NomeDoFornecedor: { type: "string" },
                                 QuantidadeLiberada: { type: "number" },
+                                QuantidadeColetada: { type: "number" },
+                                QuantidadeRealizada: { type: "number" }
                             }
                         },
                         total: 'totalCount',
@@ -49,7 +50,7 @@
                     },
                     transport: {
                         read: {
-                            url: '@Url.Action("Listar","OrdemDeTransporte")',
+                            url: '@Url.Action("Listar", "OrdemDeTransporte")',
                             type: 'GET',
                             cache: false,
                             data: function() {
@@ -62,7 +63,7 @@
                         }
                     }
                 },
-                scrollable:true,
+                scrollable: true,
                 columns:
                 [
                     {
@@ -77,7 +78,7 @@
                         title: "Nº Ordem"
                     }, {
                         field: "Material",
-                        width: 180,
+                        width: 120,
                         title: "Material"
                     },
                     {
@@ -93,23 +94,30 @@
                     {
                         width: 80,
                         field: "QuantidadeLiberada",
-                        title: "Liberada"
+                        title: "Liberada",
+                        format: "{0:n3}"
                     },
                     {
                         width: 80,
                         field: "QuantidadeColetada",
-                        title: "Coletada"
+                        title: "Coletada",
+                        format: "{0:n3}"
                     },
-
+                    {
+                        width: 80,
+                        field: "QuantidadeRealizada",
+                        title: "Realizada",
+                        format: "{0:n3}"
+                    }
                 ]
             });
 
             $("#gridOrdemDeTransporte").off('click', '.button_edit');
-            $("#gridOrdemDeTransporte").on("click",'.button_edit', function(e) {
+            $("#gridOrdemDeTransporte").on("click", '.button_edit', function(e) {
                 e.preventDefault();
                 var grid = $("#gridOrdemDeTransporte").data("kendoGrid");
                 var ordemDeTransporte = grid.obterRegistroSelecionado();
-                location.href = '@Url.Action("Cadastro","OrdemDeTransporte")' + '/?id=' + ordemDeTransporte.Id ;
+                location.href = '@Url.Action("Cadastro", "OrdemDeTransporte")' + '/?id=' + ordemDeTransporte.Id;
             });
 
         });

@@ -8,5 +8,6 @@
         public string NomeDoFornecedor { get; set; }
         public decimal QuantidadeColetada { get; set; }
         public decimal QuantidadeLiberada { get; set; }
+        public decimal QuantidadeRealizada { get; set; }
     }
 }

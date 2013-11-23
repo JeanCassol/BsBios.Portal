@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Contracts
@@ -10,7 +11,7 @@ namespace BsBios.Portal.Application.Queries.Contracts
 
         KendoGridVm ListarColetas(PaginacaoVm paginacao, int idDaOrdemDeTransporte);
 
-        ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta);
+        ColetaVm ConsultaColeta(int idDaOrdemDeTransporte, int idDaColeta, UsuarioConectado usuarioConectado);
 
         IList<NotaFiscalDeColetaVm> NotasFiscaisDaColeta(int iddDaOrdemDeTransporte, int idColeta);
 

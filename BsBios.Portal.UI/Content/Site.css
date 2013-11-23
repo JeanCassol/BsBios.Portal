@@ -552,7 +552,6 @@ input[type="checkbox"].input-validation-error {
     clear: both;
 }
 .coluna {
-    /*width: 380px;*/
     width: 49%;
     display: inline-block;
     float: left;
@@ -562,6 +561,14 @@ input[type="checkbox"].input-validation-error {
     display: inline-block;
     float: left;
 }
+
+.colunaComUmTercoDaLinha {
+    width: 32%;
+    display: inline-block;
+    float: left;
+    
+}
+
 .campopequeno {
     width: 150px;
 }

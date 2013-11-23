@@ -14,10 +14,11 @@ namespace BsBios.Portal.Domain.Entities
             NotasFiscais = new List<NotaFiscalDeColeta>();
         }
 
-        internal Coleta(string placa, string motorista, DateTime dataDePrevisaoDeChegada):this()
+        internal Coleta(string placa, string motorista,DateTime dataDaColeta , DateTime dataDePrevisaoDeChegada):this()
         {
             Placa = placa;
             Motorista = motorista;
+            DataDaColeta = dataDaColeta;
             DataDePrevisaoDeChegada = dataDePrevisaoDeChegada;
         }
 
@@ -26,6 +27,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Placa { get; protected set; }
         public virtual string Motorista { get; protected set; }
 
+        public virtual DateTime  DataDaColeta { get; protected set; }
         public virtual DateTime DataDePrevisaoDeChegada { get; protected  set; }
 
         public virtual decimal Peso { get; set; }
@@ -46,6 +48,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             Placa = coletaSalvarVm.Placa;
             Motorista = coletaSalvarVm.Motorista;
+            DataDaColeta = Convert.ToDateTime(coletaSalvarVm.DataDaColeta);
             DataDePrevisaoDeChegada = Convert.ToDateTime(coletaSalvarVm.DataDePrevisaoDeChegada);
 
             AtualizarNotasFiscais(coletaSalvarVm.NotasFiscais);
