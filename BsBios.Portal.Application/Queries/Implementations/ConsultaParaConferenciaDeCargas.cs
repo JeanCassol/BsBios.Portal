@@ -61,6 +61,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryable = queryable.Where(x => x.NumeroNf == filtro.NumeroNf);
             }
 
+            queryable = queryable
+                .OrderByDescending(x => x.DataAgendamento)
+                .ThenBy(x => x.Placa.ToLower())
+                .ThenBy(x => x.NumeroNf);
+
             return new KendoGridVm()
             {
                 QuantidadeDeRegistros = queryable.Count(),

@@ -33,7 +33,9 @@ namespace BsBios.Portal.Infra.DataAccess
 
         private static void ConfigureDataAccess(ConfigurationExpression i, string connString)
         {
-            ConfigureDataAccess(i,OracleClientConfiguration.Oracle10.ConnectionString( c=> c.Is(connString)).ShowSql());
+            //ConfigureDataAccess(i,  OracleClientConfiguration.Oracle10.ConnectionString( c=> c.Is(connString)).ShowSql());
+
+            ConfigureDataAccess(i, OracleDataClientConfiguration.Oracle10.ConnectionString(c => c.Is(connString)).ShowSql());
 
         }
 
@@ -75,6 +77,8 @@ namespace BsBios.Portal.Infra.DataAccess
                           m.FluentMappings.AddFromAssemblyOf<FornecedorMap>()
                               .Conventions.Add(typeof (CascadeAll))
                 )
+                .Mappings(m =>
+                    m.HbmMappings.AddFromAssemblyOf<FornecedorMap>())
                 .Cache(x =>
                         x.UseQueryCache()
                         .UseSecondLevelCache()

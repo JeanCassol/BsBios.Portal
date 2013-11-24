@@ -17,6 +17,8 @@ namespace BsBios.Portal.Application.Queries.Contracts
 
         IList<MonitorDeOrdemDeTransporteVm> ListagemDoMonitor(MonitorDeOrdemDeTransporteFiltroVm filtro);
 
+        IList<MonitorDeOrdemDeTransporteVm> ListagemDoMonitor2(MonitorDeOrdemDeTransporteFiltroVm filtro);
+
         decimal CalcularQuantidadeLiberadaPeloProcessoDeCotacao(int idDoProcessoDeCotacaoDeFrete);
     }
 }

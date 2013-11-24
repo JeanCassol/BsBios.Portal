@@ -1137,5 +1137,30 @@ LEFT JOIN FORNECEDOR FM ON PF.CODIGOFORNECEDOR = FM.CODIGO;
 
 
 --criação da view (fim)
+CREATE OR REPLACE PROCEDURE MONITORDEORDEMDETRANSPORTE (p_cursor OUT SYS_REFCURSOR,p_dataInicial DATE, p_dataFinal DATE) AS
 
+BEGIN
+    
+    open p_cursor FOR
+    SELECT sys_guid() || '' as "Id", Fornecedor AS "Fornecedor",  Material AS "Material"
+    , sum(QuantidadeLiberada) as "QuantidadeLiberada", 
+    sum(QuantidadeEmTransito) AS "QuantidadeEmTransito",
+    sum(QuantidadePendente) as "QuantidadePendente",
+    sum(PrevisaoDeChegadaNoDia) as "PrevisaoDeChegadaNoDia"
+    FROM
+    (
+      SELECT f.Nome as Fornecedor, p.Descricao as Material, ot.QuantidadeLiberada, ot.QuantidadeColetada - ot.QuantidadeRealizada AS QuantidadeEmTransito,
+      ot.QuantidadeLiberada - ot.QuantidadeColetada as QuantidadePendente,
+      COALESCE((SELECT sum(c.Peso) FROM Coleta c WHERE ot.Id = c.IdOrdemTransporte AND c.DataDePrevisaoDeChegada = sysdate),0) as PrevisaoDeChegadaNoDia 
+      FROM ORDEMDETRANSPORTE ot inner join Fornecedor f 
+      on ot.CODIGOFORNECEDOR=f.Codigo 
+      inner join ProcessoCotacaoFrete pcf on ot.IDPROCESSOCOTACAOFRETE=pcf.Id inner join ProcessoCotacao pc on pcf.Id=pc.Id 
+      inner join Produto p on pc.CodigoProduto=p.Codigo 
+      WHERE (pcf.DataValidadeFinal >= p_dataInicial and pcf.DataValidadeInicial <= p_dataFinal)
+    )
+    GROUP BY Fornecedor, Material;
+ 
+END;
+
+/
 	  

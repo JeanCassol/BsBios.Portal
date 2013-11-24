@@ -1,7 +1,7 @@
 ﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
-namespace BsBios.Portal.Infra
+namespace BsBios.Portal.Infra.Mappings
 {
     public class NotaFiscalDeColetaMap: ClassMap<NotaFiscalDeColeta>
     {

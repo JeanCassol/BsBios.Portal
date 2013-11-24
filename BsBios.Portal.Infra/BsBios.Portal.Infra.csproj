@@ -39,8 +39,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.Caches.SysCache2">
       <HintPath>..\packages\NHibernate.Caches.SysCache2.3.2.0.4000\lib\Net35\NHibernate.Caches.SysCache2.dll</HintPath>
@@ -80,7 +81,9 @@
     <Compile Include="Mappings\AgendamentoDeCargaVisualizacaoMap.cs" />
     <Compile Include="Mappings\ColetaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\MonitorDeOrdemDeTransporteMap.cs" />
     <Compile Include="Mappings\MunicipioMap.cs" />
+    <Compile Include="Mappings\NotaFiscalDeColetaMap.cs" />
     <Compile Include="Mappings\NotaFiscalMap.cs" />
     <Compile Include="Mappings\OrdemDeTransporteMap.cs" />
     <Compile Include="Mappings\ProcessoCotacaoIteracaoUsuarioMap.cs" />
@@ -104,7 +107,6 @@
     <Compile Include="Model\MensagemDeEmail.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
-    <Compile Include="NotaFiscalDeColetaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Contracts\IAgendamentosDeCarga.cs" />
     <Compile Include="Repositories\Contracts\IMunicipios.cs" />
@@ -197,6 +199,11 @@
       <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>
       <Name>BsBios.Portal.ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataAccess\Mappings.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

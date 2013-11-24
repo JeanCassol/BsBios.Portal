@@ -2,12 +2,13 @@
 {
     public class MonitorDeOrdemDeTransporteVm
     {
-        public string Material { get; set; }
-        public string Fornecedor { get; set; }
-        public decimal QuantidadeLiberada { get; set; }
-        public decimal QuantidadeEmTransito { get; set; }
-        public decimal QuantidadeComPrevisaoDeChegadaNoDia { get; set; }
-        public string QuantidadePendente { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string Material { get; set; }
+        public virtual string Fornecedor { get; set; }
+        public virtual decimal QuantidadeLiberada { get; set; }
+        public virtual decimal QuantidadeEmTransito { get; set; }
+        public virtual decimal PrevisaoDeChegadaNoDia { get; set; }
+        public virtual decimal QuantidadePendente { get; set; }
 
     }
 }

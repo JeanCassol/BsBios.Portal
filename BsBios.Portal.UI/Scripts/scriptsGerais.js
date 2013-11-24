@@ -437,6 +437,9 @@ function sessaoEstaExpirada(request) {
 
 }
 
+$.ajaxSetup({
+    cache: false
+});
 
 $(document).ajaxComplete(function (event, request, ajaxOptions) {
     if (responseIsJsonDataType(ajaxOptions)) {

@@ -10,6 +10,8 @@ namespace BsBios.Portal.Infra.Mappings
             Table("Coleta");
             Id(x => x.Id).GeneratedBy.Sequence("COLETA_ID_SEQUENCE");
 
+            //References(x => x.OrdemDeTransporte, "IDORDEMTRANSPORTE");
+
             Map(x => x.Realizado);
             Map(x => x.DataDaColeta);
             Map(x => x.DataDePrevisaoDeChegada);

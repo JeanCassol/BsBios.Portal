@@ -1,0 +1,3 @@
+dúvidas sobre o monitor:
+uma coleta com data de previsão de chegada hoje, mas que já foi realizada deve constar na coluna "Previsão de chegada no dia"
+utilizamos como filtro principal a data de validade inicial
