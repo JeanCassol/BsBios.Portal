@@ -91,13 +91,13 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
 
-            var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaOrdemDeTransporte>();
+            var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaMonitorDeOrdemDeTransporte>();
             var filtro = new MonitorDeOrdemDeTransporteFiltroVm
             {
                 DataInicial = DateTime.Today.AddMonths(1),
                 DataFinal = DateTime.Today.AddMonths(2)
             };
-            IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.ListagemDoMonitor(filtro);
+            IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.Listar(filtro);
 
             Assert.AreEqual(1, dados.Count);
 
@@ -106,33 +106,33 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(9, registro.QuantidadeLiberada);
         }
 
-        [TestMethod]
-        public void ConsigoListarMonitor2()
-        {
-            RemoveQueries.RemoverOrdensDeTransporteCadastradas();
+        //[TestMethod]
+        //public void ConsigoListarMonitor2()
+        //{
+        //    RemoveQueries.RemoverOrdensDeTransporteCadastradas();
 
-            IList<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+        //    IList<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
 
-            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
+        //    ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
 
-            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+        //    IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
 
-            DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
+        //    DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
 
-            var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaOrdemDeTransporte>();
-            var filtro = new MonitorDeOrdemDeTransporteFiltroVm
-            {
-                DataInicial = DateTime.Today.AddMonths(1),
-                DataFinal = DateTime.Today.AddMonths(2)
-            };
-            IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.ListagemDoMonitor2(filtro);
+        //    var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaOrdemDeTransporte>();
+        //    var filtro = new MonitorDeOrdemDeTransporteFiltroVm
+        //    {
+        //        DataInicial = DateTime.Today.AddMonths(1),
+        //        DataFinal = DateTime.Today.AddMonths(2)
+        //    };
+        //    IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.ListagemDoMonitor2(filtro);
 
-            Assert.AreEqual(1, dados.Count);
+        //    Assert.AreEqual(1, dados.Count);
 
-            MonitorDeOrdemDeTransporteVm registro = dados.Single();
+        //    MonitorDeOrdemDeTransporteVm registro = dados.Single();
 
-            Assert.AreEqual(9, registro.QuantidadeLiberada);
-        }
+        //    Assert.AreEqual(9, registro.QuantidadeLiberada);
+        //}
 
 
         [TestMethod]

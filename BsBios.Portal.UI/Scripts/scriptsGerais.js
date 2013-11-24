@@ -403,7 +403,16 @@ UrlPadrao = {};
 
 TipoDeCotacao = {};
 
+function tratarMenusQueDevemSerAbertosEmOutraJanela() {
+    $('.abrirEmNovaJanela').click(function (e) {
+        e.preventDefault();
+        window.open($(this).attr('href'));
+    });
+
+}
+
 $(function () {
+    tratarMenusQueDevemSerAbertosEmOutraJanela();
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
     $('#btnPesquisar').die("click");
@@ -435,6 +444,14 @@ function sessaoEstaExpirada(request) {
 
     return sessaoExpirada;
 
+}
+
+function trataFalhaEmRequisicoesAjax(jqXHR){
+    if (jqXHR.getResponseHeader('Content-Type').indexOf('html') > -1) {
+        Mensagem.ExibirJanelaComHtml(jqXHR.responseText);
+    } else {
+        Mensagem.ExibirMensagemDeErro(jqXHR.responseText);
+    }
 }
 
 $.ajaxSetup({

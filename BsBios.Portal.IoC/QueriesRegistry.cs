@@ -94,6 +94,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaParaConferenciaDeCargas>();
 
+            For<IConsultaMonitorDeOrdemDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaMonitorDeOrdemDeTransporte>();
+
+
         }
 
     }

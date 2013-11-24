@@ -73,6 +73,7 @@
     <Compile Include="Queries\Builders\IncotermCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMonitorDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaMunicipio.cs" />
     <Compile Include="Queries\Contracts\IConsultaOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaParaConferenciaDeCargas.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMonitorDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaMunicipio.cs" />
     <Compile Include="Queries\Implementations\ConsultaOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaParaConferenciaDeCargas.cs" />

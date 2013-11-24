@@ -37,6 +37,9 @@ namespace BsBios.Portal.UI
             bundles.Add(new ScriptBundle("~/bundles/scriptsgerais")
                 .Include("~/Scripts/scriptsGerais.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                "~/Scripts/knockout-{version}.js"));
+
 
             //bundle não funciona com minified files
             //para fazer funcionar teria que alterar a IgnoreList em bundles.IgnoreList, conforme fórum http://stackoverflow.com/questions/11980458/mvc4-bundler-not-including-min-files

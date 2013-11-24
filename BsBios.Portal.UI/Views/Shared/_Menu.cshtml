@@ -12,7 +12,12 @@
                 <ul>
                     @foreach(MenuItem menuItem in menu.Itens)
                     {
-                        <li>@Html.ActionLink(menuItem.Descricao,menuItem.Action, menuItem.Controller) </li>
+                        MvcHtmlString linkDoMenu = menuItem.AbrirEmNovaJanela ? 
+                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller, null, new {@class = "abrirEmNovaJanela"}) : 
+                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller);
+
+                        <li>@linkDoMenu </li>
+                        
                     }
                 </ul>
             </li>

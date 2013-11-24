@@ -1,0 +1,144 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>BS NET - Monitor de Ordens de Transporte</title>
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
+            <style type="text/css">
+
+                .full_table_list {
+                    color: white;
+                    width: 100%;
+                }
+
+                .full_table_list th {
+                    background-color: rgb(51, 51, 51);
+                    color: rgb(255, 255,255);
+                }
+
+                /*colocando bordas nas linhas*/
+                /*.full_table_list tr {
+                    border: 1px black solid;
+                }*/
+
+                /*Definido cor das linhas pares*/
+                    .full_table_list tbody tr:nth-child(even) {
+                        background-color: #A0A0A0;
+                    }
+
+                /*Definindo cor das Linhas impáres*/
+                    .full_table_list tbody tr:nth-child(odd) {
+                        background: #707070;
+                    }
+
+                .colunaFornecedor {
+                    width: 35%;
+                }
+                .outrasColunas {
+                    width: 13%
+                }
+                .colunaNumerica {
+                    text-align: right
+                }
+            </style>
+
+        </head>
+    <body>
+        <fieldset class="divFiltros">
+            <form id="filtrosDoMonitor">
+                <div class="linha">
+                    <div class="coluna" style="padding-left: 150px;">
+                        <label>Data Inicial</label>
+                        <input type="text" name="DataInicial" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" class="campopequeno campoDatePicker" />
+                    </div>
+                    <div class="coluna" style="padding-left: 70px;width: 70px">
+                        <label>Data Final</label>
+                        <input type="text" name="DataFinal" value="@DateTime.Today.ToShortDateString()" class="campopequeno campoDatePicker" />
+                    </div>
+                </div>
+                <div class="divBotao">
+                    <button class="blue" id="btnAtualizarMateriais">Atualizar</button>    
+                </div>
+            </form>
+        </fieldset>
+        <table class="full_table_list">
+            <thead>
+                <tr>
+                    <th class="outrasColunas">Material</th>
+                    <th class="colunaFornecedor">Transportadora</th>
+                    <th class="outrasColunas">Liberado</th>
+                    <th class="outrasColunas">Em Trânsito</th>
+                    <th class="outrasColunas">Chegada Hoje</th>
+                    <th class="outrasColunas">Pendente</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: materiais">
+                <tr>
+                    <td data-bind="text: Material"></td>
+                    <td data-bind="text: Fornecedor"></td>
+                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeLiberada,'n3')"></td>
+                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeEmTransito,'n3')"></td>
+                    <td class="colunaNumerica" data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia,'n3')"></td>
+                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadePendente, 'n3')"></td>
+                </tr>
+            </tbody>
+        </table>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/globalize")
+        @Scripts.Render("~/bundles/knockout")
+        @Scripts.Render("~/bundles/scriptsgerais")
+        <script type="text/javascript">
+            var materiais = ko.observableArray([]);
+
+            ko.applyBindings(materiais);
+
+            function atualizarMateriais(novosMateriais) {
+                materiais().length = 0;
+                $.each(novosMateriais, function(indice, material) {
+                    materiais().push(material);
+                });
+                materiais.valueHasMutated();
+            }
+
+            function recarregarDadosDoMonitor() {
+
+
+                $.ajax({
+                    url: '@Url.Action("Listar", "MonitorDeOrdemDeTransporte")' + '?DataInicial=' + $('[name=DataInicial]').val() + '&DataFinal=' + $('[name=DataFinal]').val(),
+                    type: 'GET',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.Sucesso) {
+                            atualizarMateriais(data.Materiais);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        trataFalhaEmRequisicoesAjax(jqXHR);
+                    }
+                });
+            }    
+            $(function() {
+                $('#btnAtualizarMateriais').click(function(e) {
+                    e.preventDefault();
+                    recarregarDadosDoMonitor();
+                });
+
+                recarregarDadosDoMonitor();
+
+            });
+        </script>
+    </body>
+
+</html>
+
+
