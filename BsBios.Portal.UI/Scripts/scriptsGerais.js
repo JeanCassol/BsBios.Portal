@@ -433,7 +433,7 @@ function sessaoEstaExpirada(request) {
 
     var sessaoExpirada = false;
 
-    var resposta = JSON.parse(request.responseText);
+    var resposta = $.parseJSON(request.responseText);
     if (resposta.SessaoExpirada) {
         sessaoExpirada = true;
         Mensagem.ExibirMensagemDeErro(resposta.Mensagem, function() {
