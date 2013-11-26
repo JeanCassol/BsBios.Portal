@@ -17,7 +17,8 @@ namespace BsBios.Portal.ViewModel
     public class MonitorOrdemDeTransporteParametroVm : MonitorDeOrdemDeTransporteFiltroVm
     {
         [Required(ErrorMessage = "Intervalo de Atualização é obrigatório")]
-        [Display(Name = "Intervalo de Atualização (minutos)")]
+        [Display(Name = "Intervalo de Atualização (segundos)")]
+        [Range(1,1000000,ErrorMessage = "Intervalo deve ser um valor entre 1 e 1.000.000")]
         public int InterValoDeAtualizacao { get; set; }
     }
 }
