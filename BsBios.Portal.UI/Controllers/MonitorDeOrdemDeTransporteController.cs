@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
-using WebMatrix.WebData;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -20,7 +19,12 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(new MonitorOrdemDeTransporteParametroVm
+            {
+                DataInicial = DateTime.Today.AddMonths(-1).ToShortDateString(),
+                DataFinal = DateTime.Today.ToShortDateString(),
+                InterValoDeAtualizacao = 15
+            });
         }
 
         [HttpGet]

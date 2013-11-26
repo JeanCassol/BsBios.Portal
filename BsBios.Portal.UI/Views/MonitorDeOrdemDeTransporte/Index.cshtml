@@ -1,4 +1,7 @@
-﻿@{
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model MonitorOrdemDeTransporteParametroVm
+@{
     Layout = null;
 }
 
@@ -10,22 +13,19 @@
         <title>BS NET - Monitor de Ordens de Transporte</title>
         @Styles.Render("~/Content/css")
         @Styles.Render("~/Content/themes/base/css")
+        @*<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />*@
             <style type="text/css">
 
                 .full_table_list {
                     color: white;
                     width: 100%;
+                    border-collapse: collapse
                 }
 
                 .full_table_list th {
                     background-color: rgb(51, 51, 51);
                     color: rgb(255, 255,255);
                 }
-
-                /*colocando bordas nas linhas*/
-                /*.full_table_list tr {
-                    border: 1px black solid;
-                }*/
 
                 /*Definido cor das linhas pares*/
                     .full_table_list tbody tr:nth-child(even) {
@@ -50,49 +50,51 @@
 
         </head>
     <body>
-        <fieldset class="divFiltros">
-            <form id="filtrosDoMonitor">
-                <div class="linha">
-                    <div class="coluna" style="padding-left: 150px;">
-                        <label>Data Inicial</label>
-                        <input type="text" name="DataInicial" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" class="campopequeno campoDatePicker" />
+        <div id="todaPagina">
+            <fieldset class="divFiltros">
+                <form id="filtrosDoMonitor">
+
+                    @Html.LinhaComTresColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>(x => x.DataInicial,"campopequeno campoDatePicker"),
+                    new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>(x => x.DataFinal, "campopequeno campoDatePicker"),
+                    new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campomedio masknumerointeiro"))
+
+                    <div class="divBotao">
+                        <button class="blue" id="btnAtualizarMateriais">Atualizar</button>
                     </div>
-                    <div class="coluna" style="padding-left: 70px;width: 70px">
-                        <label>Data Final</label>
-                        <input type="text" name="DataFinal" value="@DateTime.Today.ToShortDateString()" class="campopequeno campoDatePicker" />
-                    </div>
-                </div>
-                <div class="divBotao">
-                    <button class="blue" id="btnAtualizarMateriais">Atualizar</button>    
-                </div>
-            </form>
-        </fieldset>
-        <table class="full_table_list">
-            <thead>
-                <tr>
-                    <th class="outrasColunas">Material</th>
-                    <th class="colunaFornecedor">Transportadora</th>
-                    <th class="outrasColunas">Liberado</th>
-                    <th class="outrasColunas">Em Trânsito</th>
-                    <th class="outrasColunas">Chegada Hoje</th>
-                    <th class="outrasColunas">Pendente</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: materiais">
-                <tr>
-                    <td data-bind="text: Material"></td>
-                    <td data-bind="text: Fornecedor"></td>
-                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeLiberada,'n3')"></td>
-                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeEmTransito,'n3')"></td>
-                    <td class="colunaNumerica" data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia,'n3')"></td>
-                    <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadePendente, 'n3')"></td>
-                </tr>
-            </tbody>
-        </table>
+                </form>
+            </fieldset>
+            <table class="full_table_list">
+                <thead>
+                    <tr>
+                        <th class="outrasColunas">Material</th>
+                        <th class="colunaFornecedor">Transportadora</th>
+                        <th class="outrasColunas">Liberado</th>
+                        <th class="outrasColunas">Em Trânsito</th>
+                        <th class="outrasColunas">Chegada Hoje</th>
+                        <th class="outrasColunas">Pendente</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: materiais">
+                    <tr>
+                        <td data-bind="text: Material"></td>
+                        <td data-bind="text: Fornecedor"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeLiberada,'n3')"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeEmTransito,'n3')"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia,'n3')"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadePendente, 'n3')"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/globalize")
         @Scripts.Render("~/bundles/knockout")
+        <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+        @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>*@
         @Scripts.Render("~/bundles/scriptsgerais")
         <script type="text/javascript">
             var materiais = ko.observableArray([]);
@@ -109,27 +111,40 @@
 
             function recarregarDadosDoMonitor() {
 
+                //bloqueiaPagina();
 
                 $.ajax({
                     url: '@Url.Action("Listar", "MonitorDeOrdemDeTransporte")' + '?DataInicial=' + $('[name=DataInicial]').val() + '&DataFinal=' + $('[name=DataFinal]').val(),
                     type: 'GET',
                     contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(data) {
+                    dataType: 'json'})
+                    .done(function(data) {
                         if (data.Sucesso) {
                             atualizarMateriais(data.Materiais);
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    }) 
+                    .fail(function(jqXHR, textStatus, errorThrown) {
                         trataFalhaEmRequisicoesAjax(jqXHR);
-                    }
-                });
-            }    
-            $(function() {
-                $('#btnAtualizarMateriais').click(function(e) {
+                    })
+                    /*.always(function() {
+                    //    desbloqueiaPagina();
+                    //}
+                )*/;
+            }
+            
+            $(function () {
+
+                aplicaMascaraInteiro();
+                
+                $.validator.unobtrusive.parse(".divFiltros");
+
+                $('#btnAtualizarMateriais').click(function (e) {
                     e.preventDefault();
+                    if (!$("#filtrosDoMonitor").validate().form()) {
+                        return;
+                    }
                     recarregarDadosDoMonitor();
                 });
 

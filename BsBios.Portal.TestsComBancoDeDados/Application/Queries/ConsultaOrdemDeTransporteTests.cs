@@ -94,8 +94,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaMonitorDeOrdemDeTransporte>();
             var filtro = new MonitorDeOrdemDeTransporteFiltroVm
             {
-                DataInicial = DateTime.Today.AddMonths(1),
-                DataFinal = DateTime.Today.AddMonths(2)
+                DataInicial = DateTime.Today.AddMonths(1).ToShortDateString(),
+                DataFinal = DateTime.Today.AddMonths(2).ToShortDateString()
             };
             IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.Listar(filtro);
 
