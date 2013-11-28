@@ -19,7 +19,7 @@ namespace BsBios.Portal.Tests.Application.Queries
         [TestMethod]
         public void QuandoNaoFiltraPorStatusAutomaticamenteDesconsideraProcessosDeCotacaoCancelados()
         {
-            var processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
+            var processosDeCotacaoMock = new Mock<IProcessosDeCotacaoDeFrete>(MockBehavior.Strict);
             processosDeCotacaoMock.Setup(x => x.DesconsideraCancelados())
                 .Returns(processosDeCotacaoMock.Object);
 
@@ -43,7 +43,7 @@ namespace BsBios.Portal.Tests.Application.Queries
 
             var consulta = new ConsultaProcessoDeCotacaoDeMaterial(processosDeCotacaoMock.Object, builderMock.Object,processosCotacaoIteracaoUsuarioMock.Object);
 
-            consulta.Listar(new PaginacaoVm(), new ProcessoCotacaoMaterialFiltroVm
+            consulta.Listar(new PaginacaoVm(), new ProcessoDeCotacaoDeFreteFiltroVm
             {
                 TipoDeCotacao = 2
             });

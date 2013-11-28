@@ -17,7 +17,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
     {
         private readonly Mock<IConsultaProcessoDeCotacaoDeMaterial> _consultaProcessoCotacaoMaterialMock;
         private readonly Mock<IConsultaStatusProcessoCotacao> _consultaStatusProcessoCotacao;
-        private readonly ProcessoCotacaoMaterialController _controller;
+        private readonly ProcessoDeCotacaoDeMaterialController _controller;
 
 
         public ProcessoCotacaoMaterialControllerTests()
@@ -28,7 +28,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             _consultaStatusProcessoCotacao = new Mock<IConsultaStatusProcessoCotacao>(MockBehavior.Strict);
             _consultaStatusProcessoCotacao.Setup(x => x.Listar()).Returns(new List<StatusProcessoCotacaoVm>());
 
-            _controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
+            _controller = new ProcessoDeCotacaoDeMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
             CommonMocks.MockControllerUrl(_controller);
         }
 
@@ -70,7 +70,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             //_usuarioConectado = new UsuarioConectado("comprador", "Usuário Comprador", 1);
             _controller.Index();
             Assert.IsNotNull(_controller.ViewData["ActionEdicao"]);
-            Assert.AreEqual("/ProcessoCotacaoMaterial/EditarCadastro", _controller.ViewData["ActionEdicao"]);
+            Assert.AreEqual("/ProcessoDeCotacaoDeMaterial/EditarCadastro", _controller.ViewData["ActionEdicao"]);
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                 .HybridHttpOrThreadLocalScoped()
                 .Use(new UsuarioConectado("fornecedor", "Usuário Fornecedor", new List<Enumeradores.Perfil>{Enumeradores.Perfil.Fornecedor})));
 
-            var controller = new ProcessoCotacaoMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
+            var controller = new ProcessoDeCotacaoDeMaterialController(_consultaProcessoCotacaoMaterialMock.Object, _consultaStatusProcessoCotacao.Object);
             CommonMocks.MockControllerUrl(controller);
             controller.Index();
             Assert.IsNotNull(controller.ViewData["ActionEdicao"]);

@@ -27,7 +27,8 @@ namespace BsBios.Portal.Tests.UI.Controllers
                     typeof(AccountController), 
                     typeof(GerenciadorUsuarioController),
                     typeof(HomeController),
-                    typeof(CriptografiaController)
+                    typeof(CriptografiaController),
+                    typeof(MonitorDeOrdemDeTransporteController)
                 }.Select(i => i.GetTypeInfo()).Contains(x));
 
             var controllersSemSecurityFilter = (from controller 

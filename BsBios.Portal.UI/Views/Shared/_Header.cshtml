@@ -3,11 +3,11 @@
     var usuarioConectado = (UsuarioConectado) ViewBag.UsuarioConectado;
 }
 <header >
-    <div class="content-wrapper" style="background-image: url(/Images/banner.png)">
+    <div class="content-wrapper">
         <div style="display:block" >
             @if (usuarioConectado != null)
             {
-                <div style="width: 300px; display: inline; float: right; margin-right: 10px">
+                <div style="width: 29%; display: inline; float: right; margin-right: 10px">
                     <div style="width: 100%; ">
                         <p style="color: black; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
                     </div>

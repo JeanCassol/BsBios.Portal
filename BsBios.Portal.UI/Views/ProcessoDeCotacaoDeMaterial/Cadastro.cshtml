@@ -75,7 +75,7 @@
                 $.post('@Url.Action("AtualizarProcesso","ProcessoDeCotacaoService" )', formData,
                     function (data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoMaterial")';
+                            location.href = '@Url.Action("Index","ProcessoDeCotacaoDeMaterial")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

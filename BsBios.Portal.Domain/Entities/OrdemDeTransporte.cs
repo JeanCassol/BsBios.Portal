@@ -30,6 +30,8 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Fornecedor Fornecedor { get; protected set; }
         public virtual decimal QuantidadeAdquirida { get; protected set; }
         public virtual decimal QuantidadeLiberada { get; protected set; }
+        public virtual decimal QuantidadeDeTolerancia { get; protected set; }
+
         public virtual decimal QuantidadeColetada { get; protected set; }
 
         public virtual  decimal QuantidadeRealizada { get; protected set; }
@@ -38,23 +40,31 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual IList<Coleta> Coletas { get; protected set; }
 
-        public virtual void AlterarQuantidadeLiberada(decimal novaQuantidadeLiberada)
+        public virtual void AlterarQuantidades(decimal novaQuantidadeLiberada, decimal novaQuantidadeDeTolerancia)
         {
-            if (novaQuantidadeLiberada < QuantidadeColetada)
+            if ((novaQuantidadeLiberada + novaQuantidadeDeTolerancia) < QuantidadeColetada)
             {
                 throw new QuantidadeLiberadaAbaixoDaQuantidadeColetadaException(novaQuantidadeLiberada, QuantidadeColetada);
             }
             QuantidadeLiberada = novaQuantidadeLiberada;
+            QuantidadeDeTolerancia = novaQuantidadeDeTolerancia;
+        }
+
+        private void AtualizarQuantidadeColetada(bool validarNovaQuantidade)
+        {
+            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+            decimal quantidadeMaximaPermitida = QuantidadeLiberada + QuantidadeDeTolerancia;
+            if (validarNovaQuantidade && QuantidadeColetada > quantidadeMaximaPermitida)
+            {
+                throw new QuantidadeColetadaUltrapassouQuantidadeLiberadaException(QuantidadeColetada, quantidadeMaximaPermitida);
+            }
+            
         }
 
         public virtual void AdicionarColeta(Coleta coleta)
         {
             Coletas.Add(coleta);
-            QuantidadeColetada = Coletas.Sum(x => x.Peso);
-            if (QuantidadeColetada > QuantidadeLiberada)
-            {
-                throw new QuantidadeColetadaUltrapassouQuantidadeLiberadaException(QuantidadeColetada, QuantidadeLiberada);
-            }
+            AtualizarQuantidadeColetada(true);
         }
 
         public virtual void AtualizarColeta(ColetaSalvarVm coletaSalvarVm)
@@ -68,7 +78,7 @@ namespace BsBios.Portal.Domain.Entities
 
             coleta.Atualizar(coletaSalvarVm,PrecoUnitario);
 
-            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+            AtualizarQuantidadeColetada(true);
 
         }
 
@@ -82,7 +92,7 @@ namespace BsBios.Portal.Domain.Entities
 
             Coletas.Remove(coleta);
 
-            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+            AtualizarQuantidadeColetada(false);
         }
 
 

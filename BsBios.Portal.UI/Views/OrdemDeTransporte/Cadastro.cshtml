@@ -23,20 +23,24 @@
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, int>(x => x.Id))
             @{
                 Coluna<OrdemDeTransporteCadastroVm, decimal> campoDeQuantidadeLiberada;
+                Coluna<OrdemDeTransporteCadastroVm, decimal> campoDeTolerancia;
 
                 if (Model.PermiteAlterar)
                 {
                     campoDeQuantidadeLiberada = new ColunaComTextBox<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada, "maskquantidade");
+                    campoDeTolerancia = new ColunaComTextBox<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeDeTolerancia, "maskquantidade");
                 }
                 else
                 {
                     campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada,Constantes.FormatatoDeCampoDeQuantidade);
+                    campoDeTolerancia = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeDeTolerancia, Constantes.FormatatoDeCampoDeQuantidade);
                 }
                 
             }
+
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
-            @Html.LinhaComTresColunas(campoDeQuantidadeLiberada,
-             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade),
+            @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada,campoDeTolerancia)
+            @Html.LinhaComDuasColunas(new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade),
              new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeRealizada, "lblQuantidadeRealizada", Constantes.FormatatoDeCampoDeQuantidade))
                 
             @if (Model.PermiteAlterar)

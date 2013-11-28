@@ -24,36 +24,30 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacao, OrdemDeTransporteListagemFiltroVm filtro)
         {
-            _ordensDeTransporte.CodigoDoFornecedorContendo(filtro.CodigoDoFornecedor);
+            _ordensDeTransporte.CodigoDaTransportadoraContendo(filtro.CodigoDaTransportadora);
 
-            _ordensDeTransporte.NomeDoFornecedorContendo(filtro.NomeDoFornecedor);
+            _ordensDeTransporte.NomeDaTransportadoraContendo(filtro.NomeDaTransportadora);
 
             if (filtro.NumeroDaOrdemDeTransporte.HasValue)
             {
                 _ordensDeTransporte.BuscaPorId(filtro.NumeroDaOrdemDeTransporte.Value);    
             }
+
+            if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
+            {
+                _ordensDeTransporte.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))
+            {
+                _ordensDeTransporte.ComNumeroDeContrato(filtro.NumeroDoContrato);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.CodigoDoMunicipioDeOrigem))
+            {
+                _ordensDeTransporte.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
+            }
             
-
-            //var fornecedores = ObjectFactory.GetInstance<IFornecedores>();
-
-            //fornecedores
-            //    .NomeContendo(filtro.NomeDoFornecedor)
-            //    .CodigoContendo(filtro.CodigoDoFornecedor);
-
-            //var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
-            //    join fornecedor in fornecedores.GetQuery()
-            //    on ordemDeTransporte.Fornecedor.Codigo equals fornecedor.Codigo
-            //    select new OrdemDeTransporteListagemVm
-            //    {
-            //        Id = ordemDeTransporte.Id,
-            //        CodigoDoFornecedor = fornecedor.Codigo,
-            //        NomeDoFornecedor = fornecedor.Nome,
-
-            //        Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
-            //        QuantidadeAdquirida = ordemDeTransporte.QuantidadeAdquirida,
-            //        QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada
-            //    });
-
             var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                          select new OrdemDeTransporteListagemVm
                          {

@@ -75,8 +75,8 @@ namespace BsBios.Portal.Infra.Builders
     {
         public MenuLogistica() : base("Cotações de Frete")
         {
-            AdicionarItem("Listar", "ProcessoCotacaoFrete", "Index");
-            AdicionarItem("Adicionar", "ProcessoCotacaoFrete", "NovoCadastro");
+            AdicionarItem("Listar", "ProcessoDeCotacaoDeFrete", "Index");
+            AdicionarItem("Adicionar", "ProcessoDeCotacaoDeFrete", "NovoCadastro");
             AdicionarItem("Ordens de Transporte", "OrdemDeTransporte", "Index");
             AdicionarItem("Monitor de Ordens de Transporte", "MonitorDeOrdemDeTransporte", "Index",true);
         }
@@ -87,7 +87,7 @@ namespace BsBios.Portal.Infra.Builders
         public MenuSuprimentos()
             : base("Cotações de Materiais")
         {
-            AdicionarItem("Listar", "ProcessoCotacaoMaterial", "Index");
+            AdicionarItem("Listar", "ProcessoDeCotacaoDeMaterial", "Index");
         }
     }
 
@@ -96,8 +96,8 @@ namespace BsBios.Portal.Infra.Builders
         public MenuFornecedor()
             : base("Minhas Cotações")
         {
-            AdicionarItem("Cotações de Frete", "ProcessoCotacaoFrete", "Index");
-            AdicionarItem("Cotações de Material", "ProcessoCotacaoMaterial", "Index");
+            AdicionarItem("Cotações de Frete", "ProcessoDeCotacaoDeFrete", "Index");
+            AdicionarItem("Cotações de Material", "ProcessoDeCotacaoDeMaterial", "Index");
             AdicionarItem("Ordens de Transporte", "OrdemDeTransporte", "Index");
         }
     }

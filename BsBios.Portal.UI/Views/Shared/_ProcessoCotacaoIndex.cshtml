@@ -1,40 +1,53 @@
+@model ProcessoDeCotacaoDeFreteFiltroVm
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
+        
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoProduto,"campomedio"),
+                 new ColunaComTextBox<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DescricaoProduto, "campogrande"))
+        
+        @{
+            var listaDeStatus = ((IList<StatusProcessoCotacaoVm>) ViewBag.StatusProcessoCotacao).Select(x => new SelectListItem {Value = Convert.ToString(x.Codigo),Text = x.Descricao});
+
+        }
+
+        @Html.LinhaComDuasColunas(new ColunaComDropDown<ProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.CodigoStatusProcessoCotacao, listaDeStatus, "CodigoStatusProcessoCotacao"),
+            new ColunaComTextBox<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.NumeroDoContrato,"campopequeno"))
+        
         <div class="linha">
             <div class="coluna">
-                @Html.Label("Codigo")
-                @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
+                @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
+                @Html.LabelFor(x => x.CodigoDoMunicipioDeOrigem)
+                @Html.TextBox("NomeDoMunicipioDeOrigem", "",new {@class = "campogrande" })
             </div>
             <div class="coluna">
-                @Html.Label("Material")
-                @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
+                @Html.LabelFor(x => x.NomeDoFornecedorDaMercadoria)
+                @Html.TextBoxFor(x => x.NomeDoFornecedorDaMercadoria, new { @class = "campogrande" })
             </div>
+
         </div>
 
-        <div class="linha">
-            <div class="coluna">
-                @Html.Label("Status")
-                @Html.DropDownList("Status", ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao)
-                    .Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
-            </div>
-        </div>
+
         @{
             Html.RenderPartial("_BotoesDeFiltro");
-        }
-    </form>
+    }
+</form>
 </fieldset>
 <div id="gridCotacaoMaterial" class="divGrid" ></div>
 @section scripts
 {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
-    <script>
+    <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
+            
+            criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
+
             $("#gridCotacaoMaterial").customKendoGrid({
                 dataSource: {
                     schema: {
@@ -60,7 +73,7 @@
                             type: 'GET',
                             cache: false,
                             data: function() {
-                                return { CodigoProduto: $('#CodigoProduto').val(), DescricaoProduto: $('#DescricaoProduto').val(), CodigoStatusProcessoCotacao: $('#Status :selected').val() };
+                                return $('form').serializeObject();
                             }
                         }
                     }

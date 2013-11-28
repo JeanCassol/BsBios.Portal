@@ -9,9 +9,24 @@
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
-        @Html.LinhaComDuasColunas(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.CodigoDoFornecedor,"campomedio"),
-        new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.NomeDoFornecedor,"campogrande"))
-        @Html.LinhaComUmaColuna(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, int?>(x => x.NumeroDaOrdemDeTransporte, "campomedio masknumerointeiro"))
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.CodigoDaTransportadora,"campomedio"),
+        new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.NomeDaTransportadora,"campogrande"))
+        @Html.LinhaComDuasColunas(new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, int?>(x => x.NumeroDaOrdemDeTransporte, "campomedio masknumerointeiro"),
+                          new ColunaComTextBox<OrdemDeTransporteListagemFiltroVm, string>(x => x.NumeroDoContrato, "campopequeno"))
+        
+        <div class="linha">
+            <div class="coluna">
+                @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
+                @Html.LabelFor(x => x.CodigoDoMunicipioDeOrigem)
+                @Html.TextBox("NomeDoMunicipioDeOrigem", "",new {@class = "campogrande" })
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(x => x.NomeDoFornecedorDaMercadoria)
+                @Html.TextBoxFor(x => x.NomeDoFornecedorDaMercadoria, new { @class = "campogrande" })
+            </div>
+
+        </div>
+
 
         @{
             Html.RenderPartial("_BotoesDeFiltro");
@@ -21,12 +36,15 @@
 <div id="gridOrdemDeTransporte" class="divGrid"></div>
 @section scripts
 {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/scriptsGerais.js")"></script>
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            
+            criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
 
             aplicaMascaraInteiro();
             $("#gridOrdemDeTransporte").customKendoGrid({
@@ -54,11 +72,7 @@
                             type: 'GET',
                             cache: false,
                             data: function() {
-                                return {
-                                    CodigoDoFornecedor: $('#CodigoDoFornecedor').val(),
-                                    NomeDoFornecedor: $('#NomeDoFornecedor').val(),
-                                    NumeroDaOrdemDeTransporte: $('#NumeroDaOrdemDeTransporte').val()
-                                };
+                                return $('form').serializeObject();
                             }
                         }
                     }

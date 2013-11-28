@@ -418,6 +418,12 @@ $(function () {
     $('#btnPesquisar').die("click");
     $('#btnPesquisar').live("click", function (e) {
         e.preventDefault();
+        var form = $(this).parents('form').first();
+        
+        if (form && $(form).validate && !$(form).validate().form()) {
+            return;
+        }
+
         $(".divGrid :last").data("kendoGrid").dataSource.page(1);
     });
 

@@ -46,7 +46,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 }
 
 
-                ordemDeTransporte.AlterarQuantidadeLiberada(quantidadeLiberadaParaOrdemDeTransporte);
+                ordemDeTransporte.AlterarQuantidades(quantidadeLiberadaParaOrdemDeTransporte, ordemDeTransporteAtualizarDTO.QuantidadeDeTolerancia);
                 _ordensDeTransporte.Save(ordemDeTransporte);
                 _unitOfWork.Commit();
             }

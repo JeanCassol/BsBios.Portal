@@ -63,7 +63,7 @@
                 $.post('@Url.Action("Salvar", "CotacaoDeFreteAtualizar")', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index", "ProcessoCotacaoFrete")';
+                            location.href = '@Url.Action("Index", "ProcessoDeCotacaoDeFrete")';
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }

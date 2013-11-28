@@ -43,18 +43,18 @@
         @Scripts.Render("~/bundles/scriptsgerais")
         <script type="text/javascript">
             UrlPadrao.SelecionarFornecedor = '@Url.Action("Selecionar","SelecionarFornecedor")';
-            UrlPadrao.CotacaoResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial")';
+            UrlPadrao.CotacaoResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoDeCotacaoDeMaterial")';
             UrlPadrao.EnviarEmail = '@Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")';
             UrlPadrao.AtualizarFornecedoresDoProcessoDeCotacao = '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")';
             UrlPadrao.VerificarQuantidadeAdquiridaNoProcessoDeCotacao = '@Url.Action("VerificarQuantidadeAdquirida","ProcessoDeCotacaoService")';
-            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoCotacaoMaterial")';
+            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoDeCotacaoDeMaterial")';
             
             UrlPadrao.SelecionarCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar")';
-            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial")';
+            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterial")';
             UrlPadrao.AbrirProcessoDeCotacaoDeMaterial = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeMaterialAbertura")';
             UrlPadrao.FecharProcessoDeCotacaoDeMaterial = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeMaterialFechamento")';
             UrlPadrao.SelecionarCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFreteSelecionar")';
-            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete")';
+            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFrete")';
             UrlPadrao.AbrirProcessoDeCotacaoDeFrete = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura")';
             UrlPadrao.FecharProcessoDeCotacaoDeFrete = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeFreteFechamento")';
             UrlPadrao.CancelarProcessoDeCotacao = '@Url.Action("CancelarProcesso", "ProcessoDeCotacaoCancelamento")';

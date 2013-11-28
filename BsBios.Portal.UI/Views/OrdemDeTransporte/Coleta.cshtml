@@ -42,7 +42,7 @@
                 new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : "")
             )
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskmoeda"),
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskquantidade"),
                 new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
             
 

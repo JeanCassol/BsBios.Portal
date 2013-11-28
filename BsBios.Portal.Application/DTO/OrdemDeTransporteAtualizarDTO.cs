@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public decimal QuantidadeLiberada { get; set; }
+        public decimal QuantidadeDeTolerancia { get; set; }
 
     }
 }

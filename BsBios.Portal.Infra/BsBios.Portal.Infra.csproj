@@ -112,6 +112,7 @@
     <Compile Include="Repositories\Contracts\IMunicipios.cs" />
     <Compile Include="Repositories\Contracts\IOrdensDeTransporte.cs" />
     <Compile Include="Repositories\Contracts\IProcessoCotacaoIteracoesUsuario.cs" />
+    <Compile Include="Repositories\Contracts\IProcessosDeCotacaoDeFrete.cs" />
     <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
     <Compile Include="Repositories\Contracts\IQuotas.cs" />
     <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Repositories\Implementations\Municipios.cs" />
     <Compile Include="Repositories\Implementations\OrdensDeTransporte.cs" />
     <Compile Include="Repositories\Implementations\ProcessoCotacaoIteracoesUsuario.cs" />
+    <Compile Include="Repositories\Implementations\ProcessosDeCotacaoDeFrete.cs" />
     <Compile Include="Repositories\Implementations\ProdutosDeFrete.cs" />
     <Compile Include="Repositories\Implementations\Quotas.cs" />
     <Compile Include="Repositories\Implementations\UnidadesDeMedida.cs" />

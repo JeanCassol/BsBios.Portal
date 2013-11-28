@@ -22,12 +22,12 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
-                return RedirectToAction("Index", "ProcessoCotacaoMaterial");
+                return RedirectToAction("Index", "ProcessoDeCotacaoDeMaterial");
             }
             catch (Exception ex)
             {
                 ViewData["erro"] = ex.Message;
-                return RedirectToAction("EditarCadastro", "ProcessoCotacaoMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
+                return RedirectToAction("EditarCadastro", "ProcessoDeCotacaoDeMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
             }
             
         }

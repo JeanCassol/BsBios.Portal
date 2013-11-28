@@ -36,8 +36,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void PossoAlterarAQuantidadeLiberadaParaUmValorValido()
         {
             OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
-            ordemDeTransporte.AlterarQuantidadeLiberada(8M);
+            ordemDeTransporte.AlterarQuantidades(8M,1M);
             Assert.AreEqual(8M, ordemDeTransporte.QuantidadeLiberada);
+            Assert.AreEqual(1M, ordemDeTransporte.QuantidadeDeTolerancia);
         }
 
         //[TestMethod]
@@ -81,7 +82,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Coleta coleta = fabricaDeColeta.Construir(coletaSalvarVm, ordemDeTransporte.PrecoUnitario);
             ordemDeTransporte.AdicionarColeta(coleta);
 
-            ordemDeTransporte.AlterarQuantidadeLiberada(5M);
+            ordemDeTransporte.AlterarQuantidades(5M, 0M);
             
         }
 

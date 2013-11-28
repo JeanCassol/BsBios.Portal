@@ -10,7 +10,7 @@ body {
     font-family: "Segoe UI",Verdana, Helvetica, Sans-Serif;
     margin: 0 auto;
     padding: 0;
-    width: 1024px
+    max-width: 1024px
 }
 
 a {
@@ -94,34 +94,21 @@ h5 a:link, h5 a:visited, h5 a:active {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 1024px;
-}
-
-#body {
-    /*background-color: #efeeef;*/
-    margin-left: 10px;
-    width: 814px;
-    /*clear: both;
-    padding-bottom: 35px;*/
-}
-
-.main-content {
-    background: url("../Images/accent.png") no-repeat;
-    padding-left: 10px;
-    padding-top: 30px;
-}
-
-.featured + .main-content {
-    background: url("../Images/heroAccent.png") no-repeat;
-}
-
-header .content-wrapper {
-    padding-top: 10px;
+    background-image: url("/Images/banner.png");
+    background-repeat: no-repeat;
+    background-size:cover;
+    padding-top: 0.5em;
     height: 110px !important;
 }
 
+#body {
+    margin-left: 1%;
+    width: 78%;
+}
+
+
 #middle {
-    margin-top: 5px;
+    margin-top: 0.5%;
 }
 #middle > div {
     float: left;
@@ -189,7 +176,7 @@ footer {
 /* menu
 ----------------------------------------------------------*/
 #menuprincipal {
-    width: 200px;
+    width: 21%;
     padding: 0 0 0 0;
     margin-bottom: 1em;
     font-size: 14px;
@@ -389,12 +376,12 @@ input, textarea {
     background: #fff;
     color: #333;
     font-size: 12px;
-    margin: 5px 0 6px 0;
-    padding: 5px;
+    margin: 1.25% 0 1.3% 0;
+    padding: 1.25%;
 }
 
 textarea {
-    width: 340px;
+    width: 86%;
 }
 
 input:focus, textarea:focus {
@@ -406,7 +393,7 @@ input[type="checkbox"] {
     border: inherit;
     width: auto;
     vertical-align: middle;
-    margin-left: 15px;
+    margin-left: 3.8%;
 }
 input[type="radio"] {
     vertical-align: middle; 
@@ -438,7 +425,7 @@ input[type="radio"] {
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    width: 110px;
+    width: 13.75%;
 }
     
 .divBotao a {
@@ -476,7 +463,7 @@ input[type="radio"] {
 }
 
 .botaoGrande {
-    width: 200px!important
+    width: 25%!important
 }
 
 td input[type="submit"],
@@ -570,23 +557,23 @@ input[type="checkbox"].input-validation-error {
 }
 
 .campopequeno {
-    width: 150px;
+    width: 38%;
 }
 .campomedio {
-    width: 250px;
+    width: 63%;
 } 
 .campogrande, select {
-    width: 350px;
+    width: 89%;
 }
 .campoextragrande {
-    width: 700px;
+    width: 87.5%;
 }
 .campopequenogrid {
     width: 70px;
 }
 
 .paginaCadastro {
-    width: 814px;
+    width: 100%;
 }
 
 .paginaCadastro fieldset {
@@ -728,7 +715,8 @@ input[type="checkbox"].input-validation-error {
 
 .divGrid {
     font:11px Arial,Helvetica,sans-serif!important;
-    font-weight: normal
+    font-weight: normal;
+    line-height: 300%
 }
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;
@@ -787,6 +775,10 @@ input[type="checkbox"].input-validation-error {
 }
 .ui-dialog-buttonpane {
     background-color: #efeeef!important;    
+}
+
+.k-grid td {
+    line-height: 2.3em!important;
 }
 
 

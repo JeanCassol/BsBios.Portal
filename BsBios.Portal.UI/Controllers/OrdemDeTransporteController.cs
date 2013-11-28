@@ -35,7 +35,7 @@ namespace BsBios.Portal.UI.Controllers
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
-                filtro.CodigoDoFornecedor = usuarioConectado.Login;
+                filtro.CodigoDaTransportadora = usuarioConectado.Login;
             }
             KendoGridVm kendoGridVm = _consultaOrdemDeTransporte.Listar(paginacao, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);

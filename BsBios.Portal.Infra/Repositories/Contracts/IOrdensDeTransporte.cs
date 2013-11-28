@@ -5,8 +5,13 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
     public interface IOrdensDeTransporte: ICompleteRepository<OrdemDeTransporte>
     {
         IOrdensDeTransporte BuscaPorId(int id);
-        IOrdensDeTransporte AutorizadasParaOFornecedor(string codigoDoFornecedor);
-        IOrdensDeTransporte CodigoDoFornecedorContendo(string codigoDoFornecedor);
-        IOrdensDeTransporte NomeDoFornecedorContendo(string nomeDoFornecedor);
+        IOrdensDeTransporte AutorizadasParaATransportadora(string codigoDaTransportadora);
+        IOrdensDeTransporte CodigoDaTransportadoraContendo(string codigoDaTransportadora);
+        IOrdensDeTransporte NomeDaTransportadoraContendo(string nomeDaTransportadora);
+
+        IOrdensDeTransporte NomeDoFornecedorDaMercadoriaContendo(string nomeDoFornecedorDaMercadoria);
+        IOrdensDeTransporte ComNumeroDeContrato(string numeroDoContrato);
+        IOrdensDeTransporte ComOrigemNoMunicipio(string codigoDoMunicipio);
+
     }
 }

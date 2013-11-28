@@ -135,7 +135,7 @@
         var codigoProduto = $('#CodigoProduto').val();
         var idProcessoCotacao = $('#IdProcessoCotacao').val();
         $.ajax({
-            url: '@Url.Action("ListarFornecedores","ProcessoCotacaoMaterial")',
+            url: '@Url.Action("ListarFornecedores","ProcessoDeCotacaoDeMaterial")',
             type: 'GET',
             cache:false,
             data: {

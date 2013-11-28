@@ -15,11 +15,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaProcessoDeCotacaoDeMaterial : IConsultaProcessoDeCotacaoDeMaterial
     {
-        private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IProcessosDeCotacaoDeFrete _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
         private readonly IBuilder<Fornecedor, FornecedorCadastroVm> _builderFornecedor;
 
-        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacao processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
+        public ConsultaProcessoDeCotacaoDeMaterial(IProcessosDeCotacaoDeFrete processosDeCotacao, IBuilder<Fornecedor, FornecedorCadastroVm> builderFornecedor
             , IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
@@ -27,7 +27,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _iteracoesUsuario = iteracoesUsuario;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(
                 (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
@@ -50,6 +50,21 @@ namespace BsBios.Portal.Application.Queries.Implementations
             else
             {
                 _processosDeCotacao.DesconsideraCancelados();
+            }
+
+            if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))
+            {
+                _processosDeCotacao.PertencentesAoContratoDeNumero(filtro.NumeroDoContrato);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
+            {
+                _processosDeCotacao.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.CodigoDoMunicipioDeOrigem))
+            {
+                _processosDeCotacao.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
             }
 
             var query = (from p in _processosDeCotacao.GetQuery()

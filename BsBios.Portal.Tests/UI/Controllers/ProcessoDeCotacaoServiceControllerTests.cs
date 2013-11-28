@@ -22,7 +22,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
             var processoDeCotacaoController = new ProcessoDeCotacaoServiceController(processoDeCotacaoServiceMock.Object);
             var redirectResult = (RedirectToRouteResult) processoDeCotacaoController.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm());
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
+            Assert.AreEqual("ProcessoDeCotacaoDeMaterial", redirectResult.RouteValues["controller"]);
             Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
             
             processoDeCotacaoServiceMock.Verify(x => x.AtualizarProcesso(It.IsAny<ProcessoDeCotacaoAtualizarVm>()), Times.Once());
@@ -43,7 +43,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
                         DataLimiteRetorno = DateTime.Today
                     });
 
-            Assert.AreEqual("ProcessoCotacaoMaterial", redirectResult.RouteValues["controller"]);
+            Assert.AreEqual("ProcessoDeCotacaoDeMaterial", redirectResult.RouteValues["controller"]);
             Assert.AreEqual("EditarCadastro", redirectResult.RouteValues["action"]);
             Assert.AreEqual(10, redirectResult.RouteValues["idProcessoCotacao"]); 
             Assert.IsNotNull(processoDeCotacaoController.ViewData["erro"]);

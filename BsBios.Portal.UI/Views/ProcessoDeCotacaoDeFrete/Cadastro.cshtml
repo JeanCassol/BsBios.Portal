@@ -118,6 +118,8 @@
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
+    <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
+
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
@@ -180,32 +182,9 @@
                     + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val()));
             });
 
-            $('#NomeDoMunicipioDeOrigem').autocomplete({
-                source: UrlPadrao.BuscaDeMunicipios,
-                minLength: 3,
-                select: function (event, ui) {
-                    $('#CodigoDoMunicipioDeOrigem').val(ui.item.Codigo);
-                },
-                change: function (event, ui) {
-                    if (!ui.item) {
-                        $('#NomeDoMunicipioDeOrigem,#CodigoDoMunicipioDeOrigem').val('');
-                    }
-                }
-            });
+            criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
+            criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeDestino', '#NomeDoMunicipioDeDestino');
             
-            $('#NomeDoMunicipioDeDestino').autocomplete({
-                source: UrlPadrao.BuscaDeMunicipios,
-                minLength: 3,
-                select: function (event, ui) {
-                    $('#CodigoDoMunicipioDeDestino').val(ui.item.Codigo);
-                },
-                change: function(event, ui) {
-                    if (!ui.item) {
-                        $('#NomeDoMunicipioDeDestino,#CodigoDoMunicipioDeDestino').val('');
-                    }
-                }
-            });
-
             $('#btnSalvar').click(function() {
                 $('.error').empty();
                 var form = $('form');
@@ -217,7 +196,7 @@
                 $.post('@Url.Action("Salvar","ProcessoDeCotacaoDeFreteService" )', formData,
                     function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoCotacaoFrete")';
+                            location.href = '@Url.Action("Index","ProcessoDeCotacaoDeFrete")';
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }

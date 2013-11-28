@@ -11,12 +11,12 @@ using StructureMap;
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class ProcessoCotacaoMaterialController : Controller
+    public class ProcessoDeCotacaoDeMaterialController : Controller
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
 
-        public ProcessoCotacaoMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
+        public ProcessoDeCotacaoDeMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
@@ -29,20 +29,20 @@ namespace BsBios.Portal.UI.Controllers
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
             {
-                ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoCotacaoMaterial");
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoDeCotacaoDeMaterial");
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoMaterial");
             }
 
-            ViewData["ActionListagem"] = Url.Action("Listar","ProcessoCotacaoMaterial");
+            ViewData["ActionListagem"] = Url.Action("Listar","ProcessoDeCotacaoDeMaterial");
             ViewBag.TituloDaPagina = "Cotações de Material";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Material;

@@ -59,7 +59,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Console.WriteLine("Inicio da consulta");
             var filtro = new OrdemDeTransporteListagemFiltroVm
             {
-                NomeDoFornecedor = "Fornec"
+                NomeDaTransportadora = "Fornec"
             };
             var kendoGridVm = consultaOrdemDeTransporte.Listar(paginacao, filtro);
             Console.WriteLine("Fim da consulta");

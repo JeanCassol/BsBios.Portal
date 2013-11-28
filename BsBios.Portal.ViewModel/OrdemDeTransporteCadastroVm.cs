@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -12,7 +13,12 @@ namespace BsBios.Portal.ViewModel
 
 
         [DisplayName("Quantidade Liberada: ")]
+        [Required(ErrorMessage = "Quantidade Liberada é obrigatório")]
         public decimal QuantidadeLiberada { get; set; }
+        [DisplayName("Tolerância: ")]
+        [Required(ErrorMessage = "Tolerância é obrigatório")]
+        public decimal QuantidadeDeTolerancia { get; set; }
+
         [DisplayName("Quantidade Coletada: ")]
         public decimal QuantidadeColetada { get; set; }
         [DisplayName("Quantidade Realizada: ")]

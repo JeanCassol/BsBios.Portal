@@ -15,6 +15,7 @@ namespace BsBios.Portal.Infra.Mappings
 
             Map(x => x.QuantidadeAdquirida);
             Map(x => x.QuantidadeLiberada);
+            Map(x => x.QuantidadeDeTolerancia);
             Map(x => x.QuantidadeColetada);
             Map(x => x.QuantidadeRealizada);
             Map(x => x.PrecoUnitario);

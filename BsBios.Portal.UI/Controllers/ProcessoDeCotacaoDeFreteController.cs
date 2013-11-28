@@ -11,14 +11,14 @@ using StructureMap;
 namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
-    public class ProcessoCotacaoFreteController : Controller
+    public class ProcessoDeCotacaoDeFreteController : Controller
     {
         private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
 
-        public ProcessoCotacaoFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
+        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
@@ -35,20 +35,20 @@ namespace BsBios.Portal.UI.Controllers
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
-                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoCotacaoFrete");
+                ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoDeCotacaoDeFrete");
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoFrete");
             }
 
-            ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoCotacaoFrete");
+            ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoDeCotacaoDeFrete");
             ViewBag.TituloDaPagina = "Cotações de Frete";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoMaterialFiltroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
             filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Frete;

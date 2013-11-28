@@ -189,8 +189,8 @@
     <Compile Include="Controllers\IvaApiController.cs" />
     <Compile Include="Controllers\CondicaoPagamentoApiController.cs" />
     <Compile Include="Controllers\FornecedorApiController.cs" />
-    <Compile Include="Controllers\ProcessoCotacaoMaterialController.cs" />
-    <Compile Include="Controllers\ProcessoCotacaoFreteController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoDeFreteController.cs" />
     <Compile Include="Controllers\CriptografiaController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -410,6 +410,7 @@
     <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
+    <Content Include="Scripts\Shared\autoCompleteDeMunicipio.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -424,19 +425,6 @@
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\AlterarSenha.cshtml" />
@@ -449,14 +437,14 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
-    <Content Include="Views\ProcessoCotacaoFrete\Cadastro.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeFrete\Cadastro.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Scripts\jquery.validate_extension.js" />
-    <Content Include="Views\ProcessoCotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeMaterial\Cadastro.cshtml" />
     <Content Include="Views\Shared\_ProcessoCotacaoIndex.cshtml" />
     <Content Include="Views\Shared\_RequisicaoDeCompra.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedores.cshtml" />
-    <Content Include="Views\ProcessoCotacaoMaterial\_SelecionarCotacao.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeMaterial\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Cadastro.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
@@ -468,7 +456,7 @@
     <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
-    <Content Include="Views\ProcessoCotacaoFrete\_SelecionarCotacao.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeFrete\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Quota\Cadastro.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
