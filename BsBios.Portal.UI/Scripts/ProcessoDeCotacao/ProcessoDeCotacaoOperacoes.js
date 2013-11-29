@@ -105,7 +105,7 @@
                             dadosValidos = false;
                             return;
                         }
-
+                        
                         var cotacao = {
                             IdCotacao: idCotacao,
                             Selecionada: selecionada,
@@ -115,6 +115,18 @@
                         if (tipoDeCotacao == TipoDeCotacao.Material){
                             var codigoIva = $(this).find('select[name=CodigoIva]').val();
                             cotacao.CodigoIva = codigoIva;
+                        } else {
+
+                            var cadencia = Numero.GetFloat($(this).find('input[name=Cadencia]').val());
+
+                            if (selecionada && cadencia < 0) {
+                                Mensagem.ExibirMensagemDeErro("Deve ser preenchida a Cadência de todos os Fornecedores selecionados.");
+                                dadosValidos = false;
+                                return;
+                            }
+
+                            cotacao.Cadencia = cadencia;
+
                         }
 
                         quantidadeAdquiridaTotal += quantidadeAdquirida;

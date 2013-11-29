@@ -16,8 +16,15 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.DataDaColeta, "campopequeno campoDatePicker maskdata"),
             new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
 
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
-                new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(x => x.Peso)
+                    @Html.TextBoxFor(x => x.Peso, new { @class = "campopequeno maskquantidade campoDesabilitado" })
+                    @*@Html.LabelFor(x => x.UnidadeDeMedida, new { @class = "labelNaLinha" })*@
+                    @Html.DisplayFor(x => x.UnidadeDeMedida)
+                    
+                </div>
+            </div>
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskmoeda campoDesabilitado"),
                 new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskmoeda campoDesabilitado"))
@@ -38,8 +45,8 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Numero, "campopequeno masknumeronf"),
                 new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.Serie, "campopequeno maskserienf"))
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "campopequeno masknumeronf"),
-                new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : "")
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.DataDeEmissao, Model.PermiteEditar ? "campopequeno campoDatePicker maskdata" : ""),
+                new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "campopequeno masknumeronf")
             )
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskquantidade"),

@@ -160,7 +160,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             processo.AdicionarFornecedor(fornecedor);
             processo.Abrir();
             CotacaoDeFrete cotacaoDeFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");
-            processo.SelecionarCotacao(cotacaoDeFrete.Id, 50);
+            processo.SelecionarCotacao(cotacaoDeFrete.Id, 50,1);
             var credencialSap = ObjectFactory.GetInstance<CredencialSap>();
             var comunicaoFechamento = new ComunicacaoFechamentoProcessoCotacaoFrete(credencialSap);
             ApiResponseMessage mensagem = comunicaoFechamento.EfetuarComunicacao(processo);

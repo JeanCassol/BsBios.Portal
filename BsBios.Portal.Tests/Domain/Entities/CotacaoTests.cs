@@ -134,7 +134,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processo.Abrir();
 
             Cotacao cotacaoDeFrete =  processo.InformarCotacao(fornecedor.Codigo,1000,100,"");
-            processo.SelecionarCotacao(cotacaoDeFrete.Id,150);
+            processo.SelecionarCotacao(cotacaoDeFrete.Id,150,1);
 
             foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
             {

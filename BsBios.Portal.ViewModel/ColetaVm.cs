@@ -46,13 +46,14 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Nº do Conhecimento")]
         [Required(ErrorMessage = "Nº do Conhecimento é obrigatório")]
         public string NumeroDoConhecimento { get; set; }
-        [DisplayName("Data de Emissão")]
-        [Required(ErrorMessage = "Data de Emissão é obrigatório")]
+        [DisplayName("Data de Emissão NF")]
+        [Required(ErrorMessage = "Data de Emissão NF é obrigatório")]
         public string DataDeEmissao { get; set; }
         [Required(ErrorMessage = "Peso é obrigatório")]
         public decimal Peso { get; set; }
 
-        [Required(ErrorMessage = "Valor é obrigatório")]
+        [Required(ErrorMessage = "Valor NF é obrigatório")]
+        [DisplayName("Valor NF")]
         public decimal Valor{ get; set; }
 
         //[DisplayName("Número do Contrato")]

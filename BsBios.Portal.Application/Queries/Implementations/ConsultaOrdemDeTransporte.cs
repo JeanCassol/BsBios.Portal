@@ -24,6 +24,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm Listar(PaginacaoVm paginacao, OrdemDeTransporteListagemFiltroVm filtro)
         {
+
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+
+            bool usuarioLogadoEUmaTransportadora = usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor);
+
+            if (usuarioLogadoEUmaTransportadora)
+            {
+                filtro.CodigoDaTransportadora = usuarioConectado.Login;
+            }
+
+
             _ordensDeTransporte.CodigoDaTransportadoraContendo(filtro.CodigoDaTransportadora);
 
             _ordensDeTransporte.NomeDaTransportadoraContendo(filtro.NomeDaTransportadora);
@@ -52,8 +63,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                          select new OrdemDeTransporteListagemVm
                          {
                              Id = ordemDeTransporte.Id,
-                             CodigoDoFornecedor = ordemDeTransporte.Fornecedor.Codigo,
-                             NomeDoFornecedor = ordemDeTransporte.Fornecedor.Nome,
+                             CodigoDoFornecedor = usuarioLogadoEUmaTransportadora ? ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria.Codigo : ordemDeTransporte.Fornecedor.Codigo,
+                             NomeDoFornecedor = usuarioLogadoEUmaTransportadora ? ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria.Nome : ordemDeTransporte.Fornecedor.Nome,
                              Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
                              QuantidadeColetada = ordemDeTransporte.QuantidadeColetada,
                              QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada,
@@ -95,7 +106,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     {
                         Material = processoDeCotacao.Produto.Descricao,
                         UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
-                        Cadencia = processoDeCotacao.Cadencia,
+                        Cadencia = ordemDeTransporte.Cadencia,
                         Classificacao = processoDeCotacao.Classificacao ? "Sim" : "Não",
                         NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
                         NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
@@ -125,6 +136,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public KendoGridVm ListarColetas(PaginacaoVm paginacao, int idDaOrdemDeTransporte)
         {
+
             _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte);
 
             var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()

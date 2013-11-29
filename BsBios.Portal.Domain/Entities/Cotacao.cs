@@ -128,20 +128,25 @@ namespace BsBios.Portal.Domain.Entities
 
         protected CotacaoDeFrete(){}
 
+        public virtual decimal? Cadencia { get; protected set; }
+
+
         public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {
             base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
         }
 
 
-        public new virtual void Selecionar(decimal quantidadeAdquirida)
+        public new virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
         {
             base.Selecionar(quantidadeAdquirida);
+            Cadencia = cadencia;
         }
 
         public new virtual void RemoverSelecao()
         {
             base.RemoverSelecao();
+            Cadencia = null;
         }
         
     }

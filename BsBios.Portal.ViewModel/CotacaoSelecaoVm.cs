@@ -5,6 +5,7 @@
         public int IdCotacao { get; set; }
         public bool Selecionada { get; set; }
         public decimal? QuantidadeAdquirida { get; set; }
+        public decimal? Cadencia { get; set; }
     }
 
     public class CotacaoMaterialSelecaoVm: CotacaoFreteSelecaoVm

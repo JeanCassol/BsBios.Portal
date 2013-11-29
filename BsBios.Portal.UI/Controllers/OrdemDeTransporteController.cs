@@ -32,11 +32,6 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacao, OrdemDeTransporteListagemFiltroVm filtro)
         {
-            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
-            {
-                filtro.CodigoDaTransportadora = usuarioConectado.Login;
-            }
             KendoGridVm kendoGridVm = _consultaOrdemDeTransporte.Listar(paginacao, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
@@ -58,12 +53,12 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult NovaColeta()
+        public ActionResult NovaColeta(string unidadeDeMedida)
         {
             var coletaVm = new ColetaVm
             {
-                PermiteEditar = true
-
+                PermiteEditar = true,
+                UnidadeDeMedida = unidadeDeMedida
             };
             return PartialView("Coleta", coletaVm);
         }

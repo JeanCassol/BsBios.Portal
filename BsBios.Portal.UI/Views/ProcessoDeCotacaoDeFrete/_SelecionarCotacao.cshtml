@@ -43,16 +43,19 @@
     $(document).ready(function () {
         
         function ajustaEnableDosCamposDaLinha(linha, checkbox) {
+            debugger;
             if (!checkbox) {
                 checkbox = $(linha).find("input[type=checkbox][name=Selecionada]");
             }
             var selecionado = $(checkbox).is(':checked');
             var campoQuantidade = $(linha).find('input[name=QuantidadeAdquirida]');
+            var campoCadencia = $(linha).find('input[name=Cadencia]');
             if (selecionado) {
                 $(campoQuantidade).removeAttr('disabled');
+                $(campoCadencia).removeAttr('disabled');
             } else {
-                $(campoQuantidade).val('');
-                $(campoQuantidade).attr('disabled', true);
+                $(campoQuantidade).val('').attr('disabled', true);
+                $(campoCadencia).val('').attr('disabled', true);
             }
         }
       
@@ -68,6 +71,7 @@
                             QuantidadeDisponivel: { type: "number" },
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
+                            Cadencia: { type: "number" },
                             ObservacaoDoFornecedor:{type:"string"}
                         }
                     },
@@ -102,6 +106,11 @@
                     field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
+                {
+                    field: "Cadencia", title: "Cadência", width: 100,
+                    template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="Cadencia" value="#= (Cadencia == null) ? \'\' : Cadencia #" ></input>'
+                },
+                
                 { field: "Fornecedor", width: 200 },
                 {
                     field: "ObservacaoDoFornecedor", title: 'Observações', width: 60,

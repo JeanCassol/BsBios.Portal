@@ -19,6 +19,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.QuantidadeColetada);
             Map(x => x.QuantidadeRealizada);
             Map(x => x.PrecoUnitario);
+            Map(x => x.Cadencia);
 
             HasMany(x => x.Coletas)
                             .KeyColumn("IdOrdemTransporte")

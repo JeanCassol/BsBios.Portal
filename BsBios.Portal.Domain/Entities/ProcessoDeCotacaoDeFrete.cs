@@ -93,12 +93,12 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida)
+        public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, decimal cadencia)
         {
             SelecionarCotacao();
             var cotacao = (CotacaoDeFrete)BuscarPodId(idCotacao).CastEntity();
 
-            cotacao.Selecionar(quantidadeAdquirida);
+            cotacao.Selecionar(quantidadeAdquirida,cadencia);
         }
 
         public virtual void RemoverSelecaoDaCotacao(int idCotacao)
@@ -111,9 +111,11 @@ namespace BsBios.Portal.Domain.Entities
         public virtual IList<OrdemDeTransporte> FecharProcesso()
         {
             base.Fechar();
-            var ordensDeTransporte = FornecedoresSelecionados
-                .Select(fornecedorSelecionado => new OrdemDeTransporte(this, fornecedorSelecionado.Fornecedor, 
-                    fornecedorSelecionado.Cotacao.QuantidadeAdquirida.Value, fornecedorSelecionado.Cotacao.ValorComImpostos)).ToList();
+
+            var ordensDeTransporte = (from fornecedorSelecionado in FornecedoresSelecionados
+                let cotacao = (CotacaoDeFrete) fornecedorSelecionado.Cotacao.CastEntity()
+                select new OrdemDeTransporte(this, fornecedorSelecionado.Fornecedor,
+                    cotacao.QuantidadeAdquirida.Value, cotacao.ValorComImpostos, cotacao.Cadencia.Value)).ToList();
 
             return ordensDeTransporte;
         }

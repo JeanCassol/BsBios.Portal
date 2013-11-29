@@ -60,6 +60,7 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("CotacaoFrete");
             KeyColumn("Id");
+            Map(x => x.Cadencia);
         }
     }
     

@@ -9,15 +9,15 @@ namespace BsBios.Portal.Domain.Entities
     public class OrdemDeTransporte : IAggregateRoot
     {
 
-
         internal OrdemDeTransporte(ProcessoDeCotacaoDeFrete processoDeCotacao, Fornecedor fornecedor, 
-            decimal quantidadeAdquirida, decimal precoUnitario):this()
+            decimal quantidadeAdquirida, decimal precoUnitario, decimal cadencia):this()
         {
             ProcessoDeCotacaoDeFrete = processoDeCotacao;
             Fornecedor = fornecedor;
             QuantidadeAdquirida = quantidadeAdquirida;
             PrecoUnitario = precoUnitario;
             QuantidadeLiberada = quantidadeAdquirida;
+            Cadencia = cadencia;
         }
 
         protected OrdemDeTransporte()
@@ -37,6 +37,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual  decimal QuantidadeRealizada { get; protected set; }
 
         public virtual decimal PrecoUnitario { get; protected set; }
+        public virtual decimal Cadencia { get; set; }
 
         public virtual IList<Coleta> Coletas { get; protected set; }
 

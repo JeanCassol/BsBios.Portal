@@ -134,6 +134,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Fornecedor deposito = processo.Deposito;
             Municipio municipioDeOrigem = processo.MunicipioDeOrigem;
             Municipio municipioDeDestino = processo.MunicipioDeDestino;
+            var cotacaoDeFrete = (CotacaoDeFrete) fp.Cotacao.CastEntity();
 
             var vm = new CotacaoFreteCadastroVm
             {
@@ -152,7 +153,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
                     DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
                     Itinerario = processo.Itinerario.Descricao,
-                    Cadencia = processo.Cadencia,
+                    Cadencia = cotacaoDeFrete.Cadencia == null ? processo.Cadencia: cotacaoDeFrete.Cadencia.Value,
                     Classificacao = processo.Classificacao ? "Sim" : "Não",
                     NumeroDoContrato = processo.NumeroDoContrato,
                     NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",

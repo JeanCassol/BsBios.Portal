@@ -11,6 +11,7 @@
         public string Cnpj { get; set; }
         public decimal? QuantidadeDisponivel { get; set; }
         public decimal? QuantidadeAdquirida { get; set; }
+        public decimal? Cadencia { get; set; }
         public decimal? ValorComImpostos { get; set; }
         public string ObservacaoDoFornecedor { get; set; }
     }

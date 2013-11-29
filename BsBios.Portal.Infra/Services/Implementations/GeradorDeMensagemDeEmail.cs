@@ -1,4 +1,5 @@
 ﻿using System;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
@@ -106,8 +107,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresSelecionados)
             {
-                mensagem += string.Format("Transportada: {0} - Quantidade: {1} - Unidade de Medida: {2}",
-                    fornecedorParticipante.Fornecedor.Nome, fornecedorParticipante.Cotacao.QuantidadeAdquirida, descricaoDaUnidadeDeMedida)
+                var cotacaoDeFrete = (CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
+                mensagem += string.Format("Transportada: {0} - Quantidade: {1} - Unidade de Medida: {2} - Cadência: {3} - Classificação: {4} - Nº do Contrato: {5}",
+                    fornecedorParticipante.Fornecedor.Nome, cotacaoDeFrete.QuantidadeAdquirida, descricaoDaUnidadeDeMedida,
+                    cotacaoDeFrete.Cadencia,processoDeCotacao.Classificacao ? "Sim": "Não", processoDeCotacao.NumeroDoContrato)
                     + Environment.NewLine;
             }
 

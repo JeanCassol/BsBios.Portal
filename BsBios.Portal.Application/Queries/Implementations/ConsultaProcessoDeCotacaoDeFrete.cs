@@ -67,10 +67,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     continue;
                 }
 
-                var cotacao = fornecedorParticipante.Cotacao;
+                var cotacao =(CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
 
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
                 cotacaoSelecionarVm.QuantidadeAdquirida = cotacao.QuantidadeAdquirida;
+                cotacaoSelecionarVm.Cadencia = cotacao.Cadencia;
                 cotacaoSelecionarVm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
                 cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;

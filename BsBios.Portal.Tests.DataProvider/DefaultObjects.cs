@@ -274,7 +274,7 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
             var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            cotacao.Selecionar(quantidadeAdquirida);
+            cotacao.Selecionar(quantidadeAdquirida,0);
             return processoDeCotacao;
         }
 
@@ -283,7 +283,7 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(municipioOrigem, municipioDestino);
             var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            cotacao.Selecionar(9);
+            cotacao.Selecionar(9,0);
             return processoDeCotacao;
         }
 
