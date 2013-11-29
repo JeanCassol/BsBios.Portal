@@ -103,11 +103,11 @@
                     template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
                 },
                 {
-                    field: "QuantidadeAdquirida", title: "Quantidade", width: 100,
+                    field: "QuantidadeAdquirida", title: "Quantidade", width: 70,
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="QuantidadeAdquirida" value="#= (QuantidadeAdquirida == null) ? \'\' : QuantidadeAdquirida #" ></input>'
                 },
                 {
-                    field: "Cadencia", title: "Cadência", width: 100,
+                    field: "Cadencia", title: "Cadência", width: 70,
                     template: '<input type="text" #= (Selecionada ? "":"disabled") # class="campopequenogrid maskquantidade" name="Cadencia" value="#= (Cadencia == null) ? \'\' : Cadencia #" ></input>'
                 },
                 
@@ -124,7 +124,7 @@
                             return '';
                         }
                     }},
-                { field: "QuantidadeDisponivel", title: 'Disponível', width: 80, format:"{0:n3}"},
+                { field: "QuantidadeDisponivel", title: 'Disponível', width: 60, format:"{0:n3}"},
                 { field: "ValorComImpostos", title:'Valor Com Impostos', width: 80, format: "{0:n2}"}
             ]
         });
