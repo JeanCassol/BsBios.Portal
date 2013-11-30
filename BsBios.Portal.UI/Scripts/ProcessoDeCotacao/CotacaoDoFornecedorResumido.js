@@ -29,11 +29,12 @@
                 }
             },
             groupable: false,
+            scrollable: true,
             selectable: 'row',
             columns:
             [
                 {
-                    width: 60,
+                    width: 460,
                     field: "Codigo",
                     title: "Código"
                 },

@@ -112,10 +112,20 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.resizable = true;
     //configuracao.sortable = true;
     if (configuracao.pageable == undefined) {
+
+        var larguraDaViewPort = $(window).width();
+        var buttonCount;
+        if (larguraDaViewPort > 800) {
+            buttonCount = 10;
+        } else {
+            buttonCount = 3;
+        }
+
         configuracao.pageable =
         {
             refresh: true,
             pageSizes: true,
+            buttonCount: buttonCount,
             messages: {
                 display: '{0:n0} - {1:n0} de {2:n0} registros',
                 empty: 'Nenhum registro encontrado',
@@ -132,6 +142,9 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.dataSource.serverFiltering = true;
     configuracao.dataSource.serverPaging = true;
     configuracao.dataSource.pageSize = 10;
+    if (configuracao.scrollable === undefined) {
+        configuracao.scrollable = true;
+    }
 
     this.kendoGrid(configuracao);
 
@@ -159,11 +172,6 @@ $.fn.customDialog = function (configuracao) {
 
     };
 
-    if (!configuracao.width) {
-        configuracao.width = 800;
-    }    
-
-
     if(configuracao.buttons){
         $.each(configuracao.buttons, function(index, button) {
             button.mousemove = function() {
@@ -179,6 +187,14 @@ $.fn.customDialog = function (configuracao) {
 $.fn.customLoad = function (url, callBack) {
 
     var divParaCarregar = this;
+    
+    var larguraDaViewPort = $(window).width();
+
+    if (larguraDaViewPort > 800) {
+        $(divParaCarregar).dialog("option", "width", 800);
+    } else {
+        $(divParaCarregar).dialog("option", "width", '99%');
+    }
     
     this.load(url, function (responseText, textStatus, xmlHttpRequest) {
         var contentType = xmlHttpRequest.getResponseHeader('Content-Type');
