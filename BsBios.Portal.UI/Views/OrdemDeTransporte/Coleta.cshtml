@@ -16,16 +16,9 @@
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, string>(x => x.DataDaColeta, "campopequeno campoDatePicker maskdata"),
             new ColunaComTextBox<ColetaVm, string>(x => x.DataDePrevisaoDeChegada, "campopequeno campoDatePicker maskdata"))
 
-            <div class="linha">
-                <div class="coluna">
-                    @Html.LabelFor(x => x.Peso)
-                    @Html.TextBoxFor(x => x.Peso, new { @class = "campopequeno maskquantidade campoDesabilitado" })
-                    @*@Html.LabelFor(x => x.UnidadeDeMedida, new { @class = "labelNaLinha" })*@
-                    @Html.DisplayFor(x => x.UnidadeDeMedida)
-                    
-                </div>
-            </div>
-            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.Peso, "campopequeno maskquantidade campoDesabilitado"),
+                new ColunaComTextBox<ColetaVm, string>(x => x.UnidadeDeMedida, "campogrande campoDesabilitado"))
+                        
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.PrecoUnitario, "campopequeno maskmoeda campoDesabilitado"),
                 new ColunaComTextBox<ColetaVm, decimal>(x => x.ValorDoFrete, "campopequeno maskmoeda campoDesabilitado"))
             
@@ -49,8 +42,27 @@
                 new ColunaComTextBox<ColetaVm, string>(x => x.NotaFiscal.NumeroDoConhecimento, "campopequeno masknumeronf")
             )
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskquantidade"),
-                new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))
+            @*@Html.LinhaComDuasColunas(new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Peso, "campopequeno maskquantidade"),
+                new ColunaComTextBox<ColetaVm, decimal>(x => x.NotaFiscal.Valor, "campopequeno maskmoeda"))*@
+            
+            <div class="linha">
+                <div class="coluna">
+                    @Html.LabelFor(x => x.NotaFiscal.Peso)
+                    @Html.TextBoxFor(x => x.NotaFiscal.Peso, new { @class = "campopequeno maskquantidade" })
+                    @Html.DisplayFor(x => x.UnidadeDeMedida)
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(x => x.NotaFiscal.Peso)
+                    </p>
+                </div>
+                <div class="coluna">
+                    @Html.LabelFor(x => x.NotaFiscal.Valor)
+                    @Html.TextBoxFor(x => x.NotaFiscal.Valor, new { @class = "campopequeno maskmoeda" })
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(x => x.NotaFiscal.Valor)
+                    </p>
+                    
+                </div>
+            </div>
             
 
             @if (Model.PermiteEditar)

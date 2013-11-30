@@ -7,6 +7,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
+using NHibernate.Hql.Ast.ANTLR;
 using NHibernate.Linq;
 using StructureMap;
 
@@ -60,6 +61,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
             
             var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+                         orderby ordemDeTransporte.Id descending
                          select new OrdemDeTransporteListagemVm
                          {
                              Id = ordemDeTransporte.Id,
@@ -98,6 +100,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada ,
                     QuantidadeColetada = ordemDeTransporte.QuantidadeColetada ,
                     QuantidadeRealizada = ordemDeTransporte.QuantidadeRealizada,
+                    QuantidadeDeTolerancia = ordemDeTransporte.QuantidadeDeTolerancia,
                     PrecoUnitario = ordemDeTransporte.PrecoUnitario,
                     PermiteAlterar = permiteAlterar,
                     PermiteAdicionarColeta = permiteAdicionarColeta,

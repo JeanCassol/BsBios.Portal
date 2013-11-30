@@ -7,13 +7,13 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class GeradorDeEmailDeFechamentoDeProcessoDeCotacao : IGeradorDeEmailDeFechamentoDeProcessoDeCotacao
     {
-        protected readonly IGeradorDeMensagemDeEmail GeradorDeMensagemDeEmail;
-        protected readonly IEmailService EmailService;
+        private readonly IGeradorDeMensagemDeEmail _geradorDeMensagemDeEmail;
+        private readonly IEmailService _emailService;
         public GeradorDeEmailDeFechamentoDeProcessoDeCotacao(IGeradorDeMensagemDeEmail geradorDeMensagemDeEmail, 
             IEmailService emailService)
         {
-            GeradorDeMensagemDeEmail = geradorDeMensagemDeEmail;
-            EmailService = emailService;
+            _geradorDeMensagemDeEmail = geradorDeMensagemDeEmail;
+            _emailService = emailService;
         }
 
         public virtual void GerarEmail(ProcessoDeCotacao processoDeCotacao)
@@ -24,24 +24,27 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 var cotacao = fornecedorParticipante.Cotacao;
                 if (cotacao == null) continue;
                 MensagemDeEmail mensagemDeEmail = cotacao.Selecionada ? 
-                                                      GeradorDeMensagemDeEmail.FornecedoresSelecionadosNoProcessoDeCotacao(processoDeCotacao, cotacao) : 
-                                                      GeradorDeMensagemDeEmail.FornecedoresNaoSelecionadosNoProcessoDeCotacao(cotacao);
+                                                      _geradorDeMensagemDeEmail.FornecedoresSelecionadosNoProcessoDeCotacao(processoDeCotacao, cotacao) :
+                                                      _geradorDeMensagemDeEmail.FornecedoresNaoSelecionadosNoProcessoDeCotacao(processoDeCotacao);
 
-                EmailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
+                _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
             }
             
         }
     }
 
-    public class GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete:GeradorDeEmailDeFechamentoDeProcessoDeCotacao
+    public class GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete : IGeradorDeEmailDeFechamentoDeProcessoDeCotacao
     {
-        public GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete(IGeradorDeMensagemDeEmail geradorDeMensagemDeEmail, IEmailService emailService) 
-            : base(geradorDeMensagemDeEmail, emailService)
-        {
+        private readonly IGeradorDeMensagemDeEmail _geradorDeMensagemDeEmail;
+        private readonly IEmailService _emailService;
 
+        public GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete(IGeradorDeMensagemDeEmail geradorDeMensagemDeEmail, IEmailService emailService)
+        {
+            _geradorDeMensagemDeEmail = geradorDeMensagemDeEmail;
+            _emailService = emailService;
         }
 
-        public override void GerarEmail(ProcessoDeCotacao processoDeCotacao)
+        public void GerarEmail(ProcessoDeCotacao processoDeCotacao)
         {
             var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processoDeCotacao;
             Fornecedor fornecedorDaMercadoria = processoDeCotacaoDeFrete.FornecedorDaMercadoria;
@@ -51,10 +54,19 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 {
                     throw new Exception("O e-mail do fornecedor " + fornecedorDaMercadoria.Nome + " não está preenchido.");
                 }
-                MensagemDeEmail mensagemDeEmail = GeradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacaoDeFrete);
-                EmailService.Enviar(fornecedorDaMercadoria.Email, mensagemDeEmail);
+                MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AutorizacaoDeTransporte(processoDeCotacaoDeFrete);
+                _emailService.Enviar(fornecedorDaMercadoria.Email, mensagemDeEmail);
             }
-            base.GerarEmail(processoDeCotacao);
+            foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
+            {
+                var cotacao = fornecedorParticipante.Cotacao;
+                if (cotacao == null) continue;
+                MensagemDeEmail mensagemDeEmail = cotacao.Selecionada ?
+                                                      _geradorDeMensagemDeEmail.FornecedoresSelecionadosNoProcessoDeCotacaoDeFrete(processoDeCotacaoDeFrete, cotacao) :
+                                                      _geradorDeMensagemDeEmail.FornecedoresNaoSelecionadosNoProcessoDeCotacao(processoDeCotacaoDeFrete);
+
+                _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
+            }
         }
     }
 }

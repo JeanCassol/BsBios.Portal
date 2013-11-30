@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -12,7 +13,6 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Nome do Fornecedor da Mercadoria")]
         public string NomeDoFornecedorDaMercadoria{ get; set; }
         [DisplayName("Nº da Ordem de Transporte")]
-        [Range(1, int.MaxValue,ErrorMessage = "Valor inválido")]
         public int? NumeroDaOrdemDeTransporte { get; set; }
         [DisplayName("Número do Contrato")]
         public string NumeroDoContrato { get; set; }

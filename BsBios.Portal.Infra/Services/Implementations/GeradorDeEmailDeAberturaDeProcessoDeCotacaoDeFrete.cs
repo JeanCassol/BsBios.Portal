@@ -17,7 +17,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public void GerarEmail(ProcessoDeCotacao processoDeCotacao)
         {
-            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacao);
+            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processoDeCotacao;
+            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacaoDeFrete);
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresParticipantes)
             {
                 _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
@@ -27,7 +28,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public void GerarEmail(FornecedorParticipante fornecedorParticipante)
         {
-            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(fornecedorParticipante.ProcessoDeCotacao);
+            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) fornecedorParticipante.ProcessoDeCotacao;
+            MensagemDeEmail mensagemDeEmail = _geradorDeMensagemDeEmail.AberturaDoProcessoDeCotacaoDeFrete(processoDeCotacaoDeFrete);
             _emailService.Enviar(fornecedorParticipante.Fornecedor.Email, mensagemDeEmail);
         }
     }

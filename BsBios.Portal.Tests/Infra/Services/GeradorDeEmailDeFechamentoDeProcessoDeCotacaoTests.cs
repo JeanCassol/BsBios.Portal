@@ -21,7 +21,12 @@ namespace BsBios.Portal.Tests.Infra.Services
             _geradorDeMensagemDeEmailMock.Setup(
                 x => x.FornecedoresSelecionadosNoProcessoDeCotacao(It.IsAny<ProcessoDeCotacao>(), It.IsAny<Cotacao>())).Returns(new MensagemDeEmail("assunto", "conteudo"));
             _geradorDeMensagemDeEmailMock.Setup(
-                x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<Cotacao>()))
+                x =>
+                    x.FornecedoresSelecionadosNoProcessoDeCotacaoDeFrete(It.IsAny<ProcessoDeCotacaoDeFrete>(),
+                        It.IsAny<Cotacao>()))
+                .Returns(new MensagemDeEmail("assunto", "conteudo"));
+            _geradorDeMensagemDeEmailMock.Setup(
+                x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<ProcessoDeCotacao>()))
                                          .Returns(new MensagemDeEmail("assunto", "conteudo"));
 
             _geradorDeMensagemDeEmailMock.Setup(x => x.AutorizacaoDeTransporte(It.IsAny<ProcessoDeCotacaoDeFrete>()))
@@ -55,7 +60,7 @@ namespace BsBios.Portal.Tests.Infra.Services
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
             _geradorDeEmail.GerarEmail(processoDeCotacao);
             _emailServiceMock.Verify(x => x.Enviar(It.IsAny<string>(), It.IsAny<MensagemDeEmail>()), Times.Once());
-            _geradorDeMensagemDeEmailMock.Verify(x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<Cotacao>()), Times.Once());
+            _geradorDeMensagemDeEmailMock.Verify(x => x.FornecedoresNaoSelecionadosNoProcessoDeCotacao(It.IsAny<ProcessoDeCotacao>()), Times.Once());
             
         }
 
