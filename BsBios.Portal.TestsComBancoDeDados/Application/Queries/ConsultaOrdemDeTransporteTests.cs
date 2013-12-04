@@ -92,7 +92,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
 
             var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaMonitorDeOrdemDeTransporte>();
-            var filtro = new MonitorDeOrdemDeTransporteFiltroVm
+            var filtro = new MonitorDeOrdemDeTransporteConfiguracaoVm
             {
                 DataInicial = DateTime.Today.AddMonths(1).ToShortDateString(),
                 DataFinal = DateTime.Today.AddMonths(2).ToShortDateString()

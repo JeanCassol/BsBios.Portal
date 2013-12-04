@@ -52,23 +52,87 @@
         </head>
     <body>
         <div id="todaPagina">
-            <fieldset class="divFiltros">
+            @*<a class="blue" href="#">Mostrar configurações</a>*@
+            <div id="showDiv" style="height: 0.5em"></div>
+            <div id="configuracaoDoMonitor" style="background-color: #efeeef">
+                <fieldset>
+                    <legend>Configuração</legend>
+                    @Html.LinhaComUmaColuna(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"))
+                </fieldset>
                 <form id="filtrosDoMonitor">
 
-                    @Html.LinhaComTresColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>(x => x.DataInicial,"campopequeno campoDatePicker"),
-                    new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>(x => x.DataFinal, "campopequeno campoDatePicker"),
-                    new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campomedio masknumerointeiro"))
+                    <fieldset class="divFiltros">
+                        <legend>Agrupamentos</legend>
+                        <div class="linha">
+                            <div class="colunaComUmTercoDaLinha">
+                                @Html.Label("Fornecedor da Mercadoria", new { @class = "labelNaLinha" })
+                                @Html.CheckBox("FornecedorDaMercadoria")
+                            </div>
+                            <div class="colunaComUmTercoDaLinha">
+                                @Html.Label("Número do Contrato", new { @class = "labelNaLinha" })
+                                @Html.CheckBox("NumeroDoContrato")
+                            </div>
+                            <div class="colunaComUmTercoDaLinha">
+                                @Html.Label("Número da Ordem de Transporte", new { @class = "labelNaLinha" })
+                                @Html.CheckBox("NumeroDaOrdemDeTransporte")
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="coluna">
+                                @Html.Label("Município de Origem", new { @class = "labelNaLinha" })
+                                @Html.CheckBox("MunicipioDeOrigem")
+                            </div>
+                            <div class="coluna">
+                                @Html.Label("Município de Destino", new { @class = "labelNaLinha" })
+                                @Html.CheckBox("MunicipioDeDestino")
+                            </div>
+                        </div>
 
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Filtros</legend>
+                        @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                            (x => x.CodigoDoMaterial, "campopequeno"),
+                            new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                                (x => x.DescricaoDoMaterial, "campogrande"))
+                        @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                            (x => x.CodigoDoFornecedorDaMercadoria, "campopequeno"),
+                            new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                                (x => x.NomeDoFornecedorDaMercadoria, "campogrande"))
+                        @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                            (x => x.CodigoDaTransportadora, "campopequeno"),
+                            new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
+                                (x => x.NomeDaTransportadora, "campogrande"))
+
+                        <div class="linha">
+                            <div class="coluna">
+                                @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
+                                @Html.LabelFor(x => x.CodigoDoMunicipioDeOrigem)
+                                @Html.TextBox("NomeDoMunicipioDeOrigem", "", new { @class = "campogrande" })
+                            </div>
+                            <div class="coluna">
+                                @Html.HiddenFor(x => x.CodigoDoMunicipioDeDestino)
+                                @Html.LabelFor(x => x.CodigoDoMunicipioDeDestino)
+                                @Html.TextBox("NomeDoMunicipioDeDestino", "", new { @class = "campogrande" })
+                            </div>
+                        </div>
+
+
+
+                    </fieldset>
                     <div class="divBotao">
                         <button class="blue" id="btnAtualizarMateriais">Atualizar</button>
                     </div>
+
                 </form>
-            </fieldset>
+                
+            </div>
             <table class="full_table_list">
                 <thead>
                     <tr>
-                        <th class="outrasColunas">Material</th>
-                        <th class="colunaFornecedor">Transportadora</th>
+                        <th class="outrasColunas"></th>
+                        <th class="colunaFornecedor"></th>
                         <th class="outrasColunas">Liberado</th>
                         <th class="outrasColunas">Em Trânsito</th>
                         <th class="outrasColunas">Chegada Hoje</th>
@@ -86,7 +150,6 @@
                     </tr>
                 </tbody>
             </table>
-            
         </div>
 
         @Scripts.Render("~/bundles/jquery")
@@ -97,6 +160,8 @@
         <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
         @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>*@
         @Scripts.Render("~/bundles/scriptsgerais")
+        <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
+
         <script type="text/javascript">
             
             function ConfiguracaoDoMonitor() {
@@ -155,6 +220,9 @@
             var configuracaoDoMonitor = new ConfiguracaoDoMonitor();
             
             $(function () {
+                
+                criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
+                criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeDestino', '#NomeDoMunicipioDeDestino');
 
                 aplicaMascaraInteiro();
                 
@@ -168,7 +236,15 @@
                     configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
                 });
 
-                configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
+                $('#configuracaoDoMonitor').mouseleave(function() {
+                    $(this).toggle("slide", {direction:"drop"});
+                });
+
+                $('#showDiv').mouseenter(function() {
+                    $('#configuracaoDoMonitor').toggle("drop", { direction: "up" });
+                });
+
+                //configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
 
             });
         </script>

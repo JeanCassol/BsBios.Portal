@@ -21,14 +21,12 @@ namespace BsBios.Portal.UI.Controllers
         {
             return View(new MonitorOrdemDeTransporteParametroVm
             {
-                DataInicial = DateTime.Today.AddMonths(-1).ToShortDateString(),
-                DataFinal = DateTime.Today.ToShortDateString(),
                 InterValoDeAtualizacao = 15
             });
         }
 
         [HttpGet]
-        public ActionResult Listar(MonitorDeOrdemDeTransporteFiltroVm filtro)
+        public ActionResult Listar(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
         {
             try
             {

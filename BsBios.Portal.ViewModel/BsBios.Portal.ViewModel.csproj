@@ -57,7 +57,7 @@
     <Compile Include="CotacaoMaterialDadosVm.cs" />
     <Compile Include="FornecedorDoProdutoFiltro.cs" />
     <Compile Include="ItinerarioFiltroVm.cs" />
-    <Compile Include="MonitorDeOrdemDeTransporteFiltroVm.cs" />
+    <Compile Include="MonitorDeOrdemDeTransporteConfiguracaoVm.cs" />
     <Compile Include="MonitorDeOrdemDeTransporteVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="OrdemDeTransporteCadastroVm.cs" />

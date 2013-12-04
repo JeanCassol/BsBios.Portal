@@ -9,13 +9,20 @@ namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaMonitorDeOrdemDeTransporte : IConsultaMonitorDeOrdemDeTransporte
     {
-        public IList<MonitorDeOrdemDeTransporteVm> Listar(MonitorDeOrdemDeTransporteFiltroVm filtro)
+        public IList<MonitorDeOrdemDeTransporteVm> Listar(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
         {
             var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
             var session = unitOfWorkNh.Session;
             var itens = session.GetNamedQuery("MONITORDEORDEMDETRANSPORTE")
-                .SetParameter("p_dataInicial", filtro.DataInicial)
-                .SetParameter("p_dataFinal", filtro.DataFinal)
+                .SetParameter("p_agrupamentos", filtro.Agrupamentos)
+                .SetParameter("p_codigoMaterial", filtro.CodigoDoMaterial)
+                .SetParameter("p_material", filtro.DescricaoDoMaterial)
+                .SetParameter("p_codigoFornecedorDaMercadoria", filtro.CodigoDoFornecedorDaMercadoria)
+                .SetParameter("p_fornecedorDaMercadoria", filtro.NomeDoFornecedorDaMercadoria)
+                .SetParameter("p_codigoTransportadora", filtro.CodigoDaTransportadora)
+                .SetParameter("p_Transportadora", filtro.NomeDaTransportadora)
+                .SetParameter("p_codigoDoMunicipioDeOrigem", filtro.CodigoDoMunicipioDeOrigem)
+                .SetParameter("p_codigoDoMunicipioDeDestino", filtro.CodigoDoMunicipioDeDestino)
 
                 .SetResultTransformer(Transformers.AliasToBean<MonitorDeOrdemDeTransporteVm>())
                 .List<MonitorDeOrdemDeTransporteVm>();
