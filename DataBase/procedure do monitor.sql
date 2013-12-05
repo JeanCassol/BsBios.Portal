@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE testedinamico (p_cursor OUT SYS_REFCURSOR, p_agrupamentos VARCHAR2, 
+CREATE OR REPLACE PROCEDURE MONITORDEORDEMDETRANSPORTE (p_cursor OUT SYS_REFCURSOR, p_agrupamentos VARCHAR2, 
 p_codigoMaterial Produto.Codigo%type, p_material Produto.Descricao%type,
 p_codigoFornecedorDaMercadoria Fornecedor.Codigo%type, p_fornecedorDaMercadoria Fornecedor.Nome%type, 
 p_codigoTransportadora Fornecedor.Codigo%type, p_transportadora Fornecedor.Nome%type, 
@@ -7,7 +7,7 @@ p_codigoDoMunicipioDeOrigem Municipio.Codigo%type,p_codigoDoMunicipioDeDestino M
   v_query VARCHAR2(4000);
   v_subquery VARCHAR2(4000);
   v_agrupamentos VARCHAR2(4000):= 'GROUP BY Material';
-  v_projecao VARCHAR2(4000):= 'SELECT sys_guid() as "Id", Material AS "Material"';
+  v_projecao VARCHAR2(4000):= 'SELECT sys_guid() || '''' as "Id", Material AS "Material"';
   v_projecaoDaSubQuery VARCHAR2(4000):= 'SELECT p.Descricao AS Material';
   v_from VARCHAR2(4000):= 'FROM ORDEMDETRANSPORTE ot ' ||
       'inner join ProcessoCotacaoFrete pcf on ot.IDPROCESSOCOTACAOFRETE=pcf.Id inner join ProcessoCotacao pc on pcf.Id=pc.Id ' ||
@@ -31,10 +31,10 @@ BEGIN
   
   IF INSTR(p_agrupamentos, 'NumeroDoContrato') > 0 THEN
       v_projecaoDaSubQuery:= v_projecaoDaSubQuery || ', pcf.NumeroContrato';
-      v_projecao:= v_projecao || ', NumeroContrato AS "NumeroContrato"';
+      v_projecao:= v_projecao || ', NumeroContrato AS "NumeroDoContrato"';
       v_agrupamentos:= v_agrupamentos || ', NumeroContrato';
   ELSE
-      v_projecao:= v_projecao || ', NULL AS "NumeroContrato"';
+      v_projecao:= v_projecao || ', NULL AS "NumeroDoContrato"';
   END IF;
 
   IF INSTR(p_agrupamentos, 'FornecedorDaMercadoria') > 0 THEN

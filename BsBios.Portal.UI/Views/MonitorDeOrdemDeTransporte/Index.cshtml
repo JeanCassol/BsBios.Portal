@@ -11,50 +11,12 @@
     <head>
         <meta name="viewport" content="width=device-width" />
         <title>BS NET - Monitor de Ordens de Transporte</title>
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/themes/base/css")
-        @*<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />*@
-            <style type="text/css">
-
-                .full_table_list {
-                    color: white;
-                    width: 100%;
-                    border-collapse:separate
-                }
-
-                .full_table_list th {
-                    background-color: rgb(51, 51, 51);
-                    color: rgb(255, 255,255);
-                }
-
-                .full_table_list tbody tr:nth-child(even) {
-                    background-color: #A0A0A0;
-                }
-
-                .full_table_list tbody tr:nth-child(odd) {
-                    background: #707070;
-                }
-
-                .colunaFornecedor {
-                    width: 35%;
-                }
-                .outrasColunas {
-                    width: 13%
-                }
-                .colunaNumerica {
-                    text-align: right
-                }
-                .colunaTexto {
-                    text-align: left;
-                }
-            </style>
-
+        @Styles.Render("~/Content/monitor")
         </head>
     <body>
         <div id="todaPagina">
-            @*<a class="blue" href="#">Mostrar configurações</a>*@
             <div id="showDiv" style="height: 0.5em"></div>
-            <div id="configuracaoDoMonitor" style="background-color: #efeeef">
+            <div class="configuracaoDoMonitor">
                 <fieldset>
                     <legend>Configuração</legend>
                     @Html.LinhaComUmaColuna(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"))
@@ -64,30 +26,31 @@
                     <fieldset class="divFiltros">
                         <legend>Agrupamentos</legend>
                         <div class="linha">
-                            <div class="colunaComUmTercoDaLinha">
-                                @Html.Label("Fornecedor da Mercadoria", new { @class = "labelNaLinha" })
+                            <div class="coluna">
                                 @Html.CheckBox("FornecedorDaMercadoria")
+                                @Html.Label("Fornecedor da Mercadoria", new { @class = "labelDeCheckbox" })
                             </div>
-                            <div class="colunaComUmTercoDaLinha">
-                                @Html.Label("Número do Contrato", new { @class = "labelNaLinha" })
+                            <div class="coluna">
                                 @Html.CheckBox("NumeroDoContrato")
-                            </div>
-                            <div class="colunaComUmTercoDaLinha">
-                                @Html.Label("Número da Ordem de Transporte", new { @class = "labelNaLinha" })
-                                @Html.CheckBox("NumeroDaOrdemDeTransporte")
+                                @Html.Label("Número do Contrato", new { @class = "labelDeCheckbox" })
                             </div>
                         </div>
                         <div class="linha">
                             <div class="coluna">
-                                @Html.Label("Município de Origem", new { @class = "labelNaLinha" })
-                                @Html.CheckBox("MunicipioDeOrigem")
+                                @Html.CheckBox("NumeroDaOrdemDeTransporte")
+                                @Html.Label("Número da Ordem de Transporte", new { @class = "labelDeCheckbox" })
                             </div>
                             <div class="coluna">
-                                @Html.Label("Município de Destino", new { @class = "labelNaLinha" })
-                                @Html.CheckBox("MunicipioDeDestino")
+                                @Html.CheckBox("MunicipioDeOrigem")
+                                @Html.Label("Município de Origem", new { @class = "labelDeCheckbox" })
                             </div>
                         </div>
-
+                        <div class="linha">
+                            <div class="coluna">
+                                @Html.CheckBox("MunicipioDeDestino")
+                                @Html.Label("Município de Destino", new { @class = "labelDeCheckbox" })
+                            </div>
+                        </div>
                     </fieldset>
 
                     <fieldset>
@@ -123,6 +86,7 @@
                     </fieldset>
                     <div class="divBotao">
                         <button class="blue" id="btnAtualizarMateriais">Atualizar</button>
+                        <button class="blue" id="btnOcultarConfiguracao">Ocultar</button>
                     </div>
 
                 </form>
@@ -236,12 +200,18 @@
                     configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
                 });
 
-                $('#configuracaoDoMonitor').mouseleave(function() {
-                    $(this).toggle("slide", {direction:"drop"});
+
+                $('#btnOcultarConfiguracao').click(function (e) {
+                    e.preventDefault();
+                    $('.configuracaoDoMonitor').hide("drop", { direction: "up" }, "slow");
                 });
+                
+                //$('#configuracaoDoMonitor').mouseleave(function() {
+                //    $(this).toggle("slide", {direction:"drop"});
+                //});
 
                 $('#showDiv').mouseenter(function() {
-                    $('#configuracaoDoMonitor').toggle("drop", { direction: "up" });
+                    $('.configuracaoDoMonitor').show("drop", { direction: "up" }, "slow");
                 });
 
                 //configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));

@@ -3,13 +3,13 @@ using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
 {
-    public class MonitorDeOrdemDeTransporteMap: ClassMap<MonitorDeOrdemDeTransporteVm>
+    public class MonitorDeOrdemDeTransporteMap: ClassMap<MonitorDeOrdemDeTransporteListagemVm>
     {
         public MonitorDeOrdemDeTransporteMap()
         {
             Id(x => x.Id);
             Map(x => x.Material);
-            Map(x => x.NumeroDoContrato);
+            Map(x => x.NumeroDoContrato,"NumeroContrato");
             Map(x => x.FornecedorDaMercadoria);
             Map(x => x.Transportadora);
             Map(x => x.NumeroDaOrdemDeTransporte);

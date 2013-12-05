@@ -5,6 +5,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaMonitorDeOrdemDeTransporte
     {
-        IList<MonitorDeOrdemDeTransporteVm> Listar(MonitorDeOrdemDeTransporteConfiguracaoVm filtro);
+        IList<MonitorDeOrdemDeTransportePorMaterialVm> ListarPorMaterial(MonitorDeOrdemDeTransporteConfiguracaoVm filtro);
     }
 }

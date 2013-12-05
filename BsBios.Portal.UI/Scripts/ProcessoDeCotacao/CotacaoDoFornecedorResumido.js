@@ -34,7 +34,7 @@
             columns:
             [
                 {
-                    width: 460,
+                    width: 60,
                     field: "Codigo",
                     title: "Código"
                 },

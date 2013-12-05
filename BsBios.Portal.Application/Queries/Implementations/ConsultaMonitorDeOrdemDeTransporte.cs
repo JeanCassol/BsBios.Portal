@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
@@ -9,7 +10,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaMonitorDeOrdemDeTransporte : IConsultaMonitorDeOrdemDeTransporte
     {
-        public IList<MonitorDeOrdemDeTransporteVm> Listar(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
+        private IList<MonitorDeOrdemDeTransporteListagemVm> Listar(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
         {
             var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
             var session = unitOfWorkNh.Session;
@@ -20,12 +21,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .SetParameter("p_codigoFornecedorDaMercadoria", filtro.CodigoDoFornecedorDaMercadoria)
                 .SetParameter("p_fornecedorDaMercadoria", filtro.NomeDoFornecedorDaMercadoria)
                 .SetParameter("p_codigoTransportadora", filtro.CodigoDaTransportadora)
-                .SetParameter("p_Transportadora", filtro.NomeDaTransportadora)
+                .SetParameter("p_transportadora", filtro.NomeDaTransportadora)
                 .SetParameter("p_codigoDoMunicipioDeOrigem", filtro.CodigoDoMunicipioDeOrigem)
                 .SetParameter("p_codigoDoMunicipioDeDestino", filtro.CodigoDoMunicipioDeDestino)
 
-                .SetResultTransformer(Transformers.AliasToBean<MonitorDeOrdemDeTransporteVm>())
-                .List<MonitorDeOrdemDeTransporteVm>();
+                .SetResultTransformer(Transformers.AliasToBean<MonitorDeOrdemDeTransporteListagemVm>())
+                .List<MonitorDeOrdemDeTransporteListagemVm>();
 
             return itens;
         }
@@ -90,5 +91,30 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         //}
 
+        public IList<MonitorDeOrdemDeTransportePorMaterialVm> ListarPorMaterial(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
+        {
+            var listagem = Listar(filtro);
+
+            return listagem.GroupBy(l => l.Material).Select(m => new MonitorDeOrdemDeTransportePorMaterialVm
+            {
+                Material = m.Key,
+                Registros = m.Select(o => new MonitorDeOrdemDeTransporteVm
+                {
+                    FornecedorDaMercadoria = o.FornecedorDaMercadoria,
+                    NumeroDoContrato = o.NumeroDoContrato,
+                    NumeroDaOrdemDeTransporte = o.NumeroDaOrdemDeTransporte,
+                    Transportadora = o.Transportadora,
+                    MunicipioDeOrigem = o.MunicipioDeOrigem,
+                    MunicipioDeDestino = o.MunicipioDeDestino,
+                    QuantidadeLiberada = o.QuantidadeLiberada,
+                    QuantidadeRealizada = o.QuantidadeRealizada,
+                    QuantidadeEmTransito = o.QuantidadeEmTransito,
+                    PrevisaoDeChegadaNoDia = o.PrevisaoDeChegadaNoDia ,
+                    QuantidadePendente = o.QuantidadePendente ,
+                    PercentualPendente = o.PercentualPendente,
+                    PercentualProjetado = o.PercentualProjetado
+                }).ToList()
+            }).ToList();
+        }
     }
 }

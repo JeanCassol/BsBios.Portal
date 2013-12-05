@@ -280,141 +280,6 @@ article {
     display: inline;
 }
 
-/* forms */
-fieldset {
-    /*border: none;*/
-    margin: 0;
-    padding: 2px 0 1px 8px;
-    min-width: 0;
-}
-
-fieldset ol {
-    padding: 0;
-    list-style: none;
-}
-
-    fieldset ol li {
-        padding-bottom: 5px;
-    }
-
-
-label {
-    display: block;
-    /*font-size: 1em;*/
-    font-weight: 600;
-}
-
-label.checkbox {
-    display: inline;
-}
-
-textarea {
-    width: 86%;
-    font-size: 1.2em;
-}
-
-input, textarea {
-    border: 0.1em solid #e2e2e2;
-    background: #fff;
-    color: #333;
-    margin: 0.5em 0 0.5em 0;
-    padding: 0.5em;
-}
-
-input, select {
-    font-size: 1em;
-}
-
-input:focus, textarea:focus {
-    border: 1px solid #7ac0da;
-}
-
-input[type="checkbox"] {
-    background: transparent;
-    border: inherit;
-    width: auto;
-    vertical-align: middle;
-    margin-left: 3.8%;
-}
-input[type="radio"] {
-    vertical-align: middle; 
-    margin: 0.2em;    
-}
-
-.divBotao {
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-    clear: both
-}
-.divBotao input[type="submit"],
-.divBotao input[type="button"],
-.divBotao input[type="reset"],
-.divBotao button,
-.divBotao a {
-	display: inline-block;
-	outline: none;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	font: 1.2em Arial, Helvetica, sans-serif;
-	padding: .5em 1em .55em;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
-	-webkit-border-radius: .5em; 
-	-moz-border-radius: .5em;
-	border-radius: .5em;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    width: 13.75%;
-}
-    
-.divBotao a {
-    width: 50px;
-    color: #d9eef7
-}
-
-.divBotao .button:hover {
-	text-decoration: none;
-}
-.divBotao .button:active {
-	position: relative;
-	top: 1px;
-}
-
-.blue {
-	color: #d9eef7;
-	border: solid 1px #0076a3;
-	background: #0095cd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
-}
-.blue:hover {
-	background: #007ead;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-.blue:active {
-	color: #80bed6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-}
-
-.botaoGrande {
-    width: 25%!important
-}
-
-td input[type="submit"],
-td input[type="button"],
-td button {
-    font-size: 1em;
-    padding: 0.4em;
-    margin-right: 0.4em;
-}
-
 /* info and errors */
 .message-info {
     border: 1px solid;
@@ -473,45 +338,6 @@ input[type="checkbox"].input-validation-error {
     display: block;
     text-align: center;
     width:25%
-}
-.labelEsquerda {
-    text-align:left
-}
-.linha {
-    clear: both;
-}
-.coluna {
-    width: 49%;
-    display: inline-block;
-    float: left;
-}
-.colunaFiltro {
-    width: 49%;
-    display: inline-block;
-    float: left;
-}
-
-.colunaComUmTercoDaLinha {
-    width: 32%;
-    display: inline-block;
-    float: left;
-    
-}
-
-.campopequeno {
-    width: 38%;
-}
-.campomedio {
-    width: 63%;
-} 
-.campogrande, select {
-    width: 89%;
-}
-.campoextragrande {
-    width: 91%;
-}
-.campopequenogrid {
-    width: 100%;
 }
 
 .paginaCadastro {
@@ -625,13 +451,14 @@ input[type="checkbox"].input-validation-error {
 .divFiltros{
     background-color: #efeeef
 }
-.labelNaLinha {
-    display: inline;
-}
 .labelDestaque {
     color: red;
     font-weight: bold;
 }
+.labelNaLinha {
+    display: inline;
+}
+
 .mensagemErro {
     margin: 0;
 }
@@ -658,9 +485,9 @@ input[type="checkbox"].input-validation-error {
 }
 .janelaModal  {
     padding: 0 !important;
-    /*font-size: 1.2em!important;*/
+    font-size: 1.1em!important;
     background-color: #efeeef!important;
-    width: 800px;
+    width: 78%;
 }   
 
 .mensagemModal {

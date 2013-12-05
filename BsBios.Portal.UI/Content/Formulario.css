@@ -1,0 +1,112 @@
+﻿/* forms */
+fieldset {
+    margin: 0;
+    padding: 2px 0 1px 8px;
+    min-width: 0;
+}
+
+fieldset ol {
+    padding: 0;
+    list-style: none;
+}
+
+    fieldset ol li {
+        padding-bottom: 5px;
+    }
+
+
+label {
+    display: block;
+    /*font-size: 1em;*/
+    font-weight: 600;
+}
+
+label.checkbox {
+    display: inline;
+}
+
+textarea {
+    width: 86%;
+    font-size: 1.2em;
+}
+
+input, textarea {
+    border: 0.1em solid #e2e2e2;
+    background: #fff;
+    color: #333;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em;
+}
+
+input, select {
+    font-size: 1em;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #7ac0da;
+}
+
+input[type="checkbox"] {
+    background: transparent;
+    border: inherit;
+    width: auto;
+    vertical-align: middle;
+    margin-left: 3.8%;
+}
+input[type="radio"] {
+    vertical-align: middle; 
+    margin: 0.2em;    
+}
+
+td input[type="submit"],
+td input[type="button"],
+td button {
+    font-size: 1em;
+    padding: 0.4em;
+    margin-right: 0.4em;
+}
+
+.labelEsquerda {
+    text-align:left
+}
+.linha {
+    clear: both;
+}
+.coluna {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+.colunaFiltro {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+
+.colunaComUmTercoDaLinha {
+    width: 32%;
+    display: inline-block;
+    float: left;
+    
+}
+
+.campopequeno {
+    width: 38%;
+}
+.campomedio {
+    width: 63%;
+} 
+.campogrande, select {
+    width: 89%;
+}
+.campoextragrande {
+    width: 91%;
+}
+.campopequenogrid {
+    width: 90%;
+}
+.labelDeCheckbox {
+    display: inline;
+    margin-left: 0.8em;
+    vertical-align: middle;
+}

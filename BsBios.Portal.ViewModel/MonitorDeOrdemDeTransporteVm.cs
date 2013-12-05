@@ -1,9 +1,10 @@
-﻿namespace BsBios.Portal.ViewModel
+﻿using System.Collections.Generic;
+
+namespace BsBios.Portal.ViewModel
 {
+
     public class MonitorDeOrdemDeTransporteVm
     {
-        public virtual string Id { get; set; }
-        public virtual string Material { get; set; }
         public virtual string NumeroDoContrato { get; set; }
         public virtual string FornecedorDaMercadoria { get; set; }
         public virtual string Transportadora{ get; set; }
@@ -19,4 +20,18 @@
         public virtual decimal QuantidadePendente { get; set; }
 
     }
+
+    public class MonitorDeOrdemDeTransporteListagemVm: MonitorDeOrdemDeTransporteVm
+    {
+        public virtual string Id { get; set; }
+        public virtual string Material { get; set; }
+    }
+
+    public class MonitorDeOrdemDeTransportePorMaterialVm
+    {
+        public string Material { get; set; }
+        public IList<MonitorDeOrdemDeTransporteVm> Registros { get; set; }
+
+    }
+
 }

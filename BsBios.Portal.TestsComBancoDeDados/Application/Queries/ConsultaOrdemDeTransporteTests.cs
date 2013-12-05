@@ -92,18 +92,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
 
             var consultaOrdemDeTransporte = ObjectFactory.GetInstance<IConsultaMonitorDeOrdemDeTransporte>();
-            var filtro = new MonitorDeOrdemDeTransporteConfiguracaoVm
-            {
-                DataInicial = DateTime.Today.AddMonths(1).ToShortDateString(),
-                DataFinal = DateTime.Today.AddMonths(2).ToShortDateString()
-            };
-            IList<MonitorDeOrdemDeTransporteVm> dados = consultaOrdemDeTransporte.Listar(filtro);
+            var filtro = new MonitorDeOrdemDeTransporteConfiguracaoVm();
+            IList<MonitorDeOrdemDeTransportePorMaterialVm> dados = consultaOrdemDeTransporte.ListarPorMaterial(filtro);
 
             Assert.AreEqual(1, dados.Count);
 
-            MonitorDeOrdemDeTransporteVm registro = dados.Single();
+            MonitorDeOrdemDeTransportePorMaterialVm material = dados.Single();
 
-            Assert.AreEqual(9, registro.QuantidadeLiberada);
+            Assert.AreEqual(9, material.Registros.First().QuantidadeLiberada);
         }
 
         //[TestMethod]

@@ -30,7 +30,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-            IList<MonitorDeOrdemDeTransporteVm> materiais = _consulta.Listar(filtro);
+                var materiais = _consulta.ListarPorMaterial(filtro);
 
                 return Json(new {Sucesso = true, Materiais = materiais}, JsonRequestBehavior.AllowGet);
 
