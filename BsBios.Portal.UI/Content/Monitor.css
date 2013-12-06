@@ -47,3 +47,56 @@
 .mensagemErro {
     margin: 0;
 }
+.material {
+    margin-top: 0.2em;
+    background-color: #0095cd;
+    color: white;
+    font-weight: bold;
+    font-size: 1.8em;
+    padding: 0.1em 0.5em;
+}
+
+.semaforo{
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0 0;  /* equivalent to 'top left' */
+    background-size:contain;
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 1.5em;           /* make this the size of your image */
+    width: 1.5em;
+    vertical-align: middle; /* align the text vertically centered */
+    margin: 0 auto;
+}
+
+.semaforo-verde {
+    background-image: url(/images/icons/led_circle_green.png); 
+}
+
+.semaforo-amarelo {
+    background-image: url(/images/icons/led-yellow-circle-th.png); 
+}
+
+.semaforo-vermelho {
+    background-image: url(/images/icons/led_circle_red.png); 
+}
+
+.ui-autocomplete {
+    list-style-type: none;
+}
+
+.ui-autocomplete {
+    -webkit-padding-start: 0;
+}
+
+.ui-autocomplete li {
+    list-style-type: none;
+    font-size: 1.1em;
+}
+
+
+.ui-autocomplete a {
+    text-decoration: none;
+}
+
+

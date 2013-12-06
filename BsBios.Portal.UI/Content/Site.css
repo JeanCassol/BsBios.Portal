@@ -480,37 +480,6 @@ input[type="checkbox"].input-validation-error {
     background-color: lightgray !important;
     border-color: black !important;
 }
-.janelaModal .ui-dialog .ui-dialog-content {
-    padding: 0
-}
-.janelaModal  {
-    padding: 0 !important;
-    font-size: 1.1em!important;
-    background-color: #efeeef!important;
-    width: 78%;
-}   
-
-.mensagemModal {
-    font-size: 1.2em;
-}
-.ui-dialog-buttonpane {
-    margin: 0!important;
-    padding: 0!important;
-}
-.ui-button-text {
-    font-size: 1.3em!important;
-}
-.ui-dialog-title {
-    font-size: 1.8em!important;
-}
-.ui-dialog-titlebar{
-    background-color: #0095cd!important;
-    background-image: none!important;
-    color: white!important;
-    padding: 0.1em 0.5em!important;
-    font-family: 'Segoe UI', Verdana, Helvetica, sans-serif!important;
-    border: none !important;
-}  
 .ui-autocomplete {
     list-style-type: none;
 }
@@ -528,10 +497,6 @@ input[type="checkbox"].input-validation-error {
 .ui-autocomplete a {
     text-decoration: none;
 }
-.ui-dialog-buttonpane {
-    background-color: #efeeef!important;    
-}
-
 .k-grid td {
     line-height: 2.3em!important;
 }

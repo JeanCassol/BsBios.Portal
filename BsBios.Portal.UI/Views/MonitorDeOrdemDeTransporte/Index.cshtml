@@ -11,6 +11,7 @@
     <head>
         <meta name="viewport" content="width=device-width" />
         <title>BS NET - Monitor de Ordens de Transporte</title>
+        @Styles.Render("~/Content/themes/base/css")
         @Styles.Render("~/Content/monitor")
         </head>
     <body>
@@ -19,6 +20,7 @@
             <div class="configuracaoDoMonitor">
                 <fieldset>
                     <legend>Configuração</legend>
+                    <form id="formConfiguracao"></form>
                     @Html.LinhaComUmaColuna(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"))
                 </fieldset>
                 <form id="filtrosDoMonitor">
@@ -27,33 +29,37 @@
                         <legend>Agrupamentos</legend>
                         <div class="linha">
                             <div class="coluna">
-                                @Html.CheckBox("FornecedorDaMercadoria")
+                                <input type="checkbox" name="FornecedorDaMercadoria"/>
                                 @Html.Label("Fornecedor da Mercadoria", new { @class = "labelDeCheckbox" })
                             </div>
                             <div class="coluna">
-                                @Html.CheckBox("NumeroDoContrato")
+                                <input type="checkbox" name="Transportadora" />
+                                @Html.Label("Transportadora", new { @class = "labelDeCheckbox" })
+                            </div>
+                        </div>
+                        <div class="linha">
+                            <div class="coluna">
+                                <input type="checkbox" name="NumeroDoContrato" />
                                 @Html.Label("Número do Contrato", new { @class = "labelDeCheckbox" })
                             </div>
-                        </div>
-                        <div class="linha">
                             <div class="coluna">
-                                @Html.CheckBox("NumeroDaOrdemDeTransporte")
+                                <input type="checkbox" name="NumeroDaOrdemDeTransporte" />
                                 @Html.Label("Número da Ordem de Transporte", new { @class = "labelDeCheckbox" })
                             </div>
-                            <div class="coluna">
-                                @Html.CheckBox("MunicipioDeOrigem")
-                                @Html.Label("Município de Origem", new { @class = "labelDeCheckbox" })
-                            </div>
                         </div>
                         <div class="linha">
                             <div class="coluna">
-                                @Html.CheckBox("MunicipioDeDestino")
+                                <input type="checkbox" name="MunicipioDeOrigem" />
+                                @Html.Label("Município de Origem", new { @class = "labelDeCheckbox" })
+                            </div>
+                            <div class="coluna">
+                                <input type="checkbox" name="MunicipioDeDestino" />
                                 @Html.Label("Município de Destino", new { @class = "labelDeCheckbox" })
                             </div>
                         </div>
                     </fieldset>
 
-                    <fieldset>
+                    <fieldset id="fieldSetFiltros">
                         <legend>Filtros</legend>
                         @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, string>
                             (x => x.CodigoDoMaterial, "campopequeno"),
@@ -80,9 +86,6 @@
                                 @Html.TextBox("NomeDoMunicipioDeDestino", "", new { @class = "campogrande" })
                             </div>
                         </div>
-
-
-
                     </fieldset>
                     <div class="divBotao">
                         <button class="blue" id="btnAtualizarMateriais">Atualizar</button>
@@ -90,27 +93,45 @@
                     </div>
 
                 </form>
-                
+
             </div>
+            <div class="material"></div>
             <table class="full_table_list">
                 <thead>
                     <tr>
-                        <th class="outrasColunas"></th>
-                        <th class="colunaFornecedor"></th>
-                        <th class="outrasColunas">Liberado</th>
-                        <th class="outrasColunas">Em Trânsito</th>
-                        <th class="outrasColunas">Chegada Hoje</th>
-                        <th class="outrasColunas">Pendente</th>
+                        <th>Nº Contrato</th>
+                        <th>Nº Ordem</th>
+                        <th>Fornecedor</th>
+                        <th class="">Transportadora</th>
+                        <th class="">Origem</th>
+                        <th class="">Destino</th>
+                        <th class="">Liberado</th>
+                        <th class="">Realizado</th>
+                        <th class="">Em Trânsito</th>
+                        <th class="">Chegada Hoje</th>
+                        <th class="">Pendente</th>
+                        <th class="">% Pendente</th>
+                        <th class="">Semáforo</th>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach: materiais">
+                <tbody data-bind="foreach: registros">
                     <tr>
-                        <td data-bind="text: Material"></td>
-                        <td data-bind="text: Fornecedor"></td>
+                        <td data-bind="text: NumeroDoContrato"></td>
+                        <td data-bind="text: NumeroDaOrdemDeTransporte"></td>
+                        <td data-bind="text: FornecedorDaMercadoria"></td>
+                        <td data-bind="text: Transportadora"></td>
+                        <td data-bind="text: MunicipioDeOrigem"></td>
+                        <td data-bind="text: MunicipioDeDestino"></td>
+
                         <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeLiberada,'n3')"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeRealizada,'n3')"></td>
                         <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeEmTransito,'n3')"></td>
                         <td class="colunaNumerica" data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia,'n3')"></td>
                         <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadePendente, 'n3')"></td>
+                        <td class="colunaNumerica" data-bind="text: Globalize.format(PercentualPendente, 'n3')"></td>
+                        <td >
+                            <div class="semaforo" data-bind="css: ClasseDoSemaforo"></div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -128,60 +149,134 @@
 
         <script type="text/javascript">
             
+            UrlPadrao = { BuscaDeMunicipios: '@Url.Action("Buscar", "Municipio")' };
+            
             function ConfiguracaoDoMonitor() {
 
                 var me = this;
 
+                me.tempoDeAtualizacaoEmSegundos = undefined;
+
                 me.idDoIntervaloDeAtualizacao = undefined;
 
-                me.materiais = ko.observableArray([]);
+                me.monitorPorMateriais = [];
+
+                me.indiceDoMaterial = 0;
+
+                me.registros = ko.observableArray([]);
 
                 ko.applyBindings(me);
-                
-                me.atualizarMateriais = function(novosMateriais) {
-                    me.materiais().length = 0;
-                    $.each(novosMateriais, function(indice, material) {
-                        me.materiais().push(material);
+
+                me.atualizarRegistrosDoMaterial = function () {
+
+                    if (me.indiceDoMaterial === me.monitorPorMateriais.length) {
+                        if (me.indiceDoMaterial == 0) {
+                            me.registros().length = 0;
+                            me.registros.valueHasMutated();
+                            setTimeout(me.recarregarDadosDoMonitor, 60000);
+                        } else {
+                            me.recarregarDadosDoMonitor();
+                        }
+                        
+                        return;
+                    }
+
+                    var materialAtual = me.monitorPorMateriais[me.indiceDoMaterial];
+                    $('.material').text('Material: ' + materialAtual.Material);
+                    me.registros().length = 0;
+                    $.each(materialAtual.Registros, function (indice, registro) {
+                        me.registros().push(registro);
                     });
-                    me.materiais.valueHasMutated();
+                    me.registros.valueHasMutated();
+
+                    me.indiceDoMaterial++;
+
+                };
+                
+                me.atualizarMateriais = function (novosMateriais) {
+                    me.monitorPorMateriais.length = 0;
+                    me.monitorPorMateriais = novosMateriais;
+                    me.indiceDoMaterial = 0;
+                    me.atualizarRegistrosDoMaterial();
+                    atualizaVisibilidadeDasColunasDasTabelas();
+                    me.idDoIntervaloDeAtualizacao = setInterval(me.atualizarRegistrosDoMaterial, me.tempoDeAtualizacaoEmSegundos * 1000);
+
                 };
 
-                me.executarConsulta = function (interValoDeAtualizacao) {
+                me.executarConsulta = function () {
+
+                    var dados = $('#fieldSetFiltros').serializeObject();
+
+                    var agrupamentos = '';
+
+                    var checkboxes = $('.divFiltros input:checked');
+
+                    $.each(checkboxes, function(index, checkbox) {
+                        if (agrupamentos !== '') {
+                            agrupamentos += ',';
+                        }
+                        agrupamentos += $(checkbox).attr('name');
+                    });
+
+                    dados.Agrupamentos = agrupamentos;
 
                     $.ajax({
-                        url: '@Url.Action("Listar", "MonitorDeOrdemDeTransporte")' + '?DataInicial=' + $('[name=DataInicial]').val() + '&DataFinal=' + $('[name=DataFinal]').val(),
+                        url: '@Url.Action("Listar", "MonitorDeOrdemDeTransporte")',
                         type: 'GET',
                         contentType: "application/json; charset=utf-8",
-                        dataType: 'json'
+                        dataType: 'json',
+                        data: dados
                     }).done(function (data) {
                         if (data.Sucesso) {
                             me.atualizarMateriais(data.Materiais);
-                            if (interValoDeAtualizacao) {
-                                me.idDoIntervaloDeAtualizacao = setInterval(me.executarConsulta,interValoDeAtualizacao * 1000);
-                            }
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
-                        })
+                    })
                         .fail(function (jqXHR, textStatus, errorThrown) {
                             trataFalhaEmRequisicoesAjax(jqXHR);
                         });
                 };
 
 
-                me.recarregarDadosDoMonitor = function (interValoDeAtualizacao) {
+                me.recarregarDadosDoMonitor = function (tempoDeAtualizacao) {
+                    ///<param name="tempoDeAtualizacao">número de segundos que o sistema deve esperar até mostrar o novo material</param>
+                    if (tempoDeAtualizacao) {
+                        me.tempoDeAtualizacaoEmSegundos = tempoDeAtualizacao;
+                    }
                     var idDoIntervalo = me.idDoIntervaloDeAtualizacao;
                     if (idDoIntervalo) {
                         clearInterval(idDoIntervalo);
                     }
 
-                    me.executarConsulta(interValoDeAtualizacao);
+                    me.executarConsulta();
 
                 };
 
             }
 
             var configuracaoDoMonitor = new ConfiguracaoDoMonitor();
+            
+            function atualizaVisibilidadeDaColuna(indiceDaColuna, mostrar) {
+                var seletor = 'td:nth-child(' + indiceDaColuna + '),th:nth-child(' + indiceDaColuna + ')';
+                if (mostrar) {
+                    $(seletor).show();
+                } else {
+                    $(seletor).hide();
+                }
+                
+            }
+            
+            function atualizaVisibilidadeDasColunasDasTabelas() {
+                var agrupamentos = $('.divFiltros').serializeObject();
+                
+                atualizaVisibilidadeDaColuna(1, agrupamentos.NumeroDoContrato);
+                atualizaVisibilidadeDaColuna(2, agrupamentos.NumeroDaOrdemDeTransporte);
+                atualizaVisibilidadeDaColuna(3, agrupamentos.FornecedorDaMercadoria);
+                atualizaVisibilidadeDaColuna(4, agrupamentos.Transportadora);
+                atualizaVisibilidadeDaColuna(5, agrupamentos.MunicipioDeOrigem);
+                atualizaVisibilidadeDaColuna(6, agrupamentos.MunicipioDeDestino);
+            }
             
             $(function () {
                 
@@ -190,14 +285,23 @@
 
                 aplicaMascaraInteiro();
                 
-                $.validator.unobtrusive.parse(".divFiltros");
+                $.validator.unobtrusive.parse("#formConfiguracao");
 
                 $('#btnAtualizarMateriais').click(function (e) {
                     e.preventDefault();
-                    if (!$("#filtrosDoMonitor").validate().form()) {
+
+                    var interValoDeAtualizacao = parseInt($('#InterValoDeAtualizacao').val());
+                    if (isNaN(interValoDeAtualizacao)) {
+                        Mensagem.ExibirMensagemDeErro("É necessário preencher o intervalo de Atualização.");
                         return;
                     }
-                    configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
+
+                    if (!$("#formConfiguracao").validate().form()) {
+                        return;
+                    }
+
+                    configuracaoDoMonitor.recarregarDadosDoMonitor(interValoDeAtualizacao);
+                    
                 });
 
 
@@ -206,15 +310,11 @@
                     $('.configuracaoDoMonitor').hide("drop", { direction: "up" }, "slow");
                 });
                 
-                //$('#configuracaoDoMonitor').mouseleave(function() {
-                //    $(this).toggle("slide", {direction:"drop"});
-                //});
-
                 $('#showDiv').mouseenter(function() {
                     $('.configuracaoDoMonitor').show("drop", { direction: "up" }, "slow");
                 });
 
-                //configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
+                configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
 
             });
         </script>

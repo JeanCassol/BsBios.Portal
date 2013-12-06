@@ -21,7 +21,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             return View(new MonitorOrdemDeTransporteParametroVm
             {
-                InterValoDeAtualizacao = 15
+                InterValoDeAtualizacao = 60
             });
         }
 

@@ -112,7 +112,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PrevisaoDeChegadaNoDia = o.PrevisaoDeChegadaNoDia ,
                     QuantidadePendente = o.QuantidadePendente ,
                     PercentualPendente = o.PercentualPendente,
-                    PercentualProjetado = o.PercentualProjetado
+                    PercentualProjetado = o.PercentualProjetado,
                 }).ToList()
             }).ToList();
         }

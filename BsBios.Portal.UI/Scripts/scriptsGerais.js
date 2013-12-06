@@ -216,9 +216,13 @@ $.fn.serializeObject = function() {
     var inputs = $(this).find(":input");
     var object = {};
     $.each(inputs, function (index, input) {
-
-        
-        object[input.name] = $(input).val();
+        var valorDoInput;
+        if ($(input).attr('type') == 'checkbox') {
+            valorDoInput = $(input).is(':checked');
+        } else {
+            valorDoInput = $(input).val();
+        }
+        object[input.name] = valorDoInput;
     });
 
     return object;

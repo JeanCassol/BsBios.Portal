@@ -1,0 +1,32 @@
+﻿.janelaModal .ui-dialog .ui-dialog-content {
+    padding: 0
+}
+.janelaModal  {
+    padding: 0 !important;
+    font-size: 1.1em!important;
+    background-color: #efeeef!important;
+    width: 78%;
+}   
+
+.mensagemModal {
+    font-size: 1.2em;
+}
+.ui-dialog-buttonpane {
+    margin: 0!important;
+    padding: 0!important;
+    background-color: #efeeef!important;    
+}
+.ui-button-text {
+    font-size: 1.3em!important;
+}
+.ui-dialog-title {
+    font-size: 1.8em!important;
+}
+.ui-dialog-titlebar{
+    background-color: #0095cd!important;
+    background-image: none!important;
+    color: white!important;
+    padding: 0.1em 0.5em!important;
+    font-family: 'Segoe UI', Verdana, Helvetica, sans-serif!important;
+    border: none !important;
+}  

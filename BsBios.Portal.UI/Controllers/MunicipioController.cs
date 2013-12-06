@@ -4,7 +4,6 @@ using BsBios.Portal.UI.Filters;
 
 namespace BsBios.Portal.UI.Controllers
 {
-    [SecurityFilter]
     public class MunicipioController : Controller
     {
         private readonly IConsultaMunicipio _consultaMunicipio;

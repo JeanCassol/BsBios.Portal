@@ -54,7 +54,7 @@ BEGIN
   END IF;
 
   IF INSTR(p_agrupamentos, 'NumeroDaOrdemDeTransporte') > 0 THEN
-      v_projecaoDaSubQuery:= v_projecaoDaSubQuery || ', ot.Id AS NumeroDaOrdemDeTransporte';
+      v_projecaoDaSubQuery:= v_projecaoDaSubQuery || ', TO_CHAR(ot.Id)AS NumeroDaOrdemDeTransporte';
       v_projecao:=  v_projecao || ', NumeroDaOrdemDeTransporte AS "NumeroDaOrdemDeTransporte"';
       v_agrupamentos:= v_agrupamentos || ', NumeroDaOrdemDeTransporte';
   ELSE
@@ -117,12 +117,12 @@ BEGIN
   
   --filtro por municipio de origem
   IF p_codigoDoMunicipioDeOrigem IS NOT NULL THEN
-     v_where:= v_where || ' AND pcf.CodigoMunicipioOrigem = ''' || p_codigoDoMunicipioDeOrigem || '';
+     v_where:= v_where || ' AND pcf.CodigoMunicipioOrigem = ''' || p_codigoDoMunicipioDeOrigem || '''';
   END IF;
   
   --filtro por destino
   IF p_codigoDoMunicipioDeDestino IS NOT NULL THEN
-     v_where:= v_where || ' AND pcf.CodigoMunicipioDestino = ''' || p_codigoDoMunicipioDeDestino || '';
+     v_where:= v_where || ' AND pcf.CodigoMunicipioDestino = ''' || p_codigoDoMunicipioDeDestino || '''';
   
   END IF;
   
@@ -136,8 +136,8 @@ BEGIN
       
   v_projecao:= v_projecao || ', sum(QuantidadeLiberada) as "QuantidadeLiberada", ' || 
   'sum(QuantidadeRealizada) AS "QuantidadeRealizada", ' ||
-  'sum(QuantidadePendente * 100 / QuantidadeLiberada) AS "PercentualPendente", ' ||
-  'sum(SaldoProjetado * 100 / QuantidadeLiberada) As "PercentualProjetado", ' ||
+  'sum(QuantidadePendente) * 100 / sum(QuantidadeLiberada) AS "PercentualPendente", ' ||
+  'sum(SaldoProjetado) * 100 / sum(QuantidadeLiberada) As "PercentualProjetado", ' ||
   'sum(QuantidadeEmTransito) AS "QuantidadeEmTransito", ' ||
   'sum(QuantidadePendente) as "QuantidadePendente" , ' ||
   'sum(PrevisaoDeChegadaNoDia) as "PrevisaoDeChegadaNoDia" ';
@@ -151,8 +151,8 @@ BEGIN
   v_agrupamentos ||
   ' ORDER BY Material';
   
-  open p_cursor FOR v_query;
   dbms_output.put_line(v_query);
+  open p_cursor FOR v_query;
 
 END;
 /

@@ -8,7 +8,7 @@ namespace BsBios.Portal.ViewModel
         public virtual string NumeroDoContrato { get; set; }
         public virtual string FornecedorDaMercadoria { get; set; }
         public virtual string Transportadora{ get; set; }
-        public virtual int? NumeroDaOrdemDeTransporte { get; set; }
+        public virtual string NumeroDaOrdemDeTransporte { get; set; }
         public virtual string MunicipioDeOrigem { get; set; }
         public virtual string MunicipioDeDestino { get; set; }
         public virtual decimal QuantidadeLiberada { get; set; }
@@ -18,6 +18,28 @@ namespace BsBios.Portal.ViewModel
         public virtual decimal QuantidadeEmTransito { get; set; }
         public virtual decimal PrevisaoDeChegadaNoDia { get; set; }
         public virtual decimal QuantidadePendente { get; set; }
+
+        public virtual string ClasseDoSemaforo
+        {
+            get
+            {
+                string classe;
+                if (PercentualProjetado < -15)
+                {
+                    classe = "semaforo-vermelho";
+                }
+                else if (PercentualProjetado < 0)
+                {
+                    classe = "semaforo-amarelo";
+                }
+                else
+                {
+                    classe = "semaforo-verde";
+
+                }
+                return classe;
+            }
+        }
 
     }
 

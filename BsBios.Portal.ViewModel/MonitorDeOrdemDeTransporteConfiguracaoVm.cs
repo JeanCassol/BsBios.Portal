@@ -36,4 +36,15 @@ namespace BsBios.Portal.ViewModel
         [Range(1,1000000,ErrorMessage = "Intervalo deve ser um valor entre 1 e 1.000.000")]
         public int InterValoDeAtualizacao { get; set; }
     }
+
+    //public class Agrupamento
+    //{
+    //    public bool FornecedorDaMercadoria { get; set; }
+    //    public bool Transportadora { get; set; }
+    //    public bool NumeroDoContrato { get; set; }
+    //    public bool NumeroDaOrdemDeTransporte { get; set; }
+    //    public bool MunicipioDeOrigem { get; set; }
+    //    public bool MunicipioDeDestino { get; set; }
+
+    //}
 }
