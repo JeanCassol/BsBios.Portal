@@ -21,7 +21,8 @@
                 <fieldset>
                     <legend>Configuração</legend>
                     <form id="formConfiguracao"></form>
-                    @Html.LinhaComUmaColuna(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"))
+                    @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"), 
+                    new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
                 </fieldset>
                 <form id="filtrosDoMonitor">
 
@@ -143,7 +144,6 @@
         @Scripts.Render("~/bundles/globalize")
         @Scripts.Render("~/bundles/knockout")
         <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
-        @*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>*@
         @Scripts.Render("~/bundles/scriptsgerais")
         <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
 
@@ -188,7 +188,7 @@
                         me.registros().push(registro);
                     });
                     me.registros.valueHasMutated();
-
+                    atualizaVisibilidadeDasColunasDasTabelas();
                     me.indiceDoMaterial++;
 
                 };
@@ -198,7 +198,6 @@
                     me.monitorPorMateriais = novosMateriais;
                     me.indiceDoMaterial = 0;
                     me.atualizarRegistrosDoMaterial();
-                    atualizaVisibilidadeDasColunasDasTabelas();
                     me.idDoIntervaloDeAtualizacao = setInterval(me.atualizarRegistrosDoMaterial, me.tempoDeAtualizacaoEmSegundos * 1000);
 
                 };
@@ -313,6 +312,14 @@
                 $('#showDiv').mouseenter(function() {
                     $('.configuracaoDoMonitor').show("drop", { direction: "up" }, "slow");
                 });
+
+                //$(window)
+                //    .blur(function () {
+                //        console.log('Saindo da janela ' + new Date());
+                //    })
+                //    .focus(function() {
+                //        console.log('Entrando na janela' + new Date());
+                //    });
 
                 configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
 

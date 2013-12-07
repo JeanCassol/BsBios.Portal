@@ -130,14 +130,14 @@ BEGIN
       'ot.QuantidadeColetada - ot.QuantidadeRealizada AS QuantidadeEmTransito,' ||
       'ot.QuantidadeLiberada - ot.QuantidadeColetada as QuantidadePendente,' ||
       'ot.QuantidadeColetada - ot.QuantidadeLiberada * ' ||
-      '(pcf.DataValidadeFinal - pcf.DataValidadeInicial) ' ||
-      '/(pcf.DataValidadeFinal - pcf.DataValidadeInicial) AS SaldoProjetado, ' ||
-      'COALESCE((SELECT sum(c.Peso) FROM Coleta c WHERE ot.Id = c.IdOrdemTransporte AND c.DataDePrevisaoDeChegada = sysdate),0) as PrevisaoDeChegadaNoDia ';
+      '((CASE WHEN pcf.DataValidadeFinal < sysdate THEN pcf.DataValidadeFinal ELSE to_date(sysdate,''dd/mm/rrrr'') END - pcf.DataValidadeInicial) + 1) ' ||
+      '/((pcf.DataValidadeFinal - pcf.DataValidadeInicial) + 1) AS SaldoProjetado, ' ||
+      'COALESCE((SELECT sum(c.Peso) FROM Coleta c WHERE ot.Id = c.IdOrdemTransporte AND c.DataDePrevisaoDeChegada = to_date(sysdate,''dd/mm/rrrr'')),0) as PrevisaoDeChegadaNoDia ';
       
   v_projecao:= v_projecao || ', sum(QuantidadeLiberada) as "QuantidadeLiberada", ' || 
   'sum(QuantidadeRealizada) AS "QuantidadeRealizada", ' ||
-  'sum(QuantidadePendente) * 100 / sum(QuantidadeLiberada) AS "PercentualPendente", ' ||
-  'sum(SaldoProjetado) * 100 / sum(QuantidadeLiberada) As "PercentualProjetado", ' ||
+  'round(sum(QuantidadePendente) * 100 / sum(QuantidadeLiberada),3) AS "PercentualPendente", ' ||
+  'round(sum(SaldoProjetado) * 100 / sum(QuantidadeLiberada),3) As "PercentualProjetado", ' ||
   'sum(QuantidadeEmTransito) AS "QuantidadeEmTransito", ' ||
   'sum(QuantidadePendente) as "QuantidadePendente" , ' ||
   'sum(PrevisaoDeChegadaNoDia) as "PrevisaoDeChegadaNoDia" ';

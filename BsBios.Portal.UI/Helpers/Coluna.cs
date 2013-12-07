@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using Microsoft.SqlServer.Server;
 
 namespace BsBios.Portal.UI.Helpers
 {
@@ -22,7 +21,7 @@ namespace BsBios.Portal.UI.Helpers
             ExibirMensagemDeValidacao = exibirMensagemDeValidacao;
         }
 
-        public MvcHtmlString GeraLabel()
+        public virtual MvcHtmlString GeraLabel()
         {
             return System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao, string.IsNullOrEmpty(LabelClass) ? null : new { @class = LabelClass });
         }
@@ -162,6 +161,25 @@ namespace BsBios.Portal.UI.Helpers
             return System.Web.Mvc.Html.InputExtensions.CheckBoxFor(HtmlHelper,(Expression<Func<TModel, bool>>) (object)  Expressao);
         }
     }
+
+    public class ColunaVazia<TModel, TValue> : Coluna<TModel, TValue>
+    {
+        public ColunaVazia(Expression<Func<TModel, TValue>> expressao) : base(expressao, null, null, false)
+        {
+        }
+
+        public override MvcHtmlString GeraInput()
+        {
+            return new MvcHtmlString("");
+        }
+
+        public override MvcHtmlString GeraLabel()
+        {
+            return new MvcHtmlString("");
+        }
+    }
+
+
 
 
 }

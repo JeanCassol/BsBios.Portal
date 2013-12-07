@@ -480,23 +480,7 @@ input[type="checkbox"].input-validation-error {
     background-color: lightgray !important;
     border-color: black !important;
 }
-.ui-autocomplete {
-    list-style-type: none;
-}
 
-.ui-autocomplete {
-    -webkit-padding-start: 0;
-}
-
-.ui-autocomplete li {
-    list-style-type: none;
-    font-size: 1.1em;
-}
-
-
-.ui-autocomplete a {
-    text-decoration: none;
-}
 .k-grid td {
     line-height: 2.3em!important;
 }

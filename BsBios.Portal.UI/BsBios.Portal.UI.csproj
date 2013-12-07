@@ -210,6 +210,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AutoComplete.css" />
     <Content Include="Content\Botoes.css" />
     <Content Include="Content\CheckHeader.css" />
     <Content Include="Content\Formulario.css" />
