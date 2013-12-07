@@ -104,7 +104,7 @@ h5 a:link, h5 a:visited, h5 a:active {
 }
 
 #body {
-    margin-left: 1%;
+    margin-left: 0.5%;
     width: 78%;
 }
 
@@ -143,26 +143,30 @@ footer {
 /* menu
 ----------------------------------------------------------*/
 #menuprincipal {
-    width: 21%;
+    width: 21.5%;
     padding: 0 0 0 0;
     margin-bottom: 1em;
-    font-size: 1.4em;
+    font-size: 1.35em;
     font-weight: normal;
     font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
     background-color: #6898d0;
     color: #333;
+    /*border-top: 0.2em solid #90bade;
+    border-bottom: 0.1em solid #90bade;*/
 }
 #menuprincipal ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    border: none;
+    /*border: none;
+    border-top: 1px solid #90bade;
+    border-bottom: 1px solid #90bade;*/
     font-weight: bold;
 }		
 #menuprincipal li {
-    border-top: 1px solid #90bade;
+    /*border-top: 1px solid #90bade;
     border-bottom: 1px solid #90bade;
-    border-collapse: collapse;
+    border-collapse: collapse;*/
     margin: 0;
     width: auto;
     font-weight: normal
@@ -182,6 +186,11 @@ footer {
     border-right: 5px solid #800000;*/
     background-color: #FF7C3E;
     color: #fff;
+}
+
+#menu > li {
+    font-weight: bold;
+    padding-left: 0.3em;
 }
 
 /* page elements
