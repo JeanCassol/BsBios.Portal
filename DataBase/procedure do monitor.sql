@@ -151,7 +151,7 @@ BEGIN
   v_agrupamentos ||
   ' ORDER BY Material';
   
-  dbms_output.put_line(v_query);
+  --dbms_output.put_line(v_query);
   open p_cursor FOR v_query;
 
 END;

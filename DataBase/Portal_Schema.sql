@@ -1282,9 +1282,9 @@ BEGIN
       'ot.QuantidadeColetada - ot.QuantidadeRealizada AS QuantidadeEmTransito,' ||
       'ot.QuantidadeLiberada - ot.QuantidadeColetada as QuantidadePendente,' ||
       'ot.QuantidadeColetada - ot.QuantidadeLiberada * ' ||
-      '(pcf.DataValidadeFinal - pcf.DataValidadeInicial) ' ||
-      '/(pcf.DataValidadeFinal - pcf.DataValidadeInicial) AS SaldoProjetado, ' ||
-      'COALESCE((SELECT sum(c.Peso) FROM Coleta c WHERE ot.Id = c.IdOrdemTransporte AND c.DataDePrevisaoDeChegada = sysdate),0) as PrevisaoDeChegadaNoDia ';
+      '((CASE WHEN pcf.DataValidadeFinal < sysdate THEN pcf.DataValidadeFinal ELSE to_date(sysdate,''dd/mm/rrrr'') END - pcf.DataValidadeInicial) + 1) ' ||
+      '/((pcf.DataValidadeFinal - pcf.DataValidadeInicial) + 1) AS SaldoProjetado, ' ||
+      'COALESCE((SELECT sum(c.Peso) FROM Coleta c WHERE ot.Id = c.IdOrdemTransporte AND c.DataDePrevisaoDeChegada = to_date(sysdate,''dd/mm/rrrr'')),0) as PrevisaoDeChegadaNoDia ';
       
   v_projecao:= v_projecao || ', sum(QuantidadeLiberada) as "QuantidadeLiberada", ' || 
   'sum(QuantidadeRealizada) AS "QuantidadeRealizada", ' ||
@@ -1303,7 +1303,7 @@ BEGIN
   v_agrupamentos ||
   ' ORDER BY Material';
   
-  dbms_output.put_line(v_query);
+  --dbms_output.put_line(v_query);
   open p_cursor FOR v_query;
 
 END;
