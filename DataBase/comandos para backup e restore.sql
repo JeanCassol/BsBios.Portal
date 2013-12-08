@@ -16,6 +16,7 @@ expdp bsbios/fusion123 schemas=bsbios directory=dmp_dir dumpfile=bsbios_20131119
 --COMANDOS PARA EXECUTAR NO SERVIDOR ONDE SERÁ FEITO RESTORE
 
 --comandos para executar com usuário sys no sqlplus
+conn sys/fusion123 as sysdba;
 drop user bsbios CASCADE;
 create user bsbios identified by fusion123 
 DEFAULT TABLESPACE users 
