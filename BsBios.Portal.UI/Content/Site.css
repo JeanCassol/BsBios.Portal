@@ -8,12 +8,6 @@
     max-width: 1024px
 }
 
-@media only screen and (max-width: 640px) {  
-   body {
-    font-size:45%;
-   }
- }  
-
 a {
     color: #333;
     outline: none;
@@ -144,7 +138,7 @@ footer {
 ----------------------------------------------------------*/
 #menuprincipal {
     width: 21.5%;
-    padding: 0 0 0 0;
+    padding: 0;
     margin-bottom: 1em;
     font-size: 1.35em;
     font-weight: normal;
@@ -163,29 +157,13 @@ footer {
     border-bottom: 1px solid #90bade;*/
     font-weight: bold;
 }		
-#menuprincipal li {
+#menu li {
     /*border-top: 1px solid #90bade;
     border-bottom: 1px solid #90bade;
     border-collapse: collapse;*/
     margin: 0;
-    width: auto;
+    /*width: auto;*/
     font-weight: normal
-}
-#menuprincipal li a {
-    display: block;
-    padding: 0.3em 0 0.3em 1em;
-    /*border-left: 5px solid #8AA1B6;
-    border-right: 5px solid #8AA1B6;*/
-    background-color: #6898d0;
-    color: #fff;
-    text-decoration: none;
-    width: auto;
-}
-#menuprincipal li a:hover {
-    /*border-left: 5px solid #800000;
-    border-right: 5px solid #800000;*/
-    background-color: #FF7C3E;
-    color: #fff;
 }
 
 #menu > li {
@@ -193,31 +171,91 @@ footer {
     padding-left: 0.3em;
 }
 
-/* page elements
-----------------------------------------------------------*/
-/* featured */
-.featured {
-    background-color: #fff;
+#menu li a {
+    display: block;
+    padding: 0.3em 0 0.3em 1em;
+    /*border-left: 5px solid #8AA1B6;
+    border-right: 5px solid #8AA1B6;*/
+    background-color: #6898d0;
+    color: #fff;
+    text-decoration: none;
+}
+#menu li a:hover {
+    /*border-left: 5px solid #800000;
+    border-right: 5px solid #800000;*/
+    background-color: #FF7C3E;
+    color: #fff;
 }
 
-    .featured .content-wrapper {
-        background-color: #7ac0da;
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
-        padding: 20px 40px 30px 40px;
+@media only screen and (max-width: 1023px) {  
+   #body {
+       width: 99.8%;
+       margin-left: 0.2%;
+   }
+   #menuprincipal {
+       width: 99.8%;
+       margin-bottom: 0.5em;
+       margin-left: 0.2%;
+   }
+
+   #menu {
+       float: left;
+   }
+
+   #menu li {
+       position: relative;
+       float: left;
+   }
+
+   #menu >  li {
+       font-size: 1em;
+       padding: 0 0.3em 0 0.3em ;
+   }
+
+   #menu > li:hover {
+       cursor: pointer;
+   }
+
+   #menu li ul {
+       display: none;
+       position:absolute;
+       top: 1.2em;
+   }
+
+    #menu > li:hover ul {
+        display: block
     }
 
-        .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
-        }
+   #menu li ul li {
+       display: block;
+       width: 20em;
+   }
 
-        .featured p {
-            font-size: 1.1em;
-        }
+    #menuprincipal li a{
+        padding-right: 1em;
+    }
+
+ }
+
+@media only screen and (max-width:799px) {
+    body {
+        font-size: 50%;
+    }
+    #menu li {
+        font-size: 1.2em;
+    }
+    #menu li a {
+        font-size: 0.9em;
+    }
+
+}
+
+@media only screen and (max-width:640px) {
+    body {
+    font-size:45%;
+   }
+}
+
 
 /* page titles */
 hgroup.title {
