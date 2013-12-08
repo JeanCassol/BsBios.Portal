@@ -104,7 +104,6 @@
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete)
         })
-    <div id="divSelecionarItinerario" class="janelaModal"></div>
 </div>
 
 @section Scripts {
@@ -117,7 +116,8 @@
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
-<script src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
+    <script src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
+    <script src="@Url.Content("~/Scripts/Shared/SelecionarItinerario.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
 
     <script type="text/javascript">
@@ -135,55 +135,11 @@
             
             SelecionarFornecedor.Configurar("#CodigoDoDeposito", "#Deposito", "divSelecionarDeposito", "#btnSelecionarDeposito");
 
-            $('#divSelecionarProduto').customDialog({
-                title: 'Selecionar Produto',
-                buttons: {
-                    "Confirmar": function() {
-                        if (produtoSelecionado == null) {
-                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Produto.");
-                            return;
-                        }
-                        $('#CodigoMaterial').val(produtoSelecionado.Codigo);
-                        $('#DescricaoMaterial').val(unescape(produtoSelecionado.Descricao));
-                        $(this).dialog("close");
-                    },
-                    "Cancelar": function() {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
-            $('#divSelecionarItinerario').customDialog({
-                title: 'Selecionar Itinerário',
-                buttons: {
-                    "Confirmar": function() {
-                        if (itinerarioSelecionado == null) {
-                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Itinerário.");
-                            return;
-                        }
-                        $('#CodigoItinerario').val(itinerarioSelecionado.Codigo);
-                        $('#DescricaoItinerario').val(unescape(itinerarioSelecionado.Descricao));
-                        $(this).dialog("close");
-
-                    },
-                    "Cancelar": function() {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
-            @*$('#btnSelecionarProduto').click(function() {
-                $('#divSelecionarProduto').customLoad('@Url.Action("SelecionarProduto")'
-                    + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val()));
-            });*@
-
             var selecionarProduto = new SelecionarProduto();
-            selecionarProduto.configurar('#CodigoMaterial', '#DescricaoMaterial', 'divSelecionarProduto','#btnSelecionarProduto');
+            selecionarProduto.configurar('#CodigoMaterial', '#DescricaoMaterial', 'divSelecionarProduto', '#btnSelecionarProduto');
 
-            $('#btnSelecionarItinerario').click(function() {
-                $('#divSelecionarItinerario').customLoad('@Url.Action("SelecionarItinerario")'
-                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val()));
-            });
+            var selecionarItinerario = new SelecionarItinerario();
+            selecionarItinerario.configurar('#CodigoItinerario', "#DescricaoItinerario", 'divSelecionarItinerario', '#btnSelecionarItinerario');
 
             criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
             criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeDestino', '#NomeDoMunicipioDeDestino');

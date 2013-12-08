@@ -12,113 +12,26 @@
 <div id="divFiltros" class="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="colunaFiltroPequena">
-            @Html.Label("Código")
-            @Html.TextBox("CodigoFiltro","", new{@class="campopequeno"})
-        </div>
-        <div class="colunaFiltroPequena">
-            @Html.Label("Local 1")
-            @Html.TextBox("Local1","", new{@class="campomedio"})
-        </div>
-        <div class="colunaFiltroPequena">
-            @Html.Label("Local 2")
-            @Html.TextBox("Local2","", new{@class="campomedio"})
-        </div>
-        <div class="divBotao">
-            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-        </div>
+        <form>
+            <div class="colunaFiltroPequena">
+                @Html.Label("Código")
+                @Html.TextBox("CodigoFiltro", "", new { @class = "campopequeno" })
+            </div>
+            <div class="colunaFiltroPequena">
+                @Html.Label("Local 1")
+                @Html.TextBox("Local1", "", new { @class = "campomedio" })
+            </div>
+            <div class="colunaFiltroPequena">
+                @Html.Label("Local 2")
+                @Html.TextBox("Local2", "", new { @class = "campomedio" })
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue" />
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue" />
+            </div>
+        </form>
+
     </fieldset>
 </div>
 <div id="gridItinerarios" class="divGrid"></div>
-
-<script>
-    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
-    {
-        @: var itinerarioSelecionado = { Codigo: '@Model.Codigo', Descricao: '@Model.Descricao' };
-    }
-    else
-    {
-        @: var itinerarioSelecionado = null;
-    }
-    $(document).ready(function () {
-        $("#gridItinerarios").customKendoGrid({
-            dataSource: {
-                schema: {
-                    data: 'Registros',
-                    model: {
-                        fields: {
-                            Descricao: {type: "string"},
-                            Codigo: { type: "string" }
-                        }
-                    },
-                    total: 'QuantidadeDeRegistros'
-                },
-                serverFiltering: true,
-                serverPaging: true,
-                transport: {
-                    read: {
-                        url: '@Url.Action("Listar", "Itinerario")',
-                        type: 'GET',
-                        cache: false,
-                        data: function() {
-                            return {
-                                Codigo: $('#CodigoFiltro').val(),
-                                Local1: $('#Local1').val(),
-                                Local2: $('#Local2').val()
-                            };
-                        }
-                    }
-                },
-                pageSize: 10
-            },
-            dataBound: function (e) {
-                if (itinerarioSelecionado != null) {
-                    $('input[name=radioItinerario][data-codigoitinerario="' + itinerarioSelecionado.Codigo + '"]').attr('checked', true);
-                }
-            },
-
-            columns:
-            [
-                {
-                    field: 'Codigo',
-                    title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 30,
-                    sortable: false,
-                    template: '<input type="radio" name="radioItinerario" data-codigoitinerario="${Codigo}"></input>'
-                },
-                {
-                    width: 170,
-                    field: "Codigo",
-                    title: "Código"
-                },
-                {
-                    field: "Descricao",
-                    width: 300,
-                    title: "Descrição"
-                }
-            ]
-        });
-
-        //$('#btnPesquisar').click(function() {
-        //    $("#gridItinerarios").data("kendoGrid").dataSource.read();
-        //});
-
-        $('#btnLimpar').click(function() {
-            $('#divFiltros input[type!=button]').val('');
-        });
-
-        $('#gridItinerarios').find('input[name=radioItinerario]').die("change");
-        $('#gridItinerarios').find('input[name=radioItinerario]').live("change", function () {
-            if (!$(this).is(':checked')) {
-                return;
-            }
-            var grid = $('#gridItinerarios').data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            itinerarioSelecionado = { Codigo: dataItem.Codigo, Descricao: dataItem.Descricao};
-
-        });
-
-    });
-</script>
 
