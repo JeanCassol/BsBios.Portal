@@ -104,7 +104,6 @@
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete)
         })
-    <div id="divSelecionarProduto" class="janelaModal"></div>
     <div id="divSelecionarItinerario" class="janelaModal"></div>
 </div>
 
@@ -118,6 +117,7 @@
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
+<script src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/autoCompleteDeMunicipio.js")"></script>
 
     <script type="text/javascript">
@@ -172,10 +172,13 @@
                 }
             });
 
-            $('#btnSelecionarProduto').click(function() {
+            @*$('#btnSelecionarProduto').click(function() {
                 $('#divSelecionarProduto').customLoad('@Url.Action("SelecionarProduto")'
                     + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val()));
-            });
+            });*@
+
+            var selecionarProduto = new SelecionarProduto();
+            selecionarProduto.configurar('#CodigoMaterial', '#DescricaoMaterial', 'divSelecionarProduto','#btnSelecionarProduto');
 
             $('#btnSelecionarItinerario').click(function() {
                 $('#divSelecionarItinerario').customLoad('@Url.Action("SelecionarItinerario")'

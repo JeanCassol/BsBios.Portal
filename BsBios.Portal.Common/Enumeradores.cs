@@ -86,5 +86,12 @@ namespace BsBios.Portal.Common
             PlanejadoVersusRealizadoPorData = 4
         }
 
+        public enum RelatorioDeProcessosDeCotacaoDeFrete
+        {
+            Analitico,
+            SinteticoComSoma,
+            SinteticoComMedia
+        }
+
     }
 }

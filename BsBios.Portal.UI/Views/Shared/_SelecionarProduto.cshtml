@@ -18,117 +18,27 @@
 <div id="divFiltros" class="divFiltros">
     <fieldset>
         <legend>Filtros</legend>
-        <div class="colunaFiltroGrande">
-            @Html.Label("Código")
-            @Html.TextBox("CodigoFiltro","", new{@class="campomedio"})
-        </div>
-        <div class="colunaFiltroGrande">
-            @Html.Label("Descrição")
-            @Html.TextBox("DescricaoFiltro","", new{@class="campomedio"})
-        </div>
-        <div class="colunaFiltroPequena">
-            @Html.Label("Tipo")
-            @Html.TextBox("TipoFiltro","", new{@class="campopequeno"})
-        </div>
-        <div class="divBotao">
-            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-            <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-        </div>
+        <form id="filtrosDoProduto">
+            <div class="colunaFiltroGrande">
+                @Html.Label("Código")
+                @Html.TextBox("CodigoFiltro", "", new { @class = "campomedio" })
+            </div>
+            <div class="colunaFiltroGrande">
+                @Html.Label("Descrição")
+                @Html.TextBox("DescricaoFiltro", "", new { @class = "campomedio" })
+            </div>
+            <div class="colunaFiltroPequena">
+                @Html.Label("Tipo")
+                @Html.TextBox("TipoFiltro", "", new { @class = "campopequeno" })
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="button" value="Pesquisar" class="blue" />
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue" />
+            </div>
+        </form>
+
     </fieldset>
 </div>
 <div id="gridProdutos" class="divGrid"></div>
 
-<script>
-    @if (Model != null && !string.IsNullOrEmpty(Model.Codigo) && !string.IsNullOrEmpty(Model.Descricao))
-    {
-        @: var produtoSelecionado = { Codigo: '@Model.Codigo', Descricao:'@Model.Descricao' };
-    }
-    else
-    {
-        @: var produtoSelecionado = null;
-    }
-    $(document).ready(function() {
-        $("#gridProdutos").customKendoGrid({
-            dataSource: {
-                schema: {
-                    data: 'Registros',
-                    model: {
-                        fields: {
-                            Descricao: {type: "string"},
-                            Codigo: { type: "string" },
-                            Tipo: { type: "string" }
-                        }
-                    },
-                    total: 'QuantidadeDeRegistros'
-                },
-                serverFiltering: true,
-                serverPaging: true,
-                transport: {
-                    read: {
-                        url: '@Url.Action("Listar", "Produto")',
-                        type: 'GET',
-                        cache: false,
-                        data: function() {
-                            return {
-                                Codigo: $('#CodigoFiltro').val(),
-                                Descricao: $('#DescricaoFiltro').val(),
-                                Tipo: $('#TipoFiltro').val()
-                            };
-                        }
-                    }
-                },
-                pageSize: 10
-            },
-            dataBound: function (e) {
-                if (produtoSelecionado != null) {
-                    $('input[name=radioProduto][data-codigoproduto=' + produtoSelecionado.Codigo + ']').attr('checked', true);
-                }
-            },
-            columns:
-            [
-                {
-                    field: 'Codigo',
-                    title: ' ', /*coloco um espaço para deixar o header sem título*/
-                    width: 30,
-                    sortable: false,
-                    template: '<input type="radio" name="radioProduto" data-codigoproduto="${Codigo}"></input>'
-                },
-                {
-                    width: 170,
-                    field: "Codigo",
-                    title: "Código"
-                },
-                {
-                    field: "Descricao",
-                    width: 300,
-                    title: "Descrição"
-                },
-                {
-                    field: "Tipo",
-                    width: 60
-                }
-            ]
-        });
-
-        //$('#btnPesquisar').click(function() {
-        //    $("#gridProdutos").data("kendoGrid").dataSource.read();
-        //});
-
-        $('#btnLimpar').click(function() {
-            $('#divFiltros input[type!=button]').val('');
-        });
-
-        $('#gridProdutos').find('input[name=radioProduto]').die("change");
-        $('#gridProdutos').find('input[name=radioProduto]').live("change", function () {
-            if (!$(this).is(':checked')) {
-                return;
-            }
-            var grid = $('#gridProdutos').data("kendoGrid");
-            var dataItem = grid.dataItem(grid.select());
-            produtoSelecionado = { Codigo: dataItem.Codigo, Descricao: dataItem.Descricao};
-
-        });
-
-    });
-</script>
 

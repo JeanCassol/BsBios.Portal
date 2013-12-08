@@ -64,6 +64,7 @@
     <Compile Include="ColetaListagemVm.cs" />
     <Compile Include="OrdemDeTransporteListagemFiltroVm.cs" />
     <Compile Include="OrdemDeTransporteListagemVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteBaseVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="QuotaSalvarVm.cs" />
     <Compile Include="RealizacaoDeAgendamentoVm.cs" />
     <Compile Include="RelatorioAgendamentoFiltroVm.cs" />
+    <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm.cs" />
+    <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteFiltroVm.cs" />
     <Compile Include="StatusProcessoCotacaoVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
     <Compile Include="CotacaoFreteCadastroVm.cs" />

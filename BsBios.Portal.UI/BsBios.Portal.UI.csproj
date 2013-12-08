@@ -419,6 +419,7 @@
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
     <Content Include="Scripts\Shared\autoCompleteDeMunicipio.js" />
+    <Content Include="Scripts\Shared\SelecionarProduto.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -483,6 +484,8 @@
     <Content Include="Views\OrdemDeTransporte\Coleta.cshtml" />
     <Content Include="Views\Shared\_CabecalhoDoProcessoDeCotacaoDeFrete.cshtml" />
     <Content Include="Views\MonitorDeOrdemDeTransporte\Index.cshtml" />
+    <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFrete\Relatorio.cshtml" />
+    <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFrete\_Filtro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

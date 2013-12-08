@@ -1,27 +1,23 @@
 ﻿@using BsBios.Portal.Common
 @using BsBios.Portal.ViewModel
 @{
-    ViewBag.TituloDaPagina = "Relatórios de Agendamento";
+    ViewBag.TituloDaPagina = "Relatórios de Processo de Cotação de Frete";
 }
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <fieldset>
     <legend>Relatório</legend>
     <div class="linha">
-        @Html.RadioButton("RelatorioDeAgendamento", (int) Enumeradores.RelatorioDeAgendamento.ListagemDeQuotas,true)
-        @Html.Label("Listagem de Quotas", new{@class="labelNaLinha"})
+        @Html.RadioButton("RelatorioDeProcessoDeCotacaoDeFrete", (int) Enumeradores.RelatorioDeProcessosDeCotacaoDeFrete.Analitico,true)
+        @Html.Label("Analítico", new{@class="labelNaLinha"})
     </div>
     <div class="linha">
-        @Html.RadioButton("RelatorioDeAgendamento",(int)  Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos)
-        @Html.Label("Listagem de Agendamentos", new{@class="labelNaLinha"})
+        @Html.RadioButton("RelatorioDeProcessoDeCotacaoDeFrete", (int)Enumeradores.RelatorioDeProcessosDeCotacaoDeFrete.SinteticoComSoma)
+        @Html.Label("Sintético com Soma", new{@class="labelNaLinha"})
     </div>
     <div class="linha">
-        @Html.RadioButton("RelatorioDeAgendamento", (int)  Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizado)
-        @Html.Label("Planejado x Realizado",new{@class="labelNaLinha"})
-    </div>
-    <div class="linha">
-        @Html.RadioButton("RelatorioDeAgendamento", (int)  Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizadoPorData)
-        @Html.Label("Planejado x Realizado por Data",new{@class="labelNaLinha"})
+        @Html.RadioButton("RelatorioDeProcessoDeCotacaoDeFrete", (int)Enumeradores.RelatorioDeProcessosDeCotacaoDeFrete.SinteticoComMedia)
+        @Html.Label("Sintético com Média",new{@class="labelNaLinha"})
     </div>
 
 </fieldset>
@@ -43,19 +39,13 @@
     <script type="text/javascript">
         $(function () {
             aplicaMascaraData();
-            aplicaMascaraPlaca();
-            SelecionarFornecedor.Configurar("#CodigoFornecedor", "#Fornecedor", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
+            SelecionarFornecedor.Configurar("#CodigoDoFornecedorDaMercadoria", "#NomeDoFornecedorDaMercadoria", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
+            SelecionarFornecedor.Configurar("#CodigoDaTransportadora", "#NomeDaTransportadora", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
                 window.open('@Url.Action("GerarRelatorio","RelatorioAgendamentoVisualizacao")' + '/?' + $('form').serialize() +
                     '&RelatorioDeAgendamento=' + $('input[name=RelatorioDeAgendamento]:checked').val());
-            });
-            $('input[name=RelatorioDeAgendamento]').change(function () {
-                if ($(this).val() == '@((int)Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos)') {
-                    $('#divPlaca').show();
-                } else {
-                    $('#divPlaca').hide();
-                }
             });
         })
     </script>
