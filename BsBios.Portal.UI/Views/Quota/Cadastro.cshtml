@@ -99,7 +99,8 @@
         $(function() {
             aplicaMascaraData();
             aplicaMascaraQuantidade();
-            SelecionarFornecedor.Configurar("#CodigoFornecedor","#Fornecedor","divSelecionarFornecedor", "#btnSelecionarFornecedor");
+            var selecionarFornecedor = new SelecionarFornecedor();
+            selecionarFornecedor.configurar("#CodigoFornecedor","#Fornecedor","divSelecionarFornecedor", "#btnSelecionarFornecedor");
 
             $('#btnCancelarEdicao').hide();
             $('#Material').change(function() {

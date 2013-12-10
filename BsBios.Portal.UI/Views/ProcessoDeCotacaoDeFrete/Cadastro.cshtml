@@ -130,10 +130,12 @@
             aplicaMascaraQuantidade();
             aplicaMascaraNumeroContrato();
             aplicaMascaraInteiro();
-            
-            SelecionarFornecedor.Configurar("#CodigoDoFornecedorDaMercadoria", "#FornecedorDaMercadoria","divSelecionarFornecedor", "#btnSelecionarFornecedor");
-            
-            SelecionarFornecedor.Configurar("#CodigoDoDeposito", "#Deposito", "divSelecionarDeposito", "#btnSelecionarDeposito");
+
+            var selecionarFornecedorDaMercadoria = new SelecionarFornecedor();
+            selecionarFornecedorDaMercadoria.configurar("#CodigoDoFornecedorDaMercadoria", "#FornecedorDaMercadoria","divSelecionarFornecedor", "#btnSelecionarFornecedor");
+
+            var selecionarDeposito = new SelecionarFornecedor();
+            selecionarDeposito.configurar("#CodigoDoDeposito", "#Deposito", "divSelecionarDeposito", "#btnSelecionarDeposito");
 
             var selecionarProduto = new SelecionarProduto();
             selecionarProduto.configurar('#CodigoMaterial', '#DescricaoMaterial', 'divSelecionarProduto', '#btnSelecionarProduto');

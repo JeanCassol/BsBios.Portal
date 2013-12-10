@@ -43,11 +43,12 @@
         @Scripts.Render("~/bundles/scriptsgerais")
         <script type="text/javascript">
             UrlPadrao.SelecionarFornecedor = '@Url.Action("Selecionar","SelecionarFornecedor")';
+            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoDeCotacaoDeMaterial")';
+            UrlPadrao.ListarFornecedor = '@Url.Action("Listar", "Fornecedor")';
             UrlPadrao.CotacaoResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoDeCotacaoDeMaterial")';
             UrlPadrao.EnviarEmail = '@Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")';
             UrlPadrao.AtualizarFornecedoresDoProcessoDeCotacao = '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")';
             UrlPadrao.VerificarQuantidadeAdquiridaNoProcessoDeCotacao = '@Url.Action("VerificarQuantidadeAdquirida","ProcessoDeCotacaoService")';
-            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoDeCotacaoDeMaterial")';
             
             UrlPadrao.SelecionarCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar")';
             UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterial")';
@@ -63,7 +64,6 @@
             UrlPadrao.ListarProdutos = '@Url.Action("Listar", "Produto")';
             UrlPadrao.SelecionarItinerario = '@Url.Action("SelecionarItinerario", "ProcessoDeCotacaoDeFrete")';
             UrlPadrao.ListarItinerario = '@Url.Action("Listar", "Itinerario")';
-            
             
             TipoDeCotacao.Material = '@((int) Enumeradores.TipoDeCotacao.Material)';
             TipoDeCotacao.Frete = '@((int) Enumeradores.TipoDeCotacao.Frete)';

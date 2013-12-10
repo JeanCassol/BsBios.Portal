@@ -39,8 +39,11 @@
     <script type="text/javascript">
         $(function () {
             aplicaMascaraData();
-            SelecionarFornecedor.Configurar("#CodigoDoFornecedorDaMercadoria", "#NomeDoFornecedorDaMercadoria", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
-            SelecionarFornecedor.Configurar("#CodigoDaTransportadora", "#NomeDaTransportadora", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+            var selecionarFornecedorDaMercadoria = new SelecionarFornecedor();
+            selecionarFornecedorDaMercadoria.configurar("#CodigoDoFornecedorDaMercadoria", "#NomeDoFornecedorDaMercadoria", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
+
+            var selecionarTransportadora = new SelecionarFornecedor();
+            selecionarTransportadora.configurar("#CodigoDaTransportadora", "#NomeDaTransportadora", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
 
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
