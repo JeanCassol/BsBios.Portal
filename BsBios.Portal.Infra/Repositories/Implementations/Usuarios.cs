@@ -31,7 +31,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             if (!string.IsNullOrEmpty(login))
             {
-                Query = Query.Where(x => x.Login.ToLower() == login.ToLower());
+                Query = Query.Where(x => x.Login.ToLower().Contains(login.ToLower()));
             }
 
             return this;

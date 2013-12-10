@@ -107,7 +107,7 @@
             var codigoDoProduto = $(idDoCampoDoCodigoDoProduto).val();
             var descricaoDoProduto = escape($(idDoCampoDoNomeDoProduto).val());
 
-            if (codigoDoProduto && descricaoDoProduto) {
+            if (codigoDoProduto) {
                 me.produtoSelecionado = {
                     Codigo: codigoDoProduto,
                     Descricao: descricaoDoProduto

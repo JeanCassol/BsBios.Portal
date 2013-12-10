@@ -106,7 +106,10 @@
                         return;
                     }
                     $(idDoCampoDoCodigoDoFornecedor).val(me.fornecedorSelecionado.Codigo);
-                    $(idDoCampoDoNomeDoFornecedor).val(unescape(me.fornecedorSelecionado.Nome));
+                    if (idDoCampoDoNomeDoFornecedor) {
+                        $(idDoCampoDoNomeDoFornecedor).val(unescape(me.fornecedorSelecionado.Nome));
+                    }
+                    
                     me.fornecedorSelecionado = null;
                     $(this).dialog("close");
                 },
@@ -118,9 +121,13 @@
         $(idDoBotaoDeSelecaoDoFornecedor).click(function () {
             
             var codigoDoFornecedor = $(idDoCampoDoCodigoDoFornecedor).val();
-            var nomeDoFornecedor = escape($(idDoCampoDoNomeDoFornecedor).val());
+            var nomeDoFornecedor = '';
 
-            if (codigoDoFornecedor && nomeDoFornecedor) {
+            if (idDoCampoDoNomeDoFornecedor) {
+                nomeDoFornecedor = escape($(idDoCampoDoNomeDoFornecedor).val());
+            }
+
+            if (codigoDoFornecedor) {
                 me.fornecedorSelecionado = {
                     Codigo: codigoDoFornecedor,
                     Nome: nomeDoFornecedor

@@ -1,5 +1,4 @@
 ﻿@using BsBios.Portal.Common
-@using BsBios.Portal.ViewModel
 @{
     ViewBag.TituloDaPagina = "Relatórios de Processo de Cotação de Frete";
 }
@@ -24,7 +23,7 @@
 <fieldset>
     <legend>Filtros</legend>
     <form>
-        @Html.Partial("_Filtro",new RelatorioAgendamentoFiltroVm{CodigoTerminal = "1000"})
+        @Html.Partial("_Filtro")
         <div class="divBotao">
             <input type="submit" id="btnGerarRelatorio" value="Gerar" class="blue" />
         </div>
@@ -36,14 +35,23 @@
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarItinerario.js")"></script>
     <script type="text/javascript">
         $(function () {
             aplicaMascaraData();
+
+            var selecionarProduto = new SelecionarProduto();
+            selecionarProduto.configurar('#CodigoDoMaterial', null, 'divSelecionarProduto', '#btnSelecionarProduto');
+
             var selecionarFornecedorDaMercadoria = new SelecionarFornecedor();
-            selecionarFornecedorDaMercadoria.configurar("#CodigoDoFornecedorDaMercadoria", "#NomeDoFornecedorDaMercadoria", "divSelecionarFornecedor", "#btnSelecionarFornecedor");
+            selecionarFornecedorDaMercadoria.configurar("#CodigoDoFornecedorDaMercadoria", null, "divSelecionarFornecedor", "#btnSelecionarFornecedor");
 
             var selecionarTransportadora = new SelecionarFornecedor();
-            selecionarTransportadora.configurar("#CodigoDaTransportadora", "#NomeDaTransportadora", "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+            selecionarTransportadora.configurar("#CodigoDaTransportadora", null, "divSelecionarTransportadora", "#btnSelecionarTransportadora");
+
+            var selecionarItinerario = new SelecionarItinerario();
+            selecionarItinerario.configurar('#CodigoDoItinerario', '#DescricaoDoItinerario', 'divSelecionarItinerario', '#btnSelecionarItinerario');
 
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();

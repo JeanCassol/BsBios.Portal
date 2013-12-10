@@ -19,10 +19,5 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.FluxosDeCarga = _consultaFluxoDeCarga.Listar();
             return View();
         }
-
-        public string Gerar()
-        {
-            return "Abrindo uma janela para exibir dados dos relatórios";
-        }
     }
 }

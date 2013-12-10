@@ -40,10 +40,10 @@ namespace BsBios.Portal.Infra.Builders
                 menus.Add(new MenuAdministrativo());
             }
 
-            if (_perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas))
+            if (_perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas) || _perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
                 menus.Add(new MenuQuotas());
-                menus.Add(new MenuRelatorioDeAgendamentos());
+                menus.Add(new MenuRelatorios(_perfis));
             }
 
             if (_perfis.Contains(Enumeradores.Perfil.AgendadorDeCargas))
@@ -136,54 +136,22 @@ namespace BsBios.Portal.Infra.Builders
         }
         
     }
-    internal  class  MenuRelatorioDeAgendamentos: Menu
+    internal  class  MenuRelatorios: Menu
     {
-        public MenuRelatorioDeAgendamentos() : base("Relatório de Agendamentos")
+        public MenuRelatorios(IList<Enumeradores.Perfil> perfis) : base("Relatórios")
         {
-            AdicionarItem("Relatórios", "RelatorioAgendamento", "Relatorio");
+
+            if (perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas))
+            {
+                AdicionarItem("Relatório de Agendamento", "RelatorioAgendamento", "Relatorio");
+            }
+
+            if (perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
+            {
+                AdicionarItem("Relatório de Processo de Cotação de Frete", "RelatorioDeProcessoDeCotacaoDeFrete", "Relatorio");
+            }
+
         }
     }
 
-
-    //internal abstract class MenuBuilder
-    //{
-    //    public abstract IList<Menu> BuildMenu();
-    //}
-
-    //internal class MenuCompradorLogisticaBuilder : MenuBuilder
-    //{
-    //    public override IList<Menu> BuildMenu()
-    //    {
-    //        var menus = new List<Menu>();
-    //        menus.Add(new MenuCadastro());
-    //        menus.Add(new MenuLogistica());
-
-    //        return menus;
-    //    }
-    //}
-
-    //internal class MenuCompradorSuprimentosBuilder : MenuBuilder
-    //{
-    //    public override IList<Menu> BuildMenu()
-    //    {
-    //        var menus = new List<Menu>();
-    //        menus.Add(new MenuCadastro());
-    //        menus.Add(new MenuLogistica());
-
-    //        return menus;
-    //    }
-    //}
-
-    //internal class MenuFornecedorBuider: MenuBuilder
-    //{
-    //    public override IList<Menu> BuildMenu()
-    //    {
-    //        var menus = new List<Menu>();
-    //        var menuCotacao = new Menu("Cotações");
-    //        menuCotacao.AdicionarItem("Minhas Cotações", "ProcessoCotacaoMaterial", "Index");
-    //        menus.Add(menuCotacao);
-
-    //        return menus;
-    //    }
-    //}
 }

@@ -15,31 +15,44 @@
     new ColunaComTextBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DataDeValidadeFinal, "campopequeno campoDatePicker maskdata"))
 <div class="linha">
     <div class="coluna">
-        @Html.HiddenFor(x => x.CodigoDoMaterial)
-        @Html.LabelFor(x => x.DescricaoDoMaterial)
-        @Html.TextBoxFor(x => x.DescricaoDoMaterial, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        @Html.LabelFor(x => x.CodigoDoMaterial)
+        @Html.TextBoxFor(x => x.CodigoDoMaterial, new { @readonly = true, @class = "campogrande campoDesabilitado" })
         <input type="button" id="btnSelecionarProduto" class="button_visualize" />
     </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.DescricaoDoMaterial)
+        @Html.TextBoxFor(x => x.DescricaoDoMaterial, new {@class = "campogrande" })
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.CodigoDoFornecedorDaMercadoria)
+        @Html.TextBoxFor(x => x.CodigoDoFornecedorDaMercadoria, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.NomeDoFornecedorDaMercadoria)
+        @Html.TextBoxFor(x => x.NomeDoFornecedorDaMercadoria, new {@class = "campogrande" })
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.CodigoDaTransportadora)
+        @Html.TextBoxFor(x => x.CodigoDaTransportadora, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        <input type="button" id="btnSelecionarTransportadora" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.NomeDaTransportadora)
+        @Html.TextBoxFor(x => x.NomeDaTransportadora, new {@class = "campogrande" })
+    </div>
+</div>
+
+<div class="linha">
     <div class="coluna">
         @Html.HiddenFor(x => x.CodigoDoItinerario)
         @Html.LabelFor(x => x.DescricaoDoItinerario)
         @Html.TextBoxFor(x => x.DescricaoDoItinerario, new { @readonly = true, @class = "campogrande campoDesabilitado" })
         <input type="button" id="btnSelecionarItinerario" class="button_visualize" />
     </div>
-</div>
-<div class="linha">
-    <div class="coluna">
-        @Html.HiddenFor(x => x.CodigoDoFornecedorDaMercadoria)
-        @Html.LabelFor(x => x.NomeDoFornecedorDaMercadoria)
-        @Html.TextBoxFor(x => x.NomeDoFornecedorDaMercadoria, new { @readonly = true, @class = "campogrande campoDesabilitado" })
-        <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
-    </div>
-    <div class="coluna">
-        @Html.HiddenFor(x => x.CodigoDaTransportadora)
-        @Html.LabelFor(x => x.NomeDaTransportadora)
-        @Html.TextBoxFor(x => x.NomeDaTransportadora, new { @readonly = true, @class = "campogrande campoDesabilitado" })
-        <input type="button" id="btnSelecionarTransportadora" class="button_visualize" />
-    </div>
-    
 </div>
 
