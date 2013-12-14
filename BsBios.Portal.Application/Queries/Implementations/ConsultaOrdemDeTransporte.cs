@@ -7,7 +7,6 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
-using NHibernate.Hql.Ast.ANTLR;
 using NHibernate.Linq;
 using StructureMap;
 
@@ -112,8 +111,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         Cadencia = ordemDeTransporte.Cadencia,
                         Classificacao = processoDeCotacao.Classificacao ? "Sim" : "Não",
                         NumeroDoContrato = processoDeCotacao.NumeroDoContrato,
-                        NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
-                        CnpjDoFornecedor = fornecedor != null ? fornecedor.Cnpj : "Não informado",
+                        NomeDoFornecedorDaMercadoria = fornecedor != null ? fornecedor.Nome : "Não informado",
+                        CnpjDoFornecedorDaMercadoria = fornecedor != null ? fornecedor.Cnpj : "Não informado",
                         EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
                         NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
                         EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",

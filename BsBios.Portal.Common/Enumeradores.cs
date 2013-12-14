@@ -93,5 +93,21 @@ namespace BsBios.Portal.Common
             SinteticoComMedia
         }
 
+        public enum SelecaoDeFornecedores
+        {
+            [Description("Não selecionado")]
+            NaoSelecionado,
+            Selecionado,
+            Todos
+        }
+
+        public enum EscolhaSimples
+        {
+            [Description("Não")]
+            Nao = 0,
+            Sim = 1,
+            Todos = 2
+        }
+
     }
 }

@@ -1,15 +1,20 @@
-﻿@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.Application.Queries.Contracts
+@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
 
 @{
     var listaDeStatus = ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao).Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao });
+    var listaDeClassificacao = ((IList<ChaveValorVm>)ViewBag.EscolhaSimples).Select(x => new SelectListItem
+    {
+        Value = Convert.ToString(x.Codigo), Text = x.Descricao, Selected = (x.Codigo == (int) Enumeradores.EscolhaSimples.Todos)
+    });
 
 }
 
-@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.StatusDoProcessoDeCotacao, listaDeStatus, "CodigoStatusProcessoCotacao"),
-                new ColunaComCheckBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, bool >(x => x.Classificacao))
-
+@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.StatusDoProcessoDeCotacao, listaDeStatus, "StatusDoProcessoDeCotacao"),
+                new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int>(x => x.Classificacao, listaDeClassificacao,"Classificacao","",null) )
 
 @Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DataDeValidadeInicial,"campopequeno campoDatePicker maskdata"),
     new ColunaComTextBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DataDeValidadeFinal, "campopequeno campoDatePicker maskdata"))
@@ -53,6 +58,14 @@
         @Html.LabelFor(x => x.DescricaoDoItinerario)
         @Html.TextBoxFor(x => x.DescricaoDoItinerario, new { @readonly = true, @class = "campogrande campoDesabilitado" })
         <input type="button" id="btnSelecionarItinerario" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @{
+            var listaDeSelecaoDeFornecedores = ((IList<SelecaoDeFornecedoresVm>)ViewBag.SelecaoDeFornecedores).Select(x => new SelectListItem { 
+                Value = Convert.ToString(x.Codigo), Text = x.Descricao, Selected = (x.Codigo == (int) Enumeradores.SelecaoDeFornecedores.Todos)});            
+        }
+        @Html.LabelFor(x => x.SelecaoDeFornecedores)
+        @Html.DropDownList("SelecaoDeFornecedores", listaDeSelecaoDeFornecedores)
     </div>
 </div>
 

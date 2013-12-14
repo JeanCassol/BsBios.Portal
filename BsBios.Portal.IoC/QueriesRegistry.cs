@@ -98,6 +98,17 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaMonitorDeOrdemDeTransporte>();
 
+            For<IConsultaSelecaoDeFornecedores>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaSelecaoDeFornecedores>();
+
+            For<IConsultaRelatorioDeProcessoDeCotacaoDeFrete>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaRelatorioDeProcessoDeCotacaoDeFrete>();
+
+            For<IConsultaEscolhaSimples>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaEscolhaSimples>();
 
         }
 

@@ -45,6 +45,7 @@
     <Compile Include="AgendamentoDeDescarregamentoCadastroVm.cs" />
     <Compile Include="AgendamentoDeDescarregamentoSalvarVm.cs" />
     <Compile Include="AutoCompleteVm.cs" />
+    <Compile Include="ChaveValorVm.cs" />
     <Compile Include="ColetaSalvarVm.cs" />
     <Compile Include="ColetaVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />

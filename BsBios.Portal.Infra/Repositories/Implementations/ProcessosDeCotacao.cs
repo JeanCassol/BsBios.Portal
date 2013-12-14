@@ -29,6 +29,17 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IProcessosDeCotacao NomeDoFornecedorContendo(string nomeDoFornecedor)
+        {
+            Query =
+                Query.Where(
+                    x =>
+                        x.FornecedoresParticipantes.Any(
+                            y => y.Fornecedor.Nome.ToLower().Contains(nomeDoFornecedor.ToLower())));
+
+            return this;
+        }
+
         public IProcessosDeCotacao DesconsideraNaoIniciados()
         {
             Query = Query.Where(x => x.Status != Enumeradores.StatusProcessoCotacao.NaoIniciado);
@@ -45,6 +56,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             {
                 Query = Query.Where(x => x is ProcessoDeCotacaoDeMaterial);
             }
+            return this;
+        }
+
+        public IProcessosDeCotacao DoProduto(string codigoDoProduto)
+        {
+            Query = Query.Where(x => x.Produto.Codigo == codigoDoProduto);
             return this;
         }
 
@@ -76,6 +93,20 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IProcessosDeCotacao DesconsideraCancelados()
         {
             Query = Query.Where(x => x.Status != Enumeradores.StatusProcessoCotacao.Cancelado);
+            return this;
+        }
+
+        public IProcessosDeCotacao SomenteComFornecedoresSelecionados()
+        {
+            Query = Query.Where(x => x.FornecedoresParticipantes.Any(fp => fp.Cotacao != null  && fp.Cotacao.Selecionada));
+
+            return this;
+        }
+
+        public IProcessosDeCotacao SomenteComFornecedoresNaoSelecionados()
+        {
+            Query = Query.Where(x => x.FornecedoresParticipantes.Any(y => y.Cotacao == null || !y.Cotacao.Selecionada));
+
             return this;
         }
     }

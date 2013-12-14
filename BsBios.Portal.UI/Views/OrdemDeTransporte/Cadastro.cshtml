@@ -306,8 +306,8 @@
                     function() {
                         $(divCadastroColeta).find('#UnidadeDeMedida').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.UnidadeDeMedida))');
                         $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
-                        $(divCadastroColeta).find('#CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedor'));
-                        $(divCadastroColeta).find('#NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedor))');
+                        $(divCadastroColeta).find('#CnpjDoEmitente').val(Formato.formataCnpj('@Model.Cabecalho.CnpjDoFornecedorDaMercadoria'));
+                        $(divCadastroColeta).find('#NomeDoEmitente').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.NomeDoFornecedorDaMercadoria))');
                         $(divCadastroColeta).find('#NumeroDoContrato').val('@Model.Cabecalho.NumeroDoContrato');
                         $(divCadastroColeta).find('#NomeDaTransportadora').val('@Model.Transportadora');
                         

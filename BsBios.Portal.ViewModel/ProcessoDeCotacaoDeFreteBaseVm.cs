@@ -23,9 +23,9 @@ namespace BsBios.Portal.ViewModel
         public string Itinerario { get; set; }
 
         [DisplayName("Fornecedor da Mercadoria: ")]
-        public string NomeDoFornecedor { get; set; }
+        public string NomeDoFornecedorDaMercadoria { get; set; }
 
-        public string CnpjDoFornecedor { get; set; }
+        public string CnpjDoFornecedorDaMercadoria { get; set; }
 
         [DisplayName("Depósito: ")]
         public string NomeDoDeposito { get; set; }
@@ -40,7 +40,7 @@ namespace BsBios.Portal.ViewModel
         public string Classificacao { get; set; }
 
         [DisplayName("Cadência: ")]
-        public decimal Cadencia { get; set; }
+        public decimal? Cadencia { get; set; }
 
     }
 }

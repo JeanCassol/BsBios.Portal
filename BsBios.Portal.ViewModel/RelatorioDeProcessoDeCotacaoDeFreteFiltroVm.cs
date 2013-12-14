@@ -6,12 +6,15 @@ namespace BsBios.Portal.ViewModel
     {
         [DisplayName("Status")]
         public int? StatusDoProcessoDeCotacao { get; set; }
+
+        [DisplayName("Fornecedores Selecionados")]
+        public int SelecaoDeFornecedores { get; set; }
         [DisplayName("Data de Validade Inicial")]
         public string DataDeValidadeInicial { get; set; }
         [DisplayName("Data de Validade Final")]
         public string DataDeValidadeFinal { get; set; }
         [DisplayName("Classificação")]
-        public bool Classificacao { get; set; }
+        public int Classificacao { get; set; }
         [DisplayName("Código do Material")]
         public string CodigoDoMaterial { get; set; }
         [DisplayName("Nome do Material")]

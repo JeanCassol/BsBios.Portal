@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Application.Queries.Builders;
+using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
@@ -89,6 +90,13 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<StatusProcessoCotacaoBuilder>();
 
+            For<IBuilder<Enumeradores.SelecaoDeFornecedores, SelecaoDeFornecedoresVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<SelecaoDeFornecedoresBuilder>();
+
+            For<IBuilder<Enumeradores.EscolhaSimples, ChaveValorVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<EscolhaSimplesBuilder>();
 
         }
     }

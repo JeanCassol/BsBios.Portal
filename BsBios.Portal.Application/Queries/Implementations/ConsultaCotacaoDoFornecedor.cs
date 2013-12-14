@@ -154,7 +154,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Itinerario = processo.Itinerario.Descricao,
                     Classificacao = processo.Classificacao ? "Sim" : "Não",
                     NumeroDoContrato = processo.NumeroDoContrato,
-                    NomeDoFornecedor = fornecedor != null ? fornecedor.Nome : "Não informado",
+                    NomeDoFornecedorDaMercadoria = fornecedor != null ? fornecedor.Nome : "Não informado",
                     EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
                     NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
                     EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",

@@ -172,6 +172,7 @@
     <Compile Include="Controllers\RelatorioDeProcessoDeCotacaoDeFreteController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
+    <Compile Include="Controllers\RelatorioDeProcessoDeCotacaoDeFreteVisualizacaoController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -488,6 +489,8 @@
     <Content Include="Views\MonitorDeOrdemDeTransporte\Index.cshtml" />
     <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFrete\Relatorio.cshtml" />
     <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFrete\_Filtro.cshtml" />
+    <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFreteVisualizacao\ListagemAnalitica.cshtml" />
+    <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFreteVisualizacao\_Cabecalho.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

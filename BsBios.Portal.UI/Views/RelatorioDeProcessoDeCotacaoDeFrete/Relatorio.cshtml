@@ -1,4 +1,5 @@
 ﻿@using BsBios.Portal.Common
+@using BsBios.Portal.ViewModel
 @{
     ViewBag.TituloDaPagina = "Relatórios de Processo de Cotação de Frete";
 }
@@ -39,6 +40,10 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarItinerario.js")"></script>
     <script type="text/javascript">
         $(function () {
+            
+            //não consegui fazer o select do campo "Seleção de Fornecedores" iniciar com a opção "Todos". Não entendi porque não funcionou.
+            $('#SelecaoDeFornecedores').val('@Convert.ToInt16(Enumeradores.SelecaoDeFornecedores.Todos)');
+
             aplicaMascaraData();
 
             var selecionarProduto = new SelecionarProduto();
@@ -55,8 +60,8 @@
 
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
-                window.open('@Url.Action("GerarRelatorio","RelatorioAgendamentoVisualizacao")' + '/?' + $('form').serialize() +
-                    '&RelatorioDeAgendamento=' + $('input[name=RelatorioDeAgendamento]:checked').val());
+                window.open('@Url.Action("GerarRelatorio","RelatorioDeProcessoDeCotacaoDeFreteVisualizacao")' + '/?' + $('form').serialize() +
+                    '&Relatorio=' + $('input[name=RelatorioDeProcessoDeCotacaoDeFrete]:checked').val());
             });
         })
     </script>
