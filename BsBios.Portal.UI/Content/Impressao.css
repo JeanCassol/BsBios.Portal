@@ -1,0 +1,9 @@
+﻿@media print {
+    body {
+        font-size: 5.5pt;
+        font-weight: normal
+    }
+    @page {
+        size: landscape;
+    }
+}   

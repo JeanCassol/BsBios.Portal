@@ -11,7 +11,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
     public class ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests
     {
         [TestMethod]
-        public void ConsigoRealizarAConsultaDoRelatorio()
+        public void ConsigoRealizarConsultaAnalitica()
         {
             var consulta = ObjectFactory.GetInstance<IConsultaRelatorioDeProcessoDeCotacaoDeFrete>();
             var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
@@ -24,5 +24,38 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.IsNotNull(registros);
         }
+
+        [TestMethod]
+        public void ConsigoRealizarConsultaSinteticaComSoma()
+        {
+            var consulta = ObjectFactory.GetInstance<IConsultaRelatorioDeProcessoDeCotacaoDeFrete>();
+            var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
+            {
+                Classificacao = (int) Enumeradores.EscolhaSimples.Todos,
+                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Selecionado
+            };
+
+            IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> registros = consulta.ListagemSinteticaComSoma(filtro);
+
+            Assert.IsNotNull(registros);
+
+        }
+
+        [TestMethod]
+        public void ConsigoRealizarConsultaSinteticaComMedia()
+        {
+            var consulta = ObjectFactory.GetInstance<IConsultaRelatorioDeProcessoDeCotacaoDeFrete>();
+            var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
+            {
+                Classificacao = (int)Enumeradores.EscolhaSimples.Todos,
+                SelecaoDeFornecedores = (int)Enumeradores.SelecaoDeFornecedores.Selecionado
+            };
+
+            IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> registros = consulta.ListagemSinteticaComMedia(filtro);
+
+            Assert.IsNotNull(registros);
+
+        }
+
     }
 }

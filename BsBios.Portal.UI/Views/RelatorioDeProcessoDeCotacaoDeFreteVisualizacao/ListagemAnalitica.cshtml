@@ -12,17 +12,18 @@
     <meta name="viewport" content="width=device-width" />
     <title>Relatório de Processo de Cotação de Frete - Analítico</title>
     <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/Impressao.css")" rel="stylesheet" />
 
 </head>
 <body>
     <div class="bordaDoRelatorio">
         
-            @{
-                RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro = ViewBag.Filtro;
-            }
-            @Html.Partial("_Cabecalho", filtro)
+        @{
+            RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro = ViewBag.Filtro;
+        }
+        @Html.Partial("_Cabecalho", filtro)
 
-        <table class="fontePequena">
+        <table>
             <thead>
                 <tr>
                     <th>Nº Cotação</th>

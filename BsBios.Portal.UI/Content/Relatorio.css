@@ -20,6 +20,8 @@
     .bordaDoRelatorio {
         border: solid 1pt black;
         padding: 4pt;
+        /*width: intrinsic; NÃO FUNCIONA NO IE */
+        display: inline-block; /*faz com que a div da borda do relatório fique do tamanho da janela*/
     }
     label {
         display: block;
@@ -37,12 +39,4 @@
         display: inline;
     }
 }
-@media print {
-    .fontePequena {
-        font-size: 5.5pt;
-        font-weight: normal
-    }
-    @page {
-        size: landscape;
-    }
-}      
+   
