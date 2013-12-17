@@ -56,6 +56,7 @@
     <Compile Include="Queries\Builders\AgendamentoDeCargaListarBuilder.cs" />
     <Compile Include="Queries\Builders\SelecaoDeFornecedoresBuilder.cs" />
     <Compile Include="Queries\Builders\EscolhaSimplesBuilder.cs" />
+    <Compile Include="Queries\Builders\StatusOrdemDeTransporteBuilder.cs" />
     <Compile Include="Queries\Builders\StatusProcessoCotacaoBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilderMulti.cs" />
     <Compile Include="Queries\Builders\RealizacaoDeAgendamentoBuilder.cs" />
@@ -83,8 +84,10 @@
     <Compile Include="Queries\Contracts\IConsultaOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaParaConferenciaDeCargas.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
+    <Compile Include="Queries\Contracts\IConsultaRelatorioDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaRelatorioDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaSelecaoDeFornecedores.cs" />
+    <Compile Include="Queries\Contracts\IConsultaStatusOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
     <Compile Include="Queries\Contracts\IConsultaMaterialDeCarga.cs" />
@@ -119,8 +122,10 @@
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Queries\Implementations\ConsultaQuota.cs" />
     <Compile Include="Queries\Implementations\ConsultaQuotaRelatorio.cs" />
+    <Compile Include="Queries\Implementations\ConsultaRelatorioDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaRelatorioDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Implementations\ConsultaSelecaoDeFornecedores.cs" />
+    <Compile Include="Queries\Implementations\ConsultaStatusDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />

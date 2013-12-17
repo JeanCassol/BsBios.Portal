@@ -78,6 +78,7 @@
     <Compile Include="Application\Queries\ConsultaMunicipioTests.cs" />
     <Compile Include="Application\Queries\ConsultaParaConferenciaDeCargaTests.cs" />
     <Compile Include="Application\Queries\ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests.cs" />
+    <Compile Include="Application\Queries\ConsultaRelatorioDeOrdemDeTransporteTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />

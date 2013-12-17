@@ -29,6 +29,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual DateTime  DataDaColeta { get; protected set; }
         public virtual DateTime DataDePrevisaoDeChegada { get; protected  set; }
+        public virtual DateTime DataDeChegada { get; protected set; }
 
         public virtual decimal Peso { get; set; }
 
@@ -115,6 +116,7 @@ namespace BsBios.Portal.Domain.Entities
             }
 
             Realizado = true;
+            DataDeChegada = DateTime.Today.Date;
         }
     }
 }

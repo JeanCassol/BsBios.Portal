@@ -90,6 +90,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<StatusProcessoCotacaoBuilder>();
 
+            For<IBuilder<Enumeradores.StatusDaOrdemDeTransporte, ChaveValorVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<StatusOrdemDeTransporteBuilder>();
+
+
             For<IBuilder<Enumeradores.SelecaoDeFornecedores, SelecaoDeFornecedoresVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<SelecaoDeFornecedoresBuilder>();

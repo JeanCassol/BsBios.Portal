@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace BsBios.Portal.Common
 {
@@ -93,6 +94,12 @@ namespace BsBios.Portal.Common
             SinteticoComMedia
         }
 
+        public enum RelatorioDeOrdemDeTransporte
+        {
+            Resumido,
+            Completo
+        }
+
         public enum SelecaoDeFornecedores
         {
             [Description("Não selecionado")]
@@ -107,6 +114,12 @@ namespace BsBios.Portal.Common
             Nao = 0,
             Sim = 1,
             Todos = 2
+        }
+
+        public enum StatusDaOrdemDeTransporte
+        {
+            Pendente,
+            Concluido
         }
 
     }

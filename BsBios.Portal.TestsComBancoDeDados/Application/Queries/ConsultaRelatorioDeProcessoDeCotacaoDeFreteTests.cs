@@ -8,7 +8,7 @@ using StructureMap;
 namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 {
     [TestClass]
-    public class ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests
+    public class ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests : RepositoryTest
     {
         [TestMethod]
         public void ConsigoRealizarConsultaAnalitica()

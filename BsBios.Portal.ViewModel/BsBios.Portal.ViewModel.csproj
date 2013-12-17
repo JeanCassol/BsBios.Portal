@@ -76,6 +76,9 @@
     <Compile Include="QuotaSalvarVm.cs" />
     <Compile Include="RealizacaoDeAgendamentoVm.cs" />
     <Compile Include="RelatorioAgendamentoFiltroVm.cs" />
+    <Compile Include="RelatorioDeOrdemDeTransporteAnaliticoVm.cs" />
+    <Compile Include="RelatorioDeOrdemDeTransporteFiltroVm.cs" />
+    <Compile Include="RelatorioDeOrdemDeTransporteSinteticoVm .cs" />
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm.cs" />
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm.cs" />
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteFiltroVm.cs" />

@@ -35,9 +35,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             _processosDeCotacaoDeFrete.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
 
-            if (filtro.StatusDoProcessoDeCotacao.HasValue)
+            if (filtro.Status.HasValue)
             {
-                var statusDoProcessoDeCotacao  = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.StatusDoProcessoDeCotacao.Value) );
+                var statusDoProcessoDeCotacao  = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.Status.Value) );
                 _processosDeCotacaoDeFrete.FiltraPorStatus(statusDoProcessoDeCotacao);
             }
 
@@ -168,9 +168,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
                 .JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora);
 
-            if (filtro.StatusDoProcessoDeCotacao.HasValue)
+            if (filtro.Status.HasValue)
             {
-                var statusDoProcessoDeCotacao = (Enumeradores.StatusProcessoCotacao)Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.StatusDoProcessoDeCotacao.Value));
+                var statusDoProcessoDeCotacao = (Enumeradores.StatusProcessoCotacao)Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.Status.Value));
                 queryOver = queryOver.Where(x => x.Status == statusDoProcessoDeCotacao);
             }
 
@@ -241,10 +241,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
             if (!string.IsNullOrEmpty(filtro.NomeDaTransportadora))
             {
-                queryOver = queryOver.Where(
-                    Restrictions.Disjunction()
-                    .Add(Restrictions.On(() => transportadora.Nome)
-                    .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere)));
+                queryOver = queryOver.Where(Restrictions.On(() => transportadora.Nome)
+                    .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere));
+                //queryOver = queryOver.Where(
+                //    Restrictions.Disjunction()
+                //    .Add(Restrictions.On(() => transportadora.Nome)
+                //    .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere)));
             }
 
             var projectionBuilder = new QueryOverProjectionBuilder<ProcessoDeCotacaoDeFrete>();

@@ -13,7 +13,7 @@
 
 }
 
-@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.StatusDoProcessoDeCotacao, listaDeStatus, "StatusDoProcessoDeCotacao"),
+@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.Status, listaDeStatus, "Status"),
                 new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, int>(x => x.Classificacao, listaDeClassificacao,"Classificacao","",null) )
 
 @Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DataDeValidadeInicial,"campopequeno campoDatePicker maskdata"),

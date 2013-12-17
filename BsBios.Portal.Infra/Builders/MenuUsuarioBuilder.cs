@@ -143,12 +143,13 @@ namespace BsBios.Portal.Infra.Builders
 
             if (perfis.Contains(Enumeradores.Perfil.GerenciadorDeQuotas))
             {
-                AdicionarItem("Relatório de Agendamento", "RelatorioAgendamento", "Relatorio");
+                AdicionarItem("Agendamento de Cargas", "RelatorioAgendamento", "Relatorio");
             }
 
             if (perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
-                AdicionarItem("Relatório de Processo de Cotação de Frete", "RelatorioDeProcessoDeCotacaoDeFrete", "Relatorio");
+                AdicionarItem("Processo de Cotação de Frete", "RelatorioDeProcessoDeCotacaoDeFrete", "Relatorio");
+                AdicionarItem("Ordem de Transporte", "RelatorioDeOrdemDeTransporte", "Relatorio");
             }
 
         }

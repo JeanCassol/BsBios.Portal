@@ -88,6 +88,7 @@
     <Compile Include="Mappings\OrdemDeTransporteMap.cs" />
     <Compile Include="Mappings\ProcessoCotacaoIteracaoUsuarioMap.cs" />
     <Compile Include="Mappings\QuotaMap.cs" />
+    <Compile Include="Mappings\RelatorioDeOrdemDeTransporteAnaliticoMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />
     <Compile Include="Mappings\CotacaoMap.cs" />

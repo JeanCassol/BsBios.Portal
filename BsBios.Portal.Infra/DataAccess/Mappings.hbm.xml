@@ -3,5 +3,9 @@
   <sql-query name="MONITORDEORDEMDETRANSPORTE">
     { call MONITORDEORDEMDETRANSPORTE(:p_agrupamentos,:p_codigoMaterial,:p_material,:p_codigoFornecedorDaMercadoria,:p_fornecedorDaMercadoria,:p_codigoTransportadora,:p_transportadora,:p_codigoDoMunicipioDeOrigem,:p_codigoDoMunicipioDeDestino) }
   </sql-query>
-
+  
+  <sql-query name="RELATORDEMTRANSPORTEANALITICO">
+    { call RELATORDEMTRANSPORTEANALITICO(:p_status,:p_dataDeValidadeInicial,:p_dataDeValidadeFinal,:p_codigoMaterial,:p_material,:p_codigoFornecedorDaMercadoria,:p_fornecedorDaMercadoria,:p_codigoTransportadora,:p_transportadora) }
+  </sql-query>
+  
 </hibernate-mapping>

@@ -5,42 +5,42 @@ namespace BsBios.Portal.ViewModel
     public class ProcessoDeCotacaoDeFreteBaseVm
     {
 
-        [DisplayName("Data Limite de Retorno: ")]
-        public string DataLimiteDeRetorno { get; set; }
+        //[DisplayName("Data Limite de Retorno: ")]
+        //public string DataLimiteDeRetorno { get; set; }
         [DisplayName("Status: ")]
-        public string Status { get; set; }
+        public virtual string Status { get; set; }
         [DisplayName("Material: ")]
-        public string Material { get; set; }
-        [DisplayName("Quantidade: ")]
-        public decimal Quantidade { get; set; }
+        public virtual string Material { get; set; }
+        //[DisplayName("Quantidade: ")]
+        //public decimal Quantidade { get; set; }
         [DisplayName("Unidade de Medida: ")]
-        public string UnidadeDeMedida { get; set; }
+        public virtual string UnidadeDeMedida { get; set; }
         [DisplayName("Data de Validade Inicial: ")]
-        public string DataDeValidadeInicial { get; set; }
+        public virtual string DataDeValidadeInicial { get; set; }
         [DisplayName("Data de Validade Final: ")]
-        public string DataDeValidadeFinal { get; set; }
+        public virtual string DataDeValidadeFinal { get; set; }
         [DisplayName("Itinerário: ")]
-        public string Itinerario { get; set; }
+        public virtual string Itinerario { get; set; }
 
         [DisplayName("Fornecedor da Mercadoria: ")]
-        public string NomeDoFornecedorDaMercadoria { get; set; }
+        public virtual string NomeDoFornecedorDaMercadoria { get; set; }
 
-        public string CnpjDoFornecedorDaMercadoria { get; set; }
+        public virtual string CnpjDoFornecedorDaMercadoria { get; set; }
 
         [DisplayName("Depósito: ")]
-        public string NomeDoDeposito { get; set; }
-        [DisplayName("Nº do Contrato: ")]
-        public string NumeroDoContrato { get; set; }
+        public virtual string NomeDoDeposito { get; set; }
+        //[DisplayName("Nº do Contrato: ")]
+        //public string NumeroDoContrato { get; set; }
 
         [DisplayName("Município de Origem: ")]
-        public string MunicipioDeOrigem { get; set; }
+        public virtual string MunicipioDeOrigem { get; set; }
         [DisplayName("Município de Destino: ")]
-        public string MunicipioDeDestino { get; set; }
+        public virtual string MunicipioDeDestino { get; set; }
         [DisplayName("Classificação: ")]
-        public string Classificacao { get; set; }
+        public virtual string Classificacao { get; set; }
 
         [DisplayName("Cadência: ")]
-        public decimal? Cadencia { get; set; }
+        public virtual decimal Cadencia { get; set; }
 
     }
 }
