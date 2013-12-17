@@ -1,0 +1,48 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model RelatorioDeOrdemDeTransporteFiltroVm
+
+@{
+    var listaDeStatus = ((IList<ChaveValorVm>)ViewBag.StatusDeOrdemDeTransporte).Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao });
+
+}
+
+@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeOrdemDeTransporteFiltroVm, int?>(x => x.Status, listaDeStatus, "Status"),
+        new ColunaVazia<RelatorioDeOrdemDeTransporteFiltroVm,object>(x => null) )
+
+@Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioDeOrdemDeTransporteFiltroVm, string>(x => x.DataDeValidadeInicial, "campopequeno campoDatePicker maskdata"),
+        new ColunaComTextBox<RelatorioDeOrdemDeTransporteFiltroVm, string>(x => x.DataDeValidadeFinal, "campopequeno campoDatePicker maskdata"))
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.CodigoDoMaterial)
+        @Html.TextBoxFor(x => x.CodigoDoMaterial, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        <input type="button" id="btnSelecionarProduto" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.DescricaoDoMaterial)
+        @Html.TextBoxFor(x => x.DescricaoDoMaterial, new {@class = "campogrande" })
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.CodigoDoFornecedorDaMercadoria)
+        @Html.TextBoxFor(x => x.CodigoDoFornecedorDaMercadoria, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.NomeDoFornecedorDaMercadoria)
+        @Html.TextBoxFor(x => x.NomeDoFornecedorDaMercadoria, new {@class = "campogrande" })
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.LabelFor(x => x.CodigoDaTransportadora)
+        @Html.TextBoxFor(x => x.CodigoDaTransportadora, new { @readonly = true, @class = "campogrande campoDesabilitado" })
+        <input type="button" id="btnSelecionarTransportadora" class="button_visualize" />
+    </div>
+    <div class="coluna">
+        @Html.LabelFor(x => x.NomeDaTransportadora)
+        @Html.TextBoxFor(x => x.NomeDaTransportadora, new {@class = "campogrande" })
+    </div>
+</div>
+

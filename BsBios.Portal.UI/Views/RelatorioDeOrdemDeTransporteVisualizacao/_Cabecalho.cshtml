@@ -1,0 +1,59 @@
+﻿@using BsBios.Portal.Common
+@model BsBios.Portal.ViewModel.RelatorioDeOrdemDeTransporteFiltroVm
+@{ Layout = null;}
+<h2>@ViewBag.TituloDoRelatorio</h2>
+<hr/>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Status: ",new{@class="labelNaLinha"})
+        @Html.Label(Model.Status.HasValue ? 
+            ((Enumeradores.StatusDaOrdemDeTransporte) Enum.Parse(typeof(Enumeradores.StatusDaOrdemDeTransporte),Convert.ToString(Model.Status.Value))).Descricao()
+            : "Todos",new{@class="labelNaLinha"})
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Data de Validade Inicial: ",new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.DataDeValidadeInicial) ? "Todas" : Model.DataDeValidadeInicial ,   new{@class="labelNaLinha"})
+    </div>
+    <div class="coluna">
+        @Html.Label("Data de Validade Final: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.DataDeValidadeFinal) ? "Todas" : Model.DataDeValidadeFinal, new { @class = "labelNaLinha" })
+    </div>
+</div>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Código do Material: ",new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.CodigoDoMaterial)? "Todos": Model.CodigoDoMaterial,new{@class="labelNaLinha"})
+    </div>
+    <div class="coluna">
+        @Html.Label("Nome do Material: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.DescricaoDoMaterial) ? "Todos" : Model.DescricaoDoMaterial, new { @class = "labelNaLinha" })
+    </div>
+</div>
+
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Código do Fornecedor da Mercadoria: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.CodigoDoFornecedorDaMercadoria) ? "Todos" : Model.CodigoDoFornecedorDaMercadoria, new { @class = "labelNaLinha" })
+    </div>
+    <div class="coluna">
+        @Html.Label("Nome do Fornecedor da Mercadoria: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.NomeDoFornecedorDaMercadoria) ? "Todos" : Model.NomeDoFornecedorDaMercadoria, new { @class = "labelNaLinha" })
+    </div>
+</div>
+
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Código da Transportadora: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.CodigoDaTransportadora) ? "Todos" : Model.CodigoDaTransportadora, new { @class = "labelNaLinha" })
+    </div>
+    <div class="coluna">
+        @Html.Label("Nome da Transportadora: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.NomeDaTransportadora) ? "Todos" : Model.NomeDaTransportadora, new { @class = "labelNaLinha" })
+    </div>
+</div>
+<div class="linha">
+    @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+</div>
+<hr/>

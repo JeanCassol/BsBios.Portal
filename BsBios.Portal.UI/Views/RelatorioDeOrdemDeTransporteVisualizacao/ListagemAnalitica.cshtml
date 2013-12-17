@@ -1,0 +1,88 @@
+﻿@using BsBios.Portal.ViewModel
+@model IEnumerable<RelatorioDeOrdemDeTransporteAnaliticoVm>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Relatório de Processo de Cotação de Frete - Analítico</title>
+    <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/Impressao.css")" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="bordaDoRelatorio">
+        
+        @{
+            RelatorioDeOrdemDeTransporteFiltroVm filtro = ViewBag.Filtro;
+            var resumido = (bool) ViewBag.Resumido;
+            string estiloDaColuna = resumido ? "style=\"display: none\"" : "";
+        }
+        @Html.Partial("_Cabecalho", filtro)
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nº Ordem</th>
+                    <th>Material</th>
+                    <th>Fornecedor da Mercadoria</th>
+                    <th @Html.Raw(estiloDaColuna) >Validade Inicial</th>
+                    <th @Html.Raw(estiloDaColuna)>Validade Final</th>
+                    <th>Classificação</th>
+                    <th>Cadência</th>
+                    <th @Html.Raw(estiloDaColuna)>Itinerário</th>
+                    <th @Html.Raw(estiloDaColuna)>Município de Origem</th>
+                    <th @Html.Raw(estiloDaColuna)>Município de Destino</th>
+                    <th @Html.Raw(estiloDaColuna)>Depósito</th>
+                    <th>Transportadora</th>
+                    <th @Html.Raw(estiloDaColuna)>Quant. Contratada </th>
+                    <th>Quant. Liberada</th>
+                    <th>Quant. Tolerância</th>
+                    <th>Quant. Trânsito</th>
+                    <th>Quant. Realizada</th>
+                    <th>Quant. Pendente</th>
+                    <th>Unidade de Medida</th>
+                    <th @Html.Raw(estiloDaColuna)>Nº Entregas</th>
+                    <th @Html.Raw(estiloDaColuna)>Dias de Atraso</th>
+                    <th @Html.Raw(estiloDaColuna)>% Atraso</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdDaOrdemDeTransporte)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Material)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NomeDoFornecedorDaMercadoria)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.DataDeValidadeInicial)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.DataDeValidadeFinal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Classificacao)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cadencia)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.Itinerario)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.MunicipioDeOrigem)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.MunicipioDeDestino)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.NomeDoDeposito)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Transportadora)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeContratada)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuantidadeLiberada)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuantidadeDeTolerancia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuantidadeEmTransito)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuantidadeRealizada)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuantidadePendente)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UnidadeDeMedida)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeColetasRealizadas)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeDiasEmAtraso)</td>
+                        <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.PercentualDeAtraso)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+</html>
