@@ -14,8 +14,10 @@ namespace BsBios.Portal.ViewModel
         public virtual decimal QuantidadeEmTransito { get; set; }
         public virtual decimal QuantidadeRealizada { get; set; }
         public virtual decimal QuantidadePendente { get; set; }
-        public virtual int QuantidadeDeColetasRealizadas { get; set; }
-        public virtual int QuantidadeDeDiasEmAtraso { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public virtual decimal QuantidadeDeColetasRealizadas { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public virtual decimal QuantidadeDeDiasEmAtraso { get; set; }
         public virtual decimal PercentualDeAtraso { get; set; }
 
     }

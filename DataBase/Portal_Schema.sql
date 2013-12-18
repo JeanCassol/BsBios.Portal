@@ -1336,10 +1336,11 @@ BEGIN
 
   open p_cursor for
   SELECT sys_guid() || '' AS "Id",CAST(OT.ID AS INT) AS "IdDaOrdemDeTransporte", P.CODIGO || ' - ' || P.DESCRICAO AS "Material", FM.CODIGO || ' - ' || FM.NOME AS "NomeDoFornecedorDaMercadoria",
-  TO_CHAR(PCF.DATAVALIDADEINICIAL, 'dd/mm/yyyy') AS "DataDeValidadeInicial", TO_CHAR(PCF.DATAVALIDADEFINAL, 'dd/mm/yyyy') AS "DataDeValidadeFinal", CASE WHEN PCF.CLASSIFICACAO = 0 THEN 'Não' ELSE 'Sim' END AS "Classificacao",
+  TO_CHAR(PCF.DATAVALIDADEINICIAL, 'dd/mm/yyyy') AS "DataDeValidadeInicial", TO_CHAR(PCF.DATAVALIDADEFINAL, 'dd/mm/yyyy') AS "DataDeValidadeFinal", CASE WHEN PCF.CLASSIFICACAO = 0 THEN 'N?o' ELSE 'Sim' END AS "Classificacao",
   CAST(OT.CADENCIA AS DECIMAL)AS "Cadencia", IT.CODIGO || ' - ' || IT.DESCRICAO AS "Itinerario", MO.NOME || '/' || MO.UF AS "MunicipioDeOrigem",
   MD.NOME || '/' || MD.UF AS "MunicipioDeDestino", T.NOME AS "Transportadora", D.NOME AS "NomeDoDeposito", CAST(OT.QUANTIDADEADQUIRIDA AS DECIMAL) AS "QuantidadeContratada",
   CAST(OT.QUANTIDADELIBERADA AS DECIMAL) AS "QuantidadeLiberada", CAST(OT.QUANTIDADEDETOLERANCIA AS DECIMAL) AS "QuantidadeDeTolerancia",OT.QUANTIDADECOLETADA - OT.QUANTIDADEREALIZADA AS "QuantidadeEmTransito",
+  CAST(CR.QuantidadeDeColetasRealizadas AS INTEGER) AS "QuantidadeDeColetasRealizadas", CAST(CR.QuantidadeDeDiasEmAtraso AS INTEGER) AS "QuantidadeDeDiasEmAtraso", CR.PercentualDeAtraso AS "PercentualDeAtraso"
   CAST(OT.QUANTIDADEREALIZADA AS DECIMAL) AS "QuantidadeRealizada", OT.QuantidadeLiberada - OT.QuantidadeRealizada AS "QuantidadePendente", UM.DESCRICAO AS "UnidadeDeMedida"
   FROM ORDEMDETRANSPORTE OT INNER JOIN PROCESSOCOTACAOFRETE PCF ON OT.IDPROCESSOCOTACAOFRETE = PCF.ID
   INNER JOIN PROCESSOCOTACAO PC ON PCF.ID = PC.ID
