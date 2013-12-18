@@ -119,6 +119,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     where (fornecedoresSelecionados == Enumeradores.SelecaoDeFornecedores.Todos || cotacao.Selecionada == cotacaoSelecionada)
                     && (string.IsNullOrEmpty(filtro.CodigoDaTransportadora) || fp.Fornecedor.Codigo == filtro.CodigoDaTransportadora) 
                     && (string.IsNullOrEmpty(filtro.NomeDaTransportadora) || fp.Fornecedor.Nome.ToLower().Contains(filtro.NomeDaTransportadora.ToLower()))
+                    orderby processo.Id ascending 
                 select new RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm
                 {
                     Cadencia = cotacao.Cadencia == null ?  p.Cadencia : cotacao.Cadencia.Value,
@@ -248,6 +249,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 //    .Add(Restrictions.On(() => transportadora.Nome)
                 //    .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere)));
             }
+
+            //queryOver.OrderBy(x => x.Status).Asc
+            //    .ThenByAlias(() => produto.Descricao).Asc
+            //    .ThenByAlias(() => itinerario.Descricao).Asc
+            //    .ThenByAlias(() => transportadora.Nome);
+
 
             var projectionBuilder = new QueryOverProjectionBuilder<ProcessoDeCotacaoDeFrete>();
 

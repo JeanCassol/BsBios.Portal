@@ -9,7 +9,7 @@
             {
                 <div style="width: 29%; display: inline; float: right; margin-right: 10px">
                     <div style="width: 100%; ">
-                        <p style="color: black; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @usuarioConectado.NomeCompleto </p>
+                        <p style="color: black; font-weight: bold; font-size: 0.8em;text-align: right;margin: 0">Bem Vindo @string.Format("{0} ({1})", usuarioConectado.NomeCompleto, usuarioConectado.Login) </p>
                     </div>
                     <div style="width: 100%">
                         <p style="text-align: right;margin: 0">@Html.ActionLink("Sair", "LogOff","Account")</p>
