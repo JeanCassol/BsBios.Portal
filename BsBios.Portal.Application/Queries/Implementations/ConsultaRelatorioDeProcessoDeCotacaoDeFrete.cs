@@ -155,7 +155,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = null;
 
-            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver<ProcessoDeCotacaoDeFrete>(() => processoDeCotacao);
+            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver(() => processoDeCotacao);
 
             FornecedorParticipante fornecedorParticipante = null;
             Fornecedor transportadora = null;
@@ -168,9 +168,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .JoinAlias(x => x.Produto, () => produto)
                 .JoinAlias(x => x.UnidadeDeMedida, () => unidadeDeMedida)
                 .JoinAlias(x => x.Itinerario, () => itinerario)
-                .JoinAlias(x => x.FornecedoresParticipantes, () => fornecedorParticipante)
-                .JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
-                .JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora);
+                .Left.JoinAlias(x => x.FornecedoresParticipantes, () => fornecedorParticipante)
+                .Left.JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
+                .Left.JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora);
 
             if (filtro.Status.HasValue)
             {

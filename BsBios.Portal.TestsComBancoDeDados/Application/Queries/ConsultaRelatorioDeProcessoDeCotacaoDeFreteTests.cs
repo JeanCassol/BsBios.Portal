@@ -17,8 +17,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
             {
                 Classificacao = (int) Enumeradores.EscolhaSimples.Todos,
-                //SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.NaoSelecionado,
-                CodigoDaTransportadora = "TRANSP0001"
+                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Todos,
+                //CodigoDaTransportadora = "TRANSP0001"
+                Status = (int) Enumeradores.StatusProcessoCotacao.NaoIniciado
             };
             IList<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm> registros = consulta.ListagemAnalitica(filtro);
 
@@ -32,7 +33,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
             {
                 Classificacao = (int) Enumeradores.EscolhaSimples.Todos,
-                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Selecionado
+                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Todos,
+                Status = (int) Enumeradores.StatusProcessoCotacao.NaoIniciado
             };
 
             IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> registros = consulta.ListagemSinteticaComSoma(filtro);
