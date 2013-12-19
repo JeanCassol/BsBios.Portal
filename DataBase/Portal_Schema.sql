@@ -1340,7 +1340,7 @@ BEGIN
   CAST(OT.CADENCIA AS DECIMAL)AS "Cadencia", IT.CODIGO || ' - ' || IT.DESCRICAO AS "Itinerario", MO.NOME || '/' || MO.UF AS "MunicipioDeOrigem",
   MD.NOME || '/' || MD.UF AS "MunicipioDeDestino", T.NOME AS "Transportadora", D.NOME AS "NomeDoDeposito", CAST(OT.QUANTIDADEADQUIRIDA AS DECIMAL) AS "QuantidadeContratada",
   CAST(OT.QUANTIDADELIBERADA AS DECIMAL) AS "QuantidadeLiberada", CAST(OT.QUANTIDADEDETOLERANCIA AS DECIMAL) AS "QuantidadeDeTolerancia",OT.QUANTIDADECOLETADA - OT.QUANTIDADEREALIZADA AS "QuantidadeEmTransito",
-  CAST(CR.QuantidadeDeColetasRealizadas AS INTEGER) AS "QuantidadeDeColetasRealizadas", CAST(CR.QuantidadeDeDiasEmAtraso AS INTEGER) AS "QuantidadeDeDiasEmAtraso", CR.PercentualDeAtraso AS "PercentualDeAtraso"
+  CAST(CR.QuantidadeDeColetasRealizadas AS INTEGER) AS "QuantidadeDeColetasRealizadas", CAST(CR.QuantidadeDeDiasEmAtraso AS INTEGER) AS "QuantidadeDeDiasEmAtraso", CR.PercentualDeAtraso AS "PercentualDeAtraso",
   CAST(OT.QUANTIDADEREALIZADA AS DECIMAL) AS "QuantidadeRealizada", OT.QuantidadeLiberada - OT.QuantidadeRealizada AS "QuantidadePendente", UM.DESCRICAO AS "UnidadeDeMedida"
   FROM ORDEMDETRANSPORTE OT INNER JOIN PROCESSOCOTACAOFRETE PCF ON OT.IDPROCESSOCOTACAOFRETE = PCF.ID
   INNER JOIN PROCESSOCOTACAO PC ON PCF.ID = PC.ID

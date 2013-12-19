@@ -15,6 +15,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Realizado);
             Map(x => x.DataDaColeta);
             Map(x => x.DataDePrevisaoDeChegada);
+            Map(x => x.DataDeChegada);
             Map(x => x.Placa);
             Map(x => x.Motorista);
             Map(x => x.Peso);

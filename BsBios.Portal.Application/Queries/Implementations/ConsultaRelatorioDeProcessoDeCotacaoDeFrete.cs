@@ -10,7 +10,6 @@ using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Criterion.Lambda;
-using NHibernate.Linq;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -152,6 +151,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
         private IList<object[]> ConstruirQueryOver(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro, FuncaoDeAgrecacao funcaoDeAgrecacao)
         {
             var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+
+
             IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver<ProcessoDeCotacaoDeFrete>();
 
             FornecedorParticipante fornecedorParticipante = null;
@@ -244,17 +245,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 queryOver = queryOver.Where(Restrictions.On(() => transportadora.Nome)
                     .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere));
-                //queryOver = queryOver.Where(
-                //    Restrictions.Disjunction()
-                //    .Add(Restrictions.On(() => transportadora.Nome)
-                //    .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere)));
             }
-
-            //queryOver.OrderBy(x => x.Status).Asc
-            //    .ThenByAlias(() => produto.Descricao).Asc
-            //    .ThenByAlias(() => itinerario.Descricao).Asc
-            //    .ThenByAlias(() => transportadora.Nome);
-
 
             var projectionBuilder = new QueryOverProjectionBuilder<ProcessoDeCotacaoDeFrete>();
 
@@ -285,7 +276,16 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     break;
             }
             
+
+                //.OrderBy(x => x.Status).Asc
+                //.ThenByAlias(() => produto.Descricao);
+            //.ThenBy(x => x.Produto.Descricao).Asc;
+                //.ThenByAlias(() => itinerario.Descricao).Asc
+                //.ThenByAlias(() => transportadora.Nome);
+
             return queryOver
+            .OrderBy(x => x.Status).Asc
+            //.ThenByAlias(() => produto.Descricao).Asc
             .SelectList(lista => projectionBuilder)
             .List<object[]>();
 
