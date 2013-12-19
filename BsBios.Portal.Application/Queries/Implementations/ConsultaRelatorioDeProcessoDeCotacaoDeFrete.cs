@@ -363,7 +363,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = ConstruirFrom(filtro);
 
-            var processosDeCotacao = queryOver.SelectList( lista => lista
+            var processosDeCotacao = queryOver
+                .OrderBy(Projections.Property(() => processoDeCotacao.Id)).Asc
+                .SelectList( lista => lista
                     .Select(Projections.Conditional(Restrictions.IsNull(Projections.Property(() => cotacao.Cadencia)), 
                     Projections.Property(() => processoDeCotacao.Cadencia), 
                     Projections.Property(() => cotacao.Cadencia)).WithAlias(() => relatorio.Cadencia)).WithAlias(() => relatorio.Cadencia)
