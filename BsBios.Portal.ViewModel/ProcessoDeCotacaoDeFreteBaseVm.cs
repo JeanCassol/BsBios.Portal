@@ -7,8 +7,6 @@ namespace BsBios.Portal.ViewModel
 
         //[DisplayName("Data Limite de Retorno: ")]
         //public string DataLimiteDeRetorno { get; set; }
-        [DisplayName("Status: ")]
-        public virtual string Status { get; set; }
         [DisplayName("Material: ")]
         public virtual string Material { get; set; }
         //[DisplayName("Quantidade: ")]

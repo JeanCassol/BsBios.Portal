@@ -5,6 +5,8 @@ namespace BsBios.Portal.ViewModel
 
     public class ProcessoDeCotacaoDeFreteCabecalhoVm : ProcessoDeCotacaoDeFreteBaseVm
     {
+        [DisplayName("Status: ")]
+        public virtual string Status { get; set; }
 
         [DisplayName("Data Limite de Retorno: ")]
         public string DataLimiteDeRetorno { get; set; }

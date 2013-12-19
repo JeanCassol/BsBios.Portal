@@ -5,12 +5,15 @@ using System.Runtime.Remoting.Messaging;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
+using BsBios.Portal.Infra.Mappings;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Criterion.Lambda;
 using NHibernate.Linq;
+using NHibernate.Transform;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -22,6 +25,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
         Media
     }
 
+    internal enum TipoDeRelatorio
+    {
+        Analitico,
+        Sintetico
+    }
+
     public class ConsultaRelatorioDeProcessoDeCotacaoDeFrete : IConsultaRelatorioDeProcessoDeCotacaoDeFrete
     {
         private readonly IProcessosDeCotacaoDeFrete _processosDeCotacaoDeFrete;
@@ -31,138 +40,144 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _processosDeCotacaoDeFrete = processosDeCotacaoDeFrete;
         }
 
-        private IQueryable<ProcessoDeCotacao> AplicarFiltros(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
+        //private IQueryable<ProcessoDeCotacao> AplicarFiltros(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
+        //{
+        //    _processosDeCotacaoDeFrete.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
+
+        //    if (filtro.Status.HasValue)
+        //    {
+        //        var statusDoProcessoDeCotacao  = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.Status.Value) );
+        //        _processosDeCotacaoDeFrete.FiltraPorStatus(statusDoProcessoDeCotacao);
+        //    }
+
+
+        //    DateTime dataDeValidadeInicial, dataDeValidadeFinal;
+        //    if (DateTime.TryParse(filtro.DataDeValidadeInicial, out dataDeValidadeInicial))
+        //    {
+        //        _processosDeCotacaoDeFrete.DataDeValidadeAPartirDe(dataDeValidadeInicial);
+
+        //    }
+        //    if (DateTime.TryParse(filtro.DataDeValidadeFinal, out dataDeValidadeFinal))
+        //    {
+        //        _processosDeCotacaoDeFrete.DataDeValidadeAte(dataDeValidadeFinal);
+        //    }
+
+        //    var escolhaSimples = (Enumeradores.EscolhaSimples) Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));
+
+        //    switch (escolhaSimples)
+        //    {
+        //        case Enumeradores.EscolhaSimples.Sim:
+        //            _processosDeCotacaoDeFrete.SomenteClassificados();
+        //            break;
+        //        case Enumeradores.EscolhaSimples.Nao:
+        //            _processosDeCotacaoDeFrete.SomenteNaoClassificados();
+        //            break;
+        //    }
+
+        //    if (!string.IsNullOrEmpty(filtro.CodigoDoMaterial))
+        //    {
+        //        _processosDeCotacaoDeFrete.DoProduto(filtro.CodigoDoMaterial);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(filtro.DescricaoDoMaterial))
+        //    {
+        //        _processosDeCotacaoDeFrete.DescricaoDoProdutoContendo(filtro.DescricaoDoMaterial);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(filtro.CodigoDoItinerario))
+        //    {
+        //        _processosDeCotacaoDeFrete.DoItinerario(filtro.CodigoDoItinerario);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(filtro.CodigoDoFornecedorDaMercadoria))
+        //    {
+        //        _processosDeCotacaoDeFrete.DoFornecedorDaMercadoria(filtro.CodigoDoFornecedorDaMercadoria);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
+        //    {
+        //        _processosDeCotacaoDeFrete.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
+        //    }
+
+        //    if (filtro.CodigoDaTransportadora == null)
+        //    {
+        //        filtro.CodigoDaTransportadora = "";
+        //    }
+        //    if (filtro.NomeDaTransportadora == null)
+        //    {
+        //        filtro.NomeDaTransportadora = "";
+        //    }
+
+        //    return _processosDeCotacaoDeFrete.GetQuery();
+
+        //}
+
+        //public IList<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm> ListagemAnalitica(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
+        //{
+        //    IQueryable<ProcessoDeCotacao> queryable = AplicarFiltros(filtro);
+
+        //    var fornecedoresSelecionados = (Enumeradores.SelecaoDeFornecedores)Enum.Parse(typeof(Enumeradores.SelecaoDeFornecedores), Convert.ToString(filtro.SelecaoDeFornecedores));
+
+        //    bool cotacaoSelecionada = fornecedoresSelecionados == Enumeradores.SelecaoDeFornecedores.Selecionado;
+
+        //    return (from processo in queryable
+        //            from fp in processo.FornecedoresParticipantes
+        //            let p = processo as ProcessoDeCotacaoDeFrete
+        //            let transportadora = fp.Fornecedor
+        //            let cotacao = (CotacaoDeFrete) fp.Cotacao
+        //            where (fornecedoresSelecionados == Enumeradores.SelecaoDeFornecedores.Todos || cotacao.Selecionada == cotacaoSelecionada)
+        //            && (string.IsNullOrEmpty(filtro.CodigoDaTransportadora) || fp.Fornecedor.Codigo == filtro.CodigoDaTransportadora) 
+        //            && (string.IsNullOrEmpty(filtro.NomeDaTransportadora) || fp.Fornecedor.Nome.ToLower().Contains(filtro.NomeDaTransportadora.ToLower()))
+        //            orderby processo.Id ascending 
+        //        select new RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm
+        //        {
+        //            Cadencia = cotacao.Cadencia == null ?  p.Cadencia : cotacao.Cadencia.Value,
+        //            DataDeValidadeInicial = p.DataDeValidadeInicial.ToShortDateString(),
+        //            DataDeValidadeFinal = p.DataDeValidadeFinal.ToShortDateString(),
+        //            DataLimiteDeRetorno = p.DataLimiteDeRetorno.Value.ToShortDateString(),
+        //            Classificacao = p.Classificacao ? "Sim": "Não",
+        //            CnpjDoFornecedorDaMercadoria = p.FornecedorDaMercadoria != null ? p.FornecedorDaMercadoria.Cnpj : "Não informado",
+        //            NomeDoFornecedorDaMercadoria = p.FornecedorDaMercadoria != null ? p.FornecedorDaMercadoria.Nome: "Não informado",
+        //            IdDoProcessoDeCotacao = p.Id,
+        //            Itinerario = p.Itinerario.Descricao,
+        //            Material = p.Produto.Descricao,
+        //            MunicipioDeOrigem = p.MunicipioDeOrigem != null  ? p.MunicipioDeOrigem.Nome + "/" + p.MunicipioDeOrigem.UF : "Não informado",
+        //            MunicipioDeDestino = p.MunicipioDeDestino != null ? p.MunicipioDeDestino.Nome + "/" + p.MunicipioDeDestino.UF : "Não informado",
+        //            NomeDoDeposito = p.Deposito != null ? p.Deposito.Nome : "Não informado",
+        //            NumeroDoContrato = p.NumeroDoContrato,
+        //            Quantidade = p.Quantidade,
+        //            QuantidadeDisponivel = cotacao != null ?  cotacao.QuantidadeDisponivel:0,
+        //            QuantidadeLiberada = cotacao != null && cotacao.QuantidadeAdquirida.HasValue ? cotacao.QuantidadeAdquirida.Value:0,
+        //            Selecionado = cotacao != null && cotacao.Selecionada ? "Sim": "Não",
+        //            ValorComImpostos = cotacao != null ? cotacao.ValorComImpostos : 0,
+        //            Status = Convert.ToString(p.Status),
+        //            Transportadora = transportadora.Nome,
+        //            UnidadeDeMedida = p.UnidadeDeMedida.Descricao,
+        //            Visualizado = "",
+
+        //        }).ToList();
+        //}
+
+
+        private IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> ConstruirFrom(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
-            _processosDeCotacaoDeFrete.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
-
-            if (filtro.Status.HasValue)
-            {
-                var statusDoProcessoDeCotacao  = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(filtro.Status.Value) );
-                _processosDeCotacaoDeFrete.FiltraPorStatus(statusDoProcessoDeCotacao);
-            }
-
-
-            DateTime dataDeValidadeInicial, dataDeValidadeFinal;
-            if (DateTime.TryParse(filtro.DataDeValidadeInicial, out dataDeValidadeInicial))
-            {
-                _processosDeCotacaoDeFrete.DataDeValidadeAPartirDe(dataDeValidadeInicial);
-
-            }
-            if (DateTime.TryParse(filtro.DataDeValidadeFinal, out dataDeValidadeFinal))
-            {
-                _processosDeCotacaoDeFrete.DataDeValidadeAte(dataDeValidadeFinal);
-            }
-
-            var escolhaSimples = (Enumeradores.EscolhaSimples) Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));
-
-            switch (escolhaSimples)
-            {
-                case Enumeradores.EscolhaSimples.Sim:
-                    _processosDeCotacaoDeFrete.SomenteClassificados();
-                    break;
-                case Enumeradores.EscolhaSimples.Nao:
-                    _processosDeCotacaoDeFrete.SomenteNaoClassificados();
-                    break;
-            }
-
-            if (!string.IsNullOrEmpty(filtro.CodigoDoMaterial))
-            {
-                _processosDeCotacaoDeFrete.DoProduto(filtro.CodigoDoMaterial);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.DescricaoDoMaterial))
-            {
-                _processosDeCotacaoDeFrete.DescricaoDoProdutoContendo(filtro.DescricaoDoMaterial);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.CodigoDoItinerario))
-            {
-                _processosDeCotacaoDeFrete.DoItinerario(filtro.CodigoDoItinerario);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.CodigoDoFornecedorDaMercadoria))
-            {
-                _processosDeCotacaoDeFrete.DoFornecedorDaMercadoria(filtro.CodigoDoFornecedorDaMercadoria);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
-            {
-                _processosDeCotacaoDeFrete.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
-            }
-
-            if (filtro.CodigoDaTransportadora == null)
-            {
-                filtro.CodigoDaTransportadora = "";
-            }
-            if (filtro.NomeDaTransportadora == null)
-            {
-                filtro.NomeDaTransportadora = "";
-            }
-
-            return _processosDeCotacaoDeFrete.GetQuery();
-
-        }
-
-        public IList<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm> ListagemAnalitica(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
-        {
-            IQueryable<ProcessoDeCotacao> queryable = AplicarFiltros(filtro);
-
-            var fornecedoresSelecionados = (Enumeradores.SelecaoDeFornecedores)Enum.Parse(typeof(Enumeradores.SelecaoDeFornecedores), Convert.ToString(filtro.SelecaoDeFornecedores));
-
-            bool cotacaoSelecionada = fornecedoresSelecionados == Enumeradores.SelecaoDeFornecedores.Selecionado;
-
-            return (from processo in queryable
-                    from fp in processo.FornecedoresParticipantes
-                    let p = processo as ProcessoDeCotacaoDeFrete
-                    let transportadora = fp.Fornecedor
-                    let cotacao = (CotacaoDeFrete) fp.Cotacao
-                    where (fornecedoresSelecionados == Enumeradores.SelecaoDeFornecedores.Todos || cotacao.Selecionada == cotacaoSelecionada)
-                    && (string.IsNullOrEmpty(filtro.CodigoDaTransportadora) || fp.Fornecedor.Codigo == filtro.CodigoDaTransportadora) 
-                    && (string.IsNullOrEmpty(filtro.NomeDaTransportadora) || fp.Fornecedor.Nome.ToLower().Contains(filtro.NomeDaTransportadora.ToLower()))
-                    orderby processo.Id ascending 
-                select new RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm
-                {
-                    Cadencia = cotacao.Cadencia == null ?  p.Cadencia : cotacao.Cadencia.Value,
-                    DataDeValidadeInicial = p.DataDeValidadeInicial.ToShortDateString(),
-                    DataDeValidadeFinal = p.DataDeValidadeFinal.ToShortDateString(),
-                    DataLimiteDeRetorno = p.DataLimiteDeRetorno.Value.ToShortDateString(),
-                    Classificacao = p.Classificacao ? "Sim": "Não",
-                    CnpjDoFornecedorDaMercadoria = p.FornecedorDaMercadoria != null ? p.FornecedorDaMercadoria.Cnpj : "Não informado",
-                    NomeDoFornecedorDaMercadoria = p.FornecedorDaMercadoria != null ? p.FornecedorDaMercadoria.Nome: "Não informado",
-                    IdDoProcessoDeCotacao = p.Id,
-                    Itinerario = p.Itinerario.Descricao,
-                    Material = p.Produto.Descricao,
-                    MunicipioDeOrigem = p.MunicipioDeOrigem != null  ? p.MunicipioDeOrigem.Nome + "/" + p.MunicipioDeOrigem.UF : "Não informado",
-                    MunicipioDeDestino = p.MunicipioDeDestino != null ? p.MunicipioDeDestino.Nome + "/" + p.MunicipioDeDestino.UF : "Não informado",
-                    NomeDoDeposito = p.Deposito != null ? p.Deposito.Nome : "Não informado",
-                    NumeroDoContrato = p.NumeroDoContrato,
-                    Quantidade = p.Quantidade,
-                    QuantidadeDisponivel = cotacao != null ?  cotacao.QuantidadeDisponivel:0,
-                    QuantidadeLiberada = cotacao != null && cotacao.QuantidadeAdquirida.HasValue ? cotacao.QuantidadeAdquirida.Value:0,
-                    Selecionado = cotacao != null && cotacao.Selecionada ? "Sim": "Não",
-                    ValorComImpostos = cotacao != null ? cotacao.ValorComImpostos : 0,
-                    Status = Convert.ToString(p.Status),
-                    Transportadora = transportadora.Nome,
-                    UnidadeDeMedida = p.UnidadeDeMedida.Descricao,
-                    Visualizado = "",
-
-                }).ToList();
-        }
-
-        private IList<object[]> ConstruirQueryOver(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro, FuncaoDeAgrecacao funcaoDeAgrecacao)
-        {
-            var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = null;
-
-            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver(() => processoDeCotacao);
-
             FornecedorParticipante fornecedorParticipante = null;
             Fornecedor transportadora = null;
-            Cotacao cotacao = null;
+            CotacaoDeFrete cotacao = null;
             Produto produto = null;
             UnidadeDeMedida unidadeDeMedida = null;
             Itinerario itinerario = null;
+            Municipio municipioDeOrigem = null;
+            Municipio municipioDeDestino = null;
+            Fornecedor deposito = null;
+            Fornecedor fornecedorDaMercadoria = null;
+
+
+            var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
+
+            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver(() => processoDeCotacao);
 
             queryOver
                 .JoinAlias(x => x.Produto, () => produto)
@@ -170,7 +185,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .JoinAlias(x => x.Itinerario, () => itinerario)
                 .Left.JoinAlias(x => x.FornecedoresParticipantes, () => fornecedorParticipante)
                 .Left.JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
-                .Left.JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora);
+                .Left.JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora)
+                .Left.JoinAlias(x => x.Deposito, () => deposito)
+                .Left.JoinAlias(x => x.FornecedorDaMercadoria,() => fornecedorDaMercadoria)
+                .Left.JoinAlias(x => x.MunicipioDeOrigem, () => municipioDeOrigem)
+                .Left.JoinAlias(x => x.MunicipioDeDestino, () => municipioDeDestino);
 
             if (filtro.Status.HasValue)
             {
@@ -249,6 +268,24 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere));
             }
 
+            return queryOver;
+            
+        }
+
+
+        private IEnumerable<object[]> ConstruirQueryOverRelatorioSintetico(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro, FuncaoDeAgrecacao funcaoDeAgrecacao)
+        {
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = null;
+            Fornecedor transportadora = null;
+            CotacaoDeFrete cotacao = null;
+            Produto produto = null;
+            UnidadeDeMedida unidadeDeMedida = null;
+            Itinerario itinerario = null;
+
+
+            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = ConstruirFrom(filtro);
+
             var projectionBuilder = new QueryOverProjectionBuilder<ProcessoDeCotacaoDeFrete>();
 
                 projectionBuilder =
@@ -309,9 +346,85 @@ namespace BsBios.Portal.Application.Queries.Implementations
         }
 
 
+        public IList<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm> ListagemAnalitica(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+            RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm relatorio = null;
+
+            ProcessoDeCotacaoDeFrete processoDeCotacao = null;
+            Fornecedor transportadora = null;
+            Fornecedor fornecedorDaMercadoria = null;
+            Fornecedor deposito = null;
+            CotacaoDeFrete cotacao = null;
+            Produto produto = null;
+            UnidadeDeMedida unidadeDeMedida = null;
+            Itinerario itinerario = null;
+            Municipio municipioDeOrigem = null;
+            Municipio municipioDeDestino = null;
+
+            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = ConstruirFrom(filtro);
+
+            var processosDeCotacao = queryOver.SelectList( lista => lista
+                    .Select(Projections.Conditional(Restrictions.IsNull(Projections.Property(() => cotacao.Cadencia)), 
+                    Projections.Property(() => processoDeCotacao.Cadencia), 
+                    Projections.Property(() => cotacao.Cadencia)).WithAlias(() => relatorio.Cadencia)).WithAlias(() => relatorio.Cadencia)
+
+                    .Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataDeValidadeInicial))).WithAlias(() => relatorio.DataDeValidadeInicial)
+                    .Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataDeValidadeFinal))).WithAlias(() => relatorio.DataDeValidadeFinal)
+                    .Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataLimiteDeRetorno))).WithAlias(() => relatorio.DataLimiteDeRetorno)
+                    
+                    .Select(Projections.Conditional(Restrictions.Eq(Projections.Property(() => processoDeCotacao.Classificacao),true),Projections.Constant("Sim"), Projections.Constant("Não"))).WithAlias(() => relatorio.Classificacao)
+
+                    .Select(x => fornecedorDaMercadoria != null ? fornecedorDaMercadoria.Cnpj : "Não informado").WithAlias(() => relatorio.CnpjDoFornecedorDaMercadoria)
+                    .Select(x => fornecedorDaMercadoria != null ? fornecedorDaMercadoria.Nome: "Não informado").WithAlias(() => relatorio.NomeDoFornecedorDaMercadoria)
+                    .Select(x => processoDeCotacao.Id).WithAlias(() => relatorio.IdDoProcessoDeCotacao)
+                    .Select(x => itinerario.Descricao).WithAlias(() => relatorio.Itinerario)
+                    .Select(x => produto.Descricao).WithAlias(() => relatorio.Material)
+                    .Select(x => municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado").WithAlias(() => relatorio.MunicipioDeOrigem)
+                    .Select(x => municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado").WithAlias(() => relatorio.MunicipioDeDestino)
+                    .Select(x => deposito != null ? deposito.Nome : "Não informado").WithAlias(() => relatorio.NomeDoDeposito)
+                    .Select(x => processoDeCotacao.NumeroDoContrato).WithAlias(() => relatorio.NumeroDoContrato)
+                    .Select(x => processoDeCotacao.Quantidade).WithAlias(() => relatorio.Quantidade)
+                    //.Select(x => cotacao != null ? cotacao.QuantidadeDisponivel : 0).WithAlias(() => relatorio.QuantidadeDisponivel)
+                    .Select(Projections.Conditional(Restrictions.IsNotNull(Projections.Property(() => cotacao.QuantidadeDisponivel)),
+                    Projections.Property(() => cotacao.QuantidadeDisponivel),
+                    Projections.Cast(NHibernateUtil.Decimal,Projections.Constant(0)))).WithAlias(() => relatorio.QuantidadeDisponivel)
+
+                    //.Select(x => cotacao != null && cotacao.QuantidadeAdquirida.HasValue ? cotacao.QuantidadeAdquirida.Value:0).WithAlias(() => relatorio.QuantidadeLiberada)
+                    .Select(Projections.Conditional(Restrictions.IsNotNull(Projections.Property(() => cotacao.QuantidadeAdquirida)),
+                    Projections.Property(() => cotacao.QuantidadeAdquirida),
+                    Projections.Cast(NHibernateUtil.Decimal, Projections.Constant(0)))).WithAlias(() => relatorio.QuantidadeLiberada)
+                    
+                    //.Select(x => cotacao != null && cotacao.Selecionada ? "Sim": "Não").WithAlias(() => relatorio.Selecionado)
+                    .Select(Projections.Conditional(Restrictions.Eq(Projections.Property(() => cotacao.Selecionada), true), 
+                    Projections.Constant("Sim"), Projections.Constant("Não"))).WithAlias(() => relatorio.Selecionado)
+
+                    //.Select(x => cotacao != null ? cotacao.ValorComImpostos : 0).WithAlias(() => relatorio.ValorComImpostos)
+                    .Select(Projections.Conditional(Restrictions.IsNotNull(Projections.Property(() => cotacao.ValorComImpostos)),
+                    Projections.Property(() => cotacao.ValorComImpostos),
+                    Projections.Cast(NHibernateUtil.Decimal, Projections.Constant(0)))).WithAlias(() => relatorio.ValorComImpostos)
+                    
+                    .Select(x => processoDeCotacao.Status).WithAlias(() => relatorio.Status)
+                    //.Select(Projections.Cast(NHibernateUtil.Int32, Projections.Property(() =>  processoDeCotacao.Status))).WithAlias(() => relatorio.Status)
+
+                    .Select(x => transportadora.Nome).WithAlias(() => relatorio.Transportadora)
+                    .Select(x => unidadeDeMedida.Descricao).WithAlias(() => relatorio.UnidadeDeMedida)
+
+                ).TransformUsing(Transformers.AliasToBean<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm>())
+                .List<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm>();
+
+            foreach (var processo in processosDeCotacao)
+            {
+                var status = (Enumeradores.StatusProcessoCotacao)Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), Convert.ToString(processo.Status));
+                processo.DescricaoDoStatus = status.Descricao();
+            }
+
+            return processosDeCotacao;
+
+        }
+
         public IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> ListagemSinteticaComSoma(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
-            IList<object[]> registros = ConstruirQueryOver(filtro, FuncaoDeAgrecacao.Soma);
+            IEnumerable<object[]> registros = ConstruirQueryOverRelatorioSintetico(filtro, FuncaoDeAgrecacao.Soma);
 
             return ConstruirResultadoDosRelatoriosSinteticos(registros);
 
@@ -321,9 +434,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> ListagemSinteticaComMedia(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
-            IList<object[]> registros = ConstruirQueryOver(filtro, FuncaoDeAgrecacao.Media);
+            IEnumerable<object[]> registros = ConstruirQueryOverRelatorioSintetico(filtro, FuncaoDeAgrecacao.Media);
 
             return ConstruirResultadoDosRelatoriosSinteticos(registros);
+
+
         }
 
 

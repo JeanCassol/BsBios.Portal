@@ -1,9 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace BsBios.Portal.ViewModel
 {
     public class RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm : ProcessoDeCotacaoDeFreteBaseVm
     {
+        [DisplayName("Status: ")]
+        public virtual object Status { get; set; }
+
+        public string DescricaoDoStatus { get; set; }
+
         [DisplayName("Nº Cotação")]
         public int IdDoProcessoDeCotacao { get; set; }
         [DisplayName("Nº do Contrato: ")]

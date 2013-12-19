@@ -34,7 +34,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             {
                 Classificacao = (int) Enumeradores.EscolhaSimples.Todos,
                 SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Todos,
-                Status = (int) Enumeradores.StatusProcessoCotacao.NaoIniciado
+                //Status = (int) Enumeradores.StatusProcessoCotacao.Aberto
             };
 
             IList<RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm> registros = consulta.ListagemSinteticaComSoma(filtro);

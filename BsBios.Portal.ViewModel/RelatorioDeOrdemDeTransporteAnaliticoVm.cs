@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BsBios.Portal.ViewModel
 {
     public class RelatorioDeOrdemDeTransporteAnaliticoVm : ProcessoDeCotacaoDeFreteBaseVm
     {
+        [DisplayName("Status: ")]
+        public virtual string Status { get; set; }
+
         public virtual string Id { get; set; }
         [DisplayFormat(DataFormatString = "{0:0}")]
         public virtual decimal IdDaOrdemDeTransporte { get; set; }

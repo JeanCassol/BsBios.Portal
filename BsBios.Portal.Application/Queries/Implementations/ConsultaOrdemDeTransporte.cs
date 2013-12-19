@@ -129,7 +129,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 }).Single();
 
-            var status = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao),ordemDeTransporteCadastroVm.Cabecalho.Status);
+            var status = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), ordemDeTransporteCadastroVm.Cabecalho.Status.ToString());
 
             ordemDeTransporteCadastroVm.Cabecalho.Status = status.Descricao();
 
