@@ -54,6 +54,7 @@ namespace BsBios.Portal.ViewModel
         public string Material { get; set; }
         public IList<MonitorDeOrdemDeTransporteVm> Registros { get; set; }
 
+        public MonitorDeOrdemDeTransporteVm Total { get; set; }
     }
 
 }

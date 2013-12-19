@@ -93,11 +93,19 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<MonitorDeOrdemDeTransportePorMaterialVm> ListarPorMaterial(MonitorDeOrdemDeTransporteConfiguracaoVm filtro)
         {
-            var listagem = Listar(filtro);
+            IList<MonitorDeOrdemDeTransporteListagemVm> listagem = Listar(filtro);
 
             return listagem.GroupBy(l => l.Material).Select(m => new MonitorDeOrdemDeTransportePorMaterialVm
             {
                 Material = m.Key,
+                Total =  new MonitorDeOrdemDeTransporteVm
+                {
+                    QuantidadeEmTransito = m.Sum(x => x.QuantidadeEmTransito),
+                    QuantidadeLiberada = m.Sum(x => x.QuantidadeLiberada),
+                    PrevisaoDeChegadaNoDia = m.Sum(x => x.PrevisaoDeChegadaNoDia),
+                    QuantidadePendente = m.Sum(x => x.QuantidadePendente),
+                    QuantidadeRealizada = m.Sum(x => x.QuantidadeRealizada) 
+                },
                 Registros = m.Select(o => new MonitorDeOrdemDeTransporteVm
                 {
                     FornecedorDaMercadoria = o.FornecedorDaMercadoria,

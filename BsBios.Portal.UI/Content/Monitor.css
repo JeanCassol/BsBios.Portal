@@ -33,7 +33,7 @@
     color: rgb(255, 255,255);
 }
 
-.full_table_list thead tr {
+.full_table_list thead tr, .full_table_list tfoot tr {
     height: 2em;
 }
 
@@ -48,9 +48,10 @@
     text-align: center;
 }
 
-.colunaNumerica {
-    /*text-align: right*/
+.full_table_list tfoot {
+    background-color: rgb(39, 82, 39)
 }
+
 .mensagemErro {
     margin: 0;
 }

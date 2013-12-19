@@ -103,18 +103,35 @@
                         <th>Nº Contrato</th>
                         <th>Nº Ordem</th>
                         <th>Fornecedor</th>
-                        <th class="">Transportadora</th>
-                        <th class="">Origem</th>
-                        <th class="">Destino</th>
-                        <th class="">Liberado</th>
-                        <th class="">Realizado</th>
-                        <th class="">Em Trânsito</th>
-                        <th class="">Chegada Hoje</th>
-                        <th class="">Pendente</th>
-                        <th class="">% Pendente</th>
-                        <th class="">Semáforo</th>
+                        <th>Transportadora</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Liberado</th>
+                        <th>Realizado</th>
+                        <th>Em Trânsito</th>
+                        <th>Chegada Hoje</th>
+                        <th>Pendente</th>
+                        <th>% Pendente</th>
+                        <th>Semáforo</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
                 <tbody data-bind="foreach: registros">
                     <tr>
                         <td data-bind="text: NumeroDoContrato"></td>
@@ -188,6 +205,7 @@
                         me.registros().push(registro);
                     });
                     me.registros.valueHasMutated();
+                    atualizaTotalizador(materialAtual.Total);
                     atualizaVisibilidadeDasColunasDasTabelas();
                     me.indiceDoMaterial++;
 
@@ -266,6 +284,15 @@
                 
             }
             
+            function atualizaTotalizador(totalizador) {
+                var colunasDoTotalizador = $('.full_table_list tfoot tr td');
+                colunasDoTotalizador[6].innerText = Globalize.format(totalizador.QuantidadeLiberada,'n3');
+                colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeRealizada,'n3');
+                colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeEmTransito,'n3');
+                colunasDoTotalizador[9].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia,'n3');
+                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.QuantidadePendente,'n3');
+            }
+            
             function atualizaVisibilidadeDasColunasDasTabelas() {
                 var agrupamentos = $('.divFiltros').serializeObject();
                 
@@ -312,14 +339,6 @@
                 $('#showDiv').mouseenter(function() {
                     $('.configuracaoDoMonitor').show("drop", { direction: "up" }, "slow");
                 });
-
-                //$(window)
-                //    .blur(function () {
-                //        console.log('Saindo da janela ' + new Date());
-                //    })
-                //    .focus(function() {
-                //        console.log('Entrando na janela' + new Date());
-                //    });
 
                 configuracaoDoMonitor.recarregarDadosDoMonitor(parseInt($('#InterValoDeAtualizacao').val()));
 
