@@ -10,6 +10,7 @@ using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Criterion.Lambda;
+using NHibernate.Linq;
 using StructureMap;
 
 namespace BsBios.Portal.Application.Queries.Implementations
@@ -152,8 +153,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
         {
             var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
+            ProcessoDeCotacaoDeFrete processoDeCotacao = null;
 
-            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver<ProcessoDeCotacaoDeFrete>();
+            IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver<ProcessoDeCotacaoDeFrete>(() => processoDeCotacao);
 
             FornecedorParticipante fornecedorParticipante = null;
             Fornecedor transportadora = null;
@@ -276,16 +278,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     break;
             }
             
-
-                //.OrderBy(x => x.Status).Asc
-                //.ThenByAlias(() => produto.Descricao);
-            //.ThenBy(x => x.Produto.Descricao).Asc;
-                //.ThenByAlias(() => itinerario.Descricao).Asc
-                //.ThenByAlias(() => transportadora.Nome);
-
             return queryOver
-            .OrderBy(x => x.Status).Asc
-            //.ThenByAlias(() => produto.Descricao).Asc
+                .OrderBy(Projections.Property(() => processoDeCotacao.Status)).Asc
+                .ThenBy(Projections.Property(() => produto.Descricao)).Asc
+                .ThenBy(Projections.Property(() => itinerario.Descricao)).Asc
+                .ThenBy(Projections.Property(() => transportadora.Nome)).Asc
             .SelectList(lista => projectionBuilder)
             .List<object[]>();
 
