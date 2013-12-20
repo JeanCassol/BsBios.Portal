@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.ViewModel;
@@ -17,9 +18,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var filtro = new RelatorioDeProcessoDeCotacaoDeFreteFiltroVm
             {
                 Classificacao = (int) Enumeradores.EscolhaSimples.Todos,
-                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Todos,
-                //CodigoDaTransportadora = "TRANSP0001"
-                Status = (int) Enumeradores.StatusProcessoCotacao.NaoIniciado
+                Status = (int) Enumeradores.StatusProcessoCotacao.Aberto ,
+                SelecaoDeFornecedores = (int) Enumeradores.SelecaoDeFornecedores.Selecionado,
+                CodigoDoMaterial = "M_SOJA",
+                CodigoDaTransportadora = "TRANSP0001",
+                DataDeValidadeInicial = new DateTime(2013,6,1).ToShortDateString(),
+                DataDeValidadeFinal =  new DateTime(2013,12,31).ToShortDateString(),
+                DescricaoDoMaterial = "SOJA",
+                NomeDoFornecedorDaMercadoria = "mauro"
             };
             IList<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm> registros = consulta.ListagemAnalitica(filtro);
 

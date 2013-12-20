@@ -174,7 +174,6 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Fornecedor deposito = null;
             Fornecedor fornecedorDaMercadoria = null;
 
-
             var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
             IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = unitOfWork.Session.QueryOver(() => processoDeCotacao);
@@ -201,11 +200,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
             DateTime dataDeValidadeInicial, dataDeValidadeFinal;
             if (DateTime.TryParse(filtro.DataDeValidadeInicial, out dataDeValidadeInicial))
             {
-                queryOver = queryOver.Where(x => x.DataDeValidadeFinal >= dataDeValidadeInicial);
+                queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeFinal >= dataDeValidadeInicial);
+
             }
             if (DateTime.TryParse(filtro.DataDeValidadeFinal, out dataDeValidadeFinal))
             {
-                queryOver = queryOver.Where(x => x.DataDeValidadeInicial <= dataDeValidadeFinal);
+                queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial <= dataDeValidadeFinal);
             }
 
             var escolhaSimples = (Enumeradores.EscolhaSimples)Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));
@@ -213,10 +213,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
             switch (escolhaSimples)
             {
                 case Enumeradores.EscolhaSimples.Sim:
-                    queryOver = queryOver.Where(x => x.Classificacao);
+                    queryOver = queryOver.Where(() => processoDeCotacao.Classificacao);
                     break;
                 case Enumeradores.EscolhaSimples.Nao:
-                    queryOver = queryOver.Where(x => !x.Classificacao);
+                    queryOver = queryOver.Where(() => !processoDeCotacao.Classificacao);
                     break;
             }
 
@@ -240,7 +240,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (!string.IsNullOrEmpty(filtro.DescricaoDoMaterial))
             {
-                queryOver = queryOver.Where(x => produto.Descricao.ToLower().Contains(filtro.DescricaoDoMaterial.ToLower()));
+                queryOver = queryOver.Where(Restrictions.On(() => produto.Descricao)
+                .IsInsensitiveLike(filtro.DescricaoDoMaterial, MatchMode.Anywhere));
+
             }
 
             if (!string.IsNullOrEmpty(filtro.CodigoDoItinerario))
@@ -255,7 +257,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
             {
-                queryOver = queryOver.Where(x => x.FornecedorDaMercadoria.Nome.ToLower().Contains(filtro.NomeDoFornecedorDaMercadoria.ToLower()));
+                //queryOver = queryOver.Where(x => x.FornecedorDaMercadoria.Nome.ToLower().Contains(filtro.NomeDoFornecedorDaMercadoria.ToLower()));
+                queryOver = queryOver.Where(Restrictions.On(() => fornecedorDaMercadoria.Nome)
+                .IsInsensitiveLike(filtro.NomeDoFornecedorDaMercadoria, MatchMode.Anywhere));
             }
 
             if (!string.IsNullOrEmpty(filtro.CodigoDaTransportadora))
