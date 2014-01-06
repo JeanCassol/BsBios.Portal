@@ -27,6 +27,7 @@
         @Html.Partial("_Filtro")
         <div class="divBotao">
             <input type="submit" id="btnGerarRelatorio" value="Gerar" class="blue" />
+            <input type="submit" id="btnExportarRelatorio" value="Exportar" class="blue" />
         </div>
     </form>
 </fieldset>
@@ -63,6 +64,12 @@
                 window.open('@Url.Action("GerarRelatorio","RelatorioDeProcessoDeCotacaoDeFreteVisualizacao")' + '/?' + $('form').serialize() +
                     '&Relatorio=' + $('input[name=RelatorioDeProcessoDeCotacaoDeFrete]:checked').val());
             });
+
+            $('#btnExportarRelatorio').click(function (e) {
+                e.preventDefault();
+                window.open('@Url.Action("GerarRelatorioEmExcel","RelatorioDeProcessoDeCotacaoDeFreteVisualizacao")' + '/?' + $('form').serialize(),"_parent");
+            });
+
         })
     </script>
 }

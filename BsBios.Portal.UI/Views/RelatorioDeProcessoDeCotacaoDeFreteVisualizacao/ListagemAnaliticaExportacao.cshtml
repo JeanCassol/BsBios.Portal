@@ -11,9 +11,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Relatório de Processo de Cotação de Frete - Analítico</title>
-    @*<link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet" />
-    <link type="text/css" href="@Url.Content("~/Content/Impressao.css")" rel="stylesheet" />*@
-    @Html.Partial("_EstiloDosRelatorios")
+    <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/Impressao.css")" rel="stylesheet" />
 
 </head>
 <body>
@@ -22,7 +21,7 @@
         @{
             RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro = ViewBag.Filtro;
         }
-        @Html.Partial("_CabecalhoExportacao", filtro)
+        @Html.Partial("_Cabecalho", filtro)
 
         <table>
             <thead>
@@ -35,7 +34,7 @@
                     <th>Data Limite</th>
                     <th>Validade Inicial</th>
                     <th>Validade Final</th>
-                    <th>@HttpUtility.HtmlDecode("Itinerário")</th>
+                    <th>Itinerário</th>
                     <th>@HttpUtility.HtmlDecode("Nº Contrato")</th>
                     <th>@HttpUtility.HtmlDecode("Classificação")</th>
                     <th>@HttpUtility.HtmlDecode("Cadência")</th>
@@ -44,7 +43,7 @@
                     <th>@HttpUtility.HtmlDecode("Município de Origem")</th>
                     <th>@HttpUtility.HtmlDecode("Município de Destino")</th>
                     <th>Transportadora</th>
-                    <th>@HttpUtility.HtmlDecode("Quantidade Disponível")</th>
+                    <th>@HttpUtility.HtmlDecode("Município de Destino")</th>
                     <th>Valor com Impostos</th>
                     <th>Selecionado</th>
                     <th>Quantidade Liberada</th>
@@ -76,7 +75,9 @@
                         <td>@Html.DisplayFor(modelItem => item.Selecionado)</td>
                         <td>@Html.DisplayFor(modelItem => item.QuantidadeLiberada)</td>
                     </tr>
+  
                 }
+                
             </tbody>
         </table>
         

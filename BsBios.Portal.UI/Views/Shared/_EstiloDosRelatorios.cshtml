@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+<style type="text/css"media="all">
+    table, table tr td, table tr th {
+        border: solid 1px black;
+        border-collapse: collapse;
+    }
+
+    table {
+        margin: 1pt;
+        font-size: 10pt;
+    }
+
+    hr {
+        border-style: solid;
+        border-top-width: 1pt;
+        border-bottom-width: 0;
+    }
+
+    h2 {
+        text-align: center;
+        -webkit-margin-before: 5pt;
+        -webkit-margin-after: 5pt;
+    }
+
+    .bordaDoRelatorio {
+        border: solid 1pt black;
+        padding: 4pt;
+        /*width: intrinsic; NÃO FUNCIONA NO IE */
+        display: inline-block; /*faz com que a div da borda do relatório fique do tamanho da janela*/
+    }
+
+    label {
+        display: block;
+        font-size: 10pt;
+    }
+
+    .linha {
+        clear: both;
+    }
+
+    .coluna {
+        width: 49%;
+        display: inline-block;
+        float: left;
+    }
+
+    .labelNaLinha {
+        display: inline;
+    }
+</style>
+<style type="text/css" media="print">
+    body {
+        font-size: 5.5pt;
+        font-weight: normal;
+        
+    }
+
+    .bordaDoRelatorio {
+        size: landscape
+    }
+
+</style>
+
+

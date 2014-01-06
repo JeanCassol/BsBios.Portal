@@ -147,6 +147,7 @@
     <Compile Include="Controllers\AgendamentoDeCargaController.cs" />
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
     <Compile Include="Controllers\ModelBinders\IntegerModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\MonitorDeOrdemDeTransporteController.cs" />
@@ -499,6 +500,8 @@
     <Content Include="Views\RelatorioDeOrdemDeTransporte\Relatorio.cshtml" />
     <Content Include="Views\RelatorioDeOrdemDeTransporteVisualizacao\_Cabecalho.cshtml" />
     <Content Include="Views\RelatorioDeOrdemDeTransporteVisualizacao\ListagemAnalitica.cshtml" />
+    <Content Include="Views\Shared\_EstiloDosRelatorios.cshtml" />
+    <Content Include="Views\RelatorioDeProcessoDeCotacaoDeFreteVisualizacao\_CabecalhoExportacao.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
