@@ -8,13 +8,13 @@
 
         @foreach (Menu menu in Model)
         {
-            <li>@menu.Descricao
+            <li class="hover">@menu.Descricao
                 <ul>
                     @foreach(MenuItem menuItem in menu.Itens)
                     {
                         MvcHtmlString linkDoMenu = menuItem.AbrirEmNovaJanela ? 
-                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller, null, new {@class = "abrirEmNovaJanela"}) : 
-                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller);
+                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller, null, new {@class = "hover abrirEmNovaJanela"}) : 
+                            Html.ActionLink(menuItem.Descricao, menuItem.Action, menuItem.Controller,null, new {@class = "hover"});
 
                         <li>@linkDoMenu </li>
                         
