@@ -441,7 +441,10 @@ $(function () {
         $(".divGrid :last").data("kendoGrid").dataSource.page(1);
     });
 
-    //aplicaMascaras();
+    $('.hover').bind('touchstart touchend', function (e) {
+        e.preventDefault();
+        $(this).toggleClass('hover_effect');
+    });
 });
 
 function responseIsJsonDataType(ajaxOptions) {
