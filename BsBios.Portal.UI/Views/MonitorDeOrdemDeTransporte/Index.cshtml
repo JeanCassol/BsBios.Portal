@@ -141,12 +141,12 @@
                         <td data-bind="text: MunicipioDeOrigem"></td>
                         <td data-bind="text: MunicipioDeDestino"></td>
 
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeLiberada,'n3')"></td>
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeRealizada,'n3')"></td>
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadeEmTransito,'n3')"></td>
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia,'n3')"></td>
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(QuantidadePendente, 'n3')"></td>
-                        <td class="colunaNumerica" data-bind="text: Globalize.format(PercentualPendente, 'n3')"></td>
+                        <td data-bind="text: Globalize.format(QuantidadeLiberada, formatoDosNumeros)"></td>
+                        <td data-bind="text: Globalize.format(QuantidadeRealizada, formatoDosNumeros)"></td>
+                        <td data-bind="text: Globalize.format(QuantidadeEmTransito, formatoDosNumeros)"></td>
+                        <td data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia, formatoDosNumeros)"></td>
+                        <td data-bind="text: Globalize.format(QuantidadePendente, formatoDosNumeros)"></td>
+                        <td data-bind="text: Globalize.format(PercentualPendente, formatoDosNumeros)"></td>
                         <td >
                             <div class="semaforo" data-bind="css: ClasseDoSemaforo"></div>
                         </td>
@@ -167,6 +167,8 @@
         <script type="text/javascript">
             
             UrlPadrao = { BuscaDeMunicipios: '@Url.Action("Buscar", "Municipio")' };
+
+            var formatoDosNumeros = 'n0';
             
             function ConfiguracaoDoMonitor() {
 
@@ -286,11 +288,11 @@
             
             function atualizaTotalizador(totalizador) {
                 var colunasDoTotalizador = $('.full_table_list tfoot tr td');
-                colunasDoTotalizador[6].innerText = Globalize.format(totalizador.QuantidadeLiberada,'n3');
-                colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeRealizada,'n3');
-                colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeEmTransito,'n3');
-                colunasDoTotalizador[9].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia,'n3');
-                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.QuantidadePendente,'n3');
+                colunasDoTotalizador[6].innerText = Globalize.format(totalizador.QuantidadeLiberada,formatoDosNumeros);
+                colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeRealizada, formatoDosNumeros);
+                colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeEmTransito, formatoDosNumeros);
+                colunasDoTotalizador[9].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia, formatoDosNumeros);
+                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.QuantidadePendente, formatoDosNumeros);
             }
             
             function atualizaVisibilidadeDasColunasDasTabelas() {
