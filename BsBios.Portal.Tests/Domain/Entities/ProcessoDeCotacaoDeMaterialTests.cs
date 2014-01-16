@@ -193,7 +193,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        public void QuandoFecharUmProcessoDeCotacaoDevePassarParaStatusFechado()
+        public void QuandoFecharUmProcessoDeCotacaoDevePassarParaStatusFechadoEAtribuirADataDeFechamentoParaADataAtual()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
             string codigoDoFornecedor = processoDeCotacaoDeMaterial.FornecedoresParticipantes.First().Fornecedor.Codigo;
@@ -203,7 +203,10 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processoDeCotacaoDeMaterial.SelecionarCotacao(cotacao.Id, 100,iva);
             processoDeCotacaoDeMaterial.Fechar();
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
+            Assert.AreEqual(DateTime.Now.Date, processoDeCotacaoDeMaterial.DataDeFechamento);
         }
+
+
 
         [TestMethod]
         [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]

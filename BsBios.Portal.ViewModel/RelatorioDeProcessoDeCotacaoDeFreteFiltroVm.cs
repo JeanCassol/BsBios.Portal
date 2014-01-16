@@ -12,5 +12,7 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Itinerário")]
         public string DescricaoDoItinerario { get; set; }
 
+        public string DataDeFechamento { get; set; }
+
     }
 }

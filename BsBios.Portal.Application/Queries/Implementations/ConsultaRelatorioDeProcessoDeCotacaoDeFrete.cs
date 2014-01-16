@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Mappings;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Criterion.Lambda;
-using NHibernate.Linq;
 using NHibernate.Transform;
 using StructureMap;
 
@@ -197,7 +194,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             }
 
 
-            DateTime dataDeValidadeInicial, dataDeValidadeFinal;
+            DateTime dataDeValidadeInicial, dataDeValidadeFinal, dataDeFechamento;
             if (DateTime.TryParse(filtro.DataDeValidadeInicial, out dataDeValidadeInicial))
             {
                 queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeFinal >= dataDeValidadeInicial);
@@ -206,6 +203,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             if (DateTime.TryParse(filtro.DataDeValidadeFinal, out dataDeValidadeFinal))
             {
                 queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial <= dataDeValidadeFinal);
+            }
+
+            if (DateTime.TryParse(filtro.DataDeFechamento, out dataDeFechamento))
+            {
+                queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial == dataDeFechamento);
             }
 
             var escolhaSimples = (Enumeradores.EscolhaSimples)Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));

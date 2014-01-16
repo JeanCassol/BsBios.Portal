@@ -9,24 +9,6 @@ namespace BsBios.Portal.Domain.Entities
 {
     public abstract class ProcessoDeCotacao : IAggregateRoot
     {
-        public virtual int Id { get; protected set; }
-        public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
-        public virtual Produto Produto { get; protected set; }
-        public virtual decimal Quantidade { get; protected set; }
-        public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
-        public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
-        public virtual string Requisitos { get; protected set; }
-        public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
-
-        public virtual IList<FornecedorParticipante> FornecedoresSelecionados
-        {
-            get
-            {
-                return FornecedoresParticipantes
-                    .Where(fp => fp.Cotacao != null && fp.Cotacao.Selecionada)
-                    .ToList();
-            }
-        }
 
         protected ProcessoDeCotacao()
         {
@@ -49,6 +31,27 @@ namespace BsBios.Portal.Domain.Entities
             DataLimiteDeRetorno = dataLimiteRetorno;
 
         }
+
+        public virtual int Id { get; protected set; }
+        public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
+        public virtual Produto Produto { get; protected set; }
+        public virtual decimal Quantidade { get; protected set; }
+        public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
+        public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
+        public virtual DateTime DataDeFechamento { get; protected set; }
+        public virtual string Requisitos { get; protected set; }
+        public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
+
+        public virtual IList<FornecedorParticipante> FornecedoresSelecionados
+        {
+            get
+            {
+                return FornecedoresParticipantes
+                    .Where(fp => fp.Cotacao != null && fp.Cotacao.Selecionada)
+                    .ToList();
+            }
+        }
+
 
         public virtual FornecedorParticipante AdicionarFornecedor(Fornecedor fornecedor)
         {
@@ -125,6 +128,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
+            DataDeFechamento = DateTime.Now.Date;
         }
 
         public virtual void Cancelar()
