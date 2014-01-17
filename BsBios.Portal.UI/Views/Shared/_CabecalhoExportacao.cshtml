@@ -72,7 +72,11 @@
 </tr>
 
 <tr>
-    <td rowspan="2">
+    <td>
+        @Html.Label("Data de Fechamento: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.DataDeFechamento) ? "Todas" : Model.DataDeFechamento, new { @class = "labelNaLinha" })
+    </td>
+    <td>
         @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
     </td>
 </tr>

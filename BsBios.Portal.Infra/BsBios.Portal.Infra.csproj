@@ -101,11 +101,8 @@
     <Compile Include="Mappings\ProdutoMap.cs" />
     <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
-    <Compile Include="Model\ContaDeEmail.cs" />
     <Compile Include="Model\CredencialSap.cs" />
-    <Compile Include="Model\EmailDoPortal.cs" />
     <Compile Include="Model\ProcessoCotacaoIteracaoUsuario.cs" />
-    <Compile Include="Model\MensagemDeEmail.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,7 +154,6 @@
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
     <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
-    <Compile Include="Services\Contracts\IEmailService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmail.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IGeradorDeSenha.cs" />
@@ -174,7 +170,6 @@
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFreteFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
-    <Compile Include="Services\Implementations\EmailService.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmail.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial.cs" />
@@ -197,6 +192,10 @@
     <ProjectReference Include="..\BsBios.Portal.Domain\BsBios.Portal.Domain.csproj">
       <Project>{2B790B52-C827-486C-B871-1392CFAD1C48}</Project>
       <Name>BsBios.Portal.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra.Email\BsBios.Portal.Infra.Email.csproj">
+      <Project>{a5826b89-0971-47f4-94d4-8e60b9408699}</Project>
+      <Name>BsBios.Portal.Infra.Email</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.ViewModel\BsBios.Portal.ViewModel.csproj">
       <Project>{01C438CD-9055-4299-9F5C-A4086EE1CC00}</Project>

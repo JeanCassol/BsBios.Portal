@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.UI", "BsBios.Portal.UI\BsBios.Portal.UI.csproj", "{ADF235AC-A253-430D-B311-56D46157E3CF}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Tests.DataProvider", "BsBios.Portal.Tests.DataProvider\BsBios.Portal.Tests.DataProvider.csproj", "{2566A7D2-FDF6-4112-83B6-633ABE7502EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.GeradorDeRelatorio", "BsBios.Portal.GeradorDeRelatorio\BsBios.Portal.GeradorDeRelatorio.csproj", "{A18C1781-A45A-43AC-9296-21385AFEE95F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.Email", "BsBios.Portal.Infra.Email\BsBios.Portal.Infra.Email.csproj", "{A5826B89-0971-47F4-94D4-8E60B9408699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{A18C1781-A45A-43AC-9296-21385AFEE95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18C1781-A45A-43AC-9296-21385AFEE95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18C1781-A45A-43AC-9296-21385AFEE95F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5826B89-0971-47F4-94D4-8E60B9408699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5826B89-0971-47F4-94D4-8E60B9408699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5826B89-0971-47F4-94D4-8E60B9408699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5826B89-0971-47F4-94D4-8E60B9408699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

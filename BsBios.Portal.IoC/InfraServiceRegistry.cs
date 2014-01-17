@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Common;
+using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;

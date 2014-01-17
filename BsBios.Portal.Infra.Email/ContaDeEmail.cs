@@ -1,10 +1,10 @@
-Ôªønamespace BsBios.Portal.Infra.Model
+namespace BsBios.Portal.Infra.Email
 {
     public class ContaDeEmail
     {
         public string EmailDoRemetente{ get; protected set; }
         /// <summary>
-        /// dom√≠nio do usu√°rio
+        /// domÌnio do usu·rio
         /// </summary>
         public string Dominio { get; protected set; }
         public string Usuario { get; protected set; }

@@ -149,7 +149,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
     <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
-    <Compile Include="Controllers\RelatorioParaDownloadController.cs" />
     <Compile Include="Controllers\ModelBinders\IntegerModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\MonitorDeOrdemDeTransporteController.cs" />
@@ -520,6 +519,10 @@
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
       <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>
       <Name>BsBios.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.Infra.Email\BsBios.Portal.Infra.Email.csproj">
+      <Project>{a5826b89-0971-47f4-94d4-8e60b9408699}</Project>
+      <Name>BsBios.Portal.Infra.Email</Name>
     </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.Infra\BsBios.Portal.Infra.csproj">
       <Project>{77402211-516B-4CF9-A328-420B5A8854A7}</Project>

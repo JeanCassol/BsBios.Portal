@@ -136,7 +136,7 @@ namespace BsBios.Portal.UI.Controllers
 
             byte[] byteArray = Encoding.ASCII.GetBytes(html);
 
-            string nomeDoArquivo = String.Format("{0}{1}.xls",nomeDoRelatorio, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            string nomeDoArquivo = String.Format("{0}{1}.xls",nomeDoRelatorio, DateTime.Now.ToString("yyyyMMddHHmmss"));
 
             var fileStream = new FileStream(string.Format("{0}\\Download\\Relatorio\\{1}", 
                 HttpContext.Request.MapPath(HttpContext.Request.ApplicationPath), nomeDoArquivo), FileMode.Create);

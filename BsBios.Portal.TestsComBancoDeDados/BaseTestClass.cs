@@ -2,6 +2,7 @@
 using System.Configuration;
 using BsBios.Portal.Common;
 using BsBios.Portal.Infra.DataAccess;
+using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.IoC;
 using BsBios.Portal.UI.App_Start;

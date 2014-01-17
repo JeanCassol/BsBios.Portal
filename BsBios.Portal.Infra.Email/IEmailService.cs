@@ -1,6 +1,4 @@
-﻿using BsBios.Portal.Infra.Model;
-
-namespace BsBios.Portal.Infra.Services.Contracts
+﻿namespace BsBios.Portal.Infra.Email
 {
     public interface IEmailService
     {
@@ -8,4 +6,5 @@ namespace BsBios.Portal.Infra.Services.Contracts
         bool Enviar(string destinatario, MensagemDeEmail mensagemDeEmail);
         void AdicionarDestinatario(string destinatario);
     }
+
 }

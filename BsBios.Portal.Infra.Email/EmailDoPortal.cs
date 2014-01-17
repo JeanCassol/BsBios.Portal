@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace BsBios.Portal.Infra.Model
+namespace BsBios.Portal.Infra.Email
 {
     public class EmailDoPortal : ConfigurationSection
     {

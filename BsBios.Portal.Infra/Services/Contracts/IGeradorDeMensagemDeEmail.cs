@@ -1,4 +1,5 @@
 ﻿using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Model;
 
 namespace BsBios.Portal.Infra.Services.Contracts

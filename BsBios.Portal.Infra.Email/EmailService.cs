@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using BsBios.Portal.Infra.Model;
-using BsBios.Portal.Infra.Services.Contracts;
 
-namespace BsBios.Portal.Infra.Services.Implementations
+namespace BsBios.Portal.Infra.Email
 {
     public class EmailService : IEmailService
     {

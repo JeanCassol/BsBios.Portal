@@ -1,5 +1,6 @@
 ﻿using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using StructureMap;
