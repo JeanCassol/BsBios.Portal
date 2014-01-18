@@ -1374,3 +1374,34 @@ BEGIN
   AND (p_transportadora is null or LOWER(T.Nome) LIKE LOWER('%' || p_transportadora || '%'));
 
 END;
+
+ALTER TABLE PROCESSOCOTACAO ADD DATADEFECHAMENTO DATE NULL;
+
+update processocotacao pc set pc.datadefechamento = 
+(
+  select datavalidadeinicial - 1
+  from processocotacaofrete pcf
+  where pc.id = pcf.id
+)
+where datadefechamento is null
+and status = 3
+and exists
+(
+  select 1 
+  from processocotacaofrete pcf
+  where pc.id = pcf.id
+);
+
+update processocotacao pc set pc.datadefechamento = TO_DATE(SYSDATE,'DD-MM-RRRR')
+where datadefechamento is null
+and status = 3
+and exists
+(
+  select 1 
+  from processocotacaomaterial pcf
+  where pc.id = pcf.id
+);
+
+commit;
+
+

@@ -135,8 +135,9 @@
                     {
                         field: "CnpjEmitente",
                         title: 'CNPJ do Emitente',
-                        template: function(dataItem) {
-                            return Formato.formataCnpj(dataItem.CnpjEmitente);
+                        template: function (dataItem) {
+                            var cnpj = dataItem.CnpjEmitente;
+                            return cnpj ?  Formato.formataCnpj(cnpj): '';
                         },
                         width: 125
                     }

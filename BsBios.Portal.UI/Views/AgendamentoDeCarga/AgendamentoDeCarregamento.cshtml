@@ -6,8 +6,7 @@
 <div class="divFiltros">
     <fieldset >
         <legend>Agendamento de Descarregamento</legend>
-        @using(Html.BeginForm())
-        {
+        <form id="agendamentodecarregamento">
             @Html.HiddenFor(x => x.IdQuota)
             @Html.HiddenFor(x => x.IdAgendamento)
             <div class="colunaFiltro">
@@ -24,7 +23,8 @@
                     @Html.ValidationMessageFor(x => x.Peso)
                 </p>
             </div>
-        }
+        </form>
+
     </fieldset>
     <div id="divErro" class="message-error"></div>
 </div>
@@ -40,7 +40,7 @@
         }
 
         if (!'@Model.PermiteEditar'.boolean()) {
-            $('form').find('input')
+            $('#agendamentodecarregamento').find('input')
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
         }

@@ -67,7 +67,7 @@
         }
 
         if (!permiteEditar) {
-            $('form').find('input')
+            $('#formAgendamento,#formNotaFiscal').find('input')
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
         } else {
