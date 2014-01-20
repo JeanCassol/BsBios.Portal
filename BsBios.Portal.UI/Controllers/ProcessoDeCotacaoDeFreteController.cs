@@ -17,13 +17,15 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
+        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
+            _consultaTerminal = consultaTerminal;
         }
 
         //
@@ -45,6 +47,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoDeCotacaoDeFrete");
             ViewBag.TituloDaPagina = "Cotações de Frete";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
@@ -66,9 +69,11 @@ namespace BsBios.Portal.UI.Controllers
         public ViewResult NovoCadastro()
         {
             ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
             
             return View("Cadastro");
         }
+
 
         [HttpGet]
         public ViewResult EditarCadastro(int idProcessoCotacao)
@@ -77,6 +82,7 @@ namespace BsBios.Portal.UI.Controllers
             {
                 ProcessoCotacaoFreteCadastroVm cadastro = _consultaProcessoDeCotacaoDeFrete.ConsultaProcesso(idProcessoCotacao);
                 ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
+                ViewBag.Terminais = _consultaTerminal.ListarTodos();
                 
                 return View("Cadastro", cadastro);
 

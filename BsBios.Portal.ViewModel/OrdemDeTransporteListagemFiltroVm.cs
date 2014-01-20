@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -18,5 +16,7 @@ namespace BsBios.Portal.ViewModel
         public string NumeroDoContrato { get; set; }
         [DisplayName("Município de Origem")]
         public string CodigoDoMunicipioDeOrigem { get; set; }
+        [DisplayName("Terminal")]
+        public string CodigoDoTerminal { get; set; }
     }
 }

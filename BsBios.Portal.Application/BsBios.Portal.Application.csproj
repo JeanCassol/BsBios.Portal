@@ -95,6 +95,7 @@
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuota.cs" />
+    <Compile Include="Queries\Contracts\IConsultaTerminal.cs" />
     <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Contracts\IConsultaIva.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Queries\Implementations\ConsultaRelatorioDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Implementations\ConsultaSelecaoDeFornecedores.cs" />
     <Compile Include="Queries\Implementations\ConsultaStatusDeOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Implementations\ConsultaTerminal.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />

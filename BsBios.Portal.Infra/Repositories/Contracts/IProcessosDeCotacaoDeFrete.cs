@@ -14,10 +14,7 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IProcessosDeCotacaoDeFrete DataDeValidadeAte(DateTime data);
         IProcessosDeCotacaoDeFrete SomenteClassificados();
         IProcessosDeCotacaoDeFrete SomenteNaoClassificados();
-
         IProcessosDeCotacaoDeFrete DoItinerario(string codigoDoItinerario);
-
-
-
+        IProcessosDeCotacaoDeFrete DoTerminal(string codigoDoTerminal);
     }
 }

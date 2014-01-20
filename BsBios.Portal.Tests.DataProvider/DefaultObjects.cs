@@ -202,7 +202,13 @@ namespace BsBios.Portal.Tests.DataProvider
             return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
-                ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao());
+                ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao(),
+                ObtemTerminalPadrao());
+        }
+
+        public static Terminal ObtemTerminalPadrao()
+        {
+            return new Terminal("1000", "Terminal de Passo Fundo");
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteCancelado(Municipio municipioOrigem, Municipio municipioDestino)
@@ -224,7 +230,8 @@ namespace BsBios.Portal.Tests.DataProvider
             return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
-                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao());
+                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
+                ObtemTerminalPadrao());
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
@@ -236,7 +243,8 @@ namespace BsBios.Portal.Tests.DataProvider
             return new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario,
-                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao());
+                ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
+                ObtemTerminalPadrao());
 
         }
 
@@ -311,7 +319,8 @@ namespace BsBios.Portal.Tests.DataProvider
             return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
-                ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao());
+                ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao(),
+                ObtemTerminalPadrao());
         }
 
 

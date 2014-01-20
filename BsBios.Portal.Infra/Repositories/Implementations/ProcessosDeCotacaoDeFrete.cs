@@ -68,6 +68,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
+        public IProcessosDeCotacaoDeFrete DoTerminal(string codigoDoTerminal)
+        {
+            Query = Query.Where(x => ((ProcessoDeCotacaoDeFrete) x).Terminal.Codigo == codigoDoTerminal);
+            return this;
+        }
+
         //public IProcessosDeCotacao DataDeValidadeNoPeriodo(string dataDeValidadeInicial, string dataDeValidadeFinal)
         //{
         //    Expression<Func<ProcessoDeCotacaoDeFrete, bool>> predicadoDataInicial = null, predicadoDataFinal = null, predicado = null;

@@ -15,10 +15,12 @@ namespace BsBios.Portal.UI.Controllers
     public class OrdemDeTransporteController : Controller
     {
         private readonly IConsultaOrdemDeTransporte _consultaOrdemDeTransporte ;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public OrdemDeTransporteController(IConsultaOrdemDeTransporte consultaOrdemDeTransporte)
+        public OrdemDeTransporteController(IConsultaOrdemDeTransporte consultaOrdemDeTransporte, IConsultaTerminal consultaTerminal)
         {
             _consultaOrdemDeTransporte = consultaOrdemDeTransporte;
+            _consultaTerminal = consultaTerminal;
         }
 
         //
@@ -26,6 +28,7 @@ namespace BsBios.Portal.UI.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View();
         }
 

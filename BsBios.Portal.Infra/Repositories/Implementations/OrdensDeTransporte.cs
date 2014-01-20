@@ -58,5 +58,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.MunicipioDeOrigem.Codigo == codigoDoMunicipio);
             return this;
         }
+
+        public IOrdensDeTransporte DoTerminal(string codigoDoTerminal)
+        {
+            Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.Terminal.Codigo == codigoDoTerminal);
+            return this;
+        }
     }
 }

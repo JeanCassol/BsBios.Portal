@@ -8,10 +8,9 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IOrdensDeTransporte AutorizadasParaATransportadora(string codigoDaTransportadora);
         IOrdensDeTransporte CodigoDaTransportadoraContendo(string codigoDaTransportadora);
         IOrdensDeTransporte NomeDaTransportadoraContendo(string nomeDaTransportadora);
-
         IOrdensDeTransporte NomeDoFornecedorDaMercadoriaContendo(string nomeDoFornecedorDaMercadoria);
         IOrdensDeTransporte ComNumeroDeContrato(string numeroDoContrato);
         IOrdensDeTransporte ComOrigemNoMunicipio(string codigoDoMunicipio);
-
+        IOrdensDeTransporte DoTerminal(string codigoDoTerminal);
     }
 }

@@ -59,6 +59,7 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.MunicipioDeOrigem).Column("CodigoMunicipioOrigem");
             References(x => x.MunicipioDeDestino).Column("CodigoMunicipioDestino");
             References(x => x.Deposito).Column("CodigoDeposito");
+            References(x => x.Terminal).Column("CodigoTerminal");
 
             Map(x => x.DataDeValidadeInicial).Column("DataValidadeInicial");
             Map(x => x.DataDeValidadeFinal).Column("DataValidadeFinal");

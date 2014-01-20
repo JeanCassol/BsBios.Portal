@@ -24,6 +24,9 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Endereço: ")]
         public string EnderecoDoDeposito { get; set; }
+
+        [DisplayName("Terminal: ")]
+        public string Terminal { get; set; }
         
     }
 }

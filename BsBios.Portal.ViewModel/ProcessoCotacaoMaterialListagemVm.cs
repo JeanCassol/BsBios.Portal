@@ -12,5 +12,7 @@
         public string UnidadeDeMedida { get; set; }
         public string Status { get; set; }
         public string DataTermino { get; set; }
+        public string Terminal { get; set; }
     }
+
 }

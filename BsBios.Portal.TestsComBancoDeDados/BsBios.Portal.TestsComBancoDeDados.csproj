@@ -103,6 +103,7 @@
     <Compile Include="Infra\Repositories\ProcessoCotacaoIteracoesUsuarioTests.cs" />
     <Compile Include="Infra\Repositories\MunicipiosTests.cs" />
     <Compile Include="Infra\Repositories\OrdensDeTransporteTests.cs" />
+    <Compile Include="Infra\Repositories\TerminalTests.cs" />
     <Compile Include="Infra\Repositories\UsuariosTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveQueries.cs" />

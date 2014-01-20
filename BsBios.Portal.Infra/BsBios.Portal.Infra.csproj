@@ -89,6 +89,7 @@
     <Compile Include="Mappings\ProcessoCotacaoIteracaoUsuarioMap.cs" />
     <Compile Include="Mappings\QuotaMap.cs" />
     <Compile Include="Mappings\RelatorioDeOrdemDeTransporteAnaliticoMap.cs" />
+    <Compile Include="Mappings\TerminalMap.cs" />
     <Compile Include="Mappings\UnidadeDeMedidaMap.cs" />
     <Compile Include="Mappings\ItinerarioMap.cs" />
     <Compile Include="Mappings\CotacaoMap.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Repositories\Contracts\IProcessosDeCotacaoDeFrete.cs" />
     <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
     <Compile Include="Repositories\Contracts\IQuotas.cs" />
+    <Compile Include="Repositories\Contracts\ITerminais.cs" />
     <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
     <Compile Include="Repositories\Contracts\IItinerarios.cs" />
     <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Repositories\Implementations\ProcessosDeCotacaoDeFrete.cs" />
     <Compile Include="Repositories\Implementations\ProdutosDeFrete.cs" />
     <Compile Include="Repositories\Implementations\Quotas.cs" />
+    <Compile Include="Repositories\Implementations\Terminais.cs" />
     <Compile Include="Repositories\Implementations\UnidadesDeMedida.cs" />
     <Compile Include="Repositories\Implementations\Itinerarios.cs" />
     <Compile Include="Repositories\Implementations\Fornecedores.cs" />

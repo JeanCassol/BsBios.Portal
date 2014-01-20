@@ -58,6 +58,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 _ordensDeTransporte.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
             }
+
+            if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
+            {
+                _ordensDeTransporte.DoTerminal(filtro.CodigoDoTerminal);
+            }
             
             var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
                          orderby ordemDeTransporte.Id descending
@@ -124,7 +129,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         Quantidade = processoDeCotacao.Quantidade,
                         DataLimiteDeRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
                         Itinerario = processoDeCotacao.Itinerario.Descricao,
-                        Status = processoDeCotacao.Status.ToString()
+                        Status = processoDeCotacao.Status.ToString(),
+                        Terminal = processoDeCotacao.Terminal.Descricao
                     }
 
                 }).Single();

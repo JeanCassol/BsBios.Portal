@@ -24,6 +24,8 @@ namespace BsBios.Portal.ViewModel
         public string NomeDoFornecedorDaMercadoria { get; set; }
         [DisplayName("Município de Origem")]
         public string CodigoDoMunicipioDeOrigem { get; set; }
+        [DisplayName("Terminal")]
+        public string CodigoDoTerminal { get; set; }
     }
 
 }

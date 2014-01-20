@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -81,6 +82,10 @@ namespace BsBios.Portal.ViewModel
 
         [Display(Name = "Depósito")]
         public string Deposito { get; set; }
+
+        [Display(Name = "Terminal")]
+        [Required(ErrorMessage = "Terminal é obrigatório")]
+        public string CodigoDoTerminal { get; set; }
 
 
     }

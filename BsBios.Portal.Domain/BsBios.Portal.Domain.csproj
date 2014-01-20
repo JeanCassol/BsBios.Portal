@@ -60,6 +60,7 @@
     <Compile Include="Entities\Produto.cs" />
     <Compile Include="Entities\Quota.cs" />
     <Compile Include="Entities\RequisicaoDeCompra.cs" />
+    <Compile Include="Entities\Terminal.cs" />
     <Compile Include="Entities\UnidadeDeMedida.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

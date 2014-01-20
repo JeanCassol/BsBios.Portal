@@ -38,8 +38,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             UnitOfWorkNh.Session.Clear();
 
             var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
-            ProcessoDeCotacao processoDeCotacao = processosDeCotacao.BuscaPorId(processo.Id).Single();
-            Assert.IsNotNull(processoDeCotacao);
+            var processoConsultado = (ProcessoDeCotacaoDeFrete) processosDeCotacao.BuscaPorId(processo.Id).Single();
+            Assert.IsNotNull(processoConsultado);
+            Assert.AreEqual(processo.Terminal.Codigo, processoConsultado.Terminal.Codigo);
+            //PARA O TESTE FICAR MAIS COMPLETO DEVE SER FEITO ASSERT DE TODAS AS OUTRAS PROPRIEDADES
 
         }
 

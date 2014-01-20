@@ -67,8 +67,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 _processosDeCotacao.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
             }
 
-            var query = (from p in _processosDeCotacao.GetQuery()
-                         orderby p.Id descending 
+            if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
+            {
+                _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
+            }
+
+            var query = (from processo in _processosDeCotacao.GetQuery()
+                         orderby processo.Id descending 
+                         let p = (ProcessoDeCotacaoDeFrete) processo
                          select new 
                          {
                              CodigoMaterial = p.Produto.Codigo,
@@ -77,7 +83,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              p.Id,
                              p.Quantidade,
                              p.Status,
-                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao
+                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao,
+                             Terminal = p.Terminal.Descricao
                          }
                          
                         );
@@ -93,7 +100,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                      DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString(): "",
                                      Quantidade = x.Quantidade,
                                      Status = x.Status.Descricao(),
-                                     UnidadeDeMedida = x.UnidadeDeMedida
+                                     UnidadeDeMedida = x.UnidadeDeMedida,
+                                     Terminal = x.Terminal
                                  }).Cast<ListagemVm>().ToList();
 
             var kendoGridVm = new KendoGridVm()

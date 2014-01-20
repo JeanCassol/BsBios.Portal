@@ -30,6 +30,10 @@
             </div>
 
         </div>
+        @Html.LinhaComDuasColunas(new ColunaComDropDown<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoDoTerminal,
+                ((List<TerminalVm>)ViewBag.Terminais)
+                .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
+                "CodigoDoTerminal"), new ColunaVazia<ProcessoDeCotacaoDeFreteFiltroVm, object>(x => null))
 
 
         @{
@@ -61,7 +65,8 @@
                                 Quantidade: {type: "number"},
                                 UnidadeDeMedida: {type: "string"},
                                 Status: {type: "string"},
-                                DataTermino: {type: "string"}
+                                DataTermino: { type: "string" },
+                                Terminal: { type: "string" }
                             }
                         },
                         total: 'totalCount',
@@ -94,12 +99,16 @@
                         width: 80
                     },
                     {
+                        field: 'Terminal',
+                        width: 100
+                    },
+                    {
                         field: "CodigoMaterial",
                         width: 60,
                         title: "Código"
                     }, {
                         field: "Material",
-                        width: 250,
+                        width: 200,
                         title: "Material"
                     },
                     {

@@ -118,6 +118,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaStatusDeOrdemDeTransporte>();
 
+            For<IConsultaTerminal>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaTerminal>();
+
         }
 
     }

@@ -9,27 +9,12 @@ namespace BsBios.Portal.Domain.Entities
 {
     public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
     {
-        public virtual string NumeroDoContrato{ get; protected set; }
-        public virtual DateTime DataDeValidadeInicial { get; protected set; }
-        public virtual DateTime DataDeValidadeFinal { get; protected set; }
-        public virtual Itinerario Itinerario { get; protected set; }
-
-        public virtual Fornecedor FornecedorDaMercadoria { get; protected set; }
-
-        public virtual decimal Cadencia { get; protected set; }
-
-        public virtual bool Classificacao { get; protected set; }
-
-        public virtual Municipio MunicipioDeOrigem { get; protected set; }
-        public virtual Municipio MunicipioDeDestino { get; protected set; }
-
-        public virtual Fornecedor Deposito { get; protected set; }
 
         protected ProcessoDeCotacaoDeFrete(){}
         public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
             DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, decimal cadencia, bool classificacao,
-            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
         {
             NumeroDoContrato = numeroDoContrato;
             DataDeValidadeInicial = dataDeValidadeInicial;
@@ -41,11 +26,25 @@ namespace BsBios.Portal.Domain.Entities
             MunicipioDeOrigem = municipioDeOrigem;
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
+            Terminal = terminal;
         }
+
+        public virtual string NumeroDoContrato { get; protected set; }
+        public virtual DateTime DataDeValidadeInicial { get; protected set; }
+        public virtual DateTime DataDeValidadeFinal { get; protected set; }
+        public virtual Itinerario Itinerario { get; protected set; }
+        public virtual Fornecedor FornecedorDaMercadoria { get; protected set; }
+        public virtual decimal Cadencia { get; protected set; }
+        public virtual bool Classificacao { get; protected set; }
+        public virtual Municipio MunicipioDeOrigem { get; protected set; }
+        public virtual Municipio MunicipioDeDestino { get; protected set; }
+        public virtual Fornecedor Deposito { get; protected set; }
+        public virtual Terminal Terminal { get; protected set; }
+
 
         public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, string requisitos, string numeroDoContrato, 
             DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedor, 
-            decimal cadencia, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito)
+            decimal cadencia, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
@@ -67,6 +66,7 @@ namespace BsBios.Portal.Domain.Entities
             MunicipioDeOrigem = municipioDeOrigem;
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
+            Terminal = terminal;
 
         }
 

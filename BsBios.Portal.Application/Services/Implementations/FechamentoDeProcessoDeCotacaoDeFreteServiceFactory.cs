@@ -1,12 +1,10 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Email;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;
-using StructureMap.Pipeline;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
