@@ -8,15 +8,18 @@ namespace BsBios.Portal.UI.Controllers
     public class ConferenciaDeCargaController : Controller
     {
         private readonly IConsultaRealizacaoDeAgendamento _consultaRealizacaoDeAgendamento;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public ConferenciaDeCargaController(IConsultaRealizacaoDeAgendamento consultaRealizacaoDeAgendamento)
+        public ConferenciaDeCargaController(IConsultaRealizacaoDeAgendamento consultaRealizacaoDeAgendamento, IConsultaTerminal consultaTerminal)
         {
             _consultaRealizacaoDeAgendamento = consultaRealizacaoDeAgendamento;
+            _consultaTerminal = consultaTerminal;
         }
 
         public ActionResult Pesquisar()
         {
             ViewBag.RealizacoesDeAgendamento = _consultaRealizacaoDeAgendamento.Listar();
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View();
         }
 

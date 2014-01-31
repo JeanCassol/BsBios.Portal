@@ -1,4 +1,5 @@
 ﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model QuotaCadastroVm
 @{
@@ -13,18 +14,17 @@
         <div id="divCadastro">
             <fieldset>
                 <legend>Dados Principais</legend>
-                <div class="linha">
-                    <div class="coluna">
-                        @Html.LabelFor(x => x.Data)
-                        @Html.TextBoxFor(x => x.Data,new{@class="campoDatePicker maskdata"})
-                        @Html.ValidationMessageFor(x => x.Data)
-                    </div>
-                    <div class="coluna">
-                        @Html.LabelFor(x => x.Terminal)
-                        @Html.TextBoxFor(x => x.Terminal, new{@readonly=true,@class="campoDesabilitado"})
-                        @Html.ValidationMessageFor(x => x.Terminal)
-                    </div>
-                </div>
+                @{
+                    var data = new ColunaComTextBox<QuotaCadastroVm, string>(x => x.Data, "campoDatePicker maskdata");
+
+                    var comboDeTerminal = new ColunaComDropDown<QuotaCadastroVm, string>(x => x.Terminal,
+                    ((List<TerminalCadastroVm>)ViewBag.Terminais)
+                    .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.Terminal }),
+                    "Terminal");
+                    
+                }
+                
+                @Html.LinhaComDuasColunas(data, comboDeTerminal)
             </fieldset>
             <fieldset id="fieldSetFornecedor">
                 <legend>Fornecedor</legend>
@@ -264,18 +264,21 @@
                 $('#btnCancelarEdicao').show();
             });
 
-            $('#Data').change(function() {
+            $('#Data, #Terminal').change(function() {
                 var dataPesquisa = $('#Data').val();
-                if (dataPesquisa == '') {
+                var codigoDoTerminal = $('#Terminal').val();
+                if (!dataPesquisa || !codigoDoTerminal) {
                     return;
                 }
+
 
                 $.ajax({
                     url: '@Url.Action("ListarFornecedores", "Quota")',
                     type: 'GET',
                     cache: false,
                     data: {
-                        DataDaQuota: dataPesquisa
+                        DataDaQuota: dataPesquisa,
+                        CodigoDoTerminal: codigoDoTerminal
                     },
                     dataType: 'json',
                     success: function(data) {
@@ -283,19 +286,21 @@
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             return;
                         }
-                        if (data.Registros.length == 0) {
-                            return;
-                        }
                         fornecedoresAdicionados = [];
 
-                        /* preencher os campos principais e carregar o grid via ajax*/
-                        $('#Data').attr('readonly', true)
-                            .addClass('campoDesabilitado');
-                        $("#Data").datepicker("destroy");
-                        $.each(data.Registros, function(indice, quota) {
-                            fornecedoresAdicionados.push(quota);
-                        });
+                        if (data.Registros.length > 0) {
+
+                            desabilitarCamposPrincipais();
+                                
+                            $.each(data.Registros, function (indice, quota) {
+                                fornecedoresAdicionados.push(quota);
+                            });
+
+                        }
+
                         quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
+
+                        /* preencher os campos principais e carregar o grid via ajax*/
                         atualizaGrid();
 
                     },
@@ -315,19 +320,28 @@
                 var quotasParaSalvar = new Array();
                 $.each(fornecedoresAdicionados, function(indice, quota) {
                     quotasParaSalvar.push({
-                        Data: $('#Data').val(),
-                        CodigoTerminal: $('#Terminal').val(),
                         CodigoMaterial: quota.CodigoMaterial,
                         CodigoFornecedor: quota.CodigoFornecedor,
                         Peso: quota.Peso
                     });
                 });
 
+
+                var dataEmArray = $('#Data').val().split('/');
+
+                var data = new Date(dataEmArray[2], dataEmArray[1] - 1, dataEmArray[0]);
+
+                var quotasSalvarVm = {
+                    Data: data,
+                    CodigoDoTerminal: $('#Terminal').val(),
+                    Quotas: quotasParaSalvar
+                };
+
                 $.ajax({
                     url: '@Url.Action("Salvar", "QuotaSalvar")',
                     type: 'POST',
                     cache: false,
-                    data: JSON.stringify({Data: $('#Data').val(), Quotas: quotasParaSalvar} ),
+                    data: JSON.stringify(quotasSalvarVm),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data) {
@@ -346,22 +360,32 @@
                 });
             });
 
-            function habilitarCampoData() {
-                $('#Data')
+            function habilitarCamposPrincipais() {
+                $('#Data,#Terminal')
                     .attr('readonly', false)
                     .removeClass('campoDesabilitado')
                     .val('');
 
-                $("#Data").datepicker();
+                $('#Terminal').removeAttr('disabled');
+
+            }
+
+            function desabilitarCamposPrincipais() {
+
+                $('#Data,#Terminal')
+                    .attr('readonly', true)
+                    .addClass('campoDesabilitado')
+                    .attr('disabled', 'disabled');
+                
             }
 
             $('#btnCopiar').click(function() {
-                habilitarCampoData();
+                habilitarCamposPrincipais();
             });            
 
 
             $('#btnNovo').click(function() {
-                habilitarCampoData();
+                habilitarCamposPrincipais();
                 fornecedoresAdicionados = [];
                 atualizaGrid();
                 $('form').find('input[type!=button]').val();

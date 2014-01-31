@@ -24,6 +24,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .SetParameter("p_transportadora", filtro.NomeDaTransportadora)
                 .SetParameter("p_codigoDoMunicipioDeOrigem", filtro.CodigoDoMunicipioDeOrigem)
                 .SetParameter("p_codigoDoMunicipioDeDestino", filtro.CodigoDoMunicipioDeDestino)
+                .SetParameter("p_codigoDoTerminal", filtro.CodigoDoTerminal)
 
                 .SetResultTransformer(Transformers.AliasToBean<MonitorDeOrdemDeTransporteListagemVm>())
                 .List<MonitorDeOrdemDeTransporteListagemVm>();
@@ -108,6 +109,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 },
                 Registros = m.Select(o => new MonitorDeOrdemDeTransporteVm
                 {
+                    Terminal = o.Terminal,
                     FornecedorDaMercadoria = o.FornecedorDaMercadoria,
                     NumeroDoContrato = o.NumeroDoContrato,
                     NumeroDaOrdemDeTransporte = o.NumeroDaOrdemDeTransporte,

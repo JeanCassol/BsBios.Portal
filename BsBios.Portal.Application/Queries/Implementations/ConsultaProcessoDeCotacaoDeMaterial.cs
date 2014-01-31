@@ -84,7 +84,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                              p.Quantidade,
                              p.Status,
                              UnidadeDeMedida = p.UnidadeDeMedida.Descricao,
-                             Terminal = p.Terminal.Descricao
+                             Terminal = p.Terminal.Nome
                          }
                          
                         );

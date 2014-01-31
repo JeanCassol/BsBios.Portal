@@ -40,7 +40,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             Assert.AreEqual(quota.Id, quotaConsultada.Id);
             Assert.AreEqual(quota.Data, quotaConsultada.Data);
-            Assert.AreEqual(quota.CodigoTerminal, quotaConsultada.CodigoTerminal);
+            Assert.AreEqual(quota.Terminal.Codigo, quotaConsultada.Terminal.Codigo);
             Assert.AreEqual(quota.FluxoDeCarga, quotaConsultada.FluxoDeCarga);
             Assert.AreEqual(quota.Material, quotaConsultada.Material);
             Assert.AreEqual(quota.PesoTotal, quotaConsultada.PesoTotal);
@@ -86,7 +86,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             IList<Quota> quotasConsultadas = quotas.DoTerminal("1000").List();
             Assert.AreEqual(1, quotasConsultadas.Count());
             var quotaConsultada = quotasConsultadas.First();
-            Assert.AreEqual("1000", quotaConsultada.CodigoTerminal);
+            Assert.AreEqual("1000", quotaConsultada.Terminal.Codigo);
         }
 
         [TestMethod]

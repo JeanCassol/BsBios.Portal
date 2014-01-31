@@ -6,6 +6,7 @@ namespace BsBios.Portal.ViewModel
     {
         public virtual string Id { get; set; }
         public virtual string CodigoTerminal { get; set; }
+        public virtual string DescricaoTerminal { get; set; }
         public virtual int? IdQuota { get; set; }
         public virtual int? IdAgendamento { get; set; }
 

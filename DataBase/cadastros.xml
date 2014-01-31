@@ -153,3 +153,18 @@ http://sap-pip.bsbios.com:52000/HttpAdapter/HttpMessageServlet?senderParty=PORTA
 		<Texto>Teste</Texto>
 	</Retorno>
 </ApiResponseMessage>
+
+http://localhost:3905/api/TerminalApi/PostMultiplo
+<ListaTerminal xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<TerminalCadastroVm>
+		<Cidade>Santa Maria</Cidade>
+		<Codigo>3000</Codigo>
+		<Nome>Terminal 3000</Nome>
+	</TerminalCadastroVm>
+	<TerminalCadastroVm>
+		<Cidade>Torres</Cidade>
+		<Codigo>4000</Codigo>
+		<Nome>Terminal 4000</Nome>
+	</TerminalCadastroVm>
+</ListaTerminal>
+

@@ -15,12 +15,14 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaQuota _consultaQuota;
         private readonly IConsultaFluxoDeCarga _consultaFluxoDeCarga;
         private readonly IConsultaMaterialDeCarga _consultaMaterialDeCarga;
+        private readonly IConsultaTerminal _consultarTerminal;
 
-        public QuotaController(IConsultaQuota consultaQuota, IConsultaFluxoDeCarga consultaFluxoDeCarga, IConsultaMaterialDeCarga consultaMaterialDeCarga)
+        public QuotaController(IConsultaQuota consultaQuota, IConsultaFluxoDeCarga consultaFluxoDeCarga, IConsultaMaterialDeCarga consultaMaterialDeCarga, IConsultaTerminal consultarTerminal)
         {
             _consultaQuota = consultaQuota;
             _consultaFluxoDeCarga = consultaFluxoDeCarga;
             _consultaMaterialDeCarga = consultaMaterialDeCarga;
+            _consultarTerminal = consultarTerminal;
         }
 
         [HttpGet]
@@ -28,15 +30,16 @@ namespace BsBios.Portal.UI.Controllers
         {
             ViewBag.FluxosDeCarga = _consultaFluxoDeCarga.Listar();
             ViewBag.MateriaisDeCarga = _consultaMaterialDeCarga.Listar();
-            return View(new QuotaCadastroVm{Terminal = "1000"});
+            ViewBag.Terminais = _consultarTerminal.ListarTodos();
+            return View();
         }
 
         [HttpGet]
-        public JsonResult ListarFornecedores(DateTime dataDaQuota)
+        public JsonResult ListarFornecedores(DateTime dataDaQuota, string codigoDoTerminal)
         {
             try
             {
-                IList<QuotaConsultarVm> quotas = _consultaQuota.QuotasDaData(dataDaQuota);
+                IList<QuotaConsultarVm> quotas = _consultaQuota.QuotasDaData(dataDaQuota, codigoDoTerminal);
                 return Json(new {Sucesso = true, Registros = quotas}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

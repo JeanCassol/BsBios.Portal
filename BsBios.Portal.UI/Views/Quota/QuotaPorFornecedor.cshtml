@@ -18,7 +18,7 @@
                         data: 'Registros',
                         model: {
                             fields: {
-                                CodigoTerminal: { type: "string" },
+                                Terminal: { type: "string" },
                                 Data: { type: "string" },
                                 CodigoMaterial: { type: "number" },
                                 DescricaoMaterial: { type: "string" },
@@ -52,6 +52,10 @@
                     {
                         width: 100,
                         field: "Data"
+                    },
+                    {
+                        width: 100,
+                        field: 'Terminal'
                     },
                     {
                         field: "DescricaoMaterial",

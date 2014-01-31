@@ -130,7 +130,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         DataLimiteDeRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
                         Itinerario = processoDeCotacao.Itinerario.Descricao,
                         Status = processoDeCotacao.Status.ToString(),
-                        Terminal = processoDeCotacao.Terminal.Descricao
+                        Terminal = processoDeCotacao.Terminal.Nome
                     }
 
                 }).Single();

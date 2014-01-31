@@ -18,5 +18,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.Codigo == codigo);
         }
+
+        public ITerminais BuscaListaPorCodigo(string[] codigos)
+        {
+            Query = Query.Where(terminal => codigos.Contains(terminal.Codigo));
+            return this;
+        }
     }
 }

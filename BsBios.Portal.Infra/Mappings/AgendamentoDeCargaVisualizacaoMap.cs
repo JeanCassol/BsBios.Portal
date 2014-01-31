@@ -10,6 +10,7 @@ namespace BsBios.Portal.Infra.Mappings
             Table("AGENDAMENTODECARGAVISUALIZACAO");
             Id(x => x.Id);
             Map(x => x.CodigoTerminal);
+            Map(x => x.DescricaoTerminal);
             Map(x => x.IdAgendamento);
             Map(x => x.IdQuota);
             Map(x => x.IdOrdemTransporte);

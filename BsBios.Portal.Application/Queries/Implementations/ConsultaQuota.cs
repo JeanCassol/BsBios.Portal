@@ -38,9 +38,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return _quotas.FiltraPorData(data).Count() > 0;
         }
 
-        public IList<QuotaConsultarVm> QuotasDaData(DateTime data)
+        public IList<QuotaConsultarVm> QuotasDaData(DateTime data, string codigoDoTerminal)
         {
-            return _builderQuota.BuildList(_quotas.FiltraPorData(data).List());
+            IList<Quota> quotas = _quotas
+                .FiltraPorData(data)
+                .DoTerminal(codigoDoTerminal)
+                .List();
+            return _builderQuota.BuildList(quotas);
         }
 
         public KendoGridVm ListarQuotasDoFornecedor(PaginacaoVm paginacaoVm, string codigoDoFornecedor)

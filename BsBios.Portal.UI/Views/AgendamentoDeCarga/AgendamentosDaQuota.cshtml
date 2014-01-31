@@ -73,7 +73,7 @@
             }
 
             $('#btnAdicionarAgendamento').click(function () {
-                $('#divCadastroAgendamento').customLoad('@Html.Raw(Url.Action("NovoCadastro","AgendamentoDeCarga",new{Model.IdQuota,  Model.CodigoFluxoDeCarga}))',
+                $('#divCadastroAgendamento').customLoad('@Html.Raw(Url.Action("NovoCadastro", "AgendamentoDeCarga", new { Model.IdQuota, Model.CodigoFluxoDeCarga, DescricaoDoTerminal = Model.Terminal }))',
                     function () {
                         jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
                     });

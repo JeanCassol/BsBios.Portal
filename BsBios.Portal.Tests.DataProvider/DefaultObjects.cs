@@ -208,7 +208,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static Terminal ObtemTerminalPadrao()
         {
-            return new Terminal("1000", "Terminal de Passo Fundo");
+            return new Terminal("1000", "Terminal de Passo Fundo","Passo Fundo");
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteCancelado(Municipio municipioOrigem, Municipio municipioDestino)
@@ -326,22 +326,26 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static Quota ObtemQuotaDeCarregamento()
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000",DateTime.Today,850);
+            Terminal terminal = ObtemTerminalPadrao();
+            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), terminal,DateTime.Today,850);
         }
         public static Quota ObtemQuotaDeCarregamentoComDataEspecifica(DateTime data)
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), "1000", data, 850);
+            Terminal terminal = ObtemTerminalPadrao();
+            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), terminal, data, 850);
         }
 
 
         public static Quota ObtemQuotaDeDescarregamento()
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), "1000", DateTime.Today.AddDays(1), 850);
+            Terminal terminal = ObtemTerminalPadrao();
+            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
         }
 
         public static Quota ObtemQuotaDeDescarregamentoParaTerminalEspecifico(string codigoDoTerminal)
         {
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), codigoDoTerminal, DateTime.Today.AddDays(1), 850);
+            var terminal = new Terminal(codigoDoTerminal, "Terminal " + codigoDoTerminal, "Cidade" + codigoDoTerminal);
+            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
         }
 
 

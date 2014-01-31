@@ -15,13 +15,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _terminais = terminais;
         }
 
-        public IList<TerminalVm> ListarTodos()
+        public IList<TerminalCadastroVm> ListarTodos()
         {
             var consulta = (from terminal in _terminais.GetQuery()
-                select new TerminalVm
+                select new TerminalCadastroVm
                 {
                     Codigo = terminal.Codigo,
-                    Descricao = terminal.Descricao
+                    Nome = terminal.Nome
                 });
 
             return consulta.ToList();

@@ -9,19 +9,28 @@
         <form id="agendamentodecarregamento">
             @Html.HiddenFor(x => x.IdQuota)
             @Html.HiddenFor(x => x.IdAgendamento)
-            <div class="colunaFiltro">
-                @Html.LabelFor(x => x.Placa)
-                @Html.TextBoxFor(x => x.Placa,new {@class="maskplaca"})
-                <p class="mensagemErro">
-                    @Html.ValidationMessageFor(x => x.Placa)
-                </p>
+            <div class="linha">
+                <div class="colunaFiltro">
+                    @Html.LabelFor(x => x.DescricaoDoTerminal)
+                    @Html.TextBoxFor(x => x.DescricaoDoTerminal,new{@readonly=true,@class="campoDesabilitado"})
+                </div>
+                <div class="colunaFiltro"></div>
             </div>
-            <div class="colunaFiltro">
-                @Html.LabelFor(x => x.Peso)
-                @Html.TextBoxFor(x => x.Peso,new{@class="maskquantidade"})
-                <p class="mensagemErro">
-                    @Html.ValidationMessageFor(x => x.Peso)
-                </p>
+            <div class="linha">
+                <div class="colunaFiltro">
+                    @Html.LabelFor(x => x.Placa)
+                    @Html.TextBoxFor(x => x.Placa,new {@class="maskplaca"})
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(x => x.Placa)
+                    </p>
+                </div>
+                <div class="colunaFiltro">
+                    @Html.LabelFor(x => x.Peso)
+                    @Html.TextBoxFor(x => x.Peso,new{@class="maskquantidade"})
+                    <p class="mensagemErro">
+                        @Html.ValidationMessageFor(x => x.Peso)
+                    </p>
+                </div>
             </div>
         </form>
 

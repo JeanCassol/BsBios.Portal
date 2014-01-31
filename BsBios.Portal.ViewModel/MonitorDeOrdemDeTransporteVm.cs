@@ -5,6 +5,7 @@ namespace BsBios.Portal.ViewModel
 
     public class MonitorDeOrdemDeTransporteVm
     {
+        public virtual string Terminal { get; set; }
         public virtual string NumeroDoContrato { get; set; }
         public virtual string FornecedorDaMercadoria { get; set; }
         public virtual string Transportadora{ get; set; }

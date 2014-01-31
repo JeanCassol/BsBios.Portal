@@ -66,7 +66,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryOver = queryOver.Where(x => x.Fornecedor.Codigo == filtro.CodigoFornecedor);
             }
 
-            queryOver = queryOver.Where(x => x.CodigoTerminal == filtro.CodigoTerminal);
+            queryOver = queryOver.Where(x => x.Terminal.Codigo == filtro.CodigoTerminal);
 
             return queryOver;
         }
@@ -76,7 +76,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
             AplicaFiltros(filtro);
 
             var quotas = (from quota in _quotas.GetQuery()
-                          group quota by new {quota.CodigoTerminal,quota.Fornecedor.Codigo, quota.Fornecedor.Nome, quota.FluxoDeCarga}
+                          group quota by new 
+                          {
+                              CodigoTerminal = quota.Terminal.Codigo,
+                              quota.Fornecedor.Codigo, 
+                              quota.Fornecedor.Nome, 
+                              quota.FluxoDeCarga
+                          }
                           into agrupador
                           select new
                               {
@@ -119,17 +125,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             IQueryOver<Quota, Quota> queryOver = ObtemQueryOverComFiltrosAplicados(filtro);
             Fornecedor fornec = null;
+            QuotaPlanejadoRealizadoPorDataVm alias = null;
             queryOver = queryOver
                 .JoinAlias(x => x.Fornecedor, () => fornec)
                 .SelectList(list => list
-                                             .SelectGroup(x => x.CodigoTerminal)
+                                             .SelectGroup(x => x.Terminal.Codigo).WithAlias(() => alias.CodigoTerminal)
                                              .SelectGroup(x => x.Data)
                                              .SelectGroup(x => x.Fornecedor.Codigo)
                                              .SelectGroup(x => fornec.Nome)
                                              .SelectGroup(x => x.FluxoDeCarga)
                                              .SelectSum(x => x.PesoTotal)
                                              .SelectSum(x => x.PesoRealizado)
-                ).OrderBy(x => x.CodigoTerminal).Asc.OrderBy(x => x.Data).Asc;
+                ).OrderBy(x => x.Terminal.Codigo).Asc.OrderBy(x => x.Data).Asc;
 
             //tive que utilizar um array de objetos porque na query que executa no banco ainda não tenho o método Descricao() do Enum.
             return queryOver
@@ -153,7 +160,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                           orderby quota.Data
                           select new
                               {
-                                  Terminal = quota.CodigoTerminal,
+                                  Terminal = quota.Terminal.Codigo,
                                   Data = quota.Data.ToShortDateString(),
                                   quota.FluxoDeCarga,
                                   Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
@@ -188,7 +195,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                 orderby quota.Data
                                 select new
                                     {
-                                        Terminal = quota.CodigoTerminal,
+                                        Terminal = quota.Terminal.Codigo,
                                         quota.Data,
                                         Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
                                         quota.FluxoDeCarga,

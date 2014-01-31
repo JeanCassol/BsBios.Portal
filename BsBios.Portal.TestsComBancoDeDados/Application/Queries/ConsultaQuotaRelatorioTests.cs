@@ -36,10 +36,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(2), 250);
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
+
+            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1,terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);
@@ -93,11 +95,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(2), 250);
+            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);
@@ -137,11 +140,12 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, "1000", DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, "1000", DateTime.Today.AddDays(2), 250);
+            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);

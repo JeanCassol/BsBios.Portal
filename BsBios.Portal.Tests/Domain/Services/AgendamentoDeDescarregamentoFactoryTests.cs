@@ -30,7 +30,7 @@ namespace BsBios.Portal.Tests.Domain.Services
             factory.AdicionarNotaFiscal(DefaultObjects.ObtemNotaFiscalVmPadrao());
             var agendamento = (AgendamentoDeDescarregamento)  factory.Construir(quota, "IOQ5338");
             Assert.AreEqual(DateTime.Today.AddDays(1), agendamento.Quota.Data);
-            Assert.AreEqual("1000", agendamento.Quota.CodigoTerminal);
+            Assert.AreEqual("1000", agendamento.Quota.Terminal.Codigo);
             Assert.AreEqual("IOQ5338", agendamento.Placa);
             Assert.AreEqual(1, agendamento.NotasFiscais.Count);
         }

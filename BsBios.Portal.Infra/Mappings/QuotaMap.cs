@@ -22,8 +22,8 @@ namespace BsBios.Portal.Infra.Mappings
             //    .KeyReference(x => x.Fornecedor, "CodigoTransportadora");
 
             Map(x => x.Data);
-            Map(x => x.CodigoTerminal);
             References(x => x.Fornecedor, "CodigoFornecedor");
+            References(x => x.Terminal, "CodigoTerminal");
             Map(x => x.Material).Column("CodigoMaterial").CustomType<Enumeradores.MaterialDeCarga>();
             Map(x => x.FluxoDeCarga).CustomType<Enumeradores.FluxoDeCarga>();
             Map(x => x.PesoTotal);

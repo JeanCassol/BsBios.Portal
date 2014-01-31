@@ -56,7 +56,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Produto produto = DefaultObjects.ObtemProdutoPadrao();
             UnidadeDeMedida unidadeDeMedida = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
             Itinerario itinerario = DefaultObjects.ObtemItinerarioPadrao();
-            var terminal2 = new Terminal("2000", "Terminal 2");
+            var terminal2 = new Terminal("2000", "Terminal 2", "Passo Fundo");
 
             var dataLimiteDeRetorno = DateTime.Today.AddDays(15);
             var dataValidadeInicial = DateTime.Today.AddMonths(2);

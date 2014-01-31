@@ -22,7 +22,7 @@
                     <legend>Configuração</legend>
                     <form id="formConfiguracao"></form>
                     @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"), 
-                    new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
+                        new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
                 </fieldset>
                 <form id="filtrosDoMonitor">
 
@@ -58,6 +58,13 @@
                                 @Html.Label("Município de Destino", new { @class = "labelDeCheckbox" })
                             </div>
                         </div>
+                        <div class="linha">
+                            <div class="coluna">
+                                <input type="checkbox" name="Terminal" />
+                                @Html.Label("Terminal", new { @class = "labelDeCheckbox" })
+                            </div>
+                            
+                        </div>
                     </fieldset>
 
                     <fieldset id="fieldSetFiltros">
@@ -87,6 +94,11 @@
                                 @Html.TextBox("NomeDoMunicipioDeDestino", "", new { @class = "campogrande" })
                             </div>
                         </div>
+                        @Html.LinhaComDuasColunas(new ColunaComDropDown<MonitorOrdemDeTransporteParametroVm, string>(x => x.CodigoDoTerminal,
+                            ((List<TerminalCadastroVm>)ViewBag.Terminais)
+                                .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),
+                            "CodigoDoTerminal"), new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
+
                     </fieldset>
                     <div class="divBotao">
                         <button class="blue" id="btnAtualizarMateriais">Atualizar</button>
@@ -96,63 +108,74 @@
                 </form>
 
             </div>
-            <div class="material"></div>
-            <table class="full_table_list">
-                <thead>
-                    <tr>
-                        <th>Nº Contrato</th>
-                        <th>Nº Ordem</th>
-                        <th>Fornecedor</th>
-                        <th>Transportadora</th>
-                        <th>Origem</th>
-                        <th>Destino</th>
-                        <th>Liberado</th>
-                        <th>Realizado</th>
-                        <th>Em Trânsito</th>
-                        <th>Chegada Hoje</th>
-                        <th>Pendente</th>
-                        <th>% Pendente</th>
-                        <th>Semáforo</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-                <tbody data-bind="foreach: registros">
-                    <tr>
-                        <td data-bind="text: NumeroDoContrato"></td>
-                        <td data-bind="text: NumeroDaOrdemDeTransporte"></td>
-                        <td data-bind="text: FornecedorDaMercadoria"></td>
-                        <td data-bind="text: Transportadora"></td>
-                        <td data-bind="text: MunicipioDeOrigem"></td>
-                        <td data-bind="text: MunicipioDeDestino"></td>
+            <div data-bind="style:{display: registros().length > 0 ? 'block': 'none'}">
+                <div class="material"></div>
+                <table class="full_table_list">
+                    <thead>
+                        <tr>
+                            <th>Terminal</th>
+                            <th>Nº Contrato</th>
+                            <th>Nº Ordem</th>
+                            <th>Fornecedor</th>
+                            <th>Transportadora</th>
+                            <th>Origem</th>
+                            <th>Destino</th>
+                            <th>Liberado</th>
+                            <th>Realizado</th>
+                            <th>Em Trânsito</th>
+                            <th>Chegada Hoje</th>
+                            <th>Pendente</th>
+                            <th>% Pendente</th>
+                            <th>Semáforo</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                
+                    <tbody data-bind="foreach: registros">
+                        <tr>
+                            <td data-bind="text: Terminal"></td>
+                            <td data-bind="text: NumeroDoContrato"></td>
+                            <td data-bind="text: NumeroDaOrdemDeTransporte"></td>
+                            <td data-bind="text: FornecedorDaMercadoria"></td>
+                            <td data-bind="text: Transportadora"></td>
+                            <td data-bind="text: MunicipioDeOrigem"></td>
+                            <td data-bind="text: MunicipioDeDestino"></td>
 
-                        <td data-bind="text: Globalize.format(QuantidadeLiberada, formatoDosNumeros)"></td>
-                        <td data-bind="text: Globalize.format(QuantidadeRealizada, formatoDosNumeros)"></td>
-                        <td data-bind="text: Globalize.format(QuantidadeEmTransito, formatoDosNumeros)"></td>
-                        <td data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia, formatoDosNumeros)"></td>
-                        <td data-bind="text: Globalize.format(QuantidadePendente, formatoDosNumeros)"></td>
-                        <td data-bind="text: Globalize.format(PercentualPendente, formatoDosNumeros)"></td>
-                        <td >
-                            <div class="semaforo" data-bind="css: ClasseDoSemaforo"></div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td data-bind="text: Globalize.format(QuantidadeLiberada, formatoDosNumeros)"></td>
+                            <td data-bind="text: Globalize.format(QuantidadeRealizada, formatoDosNumeros)"></td>
+                            <td data-bind="text: Globalize.format(QuantidadeEmTransito, formatoDosNumeros)"></td>
+                            <td data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia, formatoDosNumeros)"></td>
+                            <td data-bind="text: Globalize.format(QuantidadePendente, formatoDosNumeros)"></td>
+                            <td data-bind="text: Globalize.format(PercentualPendente, formatoDosNumeros)"></td>
+                            <td >
+                                <div class="semaforo" data-bind="css: ClasseDoSemaforo"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                
+                </table>
+            </div>
+
+            <div class="registronaoencontrado" data-bind="style:{display: registros().length == 0 ? 'block': 'none'}">
+                Nenhum Material encontrado
+            </div>
         </div>
 
         @Scripts.Render("~/bundles/jquery")
@@ -288,22 +311,23 @@
             
             function atualizaTotalizador(totalizador) {
                 var colunasDoTotalizador = $('.full_table_list tfoot tr td');
-                colunasDoTotalizador[6].innerText = Globalize.format(totalizador.QuantidadeLiberada,formatoDosNumeros);
-                colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeRealizada, formatoDosNumeros);
-                colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeEmTransito, formatoDosNumeros);
-                colunasDoTotalizador[9].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia, formatoDosNumeros);
-                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.QuantidadePendente, formatoDosNumeros);
+                colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeLiberada,formatoDosNumeros);
+                colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeRealizada, formatoDosNumeros);
+                colunasDoTotalizador[9].innerText = Globalize.format(totalizador.QuantidadeEmTransito, formatoDosNumeros);
+                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia, formatoDosNumeros);
+                colunasDoTotalizador[11].innerText = Globalize.format(totalizador.QuantidadePendente, formatoDosNumeros);
             }
             
             function atualizaVisibilidadeDasColunasDasTabelas() {
                 var agrupamentos = $('.divFiltros').serializeObject();
                 
-                atualizaVisibilidadeDaColuna(1, agrupamentos.NumeroDoContrato);
-                atualizaVisibilidadeDaColuna(2, agrupamentos.NumeroDaOrdemDeTransporte);
-                atualizaVisibilidadeDaColuna(3, agrupamentos.FornecedorDaMercadoria);
-                atualizaVisibilidadeDaColuna(4, agrupamentos.Transportadora);
-                atualizaVisibilidadeDaColuna(5, agrupamentos.MunicipioDeOrigem);
-                atualizaVisibilidadeDaColuna(6, agrupamentos.MunicipioDeDestino);
+                atualizaVisibilidadeDaColuna(1, agrupamentos.Terminal);
+                atualizaVisibilidadeDaColuna(2, agrupamentos.NumeroDoContrato);
+                atualizaVisibilidadeDaColuna(3, agrupamentos.NumeroDaOrdemDeTransporte);
+                atualizaVisibilidadeDaColuna(4, agrupamentos.FornecedorDaMercadoria);
+                atualizaVisibilidadeDaColuna(5, agrupamentos.Transportadora);
+                atualizaVisibilidadeDaColuna(6, agrupamentos.MunicipioDeOrigem);
+                atualizaVisibilidadeDaColuna(7, agrupamentos.MunicipioDeDestino);
             }
             
             $(function () {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.UI.Filters;
@@ -18,15 +17,12 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Salvar(DateTime data, IList<QuotaSalvarVm> quotas)
+        [JsonFilter(Param = "quotas", JsonDataType = typeof(QuotasSalvarVm))]
+        public JsonResult Salvar(QuotasSalvarVm quotas)
         {
             try
             {
-                if (quotas == null)
-                {
-                    quotas = new List<QuotaSalvarVm>();
-                }
-                _cadastroQuota.Salvar(data, quotas);
+                _cadastroQuota.Salvar(quotas);
                 return Json(new {Sucesso = true});
             }
             catch (Exception ex)

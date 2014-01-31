@@ -9,16 +9,19 @@ namespace BsBios.Portal.UI.Controllers
 {
     public class MonitorDeOrdemDeTransporteController : Controller
     {
-        private readonly IConsultaMonitorDeOrdemDeTransporte _consulta;
+        private readonly IConsultaMonitorDeOrdemDeTransporte _consultaMonitorDeOrdemDeTransporte;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public MonitorDeOrdemDeTransporteController(IConsultaMonitorDeOrdemDeTransporte consulta)
+        public MonitorDeOrdemDeTransporteController(IConsultaMonitorDeOrdemDeTransporte consultaMonitorDeOrdemDeTransporte, IConsultaTerminal consultaTerminal)
         {
-            _consulta = consulta;
+            _consultaMonitorDeOrdemDeTransporte = consultaMonitorDeOrdemDeTransporte;
+            _consultaTerminal = consultaTerminal;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View(new MonitorOrdemDeTransporteParametroVm
             {
                 InterValoDeAtualizacao = 60
@@ -30,7 +33,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                var materiais = _consulta.ListarPorMaterial(filtro);
+                var materiais = _consultaMonitorDeOrdemDeTransporte.ListarPorMaterial(filtro);
 
                 return Json(new {Sucesso = true, Materiais = materiais}, JsonRequestBehavior.AllowGet);
 

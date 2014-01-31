@@ -36,8 +36,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void QuandoConsultaQuotaEmUmaDataQuePossuiQuotaRetornaVerdadeiro()
         {
             //RemoveQueries.RemoverQuotasCadastradas();
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
             var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, DefaultObjects.ObtemTransportadoraPadrao(),
-                "1000",DateTime.Today,1200);
+                terminal,DateTime.Today,1200);
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
@@ -48,8 +49,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void QuandoConsultaQuotaEmUmaDataQueNaoPossuiQuotaRetornaFalso()
         {
             //RemoveQueries.RemoverQuotasCadastradas();
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
+
             var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, DefaultObjects.ObtemTransportadoraPadrao(),
-                "1000", DateTime.Today, 1200);
+                terminal, DateTime.Today, 1200);
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
@@ -65,7 +68,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             DefaultPersistedObjects.PersistirQuota(quota);
 
             var consultaQuota = ObjectFactory.GetInstance<IConsultaQuota>();
-            IList<QuotaConsultarVm> quotas = consultaQuota.QuotasDaData(quota.Data);
+            IList<QuotaConsultarVm> quotas = consultaQuota.QuotasDaData(quota.Data, quota.Terminal.Codigo);
 
             Assert.AreEqual(1, quotas.Count);
         }
@@ -74,9 +77,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public void QuandoConsultaQuotasDeUmDeterminadoFornecedorRetornaListaDeQuotasEmOrdemDecrescenteDeData()
         {
             //cria duas quotas para o mesmo fornecedor
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, "1000",DateTime.Today,100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, "1000", DateTime.Today.AddDays(1), 100);
+            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, terminal,DateTime.Today,100);
+            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, terminal, DateTime.Today.AddDays(1), 100);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);

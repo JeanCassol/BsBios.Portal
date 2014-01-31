@@ -88,5 +88,9 @@
 .semaforo-vermelho {
     background-image: url(/images/icons/led_circle_red.png); 
 }
+.registronaoencontrado {
+    font-size: 3em;
+    text-align: center;
+}
 
 

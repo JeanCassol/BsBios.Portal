@@ -17,34 +17,36 @@ namespace BsBios.Portal.Application.Queries.Builders
         {
             bool permiteEditar = _verificaPermissaoAgendamento.PermiteEditar(model, usuario);
             bool permiteRealizar = _verificaPermissaoAgendamento.PermiteRealizar(model, usuario);
+            AgendamentoDeCargaCadastroVm viewModel = null;
             if (model is AgendamentoDeCarregamento)
             {
-                return new AgendamentoDeCarregamentoCadastroVm
+                viewModel = new AgendamentoDeCarregamentoCadastroVm
                     {
-                        IdQuota = model.Quota.Id,
-                        IdAgendamento = model.Id,
-                        Placa = model.Placa ,
                         Peso = model.PesoTotal ,
                         ViewDeCadastro = "AgendamentoDeCarregamento",
-                        PermiteEditar =  permiteEditar,
-                        PermiteRealizar = permiteRealizar
                     };       
             }
 
             if (model is AgendamentoDeDescarregamento)
             {
-                return new AgendamentoDeDescarregamentoCadastroVm
+                viewModel = new AgendamentoDeDescarregamentoCadastroVm
                     {
-                        IdQuota = model.Quota.Id ,
-                        IdAgendamento = model.Id ,
-                        Placa = model.Placa,
                         ViewDeCadastro = "AgendamentoDeDescarregamento",
-                        PermiteEditar = permiteEditar,
-                        PermiteRealizar = permiteRealizar
                     };
             }
 
-            return null;
+            if (viewModel != null)
+            {
+                viewModel.IdQuota = model.Quota.Id;
+                viewModel.IdAgendamento = model.Id;
+                viewModel.Placa = model.Placa;
+                viewModel.DescricaoDoTerminal = model.Quota.Terminal.Nome;
+                viewModel.PermiteEditar = permiteEditar;
+                viewModel.PermiteRealizar = permiteRealizar;
+
+            }
+
+            return viewModel;
         }
     }
 }

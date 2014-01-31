@@ -5,6 +5,6 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaTerminal
     {
-        IList<TerminalVm> ListarTodos();
+        IList<TerminalCadastroVm> ListarTodos();
     }
 }

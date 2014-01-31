@@ -31,8 +31,8 @@
 
         </div>
         @Html.LinhaComDuasColunas(new ColunaComDropDown<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoDoTerminal,
-                ((List<TerminalVm>)ViewBag.Terminais)
-                .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
+                ((List<TerminalCadastroVm>)ViewBag.Terminais)
+                .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
                 "CodigoDoTerminal"), new ColunaVazia<ProcessoDeCotacaoDeFreteFiltroVm, object>(x => null))
 
 

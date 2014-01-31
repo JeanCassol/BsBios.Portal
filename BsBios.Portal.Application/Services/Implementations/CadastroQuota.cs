@@ -15,28 +15,31 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IQuotas _quotas;
         private readonly IFornecedores _fornecedores;
+        private readonly ITerminais _terminais;
 
-        public CadastroQuota(IUnitOfWork unitOfWork, IQuotas quotas, IFornecedores fornecedores)
+        public CadastroQuota(IUnitOfWork unitOfWork, IQuotas quotas, IFornecedores fornecedores, ITerminais terminais)
         {
             _unitOfWork = unitOfWork;
             _quotas = quotas;
             _fornecedores = fornecedores;
+            _terminais = terminais;
         }
 
-        public void Salvar(DateTime data, IList<QuotaSalvarVm> quotasSalvarVm)
+        public void Salvar(QuotasSalvarVm quotasSalvarVm)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
                 //consulta as quotas que estão salvas na data
-                IList<Quota> quotasSalvas = _quotas.FiltraPorData(data).List();
+                IList<Quota> quotasSalvas = _quotas
+                    .FiltraPorData(quotasSalvarVm.Data)
+                    .DoTerminal(quotasSalvarVm.CodigoDoTerminal)
+                    .List();
 
                 #region Remover Quotas
                 IList<Quota> quotasParaRemover = quotasSalvas
-                    .Where(qs => quotasSalvarVm.All(qc => 
-                        qc.Data != qs.Data 
-                        || qc.CodigoTerminal != qs.CodigoTerminal
-                        || qc.CodigoMaterial != (int) qs.Material
+                    .Where(qs => quotasSalvarVm.Quotas.All(qc => 
+                        qc.CodigoMaterial != (int) qs.Material
                         || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 
                 foreach (var quota in quotasParaRemover)
@@ -51,19 +54,15 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 #region Atualizar Quotas
                 IList<Quota> quotasParaAtualizar = quotasSalvas
-                    .Where(qs => quotasSalvarVm.Any(qc =>
-                        qc.Data == qs.Data
-                        && qc.CodigoTerminal == qs.CodigoTerminal
-                        && qc.CodigoMaterial == (int)qs.Material
+                    .Where(qs => quotasSalvarVm.Quotas.Any(qc =>
+                        qc.CodigoMaterial == (int)qs.Material
                         && qc.CodigoFornecedor == qs.Fornecedor.Codigo)).ToList();
 
                 foreach (var quota in quotasParaAtualizar)
                 {
                     //obtem view model corresponde a entidade que quero atualizar
-                    QuotaSalvarVm quotaSalvarVm = quotasSalvarVm.First(qa =>
-                        qa.Data == quota.Data
-                        && qa.CodigoTerminal == quota.CodigoTerminal
-                        && qa.CodigoMaterial == (int)quota.Material
+                    QuotaSalvarVm quotaSalvarVm = quotasSalvarVm.Quotas.First(qa =>
+                        qa.CodigoMaterial == (int)quota.Material
                         && qa.CodigoFornecedor == quota.Fornecedor.Codigo);
 
                     //único campo que pode ser atualizado é o campo de peso
@@ -76,14 +75,17 @@ namespace BsBios.Portal.Application.Services.Implementations
                 #endregion
 
                 #region Adicionar Quotas
-                IList<QuotaSalvarVm> quotasParaAdicionar = quotasSalvarVm.Where(qc =>
+                IList<QuotaSalvarVm> quotasParaAdicionar = quotasSalvarVm.Quotas.Where(qc =>
                     quotasSalvas.All(qs =>
-                        qc.Data != qs.Data 
-                        || qc.CodigoTerminal != qs.CodigoTerminal
-                        || qc.CodigoMaterial != (int) qs.Material
+                        qc.CodigoMaterial != (int) qs.Material
                         || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
 
-
+                Terminal terminal = null;
+                if (quotasParaAdicionar.Any())
+                {
+                    terminal = _terminais.BuscaPeloCodigo(quotasSalvarVm.CodigoDoTerminal);
+                }
+                
                 foreach (var quotaSalvarVm in quotasParaAdicionar)
                 {
                     string[] codigoDosNovosFornecedores = quotasParaAdicionar.Select(x => x.CodigoFornecedor).Distinct().ToArray();
@@ -93,8 +95,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                         (Enumeradores.MaterialDeCarga)
                         Enum.Parse(typeof (Enumeradores.MaterialDeCarga),Convert.ToString(quotaSalvarVm.CodigoMaterial));
                     Fornecedor fornecedor = fornecedores.First(x => x.Codigo == quotaSalvarVm.CodigoFornecedor);
-                    var quota = new Quota(materialDeCarga, fornecedor, quotaSalvarVm.CodigoTerminal,
-                                          quotaSalvarVm.Data, quotaSalvarVm.Peso);
+                    var quota = new Quota(materialDeCarga, fornecedor, terminal,
+                                          quotasSalvarVm.Data, quotaSalvarVm.Peso);
 
                     _quotas.Save(quota);
                 }

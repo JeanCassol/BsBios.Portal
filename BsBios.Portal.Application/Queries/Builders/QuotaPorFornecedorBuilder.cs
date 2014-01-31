@@ -19,10 +19,8 @@ namespace BsBios.Portal.Application.Queries.Builders
             return new QuotaPorFornecedorVm
                 {
                     IdQuota = model.Id,
-                    //CodigoTerminal =  model.CodigoTerminal,
-                    //CodigoFornecedor = model.Fornecedor.Codigo,
                     Data = model.Data.ToShortDateString(),
-                    //CodigoMaterial =  (int) model.Material,
+                    Terminal = model.Terminal.Nome,
                     DescricaoMaterial = model.Material.Descricao(),
                     CodigoFluxoDeCarga = (int) model.FluxoDeCarga,
                     FluxoDeCarga = model.FluxoDeCarga.Descricao(),

@@ -10,7 +10,8 @@
         <form id="formAgendamento">
             @Html.HiddenFor(x => x.IdQuota)
             @Html.HiddenFor(x => x.IdAgendamento)
-            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa,"maskplaca"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa,"maskplaca"),
+             new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.DescricaoDoTerminal,"campoDesabilitado") )
         </form>
     </fieldset>
     <fieldset id="fieldSetNotaFiscal">
@@ -80,14 +81,14 @@
             aplicaMascaraQuantidade();
             aplicaMascaraMoeda();
 
-            $('#NotaFiscal_NomeDoEmitente').attr('maxlength', 35);
-            $('#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
+            $('#NotaFiscal_NomeDoEmitente,#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
+            $('#DescricaoDoTerminal').attr('readonly', true);
         }
 
 
         @if (Model.IdAgendamento > 0)
         {
-            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento", "Quota", new { Model.IdQuota, Model.IdAgendamento }))');
+            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento", "Quota", new { Model.IdQuota, Model.IdAgendamento}))');
         }
         
         var funcaoParaSalvarCamposEspecificosDaNota = function (notaFiscal) {

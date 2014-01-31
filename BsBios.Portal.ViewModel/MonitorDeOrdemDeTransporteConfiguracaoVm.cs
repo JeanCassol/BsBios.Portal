@@ -26,6 +26,8 @@ namespace BsBios.Portal.ViewModel
         public string CodigoDoMunicipioDeOrigem { get; set; }
         [DisplayName("Município de Destino")]
         public string CodigoDoMunicipioDeDestino { get; set; }
+        [DisplayName("Terminal")]
+        public string CodigoDoTerminal { get; set; }
         
     }
 

@@ -8,6 +8,7 @@ namespace BsBios.Portal.Infra.Mappings
         public MonitorDeOrdemDeTransporteMap()
         {
             Id(x => x.Id);
+            Map(x => x.Terminal); 
             Map(x => x.Material);
             Map(x => x.NumeroDoContrato,"NumeroContrato");
             Map(x => x.FornecedorDaMercadoria);

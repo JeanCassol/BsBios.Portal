@@ -46,16 +46,16 @@ namespace BsBios.Portal.UI.Controllers
         }
 
 
-        public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga)
+        public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga, string descricaoDoTerminal)
         {
             AgendamentoDeCargaCadastroVm model = null;
             if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
             {
-                model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota };
+                model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal};
             }
             if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
             {
-                model = new AgendamentoDeDescarregamentoCadastroVm() {IdQuota = idQuota};
+                model = new AgendamentoDeDescarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
             }
 
             if (model != null)

@@ -38,7 +38,7 @@ namespace BsBios.Portal.Tests.Domain.Services
             var factory = new AgendamentoDeCarregamentoFactory(150);
             var agendamento = (AgendamentoDeCarregamento) factory.Construir(quota, "IOQ5335");
             Assert.AreEqual(DateTime.Today, agendamento.Quota.Data);
-            Assert.AreEqual("1000", agendamento.Quota.CodigoTerminal);
+            Assert.AreEqual("1000", agendamento.Quota.Terminal.Codigo);
             Assert.AreEqual("IOQ5335",agendamento.Placa);
             Assert.AreEqual(150, agendamento.Peso);
             Assert.AreEqual(Enumeradores.MaterialDeCarga.Farelo , agendamento.Quota.Material);

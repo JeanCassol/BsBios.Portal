@@ -30,7 +30,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             var queryable = _session.Query<ConferenciaDeCargaPesquisaResultadoVm>();
 
-            queryable = queryable.Where(x => x.CodigoDeposito == filtro.CodigoDeposito && x.CodigoTerminal == filtro.CodigoTerminal);
+            if (!string.IsNullOrEmpty(filtro.CodigoTerminal))
+            {
+                queryable = queryable.Where(x => x.CodigoDeposito == filtro.CodigoDeposito && x.CodigoTerminal == filtro.CodigoTerminal);
+                
+            }
+
 
             if (filtro.RealizacaoDeAgendamento.HasValue)
             {

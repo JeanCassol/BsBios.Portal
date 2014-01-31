@@ -9,7 +9,8 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("TERMINAL");
             Id(x => x.Codigo);
-            Map(x => x.Descricao);
+            Map(x => x.Nome);
+            Map(x => x.Cidade);
         }
     }
 }

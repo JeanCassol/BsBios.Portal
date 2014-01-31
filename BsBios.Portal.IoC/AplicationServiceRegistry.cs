@@ -102,6 +102,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<OrdemDeTransporteService>();
 
+            For<ICadastroTerminal>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroTerminal>();
+
+
         }
     }
 }

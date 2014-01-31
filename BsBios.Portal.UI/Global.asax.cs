@@ -22,6 +22,7 @@ namespace BsBios.Portal.UI
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IocConfig.RegisterIoc();
 

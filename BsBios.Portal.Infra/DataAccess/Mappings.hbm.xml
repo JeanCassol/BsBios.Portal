@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
   <sql-query name="MONITORDEORDEMDETRANSPORTE">
-    { call MONITORDEORDEMDETRANSPORTE(:p_agrupamentos,:p_codigoMaterial,:p_material,:p_codigoFornecedorDaMercadoria,:p_fornecedorDaMercadoria,:p_codigoTransportadora,:p_transportadora,:p_codigoDoMunicipioDeOrigem,:p_codigoDoMunicipioDeDestino) }
+    { call MONITORDEORDEMDETRANSPORTE(:p_agrupamentos,:p_codigoMaterial,:p_material,:p_codigoFornecedorDaMercadoria,:p_fornecedorDaMercadoria,:p_codigoTransportadora,:p_transportadora,:p_codigoDoMunicipioDeOrigem,:p_codigoDoMunicipioDeDestino,:p_codigoDoTerminal) }
   </sql-query>
   
   <sql-query name="RELATORDEMTRANSPORTEANALITICO">

@@ -44,7 +44,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IQuotas DoTerminal(string codigoDoTerminal)
         {
-            Query = Query.Where(x => x.CodigoTerminal == codigoDoTerminal);
+            Query = Query.Where(x => x.Terminal.Codigo == codigoDoTerminal);
             return this;
         }
 

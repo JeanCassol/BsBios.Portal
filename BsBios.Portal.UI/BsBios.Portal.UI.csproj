@@ -149,6 +149,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
     <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
+    <Compile Include="Controllers\TerminalApiController.cs" />
     <Compile Include="Controllers\ModelBinders\IntegerModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
     <Compile Include="Controllers\MonitorDeOrdemDeTransporteController.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Filters\ApiAuthorizationFilter.cs" />
+    <Compile Include="Filters\JsonFilter.cs" />
     <Compile Include="Filters\LoginInfo.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Global.asax.cs">

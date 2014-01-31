@@ -9,11 +9,10 @@ namespace BsBios.Portal.ViewModel
     public class QuotaPorFornecedorVm: ListagemVm
     {
         public int IdQuota { get; set; }
-        //public string CodigoTerminal { get; set; }
         [Display(Name = "Data: ")]
         public string Data { get; set; }
-        //public string CodigoFornecedor { get; set; }
-        //public int CodigoMaterial { get; set; }
+
+        public string Terminal { get; set; }
         [Display(Name = "Material: ")]
         public string DescricaoMaterial { get; set; }
 

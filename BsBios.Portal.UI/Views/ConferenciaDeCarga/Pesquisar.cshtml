@@ -15,7 +15,9 @@
         <div class="linha">
             <div class="coluna">
                 @Html.Label("Terminal")
-                @Html.TextBox("CodigoTerminal", "1000", new { @class = "campoDesabilitado", @readonly = true })
+                @Html.DropDownList("CodigoTerminal",
+                ((List<TerminalCadastroVm>)ViewBag.Terminais)
+                .Select(x => new SelectListItem { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),"Selecione >>")
             </div>
             <div class="coluna">
                 @Html.Label("Data de Agendamento")
@@ -71,6 +73,7 @@
                                 IdQuota: { type: "number" },
                                 IdAgendamento: { type: "number" },
                                 Data: { type: "string" },
+                                DescricaoTerminal: { type: "string" },
                                 DescricaoMaterial: { type: "string" },
                                 DescricaoFluxo: { type: "string" },
                                 Placa: { type: "string" },
@@ -112,6 +115,11 @@
                         field: "DataDeAgendamentoFormatada",
                         title: "Data",
                         width: 70
+                    },
+                    {
+                        field: 'DescricaoTerminal',
+                        title: 'Terminal',
+                        width: 80
                     },
                     {
                         field: "DescricaoFluxo",

@@ -11,6 +11,8 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Placa")]
         [MaxLength(8)]
         public string Placa { get; set; }
+        [Display(Name = "Terminal")]
+        public string DescricaoDoTerminal { get; set; }
 
         public string ViewDeCadastro { get; set; }
 

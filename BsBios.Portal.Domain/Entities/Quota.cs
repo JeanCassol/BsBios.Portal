@@ -14,7 +14,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Fornecedor Fornecedor { get; protected set; }
         public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
         public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
-        public virtual string CodigoTerminal { get; protected set; }
+        public virtual Terminal Terminal { get; protected set; }
         public virtual DateTime Data { get; protected set; }
         /// <summary>
         /// total de peso liberado para o fornecedor fazer carregamento ou descarregamento
@@ -40,10 +40,10 @@ namespace BsBios.Portal.Domain.Entities
             Agendamentos = new List<AgendamentoDeCarga>();
         }
 
-        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor fornecedor, string terminal, DateTime data, decimal pesoTotal):this()
+        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor fornecedor, Terminal terminal, DateTime data, decimal pesoTotal):this()
         {
             Fornecedor = fornecedor;
-            CodigoTerminal = terminal;
+            Terminal = terminal;
             Data = data;
             PesoTotal = pesoTotal;
             Material = materialDeCarga;
@@ -88,7 +88,7 @@ namespace BsBios.Portal.Domain.Entities
 
         protected bool Equals(Quota other)
         {
-            return FluxoDeCarga == other.FluxoDeCarga && Equals(Fornecedor, other.Fornecedor) && string.Equals(CodigoTerminal, other.CodigoTerminal) && Data.Equals(other.Data);
+            return FluxoDeCarga == other.FluxoDeCarga && Equals(Fornecedor, other.Fornecedor) && string.Equals(Terminal, other.Terminal) && Data.Equals(other.Data);
         }
 
         public override bool Equals(object obj)
@@ -105,7 +105,7 @@ namespace BsBios.Portal.Domain.Entities
             {
                 var hashCode = (int) FluxoDeCarga;
                 hashCode = (hashCode*397) ^ (Fornecedor != null ? Fornecedor.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (CodigoTerminal != null ? CodigoTerminal.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Terminal != null ? Terminal.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ Data.GetHashCode();
                 return hashCode;
             }
