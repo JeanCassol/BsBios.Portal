@@ -29,6 +29,7 @@
             <thead>
                 <tr>
                     <th>Nº Ordem</th>
+                    <th>Terminal</th>
                     <th>Material</th>
                     <th>Fornecedor da Mercadoria</th>
                     <th @Html.Raw(estiloDaColuna) >Validade Inicial</th>
@@ -57,6 +58,7 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.IdDaOrdemDeTransporte)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Terminal)</td>
                         <td>@Html.DisplayFor(modelItem => item.Material)</td>
                         <td>@Html.DisplayFor(modelItem => item.NomeDoFornecedorDaMercadoria)</td>
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.DataDeValidadeInicial)</td>

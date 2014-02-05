@@ -10,11 +10,15 @@
             ((Enumeradores.StatusDaOrdemDeTransporte) Enum.Parse(typeof(Enumeradores.StatusDaOrdemDeTransporte),Convert.ToString(Model.Status.Value))).Descricao()
             : "Todos",new{@class="labelNaLinha"})
     </div>
+    <div class="coluna">
+        @Html.Label("Terminal: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.Terminal) ? "Todos" : Model.Terminal, new { @class = "labelNaLinha" })
+    </div>
 </div>
 <div class="linha">
     <div class="coluna">
         @Html.Label("Data de Validade Inicial: ",new{@class="labelNaLinha"})
-        @Html.Label(string.IsNullOrEmpty(Model.DataDeValidadeInicial) ? "Todas" : Model.DataDeValidadeInicial ,   new{@class="labelNaLinha"})
+        @Html.Label(string.IsNullOrEmpty(Model.DataDeValidadeInicial) ? "Todas" : Model.DataDeValidadeInicial, new{@class="labelNaLinha"})
     </div>
     <div class="coluna">
         @Html.Label("Data de Validade Final: ", new { @class = "labelNaLinha" })

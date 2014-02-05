@@ -69,6 +69,12 @@
             , new { @class = "labelNaLinha" })
     </div>
 </div>
+<div class="linha">
+    <div class="coluna">
+        @Html.Label("Terminal: ", new { @class = "labelNaLinha" })
+        @Html.Label(string.IsNullOrEmpty(Model.Terminal) ? "Todos" : Model.Terminal, new { @class = "labelNaLinha" })
+    </div>
+</div>
 
 <div class="linha">
     @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))

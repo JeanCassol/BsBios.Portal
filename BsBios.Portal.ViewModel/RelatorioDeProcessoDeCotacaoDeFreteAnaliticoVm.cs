@@ -5,6 +5,8 @@ namespace BsBios.Portal.ViewModel
 {
     public class RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm : ProcessoDeCotacaoDeFreteBaseVm
     {
+        public string Terminal { get; set; }
+
         [DisplayName("Status: ")]
         public virtual object Status { get; set; }
 
@@ -26,6 +28,6 @@ namespace BsBios.Portal.ViewModel
         public decimal QuantidadeDisponivel { get; set; }
         public decimal QuantidadeLiberada { get; set; }
         public decimal ValorComImpostos { get; set; }
-
+        
     }
 }

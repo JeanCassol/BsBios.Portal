@@ -23,7 +23,8 @@ namespace BsBios.Portal.ViewModel
         public string CodigoDoFornecedorDaMercadoria{ get; set; }
         [DisplayName("Nome do Fornecedor da Mercadoria")]
         public string NomeDoFornecedorDaMercadoria { get; set; }
-
-
+        [DisplayName("Terminal")]
+        public string CodigoTerminal { get; set; }
+        public string Terminal { get; set; }
     }
 }

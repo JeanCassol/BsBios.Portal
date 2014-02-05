@@ -13,6 +13,9 @@ namespace BsBios.Portal.ViewModel
         public string DescricaoDoItinerario { get; set; }
 
         public string DataDeFechamento { get; set; }
+        [DisplayName("Terminal")]
+        public string CodigoDoTerminal { get; set; }
 
+        public string Terminal { get; set; }
     }
 }

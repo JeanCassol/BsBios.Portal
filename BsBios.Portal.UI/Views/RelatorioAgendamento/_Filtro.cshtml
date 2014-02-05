@@ -1,7 +1,15 @@
 ﻿@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model RelatorioAgendamentoFiltroVm
-@Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioAgendamentoFiltroVm, string>(x => x.CodigoTerminal,"campoDesabilitado"),
+@{
+    var comboDeTerminal = new ColunaComDropDown<RelatorioAgendamentoFiltroVm, string>(x => x.CodigoTerminal,
+    ((List<TerminalCadastroVm>)ViewBag.Terminais)
+    .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),
+    "CodigoTerminal");
+    
+}           
+
+@Html.LinhaComDuasColunas(comboDeTerminal,
 new ColunaComDropDown<RelatorioAgendamentoFiltroVm, int?>(x => x.CodigoFluxoDeCarga,
 ((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga) 
 .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),"CodigoFluxoDeCarga"))

@@ -23,7 +23,7 @@ namespace BsBios.Portal.ViewModel
         [DisplayFormat(DataFormatString = "{0:0}")]
         public virtual decimal QuantidadeDeDiasEmAtraso { get; set; }
         public virtual decimal PercentualDeAtraso { get; set; }
-
+        public virtual string Terminal { get; set; }
     }
 
 }

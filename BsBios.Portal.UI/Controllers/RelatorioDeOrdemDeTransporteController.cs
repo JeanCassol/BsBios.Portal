@@ -8,16 +8,19 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class RelatorioDeOrdemDeTransporteController : Controller
     {
-        private readonly IConsultaStatusDeOrdemDeTransporte _consulta;
+        private readonly IConsultaStatusDeOrdemDeTransporte _consultaStatusDeOrdemDeTransporte;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public RelatorioDeOrdemDeTransporteController(IConsultaStatusDeOrdemDeTransporte consulta)
+        public RelatorioDeOrdemDeTransporteController(IConsultaStatusDeOrdemDeTransporte consultaStatusDeOrdemDeTransporte, IConsultaTerminal consultaTerminal)
         {
-            _consulta = consulta;
+            _consultaStatusDeOrdemDeTransporte = consultaStatusDeOrdemDeTransporte;
+            _consultaTerminal = consultaTerminal;
         }
 
         public ActionResult Relatorio()
         {
-            ViewBag.StatusDeOrdemDeTransporte = _consulta.Listar();
+            ViewBag.StatusDeOrdemDeTransporte = _consultaStatusDeOrdemDeTransporte.Listar();
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
 
             return View();
         }

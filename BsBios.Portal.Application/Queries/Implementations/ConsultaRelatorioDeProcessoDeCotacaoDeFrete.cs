@@ -170,6 +170,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Municipio municipioDeDestino = null;
             Fornecedor deposito = null;
             Fornecedor fornecedorDaMercadoria = null;
+            Terminal terminal = null;
 
             var unitOfWork = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
@@ -179,6 +180,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .JoinAlias(x => x.Produto, () => produto)
                 .JoinAlias(x => x.UnidadeDeMedida, () => unidadeDeMedida)
                 .JoinAlias(x => x.Itinerario, () => itinerario)
+                .JoinAlias(x => x.Terminal, () => terminal)
                 .Left.JoinAlias(x => x.FornecedoresParticipantes, () => fornecedorParticipante)
                 .Left.JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
                 .Left.JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora)
@@ -274,6 +276,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     .IsInsensitiveLike(filtro.NomeDaTransportadora, MatchMode.Anywhere));
             }
 
+            if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
+            {
+                queryOver = queryOver.Where(x => x.Terminal.Codigo == filtro.CodigoDoTerminal);
+            }
+
             return queryOver;
             
         }
@@ -288,7 +295,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Produto produto = null;
             UnidadeDeMedida unidadeDeMedida = null;
             Itinerario itinerario = null;
-
+            Terminal terminal = null;
 
             IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = ConstruirFrom(filtro);
 
@@ -301,7 +308,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .SelectGroup(x => itinerario.Descricao)
                 .SelectGroup(x => x.Classificacao)
                 .SelectGroup(x => transportadora.Nome)
-                .SelectGroup(x => cotacao.Selecionada);
+                .SelectGroup(x => cotacao.Selecionada)
+                .SelectGroup(x => terminal.Nome);
+
 
             switch (funcaoDeAgrecacao)
             {
@@ -343,9 +352,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 Classificacao = ((bool)properties[4]) ? "Sim" : "Não",
                 Transportadora = (string)properties[5],
                 Selecionado = properties[6] != null && ((bool)properties[6]) ? "Sim" : "Não",
-                QuantidadeDisponivel = properties[7] != null ? Convert.ToDecimal(properties[7]) : 0,
-                QuantidadeLiberada = properties[8] != null ? Convert.ToDecimal(properties[8]) : 0,
-                ValorComImpostos = properties[9] != null ? Convert.ToDecimal(properties[9]) : 0,
+                Terminal = (string) properties[7],
+                QuantidadeDisponivel = properties[8] != null ? Convert.ToDecimal(properties[8]) : 0,
+                QuantidadeLiberada = properties[9] != null ? Convert.ToDecimal(properties[9]) : 0,
+                ValorComImpostos = properties[10] != null ? Convert.ToDecimal(properties[10]) : 0,
 
             }).ToList();
             
@@ -366,12 +376,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
             Itinerario itinerario = null;
             Municipio municipioDeOrigem = null;
             Municipio municipioDeDestino = null;
+            Terminal terminal = null;
 
             IQueryOver<ProcessoDeCotacaoDeFrete, ProcessoDeCotacaoDeFrete> queryOver = ConstruirFrom(filtro);
 
             var processosDeCotacao = queryOver
                 .OrderBy(Projections.Property(() => processoDeCotacao.Id)).Asc
                 .SelectList( lista => lista
+                    .Select(x => terminal.Nome).WithAlias(() => relatorio.Terminal)
                     .Select(Projections.Conditional(Restrictions.IsNull(Projections.Property(() => cotacao.Cadencia)), 
                     Projections.Property(() => processoDeCotacao.Cadencia), 
                     Projections.Property(() => cotacao.Cadencia)).WithAlias(() => relatorio.Cadencia)).WithAlias(() => relatorio.Cadencia)

@@ -68,4 +68,9 @@
         @Html.DropDownList("SelecaoDeFornecedores", listaDeSelecaoDeFornecedores)
     </div>
 </div>
+@Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoDoTerminal,
+    ((List<TerminalCadastroVm>)ViewBag.Terminais)
+        .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),
+        "CodigoDoTerminal"), new ColunaVazia<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, object>(x => null))
+
 

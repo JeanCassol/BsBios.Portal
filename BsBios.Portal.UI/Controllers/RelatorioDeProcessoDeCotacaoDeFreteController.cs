@@ -10,12 +10,15 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
         private readonly IConsultaEscolhaSimples _consultaEscolhaSimples;
         private readonly IConsultaSelecaoDeFornecedores _consultaSelecaoDeFornecedores;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public RelatorioDeProcessoDeCotacaoDeFreteController(IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaSelecaoDeFornecedores consultaSelecaoDeFornecedores, IConsultaEscolhaSimples consultaEscolhaSimples)
+
+        public RelatorioDeProcessoDeCotacaoDeFreteController(IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaSelecaoDeFornecedores consultaSelecaoDeFornecedores, IConsultaEscolhaSimples consultaEscolhaSimples, IConsultaTerminal consultaTerminal)
         {
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
             _consultaSelecaoDeFornecedores = consultaSelecaoDeFornecedores;
             _consultaEscolhaSimples = consultaEscolhaSimples;
+            _consultaTerminal = consultaTerminal;
         }
 
         public ActionResult Relatorio()
@@ -23,6 +26,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             ViewBag.SelecaoDeFornecedores = _consultaSelecaoDeFornecedores.Listar();
             ViewBag.EscolhaSimples = _consultaEscolhaSimples.Listar();
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
 
             return View();
         }

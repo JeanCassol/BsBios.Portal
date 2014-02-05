@@ -29,6 +29,7 @@
                 <tr>
                     <th>@HttpUtility.HtmlDecode("Nº Cotação")</th>
                     <th>Status</th>
+                    <th>Terminal</th>
                     <th>Material</th>
                     <th>Quantidade</th>
                     <th>Unidade de Medida</th>
@@ -56,6 +57,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.IdDoProcessoDeCotacao)</td>
                         <td>@Html.DisplayFor(modelItem => item.DescricaoDoStatus)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Terminal)</td>
                         <td>@Html.DisplayFor(modelItem => item.Material)</td>
                         <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnidadeDeMedida)</td>

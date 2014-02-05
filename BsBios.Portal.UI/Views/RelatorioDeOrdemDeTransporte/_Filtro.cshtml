@@ -5,10 +5,16 @@
 @{
     var listaDeStatus = ((IList<ChaveValorVm>)ViewBag.StatusDeOrdemDeTransporte).Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao });
 
+    var comboDeTerminal = new ColunaComDropDown<RelatorioDeOrdemDeTransporteFiltroVm, string>(x => x.CodigoTerminal,
+    ((List<TerminalCadastroVm>)ViewBag.Terminais)
+    .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo) }),
+    "CodigoTerminal");
+    
+
 }
 
 @Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeOrdemDeTransporteFiltroVm, int?>(x => x.Status, listaDeStatus, "Status"),
-        new ColunaVazia<RelatorioDeOrdemDeTransporteFiltroVm,object>(x => null) )
+        comboDeTerminal )
 
 @Html.LinhaComDuasColunas(new ColunaComTextBox<RelatorioDeOrdemDeTransporteFiltroVm, string>(x => x.DataDeValidadeInicial, "campopequeno campoDatePicker maskdata"),
         new ColunaComTextBox<RelatorioDeOrdemDeTransporteFiltroVm, string>(x => x.DataDeValidadeFinal, "campopequeno campoDatePicker maskdata"))

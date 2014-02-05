@@ -9,10 +9,10 @@
         public string Classificacao { get; set; }
         public string Transportadora { get; set; }
         public string Selecionado { get; set; }
+        public string Terminal { get; set; }
         public decimal QuantidadeDisponivel { get; set; }
         public decimal QuantidadeLiberada { get; set; }
         public decimal ValorComImpostos { get; set; }
-
     }
 
 }

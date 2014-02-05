@@ -138,6 +138,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 .SetParameter("p_fornecedorDaMercadoria", filtro.NomeDoFornecedorDaMercadoria)
                 .SetParameter("p_codigoTransportadora", filtro.CodigoDaTransportadora)
                 .SetParameter("p_transportadora", filtro.NomeDaTransportadora)
+                .SetParameter("p_codigoTerminal", filtro.CodigoTerminal)
 
                 .SetResultTransformer(Transformers.AliasToBean<RelatorioDeOrdemDeTransporteAnaliticoVm>())
                 .List<RelatorioDeOrdemDeTransporteAnaliticoVm>();

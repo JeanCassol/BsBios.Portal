@@ -50,7 +50,8 @@
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
                 window.open('@Url.Action("GerarRelatorio","RelatorioDeOrdemDeTransporteVisualizacao")' + '/?' + $('form').serialize() +
-                    '&Relatorio=' + $('input[name=RelatorioDeOrdemDeTransporte]:checked').val());
+                    '&Relatorio=' + $('input[name=RelatorioDeOrdemDeTransporte]:checked').val() +
+                    '&Terminal=' + ($('#CodigoTerminal').val() ? $('#CodigoTerminal').find(':selected').text(): ''));
             });
         })
     </script>

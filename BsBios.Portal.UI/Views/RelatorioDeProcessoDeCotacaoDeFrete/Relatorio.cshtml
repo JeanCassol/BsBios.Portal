@@ -62,7 +62,8 @@
             $('#btnGerarRelatorio').click(function (e) {
                 e.preventDefault();
                 window.open('@Url.Action("GerarRelatorio","RelatorioDeProcessoDeCotacaoDeFreteVisualizacao")' + '/?' + $('form').serialize() +
-                    '&Relatorio=' + $('input[name=RelatorioDeProcessoDeCotacaoDeFrete]:checked').val());
+                    '&Relatorio=' + $('input[name=RelatorioDeProcessoDeCotacaoDeFrete]:checked').val() + 
+                    '&Terminal=' + ($('#CodigoDoTerminal').val() ?  $('#CodigoDoTerminal').find(':selected').text(): ''));
             });
 
             $('#btnExportarRelatorio').click(function (e) {
