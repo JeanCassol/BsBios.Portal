@@ -71,7 +71,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return queryOver;
         }
 
-        public IList<QuotaPlanejadoRealizadoVm> PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro)
+        public RelatorioDeQuotaPlanejadoVersusRealizadoVm PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro)
         {
             AplicaFiltros(filtro);
 
@@ -92,19 +92,29 @@ namespace BsBios.Portal.Application.Queries.Implementations
                               }).ToList();
 
 
-            return quotas.Select(x =>
-                                 new QuotaPlanejadoRealizadoVm
-                                     {
-                                         CodigoTerminal = x.Key.CodigoTerminal,
-                                         NomeDoFornecedor = x.Key.Codigo + " - " + x.Key.Nome,
-                                         FluxoDeCarga = x.Key.FluxoDeCarga.Descricao(),
-                                         Quota = x.PlanejadoTotal,
-                                         PesoRealizado = x.RealizadoTotal
-                                     }).ToList();
+            List<QuotaPlanejadoRealizadoVm> registros = quotas.Select(x =>
+                new QuotaPlanejadoRealizadoVm
+                {
+                    CodigoTerminal = x.Key.CodigoTerminal,
+                    NomeDoFornecedor = x.Key.Codigo + " - " + x.Key.Nome,
+                    FluxoDeCarga = x.Key.FluxoDeCarga.Descricao(),
+                    Quota = x.PlanejadoTotal,
+                    PesoRealizado = x.RealizadoTotal
+                }).ToList();
+
+            return new RelatorioDeQuotaPlanejadoVersusRealizadoVm
+            {
+                Quotas = registros,
+                Total = new QuotaPlanejadoRealizadoTotalVm
+                {
+                    Quota =  registros.Sum(r => r.Quota),
+                    PesoRealizado = registros.Sum(r => r.PesoRealizado)
+                }
+            };
 
         }
 
-        public IList<QuotaPlanejadoRealizadoPorDataVm> PlanejadoRealizadoPorData(RelatorioAgendamentoFiltroVm filtro)
+        public RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm PlanejadoRealizadoPorData(RelatorioAgendamentoFiltroVm filtro)
         {
 
             //OBS: GROUP BY COM ORDER BY CAUSA UM ERRO UTILIZANDO IQUERYABLE (GetQuery).
@@ -139,18 +149,27 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 ).OrderBy(x => x.Terminal.Codigo).Asc.OrderBy(x => x.Data).Asc;
 
             //tive que utilizar um array de objetos porque na query que executa no banco ainda não tenho o método Descricao() do Enum.
-            return queryOver
+            List<QuotaPlanejadoRealizadoPorDataVm> quotas = queryOver
                 .List<object[]>()
                 .Select(properties => new QuotaPlanejadoRealizadoPorDataVm
-                    {
-                        CodigoTerminal = (string) properties[0],
-                        Data =  ((DateTime) properties[1]).ToShortDateString(),
-                        NomeDoFornecedor = ((string) properties[2]) + " - " + (string) properties[3],
-                        FluxoDeCarga = ((Enumeradores.FluxoDeCarga) properties[4]).Descricao(),
-                        Quota = (decimal) properties[5],
-                        PesoRealizado = (decimal) properties[6]
-                    }).ToList();
+                {
+                    CodigoTerminal = (string) properties[0],
+                    Data =  ((DateTime) properties[1]).ToShortDateString(),
+                    NomeDoFornecedor = ((string) properties[2]) + " - " + (string) properties[3],
+                    FluxoDeCarga = ((Enumeradores.FluxoDeCarga) properties[4]).Descricao(),
+                    Quota = (decimal) properties[5],
+                    PesoRealizado = (decimal) properties[6]
+                }).ToList();
 
+            return new RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
+            {
+                Quotas = quotas,
+                Total = new QuotaPlanejadoRealizadoTotalVm
+                {
+                    Quota = quotas.Sum(q => q.Quota),
+                    PesoRealizado = quotas.Sum(q => q.PesoRealizado)
+                }
+            };
         }
 
         public IList<QuotaCadastroVm> ListagemDeQuotas(RelatorioAgendamentoFiltroVm filtro)

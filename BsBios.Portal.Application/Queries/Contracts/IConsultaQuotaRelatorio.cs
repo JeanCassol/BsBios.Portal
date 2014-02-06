@@ -5,8 +5,8 @@ namespace BsBios.Portal.Application.Queries.Contracts
 {
     public interface IConsultaQuotaRelatorio
     {
-        IList<QuotaPlanejadoRealizadoVm> PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro);
-        IList<QuotaPlanejadoRealizadoPorDataVm> PlanejadoRealizadoPorData(RelatorioAgendamentoFiltroVm filtro);
+        RelatorioDeQuotaPlanejadoVersusRealizadoVm PlanejadoRealizado(RelatorioAgendamentoFiltroVm filtro);
+        RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm PlanejadoRealizadoPorData(RelatorioAgendamentoFiltroVm filtro);
         IList<QuotaCadastroVm> ListagemDeQuotas(RelatorioAgendamentoFiltroVm filtro);
         IList<AgendamentoDeCargaRelatorioListarVm> ListagemDeAgendamentos(RelatorioAgendamentoFiltroVm filtro);
     }
