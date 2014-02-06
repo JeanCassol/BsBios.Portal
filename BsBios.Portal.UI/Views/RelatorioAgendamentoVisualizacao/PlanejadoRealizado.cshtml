@@ -1,8 +1,9 @@
 ﻿@using BsBios.Portal.ViewModel
-@model IEnumerable<QuotaPlanejadoRealizadoVm>
+@model RelatorioDeQuotaPlanejadoVersusRealizadoVm
 
 @{
     Layout = null;
+    //QuotaPlanejadoRealizadoVm quota = null;
 }
 
 <!DOCTYPE html>
@@ -21,25 +22,17 @@
             @Html.Partial("_CabecalhoRelatorioAgendamento", filtro)
         
             <table>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CodigoTerminal)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NomeDoFornecedor)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FluxoDeCarga)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Quota)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PesoRealizado)
-                    </th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Terminal</th>
+                        <th>Fornecedor</th>
+                        <th>Fluxo de Carga</th>
+                        <th>Quota</th>
+                        <th>Peso</th>
+                    </tr>
+                </thead>
     
-                @foreach (var item in Model) {
+                @foreach (var item in Model.Quotas) {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.CodigoTerminal)
@@ -58,6 +51,13 @@
                         </td>
                     </tr>
                 }
+                <tfoot>
+                    <tr>
+                        <td colspan="3">TOTAL</td>
+                        <td>@Html.DisplayFor(model => model.Total.Quota)</td>
+                        <td>@Html.DisplayFor(model => model.Total.PesoRealizado)</td>
+                    </tr>
+                </tfoot>
     
             </table>
         </div>

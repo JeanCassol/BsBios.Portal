@@ -1,5 +1,5 @@
 ﻿@using BsBios.Portal.ViewModel
-@model IEnumerable<QuotaPlanejadoRealizadoPorDataVm>
+@model RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
 
 @{
     Layout = null;
@@ -21,28 +21,17 @@
             @Html.Partial("_CabecalhoRelatorioAgendamento", filtro)
         
             <table>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CodigoTerminal)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Data)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NomeDoFornecedor)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FluxoDeCarga)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Quota)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PesoRealizado)
-                    </th>
-                </tr>
-    
-                @foreach (var item in Model) {
+                <thead>
+                    <tr>
+                        <th>Terminal</th>
+                        <th>Data</th>
+                        <th>Fornecedor</th>
+                        <th>Fluxo de Carga</th>
+                        <th>Quota</th>
+                        <th>PesoRealizado</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.Quotas) {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.CodigoTerminal)
@@ -64,6 +53,14 @@
                         </td>
                     </tr>
                 }
+
+                <tfoot>
+                    <tr>
+                        <td colspan="4">TOTAL</td>
+                        <td>@Html.DisplayFor(model => model.Total.Quota)</td>
+                        <td>@Html.DisplayFor(model => model.Total.PesoRealizado)</td>
+                    </tr>
+                </tfoot>
     
             </table>
         </div>

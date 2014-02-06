@@ -33,12 +33,12 @@ namespace BsBios.Portal.UI.Controllers
                     return View("ListagemDeAgendamentos", agendamentosListados);
                 case Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizado:
                     ViewBag.TituloDoRelatorio = "Agendamentos Planejado x Realizado";
-                    IList<QuotaPlanejadoRealizadoVm> quotas = _consultaQuotaRelatorio.PlanejadoRealizado(filtro);
-                    return View("PlanejadoRealizado", quotas);
+                    RelatorioDeQuotaPlanejadoVersusRealizadoVm relatorioVm = _consultaQuotaRelatorio.PlanejadoRealizado(filtro);
+                    return View("PlanejadoRealizado", relatorioVm);
                 case Enumeradores.RelatorioDeAgendamento.PlanejadoVersusRealizadoPorData:
                     ViewBag.TituloDoRelatorio = "Agendamentos Planejado x Realizado por Data";
-                    IList<QuotaPlanejadoRealizadoPorDataVm> quotasPorData = _consultaQuotaRelatorio.PlanejadoRealizadoPorData(filtro);
-                    return View("PlanejadoRealizadoPorData", quotasPorData);
+                    RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm relatorioPorDataVm = _consultaQuotaRelatorio.PlanejadoRealizadoPorData(filtro);
+                    return View("PlanejadoRealizadoPorData", relatorioPorDataVm);
                 default:
                     var contentResult = new ContentResult {Content = "Opção Inválida"};
                     return contentResult;

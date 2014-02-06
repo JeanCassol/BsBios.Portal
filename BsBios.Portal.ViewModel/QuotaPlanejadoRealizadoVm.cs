@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace BsBios.Portal.ViewModel
 {
@@ -19,4 +20,26 @@ namespace BsBios.Portal.ViewModel
     {
         public string Data { get; set; }
     }
+
+    public class QuotaPlanejadoRealizadoTotalVm
+    {
+        public decimal Quota { get; set; }
+        public decimal PesoRealizado { get; set; }
+    }
+
+    public class RelatorioDeQuotaPlanejadoVersusRealizadoVm
+    {
+        public List<QuotaPlanejadoRealizadoVm> Quotas { get; set; }
+        public QuotaPlanejadoRealizadoTotalVm Total { get; set; }
+
+    }
+
+    public class RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
+    {
+        public List<QuotaPlanejadoRealizadoPorDataVm> Quotas { get; set; }
+        public QuotaPlanejadoRealizadoTotalVm Total { get; set; }
+
+    }
+
+
 }
