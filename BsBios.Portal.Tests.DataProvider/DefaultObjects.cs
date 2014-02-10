@@ -106,7 +106,7 @@ namespace BsBios.Portal.Tests.DataProvider
             _contadorFornecedores++;
             var codigo = GeraCodigo(_contadorFornecedores, 10);
             var fornecedor = new Fornecedor(codigo, "FORNECEDOR " + codigo, 
-                "fornecedor" + codigo + "@empresa.com.br","cnpj" + codigo, "municipio" + codigo, "uf", false);
+                "fornecedor" + codigo + "@empresa.com.br","cnpj" + codigo, "municipio" + codigo, "uf", false, "Endereco" + codigo);
             return fornecedor;
         }
 
@@ -115,7 +115,7 @@ namespace BsBios.Portal.Tests.DataProvider
             _contadorFornecedores++;
             var codigo = GeraCodigo(_contadorFornecedores, 10);
             var fornecedor = new Fornecedor(codigo, "TRANSPORTADORA " + codigo,
-                "fornecedor" + codigo + "@empresa.com.br", "cnpj" + codigo, "municipio" + codigo, "uf", true);
+                "fornecedor" + codigo + "@empresa.com.br", "cnpj" + codigo, "municipio" + codigo, "uf", true, "Endereco" + codigo);
             return fornecedor;
             
         }

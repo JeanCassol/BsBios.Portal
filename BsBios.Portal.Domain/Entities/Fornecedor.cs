@@ -22,7 +22,7 @@ namespace BsBios.Portal.Domain.Entities
             Produtos = new List<Produto>();
         }
 
-        public Fornecedor(string codigo, string nome, string email, string cnpj, string municipio, string uf, bool transportadora):this()
+        public Fornecedor(string codigo, string nome, string email, string cnpj, string municipio, string uf, bool transportadora, string endereco):this()
         {
             Codigo = codigo;
             Nome = nome;
@@ -31,16 +31,18 @@ namespace BsBios.Portal.Domain.Entities
             Municipio = municipio;
             Uf = uf;
             Transportadora = transportadora;
+            Endereco = endereco;
         }
 
-        public virtual void Atualizar(string nome, string email, string cnpj, string municipio, string uf, bool transportadora)
+        public virtual void Atualizar(string nome, string email, string cnpj, string municipio, string uf, bool transportadora, string endereco)
         {
             Nome = nome;
             Email = email;
             Cnpj = cnpj;
             Municipio = municipio;
-            Uf =uf;
+            Uf = uf;
             Transportadora = transportadora;
+            Endereco = endereco;
         }
 
         #region override

@@ -29,6 +29,10 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         [Display(Name = "Transportadora: ")]
         public string Transportadora { get; set; }
+
+        [DataMember]
+        public string Endereco { get; set; }
+
     }
 
     [CollectionDataContract]

@@ -71,8 +71,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            fornecedor2.Atualizar("CARLOS EDUARDO DA SILVA", fornecedor2.Email,"","","", false);
-            fornecedor3.Atualizar("LUIS EDUARDO SILVA", fornecedor3.Email,"","","",false);
+            fornecedor2.Atualizar("CARLOS EDUARDO DA SILVA", fornecedor2.Email,"","","", false,"endereço  0002");
+            fornecedor3.Atualizar("LUIS EDUARDO SILVA", fornecedor3.Email, "", "", "", false, "endereço  0003");
             DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor3);

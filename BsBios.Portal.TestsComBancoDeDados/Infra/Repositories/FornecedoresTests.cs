@@ -69,7 +69,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
                 UnitOfWorkNh.BeginTransaction();
 
                 var fornecedorConsulta = fornecedores.BuscaPeloCodigo(fornecedor.Codigo);
-                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br", "cnpj alterado", "municipio alterado", "uf",false);
+                fornecedorConsulta.Atualizar("FORNECEDOR ALTERADO", "fornecedoralterado@empresa.com.br", "cnpj alterado", "municipio alterado", "uf",false, "endereço alterado");
                 fornecedores.Save(fornecedorConsulta);
 
                 UnitOfWorkNh.Commit();
@@ -90,6 +90,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual("cnpj alterado",fornecedorConsultaAtualizacao.Cnpj);
             Assert.AreEqual("municipio alterado", fornecedorConsultaAtualizacao.Municipio);
             Assert.AreEqual("uf", fornecedorConsultaAtualizacao.Uf);
+            Assert.AreEqual("endereço alterado",fornecedorConsultaAtualizacao.Endereco);
 
         }
 
@@ -172,8 +173,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor3 = DefaultObjects.ObtemFornecedorPadrao();
-            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email,"","","", true);
-            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email, "", "", "", true);
+            fornecedor2.Atualizar("MAURO SÉRGIO DA COSTA LEAL", fornecedor2.Email,"","","", true,"end");
+            fornecedor3.Atualizar("ANTONIO COSTA E SILVA", fornecedor3.Email, "", "", "", true,"end");
             DefaultPersistedObjects.PersistirFornecedor(fornecedor1);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor2);
             DefaultPersistedObjects.PersistirFornecedor(fornecedor3);

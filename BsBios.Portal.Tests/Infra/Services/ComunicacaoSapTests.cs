@@ -156,7 +156,7 @@ namespace BsBios.Portal.Tests.Infra.Services
         public void ConsigoEnviarMensagemDeFechamentoDoProcessoDeCotacaoDeFreteUtilizandoServico()
         {
             ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes();
-            var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true);
+            var fornecedor = new Fornecedor("0000101815", "AIRGAS COM E TRANSP LTDA","transp@airgas.com.br","","Passo Fundo", "RS", true,"end");
             processo.AdicionarFornecedor(fornecedor);
             processo.Abrir();
             CotacaoDeFrete cotacaoDeFrete = processo.InformarCotacao(fornecedor.Codigo, 100, 110, "");

@@ -39,8 +39,8 @@ namespace BsBios.Portal.Tests.Application.Services
             _fornecedoresMock.Setup(x => x.List())
                              .Returns(new List<Fornecedor>()
                                  {
-                                     new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br","","","",false),
-                                     new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br","","","", false)
+                                     new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor01@empresa.com.br","","","",false, "Endereco 0001"),
+                                     new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor02@empresa.com.br","","","", false, "Endereco 0002")
                                  });
 
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();

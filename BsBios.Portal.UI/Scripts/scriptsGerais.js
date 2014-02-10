@@ -441,10 +441,22 @@ $(function () {
         $(".divGrid :last").data("kendoGrid").dataSource.page(1);
     });
 
-    $('.hover').bind('touchstart touchend', function (e) {
+    //$('.hover').bind('touchstart touchend', function (e) {
+    //    e.preventDefault();
+    //    console.log(e.type);
+    //    $(this).toggleClass('hover_effect');
+    //});
+
+    $('.hover').bind('touchstart', function (e) {
         e.preventDefault();
-        $(this).toggleClass('hover_effect');
+        $(this).addClass('hover_effect');
     });
+
+    $('li.hover_effect ul a').bind('click blur', function (e) {
+        console.log(e.type);
+    });
+
+
 });
 
 function responseIsJsonDataType(ajaxOptions) {

@@ -31,7 +31,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _unitOfWork.BeginTransaction();
                 var fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome,fornecedorCadastroVm.Email,
                     fornecedorCadastroVm.Cnpj, fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf, 
-                    fornecedorCadastroVm.ToString().ToLower().Equals("x"));
+                    fornecedorCadastroVm.ToString().ToLower().Equals("x"), fornecedorCadastroVm.Endereco);
                 _fornecedores.Save(fornecedor);
                 _unitOfWork.Commit();
             }
@@ -50,12 +50,12 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 fornecedor = new Fornecedor(fornecedorCadastroVm.Codigo, fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email,
                     fornecedorCadastroVm.Cnpj, fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf,
-                    fornecedorCadastroVm.Transportadora.ToLower().Equals("x"));
+                    fornecedorCadastroVm.Transportadora.ToLower().Equals("x"), fornecedorCadastroVm.Endereco);
             }
             else
             {
                 fornecedor.Atualizar(fornecedorCadastroVm.Nome, fornecedorCadastroVm.Email, fornecedorCadastroVm.Cnpj,
-                    fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf, fornecedorCadastroVm.Transportadora.ToLower().Equals("x"));
+                    fornecedorCadastroVm.Municipio, fornecedorCadastroVm.Uf, fornecedorCadastroVm.Transportadora.ToLower().Equals("x"), fornecedorCadastroVm.Endereco);
             }
                              
             _fornecedores.Save(fornecedor);
