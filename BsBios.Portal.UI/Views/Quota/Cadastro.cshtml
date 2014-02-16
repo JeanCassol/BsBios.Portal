@@ -286,17 +286,21 @@
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                             return;
                         }
+
+                        if (data.Registros.length == 0) {
+                            //caso seja uma data que não tenha registros tem que sair do método e manter os registros do grid,
+                            //caso existam. Com isso os registros do copiar não serão excluidos quando os campos de terminal e data 
+                            //forem preenchidos.
+                            return;
+                        }
+
                         fornecedoresAdicionados = [];
 
-                        if (data.Registros.length > 0) {
-
-                            desabilitarCamposPrincipais();
+                        desabilitarCamposPrincipais();
                                 
-                            $.each(data.Registros, function (indice, quota) {
-                                fornecedoresAdicionados.push(quota);
-                            });
-
-                        }
+                        $.each(data.Registros, function (indice, quota) {
+                            fornecedoresAdicionados.push(quota);
+                        });
 
                         quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
 
@@ -364,9 +368,8 @@
                 $('#Data,#Terminal')
                     .attr('readonly', false)
                     .removeClass('campoDesabilitado')
+                    .removeAttr('disabled')
                     .val('');
-
-                $('#Terminal').removeAttr('disabled');
 
             }
 
