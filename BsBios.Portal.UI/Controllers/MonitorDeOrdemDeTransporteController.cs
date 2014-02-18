@@ -24,7 +24,8 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View(new MonitorOrdemDeTransporteParametroVm
             {
-                InterValoDeAtualizacao = 60
+                InterValoDeAtualizacao = 60,
+                NumeroDeRegistrosPorPagina = 10
             });
         }
 

@@ -21,11 +21,10 @@
                 <fieldset>
                     <legend>Configuração</legend>
                     <form id="formConfiguracao"></form>
-                    @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"), 
-                        new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
+                    @Html.LinhaComDuasColunas(new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.InterValoDeAtualizacao, "campopequeno masknumerointeiro"),
+                        new ColunaComTextBox<MonitorOrdemDeTransporteParametroVm, int>(x => x.NumeroDeRegistrosPorPagina, "campopequeno masknumerointeiro"))
                 </fieldset>
                 <form id="filtrosDoMonitor">
-
                     <fieldset class="divFiltros">
                         <legend>Agrupamentos</legend>
                         <div class="linha">
@@ -197,9 +196,17 @@
 
                 var me = this;
 
+                me.numeroDeRegistrosPorPagina = undefined;
+                me.paginaAtual = undefined;
+
                 me.tempoDeAtualizacaoEmSegundos = undefined;
 
                 me.idDoIntervaloDeAtualizacao = undefined;
+
+                me.mostrouTodosRegistrosDoMaterial = function () {
+                    var materialAtual = me.monitorPorMateriais[me.indiceDoMaterial];
+                    return me.paginaAtual * me.numeroDeRegistrosPorPagina >= materialAtual.Registros.length;
+                };
 
                 me.monitorPorMateriais = [];
 
@@ -213,10 +220,12 @@
 
                     if (me.indiceDoMaterial === me.monitorPorMateriais.length) {
                         if (me.indiceDoMaterial == 0) {
+                            //não encontrou registros
                             me.registros().length = 0;
                             me.registros.valueHasMutated();
                             setTimeout(me.recarregarDadosDoMonitor, 60000);
                         } else {
+                            //encontrou registros e chegou na última página do último material
                             me.recarregarDadosDoMonitor();
                         }
                         
@@ -226,13 +235,21 @@
                     var materialAtual = me.monitorPorMateriais[me.indiceDoMaterial];
                     $('.material').text('Material: ' + materialAtual.Material);
                     me.registros().length = 0;
-                    $.each(materialAtual.Registros, function (indice, registro) {
+                    var posicaoInicial = (me.paginaAtual - 1) * me.numeroDeRegistrosPorPagina;
+                    var posicaoFinal = posicaoInicial + me.numeroDeRegistrosPorPagina;
+                    var registrosParaVisualizar = materialAtual.Registros.slice(posicaoInicial, posicaoFinal);
+                    $.each(registrosParaVisualizar, function (indice, registro) {
                         me.registros().push(registro);
                     });
                     me.registros.valueHasMutated();
                     atualizaTotalizador(materialAtual.Total);
                     atualizaVisibilidadeDasColunasDasTabelas();
-                    me.indiceDoMaterial++;
+                    if (me.mostrouTodosRegistrosDoMaterial()) {
+                        me.indiceDoMaterial++;
+                        me.paginaAtual = 1;
+                    } else {
+                        me.paginaAtual++;
+                    }
 
                 };
                 
@@ -240,8 +257,11 @@
                     me.monitorPorMateriais.length = 0;
                     me.monitorPorMateriais = novosMateriais;
                     me.indiceDoMaterial = 0;
+                    me.paginaAtual = 1;
                     me.atualizarRegistrosDoMaterial();
-                    me.idDoIntervaloDeAtualizacao = setInterval(me.atualizarRegistrosDoMaterial, me.tempoDeAtualizacaoEmSegundos * 1000);
+                    if (novosMateriais.length > 0) {
+                        me.idDoIntervaloDeAtualizacao = setInterval(me.atualizarRegistrosDoMaterial, me.tempoDeAtualizacaoEmSegundos * 1000);
+                    }
 
                 };
 
@@ -281,11 +301,16 @@
                 };
 
 
-                me.recarregarDadosDoMonitor = function (tempoDeAtualizacao) {
-                    ///<param name="tempoDeAtualizacao">número de segundos que o sistema deve esperar até mostrar o novo material</param>
+                me.recarregarDadosDoMonitor = function (tempoDeAtualizacao, numeroDeRegistrosPorPagina) {
+                    ///<param name="tempoDeAtualizacao">número de segundos que o sistema deve esperar até mostrar uma nova página de registros</param>
+                    ///<param name="numeroDeRegistrosPorPagina">número máximo de registros que é exibido a cada vez na tela</param>
                     if (tempoDeAtualizacao) {
                         me.tempoDeAtualizacaoEmSegundos = tempoDeAtualizacao;
                     }
+                    if (numeroDeRegistrosPorPagina) {
+                        me.numeroDeRegistrosPorPagina = numeroDeRegistrosPorPagina;
+                    }
+
                     var idDoIntervalo = me.idDoIntervaloDeAtualizacao;
                     if (idDoIntervalo) {
                         clearInterval(idDoIntervalo);
@@ -348,11 +373,19 @@
                         return;
                     }
 
+                    var numeroDeRegistrosPorPagina = parseInt($('#NumeroDeRegistrosPorPagina').val());
+
+                    if (isNaN(numeroDeRegistrosPorPagina)) {
+                        Mensagem.ExibirMensagemDeErro("É necessário preencher o número máximo de registros por página.");
+                        return;
+                    }
+
+
                     if (!$("#formConfiguracao").validate().form()) {
                         return;
                     }
 
-                    configuracaoDoMonitor.recarregarDadosDoMonitor(interValoDeAtualizacao);
+                    configuracaoDoMonitor.recarregarDadosDoMonitor(interValoDeAtualizacao, numeroDeRegistrosPorPagina);
                     
                 });
 
