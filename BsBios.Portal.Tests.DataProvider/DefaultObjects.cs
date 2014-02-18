@@ -386,7 +386,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static AgendamentoDeCarregamento ObtemAgendamentoDeCarregamentoComPesoEspecifico(Quota quota, decimal peso)
         {
-            var factory = new AgendamentoDeCarregamentoFactory(peso);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino", peso);
             return (AgendamentoDeCarregamento) factory.Construir(quota, "IOQ5338");
         }
 

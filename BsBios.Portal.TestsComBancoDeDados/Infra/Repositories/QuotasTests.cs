@@ -57,7 +57,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
                 {
                     IdQuota = quota.Id,
                     Peso = 100,
-                    Placa = "MNO1234"
+                    Placa = "MNO1234",
+                    Motorista = "Motorista",
+                    Destino = "Destino"
                 });
             DefaultPersistedObjects.PersistirQuota(quota);
 
@@ -71,6 +73,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual("MNO1234", agendamentoConsultado.Placa);
             Assert.IsFalse(agendamentoConsultado.Realizado);
             Assert.AreEqual(100, agendamentoConsultado.PesoTotal);
+            Assert.AreEqual("Motorista", agendamentoConsultado.Motorista);
+            Assert.AreEqual("Destino", agendamentoConsultado.Destino);
         }
 
         [TestMethod]

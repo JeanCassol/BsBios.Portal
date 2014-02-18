@@ -7,23 +7,48 @@ namespace BsBios.Portal.UI.Helpers
 {
     public abstract class Coluna<TModel, TValue>
     {
+        private readonly string _textoDaLabel;
         protected readonly Expression<Func<TModel, TValue>> Expressao;
         public HtmlHelper<TModel> HtmlHelper { get; set; }
-        protected readonly string InputClass;
-        public string LabelClass { get; set; }
+        //protected readonly string InputClass;
+        protected readonly object InputAttributes;
+        //public string LabelClass { get; set; }
+        protected object LabelAttributes;
         public bool ExibirMensagemDeValidacao { get; protected set; }
 
         protected Coluna(Expression<Func<TModel, TValue>> expressao, string inputClass, string labelClass, bool exibirMensagemDeValidacao)
         {
             Expressao = expressao;
-            InputClass = inputClass;
-            LabelClass = labelClass;
             ExibirMensagemDeValidacao = exibirMensagemDeValidacao;
+            InputAttributes = !string.IsNullOrEmpty(inputClass) ? new {@class = inputClass } : null;
+            LabelAttributes = !string.IsNullOrEmpty(labelClass) ? new { @class = labelClass } : null;
+        }
+
+        protected Coluna(Expression<Func<TModel, TValue>> expressao, object inputAtributes, object labelAtributes, bool exibirMensagemDeValidacao)
+        {
+            Expressao = expressao;
+            InputAttributes = inputAtributes;
+            LabelAttributes = labelAtributes;
+            ExibirMensagemDeValidacao = exibirMensagemDeValidacao;
+        }
+
+        protected Coluna(Expression<Func<TModel, TValue>> expressao, string textoDaLabel, string inputClass, string labelClass, bool exibirMensagemDeValidacao)
+            : this(expressao, inputClass, labelClass, exibirMensagemDeValidacao)
+        {
+            _textoDaLabel = textoDaLabel;
+        }
+
+        protected Coluna(Expression<Func<TModel, TValue>> expressao, string textoDaLabel, object inputAtributes, object labelAtributes, bool exibirMensagemDeValidacao)
+            :this(expressao,inputAtributes, labelAtributes, exibirMensagemDeValidacao)
+        {
+            _textoDaLabel = textoDaLabel;
         }
 
         public virtual MvcHtmlString GeraLabel()
         {
-            return System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao, string.IsNullOrEmpty(LabelClass) ? null : new { @class = LabelClass });
+            return string.IsNullOrEmpty(_textoDaLabel) ?
+                System.Web.Mvc.Html.LabelExtensions.LabelFor(HtmlHelper, Expressao, LabelAttributes) :
+                System.Web.Mvc.Html.LabelExtensions.Label(HtmlHelper, _textoDaLabel, LabelAttributes);
         }
 
         public MvcHtmlString GeraMensagemDeValidacao()
@@ -33,9 +58,14 @@ namespace BsBios.Portal.UI.Helpers
 
         public abstract MvcHtmlString GeraInput();
 
+        //public void UpdateLabelInput(string labelClass)
+        //{
+        //    LabelAttributes = new {@class = labelClass};
+        //}
+
         protected string FormatarValor(Expression<Func<TModel, TValue>> expressao, string formatacao)
         {
-            var valorFormatado = System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, new { @class = InputClass }).ToString(); ;
+            var valorFormatado = System.Web.Mvc.Html.DisplayExtensions.DisplayFor(HtmlHelper, Expressao, InputAttributes).ToString(); ;
             if (string.IsNullOrEmpty(formatacao)) return valorFormatado;
             
             decimal valorConvertido;
@@ -60,21 +90,23 @@ namespace BsBios.Portal.UI.Helpers
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.EditorExtensions.EditorFor(HtmlHelper, Expressao, new { @class = InputClass });
+            return System.Web.Mvc.Html.EditorExtensions.EditorFor(HtmlHelper, Expressao, InputAttributes);
         }
     }
 
     public class ColunaComTextBox<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaComTextBox( Expression<Func<TModel, TValue>> expressao,
-                                string inputClass)
-            : base(expressao, inputClass,"", true)
+        public ColunaComTextBox( Expression<Func<TModel, TValue>> expressao,string inputClass): base(expressao, inputClass,"", true)
+        {
+        }
+
+        public ColunaComTextBox(Expression<Func<TModel, TValue>> expressao, object atributos): base(expressao, atributos, null, true)
         {
         }
 
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, new {@class = InputClass});
+            return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, InputAttributes);
         }
     }
 
@@ -122,12 +154,21 @@ namespace BsBios.Portal.UI.Helpers
             _formatacao = formatacao;
         }
 
+        public ColunaComLabel(string textoDaLabel, Expression<Func<TModel, TValue>> expressao, string formatacao = null)
+            : base(expressao,textoDaLabel, "", "labelNaLinha", false)
+        {
+            _formatacao = formatacao;
+        }
+
+
         public override MvcHtmlString GeraInput()
         {
             var valorFormatado = FormatarValor(Expressao, _formatacao);
             return new MvcHtmlString(valorFormatado);
         }
-    }    
+    }
+    
+
     
     public class ColunaComLabelEmDestaque<TModel, TValue> : Coluna<TModel, TValue>
     {

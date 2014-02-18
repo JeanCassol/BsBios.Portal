@@ -45,26 +45,18 @@ namespace BsBios.Portal.UI.Controllers
             return "";
         }
 
-
-        public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga, string descricaoDoTerminal)
+        public ActionResult NovoAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm modelo)
         {
-            AgendamentoDeCargaCadastroVm model = null;
-            if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
-            {
-                model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal};
-            }
-            if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
-            {
-                model = new AgendamentoDeDescarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
-            }
+            modelo.PermiteEditar = true;
+            modelo.PermiteRealizar = false;
+            return PartialView("AgendamentoDeCarregamento", modelo);
+        }
 
-            if (model != null)
-            {
-                model.PermiteEditar = true;
-                model.PermiteRealizar = false;
-            }
-            return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga), model);
-
+        public ActionResult NovoAgendamentoDeDescarregamento(AgendamentoDeDescarregamentoCadastroVm modelo)
+        {
+            modelo.PermiteEditar = true;
+            modelo.PermiteRealizar = false;
+            return PartialView("AgendamentoDeDescarregamento", modelo);
         }
 
         public ActionResult EditarCadastro(int idQuota, int idAgendamento)

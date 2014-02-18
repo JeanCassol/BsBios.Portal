@@ -16,7 +16,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriarCarregamentoSemInformarPesoDeveGerarExcecao()
         {
             Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
-            var factory = new AgendamentoDeCarregamentoFactory(0);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino",0);
             factory.Construir(quota, "IOQ5335");
         }
 
@@ -25,7 +25,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoInformarNotaParaUmAgendamentoDeCarregamentoDeveGerarExcecao()
         {
             Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
-            var factory = new AgendamentoDeCarregamentoFactory(150);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino", 150);
             factory.AdicionarNotaFiscal(DefaultObjects.ObtemNotaFiscalVmPadrao());
             factory.Construir(quota, "IOQ5335");
             
@@ -35,13 +35,15 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void QuandoCriaUmAgendamentoDeCarregamentoAsPropriedadesFicamCorretas()
         {
             Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
-            var factory = new AgendamentoDeCarregamentoFactory(150);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino", 150);
             var agendamento = (AgendamentoDeCarregamento) factory.Construir(quota, "IOQ5335");
             Assert.AreEqual(DateTime.Today, agendamento.Quota.Data);
             Assert.AreEqual("1000", agendamento.Quota.Terminal.Codigo);
             Assert.AreEqual("IOQ5335",agendamento.Placa);
             Assert.AreEqual(150, agendamento.Peso);
             Assert.AreEqual(Enumeradores.MaterialDeCarga.Farelo , agendamento.Quota.Material);
+            Assert.AreEqual("Motorista", agendamento.Motorista);
+            Assert.AreEqual("Destino", agendamento.Destino);
             
         }
 
@@ -50,7 +52,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         {
             Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
 
-            var factory = new AgendamentoDeCarregamentoFactory(150);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino", 150);
             var agendamento = (AgendamentoDeCarregamento)factory.Construir(quota, "IOQ5335");
             Assert.IsFalse(agendamento.Realizado);
         }
@@ -59,7 +61,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         public void PesoTotalDoCarregamentoEoPesoAgendado()
         {
             Quota quota = DefaultObjects.ObtemQuotaDeCarregamento();
-            var factory = new AgendamentoDeCarregamentoFactory(150);
+            var factory = new AgendamentoDeCarregamentoFactory("Motorista", "Destino", 150);
             var agendamento = (AgendamentoDeCarregamento)factory.Construir(quota, "IOQ5335");
 
             Assert.AreEqual(150, agendamento.PesoTotal);

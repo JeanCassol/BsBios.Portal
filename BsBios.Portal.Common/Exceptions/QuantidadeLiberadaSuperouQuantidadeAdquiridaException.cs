@@ -19,9 +19,9 @@ namespace BsBios.Portal.Common.Exceptions
 
             get
             {
-                return "Não é permitido alterar a quantidade liberada da Ordem de Transporte para " + _quantidadeLiberadaParaOrdemDeTransporte.ToString(Constantes.FormatatoDeCampoDeQuantidade) +
-                         ", pois a quantidade liberada total (" + _quantidadeLiberadaTotal.ToString(Constantes.FormatatoDeCampoDeQuantidade) + ")  será superior à quantidade total adquirida no processo de cotação (" +
-                         _quantidadeAdquirida.ToString(Constantes.FormatatoDeCampoDeQuantidade) + ").";
+                return "Não é permitido alterar a quantidade liberada da Ordem de Transporte para " + _quantidadeLiberadaParaOrdemDeTransporte.ToString(Constantes.FormatoDeCampoDeQuantidade) +
+                         ", pois a quantidade liberada total (" + _quantidadeLiberadaTotal.ToString(Constantes.FormatoDeCampoDeQuantidade) + ")  será superior à quantidade total adquirida no processo de cotação (" +
+                         _quantidadeAdquirida.ToString(Constantes.FormatoDeCampoDeQuantidade) + ").";
             }
         }
     }

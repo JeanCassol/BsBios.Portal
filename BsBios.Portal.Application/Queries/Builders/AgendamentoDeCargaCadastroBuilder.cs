@@ -1,6 +1,8 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.ViewModel;
+using StructureMap.Query;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
@@ -20,10 +22,20 @@ namespace BsBios.Portal.Application.Queries.Builders
             AgendamentoDeCargaCadastroVm viewModel = null;
             if (model is AgendamentoDeCarregamento)
             {
+                var modelConvertido = (AgendamentoDeCarregamento) model;
                 viewModel = new AgendamentoDeCarregamentoCadastroVm
                     {
-                        Peso = model.PesoTotal ,
+                        Motorista = modelConvertido.Motorista ,
+                        Destino = modelConvertido.Destino,
+                        Peso = modelConvertido.PesoTotal ,
+                        Cabecalho = new AgendamentoDeCarregamentoCabecalhoVm
+                        {
+                            FluxoDeCarga =modelConvertido.Quota.FluxoDeCarga.Descricao() ,
+                            Material = modelConvertido.Quota.Material.Descricao(),
+                            Transportadora = modelConvertido.Quota.Fornecedor.Nome
+                        },
                         ViewDeCadastro = "AgendamentoDeCarregamento",
+
                     };       
             }
 

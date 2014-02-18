@@ -23,6 +23,8 @@ namespace BsBios.Portal.Infra.Mappings
             Table("AgendamentoDeCarregamento");
             KeyColumn("Id");
             Map(x => x.Peso);
+            Map(x => x.Motorista);
+            Map(x => x.Destino);
         }
     }
     public class AgendamentoDeDescarregamentoMap: SubclassMap<AgendamentoDeDescarregamento>

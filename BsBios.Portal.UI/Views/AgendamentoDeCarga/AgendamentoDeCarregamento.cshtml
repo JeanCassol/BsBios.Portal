@@ -1,37 +1,29 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
 @model AgendamentoDeCarregamentoCadastroVm
 @{
     Layout = null;
 }
 <div class="divFiltros">
+    <fieldset>
+        <legend>Quota</legend>
+        @Html.LinhaComDuasColunas(new ColunaComLabel<AgendamentoDeCarregamentoCadastroVm, string>("Terminal: ", x => x.DescricaoDoTerminal),
+                 new ColunaComLabel<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Cabecalho.Transportadora))
+        @Html.LinhaComDuasColunas(new ColunaComLabel<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Cabecalho.Material),
+                 new ColunaComLabel<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Cabecalho.FluxoDeCarga))
+        
+    </fieldset>
     <fieldset >
         <legend>Agendamento de Descarregamento</legend>
-        <form id="agendamentodecarregamento">
+        <form id="agendamentodedescarregamento">
             @Html.HiddenFor(x => x.IdQuota)
             @Html.HiddenFor(x => x.IdAgendamento)
-            <div class="linha">
-                <div class="colunaFiltro">
-                    @Html.LabelFor(x => x.DescricaoDoTerminal)
-                    @Html.TextBoxFor(x => x.DescricaoDoTerminal,new{@readonly=true,@class="campoDesabilitado"})
-                </div>
-                <div class="colunaFiltro"></div>
-            </div>
-            <div class="linha">
-                <div class="colunaFiltro">
-                    @Html.LabelFor(x => x.Placa)
-                    @Html.TextBoxFor(x => x.Placa,new {@class="maskplaca"})
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(x => x.Placa)
-                    </p>
-                </div>
-                <div class="colunaFiltro">
-                    @Html.LabelFor(x => x.Peso)
-                    @Html.TextBoxFor(x => x.Peso,new{@class="maskquantidade"})
-                    <p class="mensagemErro">
-                        @Html.ValidationMessageFor(x => x.Peso)
-                    </p>
-                </div>
-            </div>
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Motorista,""),
+                new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Destino, ""))
+
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Placa,"maskplaca"),
+                new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, decimal>(x => x.Peso, "maskquantidade"))
         </form>
 
     </fieldset>
@@ -49,7 +41,7 @@
         }
 
         if (!'@Model.PermiteEditar'.boolean()) {
-            $('#agendamentodecarregamento').find('input')
+            $('#agendamentodedescarregamento').find('input')
                 .attr('readonly', true)
                 .addClass('campoDesabilitado');
         }
