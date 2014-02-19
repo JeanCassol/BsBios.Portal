@@ -209,7 +209,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (DateTime.TryParse(filtro.DataDeFechamento, out dataDeFechamento))
             {
-                queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial == dataDeFechamento);
+                queryOver = queryOver.Where(() => processoDeCotacao.DataDeFechamento == dataDeFechamento);
             }
 
             var escolhaSimples = (Enumeradores.EscolhaSimples)Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));

@@ -19,8 +19,8 @@
             @Html.HiddenFor(x => x.IdQuota)
             @Html.HiddenFor(x => x.IdAgendamento)
             
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Motorista,""),
-                new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Destino, ""))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Motorista,new{maxlength=100, @class="campogrande"}),
+                         new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Destino, new { maxlength = 100, @class = "campogrande" }))
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, string>(x => x.Placa,"maskplaca"),
                 new ColunaComTextBox<AgendamentoDeCarregamentoCadastroVm, decimal>(x => x.Peso, "maskquantidade"))
