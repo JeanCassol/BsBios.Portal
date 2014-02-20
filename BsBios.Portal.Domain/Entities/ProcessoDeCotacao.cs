@@ -128,7 +128,7 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
-            DataDeFechamento = DateTime.Now.Date;
+            DataDeFechamento = DateTime.Now;
         }
 
         public virtual void Cancelar()

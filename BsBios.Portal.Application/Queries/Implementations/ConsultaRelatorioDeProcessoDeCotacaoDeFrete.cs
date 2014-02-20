@@ -209,7 +209,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (DateTime.TryParse(filtro.DataDeFechamento, out dataDeFechamento))
             {
-                queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial == dataDeFechamento);
+                //a propriedade data de fechamento é um datetime, mas o filtro é apenas uma data.
+                queryOver = queryOver.Where(() => processoDeCotacao.DataDeFechamento >= dataDeFechamento
+                    && processoDeCotacao.DataDeFechamento < dataDeFechamento.AddDays(1));
+                
             }
 
             var escolhaSimples = (Enumeradores.EscolhaSimples)Enum.Parse(typeof(Enumeradores.EscolhaSimples), Convert.ToString(filtro.Classificacao));

@@ -16,6 +16,5 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Terminal")]
         public string CodigoDoTerminal { get; set; }
 
-        public string Terminal { get; set; }
     }
 }
