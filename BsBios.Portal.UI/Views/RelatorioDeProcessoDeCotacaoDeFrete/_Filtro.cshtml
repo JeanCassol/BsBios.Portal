@@ -71,6 +71,6 @@
 @Html.LinhaComDuasColunas(new ColunaComDropDown<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoDoTerminal,
     ((List<TerminalCadastroVm>)ViewBag.Terminais)
         .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),
-        "CodigoDoTerminal"), new ColunaVazia<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, object>(x => null))
+            "CodigoDoTerminal"), new ColunaComTextBox<RelatorioDeProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.DataDeFechamento, "campopequeno campoDatePicker maskdata"))
 
 

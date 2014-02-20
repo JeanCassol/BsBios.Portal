@@ -11,7 +11,7 @@ namespace BsBios.Portal.ViewModel
         public string CodigoDoItinerario { get; set; }
         [DisplayName("Itinerário")]
         public string DescricaoDoItinerario { get; set; }
-
+        [DisplayName("Data de Fechamento")]
         public string DataDeFechamento { get; set; }
         [DisplayName("Terminal")]
         public string CodigoDoTerminal { get; set; }

@@ -431,6 +431,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                     .Select(x => transportadora.Nome).WithAlias(() => relatorio.Transportadora)
                     .Select(x => unidadeDeMedida.Descricao).WithAlias(() => relatorio.UnidadeDeMedida)
+                    //.Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataDeFechamento))).WithAlias(() => relatorio.DataHoraDeFechamento)
+                    .Select(x => processoDeCotacao.DataDeFechamento).WithAlias(() => relatorio.DataHoraDeFechamento)
 
                 ).TransformUsing(Transformers.AliasToBean<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm>())
                 .List<RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm>();

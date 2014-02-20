@@ -73,7 +73,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Assert.IsNotNull(registros);
             Assert.AreEqual(1, registros.Count);
-
+            RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm registro = registros.First();
+            Assert.AreEqual(processoDeCotacao.DataDeFechamento.ToString("G"), registro.DataDeFechamento);
         }
 
         [TestMethod]

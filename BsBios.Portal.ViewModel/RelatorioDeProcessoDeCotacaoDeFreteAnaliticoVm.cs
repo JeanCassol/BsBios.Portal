@@ -28,6 +28,15 @@ namespace BsBios.Portal.ViewModel
         public decimal QuantidadeDisponivel { get; set; }
         public decimal QuantidadeLiberada { get; set; }
         public decimal ValorComImpostos { get; set; }
-        
+        public DateTime? DataHoraDeFechamento { get; set; }
+
+        public string DataDeFechamento
+        {
+            get
+            {
+                return DataHoraDeFechamento.HasValue ?  DataHoraDeFechamento.Value.ToString("G") : ""; 
+            }
+        }
+
     }
 }
