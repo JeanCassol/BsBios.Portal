@@ -30,8 +30,6 @@ namespace BsBios.Portal.Application.Services.Implementations
         {
             ApiResponseMessage apiResponseMessage = _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
             _geradorDeEmail.GerarEmail(processoDeCotacao);
-            ProcessosDeCotacao.Save(processoDeCotacao);
-
             return apiResponseMessage;
         }
     }
@@ -56,6 +54,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 ProcessoDeCotacao processoDeCotacao = ProcessosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
                 processoDeCotacao.FecharProcesso();
                 ExecutarServicosDeFechamento(processoDeCotacao);
+                ProcessosDeCotacao.Save(processoDeCotacao);
 
                 _unitOfWork.Commit();
 
@@ -98,8 +97,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                     NumeroGeradoNoSap = x.Numero
                 });
 
-
                 IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
+
+                ProcessosDeCotacao.Save(processoDeCotacao);
 
                 foreach (var ordemDeTransporte in ordensDeTransporte)
                 {
