@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 
 namespace BsBios.Portal.UI.Helpers
@@ -30,15 +27,15 @@ namespace BsBios.Portal.UI.Helpers
         }
 
 
-        private static string GeraColunaComUmaLinha<TModel, TValue>(Coluna<TModel, TValue> coluna)
-        {
-            coluna.LabelClass = "labelNaLinha";
-            return
-                "<div>" +
-                    @coluna.GeraLabel() +
-                    @coluna.GeraInput() +
-                "</div>";
-        }
+        //private static string GeraColunaComUmaLinha<TModel, TValue>(Coluna<TModel, TValue> coluna)
+        //{
+        //    coluna.UpdateLabelInput("labelNaLinha");
+        //    return
+        //        "<div>" +
+        //            @coluna.GeraLabel() +
+        //            @coluna.GeraInput() +
+        //        "</div>";
+        //}
 
 
         public static IHtmlString LinhaComUmaColuna<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, 

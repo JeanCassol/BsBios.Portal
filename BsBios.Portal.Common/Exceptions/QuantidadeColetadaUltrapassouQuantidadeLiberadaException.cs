@@ -16,8 +16,8 @@ namespace BsBios.Portal.Common.Exceptions
         public override string Message
         {
             get { return "Não é possível salvar a Coleta porque a quantidade total coletada na Ordem de Transporte (" + 
-                _quantidadeColetada.ToString(Constantes.FormatatoDeCampoDeQuantidade) + ") ultrapassou a quantidade liberada (" +
-                _quantidadeLiberada.ToString(Constantes.FormatatoDeCampoDeQuantidade) + "), já considerando a tolerância.";
+                _quantidadeColetada.ToString(Constantes.FormatoDeCampoDeQuantidade) + ") ultrapassou a quantidade liberada (" +
+                _quantidadeLiberada.ToString(Constantes.FormatoDeCampoDeQuantidade) + "), já considerando a tolerância.";
             }
         }
     }

@@ -15,7 +15,7 @@
         public const string ContaDeEmailDeSuprimentos = "ContaDeEmailDeSuprimentos";
         public const string GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete = "GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeFrete";
         public const string GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial = "GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial";
-        public const string FormatatoDeCampoDeQuantidade = "0.000";
+        public const string FormatoDeCampoDeQuantidade = "0.000";
 
     }
 }

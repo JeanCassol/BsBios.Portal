@@ -135,7 +135,7 @@ namespace BsBios.Portal.Domain.Entities
             AgendamentoDeCarregamento agendamento;
             if (agendamentoDeCarregamentoCadastroVm.IdAgendamento == 0)
             {
-                var factory = new AgendamentoDeCarregamentoFactory(agendamentoDeCarregamentoCadastroVm.Peso);
+                var factory = new AgendamentoDeCarregamentoFactory(agendamentoDeCarregamentoCadastroVm.Motorista, agendamentoDeCarregamentoCadastroVm.Destino, agendamentoDeCarregamentoCadastroVm.Peso);
                 agendamento = (AgendamentoDeCarregamento)factory.Construir(this, agendamentoDeCarregamentoCadastroVm.Placa);
                 Agendamentos.Add(agendamento);
             }

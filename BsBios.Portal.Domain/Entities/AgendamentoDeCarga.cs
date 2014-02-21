@@ -55,15 +55,13 @@ namespace BsBios.Portal.Domain.Entities
 
     public class AgendamentoDeCarregamento: AgendamentoDeCarga
     {
-        public virtual decimal Peso { get; protected set; }
-
         private void CalculaPesoTotal()
         {
             PesoTotal = Peso;
         }
 
         protected AgendamentoDeCarregamento(){}
-        internal AgendamentoDeCarregamento(Quota quota, string placa, decimal peso) 
+        internal AgendamentoDeCarregamento(Quota quota, string placa, string motorista, string destino, decimal peso) 
             : base(quota, placa)
         {
             if (peso <=0)
@@ -72,7 +70,14 @@ namespace BsBios.Portal.Domain.Entities
             }
             Peso = peso;
             CalculaPesoTotal();
+            Motorista = motorista;
+            Destino = destino;
         }
+
+        public virtual string Destino { get; protected set; }
+        public virtual string Motorista { get; protected set; }
+        public virtual decimal Peso { get; protected set; }
+
 
         public virtual void Atualizar(AgendamentoDeCarregamentoCadastroVm agendamentoDeCarregamentoCadastroVm)
         {

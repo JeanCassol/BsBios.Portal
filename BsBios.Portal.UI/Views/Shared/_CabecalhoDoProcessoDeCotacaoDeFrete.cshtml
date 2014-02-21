@@ -13,10 +13,10 @@
                                 new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.DataDeValidadeFinal))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Material),
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NumeroDoContrato))
-    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Quantidade, Constantes.FormatatoDeCampoDeQuantidade),
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Quantidade, Constantes.FormatoDeCampoDeQuantidade),
                                 new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.UnidadeDeMedida))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Classificacao),
-                    new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Cadencia, Constantes.FormatatoDeCampoDeQuantidade))
+                    new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal>(x => x.Cadencia, Constantes.FormatoDeCampoDeQuantidade))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Itinerario),
                     new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Terminal))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.MunicipioDeOrigem),

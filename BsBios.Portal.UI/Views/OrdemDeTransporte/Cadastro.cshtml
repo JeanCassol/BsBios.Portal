@@ -32,16 +32,16 @@
                 }
                 else
                 {
-                    campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada,Constantes.FormatatoDeCampoDeQuantidade);
-                    campoDeTolerancia = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeDeTolerancia, Constantes.FormatatoDeCampoDeQuantidade);
+                    campoDeQuantidadeLiberada = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeLiberada,Constantes.FormatoDeCampoDeQuantidade);
+                    campoDeTolerancia = new ColunaComLabel<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeDeTolerancia, Constantes.FormatoDeCampoDeQuantidade);
                 }
                 
             }
 
             @Html.LinhaComUmaColuna(new ColunaComLabel<OrdemDeTransporteCadastroVm, string>(x => x.Transportadora))
             @Html.LinhaComDuasColunas(campoDeQuantidadeLiberada,campoDeTolerancia)
-            @Html.LinhaComDuasColunas(new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatatoDeCampoDeQuantidade),
-             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeRealizada, "lblQuantidadeRealizada", Constantes.FormatatoDeCampoDeQuantidade))
+            @Html.LinhaComDuasColunas(new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeColetada, "lblQuantidadeColetada", Constantes.FormatoDeCampoDeQuantidade),
+             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, decimal>(x => x.QuantidadeRealizada, "lblQuantidadeRealizada", Constantes.FormatoDeCampoDeQuantidade))
                 
             @if (Model.PermiteAlterar)
             {

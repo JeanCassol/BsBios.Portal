@@ -37,6 +37,9 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Intervalo de Atualização (segundos)")]
         [Range(1,1000000,ErrorMessage = "Intervalo deve ser um valor entre 1 e 1.000.000")]
         public int InterValoDeAtualizacao { get; set; }
+
+        [Display(Name = "Nº Máximo de Registros por Página")]
+        public int NumeroDeRegistrosPorPagina { get; set; }
     }
 
     //public class Agrupamento

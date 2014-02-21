@@ -39,7 +39,14 @@
                     if (!$(form).validate().form()) {
                         return;
                     }
-                    
+
+                    var notasFiscais = GridNotasFiscais.NotasFiscais();
+
+                    if (notasFiscais.length == 0) {
+                        Mensagem.ExibirMensagemDeErro("É necessário informar pelo menos uma nota fiscal.");
+                        return;
+                    }
+                  
                     $.ajax({
                         url: urlParaSalvar,
                         type: 'POST',
