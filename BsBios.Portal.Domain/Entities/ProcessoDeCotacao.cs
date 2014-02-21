@@ -117,7 +117,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public virtual void Fechar()
+        protected void Fechar()
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
@@ -130,6 +130,9 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
             DataDeFechamento = DateTime.Now;
         }
+
+        public abstract void FecharProcesso();
+
 
         public virtual void Cancelar()
         {

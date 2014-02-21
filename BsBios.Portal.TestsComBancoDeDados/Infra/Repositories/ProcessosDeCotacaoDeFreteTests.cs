@@ -45,6 +45,33 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
         }
 
+        [TestMethod]
+        public void ConsigoPersistirUmProcessoDeCotacaoFechadoEConsultarONumeroDasCondicoesGeradasNoSap()
+        {
+            List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
+
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado(municipios.First(), municipios.Last());
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+            var processoConsultado = (ProcessoDeCotacaoDeFrete)processosDeCotacao.BuscaPorId(processo.Id).Single();
+            Assert.IsNotNull(processoConsultado);
+
+            foreach (var fornecedoresSelecionado in processo.FornecedoresSelecionados)
+            {
+                FornecedorParticipante fornecedorSelecionadoConsultado = processoConsultado.FornecedoresSelecionados.Single(x => x.Fornecedor.Codigo == fornecedoresSelecionado.Fornecedor.Codigo);
+                var cotacaoDeFrete = (CotacaoDeFrete) fornecedoresSelecionado.Cotacao;
+                var cotacaoDeFreteConsultada = (CotacaoDeFrete)fornecedorSelecionadoConsultado.Cotacao.CastEntity();
+
+                Assert.AreEqual(cotacaoDeFrete.NumeroDaCondicaoGeradaNoSap, cotacaoDeFreteConsultada.NumeroDaCondicaoGeradaNoSap);
+
+            }
+        }
+
+
         /// <summary>
         /// Este teste verifica se quando salvo um processo de cotação, as cotações adicionadas também são salvas
         /// e podem ser consultadas posteriormente

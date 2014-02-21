@@ -189,7 +189,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoFecharUmProcessoDeCotacaoENaoHouverPeloMenosFornecedorSelecionadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao();
-            processoDeCotacaoDeMaterial.Fechar();
+            processoDeCotacaoDeMaterial.FecharProcesso();
         }
 
         [TestMethod]
@@ -201,9 +201,9 @@ namespace BsBios.Portal.Tests.Domain.Entities
                                                         DefaultObjects.ObtemIncotermPadrao(), "inc", 120, null, 100, DateTime.Today.AddMonths(1), "obs fornec");
             Iva iva = DefaultObjects.ObtemIvaPadrao();
             processoDeCotacaoDeMaterial.SelecionarCotacao(cotacao.Id, 100,iva);
-            processoDeCotacaoDeMaterial.Fechar();
+            processoDeCotacaoDeMaterial.FecharProcesso();
             Assert.AreEqual(Enumeradores.StatusProcessoCotacao.Fechado, processoDeCotacaoDeMaterial.Status);
-            Assert.AreEqual(DateTime.Now.Date, processoDeCotacaoDeMaterial.DataDeFechamento);
+            Assert.AreEqual(DateTime.Now.Date, processoDeCotacaoDeMaterial.DataDeFechamento.Date);
         }
 
 

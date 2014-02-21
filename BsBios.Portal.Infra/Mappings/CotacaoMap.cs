@@ -54,6 +54,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
         }
     }
+
     public class CotacaoFreteMap : SubclassMap<CotacaoDeFrete>
     {
         public CotacaoFreteMap()
@@ -61,7 +62,7 @@ namespace BsBios.Portal.Infra.Mappings
             Table("CotacaoFrete");
             KeyColumn("Id");
             Map(x => x.Cadencia);
+            Map(x => x.NumeroDaCondicaoGeradaNoSap);
         }
     }
-    
 }

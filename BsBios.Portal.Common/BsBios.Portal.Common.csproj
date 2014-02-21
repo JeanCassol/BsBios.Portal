@@ -59,6 +59,7 @@
     <Compile Include="Exceptions\FecharProcessoDeCotacaoFechadoException.cs" />
     <Compile Include="Exceptions\DataDeAgendamentoExpiradaException.cs" />
     <Compile Include="Exceptions\ExcluirQuotaComAgendamentoException.cs" />
+    <Compile Include="Exceptions\FornecedorSemCondicaoGeradaNoSapException.cs" />
     <Compile Include="Exceptions\OperacaoNaoPermitidaParaAgendamentoRealizadoException.cs" />
     <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
     <Compile Include="Exceptions\QuantidadeColetadaUltrapassouQuantidadeLiberadaException.cs" />

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
+using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
@@ -23,11 +26,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             _comunicacaoSap = comunicacaoSap;
         }
 
-        protected void ExecutarServicosDeFechamento(ProcessoDeCotacao processoDeCotacao)
+        protected ApiResponseMessage ExecutarServicosDeFechamento(ProcessoDeCotacao processoDeCotacao)
         {
-            _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
+            ApiResponseMessage apiResponseMessage = _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
             _geradorDeEmail.GerarEmail(processoDeCotacao);
             ProcessosDeCotacao.Save(processoDeCotacao);
+
+            return apiResponseMessage;
         }
     }
 
@@ -49,7 +54,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _unitOfWork.BeginTransaction();
                 
                 ProcessoDeCotacao processoDeCotacao = ProcessosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-                processoDeCotacao.Fechar();
+                processoDeCotacao.FecharProcesso();
                 ExecutarServicosDeFechamento(processoDeCotacao);
 
                 _unitOfWork.Commit();
@@ -84,14 +89,23 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _unitOfWork.BeginTransaction();
 
                 var processoDeCotacao = (ProcessoDeCotacaoDeFrete)ProcessosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-                IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+
+                var retorno = (ProcessoDeCotacaoDeFreteFechamentoRetorno) ExecutarServicosDeFechamento(processoDeCotacao);
+
+                IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = retorno.Condicoes.Select(x => new CondicaoDoFechamentoNoSap
+                {
+                    CodigoDoFornecedor = x.CodigoDoFornecedor,
+                    NumeroGeradoNoSap = x.Numero
+                });
+
+
+                IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
 
                 foreach (var ordemDeTransporte in ordensDeTransporte)
                 {
                     _ordensDeTransporte.Save(ordemDeTransporte);
                 }
 
-                ExecutarServicosDeFechamento(processoDeCotacao);
 
                 _unitOfWork.Commit();
 

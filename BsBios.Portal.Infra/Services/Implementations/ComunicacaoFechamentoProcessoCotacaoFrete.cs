@@ -53,21 +53,22 @@ namespace BsBios.Portal.Infra.Services.Implementations
             var httpClient = new HttpClient(clientHandler);
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
 
-            var processoAuxiliar = (ProcessoDeCotacaoDeFrete) processo.CastEntity();
+            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processo.CastEntity();
 
-            foreach (var fornecedorParticipante in processoAuxiliar.FornecedoresParticipantes)
+            foreach (var fornecedorParticipante in processoDeCotacaoDeFrete.FornecedoresParticipantes)
             {
                 if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
                 {
                     mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
                         {
+                            NumeroDoProcessoDeCotacao = processoDeCotacaoDeFrete.Id,
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
-                            CodigoMaterial = processoAuxiliar.Produto.Codigo,
-                            CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.CodigoInterno,
-                            CodigoItinerario = processoAuxiliar.Itinerario.Codigo,
-                            DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToString("yyyyMMdd"),
-                            DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToString("yyyyMMdd"),
-                            NumeroDoContrato = processoAuxiliar.NumeroDoContrato ?? "",
+                            CodigoMaterial = processoDeCotacaoDeFrete.Produto.Codigo,
+                            CodigoUnidadeMedida = processoDeCotacaoDeFrete.UnidadeDeMedida.CodigoInterno,
+                            CodigoItinerario = processoDeCotacaoDeFrete.Itinerario.Codigo,
+                            DataDeValidadeInicial = processoDeCotacaoDeFrete.DataDeValidadeInicial.ToString("yyyyMMdd"),
+                            DataDeValidaFinal = processoDeCotacaoDeFrete.DataDeValidadeFinal.ToString("yyyyMMdd"),
+                            NumeroDoContrato = processoDeCotacaoDeFrete.NumeroDoContrato ?? "",
                             Valor = fornecedorParticipante.Cotacao.ValorComImpostos
                         });
                 }
@@ -88,14 +89,15 @@ namespace BsBios.Portal.Infra.Services.Implementations
             const string mensagemDaExcecao = "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: ";
 
             Stream content = response.Result.Content.ReadAsStreamAsync().Result;
-            var serializer = new XmlSerializer(typeof(ApiResponseMessage));
+            var serializer = new XmlSerializer(typeof(ProcessoDeCotacaoDeFreteFechamentoRetorno));
 
-            var mensagem = (ApiResponseMessage)serializer.Deserialize(content);
+            var mensagem = (ProcessoDeCotacaoDeFreteFechamentoRetorno)serializer.Deserialize(content);
             
             if (mensagem.Retorno.Codigo == "E")
             {
                 throw new ComunicacaoSapException("json",mensagemDaExcecao + mensagem.Retorno.Texto);
             }
+
             return mensagem;
 
         }

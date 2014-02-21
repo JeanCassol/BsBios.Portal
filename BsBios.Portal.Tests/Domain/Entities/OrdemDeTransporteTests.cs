@@ -6,6 +6,7 @@ using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +24,16 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Cotacao cotacao = fornecedorParticipante.Cotacao;
             decimal quantidade = cotacao.QuantidadeAdquirida.Value;
 
-            var ordemDeTransporte = processoDeCotacao.FecharProcesso().First();
+            var condicoesDeFechamento = new List<CondicaoDoFechamentoNoSap>
+            {
+                new CondicaoDoFechamentoNoSap
+                {
+                    CodigoDoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
+                    NumeroGeradoNoSap = "00001"
+                }
+            };
+
+            var ordemDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento).First();
 
             Assert.AreSame(processoDeCotacao, ordemDeTransporte.ProcessoDeCotacaoDeFrete);
             Assert.AreSame(fornecedorParticipante.Fornecedor, ordemDeTransporte.Fornecedor);

@@ -118,7 +118,6 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeAdquirida = null;
         }
 
-
     }
 
     public class CotacaoDeFrete: Cotacao
@@ -129,6 +128,7 @@ namespace BsBios.Portal.Domain.Entities
         protected CotacaoDeFrete(){}
 
         public virtual decimal? Cadencia { get; protected set; }
+        public virtual string NumeroDaCondicaoGeradaNoSap { get; protected set; }
 
 
         public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
@@ -147,6 +147,11 @@ namespace BsBios.Portal.Domain.Entities
         {
             base.RemoverSelecao();
             Cadencia = null;
+        }
+
+        protected internal virtual void InformarNumeroDaCondicao(string numeroGeradoNoSap)
+        {
+            NumeroDaCondicaoGeradaNoSap = numeroGeradoNoSap;
         }
         
     }

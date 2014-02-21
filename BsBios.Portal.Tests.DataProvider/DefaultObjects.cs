@@ -97,7 +97,7 @@ namespace BsBios.Portal.Tests.DataProvider
             var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
             Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, 100,DateTime.Today.AddMonths(1),"obs");
             processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
-            processoDeCotacao.Fechar();
+            processoDeCotacao.FecharProcesso();
             return processoDeCotacao;
         }
 
@@ -298,14 +298,26 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            processoDeCotacao.Fechar();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            processoDeCotacao.FecharProcesso(condicoesDeFechamento);
             return processoDeCotacao;
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteFechado(Municipio municipioOrigem, Municipio municipioDestino)
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipioOrigem, municipioDestino);
-            processoDeCotacao.Fechar();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            processoDeCotacao.FecharProcesso(condicoesDeFechamento);
             return processoDeCotacao;
         }
 
@@ -400,7 +412,13 @@ namespace BsBios.Portal.Tests.DataProvider
         public static OrdemDeTransporte ObtemOrdemDeTransporteComQuantidade(decimal quantidade)
         {
             ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            return processoDeCotacaoDeFrete.FecharProcesso().First();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacaoDeFrete.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            return processoDeCotacaoDeFrete.FecharProcesso(condicoesDeFechamento).First();
         }
         
     }

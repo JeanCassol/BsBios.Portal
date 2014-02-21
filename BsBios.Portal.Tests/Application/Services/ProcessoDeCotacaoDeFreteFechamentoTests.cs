@@ -36,9 +36,17 @@ namespace BsBios.Portal.Tests.Application.Services
             var comunicacaoSapMock = new Mock<IComunicacaoSap>(MockBehavior.Strict);
 
             comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacao>()))
-                .Returns(new ApiResponseMessage
+                .Returns(new ProcessoDeCotacaoDeFreteFechamentoRetorno
                 {
-                    Retorno = new Retorno { Codigo = "200", Texto = "S" }
+                    Retorno = new Retorno { Codigo = "200", Texto = "S" },
+                    Condicoes = new ListaDeCondicaoDoSap()
+                    {
+                        new CondicaoDoSap
+                        {
+                            CodigoDoFornecedor = participanteSelecionado.Fornecedor.Codigo,
+                            Numero = "00001"
+                        }
+                    }
                 });
 
             var ordensDeTransporteMock = new Mock<IOrdensDeTransporte>(MockBehavior.Strict);

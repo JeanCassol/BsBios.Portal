@@ -67,5 +67,9 @@ namespace BsBios.Portal.Domain.Entities
             cotacao.RemoverSelecao(iva);
         }
 
+        public override void FecharProcesso()
+        {
+            Fechar();
+        }
     }
 }

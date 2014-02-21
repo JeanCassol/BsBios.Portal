@@ -22,6 +22,8 @@ namespace BsBios.Portal.ViewModel
         public string DataDeValidadeInicial { get; set; }
         [DataMember]
         public string DataDeValidaFinal { get; set; }
+        [DataMember]
+        public int NumeroDoProcessoDeCotacao { get; set; }
        
     }
 

@@ -33,7 +33,17 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             List<Municipio> municipios = EntidadesPersistidas.ObterDoisMunicipiosCadastrados();
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
-            OrdemDeTransporte ordemDeTransporte = processoDeCotacao.FecharProcesso().First();
+            FornecedorParticipante fornecedorParticipante = processoDeCotacao.FornecedoresParticipantes.First();
+            var condicoesDeFechamento = new List<CondicaoDoFechamentoNoSap>
+            {
+                new CondicaoDoFechamentoNoSap
+                {
+                    CodigoDoFornecedor = fornecedorParticipante.Fornecedor.Codigo,
+                    NumeroGeradoNoSap = "00001"
+                }
+            };
+
+            OrdemDeTransporte ordemDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento).First();
 
             var ordensDeTransporte = ObjectFactory.GetInstance<IOrdensDeTransporte>();
 

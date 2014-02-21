@@ -108,9 +108,29 @@ namespace BsBios.Portal.Domain.Entities
             cotacao.RemoverSelecao();
         }
 
-        public virtual IList<OrdemDeTransporte> FecharProcesso()
+        //não posso usar este
+        public override void FecharProcesso()
+        {
+            throw new NotImplementedException("Deve ser utilizado o método que fecha o processo de cotação passando a lista de condições de fechamento");
+        }
+
+
+        public virtual IList<OrdemDeTransporte> FecharProcesso(IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento)
         {
             base.Fechar();
+
+            foreach (var condicaoDoFechamentoNoSap in condicoesDeFechamento)
+            {
+                FornecedorParticipante fornecedorParticipante = this.FornecedoresSelecionados.Single(s => s.Fornecedor.Codigo == condicaoDoFechamentoNoSap.CodigoDoFornecedor);
+                var cotacaoDeFrete = (CotacaoDeFrete)fornecedorParticipante.Cotacao;
+                cotacaoDeFrete.InformarNumeroDaCondicao(condicaoDoFechamentoNoSap.NumeroGeradoNoSap);
+            }
+
+            if (FornecedoresSelecionados.Any(fs => string.IsNullOrEmpty(((CotacaoDeFrete) fs.Cotacao).NumeroDaCondicaoGeradaNoSap)))
+            {
+                throw new FornecedorSemCondicaoGeradaNoSapException();
+
+            }
 
             var ordensDeTransporte = (from fornecedorSelecionado in FornecedoresSelecionados
                 let cotacao = (CotacaoDeFrete) fornecedorSelecionado.Cotacao.CastEntity()

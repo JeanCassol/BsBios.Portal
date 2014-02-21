@@ -23,7 +23,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
 
-            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+
+            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
             OrdemDeTransporte ordemDeTransporte = ordensDeTransporte.First();
 
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);

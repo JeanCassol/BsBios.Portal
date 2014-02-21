@@ -39,7 +39,13 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
 
-            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
 
             var ordemDeTransporte = ordensDeTransporte.First();
 
@@ -87,7 +93,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipios.First(), municipios.Last());
 
-            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+
+            IList<OrdemDeTransporte> ordensDeTransporte = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
 
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordensDeTransporte, processoDeCotacao);
 
@@ -138,7 +151,14 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(municipiosCadastrados.First(), municipiosCadastrados.Last());
 
-            IList<OrdemDeTransporte> ordemDeTransportes = processoDeCotacao.FecharProcesso();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+
+            IList<OrdemDeTransporte> ordemDeTransportes = processoDeCotacao.FecharProcesso(condicoesDeFechamento);
 
             DefaultPersistedObjects.PersistirOrdensDeTransporte(ordemDeTransportes, processoDeCotacao);
 

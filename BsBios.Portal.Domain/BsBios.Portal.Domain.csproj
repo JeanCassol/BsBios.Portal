@@ -71,6 +71,7 @@
     <Compile Include="Services\Implementations\AgendamentoDeDescarregamentoFactory.cs" />
     <Compile Include="Services\Implementations\ColetaFactory.cs" />
     <Compile Include="Services\Implementations\VerificaPermissaoAgendamento.cs" />
+    <Compile Include="ValueObjects\CondicaoDoFechamentoNoSap.cs" />
     <Compile Include="ValueObjects\Municipio.cs" />
   </ItemGroup>
   <ItemGroup>

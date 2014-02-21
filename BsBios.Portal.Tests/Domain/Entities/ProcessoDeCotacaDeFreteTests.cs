@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
@@ -119,8 +120,44 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarFecharUmProcessoDeCotacaoQueJaEstaFechadoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteFechado();
-            processoDeCotacao.Fechar();   
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            processoDeCotacao.FecharProcesso(condicoesDeFechamento);   
         }
+
+        [TestMethod]
+        [ExpectedException(typeof (FornecedorSemCondicaoGeradaNoSapException))]
+        public void QuandoFecharUmProcessoDeCotacaoSemInformarONumeroDaCondicaoGeradaNoSapDeveGerarExcecao()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+
+            processoDeCotacaoDeFrete.FecharProcesso(new List<CondicaoDoFechamentoNoSap>());
+        }
+
+        [TestMethod]
+        public void QuandoTentarFecharUmProcessoDeCotacaoDeveAtribuirONumeroDaCondicaoGeradaNoSapParaCadaFornecedor()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            {
+                CodigoDoFornecedor = x.Fornecedor.Codigo,
+                NumeroGeradoNoSap = "00001"
+            });
+
+            processoDeCotacao.FecharProcesso(condicoesDeFechamento);
+
+            foreach (var fornecedorSelecionado in processoDeCotacao.FornecedoresSelecionados)
+            {
+                CondicaoDoFechamentoNoSap condicaoDoFechamentoNoSap = condicoesDeFechamento.Single(c => c.CodigoDoFornecedor == fornecedorSelecionado.Fornecedor.Codigo);
+                var cotacaoDeFrete = (CotacaoDeFrete) fornecedorSelecionado.Cotacao;
+                Assert.AreEqual(condicaoDoFechamentoNoSap.NumeroGeradoNoSap, cotacaoDeFrete.NumeroDaCondicaoGeradaNoSap);
+            }
+        }
+
 
         [TestMethod]
         public void QuandoCanceloProcessoDeCotacaoDeFretePassaParaStatusCancelado()
