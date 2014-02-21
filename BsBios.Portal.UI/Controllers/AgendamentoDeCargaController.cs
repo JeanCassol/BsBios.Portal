@@ -45,10 +45,32 @@ namespace BsBios.Portal.UI.Controllers
             return "";
         }
 
+        //public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga, string descricaoDoTerminal)
+        //{
+        //    AgendamentoDeCargaCadastroVm model = null;
+        //    if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
+        //    {
+        //        model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
+        //    }
+        //    if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
+        //    {
+        //        model = new AgendamentoDeDescarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
+        //    }
+
+        //    if (model != null)
+        //    {
+        //        model.PermiteEditar = true;
+        //        model.PermiteRealizar = false;
+        //    }
+        //    return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga), model);
+
+        //}
+
         public ActionResult NovoAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm modelo)
         {
             modelo.PermiteEditar = true;
             modelo.PermiteRealizar = false;
+            ModelState.Clear();
             return PartialView("AgendamentoDeCarregamento", modelo);
         }
 
@@ -56,6 +78,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             modelo.PermiteEditar = true;
             modelo.PermiteRealizar = false;
+            ModelState.Clear();
             return PartialView("AgendamentoDeDescarregamento", modelo);
         }
 

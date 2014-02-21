@@ -91,12 +91,14 @@
             @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento", "AgendamentoDeCargaService")');
         }
 
-        $('#btnAdicionarAgendamento').click(function() {
+
+        $('#btnAdicionarAgendamento').click(function () {
             $('#divCadastroAgendamento').customLoad('@urlDoNovoAgendamento' + parametrosDoNovoAgendamento,
-                function() {
+                function () {
                     jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
                 });
         });
+
 
     });
     </script>
