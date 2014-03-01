@@ -333,10 +333,10 @@
 
                 var dataEmArray = $('#Data').val().split('/');
 
-                var data = new Date(dataEmArray[2], dataEmArray[1] - 1, dataEmArray[0]);
+                var dataDaQuota = new Date(dataEmArray[2], dataEmArray[1] - 1, dataEmArray[0]);
 
                 var quotasSalvarVm = {
-                    Data: data,
+                    Data: dataDaQuota,
                     CodigoDoTerminal: $('#Terminal').val(),
                     Quotas: quotasParaSalvar
                 };

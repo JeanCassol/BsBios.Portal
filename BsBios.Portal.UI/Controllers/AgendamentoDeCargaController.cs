@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Common;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 
@@ -31,40 +30,6 @@ namespace BsBios.Portal.UI.Controllers
             KendoGridVm kendoGridVm = _consultaQuota.ListarAgendamentosDaQuota(idQuota);
             return Json(kendoGridVm,JsonRequestBehavior.AllowGet);
         }
-
-        private string ViewDoFluxoDeCarga(Enumeradores.FluxoDeCarga materialDeCarga)
-        {
-            if (materialDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
-            {
-                return "AgendamentoDeCarregamento";
-            }
-            if (materialDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
-            {
-                return "AgendamentoDeDescarregamento";
-            }
-            return "";
-        }
-
-        //public ActionResult NovoCadastro(int idQuota, Enumeradores.FluxoDeCarga codigoFluxoDeCarga, string descricaoDoTerminal)
-        //{
-        //    AgendamentoDeCargaCadastroVm model = null;
-        //    if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
-        //    {
-        //        model = new AgendamentoDeCarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
-        //    }
-        //    if (codigoFluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
-        //    {
-        //        model = new AgendamentoDeDescarregamentoCadastroVm() { IdQuota = idQuota, DescricaoDoTerminal = descricaoDoTerminal };
-        //    }
-
-        //    if (model != null)
-        //    {
-        //        model.PermiteEditar = true;
-        //        model.PermiteRealizar = false;
-        //    }
-        //    return PartialView(ViewDoFluxoDeCarga(codigoFluxoDeCarga), model);
-
-        //}
 
         public ActionResult NovoAgendamentoDeCarregamento(AgendamentoDeCarregamentoCadastroVm modelo)
         {

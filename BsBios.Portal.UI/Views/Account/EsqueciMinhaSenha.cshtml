@@ -12,10 +12,12 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
         <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/globalize")
         @Scripts.Render("~/bundles/scriptsgerais")
         <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
@@ -23,57 +25,57 @@
     <body>
         @Html.Partial("_Header")
         <div id="loginForm">
-                <div class="elementosCentralizados">
-                    <div style="width: 265px" class="elementosCentralizados">
-                        @Html.Label("Login")
-                        @Html.TextBox("Login",Model)
-                        <span class="error"></span>
-                    </div>
-                    Ao confirmar, o sistema irá criar uma nova senha para o Usuário e enviar por e-mail.
+            <div class="elementosCentralizados">
+                <div style="width: 265px" class="elementosCentralizados">
+                    @Html.Label("Login")
+                    @Html.TextBox("Login",Model)
+                    <span class="error"></span>
                 </div>
+                Ao confirmar, o sistema irá criar uma nova senha para o Usuário e enviar por e-mail.
+            </div>
                 
-                <div class="divBotao">
-                    <input type="button" id="btnVoltar" value="Voltar" class="blue"/>
-                    <input type="button" id="btnConfirmar" value="Confirmar" class="blue"/>
-                </div>
+            <div class="divBotao">
+                <input type="button" id="btnVoltar" value="Voltar" class="blue"/>
+                <input type="button" id="btnConfirmar" value="Confirmar" class="blue"/>
+            </div>
         </div>
-    </body>
-    <script type="text/javascript">
-        $(function() {
-            $('#btnVoltar').click(function() {
-                history.back(1);
-            });
-            $('#btnConfirmar').click(function (e) {
-                e.preventDefault();
-                $('.error').html('');
-                var login = $('input[name=Login]').val();
-                if (login == '') {
-                    $('.error').html('Campo Login é obrigatório');
-                    return;
-                }
-                $('body').block("Processando...");
-                $.ajax({
-                    url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
-                    type: 'POST',
-                    data: { Login: login },
-                    cache: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.Sucesso) {
-                            Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
-                        } else {
-                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + data.Mensagem);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + textStatus + errorThrown);
-                    },
-                    complete: function() {
-                        $("body").unblock();
-                    }
+        <script type="text/javascript">
+            $(function() {
+                $('#btnVoltar').click(function() {
+                    history.back(1);
                 });
+                $('#btnConfirmar').click(function (e) {
+                    e.preventDefault();
+                    $('.error').html('');
+                    var login = $('input[name=Login]').val();
+                    if (login == '') {
+                        $('.error').html('Campo Login é obrigatório');
+                        return;
+                    }
+                    $('body').block("Processando...");
+                    $.ajax({
+                        url: '@Url.Action("CriarSenha","GerenciadorUsuario")',
+                        type: 'POST',
+                        data: { Login: login },
+                        cache: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Sucesso) {
+                                Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
+                            } else {
+                                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + data.Mensagem);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao criar a senha para o Usuário. Detalhe: ' + textStatus + errorThrown);
+                        },
+                        complete: function() {
+                            $("body").unblock();
+                        }
+                    });
 
-            });
-        })
-    </script>
+                });
+            })
+        </script>
+    </body>
 </html>

@@ -220,7 +220,6 @@
   <ItemGroup>
     <Content Include="Content\AutoComplete.css" />
     <Content Include="Content\Botoes.css" />
-    <Content Include="Content\CheckHeader.css" />
     <Content Include="Content\Formulario.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\Impressao.css" />

@@ -117,16 +117,16 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual IList<OrdemDeTransporte> FecharProcesso(IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento)
         {
-            base.Fechar();
+            Fechar();
 
             foreach (var condicaoDoFechamentoNoSap in condicoesDeFechamento)
             {
                 FornecedorParticipante fornecedorParticipante = this.FornecedoresSelecionados.Single(s => s.Fornecedor.Codigo == condicaoDoFechamentoNoSap.CodigoDoFornecedor);
-                var cotacaoDeFrete = (CotacaoDeFrete)fornecedorParticipante.Cotacao;
+                var cotacaoDeFrete = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
                 cotacaoDeFrete.InformarNumeroDaCondicao(condicaoDoFechamentoNoSap.NumeroGeradoNoSap);
             }
 
-            if (FornecedoresSelecionados.Any(fs => string.IsNullOrEmpty(((CotacaoDeFrete) fs.Cotacao).NumeroDaCondicaoGeradaNoSap)))
+            if (FornecedoresSelecionados.Any(fs => string.IsNullOrEmpty(((CotacaoDeFrete) fs.Cotacao.CastEntity()).NumeroDaCondicaoGeradaNoSap)))
             {
                 throw new FornecedorSemCondicaoGeradaNoSapException();
 

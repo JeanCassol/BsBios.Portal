@@ -278,6 +278,18 @@ namespace BsBios.Portal.Tests.DataProvider
             return ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(9);
         }
 
+        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComDuasCotacoesSelecionadas()
+        {
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(9);
+            Fornecedor fornecedor = ObtemFornecedorPadrao();
+            processoDeCotacao.AdicionarFornecedor(fornecedor);
+            CotacaoDeFrete cotacaoDeFrete = processoDeCotacao.InformarCotacao(fornecedor.Codigo, 120, 20, "teste");
+            cotacaoDeFrete.Selecionar(5,0);
+
+            return processoDeCotacao;
+        }
+
+
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(decimal quantidadeAdquirida)
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();

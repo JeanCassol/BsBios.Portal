@@ -141,21 +141,28 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void QuandoTentarFecharUmProcessoDeCotacaoDeveAtribuirONumeroDaCondicaoGeradaNoSapParaCadaFornecedor()
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
-            IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
+            ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComDuasCotacoesSelecionadas();
+            var condicoesDeFechamento = new List<CondicaoDoFechamentoNoSap>
             {
-                CodigoDoFornecedor = x.Fornecedor.Codigo,
-                NumeroGeradoNoSap = "00001"
-            });
+                new CondicaoDoFechamentoNoSap
+                {
+                    CodigoDoFornecedor  = processoDeCotacao.FornecedoresSelecionados.First().Fornecedor.Codigo ,
+                    NumeroGeradoNoSap =  "0001"
+                },
+                new CondicaoDoFechamentoNoSap
+                {
+                    CodigoDoFornecedor  = processoDeCotacao.FornecedoresSelecionados.Last().Fornecedor.Codigo ,
+                    NumeroGeradoNoSap =  "0002"
+                }
+
+
+            };
 
             processoDeCotacao.FecharProcesso(condicoesDeFechamento);
 
-            foreach (var fornecedorSelecionado in processoDeCotacao.FornecedoresSelecionados)
-            {
-                CondicaoDoFechamentoNoSap condicaoDoFechamentoNoSap = condicoesDeFechamento.Single(c => c.CodigoDoFornecedor == fornecedorSelecionado.Fornecedor.Codigo);
-                var cotacaoDeFrete = (CotacaoDeFrete) fornecedorSelecionado.Cotacao;
-                Assert.AreEqual(condicaoDoFechamentoNoSap.NumeroGeradoNoSap, cotacaoDeFrete.NumeroDaCondicaoGeradaNoSap);
-            }
+            Assert.AreEqual("0001", ((CotacaoDeFrete) processoDeCotacao.FornecedoresSelecionados.First().Cotacao).NumeroDaCondicaoGeradaNoSap);
+            Assert.AreEqual("0002", ((CotacaoDeFrete)processoDeCotacao.FornecedoresSelecionados.Last().Cotacao).NumeroDaCondicaoGeradaNoSap);
+
         }
 
 
