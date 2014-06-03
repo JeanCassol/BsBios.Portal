@@ -91,6 +91,54 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
+        [ExpectedException(typeof(DataDeValidadeInicialMaiorQueDataDeValidadeFinalException))]
+        public void QuandoCrioUmProcessoComADataDeValidadeFinalMaiorQueADataInicialEsperoUmaExcecao()
+        {
+
+            Produto produto = DefaultObjects.ObtemProdutoPadrao();
+            UnidadeDeMedida unidadeDeMedida = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
+            Itinerario itinerario = DefaultObjects.ObtemItinerarioPadrao();
+            var dataLimiteDeRetorno = DateTime.Today.AddDays(10);
+            var dataValidadeInicial = DateTime.Today.AddMonths(1);
+            var dataValidadeFinal = DateTime.Today.AddMonths(-1);
+            var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            var deposito = DefaultObjects.ObtemFornecedorPadrao();
+            var municipioOrigem = new Municipio("1000", "Torres");
+            var municipioDestino = new Municipio("2000", "Porto Alegre");
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
+            var processo = new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
+                "10001", dataLimiteDeRetorno, dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 1000, true, municipioOrigem,
+                municipioDestino, deposito, terminal);            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DataDeValidadeInicialMaiorQueDataDeValidadeFinalException))]
+        public void QuandoAtualizoUmProcessoComADataDeValidadeFinalMaiorQueADataInicialEsperoUmaExcecao()
+        {
+            ProcessoDeCotacaoDeFrete processo = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
+
+            Produto produto = DefaultObjects.ObtemProdutoPadrao();
+            UnidadeDeMedida unidadeDeMedida = DefaultObjects.ObtemUnidadeDeMedidaPadrao();
+            Itinerario itinerario = DefaultObjects.ObtemItinerarioPadrao();
+            var terminal2 = new Terminal("2000", "Terminal 2", "Passo Fundo");
+
+            var dataLimiteDeRetorno = DateTime.Today.AddDays(15);
+            var dataValidadeInicial = DateTime.Today.AddMonths(2);
+            var dataValidadeFinal = DateTime.Today.AddMonths(-2);
+            var fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            var municipioOrigem = new Municipio("2000", "Porto Alegre");
+            var municipioDestino = new Municipio("1500", "Torres");
+            var deposito = DefaultObjects.ObtemFornecedorPadrao();
+
+            processo.Atualizar(produto, 1500, unidadeDeMedida, "requisitos alterados", "1500", dataLimiteDeRetorno,
+                dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem,
+                municipioDestino, deposito, terminal2);
+
+
+        }
+
+
+        [TestMethod]
         [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAtualizarOsDadosComplementares()
         {

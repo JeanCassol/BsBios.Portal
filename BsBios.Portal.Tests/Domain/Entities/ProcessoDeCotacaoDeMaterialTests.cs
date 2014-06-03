@@ -67,6 +67,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             
         }
 
+        [TestMethod]
         public void QuandoRemovoUmFornecedorEsteNaoFicaMaisVinculadoAoProcesso()
         {
             var fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();

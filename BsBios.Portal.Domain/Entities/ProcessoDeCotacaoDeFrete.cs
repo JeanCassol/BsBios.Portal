@@ -10,12 +10,25 @@ namespace BsBios.Portal.Domain.Entities
     public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
     {
 
+        private void ValidarDataDeValidade(DateTime dataDeValidadeInicial, DateTime dataDeValidadeFinal)
+        {
+            if (dataDeValidadeInicial > dataDeValidadeFinal)
+            {
+                throw new DataDeValidadeInicialMaiorQueDataDeValidadeFinalException();
+            }
+            
+        }
+
+
         protected ProcessoDeCotacaoDeFrete(){}
         public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
             DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, decimal cadencia, bool classificacao,
             Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
         {
+
+            ValidarDataDeValidade(dataDeValidadeInicial, dataDeValidadeFinal);
+
             NumeroDoContrato = numeroDoContrato;
             DataDeValidadeInicial = dataDeValidadeInicial;
             DataDeValidadeFinal = dataDeValidadeFinal;
@@ -50,6 +63,8 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoAbertoAtualizacaoDadosException(Status.Descricao());
             }
+
+            ValidarDataDeValidade(dataDeValidadeInicial, dataDeValidadeFinal);
 
             Produto = produto;
             Quantidade = quantidade;

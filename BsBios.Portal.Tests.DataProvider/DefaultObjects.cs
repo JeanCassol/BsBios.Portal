@@ -280,12 +280,22 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComDuasCotacoesSelecionadas()
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(9);
-            Fornecedor fornecedor = ObtemFornecedorPadrao();
-            processoDeCotacao.AdicionarFornecedor(fornecedor);
-            CotacaoDeFrete cotacaoDeFrete = processoDeCotacao.InformarCotacao(fornecedor.Codigo, 120, 20, "teste");
-            cotacaoDeFrete.Selecionar(5,0);
+            ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete();
 
+            Fornecedor fornecedor1 = ObtemFornecedorPadrao();
+            processoDeCotacao.AdicionarFornecedor(fornecedor1);
+
+            Fornecedor fornecedor2 = ObtemFornecedorPadrao();
+            processoDeCotacao.AdicionarFornecedor(fornecedor2);
+
+            processoDeCotacao.Abrir();
+
+            CotacaoDeFrete cotacaoDeFrete1 = processoDeCotacao.InformarCotacao(fornecedor1.Codigo, 60, 9, "teste");
+            cotacaoDeFrete1.Selecionar(10,0);
+
+            CotacaoDeFrete cotacaoDeFrete2 = processoDeCotacao.InformarCotacao(fornecedor2.Codigo, 120, 20, "teste");
+            cotacaoDeFrete2.Selecionar(5, 0);
+            
             return processoDeCotacao;
         }
 
