@@ -81,6 +81,7 @@
     <Compile Include="Mappings\AgendamentoDeCargaVisualizacaoMap.cs" />
     <Compile Include="Mappings\ColetaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\MaterialDeCargaMap.cs" />
     <Compile Include="Mappings\MonitorDeOrdemDeTransporteMap.cs" />
     <Compile Include="Mappings\MunicipioMap.cs" />
     <Compile Include="Mappings\NotaFiscalDeColetaMap.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Contracts\IAgendamentosDeCarga.cs" />
+    <Compile Include="Repositories\Contracts\IMateriaisDeCarga.cs" />
     <Compile Include="Repositories\Contracts\IMunicipios.cs" />
     <Compile Include="Repositories\Contracts\IOrdensDeTransporte.cs" />
     <Compile Include="Repositories\Contracts\IProcessoCotacaoIteracoesUsuario.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
     <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
+    <Compile Include="Repositories\Implementations\MateriaisDeCarga.cs" />
     <Compile Include="Repositories\Implementations\Municipios.cs" />
     <Compile Include="Repositories\Implementations\OrdensDeTransporte.cs" />
     <Compile Include="Repositories\Implementations\ProcessoCotacaoIteracoesUsuario.cs" />

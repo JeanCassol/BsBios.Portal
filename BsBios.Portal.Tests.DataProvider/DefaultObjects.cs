@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Domain.ValueObjects;
@@ -361,25 +360,32 @@ namespace BsBios.Portal.Tests.DataProvider
         public static Quota ObtemQuotaDeCarregamento()
         {
             Terminal terminal = ObtemTerminalPadrao();
-            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), terminal,DateTime.Today,850);
+            return new Quota(ObterFarelo(),Enumeradores.FluxoDeCarga.Carregamento, ObtemTransportadoraPadrao(), terminal, DateTime.Today, 850);
         }
+
         public static Quota ObtemQuotaDeCarregamentoComDataEspecifica(DateTime data)
         {
-            Terminal terminal = ObtemTerminalPadrao();
-            return new Quota(Enumeradores.MaterialDeCarga.Farelo, ObtemTransportadoraPadrao(), terminal, data, 850);
+            return ObtemQuotaDeCarregamentoComDataEspecifica(data, ObterFarelo());
         }
+
+        public static Quota ObtemQuotaDeCarregamentoComDataEspecifica(DateTime data, MaterialDeCarga materialDeCarga)
+        {
+            Terminal terminal = ObtemTerminalPadrao();
+            return new Quota(materialDeCarga, Enumeradores.FluxoDeCarga.Carregamento, ObtemTransportadoraPadrao(), terminal, data, 850);
+        }
+
 
 
         public static Quota ObtemQuotaDeDescarregamento()
         {
             Terminal terminal = ObtemTerminalPadrao();
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
+            return new Quota(ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
         }
 
         public static Quota ObtemQuotaDeDescarregamentoParaTerminalEspecifico(string codigoDoTerminal)
         {
             var terminal = new Terminal(codigoDoTerminal, "Terminal " + codigoDoTerminal, "Cidade" + codigoDoTerminal);
-            return new Quota(Enumeradores.MaterialDeCarga.Soja, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
+            return new Quota(EntidadesPersistidas.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, ObtemTransportadoraPadrao(), terminal, DateTime.Today.AddDays(1), 850);
         }
 
 
@@ -442,6 +448,16 @@ namespace BsBios.Portal.Tests.DataProvider
 
             return processoDeCotacaoDeFrete.FecharProcesso(condicoesDeFechamento).First();
         }
-        
+
+        public static MaterialDeCarga ObterSoja()
+        {
+            return new MaterialDeCarga("Soja");
+        }
+
+        public static MaterialDeCarga ObterFarelo()
+        {
+            return new MaterialDeCarga("Farelo");
+        }
+
     }
 }

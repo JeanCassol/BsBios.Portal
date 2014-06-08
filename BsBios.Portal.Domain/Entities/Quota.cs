@@ -12,7 +12,7 @@ namespace BsBios.Portal.Domain.Entities
     {
         public virtual int Id { get; protected set; }
         public virtual Fornecedor Fornecedor { get; protected set; }
-        public virtual Enumeradores.MaterialDeCarga Material { get; protected set; }
+        public virtual MaterialDeCarga Material { get; protected set; }
         public virtual Enumeradores.FluxoDeCarga FluxoDeCarga { get; protected set; }
         public virtual Terminal Terminal { get; protected set; }
         public virtual DateTime Data { get; protected set; }
@@ -40,21 +40,14 @@ namespace BsBios.Portal.Domain.Entities
             Agendamentos = new List<AgendamentoDeCarga>();
         }
 
-        public Quota(Enumeradores.MaterialDeCarga materialDeCarga, Fornecedor fornecedor, Terminal terminal, DateTime data, decimal pesoTotal):this()
+        public Quota(MaterialDeCarga materialDeCarga, Enumeradores.FluxoDeCarga fluxoDeCarga, Fornecedor fornecedor, Terminal terminal, DateTime data, decimal pesoTotal):this()
         {
             Fornecedor = fornecedor;
             Terminal = terminal;
             Data = data;
             PesoTotal = pesoTotal;
             Material = materialDeCarga;
-            if (materialDeCarga == Enumeradores.MaterialDeCarga.Soja)
-            {
-                FluxoDeCarga = Enumeradores.FluxoDeCarga.Descarregamento;
-            }
-            if (materialDeCarga == Enumeradores.MaterialDeCarga.Farelo)
-            {
-                FluxoDeCarga = Enumeradores.FluxoDeCarga.Carregamento;
-            }
+            FluxoDeCarga = fluxoDeCarga;
         }
 
         private void ValidaPeso()

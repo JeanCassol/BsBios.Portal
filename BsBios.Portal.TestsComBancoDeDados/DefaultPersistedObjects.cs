@@ -247,6 +247,7 @@ namespace BsBios.Portal.Tests.DefaultProvider
             }
         }
 
+
         public static void PersistirAgendamentoDeCarga(AgendamentoDeCarga agendamento)
         {
             try

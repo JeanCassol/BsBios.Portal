@@ -27,6 +27,28 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         }
 
         [TestMethod]
+        public void ListagemDeQuotasRetornaDadosEsperados()
+        {
+            RemoveQueries.RemoverQuotasCadastradas();
+            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
+
+            var quota = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor, terminal, DateTime.Today.AddDays(1), 100);
+
+            DefaultPersistedObjects.PersistirQuota(quota);
+
+            var consultaQuotaRelatorio = ObjectFactory.GetInstance<IConsultaQuotaRelatorio>();
+
+            IList<QuotaCadastroVm> listagemDeQuotas = consultaQuotaRelatorio.ListagemDeQuotas(new RelatorioAgendamentoFiltroVm());
+
+            Assert.AreEqual(1, listagemDeQuotas.Count);
+
+            QuotaCadastroVm quotaCadastroVm = listagemDeQuotas.Single();
+
+            Assert.AreEqual("Farelo", quotaCadastroVm.Material);
+        }
+
+        [TestMethod]
         public void ConsultaPrevistoRealizadoRetornaOsValoresAgrupadosCorretamente()
         {
             //cria duas quotas, dois fornecedores. Os fornecedores tem agendamentos nas duas quotas. 
@@ -38,10 +60,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1,terminal, DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
+            var quota1 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);
@@ -74,6 +96,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor1.Codigo + " - " + fornecedor1.Nome, planejadoRealizadoFornecedor1.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor1.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(),planejadoRealizadoFornecedor1.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor1.Material);
             Assert.AreEqual(300, planejadoRealizadoFornecedor1.Quota);
             Assert.AreEqual(30, planejadoRealizadoFornecedor1.PesoRealizado);
 
@@ -82,6 +105,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor2.Codigo + " - " +  fornecedor2.Nome, planejadoRealizadoFornecedor2.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor2.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor2.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor2.Material);
+
             Assert.AreEqual(400, planejadoRealizadoFornecedor2.Quota);
             Assert.AreEqual(250, planejadoRealizadoFornecedor2.PesoRealizado);
 
@@ -100,10 +125,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
+            var quota1 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);
@@ -145,10 +170,10 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
-            var quota3 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
-            var quota4 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
+            var quota1 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(1), 100);
+            var quota2 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor1, terminal, DateTime.Today.AddDays(2), 200);
+            var quota3 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(1), 150);
+            var quota4 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor2, terminal, DateTime.Today.AddDays(2), 250);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);
@@ -185,6 +210,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor1.Codigo + " - " + fornecedor1.Nome, planejadoRealizadoFornecedor1.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor1.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor1.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor1.Material);
             Assert.AreEqual(100, planejadoRealizadoFornecedor1.Quota);
             Assert.AreEqual(30, planejadoRealizadoFornecedor1.PesoRealizado);
 
@@ -196,6 +222,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor1.Codigo + " - " + fornecedor1.Nome, planejadoRealizadoFornecedor1.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor1.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor1.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor1.Material);
             Assert.AreEqual(200, planejadoRealizadoFornecedor1.Quota);
             Assert.AreEqual(0, planejadoRealizadoFornecedor1.PesoRealizado);
 
@@ -206,6 +233,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor2.Codigo + " - " + fornecedor2.Nome, planejadoRealizadoFornecedor2.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor2.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor2.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor2.Material);
+
             Assert.AreEqual(150, planejadoRealizadoFornecedor2.Quota);
             Assert.AreEqual(0, planejadoRealizadoFornecedor2.PesoRealizado);
 
@@ -216,6 +245,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             Assert.AreEqual(fornecedor2.Codigo + " - " + fornecedor2.Nome, planejadoRealizadoFornecedor2.NomeDoFornecedor);
             Assert.AreEqual("1000", planejadoRealizadoFornecedor2.CodigoTerminal);
             Assert.AreEqual(quota1.FluxoDeCarga.Descricao(), planejadoRealizadoFornecedor2.FluxoDeCarga);
+            Assert.AreEqual(quota1.Material.Descricao, planejadoRealizadoFornecedor2.Material);
+
             Assert.AreEqual(250, planejadoRealizadoFornecedor2.Quota);
             Assert.AreEqual(250, planejadoRealizadoFornecedor2.PesoRealizado);
 

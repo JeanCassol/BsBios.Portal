@@ -80,11 +80,11 @@
     <Compile Include="Application\Queries\ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests.cs" />
     <Compile Include="Application\Queries\ConsultaRelatorioDeOrdemDeTransporteTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
+    <Compile Include="Application\Services\CadastroDeQuotaTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Application\Services\AberturaDeProcessoDeCotacaoServiceFactoryTests.cs" />
     <Compile Include="Application\Services\FechamentoDeProcessoDeCotacaoServiceFactoryTests.cs" />
-    <Compile Include="Infra\EntidadesPersistidas.cs" />
     <Compile Include="Infra\IoC\RegisterTests.cs" />
     <Compile Include="Infra\Repositories\AgendamentosDeDescarregamentoTests.cs" />
     <Compile Include="Infra\Repositories\CondicoesDePagamentoTests.cs" />

@@ -71,6 +71,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<Terminais>();
 
+            For<IMateriaisDeCarga>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<MateriaisDeCarga>();
+
         }
     }
 }

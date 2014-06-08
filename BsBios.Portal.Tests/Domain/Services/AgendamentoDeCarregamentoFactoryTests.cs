@@ -41,7 +41,7 @@ namespace BsBios.Portal.Tests.Domain.Services
             Assert.AreEqual("1000", agendamento.Quota.Terminal.Codigo);
             Assert.AreEqual("IOQ5335",agendamento.Placa);
             Assert.AreEqual(150, agendamento.Peso);
-            Assert.AreEqual(Enumeradores.MaterialDeCarga.Farelo , agendamento.Quota.Material);
+            Assert.AreEqual("Farelo", agendamento.Quota.Material.Descricao);
             Assert.AreEqual("Motorista", agendamento.Motorista);
             Assert.AreEqual("Destino", agendamento.Destino);
             

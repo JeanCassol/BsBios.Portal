@@ -26,6 +26,7 @@
                         <th>Terminal</th>
                         <th>Data</th>
                         <th>Fornecedor</th>
+                        <th>Material</th>
                         <th>Fluxo de Carga</th>
                         <th>Quota</th>
                         <th>PesoRealizado</th>
@@ -41,6 +42,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.NomeDoFornecedor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Material)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FluxoDeCarga)

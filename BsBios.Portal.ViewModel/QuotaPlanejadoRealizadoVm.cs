@@ -11,6 +11,7 @@ namespace BsBios.Portal.ViewModel
         public string NomeDoFornecedor { get; set; }
         [DisplayName("Fluxo de Carga")]
         public string FluxoDeCarga { get; set; }
+        public string Material { get; set; }
         public decimal Quota { get; set; }
         [DisplayName("Peso")]
         public decimal PesoRealizado { get; set; }

@@ -5,6 +5,7 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
+using BsBios.Portal.TestsComBancoDeDados.Infra;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,12 +19,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
         {
             Fornecedor transportadora = DefaultObjects.ObtemTransportadoraPadrao();
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
-            var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, transportadora, terminal, DateTime.Today, 1000);
+            var quota = new Quota(DefaultObjects.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, transportadora, terminal, DateTime.Today, 1000);
 
             Assert.AreSame(transportadora, quota.Fornecedor);
             Assert.AreSame(terminal, quota.Terminal);
             Assert.AreEqual(DateTime.Today, quota.Data);
-            Assert.AreEqual(Enumeradores.MaterialDeCarga.Soja,quota.Material);
+            Assert.AreEqual("Soja",quota.Material.Descricao);
             Assert.AreEqual(Enumeradores.FluxoDeCarga.Descarregamento, quota.FluxoDeCarga);
             Assert.AreEqual(1000, quota.PesoTotal);
             Assert.AreEqual(0, quota.PesoAgendado);
@@ -32,19 +33,12 @@ namespace BsBios.Portal.Tests.Domain.Entities
         }
 
         [TestMethod]
-        public void QuandoCriuoUmaQuotaDeSojaOFluxoEDescarregamento()
-        {
-            Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
-            var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, DefaultObjects.ObtemFornecedorPadrao(),terminal, DateTime.Today, 1000);
-            Assert.AreEqual(Enumeradores.FluxoDeCarga.Descarregamento, quota.FluxoDeCarga);
-        }
-
-        [TestMethod]
         public void QuandoCriuoUmaQuotaDeFareloOFluxoECarregamento()
         {
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
-            var quota = new Quota(Enumeradores.MaterialDeCarga.Farelo, DefaultObjects.ObtemFornecedorPadrao(), terminal, DateTime.Today, 1000);
+            var quota = new Quota(DefaultObjects.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, DefaultObjects.ObtemFornecedorPadrao(), terminal, DateTime.Today, 1000);
             Assert.AreEqual(Enumeradores.FluxoDeCarga.Carregamento, quota.FluxoDeCarga);
+            Assert.AreEqual("Farelo", quota.Material.Descricao);
         }
 
         [TestMethod]

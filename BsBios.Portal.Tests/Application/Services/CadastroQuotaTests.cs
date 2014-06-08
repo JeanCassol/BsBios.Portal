@@ -21,6 +21,7 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly Mock<IQuotas> _quotasMock;
         private readonly Mock<IFornecedores> _fornecedoresMock;
         private readonly Mock<ITerminais> _terminaisMock;
+        private readonly Mock<IMateriaisDeCarga> _materiasDeCargaMock;
         private readonly ICadastroQuota _cadastroQuota;
         private readonly Fornecedor _fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
         private readonly Fornecedor _fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
@@ -46,8 +47,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _quotasMock.Setup(x => x.List()).Returns(new List<Quota>()
                 {
-                    new Quota(Enumeradores.MaterialDeCarga.Soja, _fornecedor1,_terminal,DateTime.Today,100 ),
-                    new Quota(Enumeradores.MaterialDeCarga.Soja, _fornecedor2,_terminal,DateTime.Today,120 )
+                    new Quota(DefaultObjects.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, _fornecedor1,_terminal,DateTime.Today,100 ),
+                    new Quota(DefaultObjects.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, _fornecedor2,_terminal,DateTime.Today,120 )
                 });
 
             _fornecedoresMock = new Mock<IFornecedores>(MockBehavior.Strict);
@@ -62,7 +63,12 @@ namespace BsBios.Portal.Tests.Application.Services
             _terminaisMock.Setup(x => x.BuscaPeloCodigo(It.IsAny<string>()))
                 .Returns(_terminal);
 
-            _cadastroQuota = new CadastroQuota(_unitOfWorkMock.Object, _quotasMock.Object, _fornecedoresMock.Object,_terminaisMock.Object);
+            _materiasDeCargaMock = new Mock<IMateriaisDeCarga>(MockBehavior.Strict);
+
+            _materiasDeCargaMock.Setup(x => x.BuscarLista(It.IsAny<int[]>())).Returns(_materiasDeCargaMock.Object);
+            _materiasDeCargaMock.Setup(x => x.List()).Returns(new List<MaterialDeCarga> {DefaultObjects.ObterSoja()});
+
+            _cadastroQuota = new CadastroQuota(_unitOfWorkMock.Object, _quotasMock.Object, _fornecedoresMock.Object,_terminaisMock.Object, _materiasDeCargaMock.Object);
         }
 
         [TestMethod]
@@ -76,14 +82,16 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     new QuotaSalvarVm
                     {
-                        CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                        CodigoMaterial = 0,
                         CodigoFornecedor = _fornecedor1.Codigo,
+                        FluxoDeCarga = 2,
                         Peso = 100
                     },
                     new QuotaSalvarVm
                     {
-                        CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                        CodigoMaterial = 0,
                         CodigoFornecedor = _fornecedor3.Codigo,
+                        FluxoDeCarga = 2,
                         Peso = 150
                     }
                 }
@@ -143,7 +151,7 @@ namespace BsBios.Portal.Tests.Application.Services
                     new QuotaSalvarVm
                     {
                         
-                        CodigoMaterial = (int) Enumeradores.MaterialDeCarga.Soja,
+                        CodigoMaterial = 1,
                         CodigoFornecedor = _fornecedor1.Codigo,
                         Peso = 100
                     }
@@ -180,8 +188,9 @@ namespace BsBios.Portal.Tests.Application.Services
                 {
                     new QuotaSalvarVm
                     {
-                        CodigoMaterial = (int) quotaComAgendamento.Material,
+                        CodigoMaterial =  quotaComAgendamento.Material.Codigo,
                         CodigoFornecedor = quotaComAgendamento.Fornecedor.Codigo,
+                        FluxoDeCarga = (int) quotaComAgendamento.FluxoDeCarga,
                         Peso = 90
                     }
                 }

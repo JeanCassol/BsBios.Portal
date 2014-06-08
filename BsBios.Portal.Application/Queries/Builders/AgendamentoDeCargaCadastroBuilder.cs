@@ -2,7 +2,6 @@
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.ViewModel;
-using StructureMap.Query;
 
 namespace BsBios.Portal.Application.Queries.Builders
 {
@@ -31,7 +30,7 @@ namespace BsBios.Portal.Application.Queries.Builders
                         Cabecalho = new AgendamentoDeCarregamentoCabecalhoVm
                         {
                             FluxoDeCarga =modelConvertido.Quota.FluxoDeCarga.Descricao() ,
-                            Material = modelConvertido.Quota.Material.Descricao(),
+                            Material = modelConvertido.Quota.Material.Descricao,
                             Transportadora = modelConvertido.Quota.Fornecedor.Nome
                         },
                         ViewDeCadastro = "AgendamentoDeCarregamento",

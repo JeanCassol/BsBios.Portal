@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BsBios.Portal.Common;
+﻿using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
@@ -24,7 +19,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Data);
             References(x => x.Fornecedor, "CodigoFornecedor");
             References(x => x.Terminal, "CodigoTerminal");
-            Map(x => x.Material).Column("CodigoMaterial").CustomType<Enumeradores.MaterialDeCarga>();
+            References(x => x.Material, "CodigoMaterial");
             Map(x => x.FluxoDeCarga).CustomType<Enumeradores.FluxoDeCarga>();
             Map(x => x.PesoTotal);
             Map(x => x.PesoAgendado);

@@ -50,7 +50,7 @@
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\Incoterm.cs" />
     <Compile Include="Entities\Iva.cs" />
-    <Compile Include="Entities\Material.cs" />
+    <Compile Include="Entities\MaterialDeCarga.cs" />
     <Compile Include="Entities\NotaFiscal.cs" />
     <Compile Include="Entities\NotaFiscalDeColeta.cs" />
     <Compile Include="Entities\OrdemDeTransporte.cs" />

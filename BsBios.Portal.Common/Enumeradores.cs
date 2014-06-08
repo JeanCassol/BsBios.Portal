@@ -66,11 +66,11 @@ namespace BsBios.Portal.Common
             Descarregamento = 2
         }
 
-        public enum MaterialDeCarga
-        {
-            Soja = 1,
-            Farelo = 2
-        }
+        //public enum MaterialDeCarga
+        //{
+        //    Soja = 1,
+        //    Farelo = 2
+        //}
 
         public enum RealizacaoDeAgendamento
         {

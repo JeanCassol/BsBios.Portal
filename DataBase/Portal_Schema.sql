@@ -1725,3 +1725,100 @@ ALTER TABLE COTACAOFRETE
 ADD (NUMERODACONDICAOGERADANOSAP VARCHAR2(10 CHAR) );
 --INCLUSÃO DO NÚMERO DA CONDIÇÃO NA COTACAO DE FRETE (FIM)
 
+--INICIO DAS ALTERAÇÕES (MATERIAL DE CARGA)
+CREATE TABLE MaterialDeCarga
+(
+    Codigo int NOT NULL,
+    Descricao VARCHAR2(50 CHAR) NOT NULL,
+    CONSTRAINT PK_MaterialDeCarga PRIMARY KEY (Codigo)
+);
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(1, 'Soja');
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(2, 'Farelo');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(3, 'Óleo');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(4, 'Biodiesel');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(5, 'Metanol');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(6, 'Borra');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(7, 'Glicerina');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(8, 'Óleo de Canola');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(9, 'Resíduos');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(10, 'Sebo');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(11, 'Cavaco');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(12, 'Acido');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(13, 'Fertilizantes');
+
+INSERT INTO MaterialDeCarga
+(Codigo, Descricao)
+values
+(14, 'Outros');
+
+
+ALTER TABLE Quota ADD CONSTRAINT FK_Quota_Material FOREIGN KEY (CodigoMaterial) REFERENCES MaterialDeCarga(Codigo);
+
+ALTER TABLE Quota DROP CONSTRAINT CHK_QUOTA_MATERIAL;
+
+commit;
+
+ALTER TABLE QUOTA DROP CONSTRAINT UK_QUOTA;
+
+ALTER TABLE QUOTA
+ADD CONSTRAINT UK_QUOTA UNIQUE 
+(
+  DATA 
+, CODIGOTERMINAL 
+, CODIGOFORNECEDOR 
+, CODIGOMATERIAL
+, FLUXODECARGA
+)
+ENABLE;
+

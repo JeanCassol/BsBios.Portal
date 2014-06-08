@@ -21,7 +21,7 @@ namespace BsBios.Portal.Application.Queries.Builders
                     IdQuota = model.Id,
                     Data = model.Data.ToShortDateString(),
                     Terminal = model.Terminal.Nome,
-                    DescricaoMaterial = model.Material.Descricao(),
+                    DescricaoMaterial = model.Material.Descricao,
                     CodigoFluxoDeCarga = (int) model.FluxoDeCarga,
                     FluxoDeCarga = model.FluxoDeCarga.Descricao(),
                     PesoTotal = model.PesoTotal  ,

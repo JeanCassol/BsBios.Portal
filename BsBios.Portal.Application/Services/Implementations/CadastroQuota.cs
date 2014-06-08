@@ -16,13 +16,15 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IQuotas _quotas;
         private readonly IFornecedores _fornecedores;
         private readonly ITerminais _terminais;
+        private readonly IMateriaisDeCarga _materiaisDeCarga;
 
-        public CadastroQuota(IUnitOfWork unitOfWork, IQuotas quotas, IFornecedores fornecedores, ITerminais terminais)
+        public CadastroQuota(IUnitOfWork unitOfWork, IQuotas quotas, IFornecedores fornecedores, ITerminais terminais, IMateriaisDeCarga materiaisDeCarga)
         {
             _unitOfWork = unitOfWork;
             _quotas = quotas;
             _fornecedores = fornecedores;
             _terminais = terminais;
+            _materiaisDeCarga = materiaisDeCarga;
         }
 
         public void Salvar(QuotasSalvarVm quotasSalvarVm)
@@ -39,8 +41,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                 #region Remover Quotas
                 IList<Quota> quotasParaRemover = quotasSalvas
                     .Where(qs => quotasSalvarVm.Quotas.All(qc => 
-                        qc.CodigoMaterial != (int) qs.Material
-                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
+                        qc.CodigoMaterial != qs.Material.Codigo
+                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo
+                        || qc.FluxoDeCarga != (int) qs.FluxoDeCarga)).ToList();
 
                 foreach (var quota in quotasParaRemover)
                 {
@@ -55,14 +58,15 @@ namespace BsBios.Portal.Application.Services.Implementations
                 #region Atualizar Quotas
                 IList<Quota> quotasParaAtualizar = quotasSalvas
                     .Where(qs => quotasSalvarVm.Quotas.Any(qc =>
-                        qc.CodigoMaterial == (int)qs.Material
-                        && qc.CodigoFornecedor == qs.Fornecedor.Codigo)).ToList();
+                        qc.CodigoMaterial == qs.Material.Codigo
+                        && qc.CodigoFornecedor == qs.Fornecedor.Codigo
+                        && qc.FluxoDeCarga == (int) qs.FluxoDeCarga)).ToList();
 
                 foreach (var quota in quotasParaAtualizar)
                 {
                     //obtem view model corresponde a entidade que quero atualizar
                     QuotaSalvarVm quotaSalvarVm = quotasSalvarVm.Quotas.First(qa =>
-                        qa.CodigoMaterial == (int)quota.Material
+                        qa.CodigoMaterial == quota.Material.Codigo
                         && qa.CodigoFornecedor == quota.Fornecedor.Codigo);
 
                     //único campo que pode ser atualizado é o campo de peso
@@ -77,13 +81,16 @@ namespace BsBios.Portal.Application.Services.Implementations
                 #region Adicionar Quotas
                 IList<QuotaSalvarVm> quotasParaAdicionar = quotasSalvarVm.Quotas.Where(qc =>
                     quotasSalvas.All(qs =>
-                        qc.CodigoMaterial != (int) qs.Material
-                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo)).ToList();
+                        qc.CodigoMaterial != qs.Material.Codigo
+                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo
+                        || qc.FluxoDeCarga != (int) qs.FluxoDeCarga)).ToList();
 
                 Terminal terminal = null;
+                IList<MaterialDeCarga> materiaisDeCarga = new List<MaterialDeCarga>();
                 if (quotasParaAdicionar.Any())
                 {
                     terminal = _terminais.BuscaPeloCodigo(quotasSalvarVm.CodigoDoTerminal);
+                    materiaisDeCarga = _materiaisDeCarga.BuscarLista(quotasParaAdicionar.Select(m => m.CodigoMaterial).ToArray()).List();
                 }
                 
                 foreach (var quotaSalvarVm in quotasParaAdicionar)
@@ -91,12 +98,10 @@ namespace BsBios.Portal.Application.Services.Implementations
                     string[] codigoDosNovosFornecedores = quotasParaAdicionar.Select(x => x.CodigoFornecedor).Distinct().ToArray();
                     IList<Fornecedor> fornecedores = _fornecedores.BuscaListaPorCodigo(codigoDosNovosFornecedores).List();
 
-                    var materialDeCarga =
-                        (Enumeradores.MaterialDeCarga)
-                        Enum.Parse(typeof (Enumeradores.MaterialDeCarga),Convert.ToString(quotaSalvarVm.CodigoMaterial));
+                    var materialDeCarga = materiaisDeCarga.Single(m => m.Codigo == quotaSalvarVm.CodigoMaterial);
+                    var fluxoDeCarga = (Enumeradores.FluxoDeCarga) Enum.Parse(typeof(Enumeradores.FluxoDeCarga),Convert.ToString(quotaSalvarVm.FluxoDeCarga));
                     Fornecedor fornecedor = fornecedores.First(x => x.Codigo == quotaSalvarVm.CodigoFornecedor);
-                    var quota = new Quota(materialDeCarga, fornecedor, terminal,
-                                          quotasSalvarVm.Data, quotaSalvarVm.Peso);
+                    var quota = new Quota(materialDeCarga,fluxoDeCarga, fornecedor, terminal, quotasSalvarVm.Data, quotaSalvarVm.Peso);
 
                     _quotas.Save(quota);
                 }

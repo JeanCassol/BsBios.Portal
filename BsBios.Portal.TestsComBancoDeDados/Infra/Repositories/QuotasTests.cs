@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Tests.DataProvider;
@@ -42,7 +43,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.AreEqual(quota.Data, quotaConsultada.Data);
             Assert.AreEqual(quota.Terminal.Codigo, quotaConsultada.Terminal.Codigo);
             Assert.AreEqual(quota.FluxoDeCarga, quotaConsultada.FluxoDeCarga);
-            Assert.AreEqual(quota.Material, quotaConsultada.Material);
+            Assert.AreEqual(quota.Material.Codigo, quotaConsultada.Material.CastEntity().Codigo);
             Assert.AreEqual(quota.PesoTotal, quotaConsultada.PesoTotal);
             Assert.AreEqual(quota.Fornecedor.Codigo, quotaConsultada.Fornecedor.Codigo);
             Assert.AreEqual(0, quota.PesoAgendado);

@@ -37,7 +37,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         {
             //RemoveQueries.RemoverQuotasCadastradas();
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
-            var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, DefaultObjects.ObtemTransportadoraPadrao(),
+            var quota = new Quota(EntidadesPersistidas.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, DefaultObjects.ObtemTransportadoraPadrao(),
                 terminal,DateTime.Today,1200);
             DefaultPersistedObjects.PersistirQuota(quota);
 
@@ -51,7 +51,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             //RemoveQueries.RemoverQuotasCadastradas();
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
 
-            var quota = new Quota(Enumeradores.MaterialDeCarga.Soja, DefaultObjects.ObtemTransportadoraPadrao(),
+            var quota = new Quota(EntidadesPersistidas.ObterSoja(), Enumeradores.FluxoDeCarga.Descarregamento, DefaultObjects.ObtemTransportadoraPadrao(),
                 terminal, DateTime.Today, 1200);
             DefaultPersistedObjects.PersistirQuota(quota);
 
@@ -79,8 +79,8 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             //cria duas quotas para o mesmo fornecedor
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
-            var quota1 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, terminal,DateTime.Today,100);
-            var quota2 = new Quota(Enumeradores.MaterialDeCarga.Farelo, fornecedor, terminal, DateTime.Today.AddDays(1), 100);
+            var quota1 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor, terminal, DateTime.Today, 100);
+            var quota2 = new Quota(EntidadesPersistidas.ObterFarelo(), Enumeradores.FluxoDeCarga.Carregamento, fornecedor, terminal, DateTime.Today.AddDays(1), 100);
 
             DefaultPersistedObjects.PersistirQuota(quota1);
             DefaultPersistedObjects.PersistirQuota(quota2);

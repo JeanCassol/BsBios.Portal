@@ -39,7 +39,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FluxoDeCargaBuilder>();
 
-            For<IBuilder<Enumeradores.MaterialDeCarga, MaterialDeCargaVm>>()
+            For<IBuilder<MaterialDeCarga, MaterialDeCargaVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<MaterialDeCargaBuilder>();
 

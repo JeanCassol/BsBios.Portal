@@ -4,6 +4,8 @@ using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories.Implementations;
 using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
@@ -20,8 +22,125 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         public static void Inicializar(TestContext testContext)
         {
             Initialize(testContext);
+            var prepararDados = new PrepararDados();
+            prepararDados.GerarDadosParaTeste();
 
+        }
+
+        [ClassCleanup]
+        public static void Finalizar()
+        {
+            Cleanup();
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPeloNumeroDaNotaFiscal()
+        {
+            var consultaQuota = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                NumeroNf = "12345"
+            };
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10}, filtro);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
+            Assert.AreEqual("12345", registro.NumeroNf);
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPelaPlaca()
+        {
+            //GerarDadosParaTeste();
+
+            var consultaQuota = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                Placa = "IOQ5338"
+            };
+            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10},
+                filtro);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
+            Assert.AreEqual("IOQ-5338", registro.Placa);
+
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPeloFornecedor()
+        {
+            //GerarDadosParaTeste();
+
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                NomeDoFornecedor = "Emit"
+            };
+
+            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            KendoGridVm kendoGridVm =
+                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10}, filtro);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
+            Assert.AreEqual("Emitente", registro.NomeEmitente);
+
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPelaData()
+        {
+            //GerarDadosParaTeste();
+
+            var filtro = new ConferenciaDeCargaFiltroVm{
+                CodigoTerminal = "1000",
+                DataAgendamento = DateTime.Today.ToShortDateString()
+            };
+
+            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            KendoGridVm kendoGridVm =
+                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10}, filtro);
+            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
+            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
+            Assert.AreEqual(DateTime.Today, registro.DataAgendamento);
+            Assert.AreEqual(DateTime.Today.ToShortDateString(), registro.DataDeAgendamentoFormatada);
+
+        }
+
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPelaInformacaoDeRealizado()
+        {
+            //GerarDadosParaTeste();
+
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                RealizacaoDeAgendamento = (int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado
+            };
+
+            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            KendoGridVm kendoGridVm =
+                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm { Page = 1, PageSize = 10, Take = 10 }, filtro);
+            Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
+            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
+            Assert.IsFalse(registro.Realizado);
+
+        }
+
+    }
+
+    internal class PrepararDados
+    {
+        public  void GerarDadosParaTeste()
+        {
             RemoveQueries.RemoverQuotasCadastradas();
+
+            var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 
             Quota quota1 = DefaultObjects.ObtemQuotaDeDescarregamento();
 
@@ -80,9 +199,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
             var primeiroAgendamento = quota1.Agendamentos.First();
             quota1.RealizarAgendamento(primeiroAgendamento.Id);
 
-            DefaultPersistedObjects.PersistirQuota(quota1);
+            MaterialDeCarga soja = EntidadesPersistidas.ObterSoja();
 
-            Quota quota2 = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(DateTime.Today);
+            Quota quota2 = DefaultObjects.ObtemQuotaDeCarregamentoComDataEspecifica(DateTime.Today, soja);
 
             var agendamento3Vm = new AgendamentoDeDescarregamentoSalvarVm
             {
@@ -112,111 +231,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             DefaultPersistedObjects.PersistirQuota(quota2);
 
-            UnitOfWorkNh.Session.Clear();
-        }
-
-        [ClassCleanup]
-        public static void Finalizar()
-        {
-            Cleanup();
-        }
-
-        [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPeloNumeroDaNotaFiscal()
-        {
-
-            var consultaQuota = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
-
-            var filtro = new ConferenciaDeCargaFiltroVm
-            {
-                CodigoTerminal = "1000",
-                NumeroNf = "12345"
-            };
-            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10},
-                filtro);
-            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.AreEqual("12345", registro.NumeroNf);
-        }
-
-        [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPelaPlaca()
-        {
-            var consultaQuota = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
-
-            var filtro = new ConferenciaDeCargaFiltroVm
-            {
-                CodigoTerminal = "1000",
-                Placa = "IOQ5338"
-            };
-            KendoGridVm kendoGridVm = consultaQuota.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10},
-                filtro);
-            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.AreEqual("IOQ-5338", registro.Placa);
-
-        }
-
-        [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPeloFornecedor()
-        {
-
-            var filtro = new ConferenciaDeCargaFiltroVm
-            {
-                CodigoTerminal = "1000",
-                NomeDoFornecedor = "Emit"
-            };
-
-            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
-
-            KendoGridVm kendoGridVm =
-                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10}, filtro);
-            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.AreEqual("Emitente", registro.NomeEmitente);
-
-        }
-
-        [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPelaData()
-        {
-
-            var filtro = new ConferenciaDeCargaFiltroVm{
-                CodigoTerminal = "1000",
-                DataAgendamento = DateTime.Today.ToShortDateString()
-            };
-
-            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
-
-            KendoGridVm kendoGridVm =
-                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm {Page = 1, PageSize = 10, Take = 10}, filtro);
-            Assert.AreEqual(1, kendoGridVm.QuantidadeDeRegistros);
-            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.AreEqual(DateTime.Today, registro.DataAgendamento);
-            Assert.AreEqual(DateTime.Today.ToShortDateString(), registro.DataDeAgendamentoFormatada);
-
-        }
-
-        [TestMethod]
-        public void ConsigoConsultarUmAgendamentoPelaInformacaoDeRealizado()
-        {
-
-            var filtro = new ConferenciaDeCargaFiltroVm
-            {
-                CodigoTerminal = "1000",
-                RealizacaoDeAgendamento = (int) Enumeradores.RealizacaoDeAgendamento.NaoRealizado
-            };
-
-            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
-
-            KendoGridVm kendoGridVm =
-                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm { Page = 1, PageSize = 10, Take = 10 }, filtro);
-            Assert.AreEqual(2, kendoGridVm.QuantidadeDeRegistros);
-            var registro = kendoGridVm.Registros.Cast<ConferenciaDeCargaPesquisaResultadoVm>().First();
-            Assert.IsFalse(registro.Realizado);
+            unitOfWorkNh.Session.Clear();
 
         }
 
     }
+
 }
     

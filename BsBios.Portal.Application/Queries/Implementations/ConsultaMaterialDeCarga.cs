@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaMaterialDeCarga : IConsultaMaterialDeCarga
     {
-        private readonly IBuilder<Enumeradores.MaterialDeCarga, MaterialDeCargaVm> _builder;
+        private readonly IBuilder<MaterialDeCarga, MaterialDeCargaVm> _builder;
+        private readonly IMateriaisDeCarga _materiasDeCarga;
 
-        public ConsultaMaterialDeCarga(IBuilder<Enumeradores.MaterialDeCarga, MaterialDeCargaVm> builder)
+        public ConsultaMaterialDeCarga(IBuilder<MaterialDeCarga, MaterialDeCargaVm> builder, IMateriaisDeCarga materiasDeCarga)
         {
             _builder = builder;
+            _materiasDeCarga = materiasDeCarga;
         }
 
         public IList<MaterialDeCargaVm> Listar()
         {
-            var materiaisDeCarga = Enum.GetValues(typeof(Enumeradores.MaterialDeCarga)).Cast<Enumeradores.MaterialDeCarga>().ToList();
+            var materiaisDeCarga = _materiasDeCarga.List();
             
             return _builder.BuildList(materiaisDeCarga);
 

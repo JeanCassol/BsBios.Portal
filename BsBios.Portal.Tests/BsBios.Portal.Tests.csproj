@@ -173,6 +173,10 @@
       <Project>{2566A7D2-FDF6-4112-83B6-633ABE7502EE}</Project>
       <Name>BsBios.Portal.Tests.DataProvider</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BsBios.Portal.TestsComBancoDeDados\BsBios.Portal.TestsComBancoDeDados.csproj">
+      <Project>{3A8C616D-62F6-4561-B282-529F3BB54B86}</Project>
+      <Name>BsBios.Portal.TestsComBancoDeDados</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BsBios.Portal.UI\BsBios.Portal.UI.csproj">
       <Project>{ADF235AC-A253-430D-B311-56D46157E3CF}</Project>
       <Name>BsBios.Portal.UI</Name>

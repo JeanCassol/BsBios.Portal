@@ -1,5 +1,4 @@
-﻿@using BsBios.Portal.Common
-@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model QuotaCadastroVm
 @{
@@ -49,8 +48,7 @@
                     <div class="coluna">
                         @Html.LabelFor( x => x.FluxoDeCarga)
                         @Html.DropDownList("FluxoDeCarga",((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga)
-                            .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}),
-                                           new{disabled=true})     
+                            .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}))     
                         
                         @Html.ValidationMessageFor(x => x.FluxoDeCarga)            
                     </div>
@@ -62,7 +60,7 @@
                 </div>
                 <div class="divBotao">
                     <input type="button" id="btnAdicionarFornecedor" value="Adicionar" class="blue" />
-                    <input type="button" id="btnCancelarEdicao" value="Cancelar" @*style="visibility: hidden"*@ class="blue" />
+                    <input type="button" id="btnCancelarEdicao" value="Cancelar" class="blue" />
                 </div>
             </fieldset>
 
@@ -103,18 +101,6 @@
             selecionarFornecedor.configurar("#CodigoFornecedor","#Fornecedor","divSelecionarFornecedor", "#btnSelecionarFornecedor");
 
             $('#btnCancelarEdicao').hide();
-            $('#Material').change(function() {
-                /*altera o campo "Fluxo de Carga" de acordo com o Material*/
-                var codigoMaterial = $(this).val();
-                if (codigoMaterial == '@Convert.ToInt16(Enumeradores.MaterialDeCarga.Soja)') {
-                    $('#FluxoDeCarga').val('@Convert.ToInt16(Enumeradores.FluxoDeCarga.Descarregamento)');
-                }
-                if (codigoMaterial == '@Convert.ToInt16(Enumeradores.MaterialDeCarga.Farelo)') {
-                    $('#FluxoDeCarga').val('@Convert.ToInt16(Enumeradores.FluxoDeCarga.Carregamento)');
-                }
-            });
-
-            $('#Material').change();
 
             function existeQuota(quota) {
                 var quotaEncontrada = false;
@@ -326,7 +312,8 @@
                     quotasParaSalvar.push({
                         CodigoMaterial: quota.CodigoMaterial,
                         CodigoFornecedor: quota.CodigoFornecedor,
-                        Peso: quota.Peso
+                        Peso: quota.Peso,
+                        FluxoDeCarga: quota.CodigoFluxoCarga
                     });
                 });
 

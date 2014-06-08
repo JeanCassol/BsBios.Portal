@@ -66,7 +66,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryOver = queryOver.Where(x => x.Fornecedor.Codigo == filtro.CodigoFornecedor);
             }
 
-            queryOver = queryOver.Where(x => x.Terminal.Codigo == filtro.CodigoTerminal);
+            if (!string.IsNullOrEmpty(filtro.CodigoTerminal))
+            {
+                queryOver = queryOver.Where(x => x.Terminal.Codigo == filtro.CodigoTerminal);
+            }
 
             return queryOver;
         }
@@ -81,7 +84,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                               CodigoTerminal = quota.Terminal.Codigo,
                               quota.Fornecedor.Codigo, 
                               quota.Fornecedor.Nome, 
-                              quota.FluxoDeCarga
+                              quota.FluxoDeCarga,
+                              Material = quota.Material.Descricao
                           }
                           into agrupador
                           select new
@@ -98,6 +102,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     CodigoTerminal = x.Key.CodigoTerminal,
                     NomeDoFornecedor = x.Key.Codigo + " - " + x.Key.Nome,
                     FluxoDeCarga = x.Key.FluxoDeCarga.Descricao(),
+                    Material =  x.Key.Material,
                     Quota = x.PlanejadoTotal,
                     PesoRealizado = x.RealizadoTotal
                 }).ToList();
@@ -135,15 +140,18 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             IQueryOver<Quota, Quota> queryOver = ObtemQueryOverComFiltrosAplicados(filtro);
             Fornecedor fornec = null;
+            MaterialDeCarga materialDeCarga = null;
             QuotaPlanejadoRealizadoPorDataVm alias = null;
             queryOver = queryOver
                 .JoinAlias(x => x.Fornecedor, () => fornec)
+                .JoinAlias(x => x.Material, () => materialDeCarga)
                 .SelectList(list => list
                                              .SelectGroup(x => x.Terminal.Codigo).WithAlias(() => alias.CodigoTerminal)
                                              .SelectGroup(x => x.Data)
                                              .SelectGroup(x => x.Fornecedor.Codigo)
                                              .SelectGroup(x => fornec.Nome)
                                              .SelectGroup(x => x.FluxoDeCarga)
+                                             .SelectGroup(x => materialDeCarga.Descricao)
                                              .SelectSum(x => x.PesoTotal)
                                              .SelectSum(x => x.PesoRealizado)
                 ).OrderBy(x => x.Terminal.Codigo).Asc.OrderBy(x => x.Data).Asc;
@@ -157,8 +165,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Data =  ((DateTime) properties[1]).ToShortDateString(),
                     NomeDoFornecedor = ((string) properties[2]) + " - " + (string) properties[3],
                     FluxoDeCarga = ((Enumeradores.FluxoDeCarga) properties[4]).Descricao(),
-                    Quota = (decimal) properties[5],
-                    PesoRealizado = (decimal) properties[6]
+                    Material = (string)properties[5],
+                    Quota = (decimal) properties[6],
+                    PesoRealizado = (decimal) properties[7]
                 }).ToList();
 
             return new RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
@@ -183,6 +192,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                   Data = quota.Data.ToShortDateString(),
                                   quota.FluxoDeCarga,
                                   Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
+                                  Material = quota.Material.Descricao,
                                   Peso = quota.PesoTotal
                               }).ToList();
 
@@ -193,6 +203,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                          Data = x.Data ,
                                          Fornecedor = x.Fornecedor ,
                                          FluxoDeCarga = x.FluxoDeCarga.Descricao() ,
+                                         Material = x.Material,
                                          Peso =  x.Peso,
                                      }).ToList();
         }
@@ -218,7 +229,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                         quota.Data,
                                         Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
                                         quota.FluxoDeCarga,
-                                        quota.Material,
+                                        Material = quota.Material.Descricao,
                                         agendamento.Placa,
                                         Peso = agendamento.PesoTotal
                                     }
@@ -231,7 +242,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                                Data = x.Data.ToShortDateString(),
                                                Fornecedor = x.Fornecedor,
                                                FluxoDeCarga = x.FluxoDeCarga.Descricao(),
-                                               Material = x.Material.Descricao(),
+                                               Material = x.Material,
                                                Placa = x.Placa,
                                                Peso = x.Peso
                                            }).ToList();
