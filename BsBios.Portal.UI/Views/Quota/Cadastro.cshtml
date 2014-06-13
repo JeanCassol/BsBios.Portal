@@ -111,7 +111,9 @@
                     if (indice == indiceEdicao) {
                         return;
                     }
-                    if (fornecedor.CodigoFornecedor == quota.CodigoFornecedor && fornecedor.CodigoFluxoCarga == quota.CodigoFluxoCarga) {
+                    if (fornecedor.CodigoFornecedor == quota.CodigoFornecedor
+                        && fornecedor.CodigoFluxoCarga == quota.CodigoFluxoCarga
+                        && fornecedor.CodigoMaterial == quota.CodigoMaterial) {
                         quotaEncontrada = true;
                     }
                 });
