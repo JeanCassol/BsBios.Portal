@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Infra.Repositories.Contracts;
+﻿using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Repositories.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;

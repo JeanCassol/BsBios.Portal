@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using System.Linq;
 

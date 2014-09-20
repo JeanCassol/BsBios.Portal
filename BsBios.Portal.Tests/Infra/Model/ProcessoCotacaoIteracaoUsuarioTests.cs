@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Infra.Model;
+﻿using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BsBios.Portal.Tests.Infra.Model

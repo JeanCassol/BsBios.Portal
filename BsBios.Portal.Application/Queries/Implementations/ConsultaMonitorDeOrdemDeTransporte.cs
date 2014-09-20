@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra;
+using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.ViewModel;
 using NHibernate.Transform;
 using StructureMap;

@@ -1,7 +1,7 @@
 ﻿using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Email;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using StructureMap;

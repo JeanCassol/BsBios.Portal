@@ -1,5 +1,7 @@
 ﻿using System;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra;
+using BsBios.Portal.Infra.Repositories;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados

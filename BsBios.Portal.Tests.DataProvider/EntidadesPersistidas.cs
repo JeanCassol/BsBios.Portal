@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using StructureMap;
 
 namespace BsBios.Portal.Tests.DataProvider

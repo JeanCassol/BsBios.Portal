@@ -2,7 +2,7 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IQuotas: ICompleteRepository<Quota>
     {

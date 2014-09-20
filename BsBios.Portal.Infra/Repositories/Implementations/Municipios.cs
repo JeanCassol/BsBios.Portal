@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {

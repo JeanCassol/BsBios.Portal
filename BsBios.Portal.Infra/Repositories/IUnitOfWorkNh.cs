@@ -1,6 +1,7 @@
-﻿using NHibernate;
+using BsBios.Portal.Domain.Repositories;
+using NHibernate;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Infra.Repositories
 {
     public interface IUnitOfWorkNh: IUnitOfWork
     {

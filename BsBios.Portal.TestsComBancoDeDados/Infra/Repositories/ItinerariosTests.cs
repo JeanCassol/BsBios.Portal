@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;

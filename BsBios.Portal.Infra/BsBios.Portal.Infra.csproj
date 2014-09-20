@@ -104,35 +104,11 @@
     <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\CredencialSap.cs" />
-    <Compile Include="Model\ProcessoCotacaoIteracaoUsuario.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Contracts\IAgendamentosDeCarga.cs" />
-    <Compile Include="Repositories\Contracts\IMateriaisDeCarga.cs" />
-    <Compile Include="Repositories\Contracts\IMunicipios.cs" />
-    <Compile Include="Repositories\Contracts\IOrdensDeTransporte.cs" />
-    <Compile Include="Repositories\Contracts\IProcessoCotacaoIteracoesUsuario.cs" />
-    <Compile Include="Repositories\Contracts\IProcessosDeCotacaoDeFrete.cs" />
-    <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
-    <Compile Include="Repositories\Contracts\IQuotas.cs" />
-    <Compile Include="Repositories\Contracts\ITerminais.cs" />
-    <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
-    <Compile Include="Repositories\Contracts\IItinerarios.cs" />
-    <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
-    <Compile Include="Repositories\Contracts\IFornecedores.cs" />
-    <Compile Include="Repositories\Contracts\IIncoterms.cs" />
-    <Compile Include="Repositories\Contracts\IIvas.cs" />
-    <Compile Include="Repositories\Contracts\IProcessosDeCotacao.cs" />
-    <Compile Include="Repositories\Contracts\IProdutos.cs" />
-    <Compile Include="Repositories\Contracts\IRequisicoesDeCompra.cs" />
-    <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
-    <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
-    <Compile Include="Repositories\Contracts\IUsuarios.cs" />
     <Compile Include="Repositories\Implementations\AgendamentosDeCarga.cs" />
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
-    <Compile Include="Repositories\Contracts\ICompleteRepository.cs" />
-    <Compile Include="Repositories\Contracts\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
     <Compile Include="Repositories\Implementations\MateriaisDeCarga.cs" />
     <Compile Include="Repositories\Implementations\Municipios.cs" />
@@ -154,6 +130,7 @@
     <Compile Include="Repositories\Implementations\RepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
+    <Compile Include="Repositories\IUnitOfWorkNh.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
@@ -189,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="IoC\" />
+    <Folder Include="Repositories\Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

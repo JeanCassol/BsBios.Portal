@@ -4,7 +4,7 @@ using System.Linq;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories.Implementations;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 
@@ -12,9 +12,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 {
     public class ConsultaQuotaRelatorio : IConsultaQuotaRelatorio
     {
-        private readonly IQuotas _quotas;
+        private readonly Quotas _quotas;
 
-        public ConsultaQuotaRelatorio(IQuotas quotas)
+        public ConsultaQuotaRelatorio(Quotas quotas)
         {
             _quotas = quotas;
         }

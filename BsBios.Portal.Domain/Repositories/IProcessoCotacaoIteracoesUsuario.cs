@@ -1,6 +1,6 @@
-﻿using BsBios.Portal.Infra.Model;
+﻿using BsBios.Portal.Domain.Entities;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IProcessoCotacaoIteracoesUsuario: ICompleteRepository<ProcessoCotacaoIteracaoUsuario>
     {

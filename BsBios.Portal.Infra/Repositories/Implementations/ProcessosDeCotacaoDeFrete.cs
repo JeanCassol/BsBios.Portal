@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {

@@ -4,8 +4,8 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.Services.Implementations;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations

@@ -1,4 +1,6 @@
-﻿using BsBios.Portal.Infra.Repositories.Contracts;
+﻿using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra;
+using BsBios.Portal.Infra.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
 using StructureMap;

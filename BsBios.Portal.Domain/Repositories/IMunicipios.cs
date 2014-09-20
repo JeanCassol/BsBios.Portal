@@ -1,6 +1,6 @@
 ﻿using BsBios.Portal.Domain.ValueObjects;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IMunicipios: IReadOnlyRepository<Municipio>
     {

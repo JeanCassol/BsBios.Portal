@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Repositories.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

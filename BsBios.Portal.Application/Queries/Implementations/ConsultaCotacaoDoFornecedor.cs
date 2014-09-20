@@ -2,8 +2,8 @@
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Application.Queries.Builders;
 

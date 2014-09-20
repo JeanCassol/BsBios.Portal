@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using NHibernate;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations

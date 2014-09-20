@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Model;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Infra.Services.Implementations;
 using BsBios.Portal.Tests.Common;

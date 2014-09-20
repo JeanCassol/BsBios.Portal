@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Transform;

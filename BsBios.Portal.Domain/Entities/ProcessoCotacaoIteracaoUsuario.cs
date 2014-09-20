@@ -1,6 +1,4 @@
-﻿using BsBios.Portal.Domain.Entities;
-
-namespace BsBios.Portal.Infra.Model
+namespace BsBios.Portal.Domain.Entities
 {
     public class ProcessoCotacaoIteracaoUsuario: IAggregateRoot
     {

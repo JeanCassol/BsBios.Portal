@@ -1,4 +1,4 @@
-﻿using BsBios.Portal.Infra.Repositories.Contracts;
+﻿using BsBios.Portal.Domain.Repositories;
 using Moq;
 
 namespace BsBios.Portal.Tests.Common

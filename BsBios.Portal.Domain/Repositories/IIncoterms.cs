@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Domain.Entities;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IIncoterms: ICompleteRepository<Incoterm>
     {

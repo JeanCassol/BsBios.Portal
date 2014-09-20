@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using BsBios.Portal.Domain.Entities;
-using NHibernate;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IReadOnlyRepository<TEntidade> where TEntidade: IAggregateRoot
     {
@@ -15,6 +12,6 @@ namespace BsBios.Portal.Infra.Repositories.Contracts
         IReadOnlyRepository<TEntidade> Skip(int count);
         IReadOnlyRepository<TEntidade> Take(int count);
         IQueryable<TEntidade> GetQuery();
-        IQueryOver<TEntidade, TEntidade> GetQueryOver();
+        //IQueryOver<TEntidade, TEntidade> GetQueryOver();
     }
 }

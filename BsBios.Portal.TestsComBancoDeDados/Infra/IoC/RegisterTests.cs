@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Services.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -89,7 +89,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
                     typeof (IReadOnlyRepository<>),
                     typeof (ICompleteRepository<>)
                 };
-            VerificaInterfacesRegistradas(typeof(IFornecedores), "BsBios.Portal.Infra.Repositories.Contracts",interfacesDesconsideradas );
+            VerificaInterfacesRegistradas(typeof(IFornecedores), "BsBios.Portal.Domain.Repositories",interfacesDesconsideradas );
         }
 
 

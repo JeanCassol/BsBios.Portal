@@ -1,5 +1,7 @@
 ﻿using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra;
+using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.Infra.Repositories.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;

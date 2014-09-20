@@ -4,8 +4,8 @@ using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 

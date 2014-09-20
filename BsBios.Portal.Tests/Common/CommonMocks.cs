@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.UI;
 using Moq;
 

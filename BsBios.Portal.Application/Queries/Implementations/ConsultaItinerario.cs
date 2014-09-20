@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Queries.Implementations

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 
-namespace BsBios.Portal.Infra.Repositories.Contracts
+namespace BsBios.Portal.Domain.Repositories
 {
     public interface IUnitOfWork:IDisposable
     {

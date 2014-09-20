@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

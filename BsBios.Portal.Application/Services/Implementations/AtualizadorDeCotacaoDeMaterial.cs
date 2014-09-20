@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
