@@ -164,10 +164,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IoC\" />
-    <Folder Include="Repositories\Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">
       <Project>{52496AC5-D00F-4AE4-84B9-06AD65DADB47}</Project>

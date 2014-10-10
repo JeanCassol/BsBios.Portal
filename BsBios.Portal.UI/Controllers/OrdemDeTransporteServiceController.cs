@@ -82,5 +82,20 @@ namespace BsBios.Portal.UI.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
+        {
+            try
+            {
+                _ordemDeTransporteService.FecharParaColeta(idDaOrdemDeTransporte, motivo);
+                return Json(new { Sucesso = true});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Sucesso = false, Mensagem = ExceptionUtil.ExibeDetalhes(ex) });
+            }
+        }
+
+
     }
 }

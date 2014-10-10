@@ -11,6 +11,7 @@
         public string DescricaoMaterial { get; set; }
         public int CodigoFluxoCarga { get; set; }
         public string DescricaoFluxoCarga { get; set; }
-        public decimal  Peso { get; set; }
+        public decimal Peso { get; set; }
+        public decimal PesoAgendado { get; set; }
     }
 }

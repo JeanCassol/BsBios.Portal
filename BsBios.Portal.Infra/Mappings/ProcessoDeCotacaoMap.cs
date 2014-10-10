@@ -66,6 +66,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.NumeroDoContrato).Column("NumeroContrato");
             Map(x => x.Classificacao);
             Map(x => x.Cadencia);
+            Map(x => x.ValorPrevisto);
 
         }
     }

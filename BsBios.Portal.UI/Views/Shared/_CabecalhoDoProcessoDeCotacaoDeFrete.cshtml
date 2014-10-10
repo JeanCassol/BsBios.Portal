@@ -25,5 +25,6 @@
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoFornecedor))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NomeDoDeposito),
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoDeposito))
-    @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Requisitos))
+    @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Requisitos),
+            new ColunaComLabelEmDestaque<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Resposta,"lblResposta",null))
 </fieldset>

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Implementations;
 using BsBios.Portal.Domain.ValueObjects;
@@ -51,15 +50,6 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual(1M, ordemDeTransporte.QuantidadeDeTolerancia);
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(QuantidadeLiberadaSuperouQuantidadeAdquiridaException))]
-        //public void NaoEPermitidoAlterarAQuantidadeLiberadaParaUmaQuantidadeMaiorQueAQuantidadeAdquiridaNoProcessoDeCotacao()
-        //{
-        //    OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
-        //    ordemDeTransporte.AlterarQuantidadeLiberada(11M);
-
-        //}
-
         [TestMethod]
         [ExpectedException(typeof(QuantidadeLiberadaAbaixoDaQuantidadeColetadaException))]
         public void NaoEPermitidoAlterarAQuantidadeLiberadaParaUmaQuantidadeMenorQueAQuantidadeJaColetada()
@@ -96,6 +86,105 @@ namespace BsBios.Portal.Tests.Domain.Entities
             
         }
 
+        [TestMethod]
+        public void UmaOrdemDeTransporteIniciaComOStatusAberto()
+        {
+            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
+            Assert.AreEqual(Enumeradores.StatusParaColeta.Aberto, ordemDeTransporte.StatusParaColeta);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AlterarOrdemDeTransporteFechadaException))]
+        public void NaoEPermitidoAdicionarColetaEmUmaOrdemDeTransporteFechada()
+        {
+            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
+            var fabricaDeColeta = new ColetaFactory();
+            var coletaSalvarVm = new ColetaSalvarVm
+            {
+                DataDaColeta = DateTime.Now.Date.AddDays(-1).ToShortDateString(),
+                DataDePrevisaoDeChegada = DateTime.Now.Date.ToShortDateString(),
+                IdDaOrdemDeTransporte = ordemDeTransporte.Id,
+                Motorista = "Mauro",
+                Peso = 8,
+                Placa = "ioq-5338",
+                Realizado = "Não",
+                NotasFiscais = new List<NotaFiscalDeColetaVm>
+                {
+                    new NotaFiscalDeColetaVm
+                    {
+                        DataDeEmissao = DateTime.Now.Date.ToShortDateString(),
+                        Peso = 8,
+                        Numero = "123434",
+                        Serie = "1",
+                        Valor = 5435M
+                    }
+                }
+
+            };
+
+            ordemDeTransporte.FecharParaColeta("sem frota");
+
+            Coleta coleta = fabricaDeColeta.Construir(coletaSalvarVm, ordemDeTransporte.PrecoUnitario);
+
+            ordemDeTransporte.AdicionarColeta(coleta);            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AlterarOrdemDeTransporteFechadaException))]
+        public void NaoEPermitidoRemoverColetaDeUmaOrdemDeTransporteFechada()
+        {
+            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComColeta();
+
+            Coleta coleta = ordemDeTransporte.Coletas.First();
+
+            ordemDeTransporte.FecharParaColeta("sem frota");
+
+            ordemDeTransporte.RemoverColeta(coleta.Id);
+        }
+
+        [TestMethod]
+        public void QuandoFechaUmaOrdemDeTransporteQueNaoFoiTotalmenteRealizadaQuantidadeLiberadaFicaIgualAQuantidadeRealizada()
+        {
+            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
+            var fabricaDeColeta = new ColetaFactory();
+            var coletaSalvarVm = new ColetaSalvarVm
+            {
+                DataDaColeta = DateTime.Now.Date.AddDays(-1).ToShortDateString(),
+                DataDePrevisaoDeChegada = DateTime.Now.Date.ToShortDateString(),
+                IdDaOrdemDeTransporte = ordemDeTransporte.Id,
+                Motorista = "Mauro",
+                Peso = 8,
+                Placa = "ioq-5338",
+                Realizado = "Não",
+                NotasFiscais = new List<NotaFiscalDeColetaVm>
+                {
+                    new NotaFiscalDeColetaVm
+                    {
+                        DataDeEmissao = DateTime.Now.Date.ToShortDateString(),
+                        Peso = 8,
+                        Numero = "123434",
+                        Serie = "1",
+                        Valor = 5435M
+                    }
+                }
+
+            };
+
+            ordemDeTransporte.AdicionarColeta(fabricaDeColeta.Construir(coletaSalvarVm, 10));
+
+            Coleta coleta = ordemDeTransporte.Coletas.First();
+
+            ordemDeTransporte.RealizarColeta(coleta.Id);
+
+            const string motivo = "ponte estragada";
+
+            ordemDeTransporte.FecharParaColeta(motivo);
+
+            Assert.AreEqual(8, ordemDeTransporte.QuantidadeLiberada);
+
+            Assert.AreEqual(motivo, ordemDeTransporte.MotivoDeFechamento);
+
+        }
 
     }
 }

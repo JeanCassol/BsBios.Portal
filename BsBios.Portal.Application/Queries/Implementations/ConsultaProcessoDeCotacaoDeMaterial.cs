@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.ViewModel;
 using BsBios.Portal.Common;
-using NHibernate.Criterion;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -27,24 +24,17 @@ namespace BsBios.Portal.Application.Queries.Implementations
             _iteracoesUsuario = iteracoesUsuario;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        private void AplicarFiltros(ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(
-                (Enumeradores.TipoDeCotacao) Enum.Parse(typeof (Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
-            if (filtro.CodigoFornecedor != null)
-            {
-                _processosDeCotacao
-                    .DesconsideraNaoIniciados()
-                    .FiltraPorFornecedor(filtro.CodigoFornecedor);
-
-            }
+                (Enumeradores.TipoDeCotacao)Enum.Parse(typeof(Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
 
             _processosDeCotacao.CodigoDoProdutoContendo(filtro.CodigoProduto)
                 .DescricaoDoProdutoContendo(filtro.DescricaoProduto);
 
             if (filtro.CodigoStatusProcessoCotacao.HasValue)
             {
-                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao), 
+                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao)Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao),
                     Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
             }
             else
@@ -71,6 +61,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
             {
                 _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
             }
+
+            
+        }
+
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+
+            AplicarFiltros(filtro);
 
             var query = (from processo in _processosDeCotacao.GetQuery()
                          orderby processo.Id descending 
@@ -111,6 +109,60 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 };
 
             return kendoGridVm;
+
+        }
+
+        public KendoGridVm ListarPorFornecedor(PaginacaoVm paginacao, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+            AplicarFiltros(filtro);
+
+            _processosDeCotacao
+                .DesconsideraNaoIniciados();
+
+            var query = (from processo in _processosDeCotacao.GetQuery()
+                         orderby processo.Id descending
+                         let p = (ProcessoDeCotacaoDeFrete)processo
+                         from fornecedorParticipante in p.FornecedoresParticipantes
+                         where fornecedorParticipante.Fornecedor.Codigo == filtro.CodigoFornecedor
+                         select new
+                         {
+                             CodigoMaterial = p.Produto.Codigo,
+                             Material = p.Produto.Descricao,
+                             DataTermino = p.DataLimiteDeRetorno,
+                             p.Id,
+                             p.Quantidade,
+                             p.Status,
+                             UnidadeDeMedida = p.UnidadeDeMedida.Descricao,
+                             Terminal = p.Terminal.Nome,
+                             fornecedorParticipante.Resposta
+                         }
+
+                        );
+
+            var quantidadeDeRegistros = query.Count();
+
+            var registros = query.Skip(paginacao.Skip).Take(paginacao.Take).ToList()
+                             .Select(x => new CotacaoListagemVm()
+                             {
+                                 Id = x.Id,
+                                 CodigoMaterial = x.CodigoMaterial,
+                                 Material = x.Material,
+                                 DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
+                                 Quantidade = x.Quantidade,
+                                 Status = x.Status.Descricao(),
+                                 UnidadeDeMedida = x.UnidadeDeMedida,
+                                 Terminal = x.Terminal,
+                                 Resposta = x.Resposta.Descricao()
+                             }).Cast<ListagemVm>().ToList();
+
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = quantidadeDeRegistros,
+                Registros = registros
+            };
+
+            return kendoGridVm;
+
 
         }
 
@@ -301,7 +353,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                  ? fornecedorParticipante.Cotacao.ValorComImpostos
                                  : (decimal?) null),
                         QuantidadeDisponivel = fornecedorParticipante.Cotacao != null ? fornecedorParticipante.Cotacao.QuantidadeDisponivel : (decimal?) null,
-                        VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
+                        VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não",
+                        Resposta = fornecedorParticipante.Resposta.Descricao()
                     });
             }
 

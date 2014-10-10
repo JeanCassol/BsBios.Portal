@@ -10,5 +10,6 @@ namespace BsBios.Portal.Application.Services.Contracts
         decimal SalvarColeta(ColetaSalvarVm coletaSalvarVm);
         decimal RemoverColeta(int idDaOrdemDeTransporte, int idDaColeta);
         void RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta);
+        void FecharParaColeta(int idDaOrdemDeTransporte, string motivo);
     }
 }

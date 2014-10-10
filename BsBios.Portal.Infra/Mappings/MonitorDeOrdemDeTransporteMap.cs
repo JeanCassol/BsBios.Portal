@@ -21,7 +21,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.PercentualPendente);
             Map(x => x.PercentualProjetado);
             Map(x => x.QuantidadeEmTransito);
-            Map(x => x.PrevisaoDeChegadaNoDia);
+            //Map(x => x.PrevisaoDeChegadaNoDia);
             Map(x => x.QuantidadePendente);
         }
     }

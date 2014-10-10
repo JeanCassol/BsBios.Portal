@@ -1,5 +1,4 @@
-﻿@using BsBios.Portal.Common
-@using BsBios.Portal.UI.Helpers
+﻿@using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
 @model ConferenciaDeCargaFiltroVm
 @{
@@ -42,6 +41,13 @@
         @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm, int?>(x => x.RealizacaoDeAgendamento, realizacoesDeAgendamento, "RealizacaoDeAgendamento", "", "Todos"),
         new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NomeDoFornecedor, "campogrande"))
 
+        @{
+            IList<SelectListItem> fluxosDeCarga = ((List<FluxoDeCargaVm>) ViewBag.FluxosDeCarga)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = false}).ToList();
+        }
+        
+        @Html.LinhaComDuasColunas(new ColunaComDropDown<ConferenciaDeCargaFiltroVm,int?>(x => x.FluxoDeCarga, fluxosDeCarga,"FluxoDeCarga"), new ColunaVazia<ConferenciaDeCargaFiltroVm,object>())
+        
         <div class="divBotao">
             <input type="button" id="btnPesquisar" value="Pesquisar" class="blue" />
             <input type="reset" id="btnLimpar" value="Limpar" class="blue" />

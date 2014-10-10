@@ -27,6 +27,10 @@ namespace BsBios.Portal.ViewModel
 
         [DisplayName("Terminal: ")]
         public string Terminal { get; set; }
+
+        [DisplayName("Resposta: ")]
+        public string Resposta { get; set; }
+
         
     }
 }

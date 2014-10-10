@@ -15,4 +15,11 @@
         public string Terminal { get; set; }
     }
 
+    public class CotacaoListagemVm : ProcessoCotacaoListagemVm
+    {
+        public string Resposta { get; set; }
+    }
+
+
+
 }

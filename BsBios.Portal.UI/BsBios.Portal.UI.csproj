@@ -14,7 +14,7 @@
     <RootNamespace>BsBios.Portal.UI</RootNamespace>
     <AssemblyName>BsBios.Portal.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -504,6 +504,7 @@
     <Content Include="Views\RelatorioDeOrdemDeTransporteVisualizacao\ListagemAnalitica.cshtml" />
     <Content Include="Views\Shared\_EstiloDosRelatorios.cshtml" />
     <Content Include="Views\Shared\_CabecalhoExportacao.cshtml" />
+    <Content Include="Views\OrdemDeTransporte\Fechar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

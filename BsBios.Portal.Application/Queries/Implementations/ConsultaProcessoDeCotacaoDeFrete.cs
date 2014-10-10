@@ -44,13 +44,15 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Classificacao = processoDeCotacao.Classificacao,
                     CodigoDoFornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Codigo: null,
                     FornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Nome: null ,
-                    CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Codigo: null ,
-                    NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Nome : null,
+                    CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Codigo + "/": null ,
+                    NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeOrigem.Nome, processoDeCotacao.MunicipioDeOrigem.UF) : null,
                     CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Codigo : null ,
-                    NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Nome: null,
+                    NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeDestino.Nome, processoDeCotacao.MunicipioDeDestino.UF) : null,
                     CodigoDoDeposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Codigo: null ,
                     Deposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : null,
-                    CodigoDoTerminal = processoDeCotacao.Terminal.Codigo
+                    CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
+                    TipoDePreco = processoDeCotacao.ValorPrevisto.HasValue ? 1 : 0,
+                    ValorPrevisto = processoDeCotacao.ValorPrevisto
                 };
         }
 

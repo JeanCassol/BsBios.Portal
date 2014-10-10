@@ -195,6 +195,11 @@ $.fn.customLoad = function (url, callBack) {
     } else {
         $(divParaCarregar).dialog("option", "width", '99%');
     }
+
+    if (!url) {
+        divParaCarregar.dialog("open");
+        return;
+    }
     
     this.load(url, function (responseText, textStatus, xmlHttpRequest) {
         var contentType = xmlHttpRequest.getResponseHeader('Content-Type');

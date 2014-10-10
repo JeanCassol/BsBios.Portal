@@ -38,18 +38,23 @@ namespace BsBios.Portal.UI.Controllers
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorLogistica))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "ProcessoDeCotacaoDeFrete");
+                ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoDeCotacaoDeFrete");
+                ViewBag.VisualizacaoDaTransportadora = false;
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoFrete");
+                ViewData["ActionListagem"] = Url.Action("ListarPorFornecedor", "ProcessoDeCotacaoDeFrete");
+                ViewBag.VisualizacaoDaTransportadora = true;
             }
 
-            ViewData["ActionListagem"] = Url.Action("Listar", "ProcessoDeCotacaoDeFrete");
+            
             ViewBag.TituloDaPagina = "Cotações de Frete";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View("_ProcessoCotacaoIndex");
         }
+
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
@@ -64,6 +69,19 @@ namespace BsBios.Portal.UI.Controllers
             var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult ListarPorFornecedor(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+            var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
+            filtro.TipoDeCotacao = (int)Enumeradores.TipoDeCotacao.Frete;
+
+            filtro.CodigoFornecedor = usuarioConectado.Login;
+
+            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.ListarPorFornecedor(paginacaoVm, filtro);
+            return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ViewResult NovoCadastro()

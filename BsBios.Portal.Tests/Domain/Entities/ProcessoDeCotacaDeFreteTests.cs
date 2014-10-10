@@ -29,7 +29,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
             var processo = new ProcessoDeCotacaoDeFrete(produto, 100,unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
                 "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario,fornecedor, 1000,true,municipioOrigem, 
-                municipioDestino, deposito,terminal);
+                municipioDestino, deposito,terminal,150);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(100, processo.Quantidade);
@@ -47,6 +47,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.IsTrue(processo.Classificacao);
             Assert.AreSame(deposito, processo.Deposito);
             Assert.AreEqual(terminal, processo.Terminal);
+            Assert.AreEqual(150, processo.ValorPrevisto);
         }
 
         [TestMethod]
@@ -69,7 +70,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             processo.Atualizar(produto, 1500, unidadeDeMedida,"requisitos alterados","1500",dataLimiteDeRetorno,
                 dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem, 
-                municipioDestino, deposito,terminal2);
+                municipioDestino, deposito,terminal2,100);
 
             Assert.AreSame(produto, processo.Produto);
             Assert.AreEqual(1500, processo.Quantidade);
@@ -108,7 +109,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Terminal terminal = DefaultObjects.ObtemTerminalPadrao();
             var processo = new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, "Requisitos do Processo de Cotação de Fretes",
                 "10001", dataLimiteDeRetorno, dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 1000, true, municipioOrigem,
-                municipioDestino, deposito, terminal);            
+                municipioDestino, deposito, terminal, 100);            
         }
 
         [TestMethod]
@@ -132,7 +133,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             processo.Atualizar(produto, 1500, unidadeDeMedida, "requisitos alterados", "1500", dataLimiteDeRetorno,
                 dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem,
-                municipioDestino, deposito, terminal2);
+                municipioDestino, deposito, terminal2,200);
 
 
         }
@@ -151,7 +152,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
                 "requisitos alterados", "1500", processoDeCotacaoDeFrete.DataLimiteDeRetorno.Value,
                 processoDeCotacaoDeFrete.DataDeValidadeInicial, processoDeCotacaoDeFrete.DataDeValidadeFinal, processoDeCotacaoDeFrete.Itinerario,
                 processoDeCotacaoDeFrete.FornecedorDaMercadoria,processoDeCotacaoDeFrete.Cadencia, processoDeCotacaoDeFrete.Classificacao,
-                processoDeCotacaoDeFrete.MunicipioDeOrigem, processoDeCotacaoDeFrete.MunicipioDeDestino, processoDeCotacaoDeFrete.Deposito,terminal);
+                processoDeCotacaoDeFrete.MunicipioDeOrigem, processoDeCotacaoDeFrete.MunicipioDeDestino, processoDeCotacaoDeFrete.Deposito,terminal,100);
         }
 
         [TestMethod]

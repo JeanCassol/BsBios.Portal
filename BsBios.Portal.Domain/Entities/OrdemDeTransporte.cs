@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.ViewModel;
 
@@ -18,6 +19,7 @@ namespace BsBios.Portal.Domain.Entities
             PrecoUnitario = precoUnitario;
             QuantidadeLiberada = quantidadeAdquirida;
             Cadencia = cadencia;
+            StatusParaColeta = Enumeradores.StatusParaColeta.Aberto;
         }
 
         protected OrdemDeTransporte()
@@ -40,9 +42,15 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal Cadencia { get; set; }
 
         public virtual IList<Coleta> Coletas { get; protected set; }
+        public virtual Enumeradores.StatusParaColeta StatusParaColeta { get; protected set; }
+        public virtual string MotivoDeFechamento { get; protected set; }
 
         public virtual void AlterarQuantidades(decimal novaQuantidadeLiberada, decimal novaQuantidadeDeTolerancia)
         {
+            if (this.StatusParaColeta == Enumeradores.StatusParaColeta.Fechado)
+            {
+                throw new AlterarOrdemDeTransporteFechadaException();
+            }
             if ((novaQuantidadeLiberada + novaQuantidadeDeTolerancia) < QuantidadeColetada)
             {
                 throw new QuantidadeLiberadaAbaixoDaQuantidadeColetadaException(novaQuantidadeLiberada, QuantidadeColetada);
@@ -64,12 +72,20 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void AdicionarColeta(Coleta coleta)
         {
+            if (this.StatusParaColeta == Enumeradores.StatusParaColeta.Fechado)
+            {
+                throw new AlterarOrdemDeTransporteFechadaException();
+            }
             Coletas.Add(coleta);
             AtualizarQuantidadeColetada(true);
         }
 
         public virtual void AtualizarColeta(ColetaSalvarVm coletaSalvarVm)
         {
+            if (this.StatusParaColeta == Enumeradores.StatusParaColeta.Fechado)
+            {
+                throw new AlterarOrdemDeTransporteFechadaException();
+            }
             var coleta = Coletas.Single(x => x.Id == coletaSalvarVm.IdColeta);
 
             if (coleta.Realizado)
@@ -85,6 +101,10 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void RemoverColeta(int idDaColeta)
         {
+            if (this.StatusParaColeta == Enumeradores.StatusParaColeta.Fechado)
+            {
+                throw new AlterarOrdemDeTransporteFechadaException();
+            }
             var coleta = Coletas.Single(x => x.Id == idDaColeta);
             if (coleta.Realizado)
             {
@@ -102,6 +122,13 @@ namespace BsBios.Portal.Domain.Entities
             Coleta coleta = Coletas.Single(c => c.Id == idDaColeta);
             coleta.Realizar();
             QuantidadeRealizada = Coletas.Where(x => x.Realizado).Sum(x => x.Peso);
+        }
+
+        public virtual void FecharParaColeta(string motivo)
+        {
+            this.StatusParaColeta = Enumeradores.StatusParaColeta.Fechado;
+            this.QuantidadeLiberada = this.QuantidadeRealizada;
+            this.MotivoDeFechamento = motivo;
         }
     }
 }

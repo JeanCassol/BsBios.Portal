@@ -33,7 +33,7 @@
         @Html.LinhaComDuasColunas(new ColunaComDropDown<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.CodigoDoTerminal,
                 ((List<TerminalCadastroVm>)ViewBag.Terminais)
                 .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
-                "CodigoDoTerminal"), new ColunaVazia<ProcessoDeCotacaoDeFreteFiltroVm, object>(x => null))
+                "CodigoDoTerminal"), new ColunaVazia<ProcessoDeCotacaoDeFreteFiltroVm, object>())
 
 
         @{
@@ -52,22 +52,86 @@
             
             criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
 
+            var visualizacaoDaTransportadora = '@((bool)ViewBag.VisualizacaoDaTransportadora)'.boolean();
+            var fields = {
+                Id: {type: "number"},
+                CodigoMaterial: {type: "string"},
+                Material: {type: "string"},
+                Quantidade: {type: "number"},
+                UnidadeDeMedida: {type: "string"},
+                Status: {type: "string"},
+                DataTermino: { type: "string" },
+                Terminal: { type: "string" }
+            };
+
+            if (visualizacaoDaTransportadora) {
+                fields.Resposta = { type: "string" };
+            }
+            var colunas = [
+                {
+                    field: 'Id',
+                    title: ' ', /*coloco um espaço para deixar o header sem título*/
+                    width: 40,
+                    sortable: false,
+                    template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
+                },
+                {
+                    field: 'Id',
+                    title: 'Nº Cotação',
+                    width: 80
+                },
+                {
+                    field: 'Terminal',
+                    width: 100
+                },
+                {
+                    field: "CodigoMaterial",
+                    width: 60,
+                    title: "Código"
+                }, {
+                    field: "Material",
+                    width: 150,
+                    title: "Material"
+                },
+                {
+                    width: 80,
+                    field: "Quantidade",
+                    title: "Quantidade"
+                },
+                {
+                    width: 80,
+                    field: "UnidadeDeMedida",
+                    title: "Unidade"
+                },
+                {
+                    width: 80,
+                    field: "Status",
+                    title: "Status"
+                }
+            ];
+
+            if (visualizacaoDaTransportadora) {
+                colunas.push({
+                    width: 70,
+                    field: "Resposta"
+                });
+            }
+
+            colunas.push(
+                {
+                    width: 80,
+                    field: "DataTermino",
+                    title: "Retorno Até"
+                }
+            );
+
             $("#gridCotacaoMaterial").customKendoGrid({
                 dataSource: {
                     schema: {
                         data: 'registros',
                         model: {
                             id: 'Id',
-                            fields: {
-                                Id: {type: "number"},
-                                CodigoMaterial: {type: "string"},
-                                Material: {type: "string"},
-                                Quantidade: {type: "number"},
-                                UnidadeDeMedida: {type: "string"},
-                                Status: {type: "string"},
-                                DataTermino: { type: "string" },
-                                Terminal: { type: "string" }
-                            }
+                            fields: fields
                         },
                         total: 'totalCount',
                         type: 'json'
@@ -84,54 +148,7 @@
                     }
                 },
                 scrollable:true,
-                columns:
-                [
-                    {
-                        field: 'Id',
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
-                        width: 40,
-                        sortable: false,
-                        template: '<input type="button" class="button_edit" data-idprocessocotacao="${Id}"></input>'
-                    },
-                    {
-                        field: 'Id',
-                        title: 'Nº Cotação',
-                        width: 80
-                    },
-                    {
-                        field: 'Terminal',
-                        width: 100
-                    },
-                    {
-                        field: "CodigoMaterial",
-                        width: 60,
-                        title: "Código"
-                    }, {
-                        field: "Material",
-                        width: 200,
-                        title: "Material"
-                    },
-                    {
-                        width: 80,
-                        field: "Quantidade",
-                        title: "Quantidade"
-                    },
-                    {
-                        width: 80,
-                        field: "UnidadeDeMedida",
-                        title: "Unidade"
-                    },
-                    {
-                        width: 100,
-                        field: "Status",
-                        title: "Status"
-                    },
-                    {
-                        width: 80,
-                        field: "DataTermino",
-                        title: "Retorno Até"
-                    }
-                ]
+                columns: colunas
             });
 
             $('.button_edit').die("click");

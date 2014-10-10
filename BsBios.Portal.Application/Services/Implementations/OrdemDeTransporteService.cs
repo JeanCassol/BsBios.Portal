@@ -122,5 +122,25 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
+        public void FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                OrdemDeTransporte ordemDeTransporte = _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte).Single();
+                ordemDeTransporte.FecharParaColeta(motivo);
+                _ordensDeTransporte.Save(ordemDeTransporte);
+
+                _unitOfWork.Commit();
+
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+            
+        }
     }
 }

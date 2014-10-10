@@ -27,6 +27,7 @@ namespace BsBios.Portal.ViewModel
         public virtual string NomeEmitente { get; set; }
         public virtual string CodigoDeposito { get; set; }
         public virtual string DescricaoMaterial { get; set; }
+        public virtual int CodigoFluxo { get; set; }
         public virtual string DescricaoFluxo { get; set; }
         public virtual bool Realizado { get; set; }
 

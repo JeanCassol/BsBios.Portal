@@ -205,7 +205,7 @@ namespace BsBios.Portal.UI.Helpers
 
     public class ColunaVazia<TModel, TValue> : Coluna<TModel, TValue>
     {
-        public ColunaVazia(Expression<Func<TModel, TValue>> expressao) : base(expressao, null, null, false)
+        public ColunaVazia() : base(null,null, null, false)
         {
         }
 

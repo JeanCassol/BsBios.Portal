@@ -111,6 +111,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PermiteAlterar = permiteAlterar,
                     PermiteAdicionarColeta = permiteAdicionarColeta,
                     Transportadora = ordemDeTransporte.Fornecedor.Nome,
+                    StatusParaColeta = ordemDeTransporte.StatusParaColeta.ToString(),
                     Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
                     {
                         Material = processoDeCotacao.Produto.Descricao,
@@ -137,9 +138,13 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
                 }).Single();
 
-            var status = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), ordemDeTransporteCadastroVm.Cabecalho.Status.ToString());
+            var status = (Enumeradores.StatusProcessoCotacao) Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao), ordemDeTransporteCadastroVm.Cabecalho.Status);
 
             ordemDeTransporteCadastroVm.Cabecalho.Status = status.Descricao();
+
+            var statusParaColeta = (Enumeradores.StatusParaColeta)Enum.Parse(typeof(Enumeradores.StatusParaColeta), ordemDeTransporteCadastroVm.StatusParaColeta);
+            ordemDeTransporteCadastroVm.StatusParaColeta = statusParaColeta.Descricao();
+
 
             return ordemDeTransporteCadastroVm;
         }

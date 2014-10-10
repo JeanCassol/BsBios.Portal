@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
@@ -15,9 +11,12 @@ namespace BsBios.Portal.Infra.Mappings
             Table("FornecedorParticipante");
             Id(x => x.Id).GeneratedBy.Sequence("FORNECPARTICIPANTE_ID_SEQUENCE");
             References(x => x.ProcessoDeCotacao).Column("IdProcessoCotacao");
-            References(x => x.Fornecedor).Column("CodigoFornecedor");
+            References(x => x.Fornecedor).Column("CodigoFornecedor").Not.Nullable();
             //HasOne(x => x.Cotacao)/*.PropertyRef("FornecedorParticipante")*/
             //    .Cascade.All();
+
+            Map(x => x.Resposta).CustomType<Enumeradores.RespostaDaCotacao>().Not.Nullable();
+
             References(x => x.Cotacao)
                 .Column("IdCotacao")
                 .Nullable()

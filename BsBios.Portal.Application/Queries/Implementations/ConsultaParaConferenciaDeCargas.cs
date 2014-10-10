@@ -66,6 +66,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryable = queryable.Where(x => x.NumeroNf == filtro.NumeroNf);
             }
 
+            if (filtro.FluxoDeCarga.HasValue)
+            {
+                queryable = queryable.Where(x => x.CodigoFluxo == filtro.FluxoDeCarga.Value);
+            }
+
             queryable = queryable
                 .OrderByDescending(x => x.DataAgendamento)
                 .ThenBy(x => x.Placa.ToLower())

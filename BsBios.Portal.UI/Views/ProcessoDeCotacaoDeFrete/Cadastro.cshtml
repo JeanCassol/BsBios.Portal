@@ -1,6 +1,7 @@
 ﻿@using BsBios.Portal.Common
 @using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
+@using FluentNHibernate.Testing.Values
 @model ProcessoCotacaoFreteCadastroVm
 
 @{
@@ -65,6 +66,9 @@
                     @Html.ValidationMessageFor(x => x.DescricaoItinerario)
                 </p>
             </div>
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorPrevisto,"campopequeno maskmoeda"),
+            new ColunaVazia<ProcessoCotacaoFreteCadastroVm, object>())
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
             new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
@@ -102,7 +106,23 @@
                 </div>
 
             </div>
+            
+            @{
+                var tiposDePreco = new List<SelectListItem>()
+                {
+                    new SelectListItem() {Text = @"Aberto", Value = "0", Selected = Model != null && 0 == Model.TipoDePreco},
+                    new SelectListItem() {Text = @"Fechado", Value = "1", Selected = Model != null && 1 == Model.TipoDePreco}
 
+                };
+
+                var comboTipoDePreco = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, int>(x => x.TipoDePreco,tiposDePreco, "TipoDePreco","",null);
+
+                var valorPrevisto = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorFechado, new { @class = "maskmoeda"});
+                
+            }
+            
+            @Html.LinhaComDuasColunas(comboTipoDePreco, valorPrevisto)
+            
             @Html.ValidationSummary(true)
         <div class="error"></div>
         <div class="divBotao">
@@ -140,6 +160,25 @@
             aplicaMascaraQuantidade();
             aplicaMascaraNumeroContrato();
             aplicaMascaraInteiro();
+            aplicaMascaraMoeda();
+
+            var tipoDePreco = $('#TipoDePreco');
+            tipoDePreco.change(function () {
+                var valorFechado = $('#ValorFechado');
+                if (window.parseInt($(this).val()) === 0) {
+                    valorFechado
+                        .val('')
+                        .attr('readonly', 'true')
+                        .addClass('campoDesabilitado');
+                } else {
+                    valorFechado
+                        .removeAttr('readonly')
+                        .removeClass('campoDesabilitado');
+                }
+
+            });
+
+            tipoDePreco.change();
 
             var selecionarFornecedorDaMercadoria = new SelecionarFornecedor();
             selecionarFornecedorDaMercadoria.configurar("#CodigoDoFornecedorDaMercadoria", "#FornecedorDaMercadoria","divSelecionarFornecedor", "#btnSelecionarFornecedor");

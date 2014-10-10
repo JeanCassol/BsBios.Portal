@@ -96,6 +96,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
         [TestMethod]
         public void QuandoListaProcessosDeCotacaoDeUmDeterminadoFornecedorRetornaApenasProcessosDesteFornecedor()
         {
+
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
             //crio dois fornecedores e adiciono cada um deles em duas cotações distintas
             Fornecedor fornecedor1 = DefaultObjects.ObtemFornecedorPadrao();
             Fornecedor fornecedor2 = DefaultObjects.ObtemFornecedorPadrao();
@@ -122,7 +125,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             //consulta filtrando pelo fornecedor1
-            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
+            KendoGridVm kendoGridVm = consultaProcesso.ListarPorFornecedor(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
                new ProcessoDeCotacaoDeFreteFiltroVm()
                    {
                        CodigoFornecedor  = fornecedor1.Codigo
@@ -152,7 +155,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var consultaProcesso = ObjectFactory.GetInstance<IConsultaProcessoDeCotacaoDeMaterial>();
             //consulta filtrando pelo fornecedor
-            KendoGridVm kendoGridVm = consultaProcesso.Listar(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
+            KendoGridVm kendoGridVm = consultaProcesso.ListarPorFornecedor(new PaginacaoVm() { Page = 1, PageSize = 10, Take = 10 },
                new ProcessoDeCotacaoDeFreteFiltroVm()
                {
                    CodigoFornecedor = fornecedor1.Codigo

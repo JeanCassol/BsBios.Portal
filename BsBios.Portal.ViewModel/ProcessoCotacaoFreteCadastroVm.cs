@@ -87,6 +87,15 @@ namespace BsBios.Portal.ViewModel
         [Required(ErrorMessage = "Terminal é obrigatório")]
         public string CodigoDoTerminal { get; set; }
 
+        [Display(Name = "Tipo de Preço")]
+        [Required(ErrorMessage = "Tipo de Preço é obrigatório")]
+        public int TipoDePreco { get; set; }
+
+        [Display(Name = "Valor Previsto")]
+        public decimal? ValorPrevisto { get; set; }
+
+        [Display(Name = "Valor Fechado")]
+        public decimal? ValorFechado { get; set; }
 
     }
 }

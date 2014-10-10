@@ -10,5 +10,6 @@
         public decimal? ValorComImpostos { get; set; }
         public decimal? QuantidadeDisponivel { get; set; }
         public string VisualizadoPeloFornecedor { get; set; }
+        public string Resposta { get; set; }
     }
 }

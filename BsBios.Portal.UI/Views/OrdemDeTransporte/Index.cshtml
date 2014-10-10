@@ -29,7 +29,7 @@
         @Html.LinhaComDuasColunas(new ColunaComDropDown<OrdemDeTransporteListagemFiltroVm, string>(x => x.CodigoDoTerminal,
                 ((List<TerminalCadastroVm>)ViewBag.Terminais)
                 .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
-                         "CodigoDoTerminal"), new ColunaVazia<OrdemDeTransporteListagemFiltroVm, object>(x => null))
+                         "CodigoDoTerminal"), new ColunaVazia<OrdemDeTransporteListagemFiltroVm, object>())
 
 
         @{

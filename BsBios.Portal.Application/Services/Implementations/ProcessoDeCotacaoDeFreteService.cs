@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
@@ -65,14 +66,29 @@ namespace BsBios.Portal.Application.Services.Implementations
                     processo.Atualizar(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal);
+                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal, processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
                 }
                 else
                 {
                     processo = new ProcessoDeCotacaoDeFrete(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito,terminal);
+                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito,terminal, 
+                        processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
+                }
+
+                if (processoCotacaoFreteCadastroVm.TipoDePreco == 0)
+                {
+                    processo.AbrirPreco();
+                    
+                }
+                else
+                {
+                    if (!processoCotacaoFreteCadastroVm.ValorPrevisto.HasValue)
+                    {
+                        throw new Exception("É necessário informar o Valor Previsto quando o Tipo de Preço é Fechado.");
+                    }
+                    processo.FecharPreco(processoCotacaoFreteCadastroVm.ValorFechado.Value);
                 }
 
                 _processosDeCotacao.Save(processo);

@@ -138,9 +138,11 @@ namespace BsBios.Portal.Application.Queries.Implementations
             var vm = new CotacaoFreteCadastroVm
             {
                 PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                PermiteAlterarPreco = !processo.ValorFechado.HasValue,
                 IdProcessoCotacao = processo.Id,
                 CodigoFornecedor = fp.Fornecedor.Codigo,
                 IdFornecedorParticipante = fp.Id,
+                ValorComImpostos = processo.ValorFechado,
                 Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
                 {
                     Status = processo.Status.Descricao(),
@@ -159,7 +161,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
                     EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
                     MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado" ,
-                    MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado"
+                    MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado",
+                    Resposta = fp.Resposta.Descricao()
                 }
             };
 

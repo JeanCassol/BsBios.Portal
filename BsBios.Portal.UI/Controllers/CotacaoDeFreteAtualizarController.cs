@@ -30,6 +30,23 @@ namespace BsBios.Portal.UI.Controllers
             }
 
         }
+
+        [HttpPost]
+        public JsonResult SairDoProcesso(int idDoProcessoDeCotacao, string codigoDoFornecedor)
+        {
+            try
+            {
+                _atualizadorDeCotacao.SairDoProcesso(idDoProcessoDeCotacao, codigoDoFornecedor);
+                return Json(new {Sucesso = true});
+
+            }
+            catch (Exception exception)
+            {
+
+                return Json(new {Sucesso = false, Mensagem = exception.Message});
+            }
+            
+        }
     }
 
 }

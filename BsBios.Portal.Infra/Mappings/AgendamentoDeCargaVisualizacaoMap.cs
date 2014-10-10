@@ -18,6 +18,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.CnpjEmitente);
             Map(x => x.NomeEmitente);
             Map(x => x.DataAgendamento);
+            Map(x => x.CodigoFluxo);
             Map(x => x.DescricaoFluxo);
             Map(x => x.DescricaoMaterial);
             Map(x => x.NumeroNf);

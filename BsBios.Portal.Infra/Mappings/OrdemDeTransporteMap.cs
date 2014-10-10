@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -20,6 +21,8 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.QuantidadeRealizada);
             Map(x => x.PrecoUnitario);
             Map(x => x.Cadencia);
+            Map(x => x.StatusParaColeta).CustomType<Enumeradores.StatusParaColeta>();
+            Map(x => x.MotivoDeFechamento);
 
             HasMany(x => x.Coletas)
                             .KeyColumn("IdOrdemTransporte")

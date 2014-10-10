@@ -37,5 +37,27 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
             
         }
+
+        public void SairDoProcesso(int idDoProcessoDeCotacao, string codigoDoFornecedor)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                ProcessoDeCotacao processoDeCotacao = _processosDeCotacao.BuscaPorId(idDoProcessoDeCotacao).Single();
+
+                processoDeCotacao.DesativarParticipante(codigoDoFornecedor);
+
+                _processosDeCotacao.Save(processoDeCotacao);
+
+                _unitOfWork.Commit();
+
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+        }
     }
 }

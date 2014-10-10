@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,13 +9,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
     public class FornecedorParticipanteTests
     {
         [TestMethod]
-        public void QuandoInstanciaUmFornecedorParticipanteAsPropriedadesSaoCriadasCorretamente()
+        public void QuandoAdicionoUmFornecedorNoProcessoDeCotacaoARespostaIniciaComoPendente()
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
             Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
             var fornecedorParticipante = processoDeCotacaoDeMaterial.AdicionarFornecedor(fornecedor);
-            Assert.AreEqual(processoDeCotacaoDeMaterial.Id, fornecedorParticipante.ProcessoDeCotacao.Id);
-            Assert.AreEqual(fornecedor.Codigo, fornecedorParticipante.Fornecedor.Codigo);
+
+            Assert.AreEqual(Enumeradores.RespostaDaCotacao.Pendente, fornecedorParticipante.Resposta);
+
         }
     }
 }

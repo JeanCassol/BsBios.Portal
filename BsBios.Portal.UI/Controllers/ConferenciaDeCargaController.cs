@@ -9,17 +9,21 @@ namespace BsBios.Portal.UI.Controllers
     {
         private readonly IConsultaRealizacaoDeAgendamento _consultaRealizacaoDeAgendamento;
         private readonly IConsultaTerminal _consultaTerminal;
+        private readonly IConsultaFluxoDeCarga _consultaFluxoDeCarga;
 
-        public ConferenciaDeCargaController(IConsultaRealizacaoDeAgendamento consultaRealizacaoDeAgendamento, IConsultaTerminal consultaTerminal)
+        public ConferenciaDeCargaController(IConsultaRealizacaoDeAgendamento consultaRealizacaoDeAgendamento, IConsultaTerminal consultaTerminal, IConsultaFluxoDeCarga consultaFluxoDeCarga)
         {
             _consultaRealizacaoDeAgendamento = consultaRealizacaoDeAgendamento;
             _consultaTerminal = consultaTerminal;
+            _consultaFluxoDeCarga = consultaFluxoDeCarga;
         }
 
         public ActionResult Pesquisar()
         {
             ViewBag.RealizacoesDeAgendamento = _consultaRealizacaoDeAgendamento.Listar();
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
+            ViewBag.FluxosDeCarga = _consultaFluxoDeCarga.Listar();
+
             return View();
         }
 

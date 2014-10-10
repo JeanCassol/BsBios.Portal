@@ -149,7 +149,8 @@
                     DescricaoMaterial: $('#Material :selected').text(),
                     CodigoFluxoCarga: $('#FluxoDeCarga :selected').val(),
                     DescricaoFluxoCarga: $('#FluxoDeCarga :selected').text(),
-                    Peso: $('#Peso').val()
+                    Peso: $('#Peso').val(),
+                    PesoAgendado: 0
                 };
 
                 if (existeQuota(fornecedor)) {
@@ -181,7 +182,8 @@
                                 DescricaoMaterial: { type: "string" },
                                 CodigoFluxoCarga: { type: "number" },
                                 DescricaoFluxoCarga: { type: "string" },
-                                Peso: { type: "number" }
+                                Peso: { type: "number" },
+                                Agendado: { type: "number" }
                             }
                         }
                     }
@@ -226,7 +228,14 @@
                         width: 80,
                         field: "Peso",
                         format: "{0:n3}"
+                    },
+                    {
+                        width: 80,
+                        title: 'Agendado',
+                        field: "PesoAgendado",
+                        format: "{0:n3}"
                     }
+
                 ]
             });
 

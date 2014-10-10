@@ -122,5 +122,18 @@ namespace BsBios.Portal.Common
             Concluido
         }
 
+        public enum StatusParaColeta
+        {
+            Aberto,
+            Fechado
+        }
+
+        public enum RespostaDaCotacao
+        {
+            Pendente,
+            Aceito,
+            Recusado
+        }
+
     }
 }

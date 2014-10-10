@@ -11,6 +11,8 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Transportadora: ")]
         public string Transportadora { get; set; }
 
+        [DisplayName("Status: ")]
+        public string StatusParaColeta { get; set; }
 
         [DisplayName("Quantidade Liberada: ")]
         [Required(ErrorMessage = "Quantidade Liberada é obrigatório")]

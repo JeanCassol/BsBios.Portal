@@ -2,6 +2,7 @@
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using NHibernate.Linq;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -19,12 +20,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao FiltraPorFornecedor(string codigoFornecedor)
         {
-            //Query = (from p in Query
-            //                 from fp in p.FornecedoresParticipantes
-            //                 where fp.Fornecedor.Codigo == codigoFornecedor
-            //                     select p);
-
-            Query = Query.Where(x => x.FornecedoresParticipantes.Any(y => y.Fornecedor.Codigo == codigoFornecedor));
+            Query = Query.Where(x => x.FornecedoresParticipantes.Any(fp => fp.Fornecedor.Codigo == codigoFornecedor));
 
             return this;
         }

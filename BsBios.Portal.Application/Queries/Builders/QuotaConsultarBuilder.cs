@@ -16,7 +16,8 @@ namespace BsBios.Portal.Application.Queries.Builders
                     DescricaoMaterial = model.Material.Descricao,
                     CodigoFluxoCarga = (int) model.FluxoDeCarga,
                     DescricaoFluxoCarga = model.FluxoDeCarga.Descricao() ,
-                    Peso = model.PesoTotal
+                    Peso = model.PesoTotal,
+                    PesoAgendado = model.PesoAgendado
                 };
         }
     }

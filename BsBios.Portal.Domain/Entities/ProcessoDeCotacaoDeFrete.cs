@@ -24,7 +24,8 @@ namespace BsBios.Portal.Domain.Entities
         public ProcessoDeCotacaoDeFrete(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, 
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
             DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, decimal cadencia, bool classificacao,
-            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal):base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal, decimal valorPrevisto)
+            :base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
         {
 
             ValidarDataDeValidade(dataDeValidadeInicial, dataDeValidadeFinal);
@@ -40,6 +41,7 @@ namespace BsBios.Portal.Domain.Entities
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
             Terminal = terminal;
+            ValorPrevisto = valorPrevisto;
         }
 
         public virtual string NumeroDoContrato { get; protected set; }
@@ -53,11 +55,14 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Municipio MunicipioDeDestino { get; protected set; }
         public virtual Fornecedor Deposito { get; protected set; }
         public virtual Terminal Terminal { get; protected set; }
+        public virtual decimal? ValorPrevisto { get; protected set; }
+        public virtual decimal? ValorFechado { get; protected set; }
 
 
         public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, string requisitos, string numeroDoContrato, 
             DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedor, 
-            decimal cadencia, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal)
+            decimal cadencia, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal,
+            decimal valorPrevisto)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
@@ -82,6 +87,7 @@ namespace BsBios.Portal.Domain.Entities
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
             Terminal = terminal;
+            ValorPrevisto = valorPrevisto;
 
         }
 
@@ -153,6 +159,16 @@ namespace BsBios.Portal.Domain.Entities
                     cotacao.QuantidadeAdquirida.Value, cotacao.ValorComImpostos, cotacao.Cadencia.Value)).ToList();
 
             return ordensDeTransporte;
+        }
+
+        public virtual void AbrirPreco()
+        {
+            ValorFechado = null;
+        }
+
+        public virtual void FecharPreco(decimal valor)
+        {
+            ValorFechado = valor;
         }
 
     }

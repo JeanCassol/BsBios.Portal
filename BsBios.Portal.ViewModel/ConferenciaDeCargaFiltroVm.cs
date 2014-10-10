@@ -19,5 +19,8 @@ namespace BsBios.Portal.ViewModel
         public int? RealizacaoDeAgendamento { get; set; }
 
         public string CodigoDeposito { get; set; }
+
+        [DisplayName("Fluxo de Carga")]
+        public int? FluxoDeCarga { get; set; }
     }
 }

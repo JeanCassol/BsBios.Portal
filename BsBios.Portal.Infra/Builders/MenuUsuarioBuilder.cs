@@ -97,7 +97,7 @@ namespace BsBios.Portal.Infra.Builders
             : base("Minhas Cotações")
         {
             AdicionarItem("Cotações de Frete", "ProcessoDeCotacaoDeFrete", "Index");
-            AdicionarItem("Cotações de Material", "ProcessoDeCotacaoDeMaterial", "Index");
+            //AdicionarItem("Cotações de Material", "ProcessoDeCotacaoDeMaterial", "Index");
             AdicionarItem("Ordens de Transporte", "OrdemDeTransporte", "Index");
         }
     }

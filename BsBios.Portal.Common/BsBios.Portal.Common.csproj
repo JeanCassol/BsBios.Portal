@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\AbrirProcessoDeCotacaoAbertoException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoComNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeCarregamentoSemPesoException.cs" />
+    <Compile Include="Exceptions\AlterarOrdemDeTransporteFechadaException.cs" />
     <Compile Include="Exceptions\ColetaSemNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentoDeDescarregamentoSemNotaFiscalException.cs" />
     <Compile Include="Exceptions\AgendamentosSimultaneosParaMesmaPlacaException.cs" />

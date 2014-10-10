@@ -96,7 +96,7 @@
                         @Html.LinhaComDuasColunas(new ColunaComDropDown<MonitorOrdemDeTransporteParametroVm, string>(x => x.CodigoDoTerminal,
                             ((List<TerminalCadastroVm>)ViewBag.Terminais)
                                 .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo)}),
-                            "CodigoDoTerminal"), new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>(x => null))
+                            "CodigoDoTerminal"), new ColunaVazia<MonitorOrdemDeTransporteParametroVm, object>())
 
                     </fieldset>
                     <div class="divBotao">
@@ -122,7 +122,6 @@
                             <th>Liberado</th>
                             <th>Realizado</th>
                             <th>Em Trânsito</th>
-                            <th>Chegada Hoje</th>
                             <th>Pendente</th>
                             <th>% Pendente</th>
                             <th>Semáforo</th>
@@ -130,7 +129,6 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -160,7 +158,6 @@
                             <td data-bind="text: Globalize.format(QuantidadeLiberada, formatoDosNumeros)"></td>
                             <td data-bind="text: Globalize.format(QuantidadeRealizada, formatoDosNumeros)"></td>
                             <td data-bind="text: Globalize.format(QuantidadeEmTransito, formatoDosNumeros)"></td>
-                            <td data-bind="text: Globalize.format(PrevisaoDeChegadaNoDia, formatoDosNumeros)"></td>
                             <td data-bind="text: Globalize.format(QuantidadePendente, formatoDosNumeros)"></td>
                             <td data-bind="text: Globalize.format(PercentualPendente, formatoDosNumeros)"></td>
                             <td >
@@ -339,8 +336,7 @@
                 colunasDoTotalizador[7].innerText = Globalize.format(totalizador.QuantidadeLiberada,formatoDosNumeros);
                 colunasDoTotalizador[8].innerText = Globalize.format(totalizador.QuantidadeRealizada, formatoDosNumeros);
                 colunasDoTotalizador[9].innerText = Globalize.format(totalizador.QuantidadeEmTransito, formatoDosNumeros);
-                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.PrevisaoDeChegadaNoDia, formatoDosNumeros);
-                colunasDoTotalizador[11].innerText = Globalize.format(totalizador.QuantidadePendente, formatoDosNumeros);
+                colunasDoTotalizador[10].innerText = Globalize.format(totalizador.QuantidadePendente, formatoDosNumeros);
             }
             
             function atualizaVisibilidadeDasColunasDasTabelas() {

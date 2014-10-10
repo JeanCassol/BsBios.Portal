@@ -202,7 +202,7 @@ namespace BsBios.Portal.Tests.DataProvider
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
                 ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao(),
-                ObtemTerminalPadrao());
+                ObtemTerminalPadrao(),100);
         }
 
         public static Terminal ObtemTerminalPadrao()
@@ -230,7 +230,7 @@ namespace BsBios.Portal.Tests.DataProvider
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
                 ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
-                ObtemTerminalPadrao());
+                ObtemTerminalPadrao(),100);
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
@@ -243,7 +243,7 @@ namespace BsBios.Portal.Tests.DataProvider
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario,
                 ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
-                ObtemTerminalPadrao());
+                ObtemTerminalPadrao(),100);
 
         }
 
@@ -353,7 +353,7 @@ namespace BsBios.Portal.Tests.DataProvider
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
                 ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao(),
-                ObtemTerminalPadrao());
+                ObtemTerminalPadrao(),100);
         }
 
 
@@ -447,6 +447,43 @@ namespace BsBios.Portal.Tests.DataProvider
             });
 
             return processoDeCotacaoDeFrete.FecharProcesso(condicoesDeFechamento).First();
+        }
+
+        public static OrdemDeTransporte ObtemOrdemDeTransporteComColeta()
+        {
+            OrdemDeTransporte ordemDeTransporte = ObtemOrdemDeTransporteComQuantidade(10);
+
+            var fabricaDeColeta = new ColetaFactory();
+            var coletaSalvarVm = new ColetaSalvarVm
+            {
+                DataDaColeta = DateTime.Now.Date.AddDays(-1).ToShortDateString(),
+                DataDePrevisaoDeChegada = DateTime.Now.Date.ToShortDateString(),
+                IdDaOrdemDeTransporte = ordemDeTransporte.Id,
+                Motorista = "Mauro",
+                Peso = 8,
+                Placa = "ioq-5338",
+                Realizado = "Não",
+                NotasFiscais = new List<NotaFiscalDeColetaVm>
+                {
+                    new NotaFiscalDeColetaVm
+                    {
+                        DataDeEmissao = DateTime.Now.Date.ToShortDateString(),
+                        Peso = 8,
+                        Numero = "123434",
+                        Serie = "1",
+                        Valor = 5435M
+                    }
+                }
+
+            };
+
+            Coleta coleta = fabricaDeColeta.Construir(coletaSalvarVm, ordemDeTransporte.PrecoUnitario);
+
+
+            ordemDeTransporte.AdicionarColeta(coleta);      
+      
+            return ordemDeTransporte;
+
         }
 
         public static MaterialDeCarga ObterSoja()

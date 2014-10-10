@@ -15,7 +15,27 @@
        
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, "maskmoeda"),
+            @{
+                string classe = "maskmoeda";
+                object atributos;
+                if (Model.PermiteAlterarPreco)
+                {
+                    atributos = new
+                    {
+                        @class = classe
+                    };
+                }
+                else
+                {
+                    classe += " campoDesabilitado";
+                    atributos = new
+                    {
+                        @readonly = true,
+                        @class = classe
+                    };
+                }
+            }
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, atributos),
                                       new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel,"maskquantidade"))
             
             @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
@@ -33,7 +53,9 @@
         @Html.ValidationSummary(true)
 
         <div class="divBotao">
-            <input type="button" id="btnSalvarCotacao" value="Salvar" class="blue" />
+            <input type="button" id="btnAceitarCotacao" value="Aceitar" class="blue" />
+            <input type="button" id="btnRecusarCotacao" value="Recusar" class="blue" />
+            <a href="@Url.Action("Index","ProcessoDeCotacaoDeFrete")" class="blue">Sair</a>
         </div>
     }
 </div>
@@ -52,7 +74,7 @@
                 $('.error').html(mensagem);
             }
 
-            $('#btnSalvarCotacao').click(function() {
+            $('#btnAceitarCotacao').click(function() {
                 $('.error').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
@@ -69,6 +91,32 @@
                         }
                     });
 
+            });
+
+            $('#btnRecusarCotacao').click(function() {
+                Mensagem.ExibirMensagemDeConfirmacao('Tem certeza que deseja Recusar a Cotação?', function() {
+                    $.ajax({
+                        url: '@Url.Action("SairDoProcesso","CotacaoDeFreteAtualizar")',
+                        type: 'POST',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+
+                        data: JSON.stringify({
+                            IdDoProcessoDeCotacao: $('#IdProcessoCotacao').val(),
+                            CodigoDoFornecedor: $('#CodigoFornecedor').val()
+                        })
+                    })
+                    .done(function (data) {
+                        if (data.Sucesso) {
+                            location.href = '@Url.Action("Index", "ProcessoDeCotacaoDeFrete")';
+                        } else {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                        }
+                    })
+                    .fail(function () {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao recusar o Processo de Cotação');
+                    });
+                });
             });
         });
     </script>

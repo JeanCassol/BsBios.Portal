@@ -165,5 +165,19 @@ namespace BsBios.Portal.Domain.Entities
         {
             return quantidadeTotalAdquirida > Quantidade;
         }
+
+        public virtual void DesativarParticipante(string codigoDoFornecedor)
+        {
+
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto )
+            {
+                throw new Exception("O Processo de Cotação não está mais aberto. Não foi possível sair do Processo de Cotação.");
+            }
+
+            FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.Single(f => f.Fornecedor.Codigo == codigoDoFornecedor);
+
+            fornecedorParticipante.Recusar();
+
+        }
     }
 }

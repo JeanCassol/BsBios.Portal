@@ -49,14 +49,20 @@
                     title: "Visualizado?"
                 },
                 {
-                    width: 65,
-                    title: "Reenviar E-mail",
+                    field: "Resposta",
+                    width: 60,
+                    title: "Resposta"
+                },
+
+                {
+                    width: 50,
+                    title: "Reenviar",
                     template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
                 },
                 {
                     field: 'Selecionado',
-                    title: 'Selecionado?',
-                    width: 60
+                    title: 'Selecionado',
+                    width: 65
                 },
                 {
                     field: "QuantidadeDisponivel",
@@ -66,8 +72,8 @@
                 },
                 {
                     field: "ValorComImpostos",
-                    width: 80,
-                    title: "Valor Com Impostos",
+                    width: 60,
+                    title: "Valor",
                     format: "{0:n2}"
                 }
             ]
