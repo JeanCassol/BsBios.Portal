@@ -79,8 +79,10 @@
     <Compile Include="Application\Queries\ConsultaParaConferenciaDeCargaTests.cs" />
     <Compile Include="Application\Queries\ConsultaRelatorioDeProcessoDeCotacaoDeFreteTests.cs" />
     <Compile Include="Application\Queries\ConsultaRelatorioDeOrdemDeTransporteTests.cs" />
+    <Compile Include="Application\Services\CadastroDeNotaFiscalMiroTests.cs" />
     <Compile Include="Application\Services\GeradorDeEmailDeAberturaDeProcessoDeCotacaoFactoryTests.cs" />
     <Compile Include="Application\Services\CadastroDeQuotaTests.cs" />
+    <Compile Include="Application\Services\CadastroDeConhecimentoDeTransporteTests.cs" />
     <Compile Include="BaseTestClass.cs" />
     <Compile Include="DefaultPersistedObjects.cs" />
     <Compile Include="Application\Services\AberturaDeProcessoDeCotacaoServiceFactoryTests.cs" />

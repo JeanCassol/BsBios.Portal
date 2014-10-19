@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;

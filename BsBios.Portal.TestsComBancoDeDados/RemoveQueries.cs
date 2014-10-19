@@ -1,6 +1,4 @@
 ﻿using System;
-using BsBios.Portal.Domain.Repositories;
-using BsBios.Portal.Infra;
 using BsBios.Portal.Infra.Repositories;
 using StructureMap;
 
@@ -229,6 +227,40 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 UnitOfWork.RollBack();
                 throw;
             }
+        }
+
+        public static void RemoverConhecimentosDeTransporteCadastrados()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from ConhecimentoDeTransporte");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
+
+        public static void RemoverTodosCadastros()
+        {
+            RemoverOrdensDeTransporteCadastradas();
+            RemoverProcessosDeCotacaoCadastrados();
+            RemoverRequisicoesDeCompraCadastradas();
+            RemoverQuotasCadastradas();
+            RemoverFornecedoresCadastrados();
+            RemoverProdutosCadastrados();
+            RemoverUsuariosCadastrados();
+            RemoverCondicoesDePagamentoCadastradas();
+            RemoverIvasCadastrados();
+            RemoverIncotermsCadastrados();
+            RemoverItinerariosCadastrados();
+            RemoverUnidadesDeMedidaCadastradas();
+            RemoverProcessoCotacaoIteracaoUsuarioCadastradas();
+            RemoverConhecimentosDeTransporteCadastrados();     
+            UnitOfWork.Session.Clear();
         }
     }
 }

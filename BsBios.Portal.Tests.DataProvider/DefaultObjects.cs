@@ -439,7 +439,7 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static OrdemDeTransporte ObtemOrdemDeTransporteComQuantidade(decimal quantidade)
         {
-            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada();
+            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(quantidade);
             IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = processoDeCotacaoDeFrete.FornecedoresSelecionados.Select(x => new CondicaoDoFechamentoNoSap
             {
                 CodigoDoFornecedor = x.Fornecedor.Codigo,
@@ -496,5 +496,16 @@ namespace BsBios.Portal.Tests.DataProvider
             return new MaterialDeCarga("Farelo");
         }
 
+        public static ConhecimentoDeTransporte ObterConhecimentoDeTransporte()
+        {
+            var conhecimentoDeTransporte = new ConhecimentoDeTransporte("42131025174182000157550010000000020108042108", "518505925", "2q34342423",
+                DateTime.Today, "1", "100", "24Q424", 1000,1000);
+
+            conhecimentoDeTransporte.AdicionarNotaFiscal("42131084684182000157550010000000020108042108","12","1");
+            conhecimentoDeTransporte.AdicionarNotaFiscal("42131084682582000157550010000000020108042108","13","1");
+
+            return conhecimentoDeTransporte;
+
+        }
     }
 }

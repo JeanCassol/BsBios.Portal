@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using NHibernate.Linq;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -62,6 +64,46 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IOrdensDeTransporte DoTerminal(string codigoDoTerminal)
         {
             Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.Terminal.Codigo == codigoDoTerminal);
+            return this;
+        }
+
+        public IOrdensDeTransporte ComPeriodoDeValidadeContendoAData(DateTime data)
+        {
+            Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.DataDeValidadeInicial >= data
+                                     && x.ProcessoDeCotacaoDeFrete.DataDeValidadeFinal <= data);
+
+            return this;
+        }
+
+        public IOrdensDeTransporte ComColetaAberta()
+        {
+            Query = Query.Where(x => x.StatusParaColeta == Enumeradores.StatusParaColeta.Aberto);
+            return this;
+        }
+
+        public IOrdensDeTransporte DoFornecedorDaMercadoria(string cnpjDoFornecedor)
+        {
+            Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria.Cnpj == cnpjDoFornecedor);
+            return this;
+        }
+
+        public IOrdensDeTransporte DaTransportadora(string cnpjDaTransportadora)
+        {
+            Query = Query.Where(x => x.Fornecedor.Cnpj == cnpjDaTransportadora);
+            return this;
+        }
+
+        public IOrdensDeTransporte IncluirProcessoDeCotacao()
+        {
+            Query = Query.Fetch(x => x.ProcessoDeCotacaoDeFrete);
+            return this;
+        }
+
+        public IOrdensDeTransporte ContendoNotaFiscalDeColeta(string numero, string serie)
+        {
+            Query = Query
+                .Where(x => x.Coletas.Any(c => c.NotasFiscais.Any(nf => nf.Numero == numero && nf.Serie == serie)));
+
             return this;
         }
     }

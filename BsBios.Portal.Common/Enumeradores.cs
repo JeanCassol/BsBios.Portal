@@ -135,5 +135,12 @@ namespace BsBios.Portal.Common
             Recusado
         }
 
+        public enum StatusDoConhecimentoDeTransporte
+        {
+            NaoAtribuido,
+            Atribuido,
+            Erro
+        }
+
     }
 }

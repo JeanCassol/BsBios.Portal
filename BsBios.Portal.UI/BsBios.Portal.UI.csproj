@@ -149,6 +149,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
     <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
+    <Compile Include="Controllers\ConhecimentoDeTransporteApiController.cs" />
+    <Compile Include="Controllers\NotaFiscalMiroApiController.cs" />
     <Compile Include="Controllers\TerminalApiController.cs" />
     <Compile Include="Controllers\ModelBinders\IntegerModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />

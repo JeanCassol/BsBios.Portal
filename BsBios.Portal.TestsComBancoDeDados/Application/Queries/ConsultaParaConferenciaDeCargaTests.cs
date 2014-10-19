@@ -20,19 +20,27 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
     public class ConsultaParaConferenciaDeCargaTests : RepositoryTest
     {
 
-        [ClassInitialize]
-        public static void Inicializar(TestContext testContext)
-        {
-            Initialize(testContext);
-            var prepararDados = new PrepararDados();
-            prepararDados.GerarDadosParaTeste();
+        //[ClassInitialize]
+        //public static void Inicializar(TestContext testContext)
+        //{
+        //    Initialize(testContext);
+        //    var prepararDados = new PrepararDados();
+        //    prepararDados.GerarDadosParaTeste();
 
-        }
+        //}
 
         [ClassCleanup]
         public static void Finalizar()
         {
             Cleanup();
+        }
+
+        [TestInitialize]
+        public void TesteInitialize()
+        {
+            var prepararDados = new PrepararDados();
+            prepararDados.GerarDadosParaTeste();
+            
         }
 
         [TestMethod]
@@ -140,7 +148,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
     {
         public  void GerarDadosParaTeste()
         {
-            RemoveQueries.RemoverQuotasCadastradas();
+            RemoveQueries.RemoverTodosCadastros();
 
             var unitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
 

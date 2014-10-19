@@ -61,6 +61,15 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
         }
 
+        [TestMethod]
+        public void RealizarConsultaDeOrdemDeTransportePorNotaFiscalDeColeta()
+        {
+            var ordensDeTransporte = ObjectFactory.GetInstance<IOrdensDeTransporte>();
+            IList<OrdemDeTransporte> ordensDeTransporteEncontradas = ordensDeTransporte.ContendoNotaFiscalDeColeta("1", "1").List();
+
+            Assert.IsFalse(ordensDeTransporteEncontradas.Any());
+        }
+
         //[TestMethod]
         //public void ConsigoFazerJuncaoDeQueryable()
         //{

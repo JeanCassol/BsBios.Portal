@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Repositories;
 using NHibernate;
 using StructureMap;
 
@@ -10,7 +11,8 @@ namespace BsBios.Portal.Tests.DefaultProvider
     public static class DefaultPersistedObjects
     {
         //private static readonly IUnitOfWorkNh UnitOfWorkNh = ObjectFactory.GetInstance<IUnitOfWorkNh>();
-        private static readonly ISession Session = ObjectFactory.GetInstance<ISession>();
+        //private static readonly ISession Session = ObjectFactory.GetInstance<ISession>();
+        private static readonly ISession Session = ObjectFactory.GetInstance<IUnitOfWorkNh>().Session;
         private static void RollbackSessionTransaction()
         {
             if (Session.Transaction != null && Session.Transaction.IsActive)

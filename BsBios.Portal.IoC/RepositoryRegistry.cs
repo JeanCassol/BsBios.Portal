@@ -75,6 +75,14 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<MateriaisDeCarga>();
 
+            For<IConhecimentosDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConhecimentosDeTransporte>();
+
+            For<INotasFiscaisMiro>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<NotasFiscaisMiro>();
+
         }
     }
 }

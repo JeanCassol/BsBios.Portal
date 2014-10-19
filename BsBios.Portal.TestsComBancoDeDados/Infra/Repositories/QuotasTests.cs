@@ -8,7 +8,6 @@ using BsBios.Portal.Tests.DataProvider;
 using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NHibernate;
 using StructureMap;
 
 namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
@@ -67,7 +66,6 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             var quotas = ObjectFactory.GetInstance<IQuotas>();
 
             var quotaConsultada = quotas.BuscaPorId(quota.Id);
-            Assert.IsFalse(NHibernateUtil.IsInitialized(quotaConsultada.Agendamentos));
             var agendamentoConsultado = (AgendamentoDeCarregamento) quotaConsultada.Agendamentos.First();
 
             Assert.AreEqual(100, agendamentoConsultado.Peso);

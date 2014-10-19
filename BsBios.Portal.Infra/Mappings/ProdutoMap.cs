@@ -1,7 +1,5 @@
 ﻿using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
-using NHibernate.Mapping;
-//using NHibernate.Mapping.ByCode;
 
 namespace BsBios.Portal.Infra.Mappings
 {

@@ -106,6 +106,13 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroTerminal>();
 
+            For<ICadastroDeConhecimentoDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroDeConhecimentoDeTransporte>();
+
+            For<ICadastroDeNotaFiscalMiro>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CadastroDeNotaFiscalMiro>();
 
         }
     }

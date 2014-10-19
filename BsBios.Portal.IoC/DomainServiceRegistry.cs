@@ -13,6 +13,14 @@ namespace BsBios.Portal.IoC
             For<IVerificaPermissaoAgendamento>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<VerificaPermissaoAgendamento>();
+
+            For<IProcessadorDeColeta>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessadorDeColeta>();
+
+            For<IProcessadorDeNotaFiscalMiro>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessadorDeNotaFiscalMiro>();
         }
     }
 }

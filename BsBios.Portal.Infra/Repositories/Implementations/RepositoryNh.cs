@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Repositories;
 using NHibernate.Linq;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
@@ -13,6 +12,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         protected RepositoryNh(IUnitOfWorkNh unitOfWorkNh)
         {
             UnitOfWorkNh = unitOfWorkNh;
+            IniciarQueryable();
+        }
+
+        protected void IniciarQueryable()
+        {
             Query = UnitOfWorkNh.Session.Query<TEntity>();
         }
     }

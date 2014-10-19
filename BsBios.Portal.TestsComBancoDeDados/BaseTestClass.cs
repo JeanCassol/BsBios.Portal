@@ -20,19 +20,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
             SessionManager.ConfigureDataAccess(ConfigurationManager.ConnectionStrings["BsBiosTesteUnitario"].ConnectionString);
             IoCWorker.Configure();
 
-            RemoveQueries.RemoverOrdensDeTransporteCadastradas();
-            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
-            RemoveQueries.RemoverRequisicoesDeCompraCadastradas();
-            RemoveQueries.RemoverQuotasCadastradas();
-            RemoveQueries.RemoverFornecedoresCadastrados();
-            RemoveQueries.RemoverProdutosCadastrados();
-            RemoveQueries.RemoverUsuariosCadastrados();
-            RemoveQueries.RemoverCondicoesDePagamentoCadastradas();
-            RemoveQueries.RemoverIvasCadastrados();
-            RemoveQueries.RemoverIncotermsCadastrados();
-            RemoveQueries.RemoverItinerariosCadastrados();
-            RemoveQueries.RemoverUnidadesDeMedidaCadastradas();
-            RemoveQueries.RemoverProcessoCotacaoIteracaoUsuarioCadastradas();
+            RemoveQueries.RemoverTodosCadastros();
 
             RestaurarUsuarioConectado();
 

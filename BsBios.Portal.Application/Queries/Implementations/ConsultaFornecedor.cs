@@ -84,8 +84,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public string ConsultaPorCnpj(string cnpj)
         {
-            _fornecedores.BuscaPeloCnpj(cnpj);
-            return (from fornecedor in _fornecedores.GetQuery() select fornecedor.Nome).FirstOrDefault();
+            return (from fornecedor in _fornecedores.GetQuery()
+                    where fornecedor.Cnpj == cnpj
+                    select fornecedor.Nome).FirstOrDefault();
         }
     }
 }

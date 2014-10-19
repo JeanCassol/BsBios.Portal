@@ -116,13 +116,26 @@ namespace BsBios.Portal.Domain.Entities
             AtualizarQuantidadeColetada(false);
         }
 
+        private void RealizarColeta(Coleta coleta)
+        {
+            coleta.Realizar();
+            QuantidadeRealizada = Coletas.Where(x => x.Realizado).Sum(x => x.Peso);
+            
+        }
 
         public virtual void RealizarColeta(int idDaColeta)
         {
             Coleta coleta = Coletas.Single(c => c.Id == idDaColeta);
-            coleta.Realizar();
-            QuantidadeRealizada = Coletas.Where(x => x.Realizado).Sum(x => x.Peso);
+            RealizarColeta(coleta);
         }
+
+        public virtual Coleta RealizarColeta(string numero, string serie)
+        {
+            Coleta coleta = this.Coletas.Single(c => c.NotasFiscais.Any(nf => nf.Numero == numero && nf.Serie == serie));
+            RealizarColeta(coleta);
+            return coleta;
+        }
+
 
         public virtual void FecharParaColeta(string motivo)
         {
@@ -130,5 +143,6 @@ namespace BsBios.Portal.Domain.Entities
             this.QuantidadeLiberada = this.QuantidadeRealizada;
             this.MotivoDeFechamento = motivo;
         }
+
     }
 }

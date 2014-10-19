@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Common.Exceptions
 {
     public static class ExceptionUtil
     {
-        public static ApiResponseMessage GeraExecaoDeErroParaWebApi(Exception ex)
+        public static ApiResponseMessage GeraMensagemDeErroParaWebApi(Exception ex)
         {
             return new ApiResponseMessage()
             {

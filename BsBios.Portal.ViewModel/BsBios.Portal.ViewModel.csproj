@@ -50,6 +50,7 @@
     <Compile Include="ColetaVm.cs" />
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
+    <Compile Include="ConhecimentoDeTransporteVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="ItinerarioFiltroVm.cs" />
     <Compile Include="MonitorDeOrdemDeTransporteConfiguracaoVm.cs" />
     <Compile Include="MonitorDeOrdemDeTransporteVm.cs" />
+    <Compile Include="NotaFiscalMiroVm.cs" />
     <Compile Include="NotaFiscalVm.cs" />
     <Compile Include="OrdemDeTransporteCadastroVm.cs" />
     <Compile Include="ColetaListagemVm.cs" />

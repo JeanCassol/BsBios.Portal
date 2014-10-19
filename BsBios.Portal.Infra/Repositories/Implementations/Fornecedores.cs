@@ -15,10 +15,9 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return Query.SingleOrDefault(x => x.Codigo == codigoSap);
         }
 
-        public IFornecedores BuscaPeloCnpj(string cnpj)
+        public Fornecedor BuscaPeloCnpj(string cnpj)
         {
-            Query = Query.Where(x => x.Cnpj == cnpj);
-            return this;
+            return Query.SingleOrDefault(x => x.Cnpj == cnpj);
         }
 
         public IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores)

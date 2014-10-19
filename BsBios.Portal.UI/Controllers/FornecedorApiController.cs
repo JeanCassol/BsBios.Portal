@@ -44,7 +44,7 @@ namespace BsBios.Portal.UI.Controllers
 
             catch (Exception ex)
             {
-                retornoPortal = ExceptionUtil.GeraExecaoDeErroParaWebApi(ex);
+                retornoPortal = ExceptionUtil.GeraMensagemDeErroParaWebApi(ex);
                 return Request.CreateResponse(HttpStatusCode.OK, retornoPortal);
             }
         }

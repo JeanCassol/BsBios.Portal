@@ -136,6 +136,8 @@
     <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaStatusProcessoCotacao.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
+    <Compile Include="Services\Contracts\ICadastroDeNotaFiscalMiro.cs" />
+    <Compile Include="Services\Contracts\ICadastroDeConhecimentoDeTransporte.cs" />
     <Compile Include="Services\Contracts\ICadastroTerminal.cs" />
     <Compile Include="Services\Contracts\ICancelamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
@@ -170,6 +172,8 @@
     <Compile Include="Services\Implementations\AgendamentoDeCargaService.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
+    <Compile Include="Services\Implementations\CadastroDeNotaFiscalMiro.cs" />
+    <Compile Include="Services\Implementations\CadastroDeConhecimentoDeTransporte.cs" />
     <Compile Include="Services\Implementations\CadastroItinerario.cs" />
     <Compile Include="Services\Implementations\CadastroQuota.cs" />
     <Compile Include="Services\Implementations\CadastroTerminal.cs" />

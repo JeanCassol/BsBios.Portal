@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using System;
+using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Domain.Repositories
 {
@@ -12,5 +13,11 @@ namespace BsBios.Portal.Domain.Repositories
         IOrdensDeTransporte ComNumeroDeContrato(string numeroDoContrato);
         IOrdensDeTransporte ComOrigemNoMunicipio(string codigoDoMunicipio);
         IOrdensDeTransporte DoTerminal(string codigoDoTerminal);
+        IOrdensDeTransporte ComPeriodoDeValidadeContendoAData(DateTime data);
+        IOrdensDeTransporte ComColetaAberta();
+        IOrdensDeTransporte DoFornecedorDaMercadoria(string cnpjDoFornecedor);
+        IOrdensDeTransporte DaTransportadora(string cnpjDaTransportadora);
+        IOrdensDeTransporte IncluirProcessoDeCotacao();
+        IOrdensDeTransporte ContendoNotaFiscalDeColeta(string numero, string serie);
     }
 }

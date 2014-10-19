@@ -112,7 +112,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             if (Realizado)
             {
-                throw new RealizacaoDeColetaRealizadaException();
+                throw new RealizacaoDeColetaRealizadaException(this.Id);
             }
 
             Realizado = true;

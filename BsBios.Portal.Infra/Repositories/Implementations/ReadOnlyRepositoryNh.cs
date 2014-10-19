@@ -14,12 +14,16 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IList<TEntity> List()
         {
-            return Query.ToList();
+            List<TEntity> entities = Query.ToList();
+            IniciarQueryable();
+            return entities;
         }
 
         public TEntity Single()
         {
-            return Query.SingleOrDefault();
+            TEntity entidade = Query.SingleOrDefault();
+            IniciarQueryable();
+            return entidade;
         }
 
         public int Count()
