@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Conhecimento de Transporte";
+}
+@section styles{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
+
+<fieldset>
+    <legend>Filtros</legend>
+    <form id="formularioDeFiltros">
+        <div class="linha">
+            <div class="coluna">
+                <label for="dataDeEmissao">Data de Emissão</label>
+                <input type="text" id="dataDeEmissao" class="campopequeno campoDatePicker maskdata"/>
+            </div>
+            <div class="coluna">
+                <label for="numeroDoContrato">Número do Contrato</label>
+                <input type="text" id="numeroDoContrato" class="campopequeno"/>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                <label for="codigoDoFornecedor">Código do Fornecedor</label>
+                <input type="text" id="codigoDoFornecedor" class="campopequeno maskcnpj"/>
+            </div>
+            <div class="coluna">
+                <label for="codigoDaTransportadora">Código da Transportadora</label>
+                <input type="text" id="codigoDaTransportadora" class="campopequeno maskcnpj"/>
+            </div>
+
+        </div>
+        
+        <div class="linha">
+            <div class="coluna">
+                <label for="Status">Status</label>
+                <select id="Status">
+                    <option>Todos</option>
+                    <option value="0">Não atribuido</option>
+                    <option value="1">Atribuido</option>
+                    <option value="2">Erro</option>
+                </select>
+            </div>
+            <div class="coluna"></div>
+        </div>
+
+        <div class="divBotao">
+            <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+    </form>
+</fieldset>
+<div id="conhecimentosDeTransporte" class="divGrid"></div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    @Scripts.Render("~/bundles/scriptsgerais")
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script src="@Url.Content("~/Scripts/ConhecimentoDeTransporte/Index.js")">
+    </script>
+}    

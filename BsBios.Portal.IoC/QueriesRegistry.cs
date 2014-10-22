@@ -122,6 +122,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaTerminal>();
 
+            For<IConsultaConhecimentoDeTransporte>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaConhecimentoDeTransporte>();
+
         }
 
     }

@@ -148,6 +148,7 @@
     <Compile Include="Controllers\AgendamentoDeCargaServiceController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConferenciaDeCargaController.cs" />
+    <Compile Include="Controllers\ConhecimentoDeTransporteController.cs" />
     <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
     <Compile Include="Controllers\ConhecimentoDeTransporteApiController.cs" />
     <Compile Include="Controllers\NotaFiscalMiroApiController.cs" />
@@ -357,6 +358,7 @@
     <None Include="Properties\PublishProfiles\BsBios - QA.pubxml" />
     <None Include="Properties\PublishProfiles\BsBios.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Scripts\ConhecimentoDeTransporte\Index.js" />
     <Content Include="Scripts\globalize.culture.pt-BR.js" />
     <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
@@ -507,6 +509,7 @@
     <Content Include="Views\Shared\_EstiloDosRelatorios.cshtml" />
     <Content Include="Views\Shared\_CabecalhoExportacao.cshtml" />
     <Content Include="Views\OrdemDeTransporte\Fechar.cshtml" />
+    <Content Include="Views\ConhecimentoDeTransporte\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

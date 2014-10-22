@@ -79,6 +79,7 @@ namespace BsBios.Portal.Infra.Builders
             AdicionarItem("Adicionar", "ProcessoDeCotacaoDeFrete", "NovoCadastro");
             AdicionarItem("Ordens de Transporte", "OrdemDeTransporte", "Index");
             AdicionarItem("Monitor de Ordens de Transporte", "MonitorDeOrdemDeTransporte", "Index",true);
+            AdicionarItem("Conhecimento de Transporte", "ConhecimentoDeTransporte", "Index");
         }
     }
 

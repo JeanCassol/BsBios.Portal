@@ -23,20 +23,11 @@ namespace BsBios.Portal.Domain.Services.Implementations
             //verifica se o fornecedor da mercadoria é válido
             Fornecedor fornecedor = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDoFornecedor);
 
-            if (fornecedor == null)
-            {
-                conhecimentoDeTransporte.InformarErroDeProcessamento("Fornecedor da Mercadoria não encontrado");
-                return null;
-            }
+            conhecimentoDeTransporte.AtribuirFornecedorDaMercadoria(fornecedor);
 
             //verifica se  a transportadora é válida
             Fornecedor transportadora = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora);
-
-            if (transportadora == null)
-            {
-                conhecimentoDeTransporte.InformarErroDeProcessamento("Transportadora não encontrada");
-                return null;
-            }
+            conhecimentoDeTransporte.AtribuirTransportadora(transportadora);
 
             //busca ordens candidatas;
             IList<OrdemDeTransporte> ordensCandidatas = _ordensDeTransporte

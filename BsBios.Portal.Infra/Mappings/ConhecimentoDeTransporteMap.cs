@@ -23,6 +23,9 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Status).CustomType<Enumeradores.StatusDoConhecimentoDeTransporte>();
             Map(x => x.MensagemDeErroDeProcessamento);
 
+            References(x => x.Fornecedor).Column("CodigoFornecedor");
+            References(x => x.Transportadora).Column("CodigoTransportadora");
+
             HasMany(ConhecimentoDeTransporte.Expressions.NotasFiscais)
                             .KeyColumn("CHAVECONHECIMENTODETRANSPORTE")
                             .Not.Inverse()
