@@ -7,6 +7,7 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Linq;
+using NHibernate.Type;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -41,7 +42,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))
             {
-                
+                queryable = queryable.Where(ct => ct.NumeroDoContrato.Contains(filtro.NumeroDoContrato));
             }
 
             if (filtro.Status.HasValue)
@@ -63,6 +64,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
                         DataDeEmissao = ct.DataDeEmissao.ToShortDateString(),
                         CodigoDoFornecedor = ct.Fornecedor.Codigo,
                         CodigoDaTransportadora = ct.Transportadora.Codigo,
+                        NumeroDoConhecimento = ct.Numero,
+                        NumeroDoContrato = ct.NumeroDoContrato,
+                        ValorRealDoFrete = ct.ValorRealDoFrete,
+                        PesoTotalDaCarga = ct.PesoTotalDaCarga,
                         Status = ct.Status
                     }).Cast<ListagemVm>().ToList(),
             };

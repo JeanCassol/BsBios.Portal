@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    aplicaMascaraCnpj();
     aplicaMascaraData();
 
     $("#conhecimentosDeTransporte").customKendoGrid({
@@ -12,8 +11,12 @@
                         ChaveEletronica: { type: "string" },
                         CodigoDoFornecedor: { type: "string" },
                         CodigoDaTransportadora: { type: "string" },
+                        NumeroDoConhecimento: { type: "string" },
+                        NumeroDoContrato: { type: "string" },
                         DataDeEmissao: { type: "string" },
-                        DescricaoDoStatus: { type: "string" }
+                        DescricaoDoStatus: { type: "string" },
+                        ValorRealDoFrete: { type: "number" },
+                        PesoTotalDaCarga: { type: "number" }
                     }
                 },
 
@@ -51,10 +54,33 @@
                 width: 100
             },
             {
-                field: "DataDeEmissao",
-                title: 'Data de Emissão',
+                field: "NumeroDoConhecimento",
+                title: 'Nº Conhecimento',
                 width: 100
             },
+            {
+                field: "DataDeEmissao",
+                title: 'Data de Emissão',
+                width: 80
+            },
+            {
+                field: "NumeroDoContrato",
+                title: 'Nº Contrato',
+                width: 100
+            },
+            {
+                field: "ValorRealDoFrete",
+                title: 'Valor',
+                format: '{0:n2}',
+                width: 70
+            },
+            {
+                field: "PesoTotalDaCarga",
+                title: 'Peso',
+                format:'{0:n3}',
+                width: 70
+            },
+
             {
                 field: "DescricaoDoStatus",
                 title: "Status",

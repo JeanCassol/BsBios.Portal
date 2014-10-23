@@ -218,7 +218,7 @@ $.fn.customLoad = function (url, callBack) {
 };
 
 $.fn.serializeObject = function() {
-    var inputs = $(this).find(":input");
+    var inputs = $(this).find(":input:not([type=reset])");
     var object = {};
     $.each(inputs, function (index, input) {
         var valorDoInput;
@@ -227,7 +227,7 @@ $.fn.serializeObject = function() {
         } else {
             valorDoInput = $(input).val();
         }
-        object[input.name] = valorDoInput;
+        object[input.name || input.id] = valorDoInput;
     });
 
     return object;
