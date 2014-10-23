@@ -137,6 +137,7 @@ namespace BsBios.Portal.Common
 
         public enum StatusDoConhecimentoDeTransporte
         {
+            [Description("Não atribuido")]
             NaoAtribuido,
             Atribuido,
             Erro

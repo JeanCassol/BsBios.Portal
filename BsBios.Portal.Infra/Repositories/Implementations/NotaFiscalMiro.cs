@@ -13,5 +13,14 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public NotasFiscaisMiro(IUnitOfWorkNh unitOfWork) : base(unitOfWork)
         {
         }
+
+        public INotasFiscaisMiro FiltraPelaChave(string cnpjDoFornecedor, string numero, string serie)
+        {
+            this.Query = this.Query.Where(nf => nf.CnpjDoFornecedor == cnpjDoFornecedor
+                                                && nf.Numero == numero
+                                                && nf.Serie == serie);
+
+            return this;
+        }
     }
 }

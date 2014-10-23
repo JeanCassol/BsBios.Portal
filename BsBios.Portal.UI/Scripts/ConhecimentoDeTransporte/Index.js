@@ -13,7 +13,7 @@
                         CodigoDoFornecedor: { type: "string" },
                         CodigoDaTransportadora: { type: "string" },
                         DataDeEmissao: { type: "string" },
-                        Status: { type: "number" }
+                        DescricaoDoStatus: { type: "string" }
                     }
                 },
 
@@ -56,7 +56,8 @@
                 width: 100
             },
             {
-                field: "Status",
+                field: "DescricaoDoStatus",
+                title: "Status",
                 width: 100
             }
         ]

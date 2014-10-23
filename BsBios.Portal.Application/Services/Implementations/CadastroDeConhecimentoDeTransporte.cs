@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
@@ -93,13 +94,15 @@ namespace BsBios.Portal.Application.Services.Implementations
         //    }
         //}
 
-        private void Processar(IEnumerable<ConhecimentoDeTransporte> conhecimentosDeTransporte)
+        private void Processar(IEnumerable<string> chavesEletronicas)
         {
-            foreach (var conhecimentoDeTransporte in conhecimentosDeTransporte)
+            foreach (var chaveEletronica in chavesEletronicas)
             {
                 try
                 {
                     _unitOfWorkNh.BeginTransaction();
+
+                    ConhecimentoDeTransporte conhecimentoDeTransporte = _conhecimentosDeTransporte.ComChaveEletronica(chaveEletronica).Single();
                     _processadorDeColeta.Processar(conhecimentoDeTransporte);
 
                     _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
@@ -119,7 +122,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         {
             IEnumerable<ConhecimentoDeTransporte> conhecimentosDeTransporteGerados = RealizarCadastro(conhecimentosDeTransporteVm);
 
-            var processar = new Task(() => Processar(conhecimentosDeTransporteGerados));
+            var processar = new Task(() => Processar(conhecimentosDeTransporteGerados.Select(x => x.ChaveEletronica)));
 
             processar.Start();
 

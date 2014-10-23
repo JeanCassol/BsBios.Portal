@@ -63,13 +63,17 @@ namespace BsBios.Portal.Application.Services.Implementations
                 try
                 {
                     _unitOfWorkNh.BeginTransaction();
-                    OrdemDeTransporte ordemDeTransporte = _processadorDeNotaFiscal.Processar(notaFiscal);
+
+                    //como estou chamando o método processar a partir de uma thread, tenho que carregar novamente a entidade
+                    NotaFiscalMiro notaFiscalParaProcessamento = _notasFiscaisMiro.FiltraPelaChave(notaFiscal.CnpjDoFornecedor, notaFiscal.Numero, notaFiscal.Serie).Single();
+
+                    OrdemDeTransporte ordemDeTransporte = _processadorDeNotaFiscal.Processar(notaFiscalParaProcessamento);
                     if (ordemDeTransporte != null)
                     {
                         _ordensDeTransporte.Save(ordemDeTransporte);
                     }
 
-                    _notasFiscaisMiro.Save(notaFiscal);
+                    _notasFiscaisMiro.Save(notaFiscalParaProcessamento);
 
                     _unitOfWorkNh.Commit();
                 }
@@ -80,6 +84,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 }
 
             }
+            //estou liberando os recursos da unit of work explicitamente porque a requisição http já deve ter concluído e aqui é uma thread
+            _unitOfWorkNh.Dispose();
         }
 
         public void Salvar(ListaDeNotaFiscalMiro notasFiscais)

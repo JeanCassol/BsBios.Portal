@@ -174,7 +174,7 @@ http://localhost:3905/api/ConhecimentoDeTransporteApi/PostMultiplo
 		<ChaveEletronica>35080599999090910270550010000000015180051273</ChaveEletronica>
 		<CnpjDaTransportadora>87339016000101</CnpjDaTransportadora>
 		<CnpjDoFornecedor>91495549000583</CnpjDoFornecedor>
-		<DataDeEmissao>21/10/2014</DataDeEmissao>
+		<DataDeEmissao>20/12/2013</DataDeEmissao>
 		<NotasFiscais>
 			<NotaFiscalDoConhecimentoDeTransporteVm>
 				<Chave>35080599999090910270550010000000015180051274</Chave>
@@ -195,10 +195,11 @@ http://localhost:3905/api/ConhecimentoDeTransporteApi/PostMultiplo
 	</ConhecimentoDeTransporteVm>
 </ListaDeConhecimentoDeTransporte>
 
-
-<ListaDeConhecimentoDeTransporte xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
-	<ConhecimentoDeTransporteVm>
-		<ChaveEletronica>35080599999090910270550010000000015180051273</ChaveEletronica>
-	</ConhecimentoDeTransporteVm>
-</ListaDeConhecimentoDeTransporte>
-
+http://localhost:3905/api/NotaFiscalMiroApi/PostMultiplo
+<ListaDeNotaFiscalMiro xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<NotaFiscalMiroVm>
+		<CnpjDoFornecedor>91495549000583</CnpjDoFornecedor>
+		<Numero>101</Numero>
+		<Serie>1</Serie>
+	</NotaFiscalMiroVm>
+</ListaDeNotaFiscalMiro>

@@ -69,8 +69,8 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IOrdensDeTransporte ComPeriodoDeValidadeContendoAData(DateTime data)
         {
-            Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.DataDeValidadeInicial >= data
-                                     && x.ProcessoDeCotacaoDeFrete.DataDeValidadeFinal <= data);
+            Query = Query.Where(x => x.ProcessoDeCotacaoDeFrete.DataDeValidadeInicial <= data
+                                     && x.ProcessoDeCotacaoDeFrete.DataDeValidadeFinal >= data);
 
             return this;
         }

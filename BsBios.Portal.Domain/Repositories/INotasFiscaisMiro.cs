@@ -4,6 +4,6 @@ namespace BsBios.Portal.Domain.Repositories
 {
     public interface INotasFiscaisMiro: ICompleteRepository<NotaFiscalMiro>
     {
-         
+        INotasFiscaisMiro FiltraPelaChave(string cnpjDoFornecedor, string numero, string serie);
     }
 }

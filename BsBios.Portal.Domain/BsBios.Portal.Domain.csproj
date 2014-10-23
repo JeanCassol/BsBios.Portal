@@ -90,7 +90,7 @@
     <Compile Include="Repositories\IUnidadesDeMedida.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\IUsuarios.cs" />
-    <Compile Include="Repositories\NotasFiscaisMiro.cs" />
+    <Compile Include="Repositories\INotasFiscaisMiro.cs" />
     <Compile Include="Services\Contracts\IColetaFactory.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaFactory.cs" />
     <Compile Include="Services\Contracts\IProcessadorDeColeta.cs" />
