@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.Services.Contracts;
@@ -25,9 +26,19 @@ namespace BsBios.Portal.Domain.Services.Implementations
 
             conhecimentoDeTransporte.AtribuirFornecedorDaMercadoria(fornecedor);
 
+            if (fornecedor == null)
+            {
+                return null;
+            }
+
             //verifica se  a transportadora é válida
             Fornecedor transportadora = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora);
             conhecimentoDeTransporte.AtribuirTransportadora(transportadora);
+
+            if (transportadora == null)
+            {
+                return null;
+            }
 
             //busca ordens candidatas;
             IList<OrdemDeTransporte> ordensCandidatas = _ordensDeTransporte

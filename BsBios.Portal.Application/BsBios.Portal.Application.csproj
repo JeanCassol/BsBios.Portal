@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\ConhecimentoDeTransporteFormulario.cs" />
     <Compile Include="DTO\ConhecimentoDeTransporteListagem.cs" />
     <Compile Include="DTO\FiltroDeConhecimentoDeTransporte.cs" />
     <Compile Include="DTO\OrdemDeTransporteAtualizarDTO.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Services\Contracts\ICadastroDeConhecimentoDeTransporte.cs" />
     <Compile Include="Services\Contracts\ICadastroTerminal.cs" />
     <Compile Include="Services\Contracts\ICancelamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IConhecimentoDeTransporteComando.cs" />
     <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Services\Implementations\CadastroUnidadeDeMedida.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeFrete.cs" />
     <Compile Include="Services\Implementations\CancelamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\ConhecimentoDeTransporteComando.cs" />
     <Compile Include="Services\Implementations\OrdemDeTransporteService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />

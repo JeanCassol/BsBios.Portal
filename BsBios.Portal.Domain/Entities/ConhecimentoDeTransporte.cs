@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq.Expressions;
+using System.Linq;
 using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
@@ -9,8 +8,9 @@ namespace BsBios.Portal.Domain.Entities
     public class ConhecimentoDeTransporte : IAggregateRoot
     {
 
-        private readonly IList<NotaFiscalDeConhecimentoDeTransporte> _notasFiscais;
-        private IList<OrdemDeTransporte> OrdensVinculadas { get; set; }
+        private IList<NotaFiscalDeConhecimentoDeTransporte> _notasFiscais;
+        // ReSharper disable once InconsistentNaming
+        private IList<OrdemDeTransporte> _ordensDeTransporte;
 
         protected ConhecimentoDeTransporte() { }
 
@@ -28,15 +28,9 @@ namespace BsBios.Portal.Domain.Entities
             this.PesoTotalDaCarga = pesoTotalDaCarga;
             this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido;
 
-            _notasFiscais = new List<NotaFiscalDeConhecimentoDeTransporte>();
-            this.OrdensVinculadas = new List<OrdemDeTransporte>();
+            this._notasFiscais = new List<NotaFiscalDeConhecimentoDeTransporte>();
+            this._ordensDeTransporte = new List<OrdemDeTransporte>();
 
-        }
-
-        public static class Expressions
-        {
-            public static Expression<Func<ConhecimentoDeTransporte, IEnumerable<NotaFiscalDeConhecimentoDeTransporte>>> NotasFiscais = x => x._notasFiscais;
-            public static Expression<Func<ConhecimentoDeTransporte, IEnumerable<OrdemDeTransporte>>> OrdensDeTransporteVinculadas = x => x.OrdensVinculadas;
         }
 
         public virtual string ChaveEletronica { get; protected internal set; }
@@ -52,22 +46,21 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal PesoTotalDaCarga { get; protected internal set; }
         public virtual Enumeradores.StatusDoConhecimentoDeTransporte Status { get; protected internal set; }
         public virtual string MensagemDeErroDeProcessamento { get; protected internal set; }
-        
 
 
-        public virtual ReadOnlyCollection<NotaFiscalDeConhecimentoDeTransporte> NotasFiscais
+        public virtual IEnumerable<NotaFiscalDeConhecimentoDeTransporte> NotasFiscais
         {
             get
             {
-                return new ReadOnlyCollection<NotaFiscalDeConhecimentoDeTransporte>(this._notasFiscais);
+                return this._notasFiscais;
             }
         }
 
-        public virtual ReadOnlyCollection<OrdemDeTransporte> OrdensDeTransporteCandidatas
+        public virtual IEnumerable<OrdemDeTransporte> OrdensDeTransporte
         {
             get
             {
-                return new ReadOnlyCollection<OrdemDeTransporte>(this.OrdensVinculadas);
+                return this._ordensDeTransporte;
             }
         }
 
@@ -83,11 +76,12 @@ namespace BsBios.Portal.Domain.Entities
         {
             try
             {
-                this.OrdensVinculadas.Add(ordemDeTransporte);
+                this._ordensDeTransporte.Clear();
+                this._ordensDeTransporte.Add(ordemDeTransporte);
 
                 var coleta = new Coleta(null, null,this.DataDeEmissao, this.DataDeEmissao);
 
-                int quantidadeDeNotas = this.NotasFiscais.Count;
+                int quantidadeDeNotas = this.NotasFiscais.Count();
                 decimal pesoRateado =  Math.Round(this.PesoTotalDaCarga / quantidadeDeNotas,3);
                 decimal valorRateado = Math.Round(this.ValorRealDoFrete / quantidadeDeNotas,2);
 
@@ -114,7 +108,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void IndicarOrdensCandidatas(IList<OrdemDeTransporte> ordensCandidatas)
         {
-            this.OrdensVinculadas = ordensCandidatas;
+            this._ordensDeTransporte = ordensCandidatas;
         }
 
 
@@ -122,6 +116,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             if (fornecedor == null)
             {
+                this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.Erro;
                 this.MensagemDeErroDeProcessamento = "Fornecedor da Mercadoria não encontrado";
             }
             else
@@ -134,6 +129,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             if (transportadora == null)
             {
+                this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.Erro;
                 this.MensagemDeErroDeProcessamento = "Transportadora não encontrada";
             }
             else

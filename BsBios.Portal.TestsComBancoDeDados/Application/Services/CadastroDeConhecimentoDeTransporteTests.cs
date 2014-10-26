@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Repositories.Implementations;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,7 +40,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Services
 
             ConhecimentoDeTransporte conhecimentoDeTransporte = conhecimentosDeTransporte.ComChaveEletronica("42131025174182000157550010000000020108042108").Single();
 
-            Assert.AreEqual(2, conhecimentoDeTransporte.NotasFiscais.Count);
+            Assert.AreEqual(2, conhecimentoDeTransporte.NotasFiscais.Count());
         }
 
         private static ConhecimentoDeTransporteVm GerarDadosParaConhecimentoDeTransporte()

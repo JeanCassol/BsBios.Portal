@@ -416,8 +416,8 @@ function aplicaMascaraNumeroContrato() {
     $(campos).setMask('numerocontrato-portal');
 }
 
-function bloqueiaPagina() {
-    $('#todaPagina').block("Processando...");
+function bloqueiaPagina(mensagem) {
+    $('#todaPagina').block(mensagem || "Processando...");
 }
 
 function desbloqueiaPagina() {

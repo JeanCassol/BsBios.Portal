@@ -6,9 +6,9 @@ using StructureMap.Pipeline;
 
 namespace BsBios.Portal.IoC
 {
-    public class AplicationServiceRegistry : Registry
+    public class ApplicationServiceRegistry : Registry
     {
-        public  AplicationServiceRegistry()
+        public  ApplicationServiceRegistry()
         {
             For<ICadastroUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
@@ -113,6 +113,11 @@ namespace BsBios.Portal.IoC
             For<ICadastroDeNotaFiscalMiro>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CadastroDeNotaFiscalMiro>();
+
+            For<IConhecimentoDeTransporteComando>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConhecimentoDeTransporteComando>();
+
 
         }
     }

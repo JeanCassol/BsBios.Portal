@@ -9,23 +9,26 @@
 .divBotao input[type="reset"],
 .divBotao button,
 .divBotao a {
-	display: inline-block;
+    display: inline-block;
 	outline: none;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
 	font: 1.2em Arial, Helvetica, sans-serif;
 	padding: .5em 1em .55em;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -ms-text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	-webkit-border-radius: .5em; 
 	-moz-border-radius: .5em;
-	border-radius: .5em;
+    -ms-border-radius: .5em;
+    border-radius: .5em;
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -ms-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
     width: 13.75%;
 }
-    
+
 .divBotao a {
     width: 50px;
     color: #d9eef7
@@ -40,13 +43,17 @@
 }
 
 .blue {
-	color: #d9eef7;
+    color: #d9eef7;
 	border: solid 1px #0076a3;
 	background: #0095cd;
 	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
 	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+    -webkit-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+    -moz-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+    -o-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
 }
+
 .blue:hover {
 	background: #007ead;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));

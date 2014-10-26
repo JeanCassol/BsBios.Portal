@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common;
+﻿using System.Collections.Generic;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Tests.DataProvider;
@@ -82,5 +83,56 @@ namespace BsBios.Portal.Tests.Domain.Entities
             Assert.AreEqual("456", usuario.Senha);
         }
 
+        [TestMethod]
+        public void NaoConsigoAlterarUmIEnumerable()
+        {
+            var nota = new Nota(10);
+            nota.AdicionarItem(10,"teste");
+
+            IList<Item> itensDaNota = nota.Items.ToList();
+            itensDaNota.Add(new Item(30, "teste 2"));
+
+            Assert.AreEqual(1, nota.Items.Count());            
+            Assert.AreEqual(2, itensDaNota.Count);
+
+        }
     }
+
+    internal class Nota
+    {
+        public Nota(int id)
+        {
+            this.Id = id;
+            _items = new List<Item>();
+        }
+        public int Id { get; private set; }
+        private readonly IList<Item> _items;
+
+        public IEnumerable<Item> Items
+        {
+            get { return _items; }
+        }
+
+        public void AdicionarItem(int codigo, string produto)
+        {
+            var item = new Item(codigo, produto);
+            _items.Add(item);
+        }
+    }
+
+    internal class Item
+    {
+        public Item(int codigo, string produto)
+        {
+            Codigo = codigo;
+            Produto = produto;
+        }
+
+        public int Codigo { get; private set; }
+        public string Produto { get; private set; }
+
+
+    }
+
+
 }

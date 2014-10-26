@@ -4,6 +4,7 @@
 @section styles{
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 }
 
 <fieldset>
@@ -51,6 +52,10 @@
     </form>
 </fieldset>
 <div id="conhecimentosDeTransporte" class="divGrid"></div>
+<div class="divBotao">
+    <input id="reprocessar" type="button" value="Reprocessar" class="blue" title="Tenta vincular automaticamente conhecimentos com erro"/>
+</div>
+
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
@@ -58,6 +63,7 @@
     @Scripts.Render("~/bundles/scriptsgerais")
     <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script src="@Url.Content("~/Scripts/ConhecimentoDeTransporte/Index.js")">
     </script>
 }    

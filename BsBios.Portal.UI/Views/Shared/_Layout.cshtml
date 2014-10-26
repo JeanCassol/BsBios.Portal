@@ -68,6 +68,11 @@
                 UrlPadrao.SelecionarItinerario = '@Url.Action("SelecionarItinerario", "ProcessoDeCotacaoDeFrete")';
                 UrlPadrao.ListarItinerario = '@Url.Action("Listar", "Itinerario")';
                 UrlPadrao.ListarConhecimentoDeTransporte = '@Url.Action("Listar","ConhecimentoDeTransporte")';
+                UrlPadrao.FormularioDeConhecimentoDeTransporte = '@Url.Action("Formulario","ConhecimentoDeTransporte")';
+                UrlPadrao.ListarNotasFiscaisDeConhecimentoDeTransporte = '@Url.Action("ListarNotasFiscais", "ConhecimentoDeTransporte")';
+                UrlPadrao.OrdensDeTransporteDoConhecimento = '@Url.Action("ListarOrdensDeTransporte","ConhecimentoDeTransporte")';
+                UrlPadrao.AtribuirConhecimentoParaOrdemDeTransporte = '@Url.Action("AtribuirOrdemDeTransporte", "ConhecimentoDeTransporteComando")';
+                UrlPadrao.ReprocessarConhecimentoDeTransporteComErro = '@Url.Action("Reprocessar","ConhecimentoDeTransporteComando")';
 
                 TipoDeCotacao.Material = '@((int) Enumeradores.TipoDeCotacao.Material)';
                 TipoDeCotacao.Frete = '@((int) Enumeradores.TipoDeCotacao.Frete)';

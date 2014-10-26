@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using BsBios.Portal.Application.DTO;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
@@ -7,7 +8,6 @@ using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Linq;
-using NHibernate.Type;
 
 namespace BsBios.Portal.Application.Queries.Implementations
 {
@@ -19,6 +19,23 @@ namespace BsBios.Portal.Application.Queries.Implementations
         public ConsultaConhecimentoDeTransporte(ISession session)
         {
             _session = session;
+        }
+
+        private Expression<Func<ConhecimentoDeTransporte, ConhecimentoDeTransporteListagem>> GerarProjecao()
+        {
+            return ct => new ConhecimentoDeTransporteListagem
+            {
+                ChaveEletronica = ct.ChaveEletronica,
+                DataDeEmissao = ct.DataDeEmissao.ToShortDateString(),
+                CodigoDoFornecedor = ct.Fornecedor.Codigo,
+                CodigoDaTransportadora = ct.Transportadora.Codigo,
+                NumeroDoConhecimento = ct.Numero,
+                NumeroDoContrato = ct.NumeroDoContrato,
+                ValorRealDoFrete = ct.ValorRealDoFrete,
+                PesoTotalDaCarga = ct.PesoTotalDaCarga,
+                Status = ct.Status
+            };
+
         }
 
         public KendoGridVm Listar(PaginacaoVm paginacao, FiltroDeConhecimentoDeTransporte filtro)
@@ -51,6 +68,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryable = queryable.Where(ct => ct.Status == statusDoConhecimentoDeTransporte);
             }
 
+            var projecao = GerarProjecao();
+
             var kendoGridVm = new KendoGridVm
             {
                 QuantidadeDeRegistros = queryable.Count(),
@@ -58,23 +77,91 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     .OrderByDescending(x => x.DataDeEmissao)
                     .Skip(paginacao.Skip)
                     .Take(paginacao.Take)
-                    .Select(ct => new ConhecimentoDeTransporteListagem
-                    {
-                        ChaveEletronica = ct.ChaveEletronica,
-                        DataDeEmissao = ct.DataDeEmissao.ToShortDateString(),
-                        CodigoDoFornecedor = ct.Fornecedor.Codigo,
-                        CodigoDaTransportadora = ct.Transportadora.Codigo,
-                        NumeroDoConhecimento = ct.Numero,
-                        NumeroDoContrato = ct.NumeroDoContrato,
-                        ValorRealDoFrete = ct.ValorRealDoFrete,
-                        PesoTotalDaCarga = ct.PesoTotalDaCarga,
-                        Status = ct.Status
-                    }).Cast<ListagemVm>().ToList(),
+                    .Select(projecao).Cast<ListagemVm>().ToList(),
             };
 
 
             return kendoGridVm;
             
+
+        }
+
+        public ConhecimentoDeTransporteFormulario ObterRegistro(string chaveEletronica)
+        {
+
+            IQueryable<ConhecimentoDeTransporte> queryable = _session.Query<ConhecimentoDeTransporte>();
+            
+            return queryable
+                .Where(x => x.ChaveEletronica == chaveEletronica)
+                .Select(ct => new ConhecimentoDeTransporteFormulario
+                {
+                    ChaveEletronica = ct.ChaveEletronica,
+                    DataDeEmissao = ct.DataDeEmissao.ToShortDateString(),
+                    CodigoDoFornecedor = ct.Fornecedor.Codigo,
+                    CodigoDaTransportadora = ct.Transportadora.Codigo,
+                    NumeroDoConhecimento = ct.Numero,
+                    Serie = ct.Serie,
+                    NumeroDoContrato = ct.NumeroDoContrato,
+                    ValorRealDoFrete = ct.ValorRealDoFrete,
+                    PesoTotalDaCarga = ct.PesoTotalDaCarga,
+                    Status = ct.Status,
+                    PermiteAtribuir = ct.Status == Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido
+                })
+                .Single();
+
+        }
+
+        public KendoGridVm ListarNotasFiscais(string chaveEletronica)
+        {
+            IQueryable<ConhecimentoDeTransporte> queryable = _session.Query<ConhecimentoDeTransporte>();
+
+            IQueryable<NotaFiscalDoConhecimentoDeTransporteVm> queryableDaProjecao = (from conhecimentoDeTransporte in queryable
+                from notaFiscal in conhecimentoDeTransporte.NotasFiscais
+                where conhecimentoDeTransporte.ChaveEletronica == chaveEletronica
+                select new NotaFiscalDoConhecimentoDeTransporteVm
+                {
+                    Chave = notaFiscal.ChaveEletronica,
+                    Numero = notaFiscal.Numero,
+                    Serie = notaFiscal.Serie
+                });
+
+
+            var kendoGridVm = new KendoGridVm
+            {
+                QuantidadeDeRegistros = queryableDaProjecao.Count(),
+                Registros = queryableDaProjecao.Cast<ListagemVm>().ToList()
+            };
+
+            return kendoGridVm;
+
+        }
+
+        public KendoGridVm ListarOrdensDeTransporte(string chaveEletronica)
+        {
+            IQueryable<ConhecimentoDeTransporte> queryable = _session.Query<ConhecimentoDeTransporte>();
+
+            IQueryable<OrdemDeTransporteListagemVm> queryableDaProjecao = 
+                (from conhecimentoDeTransporte in queryable
+                 from ordemDeTransporte in conhecimentoDeTransporte.OrdensDeTransporte
+                 where conhecimentoDeTransporte.ChaveEletronica == chaveEletronica
+                 select new OrdemDeTransporteListagemVm
+                 {
+                     Id = ordemDeTransporte.Id,
+                     CodigoDoFornecedor = ordemDeTransporte.Fornecedor.Codigo,
+                     NomeDoFornecedor = ordemDeTransporte.Fornecedor.Nome,
+                     Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
+                     QuantidadeColetada = ordemDeTransporte.QuantidadeColetada,
+                     QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada,
+                     QuantidadeRealizada = ordemDeTransporte.QuantidadeRealizada
+                 });
+
+            var kendoGridVm = new KendoGridVm
+            {
+                QuantidadeDeRegistros = queryableDaProjecao.Count(),
+                Registros = queryableDaProjecao.Cast<ListagemVm>().ToList()
+            };
+
+            return kendoGridVm;
 
         }
     }

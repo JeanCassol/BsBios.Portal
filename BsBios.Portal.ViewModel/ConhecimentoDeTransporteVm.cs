@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace BsBios.Portal.ViewModel
 {
     [DataContract]
-    public class NotaFiscalDoConhecimentoDeTransporteVm
+    public class NotaFiscalDoConhecimentoDeTransporteVm: ListagemVm
     {
         [DataMember]
         public string Chave { get; set; }

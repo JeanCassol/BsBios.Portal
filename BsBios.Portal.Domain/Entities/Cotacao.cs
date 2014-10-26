@@ -137,7 +137,7 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        public new virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
+        public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
         {
             base.Selecionar(quantidadeAdquirida);
             Cadencia = cadencia;
@@ -148,7 +148,7 @@ namespace BsBios.Portal.Domain.Entities
             base.RemoverSelecao();
             Cadencia = null;
         }
-
+        
         protected internal virtual void InformarNumeroDaCondicao(string numeroGeradoNoSap)
         {
             NumeroDaCondicaoGeradaNoSap = numeroGeradoNoSap;

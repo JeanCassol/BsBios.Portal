@@ -102,7 +102,10 @@ namespace BsBios.Portal.Application.Services.Implementations
                 {
                     _unitOfWorkNh.BeginTransaction();
 
-                    ConhecimentoDeTransporte conhecimentoDeTransporte = _conhecimentosDeTransporte.ComChaveEletronica(chaveEletronica).Single();
+                    ConhecimentoDeTransporte conhecimentoDeTransporte = _conhecimentosDeTransporte
+                        .ComChaveEletronica(chaveEletronica)
+                        .IncluirNotasFiscais()
+                        .Single();
                     _processadorDeColeta.Processar(conhecimentoDeTransporte);
 
                     _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
@@ -126,6 +129,33 @@ namespace BsBios.Portal.Application.Services.Implementations
 
             processar.Start();
 
+        }
+
+        public void Reprocessar()
+        {
+            try
+            {
+                _unitOfWorkNh.BeginTransaction();
+
+                IList<ConhecimentoDeTransporte> conhecimentosDeTransporte = _conhecimentosDeTransporte
+                    .ComErro()
+                    .IncluirNotasFiscais().List();
+
+                foreach (var conhecimentoDeTransporte in conhecimentosDeTransporte)
+                {
+                    _processadorDeColeta.Processar(conhecimentoDeTransporte);
+
+                    _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
+                }
+
+                _unitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                _unitOfWorkNh.RollBack();
+                throw;
+            }
         }
     }
 }

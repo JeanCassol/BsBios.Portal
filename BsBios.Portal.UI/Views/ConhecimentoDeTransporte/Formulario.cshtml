@@ -1,0 +1,84 @@
+﻿@using BsBios.Portal.Common
+@model BsBios.Portal.Application.DTO.ConhecimentoDeTransporteFormulario
+
+@{
+    ViewBag.TituloDaPagina = "Conhecimento de Transporte";
+}
+@section styles{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+   
+}
+<fieldset>
+    <legend>Conhecimento de Transporte</legend>
+    <div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.HiddenFor(x => x.ChaveEletronica)
+                @Html.HiddenFor(x => x.PermiteAtribuir)
+                @Html.LabelFor(x => x.Status)                
+                @Html.TextBoxFor(x => x.DescricaoDoStatus, new { @class = "campoDesabilitado" })
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.LabelFor(x => x.CodigoDoFornecedor)
+                @Html.TextBoxFor(x => x.CodigoDoFornecedor, new { @class = "campoDesabilitado" })
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(x => x.CodigoDaTransportadora)
+                @Html.TextBoxFor(x => x.CodigoDaTransportadora, new { @class = "campoDesabilitado" })
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.LabelFor(x => x.NumeroDoConhecimento)
+                @Html.TextBoxFor(x => x.NumeroDoConhecimento, new { @class = "campoDesabilitado" })
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(x => x.Serie)
+                @Html.TextBoxFor(x => x.Serie, new { @class = "campoDesabilitado" })
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.LabelFor(x => x.DataDeEmissao)
+                @Html.TextBoxFor(x => x.DataDeEmissao, new { @class = "campoDesabilitado" })
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(x => x.NumeroDoContrato)
+                @Html.TextBoxFor(x => x.NumeroDoContrato, new { @class = "campoDesabilitado" })
+            </div>
+        </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.LabelFor(x => x.ValorRealDoFrete)
+                @Html.TextBox("ValorRealDoFrete",Model.ValorRealDoFrete.ToString(Constantes.FormatoDeCampoDeValor), new { @class = "campoDesabilitado" })
+            </div>
+            <div class="coluna">
+                @Html.LabelFor(x => x.PesoTotalDaCarga)
+                @Html.TextBox("PesoTotalDaCarga",Model.PesoTotalDaCarga.ToString(Constantes.FormatoDeCampoDeQuantidade), new { @class = "campoDesabilitado" })
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Notas Fiscais</legend>
+    <div id="notasFiscais"></div>
+</fieldset>
+
+<fieldset>
+    <legend>Ordens de Transporte</legend>
+    <div id="ordensDeTransporte"></div>
+</fieldset>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+    <script src="@Url.Content("~/Scripts/ConhecimentoDeTransporte/Formulario.js")">
+    </script>
+}    

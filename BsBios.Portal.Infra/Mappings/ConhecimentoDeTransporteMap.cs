@@ -26,7 +26,7 @@ namespace BsBios.Portal.Infra.Mappings
             References(x => x.Fornecedor).Column("CodigoFornecedor");
             References(x => x.Transportadora).Column("CodigoTransportadora");
 
-            HasMany(ConhecimentoDeTransporte.Expressions.NotasFiscais)
+            HasMany(x => x.NotasFiscais)
                             .KeyColumn("CHAVECONHECIMENTODETRANSPORTE")
                             .Not.Inverse()
                             .Not.KeyNullable()
@@ -34,12 +34,20 @@ namespace BsBios.Portal.Infra.Mappings
                             .Cascade.AllDeleteOrphan()
                             .ExtraLazyLoad();
 
-            HasManyToMany(ConhecimentoDeTransporte.Expressions.OrdensDeTransporteVinculadas)
+            HasManyToMany(x => x.OrdensDeTransporte)
                             .Table("CONHECIMENTO_ORDEMTRANSPORTE")
                             .ParentKeyColumn("ChaveEletronica")
                             .ChildKeyColumn("IdOrdemTransporte")
                             .Cascade.All()
+                            .AsBag()
                             .ExtraLazyLoad();
+
+            //HasManyToMany(ConhecimentoDeTransporte.Expressions.OrdensDeTransporteVinculadas)
+            //                .Table("CONHECIMENTO_ORDEMTRANSPORTE")
+            //                .ParentKeyColumn("ChaveEletronica")
+            //                .ChildKeyColumn("IdOrdemTransporte")
+            //                .Cascade.All()
+            //                .ExtraLazyLoad();
 
         }
 

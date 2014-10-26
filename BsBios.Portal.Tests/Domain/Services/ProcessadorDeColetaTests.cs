@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
@@ -59,7 +59,8 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             processadorDeColeta.Processar(conhecimentoDeTransporte);
 
-            Assert.AreEqual(string.Format("Fornecedor da Mercadoria não encontrado - CNPJ: {0}", conhecimentoDeTransporte.CnpjDoFornecedor), conhecimentoDeTransporte.MensagemDeErroDeProcessamento);
+            Assert.AreEqual(Enumeradores.StatusDoConhecimentoDeTransporte.Erro, conhecimentoDeTransporte.Status);
+            Assert.AreEqual("Fornecedor da Mercadoria não encontrado", conhecimentoDeTransporte.MensagemDeErroDeProcessamento);
 
         }
 
@@ -77,7 +78,8 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             processadorDeColeta.Processar(conhecimentoDeTransporte);
 
-            Assert.AreEqual(string.Format("Transportadora não encontrada - CNPJ: {0}", conhecimentoDeTransporte.CnpjDaTransportadora), conhecimentoDeTransporte.MensagemDeErroDeProcessamento);
+            Assert.AreEqual(Enumeradores.StatusDoConhecimentoDeTransporte.Erro, conhecimentoDeTransporte.Status);
+            Assert.AreEqual("Transportadora não encontrada", conhecimentoDeTransporte.MensagemDeErroDeProcessamento);
 
         }
 
@@ -127,7 +129,7 @@ namespace BsBios.Portal.Tests.Domain.Services
         }
 
         [TestMethod]
-        public void QuandoEncontrarMaisDeUmaOrdemDeTransporteTemQueGerarOrdensCandidatasE()
+        public void QuandoEncontrarMaisDeUmaOrdemDeTransporteTemQueGerarOrdensCandidatasENaoAtribuirConhecimentoComOrdemDeTransporte()
         {
             ConhecimentoDeTransporte conhecimentoDeTransporte = DefaultObjects.ObterConhecimentoDeTransporte();
             OrdemDeTransporte ordemDeTransporte1 = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(1000);
@@ -142,7 +144,10 @@ namespace BsBios.Portal.Tests.Domain.Services
 
             Assert.IsNull(ordemVinculada);
 
-            Assert.AreEqual(2, conhecimentoDeTransporte.OrdensDeTransporteCandidatas.Count);
+            Assert.AreEqual(2, conhecimentoDeTransporte.OrdensDeTransporte.Count());
+
+            Assert.AreEqual(0, ordemDeTransporte1.Coletas.Count);
+            Assert.AreEqual(0, ordemDeTransporte2.Coletas.Count);
             
         }
     }
