@@ -159,7 +159,7 @@
                     if (data.Sucesso) {
                         $('#PermiteAtribuir').val(false);
                         kendoGrid.dataSource.read();
-
+                        $('#DescricaoDoStatus').val('Atribuido');
                     } else {
                         Mensagem.ExibirMensagemDeErro(data.Mensagem);
                     }
