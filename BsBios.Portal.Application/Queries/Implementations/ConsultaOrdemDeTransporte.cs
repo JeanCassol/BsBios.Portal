@@ -112,6 +112,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PermiteAdicionarColeta = permiteAdicionarColeta,
                     Transportadora = ordemDeTransporte.Fornecedor.Nome,
                     StatusParaColeta = ordemDeTransporte.StatusParaColeta.ToString(),
+                    PermiteEditar = ordemDeTransporte.StatusParaColeta == Enumeradores.StatusParaColeta.Aberto,
                     Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
                     {
                         Material = processoDeCotacao.Produto.Descricao,

@@ -30,6 +30,7 @@ namespace BsBios.Portal.ViewModel
 
         public bool PermiteAlterar { get; set; }
         public bool PermiteAdicionarColeta { get; set; }
+        public bool PermiteEditar { get; set; }
 
         public ProcessoDeCotacaoDeFreteCabecalhoVm Cabecalho { get; set; }
     }

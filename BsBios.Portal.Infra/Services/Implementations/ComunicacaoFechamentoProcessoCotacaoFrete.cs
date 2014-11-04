@@ -48,6 +48,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
                             }
                     };
             }
+
+            if ( processo.FornecedoresSelecionados.Count == 0)
+            {
+                throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
+            }
+
             var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha)};
 
             var httpClient = new HttpClient(clientHandler);

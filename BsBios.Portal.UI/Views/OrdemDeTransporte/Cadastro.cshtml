@@ -18,6 +18,7 @@
         <fieldset>
             <legend>Ordem de Transporte</legend>
             @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.PermiteEditar)
 
             @Html.LinhaComDuasColunas(new ColunaComLabel<OrdemDeTransporteCadastroVm, int>(x => x.Id), 
             new ColunaComLabelEmDestaque<OrdemDeTransporteCadastroVm, string>(x => x.StatusParaColeta,"labelStatusParaColeta", null))
@@ -83,9 +84,22 @@
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
+
             aplicaMascaraQuantidade();
 
+            controlaEdicao();
+
+            function controlaEdicao() {
+                var permiteEditar = $('#PermiteEditar').val().boolean();
+
+                if (!permiteEditar) {
+                    $('#QuantidadeLiberada,#QuantidadeDeTolerancia')
+                        .addClass('campoDesabilitado')
+                        .attr('readonly',true);
+                }
+
+            }
 
             $('#btnSalvarOrdemDeTransporte').click(function() {
                 var form = $('#FormularioDeOrdemDeTransporte');
@@ -126,6 +140,9 @@
                                     function (data) {
                                         if (data.Sucesso) {
                                             $('#labelStatusParaColeta').text('Fechado');
+                                            $("#PermiteEditar").val(false);
+                                            $('#QuantidadeLiberada').val(data.QuantidadeLiberada);
+                                            controlaEdicao();
                                             $('#divFecharOrdemDeTransporte').dialog("close");
                                         } else {
                                             Mensagem.ExibirMensagemDeErro(data.Mensagem);

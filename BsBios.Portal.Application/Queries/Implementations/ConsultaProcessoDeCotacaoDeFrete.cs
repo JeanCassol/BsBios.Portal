@@ -52,7 +52,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Deposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : null,
                     CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
                     TipoDePreco = processoDeCotacao.ValorPrevisto.HasValue ? 1 : 0,
-                    ValorPrevisto = processoDeCotacao.ValorPrevisto
+                    ValorPrevisto = processoDeCotacao.ValorPrevisto,
+                    ValorFechado = processoDeCotacao.ValorFechado
                 };
         }
 

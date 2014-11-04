@@ -139,8 +139,13 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void FecharParaColeta(string motivo)
         {
+            if (this.StatusParaColeta  == Enumeradores.StatusParaColeta.Fechado)
+            {
+                throw new Exception("A Ordem de Transporte já está fechada.");
+                
+            }
             this.StatusParaColeta = Enumeradores.StatusParaColeta.Fechado;
-            this.QuantidadeLiberada = this.QuantidadeRealizada;
+            this.QuantidadeLiberada = this.QuantidadeColetada;
             this.MotivoDeFechamento = motivo;
         }
 

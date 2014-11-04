@@ -87,8 +87,8 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                _ordemDeTransporteService.FecharParaColeta(idDaOrdemDeTransporte, motivo);
-                return Json(new { Sucesso = true});
+                decimal quantidadeLiberada = _ordemDeTransporteService.FecharParaColeta(idDaOrdemDeTransporte, motivo);
+                return Json(new { Sucesso = true, QuantidadeLiberada = quantidadeLiberada});
             }
             catch (Exception ex)
             {

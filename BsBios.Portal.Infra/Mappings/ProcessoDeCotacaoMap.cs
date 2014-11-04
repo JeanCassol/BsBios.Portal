@@ -67,6 +67,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Classificacao);
             Map(x => x.Cadencia);
             Map(x => x.ValorPrevisto);
+            Map(x => x.ValorFechado);
 
         }
     }

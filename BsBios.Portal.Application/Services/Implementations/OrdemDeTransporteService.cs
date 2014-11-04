@@ -123,7 +123,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        public void FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
+        public decimal FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
         {
             try
             {
@@ -133,6 +133,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _ordensDeTransporte.Save(ordemDeTransporte);
 
                 _unitOfWork.Commit();
+
+                return ordemDeTransporte.QuantidadeLiberada;
 
             }
             catch (Exception)
