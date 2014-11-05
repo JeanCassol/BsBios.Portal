@@ -93,7 +93,7 @@
                 {
                     field: "DataDeEmissao",
                     title: 'Data de Emissão',
-                    width: 80
+                    width: 90
                 },
                 {
                     field: "NumeroDoContrato",
@@ -115,7 +115,7 @@
                 {
                     field: "DescricaoDoStatus",
                     title: "Status",
-                    width: 100
+                    width: 90
                 }
             ]
         });

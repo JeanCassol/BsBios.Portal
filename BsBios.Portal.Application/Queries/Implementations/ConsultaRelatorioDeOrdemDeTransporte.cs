@@ -146,10 +146,6 @@ namespace BsBios.Portal.Application.Queries.Implementations
             return itens;
         }
 
-        public IList<RelatorioDeOrdemDeTransporteSinteticoVm> ListagemSintetica(RelatorioDeOrdemDeTransporteFiltroVm filtro)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     //public class OrdemSumarizada

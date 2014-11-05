@@ -122,7 +122,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             };
 
-            ordemDeTransporte.FecharParaColeta("sem frota");
+            ordemDeTransporte.FecharParaColeta(Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte.AlteracaoDeLocalDeColeta,  "sem frota");
 
             Coleta coleta = fabricaDeColeta.Construir(coletaSalvarVm, ordemDeTransporte.PrecoUnitario);
 
@@ -137,13 +137,13 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             Coleta coleta = ordemDeTransporte.Coletas.First();
 
-            ordemDeTransporte.FecharParaColeta("sem frota");
+            ordemDeTransporte.FecharParaColeta(Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte.AlteracaoDeLocalDeColeta, "sem frota");
 
             ordemDeTransporte.RemoverColeta(coleta.Id);
         }
 
         [TestMethod]
-        public void QuandoFechaUmaOrdemDeTransporteQueNaoFoiTotalmenteRealizadaQuantidadeLiberadaFicaIgualAQuantidadeRealizada()
+        public void QuandoFechaUmaOrdemDeTransporteQueNaoFoiTotalmenteRealizadaQuantidadeLiberadaFicaIgualAQuantidadeColetada()
         {
             OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(9M);
             var fabricaDeColeta = new ColetaFactory();
@@ -172,17 +172,14 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
             ordemDeTransporte.AdicionarColeta(fabricaDeColeta.Construir(coletaSalvarVm, 10));
 
-            Coleta coleta = ordemDeTransporte.Coletas.First();
-
-            ordemDeTransporte.RealizarColeta(coleta.Id);
-
             const string motivo = "ponte estragada";
 
-            ordemDeTransporte.FecharParaColeta(motivo);
+            ordemDeTransporte.FecharParaColeta(Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte.AlteracaoDeLocalDeColeta,  motivo);
 
             Assert.AreEqual(8, ordemDeTransporte.QuantidadeLiberada);
 
-            Assert.AreEqual(motivo, ordemDeTransporte.MotivoDeFechamento);
+            Assert.AreEqual(motivo, ordemDeTransporte.ObservacaoDeFechamento);
+            Assert.AreEqual(Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte.AlteracaoDeLocalDeColeta, ordemDeTransporte.MotivoDeFechamento);
 
         }
 

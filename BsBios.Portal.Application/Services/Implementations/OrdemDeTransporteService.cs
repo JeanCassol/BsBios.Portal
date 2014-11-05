@@ -2,6 +2,7 @@
 using BsBios.Portal.Application.DTO;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
@@ -123,13 +124,13 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
 
-        public decimal FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
+        public decimal FecharParaColeta(int idDaOrdemDeTransporte, Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte motivo, string observacao)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
                 OrdemDeTransporte ordemDeTransporte = _ordensDeTransporte.BuscaPorId(idDaOrdemDeTransporte).Single();
-                ordemDeTransporte.FecharParaColeta(motivo);
+                ordemDeTransporte.FecharParaColeta(motivo, observacao);
                 _ordensDeTransporte.Save(ordemDeTransporte);
 
                 _unitOfWork.Commit();

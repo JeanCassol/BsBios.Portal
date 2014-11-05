@@ -51,6 +51,8 @@
                     <th @Html.Raw(estiloDaColuna)>Nº Entregas</th>
                     <th @Html.Raw(estiloDaColuna)>Dias de Atraso</th>
                     <th @Html.Raw(estiloDaColuna)>% Atraso</th>
+                    <th>Motivo de Fechamento</th>
+                    <th>Observação de Fechamento</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +82,8 @@
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeColetasRealizadas)</td>
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeDiasEmAtraso)</td>
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.PercentualDeAtraso)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MotivoDeFechamento)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ObservacaoDeFechamento)</td>
                     </tr>
                 }
             </tbody>

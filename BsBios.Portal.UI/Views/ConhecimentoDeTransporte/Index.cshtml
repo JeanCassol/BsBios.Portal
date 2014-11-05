@@ -12,12 +12,12 @@
     <form id="formularioDeFiltros">
         <div class="linha">
             <div class="coluna">
-                <label for="dataDeEmissao">Data de Emissão</label>
-                <input type="text" id="dataDeEmissao" class="campopequeno campoDatePicker maskdata"/>
+                <label for="dataDeEmissaoInicial">Data de Emissão Inicial</label>
+                <input type="text" id="dataDeEmissaoInicial" class="campopequeno campoDatePicker maskdata"/>
             </div>
             <div class="coluna">
-                <label for="numeroDoContrato">Número do Contrato</label>
-                <input type="text" id="numeroDoContrato" class="campopequeno"/>
+                <label for="dataDeEmissaoFinal">Data de Emissão Final</label>
+                <input type="text" id="dataDeEmissaoFinal" class="campopequeno campoDatePicker maskdata"/>
             </div>
         </div>
         <div class="linha">
@@ -42,7 +42,10 @@
                     <option value="2">Erro</option>
                 </select>
             </div>
-            <div class="coluna"></div>
+            <div class="coluna">
+                <label for="numeroDoContrato">Número do Contrato</label>
+                <input type="text" id="numeroDoContrato" class="campopequeno"/>
+            </div>
         </div>
 
         <div class="divBotao">

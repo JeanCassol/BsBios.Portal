@@ -143,5 +143,15 @@ namespace BsBios.Portal.Common
             Erro
         }
 
+        public enum MotivoDeFechamentoDaOrdemDeTransporte
+        {
+            [Description("Negociação de Tarifa")]
+            NegociacaoDeTarifa,
+            [Description("Não cumprimento do Contrato")]
+            NaoCumprimentoDoContrato,
+            [Description("Alteração de local de coleta")]
+            AlteracaoDeLocalDeColeta
+        }
+
     }
 }

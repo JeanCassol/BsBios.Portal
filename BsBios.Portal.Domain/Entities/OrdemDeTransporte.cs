@@ -43,7 +43,8 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual IList<Coleta> Coletas { get; protected set; }
         public virtual Enumeradores.StatusParaColeta StatusParaColeta { get; protected set; }
-        public virtual string MotivoDeFechamento { get; protected set; }
+        public virtual string ObservacaoDeFechamento { get; protected set; }
+        public virtual Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte MotivoDeFechamento { get; protected set; }
 
         public virtual void AlterarQuantidades(decimal novaQuantidadeLiberada, decimal novaQuantidadeDeTolerancia)
         {
@@ -137,7 +138,7 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        public virtual void FecharParaColeta(string motivo)
+        public virtual void FecharParaColeta(Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte motivo, string observacao)
         {
             if (this.StatusParaColeta  == Enumeradores.StatusParaColeta.Fechado)
             {
@@ -147,6 +148,7 @@ namespace BsBios.Portal.Domain.Entities
             this.StatusParaColeta = Enumeradores.StatusParaColeta.Fechado;
             this.QuantidadeLiberada = this.QuantidadeColetada;
             this.MotivoDeFechamento = motivo;
+            this.ObservacaoDeFechamento = observacao;
         }
 
     }

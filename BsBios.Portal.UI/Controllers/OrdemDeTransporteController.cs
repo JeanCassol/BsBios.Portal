@@ -103,9 +103,5 @@ namespace BsBios.Portal.UI.Controllers
             return PartialView("Coleta", coletaVm);
         }
 
-        public ActionResult FecharParaColeta()
-        {
-            return View("Fechar");
-        }
     }
 }

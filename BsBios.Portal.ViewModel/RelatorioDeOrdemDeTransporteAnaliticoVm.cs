@@ -5,8 +5,8 @@ namespace BsBios.Portal.ViewModel
 {
     public class RelatorioDeOrdemDeTransporteAnaliticoVm : ProcessoDeCotacaoDeFreteBaseVm
     {
-        [DisplayName("Status: ")]
-        public virtual string Status { get; set; }
+        //[DisplayName("Status: ")]
+        //public virtual string Status { get; set; }
 
         public virtual string Id { get; set; }
         [DisplayFormat(DataFormatString = "{0:0}")]
@@ -24,6 +24,8 @@ namespace BsBios.Portal.ViewModel
         public virtual decimal QuantidadeDeDiasEmAtraso { get; set; }
         public virtual decimal PercentualDeAtraso { get; set; }
         public virtual string Terminal { get; set; }
+        public virtual string MotivoDeFechamento { get; set; }
+        public virtual string ObservacaoDeFechamento { get; set; }
     }
 
 }

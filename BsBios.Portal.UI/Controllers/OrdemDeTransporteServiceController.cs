@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using BsBios.Portal.Application.DTO;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -83,11 +84,11 @@ namespace BsBios.Portal.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult FecharParaColeta(int idDaOrdemDeTransporte, string motivo)
+        public ActionResult FecharParaColeta(int idDaOrdemDeTransporte, Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte motivo, string observacao)
         {
             try
             {
-                decimal quantidadeLiberada = _ordemDeTransporteService.FecharParaColeta(idDaOrdemDeTransporte, motivo);
+                decimal quantidadeLiberada = _ordemDeTransporteService.FecharParaColeta(idDaOrdemDeTransporte, motivo, observacao);
                 return Json(new { Sucesso = true, QuantidadeLiberada = quantidadeLiberada});
             }
             catch (Exception ex)

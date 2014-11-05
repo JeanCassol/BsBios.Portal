@@ -52,9 +52,14 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 queryable = queryable.Where(ct => ct.Transportadora.Codigo.Contains(filtro.CodigoDaTransportadora));
             }
 
-            if (filtro.DataDeEmissao.HasValue)
+            if (filtro.DataDeEmissaoInicial.HasValue)
             {
-                queryable = queryable.Where(ct => ct.DataDeEmissao == filtro.DataDeEmissao);
+                queryable = queryable.Where(ct => ct.DataDeEmissao >= filtro.DataDeEmissaoInicial);
+            }
+
+            if (filtro.DataDeEmissaoFinal.HasValue)
+            {
+                queryable = queryable.Where(ct => ct.DataDeEmissao <= filtro.DataDeEmissaoFinal);
             }
 
             if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))

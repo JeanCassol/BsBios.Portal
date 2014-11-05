@@ -116,11 +116,11 @@
 
                 var comboTipoDePreco = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, int>(x => x.TipoDePreco,tiposDePreco, "TipoDePreco","",null);
 
-                var valorPrevisto = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorFechado, new { @class = "maskmoeda"});
+                var valorFechado = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorFechado, new { @class = "maskmoeda"});
                 
             }
             
-            @Html.LinhaComDuasColunas(comboTipoDePreco, valorPrevisto)
+            @Html.LinhaComDuasColunas(comboTipoDePreco, valorFechado)
             
             @Html.ValidationSummary(true)
         <div class="error"></div>
@@ -163,6 +163,7 @@
 
             var tipoDePreco = $('#TipoDePreco');
             tipoDePreco.change(function () {
+                debugger;
                 var valorFechado = $('#ValorFechado');
                 if (window.parseInt($(this).val()) === 0) {
                     valorFechado

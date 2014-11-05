@@ -9,7 +9,7 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Id(x => x.Id);
             Map(x => x.IdDaOrdemDeTransporte);
-            Map(x => x.Status);
+            //Map(x => x.Status);
             Map(x => x.Material);
             Map(x => x.UnidadeDeMedida);
             Map(x => x.DataDeValidadeInicial);
@@ -31,6 +31,8 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.QuantidadeDeColetasRealizadas);
             Map(x => x.QuantidadeDeDiasEmAtraso);
             Map(x => x.PercentualDeAtraso);
+            Map(x => x.MotivoDeFechamento);
+            Map(x => x.ObservacaoDeFechamento);
         }
 
     }

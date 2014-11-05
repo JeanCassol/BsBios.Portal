@@ -513,7 +513,6 @@
     <Content Include="Views\RelatorioDeOrdemDeTransporteVisualizacao\ListagemAnalitica.cshtml" />
     <Content Include="Views\Shared\_EstiloDosRelatorios.cshtml" />
     <Content Include="Views\Shared\_CabecalhoExportacao.cshtml" />
-    <Content Include="Views\OrdemDeTransporte\Fechar.cshtml" />
     <Content Include="Views\ConhecimentoDeTransporte\Index.cshtml" />
     <Content Include="Views\ConhecimentoDeTransporte\Formulario.cshtml" />
   </ItemGroup>

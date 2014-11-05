@@ -1,5 +1,6 @@
 ﻿using System.CodeDom.Compiler;
 using BsBios.Portal.Application.DTO;
+using BsBios.Portal.Common;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Contracts
@@ -10,6 +11,6 @@ namespace BsBios.Portal.Application.Services.Contracts
         decimal SalvarColeta(ColetaSalvarVm coletaSalvarVm);
         decimal RemoverColeta(int idDaOrdemDeTransporte, int idDaColeta);
         void RealizarColeta(int idDaOrdemDeTransporte, int idDaColeta);
-        decimal FecharParaColeta(int idDaOrdemDeTransporte, string motivo);
+        decimal FecharParaColeta(int idDaOrdemDeTransporte, Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte motivo, string observacao);
     }
 }

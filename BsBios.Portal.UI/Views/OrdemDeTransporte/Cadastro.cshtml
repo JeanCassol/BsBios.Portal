@@ -135,7 +135,7 @@
 
                             var formData = $(form).serializeObject();
                             formData.IdDaOrdemDeTransporte = $('#Id').val();
-                            debugger;
+
                             $.post('@Url.Action("FecharParaColeta", "OrdemDeTransporteService")', formData,
                                     function (data) {
                                         if (data.Sucesso) {
@@ -172,20 +172,28 @@
                         '<form id="FormularioDeFechamento"> ' +
                             '<div class="linha" style="margin:5px;"> ' +
                                 '<label for="Motivo">Motivo</label> ' +
-                                '<textarea id="Motivo" name="Motivo" rows="5"> </textarea>' +
+                                '<select id="Motivo" name="Motivo">' +
+                                    '<option value="0">Negociação de Tarifa</option>' +
+                                    '<option value="1">Não cumprimento do Contrato</option>' +
+                                    '<option value="2">Alteração de local de coleta</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<div class="linha" style="margin:5px;"> ' +
+                                '<label for="Observacao">Observação</label> ' +
+                                '<textarea id="Observacao" name="Observacao" rows="5" style="width:87%;"> </textarea>' +
                             '</div>' +
                         '</form>')
                     .customLoad();
 
                 $("#FormularioDeFechamento").validate({
                     rules: {
-                        Motivo: {
+                        Observacao: {
                             required: true   
                         }
                     },
                     messages: {
-                        Motivo: {
-                            required: 'Campo Motivo é obrigatório'
+                        Observacao: {
+                            required: 'Campo Observação é obrigatório'
                         }
                     }
                 });

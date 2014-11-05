@@ -22,7 +22,8 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.PrecoUnitario);
             Map(x => x.Cadencia);
             Map(x => x.StatusParaColeta).CustomType<Enumeradores.StatusParaColeta>();
-            Map(x => x.MotivoDeFechamento);
+            Map(x => x.MotivoDeFechamento).CustomType<Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte>();
+            Map(x => x.ObservacaoDeFechamento);
 
             HasMany(x => x.Coletas)
                             .KeyColumn("IdOrdemTransporte")
