@@ -127,6 +127,7 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
+
             Status = Enumeradores.StatusProcessoCotacao.Fechado;
             DataDeFechamento = DateTime.Now;
         }
@@ -144,16 +145,23 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        protected void SelecionarCotacao()
+        protected void ValidarSelecaoDeCotacao(int idDaCotacao)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
-            
+
+            FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.Single(x => x.Cotacao != null && x.Cotacao.Id == idDaCotacao);
+
+            if (fornecedorParticipante.Resposta != Enumeradores.RespostaDaCotacao.Aceito)
+            {
+                throw new Exception("Não é possível selecionar um fornecedor que não aceitou o processo de cotação.");
+            }
+
         }
 
-        protected void RemoverSelecaoDaCotacao()
+        protected void ValidarRemocaoDeSelecaoDaCotacao()
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {

@@ -9,8 +9,6 @@ namespace BsBios.Portal.Domain.Entities
     public abstract class Cotacao
     {
         public virtual int Id { get; protected set; }
-        //private int IdFornecedorParticipante { get; set; }
-        //public virtual FornecedorParticipante FornecedorParticipante { get; protected set; }
         public virtual bool Selecionada { get; protected set; }
         public virtual decimal ValorLiquido { get; protected set; }
         public virtual decimal ValorComImpostos { get; protected set;}
@@ -34,14 +32,6 @@ namespace BsBios.Portal.Domain.Entities
             CalculaValorLiquido();
         }
         
-
-        //public Cotacao(FornecedorParticipante fornecedorParticipante)
-        //{
-        //    //IdFornecedorParticipante = fornecedorParticipante.Id;
-        //    //FornecedorParticipante = fornecedorParticipante;
-            
-        //}
-
         private decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
         {
             var imposto = Imposto(tipoDeImposto);
@@ -62,19 +52,6 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeDisponivel = quantidadeDisponivel;
             Observacoes = observacoes;
             CalculaValorLiquido();
-        }
-
-        /// <summary>
-        /// remove imposto por tipo, caso exista
-        /// </summary>
-        /// <param name="tipoDeImposto"></param>
-        private void RemoverImposto(Enumeradores.TipoDeImposto tipoDeImposto)
-        {
-            var imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
-            if (imposto != null)
-            {
-                Impostos.Remove(imposto);
-            }
         }
 
         private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)

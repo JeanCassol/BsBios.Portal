@@ -8,7 +8,7 @@ namespace BsBios.Portal.Domain.Entities
     public class ConhecimentoDeTransporte : IAggregateRoot
     {
 
-        private IList<NotaFiscalDeConhecimentoDeTransporte> _notasFiscais;
+        private readonly IList<NotaFiscalDeConhecimentoDeTransporte> _notasFiscais;
         // ReSharper disable once InconsistentNaming
         private IList<OrdemDeTransporte> _ordensDeTransporte;
 

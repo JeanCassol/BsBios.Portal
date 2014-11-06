@@ -145,6 +145,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 ValorComImpostos = processo.ValorFechado,
                 Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
                 {
+                    Numero = processo.Id,
                     Status = processo.Status.Descricao(),
                     Requisitos = processo.Requisitos,
                     DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),

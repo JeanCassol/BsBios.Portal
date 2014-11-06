@@ -71,7 +71,8 @@
                             ValorComImpostos: { type: "number" },
                             QuantidadeAdquirida: { type: "number" },
                             Cadencia: { type: "number" },
-                            ObservacaoDoFornecedor:{type:"string"}
+                            ObservacaoDoFornecedor: { type: "string" },
+                            PermiteSelecionar: { type: "boolean" }
                         }
                     },
                     type: 'json'
@@ -99,7 +100,7 @@
                 },
                 {
                     field: "Selecionada", title: 'Selecionado', width: 50,
-                    template: '<input type="checkbox" #=(IdCotacao <= 0 ? "disabled":"") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
+                    template: '<input type="checkbox" #=(PermiteSelecionar ? "":"disabled") # name="Selecionada" #= (Selecionada) ? "checked":"" # ></input>'
                 },
                 {
                     field: "QuantidadeAdquirida", title: "Quantidade", width: 70,

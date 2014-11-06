@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common;
+﻿using System;
+using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -8,7 +9,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual ProcessoDeCotacao ProcessoDeCotacao { get; protected set; }
         public virtual Fornecedor Fornecedor { get; protected set; }
         public virtual Cotacao Cotacao { get; protected set; }
-        public virtual Enumeradores.RespostaDaCotacao Resposta { get; set; }
+        public virtual Enumeradores.RespostaDaCotacao Resposta { get; protected set; }
         protected FornecedorParticipante(){}
 
 
@@ -28,7 +29,16 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Recusar()
         {
+            if (Cotacao != null && Cotacao.Selecionada)
+            {
+                throw new Exception("Não é possível recusar a cotação, pois a mesma já foi selecionada.");
+            }
             Resposta = Enumeradores.RespostaDaCotacao.Recusado;
+        }
+
+        public virtual void AceitarCotacao()
+        {
+            this.Resposta = Enumeradores.RespostaDaCotacao.Aceito;
         }
     }
 }

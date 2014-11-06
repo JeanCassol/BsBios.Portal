@@ -244,8 +244,25 @@ namespace BsBios.Portal.TestsComBancoDeDados
             }
         }
 
+        public static void RemoverNotasFiscaisMiroCadastradas()
+        {
+            try
+            {
+                UnitOfWork.BeginTransaction();
+                UnitOfWork.Session.Delete("from NotaFiscalMiro");
+                UnitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                UnitOfWork.RollBack();
+                throw;
+            }
+        }
+
         public static void RemoverTodosCadastros()
         {
+            RemoverNotasFiscaisMiroCadastradas();
+            RemoverConhecimentosDeTransporteCadastrados();
             RemoverOrdensDeTransporteCadastradas();
             RemoverProcessosDeCotacaoCadastrados();
             RemoverRequisicoesDeCompraCadastradas();
@@ -259,7 +276,6 @@ namespace BsBios.Portal.TestsComBancoDeDados
             RemoverItinerariosCadastrados();
             RemoverUnidadesDeMedidaCadastradas();
             RemoverProcessoCotacaoIteracaoUsuarioCadastradas();
-            RemoverConhecimentosDeTransporteCadastrados();     
             UnitOfWork.Session.Clear();
         }
     }

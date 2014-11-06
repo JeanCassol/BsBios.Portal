@@ -14,6 +14,7 @@
         public decimal? Cadencia { get; set; }
         public decimal? ValorComImpostos { get; set; }
         public string ObservacaoDoFornecedor { get; set; }
+        public bool PermiteSelecionar { get; set; }
     }
 
     public class CotacaoMaterialSelecionarVm: CotacaoSelecionarVm

@@ -55,14 +55,14 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, Iva iva)
         {
-            SelecionarCotacao();
+            ValidarSelecaoDeCotacao(idCotacao);
             var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
             cotacao.Selecionar(quantidadeAdquirida, iva);
         }
 
         public virtual void RemoverSelecaoDaCotacao(int idCotacao, Iva iva)
         {
-            RemoverSelecaoDaCotacao();
+            ValidarRemocaoDeSelecaoDaCotacao();
             var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
             cotacao.RemoverSelecao(iva);
         }

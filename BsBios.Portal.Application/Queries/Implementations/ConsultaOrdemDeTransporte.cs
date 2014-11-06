@@ -115,6 +115,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PermiteEditar = ordemDeTransporte.StatusParaColeta == Enumeradores.StatusParaColeta.Aberto,
                     Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
                     {
+                        Numero = processoDeCotacao.Id,
                         Material = processoDeCotacao.Produto.Descricao,
                         UnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao,
                         Cadencia = ordemDeTransporte.Cadencia,

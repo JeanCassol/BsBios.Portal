@@ -80,6 +80,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 cotacaoSelecionarVm.ValorComImpostos = cotacao.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacao.Selecionada;
                 cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacao.Observacoes;
+                cotacaoSelecionarVm.PermiteSelecionar = fornecedorParticipante.Resposta == Enumeradores.RespostaDaCotacao.Aceito;
             }
 
             return retorno;

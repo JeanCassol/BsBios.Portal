@@ -12,8 +12,26 @@ using StructureMap;
 namespace BsBios.Portal.TestsComBancoDeDados.Application.Services
 {
     [TestClass]
-    public class CadastroDeNotaFiscalMiroTests
+    public class CadastroDeNotaFiscalMiroTests: RepositoryTest
     {
+
+        [ClassInitialize]
+        public static void Inicializar(TestContext testContext)
+        {
+            Initialize(testContext);
+        }
+        [ClassCleanup]
+        public static void Finalizar()
+        {
+            Cleanup();
+        }
+
+
+        [TestInitialize]
+        public void TesteInitialize()
+        {
+            RemoveQueries.RemoverTodosCadastros();
+        }
         [TestMethod]
         public void ConsigoCadastrarEConsultarUmaNotaFiscalMiro()
         {

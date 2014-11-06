@@ -28,6 +28,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Services
             Cleanup();
         }
 
+        [TestInitialize]
+        public void TesteInitialize()
+        {
+            RemoveQueries.RemoverTodosCadastros();
+        }
 
         [TestMethod]
         public void PossoAtualizarUmaQuotaComCarregamentoInserindoUmDescarregamentoDoMesmoProduto()

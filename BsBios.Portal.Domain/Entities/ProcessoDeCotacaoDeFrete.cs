@@ -107,6 +107,7 @@ namespace BsBios.Portal.Domain.Entities
             }
             else
             {
+                fornecedorParticipante.AceitarCotacao();
                 cotacao.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
             }
 
@@ -116,7 +117,8 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, decimal cadencia)
         {
-            SelecionarCotacao();
+            ValidarSelecaoDeCotacao(idCotacao);
+            //FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao)
             var cotacao = (CotacaoDeFrete)BuscarPodId(idCotacao).CastEntity();
 
             cotacao.Selecionar(quantidadeAdquirida,cadencia);
@@ -124,7 +126,8 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void RemoverSelecaoDaCotacao(int idCotacao)
         {
-            RemoverSelecaoDaCotacao();
+            ValidarRemocaoDeSelecaoDaCotacao();
+
             var cotacao = (CotacaoDeFrete)BuscarPodId(idCotacao).CastEntity();
             cotacao.RemoverSelecao();
         }

@@ -233,5 +233,27 @@ namespace BsBios.Portal.Tests.Domain.Entities
             processo.Cancelar();
         }
 
+        [TestMethod]
+        public void NaoPossoSelecionarUmFornecedorQueRecusoOProcessoDeCotacao()
+        {
+
+            ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
+            string codigoDoFornecedor = processoDeCotacaoDeFrete.FornecedoresParticipantes.Single().Fornecedor.Codigo;
+            processoDeCotacaoDeFrete.DesativarParticipante(codigoDoFornecedor);
+
+            try
+            {
+                processoDeCotacaoDeFrete.SelecionarCotacao(0,10,1);
+                Assert.Fail("Deveria ter gerado exceção.");
+            }
+            catch (Exception exception)
+            {
+                Assert.AreEqual("Não é possível selecionar um fornecedor que recusou o processo de cotação.", exception.Message);
+            }
+
+            Assert.IsFalse(processoDeCotacaoDeFrete.FornecedoresParticipantes.Single().Cotacao.Selecionada);
+
+
+        }
     }
 }
