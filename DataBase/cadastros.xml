@@ -203,3 +203,29 @@ http://localhost:3905/api/NotaFiscalMiroApi/PostMultiplo
 		<Serie>1</Serie>
 	</NotaFiscalMiroVm>
 </ListaDeNotaFiscalMiro>
+
+
+
+http://localhost:3905/api/ConhecimentoDeTransporteApi/PostMultiplo
+<ListaDeConhecimentoDeTransporte xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BsBios.Portal.ViewModel">
+	<ConhecimentoDeTransporteVm>
+		<ChaveEletronica>35080599999090910270550010000000015180051282</ChaveEletronica>
+		<CnpjDaTransportadora>01501729000104</CnpjDaTransportadora>
+		<CnpjDoFornecedor>91495549000583</CnpjDoFornecedor>
+		<DataDeEmissao>20/12/2013</DataDeEmissao>
+		<NotasFiscais>
+			<NotaFiscalDoConhecimentoDeTransporteVm>
+				<Chave>35080599999090910270550010000000015180051382</Chave>
+				<Numero>100</Numero>
+				<Serie>1</Serie>
+			</NotaFiscalDoConhecimentoDeTransporteVm>
+		</NotasFiscais>
+		<Numero>160</Numero>
+		<NumeroDoContrato>98745646</NumeroDoContrato>
+		<PesoTotalDaCarga>100</PesoTotalDaCarga>
+		<Serie>1</Serie>
+		<ValorRealDoFrete>1500.00</ValorRealDoFrete>
+	</ConhecimentoDeTransporteVm>
+</ListaDeConhecimentoDeTransporte>
+
+

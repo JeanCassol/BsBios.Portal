@@ -14,7 +14,7 @@
     <RootNamespace>BsBios.Portal.UI</RootNamespace>
     <AssemblyName>BsBios.Portal.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <MvcBuildViews>true</MvcBuildViews>
+    <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />

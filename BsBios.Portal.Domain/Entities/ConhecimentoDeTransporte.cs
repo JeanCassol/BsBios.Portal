@@ -15,7 +15,7 @@ namespace BsBios.Portal.Domain.Entities
         protected ConhecimentoDeTransporte() { }
 
         public ConhecimentoDeTransporte(string chaveEletronica, string cnpjDoFornecedor,  string cnpjDaTransportadora,
-            DateTime dataDeEmissao, string serie, string numero, string numeroDoContrato, decimal valorRealDoFrete, decimal pesoTotalDaCarga)
+            DateTime dataDeEmissao, string serie, string numero, string numeroDoContrato, decimal valorRealDoFrete, decimal pesoTotalDaCargaEmQuilos)
         {
             this.ChaveEletronica = chaveEletronica;
             this.CnpjDoFornecedor = cnpjDoFornecedor;
@@ -25,7 +25,7 @@ namespace BsBios.Portal.Domain.Entities
             this.Numero = numero;
             this.NumeroDoContrato = numeroDoContrato;
             this.ValorRealDoFrete = valorRealDoFrete;
-            this.PesoTotalDaCarga = pesoTotalDaCarga;
+            this.PesoTotalDaCargaEmToneladas = pesoTotalDaCargaEmQuilos / 1000;
             this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido;
 
             this._notasFiscais = new List<NotaFiscalDeConhecimentoDeTransporte>();
@@ -43,7 +43,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string Serie { get; protected internal set; }
         public virtual string NumeroDoContrato { get; protected internal set; }
         public virtual decimal ValorRealDoFrete { get; protected internal set; }
-        public virtual decimal PesoTotalDaCarga { get; protected internal set; }
+        public virtual decimal PesoTotalDaCargaEmToneladas { get; protected internal set; }
         public virtual Enumeradores.StatusDoConhecimentoDeTransporte Status { get; protected internal set; }
         public virtual string MensagemDeErroDeProcessamento { get; protected internal set; }
 
@@ -82,7 +82,7 @@ namespace BsBios.Portal.Domain.Entities
                 var coleta = new Coleta(null, null,this.DataDeEmissao, this.DataDeEmissao);
 
                 int quantidadeDeNotas = this.NotasFiscais.Count();
-                decimal pesoRateado =  Math.Round(this.PesoTotalDaCarga / quantidadeDeNotas,3);
+                decimal pesoRateado =  Math.Round(this.PesoTotalDaCargaEmToneladas / quantidadeDeNotas,3);
                 decimal valorRateado = Math.Round(this.ValorRealDoFrete / quantidadeDeNotas,2);
 
                 foreach (NotaFiscalDeConhecimentoDeTransporte notaDeConhecimento in this.NotasFiscais)

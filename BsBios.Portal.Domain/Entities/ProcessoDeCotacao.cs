@@ -156,7 +156,7 @@ namespace BsBios.Portal.Domain.Entities
 
             if (fornecedorParticipante.Resposta != Enumeradores.RespostaDaCotacao.Aceito)
             {
-                throw new Exception("Não é possível selecionar um fornecedor que não aceitou o processo de cotação.");
+                throw new Exception("Não é possível selecionar um fornecedor que recusou o processo de cotação.");
             }
 
         }

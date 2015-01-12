@@ -14,8 +14,16 @@ namespace BsBios.Portal.Tests.Domain.Entities
         [TestMethod]
         public void UmConhecimentoDeTransporteIniciaComEstadoNaoAtribuido()
         {
-            var conhecimentoDeTransporte = new ConhecimentoDeTransporte("11","1","1",DateTime.Today,"1","1900","2000", 1000M, 100);
+            var conhecimentoDeTransporte = new ConhecimentoDeTransporte("11","1","1",DateTime.Today,"1","1900","2000", 1000M, 100000);
             Assert.AreEqual(Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido, conhecimentoDeTransporte.Status);
         }
+
+        [TestMethod]
+        public void PesoTotalDoConhecimentoDeveSerConvertidoDeQuilosParaToneladas()
+        {
+            var conhecimentoDeTransporte = new ConhecimentoDeTransporte("11", "1", "1", DateTime.Today, "1", "1900", "2000", 1000M, 100000);
+            Assert.AreEqual(100, conhecimentoDeTransporte.PesoTotalDaCargaEmToneladas);
+        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Serie);
             Map(x => x.NumeroDoContrato);
             Map(x => x.ValorRealDoFrete);
-            Map(x => x.PesoTotalDaCarga);
+            Map(x => x.PesoTotalDaCargaEmToneladas,"PesoTotalDaCarga");
             Map(x => x.Status).CustomType<Enumeradores.StatusDoConhecimentoDeTransporte>();
             Map(x => x.MensagemDeErroDeProcessamento);
 

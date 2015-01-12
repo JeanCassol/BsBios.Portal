@@ -32,7 +32,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 NumeroDoConhecimento = ct.Numero,
                 NumeroDoContrato = ct.NumeroDoContrato,
                 ValorRealDoFrete = ct.ValorRealDoFrete,
-                PesoTotalDaCarga = ct.PesoTotalDaCarga,
+                PesoTotalDaCarga = ct.PesoTotalDaCargaEmToneladas,
                 Status = ct.Status
             };
 
@@ -108,7 +108,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     Serie = ct.Serie,
                     NumeroDoContrato = ct.NumeroDoContrato,
                     ValorRealDoFrete = ct.ValorRealDoFrete,
-                    PesoTotalDaCarga = ct.PesoTotalDaCarga,
+                    PesoTotalDaCarga = ct.PesoTotalDaCargaEmToneladas,
                     Status = ct.Status,
                     PermiteAtribuir = ct.Status == Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido
                 })
