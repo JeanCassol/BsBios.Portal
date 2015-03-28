@@ -57,12 +57,13 @@ namespace BsBios.Portal.Domain.Services.Implementations
                 ordensCandidatas = ordensDoContrato;
             }
 
-            OrdemDeTransporte ordemEncontrada = null;
+            OrdemDeTransporte ordemVinculada = null;
 
             if (ordensCandidatas.Count == 1)
             {
-                ordemEncontrada = ordensCandidatas.First();
+                OrdemDeTransporte ordemEncontrada = ordensCandidatas.First();
                 conhecimentoDeTransporte.VincularComOrdem(ordemEncontrada);
+                ordemVinculada = conhecimentoDeTransporte.OrdensDeTransporte.FirstOrDefault();
             }
             else if (ordensCandidatas.Count > 1)
             {
@@ -70,7 +71,7 @@ namespace BsBios.Portal.Domain.Services.Implementations
                 conhecimentoDeTransporte.IndicarOrdensCandidatas(ordensCandidatas);
             }
 
-            return ordemEncontrada;
+            return ordemVinculada;
         }
     }
 }

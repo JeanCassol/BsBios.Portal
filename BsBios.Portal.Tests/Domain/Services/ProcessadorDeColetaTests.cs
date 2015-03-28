@@ -122,9 +122,22 @@ namespace BsBios.Portal.Tests.Domain.Services
         }
 
         //Não sei ainda se vai ter esta regra
-        //[TestMethod]
+        [TestMethod]
         public void QuandoVinculoDoConhecimentoComOrdemAdicionarMaisColetasDoQueQuantidadeLiberadaDeveGravarMensagemDeErroDeNegocio()
         {
+            ConhecimentoDeTransporte conhecimentoDeTransporte = DefaultObjects.ObterConhecimentoDeTransporte();
+            OrdemDeTransporte ordemDeTransporte = DefaultObjects.ObtemOrdemDeTransporteComQuantidade(90);
+
+            Mock<IOrdensDeTransporte> mockOrdensDeTransporte = GerarMockParaRepositorioDeOrdemDeTransporte(conhecimentoDeTransporte, new List<OrdemDeTransporte>() { ordemDeTransporte });
+            Mock<IFornecedores> mockFornecedores = GerarMockParaFornecedor(conhecimentoDeTransporte, ordemDeTransporte, true, true);
+
+            var processadorDeColeta = new ProcessadorDeColeta(mockOrdensDeTransporte.Object, mockFornecedores.Object);
+
+            OrdemDeTransporte ordemVinculada = processadorDeColeta.Processar(conhecimentoDeTransporte);
+
+            Assert.IsNull(ordemVinculada);
+
+            Assert.AreEqual(0, ordemDeTransporte.Coletas.Count);
 
         }
 

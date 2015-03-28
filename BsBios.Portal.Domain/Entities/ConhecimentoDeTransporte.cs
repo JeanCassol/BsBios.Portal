@@ -76,9 +76,6 @@ namespace BsBios.Portal.Domain.Entities
         {
             try
             {
-                this._ordensDeTransporte.Clear();
-                this._ordensDeTransporte.Add(ordemDeTransporte);
-
                 var coleta = new Coleta(null, null,this.DataDeEmissao, this.DataDeEmissao);
 
                 int quantidadeDeNotas = this.NotasFiscais.Count();
@@ -97,6 +94,9 @@ namespace BsBios.Portal.Domain.Entities
                 ordemDeTransporte.AdicionarColeta(coleta);
 
                 this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.Atribuido;
+
+                this._ordensDeTransporte.Clear();
+                this._ordensDeTransporte.Add(ordemDeTransporte);
 
             }
             catch (Exception exception)

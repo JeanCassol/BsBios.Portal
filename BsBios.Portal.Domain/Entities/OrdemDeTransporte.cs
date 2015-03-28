@@ -78,7 +78,15 @@ namespace BsBios.Portal.Domain.Entities
                 throw new AlterarOrdemDeTransporteFechadaException();
             }
             Coletas.Add(coleta);
-            AtualizarQuantidadeColetada(true);
+            try
+            {
+                AtualizarQuantidadeColetada(true);
+            }
+            catch (QuantidadeColetadaUltrapassouQuantidadeLiberadaException)
+            {
+                this.Coletas.Remove(coleta);
+                throw;
+            }
         }
 
         public virtual void AtualizarColeta(ColetaSalvarVm coletaSalvarVm)
