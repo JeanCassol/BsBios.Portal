@@ -104,6 +104,11 @@ namespace BsBios.Portal.UI.Helpers
         {
         }
 
+        public ColunaComTextBox(Expression<Func<TModel, TValue>> expressao, object atributos, string textoDaLabel): base(expressao, textoDaLabel, atributos, null, true)
+        {
+        }
+
+
         public override MvcHtmlString GeraInput()
         {
             return System.Web.Mvc.Html.InputExtensions.TextBoxFor(HtmlHelper, Expressao, InputAttributes);

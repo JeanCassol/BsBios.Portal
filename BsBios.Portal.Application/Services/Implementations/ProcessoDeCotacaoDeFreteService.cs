@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
@@ -63,6 +64,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 if (processoCotacaoFreteCadastroVm.Id.HasValue)
                 {
                     processo = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(processoCotacaoFreteCadastroVm.Id.Value).Single();
+
                     processo.Atualizar(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
@@ -77,18 +79,32 @@ namespace BsBios.Portal.Application.Services.Implementations
                         processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
                 }
 
-                if (processoCotacaoFreteCadastroVm.TipoDePreco == 0)
+                var tipoDePrecoDoProcessoDeCotacao = (Enumeradores.TipoDePrecoDoProcessoDeCotacao)Enum.Parse(typeof(Enumeradores.TipoDePrecoDoProcessoDeCotacao), Convert.ToString(processoCotacaoFreteCadastroVm.TipoDePreco));
+
+                decimal? valorDoTipoDePreco = processoCotacaoFreteCadastroVm.ValorDoTipoDePreco;
+                switch (tipoDePrecoDoProcessoDeCotacao)
                 {
-                    processo.AbrirPreco();
-                    
-                }
-                else
-                {
-                    if (!processoCotacaoFreteCadastroVm.ValorPrevisto.HasValue)
-                    {
-                        throw new Exception("É necessário informar o Valor Previsto quando o Tipo de Preço é Fechado.");
-                    }
-                    processo.FecharPreco(processoCotacaoFreteCadastroVm.ValorFechado.Value);
+                    case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorAberto:
+                        processo.AbrirPreco();
+                        break;
+                    case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado:
+                        if (!valorDoTipoDePreco.HasValue)
+                        {
+                            throw new Exception("É necessário informar o Valor Fechado do frete.");
+                        }
+
+                        processo.FecharPreco(valorDoTipoDePreco.Value);
+                        break;
+                    case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo:
+                        if (!valorDoTipoDePreco.HasValue)
+                        {
+                            throw new Exception("É necessário informar o Valor Máximo do frete.");
+                        }
+                        processo.EstabelecerPrecoMaximo(valorDoTipoDePreco.Value);
+                        break;
+                    default:
+                        throw new Exception("Tipo de Preço inválido.");
+
                 }
 
                 _processosDeCotacao.Save(processo);

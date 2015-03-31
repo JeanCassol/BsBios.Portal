@@ -99,6 +99,8 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 ProcessoCotacaoFreteCadastroVm cadastro = _consultaProcessoDeCotacaoDeFrete.ConsultaProcesso(idProcessoCotacao);
+
+               
                 ViewBag.UnidadesDeMedida = _consultaUnidadeDeMedida.ListarTodos();
                 ViewBag.Terminais = _consultaTerminal.ListarTodos();
                 

@@ -163,7 +163,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
                     MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado" ,
                     MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado",
-                    Resposta = fp.Resposta.Descricao()
+                    Resposta = fp.Resposta.Descricao(),
+                    ValorMaximo = processo.ValorMaximo
                 }
             };
 

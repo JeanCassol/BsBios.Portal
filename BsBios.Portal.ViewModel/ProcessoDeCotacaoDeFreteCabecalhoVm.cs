@@ -34,6 +34,10 @@ namespace BsBios.Portal.ViewModel
         [DisplayName("Resposta: ")]
         public string Resposta { get; set; }
 
+        [DisplayName("Valor Máximo: ")]
+        public decimal? ValorMaximo { get; set; }
+
+
         
     }
 }

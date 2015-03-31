@@ -11,13 +11,19 @@ namespace BsBios.Portal.Infra.Mappings
             Table("ProcessoCotacao");
             Id(x => x.Id).GeneratedBy.Sequence("PROCESSOCOTACAO_ID_SEQUENCE");
             References(x => x.Produto).Column("CodigoProduto");
+            
             //HasManyToMany(x => x.Fornecedores).Table("PROCESSOCOTACAOFORNECEDOR").ParentKeyColumn("IdProcessoCotacao").ChildKeyColumn("CodigoFornecedor")
             //    .Fetch.Join()
             //    .ExtraLazyLoad();
             //HasMany(x => x.Cotacoes).KeyColumn("IdProcessoCotacao").Cascade.AllDeleteOrphan();
-            HasMany(x => x.FornecedoresParticipantes).KeyColumn("IdProcessoCotacao").Fetch.Join()   
-                .Inverse() /*Sem este INVERSE não funciona o delete da entidade principal: ProcessoDeCotacao. O NHibernate tenta fazer um update na tabela 
-                            referente à entidade FornecedorParticipante setando o IdProcessoCotacao para NULL, o que não é permitido, pois a coluna é NOT NULL*/
+            
+            
+            /*Sem este INVERSE não funciona o delete da entidade principal: ProcessoDeCotacao. O NHibernate tenta fazer um update na tabela 
+            referente à entidade FornecedorParticipante setando o IdProcessoCotacao para NULL, o que não é permitido, pois a coluna é NOT NULL*/
+            HasMany(x => x.FornecedoresParticipantes)
+                .KeyColumn("IdProcessoCotacao")
+                .Fetch.Join()
+                .Inverse()
                 .Cascade.AllDeleteOrphan();
 
             References(x => x.UnidadeDeMedida).Column("CodigoUnidadeMedida");
@@ -67,7 +73,9 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.Classificacao);
             Map(x => x.Cadencia);
             Map(x => x.ValorPrevisto);
-            Map(x => x.ValorFechado);
+            Map(x => x.TipoDePreco).CustomType<Enumeradores.TipoDePrecoDoProcessoDeCotacao>();
+            Map(x => x.ValorFechado).Nullable();
+            Map(x => x.ValorMaximo).Nullable();
 
         }
     }

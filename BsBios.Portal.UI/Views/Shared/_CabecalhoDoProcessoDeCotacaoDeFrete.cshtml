@@ -25,7 +25,24 @@
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoFornecedor))
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.NomeDoDeposito),
             new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.EnderecoDoDeposito))
+
     @Html.LinhaComDuasColunas(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Requisitos),
-            new ColunaComLabelEmDestaque<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Resposta,"lblResposta",null))
-    @Html.LinhaComUmaColuna(new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, int>(x => x.Numero))
+    new ColunaComLabelEmDestaque<ProcessoDeCotacaoDeFreteCabecalhoVm, string>(x => x.Requisitos,"lblResposta",null))
+    
+    @{
+        bool possuiValorMaximo = Model.ValorMaximo.HasValue;
+        var colunaDoNumeroDaCotacao = new ColunaComLabel<ProcessoDeCotacaoDeFreteCabecalhoVm, int>(x => x.Numero);
+        if (possuiValorMaximo)
+        {
+            @Html.LinhaComDuasColunas(colunaDoNumeroDaCotacao, 
+            new ColunaComLabelEmDestaque<ProcessoDeCotacaoDeFreteCabecalhoVm, decimal?>(x => x.ValorMaximo,"lblValorMaximo",null))
+        }
+        else
+        {
+            @Html.LinhaComUmaColuna(colunaDoNumeroDaCotacao)
+        }
+
+    }
+
+    
 </fieldset>

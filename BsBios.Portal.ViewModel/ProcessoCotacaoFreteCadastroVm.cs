@@ -94,8 +94,9 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Valor Previsto")]
         public decimal? ValorPrevisto { get; set; }
 
-        [Display(Name = "Valor Fechado")]
-        public decimal? ValorFechado { get; set; }
+        [Display(Name = "Valor")]
+        public decimal? ValorDoTipoDePreco { get; set; }
 
+        //public string LabelDoTipoDePreco { get; set; }
     }
 }

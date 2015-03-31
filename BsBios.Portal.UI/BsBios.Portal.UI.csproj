@@ -518,7 +518,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Factory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

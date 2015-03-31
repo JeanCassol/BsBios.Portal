@@ -31,7 +31,7 @@ namespace BsBios.Portal.Domain.Entities
             Incoterm incoterm, string descricaoDoIncoterm, decimal valorTotalComImpostos,
             decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
-            base.InformarCotacao();
+            base.ValidarCotacao();
             //busca a cotação do fornecedor
             FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 

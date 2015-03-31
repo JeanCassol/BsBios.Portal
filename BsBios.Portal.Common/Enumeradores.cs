@@ -153,5 +153,12 @@ namespace BsBios.Portal.Common
             AlteracaoDeLocalDeColeta
         }
 
+        public enum TipoDePrecoDoProcessoDeCotacao
+        {
+            ValorAberto,
+            ValorFechado,
+            ValorMaximo
+        }
+
     }
 }

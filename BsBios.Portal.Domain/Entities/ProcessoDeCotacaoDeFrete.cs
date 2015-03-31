@@ -56,7 +56,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Fornecedor Deposito { get; protected set; }
         public virtual Terminal Terminal { get; protected set; }
         public virtual decimal? ValorPrevisto { get; protected set; }
+        public virtual Enumeradores.TipoDePrecoDoProcessoDeCotacao TipoDePreco { get; protected set; }
         public virtual decimal? ValorFechado { get; protected set; }
+        public virtual decimal? ValorMaximo{ get; protected set; }
 
 
         public virtual void Atualizar(Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, string requisitos, string numeroDoContrato, 
@@ -94,8 +96,14 @@ namespace BsBios.Portal.Domain.Entities
         public virtual CotacaoDeFrete InformarCotacao(string codigoFornecedor, decimal valorTotalComImpostos,
             decimal quantidadeDisponivel, string observacoes)
         {
-            base.InformarCotacao();
+            base.ValidarCotacao();
             //busca a cotação do fornecedor
+
+            if (this.TipoDePreco == Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo && valorTotalComImpostos > this.ValorMaximo)
+            {
+                throw new ValorTotalDaCotacaoUltrapassouValorMaximoPermitido();
+            }
+
             FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 
             var cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
@@ -166,13 +174,25 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void AbrirPreco()
         {
+            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorAberto;
             ValorFechado = null;
+            ValorMaximo = null;
         }
 
-        public virtual void FecharPreco(decimal valor)
+        public virtual void FecharPreco(decimal preco)
         {
-            ValorFechado = valor;
+            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado;
+            ValorFechado = preco;
+            ValorMaximo = null;
         }
+
+        public virtual void EstabelecerPrecoMaximo(decimal preco)
+        {
+            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo;
+            ValorFechado = null;
+            ValorMaximo = preco;
+        }
+
 
     }
 }

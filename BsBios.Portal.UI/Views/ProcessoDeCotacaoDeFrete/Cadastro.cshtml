@@ -54,7 +54,7 @@
             @Html.LinhaComDuasColunas(dataLimiteDeRetorno, comboDeTerminal)
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker maskdata"),
-            new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))        
+                new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))        
 
             <div class="linha">
                 @Html.HiddenFor(x => x.CodigoItinerario)
@@ -67,13 +67,13 @@
             </div>
             
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorPrevisto,"campopequeno maskmoeda"),
-            new ColunaVazia<ProcessoCotacaoFreteCadastroVm, object>())
+                new ColunaVazia<ProcessoCotacaoFreteCadastroVm, object>())
 
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
-            new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
+                new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
             
             @Html.LinhaComDuasColunas(new ColunaComCheckBox<ProcessoCotacaoFreteCadastroVm, bool>(x => x.Classificacao),
-             new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.Cadencia, "campopequeno maskquantidade"))
+                new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.Cadencia, "campopequeno maskquantidade"))
             
             <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoFornecedorDaMercadoria)
@@ -110,17 +110,20 @@
                 var tiposDePreco = new List<SelectListItem>()
                 {
                     new SelectListItem() {Text = @"Aberto", Value = "0", Selected = Model != null && 0 == Model.TipoDePreco},
-                    new SelectListItem() {Text = @"Fechado", Value = "1", Selected = Model != null && 1 == Model.TipoDePreco}
+                    new SelectListItem() {Text = @"Fechado", Value = "1", Selected = Model != null && 1 == Model.TipoDePreco},
+                    new SelectListItem() {Text = @"Valor Máximo", Value = "2", Selected = Model != null && 2 == Model.TipoDePreco}
 
                 };
 
                 var comboTipoDePreco = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, int>(x => x.TipoDePreco,tiposDePreco, "TipoDePreco","",null);
+                  
 
-                var valorFechado = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorFechado, new { @class = "maskmoeda"});
+                //var valorDoTipoDePreco = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorDoTipoDePreco, new { @class = "maskmoeda"}, Model.LabelDoTipoDePreco);
+                var valorDoTipoDePreco = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorDoTipoDePreco, new { @class = "maskmoeda" });
                 
             }
             
-            @Html.LinhaComDuasColunas(comboTipoDePreco, valorFechado)
+            @Html.LinhaComDuasColunas(comboTipoDePreco, valorDoTipoDePreco)
             
             @Html.ValidationSummary(true)
         <div class="error"></div>
@@ -163,14 +166,14 @@
 
             var tipoDePreco = $('#TipoDePreco');
             tipoDePreco.change(function () {
-                var valorFechado = $('#ValorFechado');
+                var valorDoTipoDePreco = $('#ValorDoTipoDePreco');
                 if (window.parseInt($(this).val()) === 0) {
-                    valorFechado
+                    valorDoTipoDePreco
                         .val('')
                         .attr('readonly', 'true')
                         .addClass('campoDesabilitado');
                 } else {
-                    valorFechado
+                    valorDoTipoDePreco
                         .removeAttr('readonly')
                         .removeClass('campoDesabilitado');
                 }

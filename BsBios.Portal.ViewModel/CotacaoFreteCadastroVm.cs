@@ -1,4 +1,6 @@
-﻿namespace BsBios.Portal.ViewModel
+﻿using System.ComponentModel;
+
+namespace BsBios.Portal.ViewModel
 {
     public class CotacaoFreteCadastroVm : CotacaoInformarVm
     {

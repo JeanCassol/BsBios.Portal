@@ -85,6 +85,7 @@
     <Compile Include="Exceptions\UsuarioBloqueadoException.cs" />
     <Compile Include="Exceptions\UsuarioNaoCadastradoException.cs" />
     <Compile Include="Exceptions\UsuarioSemSenhaException.cs" />
+    <Compile Include="Exceptions\ValorTotalDaCotacaoUltrapassouValorMaximoPermitido.cs" />
     <Compile Include="NHibernateExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

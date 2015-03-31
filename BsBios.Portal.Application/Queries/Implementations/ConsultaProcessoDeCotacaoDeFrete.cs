@@ -25,36 +25,48 @@ namespace BsBios.Portal.Application.Queries.Implementations
              
             var processoDeCotacao = (ProcessoDeCotacaoDeFrete)  _processosDeCotacao.BuscaPorId(idProcessoCotacaoMaterial).Single();
 
-            return new ProcessoCotacaoFreteCadastroVm()
-                {
-                    Id = processoDeCotacao.Id,
-                    DataLimiteRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
-                    DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    CodigoMaterial = processoDeCotacao.Produto.Codigo,
-                    DescricaoMaterial = processoDeCotacao.Produto.Descricao,
-                    QuantidadeMaterial = processoDeCotacao.Quantidade ,
-                    CodigoUnidadeMedida = processoDeCotacao.UnidadeDeMedida.CodigoInterno ,
-                    CodigoItinerario = processoDeCotacao.Itinerario.Codigo,
-                    DescricaoItinerario = processoDeCotacao.Itinerario.Descricao ,
-                    Requisitos = processoDeCotacao.Requisitos ,
-                    NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
-                    DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
-                    DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
-                    Cadencia = processoDeCotacao.Cadencia,
-                    Classificacao = processoDeCotacao.Classificacao,
-                    CodigoDoFornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Codigo: null,
-                    FornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Nome: null ,
-                    CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Codigo: null ,
-                    NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeOrigem.Nome, processoDeCotacao.MunicipioDeOrigem.UF) : null,
-                    CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Codigo : null ,
-                    NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeDestino.Nome, processoDeCotacao.MunicipioDeDestino.UF) : null,
-                    CodigoDoDeposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Codigo: null ,
-                    Deposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : null,
-                    CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
-                    TipoDePreco = processoDeCotacao.ValorFechado.HasValue ? 1 : 0,
-                    ValorPrevisto = processoDeCotacao.ValorPrevisto,
-                    ValorFechado = processoDeCotacao.ValorFechado
-                };
+            var processoCotacaoFreteCadastroVm = new ProcessoCotacaoFreteCadastroVm()
+            {
+                Id = processoDeCotacao.Id,
+                DataLimiteRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
+                DescricaoStatus = processoDeCotacao.Status.Descricao(),
+                CodigoMaterial = processoDeCotacao.Produto.Codigo,
+                DescricaoMaterial = processoDeCotacao.Produto.Descricao,
+                QuantidadeMaterial = processoDeCotacao.Quantidade ,
+                CodigoUnidadeMedida = processoDeCotacao.UnidadeDeMedida.CodigoInterno ,
+                CodigoItinerario = processoDeCotacao.Itinerario.Codigo,
+                DescricaoItinerario = processoDeCotacao.Itinerario.Descricao ,
+                Requisitos = processoDeCotacao.Requisitos ,
+                NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
+                DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
+                DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString(),
+                Cadencia = processoDeCotacao.Cadencia,
+                Classificacao = processoDeCotacao.Classificacao,
+                CodigoDoFornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Codigo: null,
+                FornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Nome: null ,
+                CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.Codigo: null ,
+                NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeOrigem.Nome, processoDeCotacao.MunicipioDeOrigem.UF) : null,
+                CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.Codigo : null ,
+                NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? string.Format("{0}/{1}", processoDeCotacao.MunicipioDeDestino.Nome, processoDeCotacao.MunicipioDeDestino.UF) : null,
+                CodigoDoDeposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Codigo: null ,
+                Deposito = processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : null,
+                CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
+                TipoDePreco = (int) processoDeCotacao.TipoDePreco,
+                ValorPrevisto = processoDeCotacao.ValorPrevisto
+            };
+
+            if (processoDeCotacao.TipoDePreco == Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado)
+            {
+                //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Fechado";
+                processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorFechado;
+            }
+            else if (processoDeCotacao.TipoDePreco == Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo)
+            {
+                //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Máximo";
+                processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorMaximo;
+            }
+
+            return processoCotacaoFreteCadastroVm;
         }
 
         public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)

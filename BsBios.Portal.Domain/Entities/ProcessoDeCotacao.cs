@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 
@@ -100,7 +99,7 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.Aberto;
         }
 
-        protected virtual void InformarCotacao()
+        protected virtual void ValidarCotacao()
         {
             if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
             {
