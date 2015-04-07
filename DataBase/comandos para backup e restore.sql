@@ -30,6 +30,7 @@ create or replace directory dmp_dir as 'c:\tmp';
 --comando para executar no prompt de comando
 impdp bsbios/fusion123 schemas=bsbios directory=dmp_dir dumpfile=bsbios_20131119.dmp logfile=bsbios_20131119.log
 
-
+--se quiser importar de um schema para outro tem que usar a opção remap_schema
+impdp bsbios/fusion123 schemas=bsbios directory=dmp_dir dumpfile=bsbios_20131119.dmp logfile=bsbios_20131119.log remap_schema=bsbios:outro_esquema
 
 
