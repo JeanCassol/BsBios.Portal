@@ -51,7 +51,12 @@ namespace BsBios.Portal.Tests.Application.Services
                         if (idProcessoCotacao == 10)
                         {
                             _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
-                            _processoDeCotacao.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+                            Fornecedor fornecedor = DefaultObjects.ObtemFornecedorPadrao();
+                            _processoDeCotacao.AdicionarFornecedor(fornecedor);
+                            _processoDeCotacao.Abrir(DefaultObjects.ObtemCompradorDeSuprimentos());
+                            _processoDeCotacao.InformarCotacao(fornecedor.Codigo,DefaultObjects.ObtemCondicaoDePagamentoPadrao(), DefaultObjects.ObtemIncotermPadrao(),"desc incoterm");
+                            _processoDeCotacao.InformarCotacaoDeItem(0, 0, 10, 1, 100, DateTime.Today.AddDays(10), "obs");
+                            _processoDeCotacao.SelecionarCotacao(0,0,1,null);
                         }
                         if (idProcessoCotacao == 20)
                         {
@@ -142,7 +147,7 @@ namespace BsBios.Portal.Tests.Application.Services
         {
             try
             {
-                _fechamentoDeProcessoDeCotacaoService.Executar(10);
+                _fechamentoDeProcessoDeCotacaoService.Executar(30);
                 Assert.Fail("Deveria ter gerado excessão");
             }
             catch (FecharProcessoDeCotacaoFechadoException)

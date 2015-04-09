@@ -20,7 +20,7 @@ namespace BsBios.Portal.Tests.Application.Services
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IProcessosDeCotacao> _processosDeCotacaoMock;
-        private readonly Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao> _geradorDeEmailMock;
+        //private readonly Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao> _geradorDeEmailMock;
         private readonly Mock<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap> _comunicacaoSapMock;
         private readonly IFechamentoDeProcessoDeCotacaoDeMaterialService _fechamentoDeProcessoDeCotacaoService;
         private ProcessoDeCotacaoDeMaterial _processoDeCotacao;
@@ -79,8 +79,8 @@ namespace BsBios.Portal.Tests.Application.Services
 
             _processosDeCotacaoMock.Setup(x => x.Single()).Returns(() => _processoDeCotacao);
 
-            _geradorDeEmailMock = new Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>(MockBehavior.Strict);
-            _geradorDeEmailMock.Setup(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()));
+            //_geradorDeEmailMock = new Mock<IGeradorDeEmailDeFechamentoDeProcessoDeCotacao>(MockBehavior.Strict);
+            //_geradorDeEmailMock.Setup(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()));
 
             _comunicacaoSapMock = new Mock<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>(MockBehavior.Strict);
             _comunicacaoSapMock.Setup(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(), It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoInfoVm>()));
@@ -137,7 +137,7 @@ namespace BsBios.Portal.Tests.Application.Services
         public void QuandoOProcessoEFechadoComSucessoEEnviadoEmailParaOsFornecedoresSelecionados()
         {
             _fechamentoDeProcessoDeCotacaoService.Executar(_processoDeCotacaoFechamentoVm);
-            _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());            
+            //_geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Once());            
         }
 
         [TestMethod]
@@ -157,7 +157,7 @@ namespace BsBios.Portal.Tests.Application.Services
             catch (FecharProcessoDeCotacaoFechadoException)
             {
                 _comunicacaoSapMock.Verify(x => x.EfetuarComunicacao(It.IsAny<ProcessoDeCotacaoDeMaterial>(),It.IsAny<ProcessoDeCotacaoDeMaterialFechamentoInfoVm>()), Times.Never());
-                _geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
+                //_geradorDeEmailMock.Verify(x => x.GerarEmail(It.IsAny<ProcessoDeCotacao>()), Times.Never());
             }
 
         }
