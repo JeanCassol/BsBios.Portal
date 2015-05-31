@@ -72,6 +72,7 @@
     <Compile Include="Application\Queries\ConsultaProcessoDeCotacaoDeMaterialTests.cs" />
     <Compile Include="Application\Queries\ConsultaProdutoTests.cs" />
     <Compile Include="Application\Queries\ConsultaQuotaTests.cs" />
+    <Compile Include="Application\Queries\ConsultaRelatorioDeUsuarioTests.cs" />
     <Compile Include="Application\Queries\ConsultaUsuarioTests.cs" />
     <Compile Include="Application\Queries\ConsultaQuotaRelatorioTests.cs" />
     <Compile Include="Application\Queries\ConsultaOrdemDeTransporteTests.cs" />

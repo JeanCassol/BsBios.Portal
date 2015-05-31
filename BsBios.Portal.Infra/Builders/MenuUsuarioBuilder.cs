@@ -109,6 +109,7 @@ namespace BsBios.Portal.Infra.Builders
             : base("Administrativo")
         {
             AdicionarItem("Usuários", "Usuario", "Index");
+            AdicionarItem("Relatório de Usuários", "RelatorioDeUsuario", "Index");
         }
     }
 

@@ -1,0 +1,35 @@
+﻿@model BsBios.Portal.ViewModel.RelatorioDeUsuarioCabecalhoVm
+@{
+    Layout = null;
+}
+<h2>Relatório de Usuários</h2>
+<hr/>
+<div class="linha">
+    <div class="coluna">
+        <label class="labelNaLinha nome-do-filtro">Login:</label>
+        <label class="labelNaLinha">@Model.Login</label>
+    </div>
+    <div class="coluna">
+        <label class="labelNaLinha nome-do-filtro">Nome:</label>
+        <label class="labelNaLinha">@Model.Nome</label>
+    </div>
+</div>
+
+<div class="linha">
+    <div class="coluna">
+        <label class="labelNaLinha nome-do-filtro">E-mail:</label>
+        <label class="labelNaLinha">@Model.Email</label>
+    </div>
+    <div class="coluna">
+        <label class="labelNaLinha nome-do-filtro">Status:</label>
+        <label class="labelNaLinha">@Model.Status</label>
+    </div>
+</div>
+<div class="linha">
+    @Html.Label("Gerado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+</div>
+<hr/>
+
+
+
+

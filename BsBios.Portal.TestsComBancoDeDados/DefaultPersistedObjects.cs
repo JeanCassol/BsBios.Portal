@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Repositories;
 using NHibernate;
 using StructureMap;
 
-namespace BsBios.Portal.Tests.DefaultProvider
+namespace BsBios.Portal.TestsComBancoDeDados
 {
     public static class DefaultPersistedObjects
     {

@@ -6,7 +6,13 @@
     table {
         margin: 1pt;
         font-size:10pt;
+        -moz-min-width: 795px;
+        -ms-min-width: 795px;
+        -o-min-width: 795px;
+        -webkit-min-width: 795px;
+        min-width: 795px;
     }
+
     hr {
         border-style: solid;
         border-top-width: 1pt;
@@ -17,12 +23,19 @@
         -webkit-margin-before: 5pt;
         -webkit-margin-after: 5pt;
     }
-    .bordaDoRelatorio {
+    .bordaDoRelatorio, .bordaDoRelatorioDeUsuario {
         border: solid 1pt black;
         padding: 4pt;
         /*width: intrinsic; NÃO FUNCIONA NO IE */
         display: inline-block; /*faz com que a div da borda do relatório fique do tamanho da janela*/
+        -moz-min-width: 800px;
+        -ms-min-width: 800px;
+        -o-min-width: 800px;
+        -webkit-min-width: 800px;
+        min-width: 800px;
+
     }
+
     label {
         display: block;
         font-size: 10pt;
@@ -40,6 +53,10 @@
     }
     table tfoot {
         font-weight: bold
+    }
+
+    .nome-do-filtro {
+        font-weight: bold;
     }
 }
    

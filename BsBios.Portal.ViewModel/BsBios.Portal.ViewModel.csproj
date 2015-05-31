@@ -85,6 +85,10 @@
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteSinteticoVm.cs" />
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteAnaliticoVm.cs" />
     <Compile Include="RelatorioDeProcessoDeCotacaoDeFreteFiltroVm.cs" />
+    <Compile Include="RelatorioDeUsuarioCabecalhoVm.cs" />
+    <Compile Include="RelatorioDeUsuarioFiltroVm.cs" />
+    <Compile Include="RelatorioDeUsuarioListagemVm.cs" />
+    <Compile Include="RelatorioDeUsuarioVisualizacaoVm.cs" />
     <Compile Include="StatusProcessoCotacaoVm.cs" />
     <Compile Include="TerminalCadastroVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />

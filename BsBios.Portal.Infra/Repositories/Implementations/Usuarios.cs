@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Model;
+using NHibernate.Linq;
 using StructureMap;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
@@ -52,6 +54,30 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         public IUsuarios SemSenha()
         {
             Query = Query.Where(x => x.Senha == null);
+            return this;
+        }
+
+        public IUsuarios EmailContendo(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                Query = Query.Where(x => x.Email.ToLower().Contains(email.ToLower()));
+            }
+
+            return this;
+        }
+
+        public IUsuarios ComStatus(Enumeradores.StatusUsuario status)
+        {
+            Query = Query.Where(x => x.Status == status);
+
+            return this;
+        }
+
+        public IUsuarios IncluirPerfis()
+        {
+            Query = Query.FetchMany(usuario => usuario.Perfis);
+
             return this;
         }
     }

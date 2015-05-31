@@ -34,6 +34,7 @@
 
     function configurarGrid() {
         $("#conhecimentosDeTransporte").customKendoGrid({
+            autoBind: false,
             dataSource: {
                 schema: {
                     data: 'Registros',

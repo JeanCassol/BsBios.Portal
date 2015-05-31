@@ -4,7 +4,6 @@ using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Tests.DataProvider;
-using BsBios.Portal.Tests.DefaultProvider;
 using BsBios.Portal.TestsComBancoDeDados.Infra;
 using BsBios.Portal.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -91,6 +91,7 @@ h5 a:link, h5 a:visited, h5 a:active {
     margin: 0 auto;
     background-image: url("/Images/banner.png");
     background-repeat: no-repeat;
+    -ms-background-size:cover;
     background-size:cover;
     padding-top: 0.5em;
     height: 7.85em !important;
@@ -378,11 +379,12 @@ input[type="checkbox"].input-validation-error {
     padding-right: 0.1em;
 }
 
-.button_edit{
+.button_edit {
     background-image: url(/images/icons/editar_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -390,11 +392,13 @@ input[type="checkbox"].input-validation-error {
     width: 1.5em;
     vertical-align: middle; /* align the text vertically centered */
 }
-.button_remove{
+
+.button_remove {
     background-image: url(/images/icons/DeleteRed_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -402,11 +406,13 @@ input[type="checkbox"].input-validation-error {
     width: 1.5em;
     vertical-align: middle; /* align the text vertically centered */
 }
-.button_add{
+
+.button_add {
     background-image: url(/images/icons/add_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -414,11 +420,13 @@ input[type="checkbox"].input-validation-error {
     width: 1.5em;
     vertical-align: middle; /* align the text vertically centered */
 }
-.button_visualize{
+
+.button_visualize {
     background-image: url(/images/icons/mag_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -428,11 +436,12 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle; /* align the text vertically centered */
 }
 
-.button_schedule{
+.button_schedule {
     background-image: url(/images/icons/schedule_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -441,11 +450,12 @@ input[type="checkbox"].input-validation-error {
     vertical-align: middle; /* align the text vertically centered */
 }
 
-.button_sendmail{
+.button_sendmail {
     background-image: url(/images/icons/enviar_email_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     background-position: 0 0;  /* equivalent to 'top left' */
+    -ms-background-size:cover;
     background-size:cover;
     border: none;           /* assuming we don't want any borders */
     cursor: pointer;        /* make the cursor like hovering over an <a> element */
@@ -453,11 +463,13 @@ input[type="checkbox"].input-validation-error {
     width: 1.5em;
     vertical-align: middle; /* align the text vertically centered */
 }
-.button_information{
+
+.button_information {
     background-image: url(/images/icons/information_16.png);
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: 0 0;
+    -ms-background-size:cover;
     background-size:cover;
     border: none;
     cursor: pointer;

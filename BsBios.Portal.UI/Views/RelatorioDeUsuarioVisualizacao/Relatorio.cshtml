@@ -1,0 +1,44 @@
+﻿@model BsBios.Portal.ViewModel.RelatorioDeUsuarioVisualizacaoVm
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Portal BSBIOS - Relatório de Usuários - Visualização</title>
+        <link type="text/css" href="@Url.Content("~/Content/Relatorio.css")" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="bordaDoRelatorio">
+            @Html.Partial("_Cabecalho", Model.Cabecalho)
+            <table>
+                <thead>
+                    <tr>
+                        <th>Login</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Status</th>
+                        <th>Perfis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model.Usuarios)
+                    {
+                        <tr>
+                            <td>@usuario.Login</td>
+                            <td>@usuario.Nome</td>
+                            <td>@usuario.Email</td>
+                            <td>@usuario.Status</td>
+                            <td>@usuario.Perfis</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

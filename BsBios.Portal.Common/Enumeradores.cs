@@ -100,6 +100,13 @@ namespace BsBios.Portal.Common
             Completo
         }
 
+        //comentado provisoriamente, pois a principio nao sera mais usado já teremos apenas uma visualizaçao
+        //public enum RelatorioDeUsuario
+        //{
+        //    Listagem,
+        //    ListagemComPerfil
+        //}
+
         public enum SelecaoDeFornecedores
         {
             [Description("Não selecionado")]

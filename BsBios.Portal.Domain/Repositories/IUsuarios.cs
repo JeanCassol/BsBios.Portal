@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Domain.Repositories
 {
@@ -10,5 +11,8 @@ namespace BsBios.Portal.Domain.Repositories
         IUsuarios FiltraPorListaDeLogins(string[] logins);
         Usuario UsuarioConectado();
         IUsuarios SemSenha();
+        IUsuarios EmailContendo(string email);
+        IUsuarios ComStatus(Enumeradores.StatusUsuario status);
+        IUsuarios IncluirPerfis();
     }
 }

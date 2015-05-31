@@ -156,6 +156,8 @@
     <Compile Include="Controllers\CustomActionResult\DownloadFile.cs" />
     <Compile Include="Controllers\ConhecimentoDeTransporteApiController.cs" />
     <Compile Include="Controllers\NotaFiscalMiroApiController.cs" />
+    <Compile Include="Controllers\RelatorioDeUsuarioController.cs" />
+    <Compile Include="Controllers\RelatorioDeUsuarioVisualizacaoController.cs" />
     <Compile Include="Controllers\TerminalApiController.cs" />
     <Compile Include="Controllers\ModelBinders\IntegerModelBinder.cs" />
     <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
@@ -515,6 +517,10 @@
     <Content Include="Views\Shared\_CabecalhoExportacao.cshtml" />
     <Content Include="Views\ConhecimentoDeTransporte\Index.cshtml" />
     <Content Include="Views\ConhecimentoDeTransporte\Formulario.cshtml" />
+    <Content Include="Views\RelatorioDeUsuario\Relatorio.cshtml" />
+    <Content Include="Views\RelatorioDeUsuario\_Filtro.cshtml" />
+    <Content Include="Views\RelatorioDeUsuarioVisualizacao\_Cabecalho.cshtml" />
+    <Content Include="Views\RelatorioDeUsuarioVisualizacao\Relatorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

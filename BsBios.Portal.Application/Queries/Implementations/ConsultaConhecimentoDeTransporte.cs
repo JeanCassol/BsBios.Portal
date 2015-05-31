@@ -59,7 +59,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
             if (filtro.DataDeEmissaoFinal.HasValue)
             {
-                queryable = queryable.Where(ct => ct.DataDeEmissao <= filtro.DataDeEmissaoFinal);
+                DateTime dataDeEmissaoFinal = filtro.DataDeEmissaoFinal.Value;
+                //como o registro no banco de dados está com data e hora preenchido, vou adicionar um dia na final e depois subtrair um tick.
+
+                queryable = queryable.Where(ct => ct.DataDeEmissao <= dataDeEmissaoFinal.AddDays(1).AddMilliseconds(-1));
             }
 
             if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))

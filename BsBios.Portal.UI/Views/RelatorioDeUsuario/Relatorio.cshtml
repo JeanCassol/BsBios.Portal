@@ -1,0 +1,13 @@
+﻿<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+
+<fieldset>
+    <legend>Filtros</legend>
+    <form method="POST" action="@Url.Action("Relatorio","RelatorioDeUsuarioVisualizacao")" target="_blank">
+        @Html.Partial("_Filtro")
+        <div class="divBotao">
+            <input type="submit" id="btnGerarRelatorio" value="Gerar" class="blue" />
+        </div>
+    </form>
+</fieldset>
+

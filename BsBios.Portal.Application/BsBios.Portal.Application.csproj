@@ -82,6 +82,7 @@
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaConhecimentoDeTransporte.cs" />
+    <Compile Include="Queries\Contracts\IConsultaDeRelatorioDeUsuario.cs" />
     <Compile Include="Queries\Contracts\IConsultaEscolhaSimples.cs" />
     <Compile Include="Queries\Contracts\IConsultaMonitorDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaMunicipio.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
     <Compile Include="Queries\Implementations\ConsultaConhecimentoDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
+    <Compile Include="Queries\Implementations\ConsultaDeRelatorioDeUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaEscolhaSimples.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />

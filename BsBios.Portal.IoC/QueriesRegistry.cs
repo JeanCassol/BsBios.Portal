@@ -126,6 +126,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaConhecimentoDeTransporte>();
 
+            For<IConsultaDeRelatorioDeUsuario>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaDeRelatorioDeUsuario>();
+
+
         }
 
     }
