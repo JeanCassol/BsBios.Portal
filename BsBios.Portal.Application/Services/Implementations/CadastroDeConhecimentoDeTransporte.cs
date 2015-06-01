@@ -138,8 +138,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _unitOfWorkNh.BeginTransaction();
 
                 IList<ConhecimentoDeTransporte> conhecimentosDeTransporte = _conhecimentosDeTransporte
-                    .ComErro()
-                    .IncluirNotasFiscais().List();
+                    .ComErroOuSemOrdemDeTransporte()
+                    .IncluirNotasFiscais()
+                    .List();
 
                 foreach (var conhecimentoDeTransporte in conhecimentosDeTransporte)
                 {

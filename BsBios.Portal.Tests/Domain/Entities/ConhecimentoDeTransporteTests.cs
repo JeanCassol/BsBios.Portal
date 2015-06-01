@@ -12,10 +12,10 @@ namespace BsBios.Portal.Tests.Domain.Entities
     public class ConhecimentoDeTransporteTests
     {
         [TestMethod]
-        public void UmConhecimentoDeTransporteIniciaComEstadoNaoAtribuido()
+        public void UmConhecimentoDeTransporteIniciaComEstadoSemOrdemDeTransporte()
         {
             var conhecimentoDeTransporte = new ConhecimentoDeTransporte("11","1","1",DateTime.Today,"1","1900","2000", 1000M, 100000);
-            Assert.AreEqual(Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido, conhecimentoDeTransporte.Status);
+            Assert.AreEqual(Enumeradores.StatusDoConhecimentoDeTransporte.SemOrdemDeTransporte, conhecimentoDeTransporte.Status);
         }
 
         [TestMethod]

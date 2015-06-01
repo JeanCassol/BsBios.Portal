@@ -6,7 +6,7 @@
 
     $('#reprocessar').click(function() {
         $.ajax({
-            url: UrlPadrao.ReprocessarConhecimentoDeTransporteComErro,
+            url: UrlPadrao.ReprocessarConhecimentoDeTransporte,
             type: 'POST',
             cache: false,
             dataType: 'json',
@@ -34,7 +34,6 @@
 
     function configurarGrid() {
         $("#conhecimentosDeTransporte").customKendoGrid({
-            autoBind: false,
             dataSource: {
                 schema: {
                     data: 'Registros',

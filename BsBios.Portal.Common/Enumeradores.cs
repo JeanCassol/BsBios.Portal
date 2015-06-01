@@ -147,7 +147,9 @@ namespace BsBios.Portal.Common
             [Description("Não atribuido")]
             NaoAtribuido,
             Atribuido,
-            Erro
+            Erro,
+            [Description("Sem OT")]
+            SemOrdemDeTransporte
         }
 
         public enum MotivoDeFechamentoDaOrdemDeTransporte

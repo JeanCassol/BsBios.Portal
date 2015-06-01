@@ -26,9 +26,9 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
             return this;
         }
 
-        public IConhecimentosDeTransporte ComErro()
+        public IConhecimentosDeTransporte ComErroOuSemOrdemDeTransporte()
         {
-            Query = Query.Where(x => x.Status == Enumeradores.StatusDoConhecimentoDeTransporte.Erro);
+            Query = Query.Where(x => x.Status == Enumeradores.StatusDoConhecimentoDeTransporte.Erro || x.Status == Enumeradores.StatusDoConhecimentoDeTransporte.SemOrdemDeTransporte);
             return this;
         }
     }

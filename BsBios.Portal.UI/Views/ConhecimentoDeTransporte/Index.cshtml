@@ -13,7 +13,7 @@
         <div class="linha">
             <div class="coluna">
                 <label for="dataDeEmissaoInicial">Data de Emissão Inicial</label>
-                <input type="text" id="dataDeEmissaoInicial" class="campopequeno campoDatePicker maskdata"/>
+                <input type="text" id="dataDeEmissaoInicial" value="@DateTime.Today.ToShortDateString()" class="campopequeno campoDatePicker maskdata"/>
             </div>
             <div class="coluna">
                 <label for="dataDeEmissaoFinal">Data de Emissão Final</label>
@@ -40,6 +40,7 @@
                     <option value="0">Não atribuido</option>
                     <option value="1">Atribuido</option>
                     <option value="2">Erro</option>
+                    <option value="3">Sem OT</option>
                 </select>
             </div>
             <div class="coluna">

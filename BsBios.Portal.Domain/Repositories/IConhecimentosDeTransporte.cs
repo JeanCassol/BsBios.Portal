@@ -6,6 +6,6 @@ namespace BsBios.Portal.Domain.Repositories
     {
         IConhecimentosDeTransporte ComChaveEletronica(string chave);
         IConhecimentosDeTransporte IncluirNotasFiscais();
-        IConhecimentosDeTransporte ComErro();
+        IConhecimentosDeTransporte ComErroOuSemOrdemDeTransporte();
     }
 }

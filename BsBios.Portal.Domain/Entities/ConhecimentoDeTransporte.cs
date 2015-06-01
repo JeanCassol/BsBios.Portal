@@ -26,7 +26,7 @@ namespace BsBios.Portal.Domain.Entities
             this.NumeroDoContrato = numeroDoContrato;
             this.ValorRealDoFrete = valorRealDoFrete;
             this.PesoTotalDaCargaEmToneladas = pesoTotalDaCargaEmQuilos / 1000;
-            this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido;
+            this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.SemOrdemDeTransporte;
 
             this._notasFiscais = new List<NotaFiscalDeConhecimentoDeTransporte>();
             this._ordensDeTransporte = new List<OrdemDeTransporte>();
@@ -106,9 +106,14 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
+        /// <summary>
+        /// quando tem mais de uma ordem candidata coloca para status "Não atribuído"
+        /// </summary>
+        /// <param name="ordensCandidatas"></param>
         public virtual void IndicarOrdensCandidatas(IList<OrdemDeTransporte> ordensCandidatas)
         {
             this._ordensDeTransporte = ordensCandidatas;
+            this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido;
         }
 
 
@@ -136,6 +141,12 @@ namespace BsBios.Portal.Domain.Entities
             {
                 this.Transportadora = transportadora;
             }
+        }
+
+        public virtual void InformarErroDeProcessamento(string mensagemDeErro)
+        {
+            this.MensagemDeErroDeProcessamento = mensagemDeErro;
+            this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.Erro;
         }
     }
 }
