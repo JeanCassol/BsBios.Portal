@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Domain.Entities;
@@ -20,7 +21,10 @@ namespace BsBios.Portal.Application.Queries.Implementations
 
         public IList<MaterialDeCargaVm> Listar()
         {
-            var materiaisDeCarga = _materiasDeCarga.List();
+            var materiaisDeCarga = _materiasDeCarga
+                .List()
+                .OrderBy(material => material.Descricao)
+                .ToList();
             
             return _builder.BuildList(materiaisDeCarga);
 

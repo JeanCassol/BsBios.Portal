@@ -26,6 +26,14 @@ namespace BsBios.Portal.ViewModel
         public virtual string Terminal { get; set; }
         public virtual string MotivoDeFechamento { get; set; }
         public virtual string ObservacaoDeFechamento { get; set; }
+        /// <summary>
+        /// valor que vem do conhecimento de frete
+        /// </summary>
+        public virtual decimal ValorReal { get; set; }
+        /// <summary>
+        /// Valor por tonelada definido na cotação que originou a OT X Peso do agendamento.
+        /// </summary>
+        public virtual decimal ValorPlanejado{ get; set; }
     }
 
 }

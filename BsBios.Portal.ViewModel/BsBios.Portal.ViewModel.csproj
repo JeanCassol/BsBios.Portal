@@ -70,6 +70,7 @@
     <Compile Include="ProcessoDeCotacaoDeFreteBaseVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
+    <Compile Include="QuotaListagemVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />

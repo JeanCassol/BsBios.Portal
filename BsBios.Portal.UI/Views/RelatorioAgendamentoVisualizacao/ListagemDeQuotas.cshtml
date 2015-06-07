@@ -1,5 +1,5 @@
 ﻿@using BsBios.Portal.ViewModel
-@model IEnumerable<QuotaCadastroVm>
+@model IEnumerable<QuotaListagemVm>
 
 @{
     Layout = null;
@@ -40,6 +40,10 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Peso)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PesoAgendado)
+                    </th>
+
                 </tr>
     
                 @foreach (var item in Model) {
@@ -59,8 +63,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.FluxoDeCarga)
                         </td>
-                        <td>
+                        <td class="coluna-numerica">
                             @Html.DisplayFor(modelItem => item.Peso)
+                        </td>
+                        <td class="coluna-numerica">
+                            @Html.DisplayFor(modelItem => item.PesoAgendado)
                         </td>
                     </tr>
                 }

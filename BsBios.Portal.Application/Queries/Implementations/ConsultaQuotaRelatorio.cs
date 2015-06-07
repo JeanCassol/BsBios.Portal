@@ -181,7 +181,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
             };
         }
 
-        public IList<QuotaCadastroVm> ListagemDeQuotas(RelatorioAgendamentoFiltroVm filtro)
+        public IList<QuotaListagemVm> ListagemDeQuotas(RelatorioAgendamentoFiltroVm filtro)
         {
             AplicaFiltros(filtro);
             var quotas = (from quota in _quotas.GetQuery()
@@ -193,11 +193,12 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                   quota.FluxoDeCarga,
                                   Fornecedor = quota.Fornecedor.Codigo + " - " + quota.Fornecedor.Nome,
                                   Material = quota.Material.Descricao,
-                                  Peso = quota.PesoTotal
+                                  Peso = quota.PesoTotal,
+                                  quota.PesoAgendado
                               }).ToList();
 
             return quotas.Select(x =>
-                                 new QuotaCadastroVm
+                                 new QuotaListagemVm
                                      {
                                          Terminal = x.Terminal ,
                                          Data = x.Data ,
@@ -205,6 +206,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                          FluxoDeCarga = x.FluxoDeCarga.Descricao() ,
                                          Material = x.Material,
                                          Peso =  x.Peso,
+                                         PesoAgendado = x.PesoAgendado
                                      }).ToList();
         }
 

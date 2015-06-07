@@ -31,9 +31,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime DataDePrevisaoDeChegada { get; protected  set; }
         public virtual DateTime DataDeChegada { get; protected set; }
 
-        public virtual decimal Peso { get; set; }
+        public virtual decimal Peso { get; protected set; }
 
-        public virtual decimal ValorDoFrete { get; set; }
+        public virtual decimal ValorDoFrete { get; protected set; }
 
         public virtual IList<NotaFiscalDeColeta> NotasFiscais { get; protected set; }
 

@@ -38,11 +38,11 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
             var consultaQuotaRelatorio = ObjectFactory.GetInstance<IConsultaQuotaRelatorio>();
 
-            IList<QuotaCadastroVm> listagemDeQuotas = consultaQuotaRelatorio.ListagemDeQuotas(new RelatorioAgendamentoFiltroVm());
+            IList<QuotaListagemVm> listagemDeQuotas = consultaQuotaRelatorio.ListagemDeQuotas(new RelatorioAgendamentoFiltroVm());
 
             Assert.AreEqual(1, listagemDeQuotas.Count);
 
-            QuotaCadastroVm quotaCadastroVm = listagemDeQuotas.Single();
+            QuotaListagemVm quotaCadastroVm = listagemDeQuotas.Single();
 
             Assert.AreEqual("Farelo", quotaCadastroVm.Material);
         }

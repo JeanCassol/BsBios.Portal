@@ -72,11 +72,11 @@
         {
             var usuarioConectado = (UsuarioConectado) ViewBag.UsuarioConectado;
 
-            @:parametrosDoNovoAgendamento = '/?IdQuota=' + '@Model.IdQuota' + '&DescricaoDoTerminal=' + '@Url.Encode(Model.Terminal)' + '&Cabecalho.FluxoDeCarga=' + '@Model.FluxoDeCarga' + '&Cabecalho.Material=' + '@Model.DescricaoMaterial' + '&Cabecalho.Transportadora=' + '@Url.Encode(usuarioConectado.NomeCompleto)';
+            @:parametrosDoNovoAgendamento = '/?IdQuota=' + '@Model.IdQuota' + '&DescricaoDoTerminal=' + '@Url.Encode(Model.Terminal)' + '&Cabecalho.FluxoDeCarga=' + '@Model.FluxoDeCarga' + '&Cabecalho.Material=' + '@Url.Encode(Model.DescricaoMaterial)' + '&Cabecalho.Transportadora=' + '@Url.Encode(usuarioConectado.NomeCompleto)';
             urlDoNovoAgendamento = Html.Raw(Url.Action("NovoAgendamentoDeCarregamento", "AgendamentoDeCarga"));
 
             @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeCarregamento('@Url.Action("SalvarAgendamentoDeCarregamento", "AgendamentoDeCargaService")');
-        }
+                }
         @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Descarregamento)
         {
             var modeloDoNovoAgendamentoDeDescarregamento = new AgendamentoDeDescarregamentoCadastroVm
@@ -89,7 +89,7 @@
             urlDoNovoAgendamento = Html.Raw(Url.Action("NovoAgendamentoDeDescarregamento", "AgendamentoDeCarga", modeloDoNovoAgendamentoDeDescarregamento));
 
             @:CadastroDeAgendamentoDeCarga.CriarDialogoAgendamentoDeDescarregamento('@Url.Action("SalvarAgendamentoDeDescarregamento", "AgendamentoDeCargaService")');
-        }
+                }
 
 
         $('#btnAdicionarAgendamento').click(function () {

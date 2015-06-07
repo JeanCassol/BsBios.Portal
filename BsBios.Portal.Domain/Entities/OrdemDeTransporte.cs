@@ -41,6 +41,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal PrecoUnitario { get; protected set; }
         public virtual decimal Cadencia { get; set; }
 
+        public virtual decimal ValorPlanejado{ get; protected set; }
+        public virtual decimal ValorReal { get; protected set; }
+
         public virtual IList<Coleta> Coletas { get; protected set; }
         public virtual Enumeradores.StatusParaColeta StatusParaColeta { get; protected set; }
         public virtual string ObservacaoDeFechamento { get; protected set; }
@@ -62,7 +65,7 @@ namespace BsBios.Portal.Domain.Entities
 
         private void AtualizarQuantidadeColetada(bool validarNovaQuantidade)
         {
-            QuantidadeColetada = Coletas.Sum(x => x.Peso);
+            this.QuantidadeColetada = Coletas.Sum(x => x.Peso);
             decimal quantidadeMaximaPermitida = QuantidadeLiberada + QuantidadeDeTolerancia;
             if (validarNovaQuantidade && QuantidadeColetada > quantidadeMaximaPermitida)
             {
@@ -77,7 +80,9 @@ namespace BsBios.Portal.Domain.Entities
             {
                 throw new AlterarOrdemDeTransporteFechadaException();
             }
+
             Coletas.Add(coleta);
+            
             try
             {
                 AtualizarQuantidadeColetada(true);
@@ -87,6 +92,9 @@ namespace BsBios.Portal.Domain.Entities
                 this.Coletas.Remove(coleta);
                 throw;
             }
+            
+            CalcularValoresTotais();
+
         }
 
         public virtual void AtualizarColeta(ColetaSalvarVm coletaSalvarVm)
@@ -157,6 +165,12 @@ namespace BsBios.Portal.Domain.Entities
             this.QuantidadeLiberada = this.QuantidadeColetada;
             this.MotivoDeFechamento = motivo;
             this.ObservacaoDeFechamento = observacao;
+        }
+
+        private void CalcularValoresTotais()
+        {
+            this.ValorPlanejado = this.QuantidadeColetada * PrecoUnitario;
+            this.ValorReal = this.Coletas.Sum(x => x.ValorDoFrete);
         }
 
     }

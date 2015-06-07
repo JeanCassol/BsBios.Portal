@@ -47,6 +47,8 @@
                     <th>Quant. Trânsito</th>
                     <th>Quant. Realizada</th>
                     <th>Quant. Pendente</th>
+                    <th>Valor Planejado</th>
+                    <th>Valor Real</th>
                     <th>Unidade de Medida</th>
                     <th @Html.Raw(estiloDaColuna)>Nº Entregas</th>
                     <th @Html.Raw(estiloDaColuna)>Dias de Atraso</th>
@@ -78,6 +80,8 @@
                         <td>@Html.DisplayFor(modelItem => item.QuantidadeEmTransito)</td>
                         <td>@Html.DisplayFor(modelItem => item.QuantidadeRealizada)</td>
                         <td>@Html.DisplayFor(modelItem => item.QuantidadePendente)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ValorPlanejado)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ValorReal)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnidadeDeMedida)</td>
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeColetasRealizadas)</td>
                         <td @Html.Raw(estiloDaColuna)>@Html.DisplayFor(modelItem => item.QuantidadeDeDiasEmAtraso)</td>

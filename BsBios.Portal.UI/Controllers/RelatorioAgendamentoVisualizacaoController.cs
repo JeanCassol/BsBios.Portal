@@ -25,7 +25,7 @@ namespace BsBios.Portal.UI.Controllers
             {
                 case Enumeradores.RelatorioDeAgendamento.ListagemDeQuotas:
                     ViewBag.TituloDoRelatorio = "Listagem de Quotas";
-                    IList<QuotaCadastroVm> quotasListadas = _consultaQuotaRelatorio.ListagemDeQuotas(filtro);
+                    IList<QuotaListagemVm> quotasListadas = _consultaQuotaRelatorio.ListagemDeQuotas(filtro);
                     return View("ListagemDeQuotas", quotasListadas);
                 case Enumeradores.RelatorioDeAgendamento.ListagemDeAgendamentos:
                     ViewBag.TituloDoRelatorio = "Listagem de Agendamentos";
