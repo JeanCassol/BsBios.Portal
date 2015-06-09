@@ -90,9 +90,9 @@ namespace BsBios.Portal.Application.Services.Implementations
 
         public void Salvar(ListaDeNotaFiscalMiro notasFiscais)
         {
-            IEnumerable<NotaFiscalMiro> conhecimentosDeTransporteGerados = RealizarCadastro(notasFiscais);
+            IEnumerable<NotaFiscalMiro> notasFiscaisCadastradas = RealizarCadastro(notasFiscais);
 
-            var processar = new Task(() => Processar(conhecimentosDeTransporteGerados));
+            var processar = new Task(() => Processar(notasFiscaisCadastradas));
 
             processar.Start();
 

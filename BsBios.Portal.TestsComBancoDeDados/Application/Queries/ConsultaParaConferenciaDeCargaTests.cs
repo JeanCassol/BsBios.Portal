@@ -138,6 +138,25 @@ namespace BsBios.Portal.TestsComBancoDeDados.Application.Queries
 
         }
 
+        [TestMethod]
+        public void ConsigoConsultarUmAgendamentoPeloFluxoDeCarga()
+        {
+            var filtro = new ConferenciaDeCargaFiltroVm
+            {
+                CodigoTerminal = "1000",
+                DataAgendamento = DateTime.Today.ToShortDateString(),
+                FluxoDeCarga = (int) Enumeradores.FluxoDeCarga.Carregamento
+            };
+
+            var consultaParaConferenciaDeCargas = ObjectFactory.GetInstance<IConsultaParaConferenciaDeCargas>();
+
+            KendoGridVm kendoGridVm =
+                consultaParaConferenciaDeCargas.Consultar(new PaginacaoVm { Page = 1, PageSize = 10, Take = 10 }, filtro);
+            Assert.AreEqual(0, kendoGridVm.QuantidadeDeRegistros);
+            
+        }
+
+
     }
 
     internal class PrepararDados

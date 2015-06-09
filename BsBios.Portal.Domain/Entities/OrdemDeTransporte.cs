@@ -42,7 +42,6 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal Cadencia { get; set; }
 
         public virtual decimal ValorPlanejado{ get; protected set; }
-        public virtual decimal ValorReal { get; protected set; }
 
         public virtual IList<Coleta> Coletas { get; protected set; }
         public virtual Enumeradores.StatusParaColeta StatusParaColeta { get; protected set; }
@@ -167,11 +166,32 @@ namespace BsBios.Portal.Domain.Entities
             this.ObservacaoDeFechamento = observacao;
         }
 
+        public virtual void InformarConhecimentoDeTransporte(ConhecimentoDeTransporte conhecimentoDeTransporte)
+        {
+
+            var coleta = new Coleta(conhecimentoDeTransporte.DataDeEmissao, conhecimentoDeTransporte.DataDeEmissao);
+
+            int quantidadeDeNotas = conhecimentoDeTransporte.NotasFiscais.Count();
+            decimal pesoRateado = Math.Round(conhecimentoDeTransporte.PesoTotalDaCargaEmToneladas / quantidadeDeNotas, 3);
+            decimal valorRateado = Math.Round(conhecimentoDeTransporte.ValorRealDoFrete / quantidadeDeNotas, 2);
+
+            foreach (NotaFiscalDeConhecimentoDeTransporte notaDeConhecimento in conhecimentoDeTransporte.NotasFiscais)
+            {
+                var notaFiscalDeColeta = new NotaFiscalDeColeta(notaDeConhecimento.Numero, notaDeConhecimento.Serie,
+                    conhecimentoDeTransporte.Numero, conhecimentoDeTransporte.DataDeEmissao, pesoRateado, valorRateado);
+
+                coleta.AdicionarNotaFiscal(notaFiscalDeColeta, this.PrecoUnitario);
+
+            }
+
+            this.AdicionarColeta(coleta);
+        }
+
         private void CalcularValoresTotais()
         {
             this.ValorPlanejado = this.QuantidadeColetada * PrecoUnitario;
-            this.ValorReal = this.Coletas.Sum(x => x.ValorDoFrete);
         }
+      
 
     }
 }

@@ -14,12 +14,17 @@ namespace BsBios.Portal.Domain.Entities
             NotasFiscais = new List<NotaFiscalDeColeta>();
         }
 
-        internal Coleta(string placa, string motorista,DateTime dataDaColeta , DateTime dataDePrevisaoDeChegada):this()
+        internal Coleta(string placa, string motorista,DateTime dataDaColeta , DateTime dataDePrevisaoDeChegada):this(dataDaColeta, dataDePrevisaoDeChegada)
         {
             Placa = placa;
             Motorista = motorista;
+        }
+
+        internal Coleta(DateTime dataDaColeta, DateTime dataDePrevisaoDeChegada):this()
+        {
             DataDaColeta = dataDaColeta;
             DataDePrevisaoDeChegada = dataDePrevisaoDeChegada;
+            
         }
 
         public virtual int Id  { get; protected set; }

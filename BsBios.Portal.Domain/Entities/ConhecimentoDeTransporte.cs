@@ -76,22 +76,8 @@ namespace BsBios.Portal.Domain.Entities
         {
             try
             {
-                var coleta = new Coleta(null, null,this.DataDeEmissao, this.DataDeEmissao);
 
-                int quantidadeDeNotas = this.NotasFiscais.Count();
-                decimal pesoRateado =  Math.Round(this.PesoTotalDaCargaEmToneladas / quantidadeDeNotas,3);
-                decimal valorRateado = Math.Round(this.ValorRealDoFrete / quantidadeDeNotas,2);
-
-                foreach (NotaFiscalDeConhecimentoDeTransporte notaDeConhecimento in this.NotasFiscais)
-                {
-                    var notaFiscalDeColeta = new NotaFiscalDeColeta(notaDeConhecimento.Numero, notaDeConhecimento.Serie, 
-                        this.Numero, this.DataDeEmissao,pesoRateado, valorRateado);
-
-                    coleta.AdicionarNotaFiscal(notaFiscalDeColeta, ordemDeTransporte.PrecoUnitario);
-
-                }
-
-                ordemDeTransporte.AdicionarColeta(coleta);
+                ordemDeTransporte.InformarConhecimentoDeTransporte(this);
 
                 this.Status = Enumeradores.StatusDoConhecimentoDeTransporte.Atribuido;
 

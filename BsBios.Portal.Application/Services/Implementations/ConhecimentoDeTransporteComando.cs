@@ -30,6 +30,8 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 conhecimentoDeTransporte.VincularComOrdem(ordemDeTransporte);
 
+                _ordensDeTransporte.Save(ordemDeTransporte);
+
                 _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
                 
                 _unitOfWork.Commit();

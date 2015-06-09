@@ -15,13 +15,16 @@ namespace BsBios.Portal.Application.Services.Implementations
     {
         private readonly IUnitOfWorkNh _unitOfWorkNh;
         private readonly IConhecimentosDeTransporte _conhecimentosDeTransporte;
+        private readonly IOrdensDeTransporte _ordensDeTransporte;
         private readonly IProcessadorDeColeta _processadorDeColeta;
 
-        public CadastroDeConhecimentoDeTransporte(IUnitOfWorkNh unitOfWorkNh, IConhecimentosDeTransporte conhecimentosDeTransporte, IProcessadorDeColeta processadorDeColeta)
+        public CadastroDeConhecimentoDeTransporte(IUnitOfWorkNh unitOfWorkNh, IConhecimentosDeTransporte conhecimentosDeTransporte, 
+            IProcessadorDeColeta processadorDeColeta, IOrdensDeTransporte ordensDeTransporte)
         {
             _unitOfWorkNh = unitOfWorkNh;
             _conhecimentosDeTransporte = conhecimentosDeTransporte;
             _processadorDeColeta = processadorDeColeta;
+            _ordensDeTransporte = ordensDeTransporte;
         }
 
         private IEnumerable<ConhecimentoDeTransporte> RealizarCadastro(IEnumerable<ConhecimentoDeTransporteVm> conhecimentosDeTransporteVm)
@@ -106,9 +109,14 @@ namespace BsBios.Portal.Application.Services.Implementations
                         .ComChaveEletronica(chaveEletronica)
                         .IncluirNotasFiscais()
                         .Single();
-                    _processadorDeColeta.Processar(conhecimentoDeTransporte);
+                    OrdemDeTransporte ordemDeTransporteVinculada = _processadorDeColeta.Processar(conhecimentoDeTransporte);
 
                     _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
+
+                    if (ordemDeTransporteVinculada != null)
+                    {
+                        _ordensDeTransporte.Save(ordemDeTransporteVinculada);
+                    }
 
                     _unitOfWorkNh.Commit();
                 }
@@ -144,9 +152,15 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 foreach (var conhecimentoDeTransporte in conhecimentosDeTransporte)
                 {
-                    _processadorDeColeta.Processar(conhecimentoDeTransporte);
+                    OrdemDeTransporte ordemDeTransporteVinculada = _processadorDeColeta.Processar(conhecimentoDeTransporte);
 
                     _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
+
+                    if (ordemDeTransporteVinculada != null)
+                    {
+                        _ordensDeTransporte.Save(ordemDeTransporteVinculada);
+                    }
+
                 }
 
                 _unitOfWorkNh.Commit();

@@ -22,7 +22,6 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.PrecoUnitario);
             Map(x => x.Cadencia);
             Map(x => x.ValorPlanejado);
-            Map(x => x.ValorReal);
             Map(x => x.StatusParaColeta).CustomType<Enumeradores.StatusParaColeta>();
             Map(x => x.MotivoDeFechamento).CustomType<Enumeradores.MotivoDeFechamentoDaOrdemDeTransporte>();
             Map(x => x.ObservacaoDeFechamento);
