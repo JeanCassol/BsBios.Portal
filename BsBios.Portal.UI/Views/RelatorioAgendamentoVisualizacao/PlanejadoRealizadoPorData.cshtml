@@ -1,4 +1,5 @@
-﻿@using BsBios.Portal.ViewModel
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.ViewModel
 @model RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
 
 @{
@@ -29,40 +30,29 @@
                         <th>Material</th>
                         <th>Fluxo de Carga</th>
                         <th>Quota</th>
-                        <th>PesoRealizado</th>
+                        <th>Peso Realizado</th>
+                        <th>Peso não Realizado</th>
                     </tr>
                 </thead>
                 @foreach (var item in Model.Quotas) {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CodigoTerminal)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Data)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NomeDoFornecedor)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Material)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FluxoDeCarga)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Quota)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PesoRealizado)
-                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.CodigoTerminal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Data)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NomeDoFornecedor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Material)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FluxoDeCarga)</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(modelItem => item.Quota)</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(modelItem => item.PesoRealizado)</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(modelItem => item.PesoNaoRealizado)</td>
                     </tr>
                 }
 
                 <tfoot>
                     <tr>
-                        <td colspan="4">TOTAL</td>
-                        <td>@Html.DisplayFor(model => model.Total.Quota)</td>
-                        <td>@Html.DisplayFor(model => model.Total.PesoRealizado)</td>
+                        <td colspan="5">TOTAL</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(model => model.Total.Quota)</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(model => model.Total.PesoRealizado)</td>
+                        <td class="coluna-numerica">@Html.DisplayFor(model => model.Total.PesoNaoRealizado)</td>
                     </tr>
                 </tfoot>
     

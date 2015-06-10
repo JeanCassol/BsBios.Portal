@@ -92,7 +92,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                               {
                                   agrupador.Key,
                                   PlanejadoTotal = agrupador.Sum(x => x.PesoTotal),
-                                  RealizadoTotal = agrupador.Sum(x => x.PesoRealizado)
+                                  RealizadoTotal = agrupador.Sum(x => x.PesoRealizado),
+                                  NaoRealizadoTotal = agrupador.Sum(x => x.PesoAgendado - x.PesoRealizado)
                               }).ToList();
 
 
@@ -104,7 +105,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     FluxoDeCarga = x.Key.FluxoDeCarga.Descricao(),
                     Material =  x.Key.Material,
                     Quota = x.PlanejadoTotal,
-                    PesoRealizado = x.RealizadoTotal
+                    PesoRealizado = x.RealizadoTotal,
+                    PesoNaoRealizado = x.NaoRealizadoTotal
                 }).ToList();
 
             return new RelatorioDeQuotaPlanejadoVersusRealizadoVm
@@ -113,7 +115,9 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 Total = new QuotaPlanejadoRealizadoTotalVm
                 {
                     Quota =  registros.Sum(r => r.Quota),
-                    PesoRealizado = registros.Sum(r => r.PesoRealizado)
+                    PesoRealizado = registros.Sum(r => r.PesoRealizado),
+                    PesoNaoRealizado = registros.Sum(r => r.PesoNaoRealizado)
+
                 }
             };
 
@@ -154,6 +158,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                                              .SelectGroup(x => materialDeCarga.Descricao)
                                              .SelectSum(x => x.PesoTotal)
                                              .SelectSum(x => x.PesoRealizado)
+                                             .SelectSum(x => x.PesoAgendado)
                 ).OrderBy(x => x.Terminal.Codigo).Asc.OrderBy(x => x.Data).Asc;
 
             //tive que utilizar um array de objetos porque na query que executa no banco ainda não tenho o método Descricao() do Enum.
@@ -167,7 +172,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     FluxoDeCarga = ((Enumeradores.FluxoDeCarga) properties[4]).Descricao(),
                     Material = (string)properties[5],
                     Quota = (decimal) properties[6],
-                    PesoRealizado = (decimal) properties[7]
+                    PesoRealizado = (decimal) properties[7],
+                    PesoNaoRealizado = (decimal)properties[8] - (decimal)properties[7] //PesoNaoRealizado = PesoAgendado - PesoRealizado
                 }).ToList();
 
             return new RelatorioDeQuotaPlanejadoVersusRealizadoPorDataVm
@@ -176,7 +182,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                 Total = new QuotaPlanejadoRealizadoTotalVm
                 {
                     Quota = quotas.Sum(q => q.Quota),
-                    PesoRealizado = quotas.Sum(q => q.PesoRealizado)
+                    PesoRealizado = quotas.Sum(q => q.PesoRealizado),
+                    PesoNaoRealizado = quotas.Sum(q => q.PesoNaoRealizado)
                 }
             };
         }

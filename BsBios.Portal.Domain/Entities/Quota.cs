@@ -30,6 +30,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal PesoRealizado { get; protected set; }
         public virtual IList<AgendamentoDeCarga> Agendamentos { get; protected set; }
 
+        /// <summary>
+        /// Peso que ainda não foi agendado
+        /// </summary>
         public virtual decimal PesoDisponivel
         {
             get { return PesoTotal - PesoAgendado ; }
