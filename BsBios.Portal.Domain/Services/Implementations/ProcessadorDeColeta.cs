@@ -66,7 +66,11 @@ namespace BsBios.Portal.Domain.Services.Implementations
                 {
                     OrdemDeTransporte ordemEncontrada = ordensCandidatas.First();
                     conhecimentoDeTransporte.VincularComOrdem(ordemEncontrada);
-                    ordemVinculada = conhecimentoDeTransporte.OrdensDeTransporte.FirstOrDefault();
+                    if (conhecimentoDeTransporte.Status == Enumeradores.StatusDoConhecimentoDeTransporte.Atribuido)
+                    {
+                        ordemVinculada = conhecimentoDeTransporte.OrdensDeTransporte.FirstOrDefault();    
+                    }
+                    
                 }
                 else if (ordensCandidatas.Count > 1)
                 {

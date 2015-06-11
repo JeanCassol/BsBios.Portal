@@ -121,7 +121,6 @@ namespace BsBios.Portal.Tests.Domain.Services
 
         }
 
-        //Não sei ainda se vai ter esta regra
         [TestMethod]
         public void QuandoVinculoDoConhecimentoComOrdemAdicionarMaisColetasDoQueQuantidadeLiberadaDeveGravarMensagemDeErroDeNegocio()
         {
