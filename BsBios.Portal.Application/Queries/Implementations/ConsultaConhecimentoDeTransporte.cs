@@ -113,7 +113,8 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     ValorRealDoFrete = ct.ValorRealDoFrete,
                     PesoTotalDaCarga = ct.PesoTotalDaCargaEmToneladas,
                     Status = ct.Status,
-                    PermiteAtribuir = ct.Status == Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido
+                    PermiteAtribuir = ct.Status == Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido,
+                    Erro = ct.MensagemDeErroDeProcessamento
                 })
                 .Single();
 

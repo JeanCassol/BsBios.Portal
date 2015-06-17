@@ -20,6 +20,14 @@
                 @Html.LabelFor(x => x.Status)                
                 @Html.TextBoxFor(x => x.DescricaoDoStatus, new { @class = "campoDesabilitado" })
             </div>
+            @if (!string.IsNullOrEmpty(Model.Erro))
+            {
+                <div class="coluna">
+                    @Html.LabelFor(x => x.Erro)
+                    @Html.TextAreaFor(x => x.Erro, new { @class = "campoDesabilitado" })
+                </div>
+  
+            }
         </div>
         <div class="linha">
             <div class="coluna">
