@@ -3,6 +3,36 @@
     configurarGridDeNotasFiscais();
     configurarGridDeOrdensDeTransporte();
 
+    $('#reprocessar').click(function () {
+
+        $.ajax({
+            url: UrlPadrao.ReprocessarConhecimento,
+            type: 'POST',
+            data: {chaveEletronica: $('#ChaveEletronica').val() },
+            cache: false,
+            dataType: 'json',
+            beforeSend: function () {
+                bloqueiaPagina("Reprocessando conhecimentos de transporte. Aguarde...");
+            },
+            success: function (data) {
+                if (data.Sucesso) {
+                    window.location.reload();
+                } else {
+                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao reprocessar os conhecimentos de transporte. Detalhe: ' + textStatus + errorThrown);
+            },
+            complete: function () {
+                desbloqueiaPagina();
+            }
+
+        });
+
+
+    });
+
     function configurarGridDeNotasFiscais() {
         $('#notasFiscais').customKendoGrid({
             pageable: false,

@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.UI.Filters;
 
-namespace BsBios.Portal.UI
+namespace BsBios.Portal.UI.Controllers
 {
     [SecurityFilter]
     public class ConhecimentoDeTransporteComandoController : BaseController
@@ -47,5 +46,20 @@ namespace BsBios.Portal.UI
                 return Json(new {Sucesso = false, Mensagem = exception.Message});
             }
         }
+
+        [HttpPost]
+        public ActionResult ReprocessarConhecimento(string chaveEletronica)
+        {
+            try
+            {
+                _cadastroDeConhecimentoDeTransporte.Reprocessar(chaveEletronica);
+                return Json(new { Sucesso = true });
+            }
+            catch (Exception exception)
+            {
+                return Json(new { Sucesso = false, Mensagem = exception.Message });
+            }
+        }
+
     }
 }

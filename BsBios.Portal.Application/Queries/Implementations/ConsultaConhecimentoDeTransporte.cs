@@ -114,6 +114,7 @@ namespace BsBios.Portal.Application.Queries.Implementations
                     PesoTotalDaCarga = ct.PesoTotalDaCargaEmToneladas,
                     Status = ct.Status,
                     PermiteAtribuir = ct.Status == Enumeradores.StatusDoConhecimentoDeTransporte.NaoAtribuido,
+                    PermiteReprocessar = ct.Status != Enumeradores.StatusDoConhecimentoDeTransporte.Atribuido,
                     Erro = ct.MensagemDeErroDeProcessamento
                 })
                 .Single();

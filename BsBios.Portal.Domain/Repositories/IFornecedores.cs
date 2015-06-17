@@ -5,7 +5,7 @@ namespace BsBios.Portal.Domain.Repositories
     public interface IFornecedores: ICompleteRepository<Fornecedor>
     {
         Fornecedor BuscaPeloCodigo(string codigo);
-        Fornecedor BuscaPeloCnpj(string cnpj);
+        IFornecedores BuscaPeloCnpj(string cnpj);
         IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores);
         IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
         IFornecedores NomeContendo(string filtroNome);

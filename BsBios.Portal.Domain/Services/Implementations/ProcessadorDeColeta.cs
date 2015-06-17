@@ -26,8 +26,16 @@ namespace BsBios.Portal.Domain.Services.Implementations
 
             try
             {
+
                 //verifica se o fornecedor da mercadoria é válido
-                Fornecedor fornecedor = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDoFornecedor);
+
+                int quantidadeDeFornecedoresEncontrados = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDoFornecedor).Count();
+                if (quantidadeDeFornecedoresEncontrados > 1)
+                {
+                    throw new Exception(string.Format("Foram encontrados {0} fornecedores com o CNPJ {1}", quantidadeDeFornecedoresEncontrados, conhecimentoDeTransporte.CnpjDoFornecedor));
+                }
+                
+                Fornecedor fornecedor = _fornecedores.Single();
 
                 conhecimentoDeTransporte.AtribuirFornecedorDaMercadoria(fornecedor);
 
@@ -37,7 +45,14 @@ namespace BsBios.Portal.Domain.Services.Implementations
                 }
 
                 //verifica se  a transportadora é válida
-                Fornecedor transportadora = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora);
+
+                int quantidadeDeTransportadorasEncontradas = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora).Count();
+                if (quantidadeDeTransportadorasEncontradas >  1)
+                {
+                    throw new Exception(string.Format("Foram encontradas {0} transportadoras com o CNPJ {1}", quantidadeDeTransportadorasEncontradas, conhecimentoDeTransporte.CnpjDaTransportadora));
+                }
+
+                Fornecedor transportadora = _fornecedores.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora).Single();
                 conhecimentoDeTransporte.AtribuirTransportadora(transportadora);
 
                 if (transportadora == null)

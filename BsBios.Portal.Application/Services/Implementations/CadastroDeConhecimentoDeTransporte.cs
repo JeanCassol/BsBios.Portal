@@ -172,5 +172,35 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
         }
+
+        public void Reprocessar(string chaveDoConhecimento)
+        {
+            try
+            {
+                _unitOfWorkNh.BeginTransaction();
+
+                ConhecimentoDeTransporte conhecimentoDeTransporte = _conhecimentosDeTransporte
+                    .ComChaveEletronica(chaveDoConhecimento)
+                    .Single();
+
+                OrdemDeTransporte ordemDeTransporteVinculada = _processadorDeColeta.Processar(conhecimentoDeTransporte);
+
+                _conhecimentosDeTransporte.Save(conhecimentoDeTransporte);
+
+                if (ordemDeTransporteVinculada != null)
+                {
+                    _ordensDeTransporte.Save(ordemDeTransporteVinculada);
+                }
+
+                _unitOfWorkNh.Commit();
+
+            }
+            catch (Exception)
+            {
+                _unitOfWorkNh.RollBack();
+                throw;
+            }
+        }
+ 
     }
 }

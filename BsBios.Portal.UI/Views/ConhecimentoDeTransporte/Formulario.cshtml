@@ -20,7 +20,7 @@
                 @Html.LabelFor(x => x.Status)                
                 @Html.TextBoxFor(x => x.DescricaoDoStatus, new { @class = "campoDesabilitado" })
             </div>
-            @if (!string.IsNullOrEmpty(Model.Erro))
+            @if (Model.Status == Enumeradores.StatusDoConhecimentoDeTransporte.Erro)
             {
                 <div class="coluna">
                     @Html.LabelFor(x => x.Erro)
@@ -81,7 +81,12 @@
     <legend>Ordens de Transporte</legend>
     <div id="ordensDeTransporte"></div>
 </fieldset>
-
+@if(Model.PermiteReprocessar)
+{
+    <div class="divBotao">
+        <input id="reprocessar" type="button" value="Reprocessar" class="blue" title="Tenta vincular automaticamente conhecimentos com erro"/>
+    </div>
+}
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>

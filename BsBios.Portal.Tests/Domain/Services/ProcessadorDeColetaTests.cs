@@ -37,9 +37,28 @@ namespace BsBios.Portal.Tests.Domain.Services
         {
             var mockFornecedores = new Mock<IFornecedores>(MockBehavior.Strict);
 
-            mockFornecedores.Setup(x => x.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDoFornecedor)).Returns(encontrarFornecedor ? ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria: null);
+            bool filtrouPeloFornecedor = false;
 
-            mockFornecedores.Setup(x => x.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora)).Returns(encontrarTransportadora ? ordemDeTransporte.Fornecedor: null);
+            mockFornecedores.Setup(x => x.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDoFornecedor)).Callback((string cnpj) => filtrouPeloFornecedor = true).Returns(mockFornecedores.Object);
+
+            bool filtrouPelaTransportadora = false;
+            mockFornecedores.Setup(x => x.BuscaPeloCnpj(conhecimentoDeTransporte.CnpjDaTransportadora)).Callback((string cnpj) => filtrouPelaTransportadora = true).Returns(mockFornecedores.Object);
+
+            mockFornecedores.Setup(x => x.Single()).Returns(() =>
+            {
+                if (encontrarFornecedor && filtrouPeloFornecedor)
+                {
+                    return ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria;
+                }
+                if (encontrarTransportadora && filtrouPelaTransportadora)
+                {
+                    return ordemDeTransporte.Fornecedor;
+                }
+
+                return null;
+            });
+
+            mockFornecedores.Setup(x => x.Count()).Returns(() => (encontrarFornecedor && filtrouPeloFornecedor) || (encontrarTransportadora && filtrouPelaTransportadora) ? 1 : 0);
 
             return mockFornecedores;
 

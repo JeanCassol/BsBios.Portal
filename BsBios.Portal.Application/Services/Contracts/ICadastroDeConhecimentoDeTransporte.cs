@@ -7,5 +7,7 @@ namespace BsBios.Portal.Application.Services.Contracts
     {
         void Salvar(IList<ConhecimentoDeTransporteVm> conhecimentosDeTransporte);
         void Reprocessar();
+        void Reprocessar(string chaveEletronica);
+        
     }
 }
