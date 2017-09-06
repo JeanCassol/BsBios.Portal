@@ -12,11 +12,11 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
-    public class ComunicacaoFechamentoProcessoCotacaoFrete : IComunicacaoSap
+    public class ComunicacaoFechamentoProcessoCotacaoFreteOld : IComunicacaoSap
     {
         private readonly CredencialSap _credencialSap;
 
-        public ComunicacaoFechamentoProcessoCotacaoFrete(CredencialSap credencialSap)
+        public ComunicacaoFechamentoProcessoCotacaoFreteOld(CredencialSap credencialSap)
         {
             _credencialSap = credencialSap;
         }
@@ -105,6 +105,22 @@ namespace BsBios.Portal.Infra.Services.Implementations
             }
 
             return mensagem;
+
+        }
+    }
+
+    public class ComunicacaoFechamentoProcessoCotacaoFrete: IComunicacaoSap
+    {
+        public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
+        {
+            return new ApiResponseMessage
+            {
+                Retorno = new Retorno
+                {
+                    Codigo = "200",
+                    Texto = "S"
+                }
+            };
 
         }
     }
