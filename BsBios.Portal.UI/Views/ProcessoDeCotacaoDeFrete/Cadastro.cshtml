@@ -134,7 +134,11 @@
     }
     @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
-            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete)
+            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
+            new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")),
+            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false),
+            new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
+            new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)
         })
 </div>
 

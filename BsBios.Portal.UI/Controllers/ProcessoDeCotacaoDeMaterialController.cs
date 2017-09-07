@@ -15,11 +15,13 @@ namespace BsBios.Portal.UI.Controllers
     {
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
+        private readonly IConsultaTerminal _consultaTerminal;
 
-        public ProcessoDeCotacaoDeMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao)
+        public ProcessoDeCotacaoDeMaterialController(IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal)
         {
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
+            _consultaTerminal = consultaTerminal;
         }
 
 
@@ -30,16 +32,25 @@ namespace BsBios.Portal.UI.Controllers
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.CompradorSuprimentos))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro","ProcessoDeCotacaoDeMaterial");
+                ViewBag.VisualizacaoDaTransportadora = false;
+
             }
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 ViewData["ActionEdicao"] = Url.Action("EditarCadastro", "CotacaoMaterial");
+                ViewBag.VisualizacaoDaTransportadora = true;
+
             }
 
             ViewData["ActionListagem"] = Url.Action("Listar","ProcessoDeCotacaoDeMaterial");
             ViewBag.TituloDaPagina = "Cotações de Material";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Material;
+            ViewBag.TituloDaPagina = "Cotações de Material";
+            ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
+            ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Frete;
+            ViewBag.Terminais = _consultaTerminal.ListarTodos();
+
             return View("_ProcessoCotacaoIndex");
         }
         [HttpGet]
