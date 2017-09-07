@@ -33,16 +33,17 @@ namespace BsBios.Portal.Domain.Services.Implementations
         public ProcessoDeCotacaoDeFrete CriarProcesso(string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
             DateTime dataDeValidadeFinal, Itinerario itinerario)
         {
-            var processoDeCotacao = new ProcessoDeCotacaoDeFrete(requisitos, numeroDoContrato, dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario);
-            if (_itens.Count == 0)
-            {
-                throw new ProcessoDeCotacaoSemItemException();
-            }
-            foreach (var item in _itens)
-            {
-                processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida);
-            }
-            return processoDeCotacao;
+            throw new Exception("Não implementado após o merge");
+            //var processoDeCotacao = new ProcessoDeCotacaoDeFrete(requisitos, numeroDoContrato, dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario);
+            //if (_itens.Count == 0)
+            //{
+            //    throw new ProcessoDeCotacaoSemItemException();
+            //}
+            //foreach (var item in _itens)
+            //{
+            //    processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida);
+            //}
+            //return processoDeCotacao;
         }
     }
 }

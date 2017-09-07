@@ -1,13 +1,13 @@
 ﻿using System;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {
-    public class FechamentoDeProcessoDeCotacaoDeMaterialService: IFechamentoDeProcessoDeCotacaoDeMaterialService
+    public class FechamentoDeProcessoDeCotacaoDeMaterialService : IFechamentoDeProcessoDeCotacaoDeMaterialService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessosDeCotacao _processosDeCotacao;
@@ -29,7 +29,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 var processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(processoDeCotacaoFechamentoVm.IdProcessoCotacao).Single();
                 processoDeCotacao.Fechar();
-                _comunicacaoSap.EfetuarComunicacao(processoDeCotacao,processoDeCotacaoFechamentoVm);
+                _comunicacaoSap.EfetuarComunicacao(processoDeCotacao, processoDeCotacaoFechamentoVm);
                 _processosDeCotacao.Save(processoDeCotacao);
 
                 _unitOfWork.Commit();
@@ -41,5 +41,5 @@ namespace BsBios.Portal.Application.Services.Implementations
             }
         }
     }
-   
+
 }

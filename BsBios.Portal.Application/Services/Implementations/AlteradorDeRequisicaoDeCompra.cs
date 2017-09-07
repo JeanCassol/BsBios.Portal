@@ -2,7 +2,7 @@
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Domain.Repositories;
 
 namespace BsBios.Portal.Application.Services.Implementations
 {

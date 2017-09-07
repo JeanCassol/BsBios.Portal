@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constantes.cs" />
+    <Compile Include="DTO\ConhecimentoDeTransporteFormulario.cs" />
+    <Compile Include="DTO\ConhecimentoDeTransporteListagem.cs" />
+    <Compile Include="DTO\FiltroDeConhecimentoDeTransporte.cs" />
     <Compile Include="Enumeradores.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="Exceptions\AbrirProcessoDeCotacaoAbertoException.cs" />
@@ -70,8 +73,6 @@
     <Compile Include="Exceptions\QuantidadeLiberadaSuperouQuantidadeAdquiridaException.cs" />
     <Compile Include="Exceptions\RealizacaoDeColetaRealizadaException.cs" />
     <Compile Include="Exceptions\FileAlreadyExistsException.cs" />
-    <Compile Include="Exceptions\OperacaoNaoPermitidaParaAgendamentoRealizadoException.cs" />
-    <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoAlterarItensException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemItemException.cs" />
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />

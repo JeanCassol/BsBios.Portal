@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Queries.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Queries.Implementations
@@ -140,7 +140,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             var quantidadeDeRegistros = query.Count();
 
             var registros = query.Skip(paginacaoVm.Skip).Take(paginacaoVm.Take).ToList()
-                                 .Select(x => new ProcessoCotacaoMaterialListagemVm()
+                                 .Select(x => new ProcessoCotacaoListagemVm()
                                      {
                                          Id = x.Id,
                                          CodigoMaterial = x.CodigoMaterial,
@@ -205,6 +205,26 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             };
 
             return kendoGridVm;
+        }
+
+        public decimal CalcularQuantidadeContratadaNoProcessoDeCotacao(int idDoProcessoDeCotacao)
+        {
+            _processosDeCotacao.BuscaPorId(idDoProcessoDeCotacao);
+            return (from processo in _processosDeCotacao.GetQuery()
+                from participante in processo.FornecedoresParticipantes
+                from cotacaoItem in participante.Cotacao.Itens
+                where participante.Cotacao.Selecionada
+                select cotacaoItem.QuantidadeAdquirida
+            ).Sum() ?? 0;
+
+            //return _processosDeCotacao
+            //    .BuscaPorId(idDoProcessoDeCotacao)
+            //    .GetQuery()
+            //    .Select(x => x.FornecedoresParticipantes.Where(fp => fp.Cotacao.Selecionada).Sum(fp => fp.Cotacao.QuantidadeAdquirida.Value)).SingleOrDefault();
+
+
+
+
         }
     }
 }

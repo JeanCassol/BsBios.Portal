@@ -17,13 +17,15 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
         private readonly IConsultaTerminal _consultaTerminal;
+        private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
 
-        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal)
+        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial1)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
             _consultaTerminal = consultaTerminal;
+            _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial1;
         }
 
         [HttpGet]

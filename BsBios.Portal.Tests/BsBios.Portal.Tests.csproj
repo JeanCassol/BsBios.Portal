@@ -111,7 +111,6 @@
     <Compile Include="Application\Services\ProcessoDeCotacaoDeFreteFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoAberturaTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoCancelamentoTests.cs" />
-    <Compile Include="Application\Services\ProcessoDeCotacaoDeFreteFechamentoTests.cs" />
     <Compile Include="Application\Services\ProcessoDeCotacaoItensServiceTests.cs" />
     <Compile Include="Application\Services\AlteradorDeRequisicaoDeCompraTests.cs" />
     <Compile Include="Domain\Entities\QuotaTests.cs" />

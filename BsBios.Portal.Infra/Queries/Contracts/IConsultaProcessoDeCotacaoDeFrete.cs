@@ -9,5 +9,6 @@ namespace BsBios.Portal.Infra.Queries.Contracts
             IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao);
             KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro);
             KendoGridVm CotacoesDosFornecedoresResumido(int idProcessoCotacao);
-        }
+            decimal CalcularQuantidadeContratadaNoProcessoDeCotacao(int idDoProcessoDeCotacao);
+    }
 }

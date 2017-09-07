@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Infra.Queries.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Queries.Implementations
@@ -56,7 +56,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             var registros = (from x in processosListados
                              let material = String.Join(", ", x.Itens.Select(i => i.Produto.Descricao))
                                  select
-                                 new ProcessoCotacaoMaterialListagemVm()
+                                 new ProcessoCotacaoListagemVm()
                                  {
                                      Id = x.Id,
                                      //CodigoMaterial = x.CodigoMaterial,
@@ -77,6 +77,60 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
         }
 
+        public KendoGridVm ListarPorFornecedor(PaginacaoVm paginacao, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+            AplicarFiltros(filtro);
+
+            _processosDeCotacao
+                .DesconsideraNaoIniciados();
+
+            var query = (from processo in _processosDeCotacao.GetQuery()
+                orderby processo.Id descending
+                let p = (ProcessoDeCotacaoDeFrete)processo
+                from fornecedorParticipante in p.FornecedoresParticipantes
+                from itemDeCotacao in fornecedorParticipante.Cotacao.Itens
+                where fornecedorParticipante.Fornecedor.Codigo == filtro.CodigoFornecedor
+                select new
+                {
+                    CodigoMaterial = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Codigo,
+                    Material = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Descricao,
+                    DataTermino = p.DataLimiteDeRetorno,
+                    p.Id,
+                    itemDeCotacao.ProcessoDeCotacaoItem.Quantidade,
+                    p.Status,
+                    UnidadeDeMedida = itemDeCotacao.ProcessoDeCotacaoItem.UnidadeDeMedida.Descricao,
+                    Terminal = p.Terminal.Nome,
+                    fornecedorParticipante.Resposta
+                }
+
+            );
+
+            var quantidadeDeRegistros = query.Count();
+
+            var registros = query.Skip(paginacao.Skip).Take(paginacao.Take).ToList()
+                .Select(x => new CotacaoListagemVm()
+                {
+                    Id = x.Id,
+                    CodigoMaterial = x.CodigoMaterial,
+                    Material = x.Material,
+                    DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
+                    Quantidade = x.Quantidade,
+                    Status = x.Status.Descricao(),
+                    UnidadeDeMedida = x.UnidadeDeMedida,
+                    Terminal = x.Terminal,
+                    Resposta = x.Resposta.Descricao()
+                }).Cast<ListagemVm>().ToList();
+
+            var kendoGridVm = new KendoGridVm()
+            {
+                QuantidadeDeRegistros = quantidadeDeRegistros,
+                Registros = registros
+            };
+
+            return kendoGridVm;
+
+
+        }
         public ProcessoCotacaoMaterialCadastroVm ConsultaProcesso(int idProcessoCotacaoMaterial)
         {
              _processosDeCotacao.BuscaPorId(idProcessoCotacaoMaterial);
@@ -378,6 +432,47 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                         Codigo = pf.Fornecedor.Codigo,
                         Nome = pf.Fornecedor.Nome
                     }).ToArray();
+        }
+
+        private void AplicarFiltros(ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        {
+            _processosDeCotacao.FiltraPorTipo(
+                (Enumeradores.TipoDeCotacao)Enum.Parse(typeof(Enumeradores.TipoDeCotacao), Convert.ToString(filtro.TipoDeCotacao)));
+
+            _processosDeCotacao.CodigoDoProdutoContendo(filtro.CodigoProduto)
+                .DescricaoDoProdutoContendo(filtro.DescricaoProduto);
+
+            if (filtro.CodigoStatusProcessoCotacao.HasValue)
+            {
+                _processosDeCotacao.FiltraPorStatus((Enumeradores.StatusProcessoCotacao)Enum.Parse(typeof(Enumeradores.StatusProcessoCotacao),
+                    Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
+            }
+            else
+            {
+                _processosDeCotacao.DesconsideraCancelados();
+            }
+
+            //if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))
+            //{
+            //    _processosDeCotacao.PertencentesAoContratoDeNumero(filtro.NumeroDoContrato);
+            //}
+
+            //if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
+            //{
+            //    _processosDeCotacao.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
+            //}
+
+            //if (!string.IsNullOrEmpty(filtro.CodigoDoMunicipioDeOrigem))
+            //{
+            //    _processosDeCotacao.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
+            //}
+
+            //if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
+            //{
+            //    _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
+            //}
+
+
         }
     }
 }

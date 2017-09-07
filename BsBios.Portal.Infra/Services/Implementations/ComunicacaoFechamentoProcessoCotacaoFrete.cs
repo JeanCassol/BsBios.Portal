@@ -1,39 +1,30 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Xml.Serialization;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
-    public class ComunicacaoFechamentoProcessoCotacaoFreteOld : IComunicacaoSap
+    public class ComunicacaoFechamentoProcessoCotacaoFreteOld: IProcessoDeCotacaoComunicacaoSap
     {
         private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
 
-        public ComunicacaoFechamentoProcessoCotacaoFreteOld(CredencialSap credencialSap)
+        public ComunicacaoFechamentoProcessoCotacaoFreteOld(IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> comunicacaoSap)
         {
             _comunicacaoSap = comunicacaoSap;
         }
 
-        private static void SerializeToString(object obj)
-        {
-            XmlSerializer serializer = new XmlSerializer(obj.GetType());
-
-            StringWriter writer = new StringWriter();
-
-            serializer.Serialize(writer, obj);
-
-            Debug.WriteLine(writer.ToString());
-        }
-
-
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
+            var processoAuxiliar = (ProcessoDeCotacaoDeFrete) processo;
             ProcessoDeCotacaoItem item = processo.Itens.First();
             if (item.Produto.NaoEstocavel)
             {
@@ -53,8 +44,6 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 throw new ProcessoDeCotacaoFecharSemCotacaoSelecionadaException();
             }
-
-            var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha)};
 
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
 
@@ -82,36 +71,19 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 }
             }
 
-            SerializeToString(mensagemParaEnviar);
-
-            var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + 
-                "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
-                , mensagemParaEnviar);
-
-            if (!response.Result.IsSuccessStatusCode)
+            ApiResponseMessage apiResponseMessage =
+                _comunicacaoSap.EnviarMensagem(
+                    "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+                    , mensagemParaEnviar);
+            if (apiResponseMessage.Retorno.Codigo == "E")
             {
-                string erro = response.Result.Content.ReadAsStringAsync().Result;
-                throw new ComunicacaoSapException(response.Result.Content.Headers.ContentType.MediaType, erro);
+                throw new ComunicacaoSapException("json", "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
             }
-
-            const string mensagemDaExcecao = "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: ";
-
-            Stream content = response.Result.Content.ReadAsStreamAsync().Result;
-            var serializer = new XmlSerializer(typeof(ProcessoDeCotacaoDeFreteFechamentoRetorno));
-
-            var mensagem = (ProcessoDeCotacaoDeFreteFechamentoRetorno)serializer.Deserialize(content);
-            
-            if (mensagem.Retorno.Codigo == "E")
-            {
-                throw new ComunicacaoSapException("json",mensagemDaExcecao + mensagem.Retorno.Texto);
-            }
-
-            return mensagem;
-
+            return apiResponseMessage;
         }
     }
 
-    public class ComunicacaoFechamentoProcessoCotacaoFrete: IComunicacaoSap
+    public class ComunicacaoFechamentoProcessoCotacaoFrete : IProcessoDeCotacaoComunicacaoSap
     {
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {

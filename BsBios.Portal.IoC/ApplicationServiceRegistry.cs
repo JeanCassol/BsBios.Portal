@@ -94,9 +94,9 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FechamentoDeProcessoDeCotacaoDeMaterialService>();
 
-            For<IFechamentoDeProcessoDeCotacaoService>()
-                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<FechamentoDeProcessoDeCotacaoDeMaterialService>();
+            //For<IFechamentoDeProcessoDeCotacaoService>()
+            //    .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            //    .Use<FechamentoDeProcessoDeCotacaoDeMaterialService>();
 
             For<ICancelamentoDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra.Queries.Builders;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Infra.Queries.Implementations

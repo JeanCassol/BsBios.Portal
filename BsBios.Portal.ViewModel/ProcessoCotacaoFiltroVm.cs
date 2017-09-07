@@ -16,7 +16,7 @@ namespace BsBios.Portal.ViewModel
 
     }
 
-    public class ProcessoDeCotacaoDeFreteFiltroVm : ProcessoCotacaoMaterialFiltroVm
+    public class ProcessoDeCotacaoDeFreteFiltroVm : ProcessoCotacaoFiltroVm
     {
         [DisplayName("Número do Contrato")]
         public string NumeroDoContrato { get; set; }

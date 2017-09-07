@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Model;
@@ -11,20 +12,10 @@ namespace BsBios.Portal.Infra.Services.Implementations
     public class GeradorDeMensagemDeEmail : IGeradorDeMensagemDeEmail
     {
         private const string SeparadorDeItems = "----------------------------";
-        public MensagemDeEmail CriacaoAutomaticaDeSenha(Usuario usuario, string novaSenha)
-        {
-            string mensagem = "Prezado(a) " + usuario.Nome + Environment.NewLine + Environment.NewLine +
-            "Conforme foi solicitado através do Portal de Cotações da BSBIOS, segue abaixo a sua nova senha de acesso ao site. " + 
-            "Esta senha foi gerada automaticamente no momento da sua solicitação. "+
-            "Recomenda-se que acesse o site http://bsnet.bsbios.com/ e altere a senha para uma de sua preferência." + Environment.NewLine + Environment.NewLine +
-            "Dados de Acesso:" + Environment.NewLine + Environment.NewLine + 
-            "Login: " + usuario.Login + Environment.NewLine +
-            "Nova Senha: " + novaSenha + Environment.NewLine +
-            "Atenciosamente," + Environment.NewLine +
-            "BSBIOS" + Environment.NewLine + Environment.NewLine +
-            "Esta é uma mensagem gerada automaticamente, portanto, não deve ser respondida." + Environment.NewLine +
-            "© BSBIOS. Todos os direitos reservados. Termos e Condições e Política de Privacidade." + Environment.NewLine;
-
+        private readonly string _mensagemDeRodape = "Atenciosamente," + Environment.NewLine +
+                                                    "BSBIOS" + Environment.NewLine + Environment.NewLine +
+                                                    "Esta é uma mensagem gerada automaticamente, portanto, não deve ser respondida." + Environment.NewLine +
+                                                    "© BSBIOS. Todos os direitos reservados. Termos e Condições e Política de Privacidade." + Environment.NewLine;
 
         public MensagemDeEmail CriacaoAutomaticaDeSenha(Usuario usuario, string novaSenha)
         {
@@ -43,14 +34,15 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail AberturaDoProcessoDeCotacaoDeFrete(ProcessoDeCotacaoDeFrete processoDeCotacao)
         {
+            ProcessoDeCotacaoItem processoDeCotacaoItem = processoDeCotacao.Itens.First();
             string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
                               "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
                               "conforme informações descritas abaixo. " + Environment.NewLine +
                               "Caso tenha interesse em participar favor acessar o Portal de Cotações" +
                               Environment.NewLine + Environment.NewLine +
-                              "Material: " + processoDeCotacao.Produto.Descricao + Environment.NewLine +
-                              "Quantidade: " + processoDeCotacao.Quantidade + Environment.NewLine +
-                              "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
+                              "Material: " + processoDeCotacaoItem.Produto.Descricao + Environment.NewLine +
+                              "Quantidade: " + processoDeCotacaoItem.Quantidade + Environment.NewLine +
+                              "Unidade de Medida: " + processoDeCotacaoItem.UnidadeDeMedida.Descricao + Environment.NewLine +
                               "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
                               "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
                               "Itinerário: " + processoDeCotacao.Itinerario.Descricao + Environment.NewLine +
@@ -98,20 +90,6 @@ namespace BsBios.Portal.Infra.Services.Implementations
         public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao)
         {
             string mensagem = "Prezado Fornecedor." + Environment.NewLine +
-                              "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação nº " + processoDeCotacao.Id + "." + Environment.NewLine +
-                              "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine +  
-                              "Material: "  + processoDeCotacao.Produto.Descricao + Environment.NewLine +
-                              "Quantidade: " + cotacao.QuantidadeAdquirida + Environment.NewLine +
-                              "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              "Para maiores esclarecimentos, favor entrar em contato com o comprador.";
-
-            return new MensagemDeEmail("Fechamento do Processo de Cotacão", mensagem);
-        }
-
-
-        public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacao(ProcessoDeCotacao processoDeCotacao, Cotacao cotacao)
-        {
-            string mensagem = "Prezado Fornecedor." + Environment.NewLine +
                               "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação " + processoDeCotacao.Id + "." + Environment.NewLine +
                               "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine;
 
@@ -135,12 +113,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacaoDeFrete(ProcessoDeCotacaoDeFrete processoDeCotacao, Cotacao cotacao)
         {
+            var processoCotacaoItem = processoDeCotacao.Itens.First();
+            var cotacaoItem = cotacao.Itens.First();
             string mensagem = "Prezado Fornecedor." + Environment.NewLine +
                               "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação nº " + processoDeCotacao.Id + "." + Environment.NewLine +
                               "Segue nosso Pedido de Compras." + Environment.NewLine + Environment.NewLine +
-                              "Material: " + processoDeCotacao.Produto.Descricao + Environment.NewLine +
-                              "Quantidade: " + cotacao.QuantidadeAdquirida + Environment.NewLine +
-                              "Unidade de Medida: " + processoDeCotacao.UnidadeDeMedida.Descricao + Environment.NewLine +
+                              "Material: " + processoCotacaoItem.Produto.Descricao + Environment.NewLine +
+                              "Quantidade: " + cotacaoItem.QuantidadeAdquirida + Environment.NewLine +
+                              "Unidade de Medida: " + processoCotacaoItem.UnidadeDeMedida.Descricao + Environment.NewLine +
                               "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
                               "Itinerário: " + processoDeCotacao.Itinerario.Descricao + Environment.NewLine +
                               "Município de Origem: " + (processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.ToString() : "") + Environment.NewLine +
@@ -167,20 +147,23 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail AutorizacaoDeTransporte(ProcessoDeCotacaoDeFrete processoDeCotacao)
         {
-            var descricaoDaUnidadeDeMedida = processoDeCotacao.UnidadeDeMedida.Descricao;
+            var processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            var descricaoDaUnidadeDeMedida = processoDeCotacaoItem.UnidadeDeMedida.Descricao;
             var mensagem = "Prezado Fornecedor." + Environment.NewLine +
                            "Informamos que as seguintes transportadoras foram autorizadas a coletar " +
-                           processoDeCotacao.Quantidade + " " + descricaoDaUnidadeDeMedida +
-                           " de " + processoDeCotacao.Produto.Descricao + " entre " +
+                           processoDeCotacaoItem.Quantidade + " " + descricaoDaUnidadeDeMedida +
+                           " de " + processoDeCotacaoItem.Produto.Descricao + " entre " +
                            processoDeCotacao.DataDeValidadeInicial.ToShortDateString() + " e " +
                            processoDeCotacao.DataDeValidadeFinal.ToShortDateString() + ":" + Environment.NewLine +
                            Environment.NewLine;
 
             foreach (var fornecedorParticipante in processoDeCotacao.FornecedoresSelecionados)
             {
+                
                 var cotacaoDeFrete = (CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
+                var cotacaoItem = cotacaoDeFrete.Itens.First();
                 mensagem += string.Format("Transportada: {0} - Quantidade: {1} - Unidade de Medida: {2} - Cadência: {3} - Classificação: {4} - Nº do Contrato: {5}",
-                    fornecedorParticipante.Fornecedor.Nome, cotacaoDeFrete.QuantidadeAdquirida, descricaoDaUnidadeDeMedida,
+                    fornecedorParticipante.Fornecedor.Nome, cotacaoItem.QuantidadeAdquirida, descricaoDaUnidadeDeMedida,
                     cotacaoDeFrete.Cadencia,processoDeCotacao.Classificacao ? "Sim": "Não", processoDeCotacao.NumeroDoContrato)
                     + Environment.NewLine;
             }

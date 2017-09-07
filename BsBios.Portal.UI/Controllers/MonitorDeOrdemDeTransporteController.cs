@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common.Exceptions;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.UI.Controllers

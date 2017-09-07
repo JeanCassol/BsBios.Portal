@@ -29,12 +29,6 @@ namespace BsBios.Portal.UI.Controllers
                 return Json(new { Sucesso = false, ex.MediaType, Mensagem = ex.Message });
                 
             }
-            catch (ComunicacaoSapException ex)
-            {
-                return Json(new { Sucesso = false, ex.MediaType, Mensagem = ex.Message });
-
-            }
-
             catch (Exception ex)
             {
                 return Json(new { Sucesso = false, Mensagem = "Ocorreu um erro ao fechar o Processo de Cotação. Detalhes: " + ExceptionUtil.ExibeDetalhes(ex) });

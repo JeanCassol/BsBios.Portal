@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Queries.Contracts;
-using BsBios.Portal.Infra.Repositories.Contracts;
+using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.ViewModel;
 using NHibernate;
 using NHibernate.Criterion;
@@ -15,15 +16,17 @@ namespace BsBios.Portal.Infra.Queries.Implementations
     public class ConsultaEficienciaDeNegociacao : IConsultaEficienciaDeNegociacao
     {
         private readonly IProcessosDeCotacaoDeMaterial _processosDeCotacaoDeMaterial;
+        private readonly IUnitOfWorkNh _unitOfWorkNh;
 
-        public ConsultaEficienciaDeNegociacao(IProcessosDeCotacaoDeMaterial processosDeCotacaoDeMaterial)
+        public ConsultaEficienciaDeNegociacao(IProcessosDeCotacaoDeMaterial processosDeCotacaoDeMaterial, IUnitOfWorkNh unitOfWorkNh)
         {
             _processosDeCotacaoDeMaterial = processosDeCotacaoDeMaterial;
+            _unitOfWorkNh = unitOfWorkNh;
         }
 
         public KendoGridVm ConsultarResumo(PaginacaoVm paginacaoVm, EficienciaNegociacaoFiltroVm filtro)
         {
-            IQueryOver<ProcessoDeCotacao, ProcessoDeCotacao> queryOver = _processosDeCotacaoDeMaterial.GetQueryOver();
+            IQueryOver<ProcessoDeCotacao, ProcessoDeCotacao> queryOver = _unitOfWorkNh.Session.QueryOver<ProcessoDeCotacao>();
 
             queryOver = queryOver
                 .Where(x => x.GetType() == typeof(ProcessoDeCotacaoDeMaterial))

@@ -83,6 +83,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>();
 
+            For<IProcessoDeCotacaoDeFreteFechamentoComunicacaoSap>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeFreteFechamentoComunicacaoSap>();
+
             For<IAtualizadorDeIteracaoDoUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AtualizadorDeIteracaoDoUsuario>();

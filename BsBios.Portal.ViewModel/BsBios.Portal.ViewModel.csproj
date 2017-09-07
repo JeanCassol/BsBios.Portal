@@ -81,7 +81,6 @@
     <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
     <Compile Include="QuotaListagemVm.cs" />
-    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
@@ -144,6 +143,9 @@
     <Compile Include="UsuarioFiltroVm.cs" />
     <Compile Include="UsuarioVm.cs" />
     <Compile Include="VerificacaoDeQuantidadeAdquiridaVm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

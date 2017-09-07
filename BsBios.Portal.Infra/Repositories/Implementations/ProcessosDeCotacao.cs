@@ -58,7 +58,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao DoProduto(string codigoDoProduto)
         {
-            Query = Query.Where(x => x.Produto.Codigo == codigoDoProduto);
+            //Query = Query.Where(x => x.Produto.Codigo == codigoDoProduto);
             return this;
         }
 

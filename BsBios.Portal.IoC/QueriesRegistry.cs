@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Infra.Queries.Contracts;
+﻿using BsBios.Portal.Application.Queries.Implementations;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Queries.Implementations;
 using StructureMap;
 using StructureMap.Configuration.DSL;

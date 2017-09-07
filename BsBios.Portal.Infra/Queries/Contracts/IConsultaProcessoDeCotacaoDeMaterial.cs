@@ -5,7 +5,7 @@ namespace BsBios.Portal.Infra.Queries.Contracts
 {
     public interface IConsultaProcessoDeCotacaoDeMaterial
         {
-            KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro);
+            KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro);
             KendoGridVm ListarPorFornecedor(PaginacaoVm paginacao, ProcessoDeCotacaoDeFreteFiltroVm filtro);
             ProcessoCotacaoMaterialCadastroVm ConsultaProcesso(int idProcessoCotacaoMaterial);
             KendoGridVm FornecedoresParticipantes(int idProcessoCotacao);

@@ -24,6 +24,13 @@ namespace BsBios.Portal.Domain.Entities
             Status = Enumeradores.StatusProcessoCotacao.NaoIniciado;
         }
 
+        protected ProcessoDeCotacao(string requisitos, DateTime dataLimiteRetorno)
+        {
+            Requisitos = requisitos;
+            DataLimiteDeRetorno = dataLimiteRetorno;
+
+        }
+
         protected void AdicionarItem()
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
@@ -41,22 +48,16 @@ namespace BsBios.Portal.Domain.Entities
             Itens.Remove(item);
         }
 
-        public virtual int Id { get; protected set; }
-        public virtual Enumeradores.StatusProcessoCotacao Status { get; protected set; }
-        public virtual Produto Produto { get; protected set; }
-        public virtual decimal Quantidade { get; protected set; }
-        public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
-        public virtual DateTime? DataLimiteDeRetorno { get; protected set; }
-        public virtual DateTime DataDeFechamento { get; protected set; }
-        public virtual string Requisitos { get; protected set; }
-        public virtual IList<FornecedorParticipante> FornecedoresParticipantes { get; protected set; }
+        //public virtual Produto Produto { get; protected set; }
+        //public virtual decimal Quantidade { get; protected set; }
+        //public virtual UnidadeDeMedida UnidadeDeMedida { get; protected set; }
 
         public virtual IList<FornecedorParticipante> FornecedoresSelecionados
         {
             get
             {
                 return FornecedoresParticipantes
-                    .Where(fp => fp.Cotacao != null && fp.Cotacao.Selecionada)
+                    .Where(fp => fp.Cotacao != null && fp.Cotacao.Itens.Any(i => i.Selecionada))
                     .ToList();
             }
         }
@@ -132,7 +133,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        protected void Fechar()
+        public void Fechar()
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {
@@ -147,7 +148,7 @@ namespace BsBios.Portal.Domain.Entities
             DataDeFechamento = DateTime.Now;
         }
 
-        public abstract void FecharProcesso();
+        //public abstract void FecharProcesso();
 
 
         public virtual void Cancelar()
@@ -184,10 +185,10 @@ namespace BsBios.Portal.Domain.Entities
             }
         }
 
-        public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
-        {
-            return quantidadeTotalAdquirida > Quantidade;
-        }
+        //public virtual bool SuperouQuantidadeSolicitada(decimal quantidadeTotalAdquirida)
+        //{
+        //    return quantidadeTotalAdquirida > Quantidade;
+        //}
 
         public virtual void DesativarParticipante(string codigoDoFornecedor)
         {
@@ -202,186 +203,215 @@ namespace BsBios.Portal.Domain.Entities
             fornecedorParticipante.Recusar();
 
         }
+
+        protected virtual void InformarCotacao()
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoAtualizacaoCotacaoException();
+            }
+            if (DateTime.Today > DataLimiteDeRetorno)
+            {
+                throw new ProcessoDeCotacaoDataLimiteExpiradaException(DataLimiteDeRetorno.Value);
+            }
+        }
+
+        protected void SelecionarCotacao()
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
+            }
+
+        }
+
+        protected void RemoverSelecaoDaCotacao()
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
+            }
+        }
     }
 
-    public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao
-    {
+    //public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao
+    //{
        
-        public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
-        {
-            AdicionarItem();
-            if (requisicaoDeCompra.GerouProcessoDeCotacao)
-            {
-                throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
-            }
+    //    public virtual ProcessoDeCotacaoItem AdicionarItem(RequisicaoDeCompra requisicaoDeCompra)
+    //    {
+    //        AdicionarItem();
+    //        if (requisicaoDeCompra.GerouProcessoDeCotacao)
+    //        {
+    //            throw new RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException(requisicaoDeCompra.Numero,requisicaoDeCompra.NumeroItem);
+    //        }
 
-            if (requisicaoDeCompra.Status == Enumeradores.StatusRequisicaoCompra.Bloqueado)
-            {
-                throw new SelecionarRequisicaoDeCompraBloqueadaException(requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem);
-            }
+    //        if (requisicaoDeCompra.Status == Enumeradores.StatusRequisicaoCompra.Bloqueado)
+    //        {
+    //            throw new SelecionarRequisicaoDeCompraBloqueadaException(requisicaoDeCompra.Numero, requisicaoDeCompra.NumeroItem);
+    //        }
 
-            var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
-            Itens.Add(item);
-            return item;
-        }
+    //        var item = new ProcessoDeCotacaoDeMaterialItem(this, requisicaoDeCompra);
+    //        Itens.Add(item);
+    //        return item;
+    //    }
 
-        public new virtual void RemoverItem(ProcessoDeCotacaoItem item)
-        {
-            var itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item;
-            itemMaterial.RequisicaoDeCompra.DesvincularDeProcessoDeCotacao();
-            base.RemoverItem(item);
-        }
+    //    public new virtual void RemoverItem(ProcessoDeCotacaoItem item)
+    //    {
+    //        var itemMaterial = (ProcessoDeCotacaoDeMaterialItem) item;
+    //        itemMaterial.RequisicaoDeCompra.DesvincularDeProcessoDeCotacao();
+    //        base.RemoverItem(item);
+    //    }
 
-        public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
-        {
-            if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
-            {
-                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
-            }
+    //    public virtual void Atualizar(DateTime dataLimiteDeRetorno, string requisitos)
+    //    {
+    //        if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
+    //        {
+    //            throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
+    //        }
 
-        }
+    //    }
 
-        public virtual CotacaoMaterial InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento,
-            Incoterm incoterm, string descricaoDoIncoterm)
-        {
-            base.InformarCotacao();
-            //busca a cotação do fornecedor
-            FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+    //    public virtual CotacaoMaterial InformarCotacao(string codigoFornecedor, CondicaoDePagamento condicaoDePagamento,
+    //        Incoterm incoterm, string descricaoDoIncoterm)
+    //    {
+    //        base.InformarCotacao();
+    //        //busca a cotação do fornecedor
+    //        FornecedorParticipante fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
 
-            var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
+    //        var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao.CastEntity();
 
-            if (cotacao == null)
-            {
-                cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
-                fornecedorParticipante.InformarCotacao(cotacao);
-            }
-            else
-            {
-                cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
-            }
+    //        if (cotacao == null)
+    //        {
+    //            cotacao = new CotacaoMaterial(condicaoDePagamento, incoterm, descricaoDoIncoterm);
+    //            fornecedorParticipante.InformarCotacao(cotacao);
+    //        }
+    //        else
+    //        {
+    //            cotacao.Atualizar(condicaoDePagamento, incoterm, descricaoDoIncoterm);
+    //        }
 
-            return cotacao;
-        }
+    //        return cotacao;
+    //    }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal preco, 
-            decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
-        {
-            base.InformarCotacao();
+    //    public virtual CotacaoItem InformarCotacaoDeItem(int idProcessoDeCotacaoItem, int idCotacao, decimal preco, 
+    //        decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
+    //    {
+    //        base.InformarCotacao();
 
-            var cotacao = (CotacaoMaterial)  FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
-                                         .Select(fp => fp.Cotacao).Single().CastEntity();
+    //        var cotacao = (CotacaoMaterial)  FornecedoresParticipantes.Where(fp => fp.Cotacao != null && fp.Cotacao.Id == idCotacao)
+    //                                     .Select(fp => fp.Cotacao).Single().CastEntity();
 
-            ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.Single(item => item.Id == idProcessoDeCotacaoItem);
+    //        ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.Single(item => item.Id == idProcessoDeCotacaoItem);
 
-            return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, preco, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
+    //        return cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, preco, mva, quantidadeDisponivel,prazoDeEntrega, observacoes);
 
-        }
+    //    }
 
 
 
-        public virtual void SelecionarCotacao(int idCotacao,int idProcessoCotacaoItem, decimal quantidadeAdquirida, Iva iva)
-        {
-            SelecionarCotacao();
-            var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = (CotacaoMaterialItem)  cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
-            itemDaCotacao.Selecionar(quantidadeAdquirida, iva);
-        }
+    //    public virtual void SelecionarCotacao(int idCotacao,int idProcessoCotacaoItem, decimal quantidadeAdquirida, Iva iva)
+    //    {
+    //        SelecionarCotacao();
+    //        var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
+    //        var itemDaCotacao = (CotacaoMaterialItem)  cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+    //        itemDaCotacao.Selecionar(quantidadeAdquirida, iva);
+    //    }
 
-        public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem, Iva iva)
-        {
-            RemoverSelecaoDaCotacao();
-            var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = (CotacaoMaterialItem)cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
-            itemDaCotacao.RemoverSelecao(iva);
-        }
-    }
+    //    public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem, Iva iva)
+    //    {
+    //        RemoverSelecaoDaCotacao();
+    //        var cotacao = (CotacaoMaterial) BuscarPodId(idCotacao).CastEntity();
+    //        var itemDaCotacao = (CotacaoMaterialItem)cotacao.Itens.First(x => x.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+    //        itemDaCotacao.RemoverSelecao(iva);
+    //    }
+    //}
 
-    public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
-    {
-        public virtual string NumeroDoContrato{ get; protected set; }
-        public virtual DateTime DataDeValidadeInicial { get; protected set; }
-        public virtual DateTime DataDeValidadeFinal { get; protected set; }
-        public virtual Itinerario Itinerario { get; protected set; }
+    //public class ProcessoDeCotacaoDeFrete: ProcessoDeCotacao
+    //{
+    //    public virtual string NumeroDoContrato{ get; protected set; }
+    //    public virtual DateTime DataDeValidadeInicial { get; protected set; }
+    //    public virtual DateTime DataDeValidadeFinal { get; protected set; }
+    //    public virtual Itinerario Itinerario { get; protected set; }
 
-        protected ProcessoDeCotacaoDeFrete(){}
-        public ProcessoDeCotacaoDeFrete(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, */
-            string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
-            DateTime dataDeValidadeFinal, Itinerario itinerario)//:base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
-        {
-            NumeroDoContrato = numeroDoContrato;
-            DataDeValidadeInicial = dataDeValidadeInicial;
-            DataDeValidadeFinal = dataDeValidadeFinal;
-            Itinerario = itinerario;
-            Requisitos = requisitos;
-            DataLimiteDeRetorno = dataLimiteDeRetorno;
-        }
+    //    protected ProcessoDeCotacaoDeFrete(){}
+    //    public ProcessoDeCotacaoDeFrete(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, */
+    //        string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, 
+    //        DateTime dataDeValidadeFinal, Itinerario itinerario)//:base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+    //    {
+    //        NumeroDoContrato = numeroDoContrato;
+    //        DataDeValidadeInicial = dataDeValidadeInicial;
+    //        DataDeValidadeFinal = dataDeValidadeFinal;
+    //        Itinerario = itinerario;
+    //        Requisitos = requisitos;
+    //        DataLimiteDeRetorno = dataLimiteDeRetorno;
+    //    }
 
-        public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
-        {
-            AdicionarItem();
-            var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida);
-            Itens.Add(item);
-            return item;
-        }
+    //    public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+    //    {
+    //        AdicionarItem();
+    //        var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida);
+    //        Itens.Add(item);
+    //        return item;
+    //    }
 
-        public virtual void Atualizar(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,*/
-            string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
-            DateTime dataDeValidadeFinal, Itinerario itinerario)
-        {
-            if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
-            {
-                throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
-            }
+    //    public virtual void Atualizar(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,*/
+    //        string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
+    //        DateTime dataDeValidadeFinal, Itinerario itinerario)
+    //    {
+    //        if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
+    //        {
+    //            throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
+    //        }
 
-            //Produto = produto;
-            //Quantidade = quantidade;
-            //UnidadeDeMedida = unidadeDeMedida;
-            Requisitos = requisitos;
-            NumeroDoContrato = numeroDoContrato;
-            DataLimiteDeRetorno = dataLimiteDeRetorno;
-            DataDeValidadeInicial = dataDeValidadeInicial;
-            DataDeValidadeFinal = dataDeValidadeFinal;
-            Itinerario = itinerario;
+    //        //Produto = produto;
+    //        //Quantidade = quantidade;
+    //        //UnidadeDeMedida = unidadeDeMedida;
+    //        Requisitos = requisitos;
+    //        NumeroDoContrato = numeroDoContrato;
+    //        DataLimiteDeRetorno = dataLimiteDeRetorno;
+    //        DataDeValidadeInicial = dataDeValidadeInicial;
+    //        DataDeValidadeFinal = dataDeValidadeFinal;
+    //        Itinerario = itinerario;
 
-        }
+    //    }
 
-        public virtual void DesativarParticipante(string codigoDoFornecedor)
-        {
+    //    public virtual void DesativarParticipante(string codigoDoFornecedor)
+    //    {
 
-            var cotacao = (CotacaoFrete)fornecedorParticipante.Cotacao.CastEntity();
+    //        var cotacao = (CotacaoFrete)fornecedorParticipante.Cotacao.CastEntity();
 
-            if (cotacao == null)
-            {
-                cotacao = new CotacaoFrete();
-                fornecedorParticipante.InformarCotacao(cotacao);
-            }
-            ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.First();
-            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
-            return cotacao;
-        }
+    //        if (cotacao == null)
+    //        {
+    //            cotacao = new CotacaoFrete();
+    //            fornecedorParticipante.InformarCotacao(cotacao);
+    //        }
+    //        ProcessoDeCotacaoItem processoDeCotacaoItem = Itens.First();
+    //        cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+    //        return cotacao;
+    //    }
 
-        public virtual void SelecionarCotacao(int idCotacao,  decimal quantidadeAdquirida)
-        {
-            SelecionarCotacao();
-            var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = cotacao.Itens.First();
+    //    public virtual void SelecionarCotacao(int idCotacao,  decimal quantidadeAdquirida)
+    //    {
+    //        SelecionarCotacao();
+    //        var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
+    //        var itemDaCotacao = cotacao.Itens.First();
 
-            itemDaCotacao.Selecionar(quantidadeAdquirida);
-        }
+    //        itemDaCotacao.Selecionar(quantidadeAdquirida);
+    //    }
 
-        public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem)
-        {
-            RemoverSelecaoDaCotacao();
-            var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
-            itemDaCotacao.RemoverSelecao();
-        }
+    //    public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem)
+    //    {
+    //        RemoverSelecaoDaCotacao();
+    //        var cotacao = (CotacaoFrete)BuscarPodId(idCotacao).CastEntity();
+    //        var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
+    //        itemDaCotacao.RemoverSelecao();
+    //    }
 
-        public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
-        {
-            var item = (ProcessoDeCotacaoDeFreteItem) Itens.First();
-            item.Atualizar(produto, quantidadeMaterial, unidadeDeMedida);
-        }
-    }
+    //    public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
+    //    {
+    //        var item = (ProcessoDeCotacaoDeFreteItem) Itens.First();
+    //        item.Atualizar(produto, quantidadeMaterial, unidadeDeMedida);
+    //    }
+    //}
 
 }

@@ -14,6 +14,7 @@ namespace BsBios.Portal.Domain.Entities
             Itens = new List<CotacaoItem>();
         }
 
+        public bool Selecionada => this.Itens.Any(x => x.Selecionada);
     }
 
   /*      protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
@@ -47,46 +48,46 @@ namespace BsBios.Portal.Domain.Entities
         }*/
 
 
-        private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
-        {
-            var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
-            if (cotacaoItem != null)
-            {
-                cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-            }
-            else
-            {
-                cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
-                Itens.Add(cotacaoItem);
-            }
+        //private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
+        //{
+        //    var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+        //    if (cotacaoItem != null)
+        //    {
+        //        cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+        //    }
+        //    else
+        //    {
+        //        cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+        //        Itens.Add(cotacaoItem);
+        //    }
 
-            return cotacaoItem;
-        }
+        //    return cotacaoItem;
+        //}
 
 
-        public virtual Imposto Imposto(Enumeradores.TipoDeImposto tipo)
-        {
-            return Impostos.SingleOrDefault(x => x.Tipo == tipo);
-        }
+        //public virtual Imposto Imposto(Enumeradores.TipoDeImposto tipo)
+        //{
+        //    return Impostos.SingleOrDefault(x => x.Tipo == tipo);
+        //}
 
-        protected virtual void Selecionar(decimal quantidadeAdquirida)
-        {
-            Selecionada = true;
-            QuantidadeAdquirida = quantidadeAdquirida;
-        }
+        //protected virtual void Selecionar(decimal quantidadeAdquirida)
+        //{
+        //    Selecionada = true;
+        //    QuantidadeAdquirida = quantidadeAdquirida;
+        //}
 
-        protected virtual void RemoverSelecao()
-        {
-            Selecionada = false;
-            QuantidadeAdquirida = null;
-        }
+        //protected virtual void RemoverSelecao()
+        //{
+        //    Selecionada = false;
+        //    QuantidadeAdquirida = null;
+        //}
 
-    }
+    
 
     public class CotacaoDeFrete: Cotacao
     {
-        public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
-            : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
+        //public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        //    : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
 
         protected CotacaoDeFrete(){}
 
@@ -111,23 +112,23 @@ namespace BsBios.Portal.Domain.Entities
         public virtual string NumeroDaCondicaoGeradaNoSap { get; protected set; }
 
 
-        public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
-        {
-            base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-        }
+        //public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        //{
+        //    base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+        //}
 
 
-        public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
-        {
-            base.Selecionar(quantidadeAdquirida);
-            Cadencia = cadencia;
-        }
+        //public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
+        //{
+        //    base.Selecionar(quantidadeAdquirida);
+        //    Cadencia = cadencia;
+        //}
 
-        public new virtual void RemoverSelecao()
-        {
-            base.RemoverSelecao();
-            Cadencia = null;
-        }
+        //public new virtual void RemoverSelecao()
+        //{
+        //    base.RemoverSelecao();
+        //    Cadencia = null;
+        //}
         
         protected internal virtual void InformarNumeroDaCondicao(string numeroGeradoNoSap)
         {

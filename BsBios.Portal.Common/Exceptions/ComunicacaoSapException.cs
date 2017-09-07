@@ -6,7 +6,6 @@ namespace BsBios.Portal.Common.Exceptions
     {
         public string MediaType { get; protected set; }
         private readonly string _mensagem;
-        public string MediaType { get; protected set; }       
 
         public ComunicacaoSapException(string mediaType, string mensagem)
         {

@@ -21,18 +21,18 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                //var idProcessoCotacao = _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
-                //return Json(new {Sucesso = true, IdProcessoCotacao = idProcessoCotacao});
+                var idProcessoCotacao = _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
+                return Json(new { Sucesso = true, IdProcessoCotacao = idProcessoCotacao });
 
-                _processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
-                return RedirectToAction("Index", "ProcessoDeCotacaoDeMaterial");
+                //_processoDeCotacaoService.AtualizarProcesso(atualizacaoDoProcessoDeCotacaoVm);
+                //return RedirectToAction("Index", "ProcessoDeCotacaoDeMaterial");
             }
             catch (Exception ex)
             {
-                //return Json(new {Sucesso = false, Mensagem = ex.Message});
+                return Json(new {Sucesso = false, Mensagem = ex.Message});
 
-                ViewData["erro"] = ex.Message;
-                return RedirectToAction("EditarCadastro", "ProcessoDeCotacaoDeMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
+                //ViewData["erro"] = ex.Message;
+                //return RedirectToAction("EditarCadastro", "ProcessoDeCotacaoDeMaterial", new { idProcessoCotacao = atualizacaoDoProcessoDeCotacaoVm.Id });
             }
             
         }

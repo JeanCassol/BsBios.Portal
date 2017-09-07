@@ -44,10 +44,6 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -79,9 +75,6 @@
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -148,7 +141,6 @@
     <Compile Include="Mappings\RequisicaoDeCompraMap.cs" />
     <Compile Include="Mappings\UsuarioMap.cs" />
     <Compile Include="Model\Configuracao.cs" />
-    <Compile Include="Model\ContaDeEmail.cs" />
     <Compile Include="Model\CredencialSap.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\UsuarioConectado.cs" />
@@ -157,6 +149,7 @@
     <Compile Include="Queries\Builders\AgendamentoDeCargaListarBuilder.cs" />
     <Compile Include="Queries\Builders\CondicaoPagamentoCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\CotacaoImpostosBuilder.cs" />
+    <Compile Include="Queries\Builders\EscolhaSimplesBuilder.cs" />
     <Compile Include="Queries\Builders\FluxoDeCargaBuilder.cs" />
     <Compile Include="Queries\Builders\FornecedorCadastroBuilder.cs" />
     <Compile Include="Queries\Builders\IBuilder.cs" />
@@ -174,18 +167,27 @@
     <Compile Include="Queries\Builders\QuotaPorFornecedorBuilder.cs" />
     <Compile Include="Queries\Builders\RealizacaoDeAgendamentoBuilder.cs" />
     <Compile Include="Queries\Builders\RequisicaoDeCompraBuilder.cs" />
+    <Compile Include="Queries\Builders\SelecaoDeFornecedoresBuilder.cs" />
+    <Compile Include="Queries\Builders\StatusOrdemDeTransporteBuilder.cs" />
     <Compile Include="Queries\Builders\StatusProcessoCotacaoBuilder.cs" />
     <Compile Include="Queries\Builders\UnidadeDeMedidaSelecaoBuilder.cs" />
     <Compile Include="Queries\Builders\UsuarioConsultaBuilder.cs" />
     <Compile Include="Queries\Contracts\IConsultaCondicaoPagamento.cs" />
+    <Compile Include="Queries\Contracts\IConsultaConhecimentoDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaCotacaoDoFornecedor.cs" />
+    <Compile Include="Queries\Contracts\IConsultaDeRelatorioDeUsuario.cs" />
     <Compile Include="Queries\Contracts\IConsultaEficienciaDeNegociacao.cs" />
+    <Compile Include="Queries\Contracts\IConsultaEscolhaSimples.cs" />
     <Compile Include="Queries\Contracts\IConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Contracts\IConsultaFornecedor.cs" />
     <Compile Include="Queries\Contracts\IConsultaIncoterm.cs" />
     <Compile Include="Queries\Contracts\IConsultaItinerario.cs" />
     <Compile Include="Queries\Contracts\IConsultaIva.cs" />
     <Compile Include="Queries\Contracts\IConsultaMaterialDeCarga.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMonitorDeOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Contracts\IConsultaMunicipio.cs" />
+    <Compile Include="Queries\Contracts\IConsultaOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Contracts\IConsultaParaConferenciaDeCargas.cs" />
     <Compile Include="Queries\Contracts\IConsultaPerfil.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaProcessoDeCotacaoDeMaterial.cs" />
@@ -193,19 +195,32 @@
     <Compile Include="Queries\Contracts\IConsultaQuota.cs" />
     <Compile Include="Queries\Contracts\IConsultaQuotaRelatorio.cs" />
     <Compile Include="Queries\Contracts\IConsultaRealizacaoDeAgendamento.cs" />
+    <Compile Include="Queries\Contracts\IConsultaRelatorioDeOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Contracts\IConsultaRelatorioDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Contracts\IConsultaRequisicaoDeCompra.cs" />
+    <Compile Include="Queries\Contracts\IConsultaSelecaoDeFornecedores.cs" />
+    <Compile Include="Queries\Contracts\IConsultaStatusOrdemDeTransporte.cs" />
     <Compile Include="Queries\Contracts\IConsultaStatusProcessoCotacao.cs" />
+    <Compile Include="Queries\Contracts\IConsultaTerminal.cs" />
     <Compile Include="Queries\Contracts\IConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Contracts\IConsultaUsuario.cs" />
+    <Compile Include="Queries\Contracts\SelecaoDeFornecedoresVm.cs" />
     <Compile Include="Queries\Implementations\ConsultaCondicaoPagamento.cs" />
+    <Compile Include="Queries\Implementations\ConsultaConhecimentoDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaCotacaoDoFornecedor.cs" />
+    <Compile Include="Queries\Implementations\ConsultaDeRelatorioDeUsuario.cs" />
     <Compile Include="Queries\Implementations\ConsultaEficienciaDeNegociacao.cs" />
+    <Compile Include="Queries\Implementations\ConsultaEscolhaSimples.cs" />
     <Compile Include="Queries\Implementations\ConsultaFluxoDeCarga.cs" />
     <Compile Include="Queries\Implementations\ConsultaFornecedor.cs" />
     <Compile Include="Queries\Implementations\ConsultaIncoterm.cs" />
     <Compile Include="Queries\Implementations\ConsultaItinerario.cs" />
     <Compile Include="Queries\Implementations\ConsultaIva.cs" />
     <Compile Include="Queries\Implementations\ConsultaMaterialDeCarga.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMonitorDeOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Implementations\ConsultaMunicipio.cs" />
+    <Compile Include="Queries\Implementations\ConsultaOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Implementations\ConsultaParaConferenciaDeCargas.cs" />
     <Compile Include="Queries\Implementations\ConsultaPerfil.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Implementations\ConsultaProcessoDeCotacaoDeMaterial.cs" />
@@ -213,27 +228,15 @@
     <Compile Include="Queries\Implementations\ConsultaQuota.cs" />
     <Compile Include="Queries\Implementations\ConsultaQuotaRelatorio.cs" />
     <Compile Include="Queries\Implementations\ConsultaRealizacaoDeAgendamento.cs" />
+    <Compile Include="Queries\Implementations\ConsultaRelatorioDeOrdemDeTransporte.cs" />
+    <Compile Include="Queries\Implementations\ConsultaRelatorioDeProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Queries\Implementations\ConsultaRequisicaoDeCompra.cs" />
+    <Compile Include="Queries\Implementations\ConsultaSelecaoDeFornecedores.cs" />
+    <Compile Include="Queries\Implementations\ConsultaStatusDeOrdemDeTransporte.cs" />
     <Compile Include="Queries\Implementations\ConsultaStatusProcessoCotacao.cs" />
+    <Compile Include="Queries\Implementations\ConsultaTerminal.cs" />
     <Compile Include="Queries\Implementations\ConsultaUnidadeDeMedida.cs" />
     <Compile Include="Queries\Implementations\ConsultaUsuario.cs" />
-    <Compile Include="Repositories\Contracts\IAgendamentosDeCarga.cs" />
-    <Compile Include="Repositories\Contracts\IProcessoCotacaoIteracoesUsuario.cs" />
-    <Compile Include="Repositories\Contracts\IProcessosDeCotacaoDeMaterial.cs" />
-    <Compile Include="Repositories\Contracts\IProdutosDeFrete.cs" />
-    <Compile Include="Repositories\Contracts\IQuotas.cs" />
-    <Compile Include="Repositories\Contracts\IUnidadesDeMedida.cs" />
-    <Compile Include="Repositories\Contracts\IItinerarios.cs" />
-    <Compile Include="Repositories\Contracts\ICondicoesDePagamento.cs" />
-    <Compile Include="Repositories\Contracts\IFornecedores.cs" />
-    <Compile Include="Repositories\Contracts\IIncoterms.cs" />
-    <Compile Include="Repositories\Contracts\IIvas.cs" />
-    <Compile Include="Repositories\Contracts\IProcessosDeCotacao.cs" />
-    <Compile Include="Repositories\Contracts\IProdutos.cs" />
-    <Compile Include="Repositories\Contracts\IRequisicoesDeCompra.cs" />
-    <Compile Include="Repositories\Contracts\IUnitOfWork.cs" />
-    <Compile Include="Repositories\Contracts\IUnitOfWorkNh.cs" />
-    <Compile Include="Repositories\Contracts\IUsuarios.cs" />
     <Compile Include="Repositories\Implementations\AgendamentosDeCarga.cs" />
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
@@ -261,6 +264,7 @@
     <Compile Include="Repositories\Implementations\UnitOfWorkNh.cs" />
     <Compile Include="Repositories\Implementations\Usuarios.cs" />
     <Compile Include="Repositories\IUnitOfWorkNh.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeIteracaoDoUsuario.cs" />
     <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
@@ -270,9 +274,7 @@
     <Compile Include="Services\Contracts\IGeradorDeEmailDeFechamentoDeProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IAccountService.cs" />
     <Compile Include="Services\Contracts\IAuthenticationProvider.cs" />
-    <Compile Include="Services\Contracts\IComunicacaoSap.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoComunicacaoSap.cs" />
-    <Compile Include="Services\Contracts\IEmailService.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmail.cs" />
     <Compile Include="Services\Contracts\IGeradorDeEmailDeAberturaDeProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IGeradorDeSenha.cs" />
@@ -295,6 +297,7 @@
     <Compile Include="Services\Implementations\GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\GeradorDeSenha.cs" />
     <Compile Include="Services\Implementations\GeradorDeMensagemDeEmail.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap.cs" />
     <Compile Include="Services\Implementations\ProvedorDeCriptografiaMD5.cs" />
     <Compile Include="Services\Implementations\ServicoDeConfiguracao.cs" />

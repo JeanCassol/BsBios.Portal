@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common;
+﻿using System;
+using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {

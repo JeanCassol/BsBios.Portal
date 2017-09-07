@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
@@ -32,10 +33,11 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void AtualizarNumeroDaCotacao(string numeroDaCotacao)
         {
             NumeroDaCotacao = numeroDaCotacao;
+        }
 
         public virtual void Recusar()
         {
-            if (Cotacao != null && Cotacao.Selecionada)
+            if (Cotacao != null && Cotacao.Itens.Any(x => x.Selecionada))
             {
                 throw new Exception("Não é possível recusar a cotação, pois a mesma já foi selecionada.");
             }

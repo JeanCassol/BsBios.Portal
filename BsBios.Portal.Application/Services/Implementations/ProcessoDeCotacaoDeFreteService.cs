@@ -4,6 +4,7 @@ using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Domain.Services.Contracts;
 using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.ViewModel;
 
@@ -19,6 +20,7 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly IFornecedores _fornecedores;
         private readonly IMunicipios _municipios;
         private readonly ITerminais _terminais;
+        private readonly IProcessoDeCotacaoDeFreteFactory _processoDeCotacaoFactory;
 
         public ProcessoDeCotacaoDeFreteService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, IUnidadesDeMedida unidadesDeMedida, 
             IItinerarios itinerarios, IProdutos produtos, IFornecedores fornecedores, IMunicipios municipios, ITerminais terminais, 
@@ -68,10 +70,10 @@ namespace BsBios.Portal.Application.Services.Implementations
                 {
                     processo = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(processoCotacaoFreteCadastroVm.Id.Value).Single();
 
-                    processo.Atualizar(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
-                        unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
+                    processo.Atualizar(processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
                         processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal, processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
+
                     processo.AtualizarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial, unidadeDeMedida);
                 }
                 else
