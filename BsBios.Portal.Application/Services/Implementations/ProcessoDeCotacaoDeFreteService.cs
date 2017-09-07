@@ -21,7 +21,8 @@ namespace BsBios.Portal.Application.Services.Implementations
         private readonly ITerminais _terminais;
 
         public ProcessoDeCotacaoDeFreteService(IUnitOfWork unitOfWork, IProcessosDeCotacao processosDeCotacao, IUnidadesDeMedida unidadesDeMedida, 
-            IItinerarios itinerarios, IProdutos produtos, IFornecedores fornecedores, IMunicipios municipios, ITerminais terminais)
+            IItinerarios itinerarios, IProdutos produtos, IFornecedores fornecedores, IMunicipios municipios, ITerminais terminais, 
+            IProcessoDeCotacaoDeFreteFactory processoDeCotacaoFactory)
         {
             _unitOfWork = unitOfWork;
             _processosDeCotacao = processosDeCotacao;
@@ -31,9 +32,11 @@ namespace BsBios.Portal.Application.Services.Implementations
             _fornecedores = fornecedores;
             _municipios = municipios;
             _terminais = terminais;
+            _processoDeCotacaoFactory = processoDeCotacaoFactory;
+
         }
 
-        public void Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm)
+        public int Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm)
         {
             try
             {
@@ -69,14 +72,21 @@ namespace BsBios.Portal.Application.Services.Implementations
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
                         processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal, processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
+                    processo.AtualizarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial, unidadeDeMedida);
                 }
                 else
                 {
-                    processo = new ProcessoDeCotacaoDeFrete(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
+                   /* processo = new ProcessoDeCotacaoDeFrete(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
                         unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
                         dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
                         processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito,terminal, 
-                        processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
+                        processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);*/
+
+                    _processoDeCotacaoFactory.AdicionarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,unidadeDeMedida);
+                    processo = _processoDeCotacaoFactory.CriarProcesso(processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
+                    Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataLimiteRetorno), Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoInicial),
+                    Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoFinal), itinerario);
+
                 }
 
                 var tipoDePrecoDoProcessoDeCotacao = (Enumeradores.TipoDePrecoDoProcessoDeCotacao)Enum.Parse(typeof(Enumeradores.TipoDePrecoDoProcessoDeCotacao), Convert.ToString(processoCotacaoFreteCadastroVm.TipoDePreco));
@@ -110,6 +120,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _processosDeCotacao.Save(processo);
 
                 _unitOfWork.Commit();
+
+                return processo.Id;
             }
             catch (Exception)
             {

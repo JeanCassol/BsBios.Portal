@@ -1,0 +1,38 @@
+﻿@model ProcessoDeCotacaoDeMaterialFechamentoVm
+@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@{
+    Layout = null;
+}
+<style type="text/css">
+    form {
+        padding: 5px
+    }
+</style>
+<form id="formFecharProcesso">
+@*    @Html.LinhaComDuasColunas(new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.TextoDeCabecalho),
+    new ColunaComTextArea<ProcessoDeCotacaoFechamentoVm, string>(x => x.NotaDeCabecalho))*@
+    <div class="linha">
+        <div class="coluna">
+            @Html.LabelFor(x => x.TextoDeCabecalho)
+            @Html.TextAreaFor(x => x.TextoDeCabecalho, new { maxlength = 255, rows=5 })
+            <p class="mensagemErro">
+                @Html.ValidationMessageFor(x => x.TextoDeCabecalho)    
+            </p>
+        </div>
+        <div class="coluna">
+            @Html.LabelFor(x => x.NotaDeCabecalho)
+            @Html.TextAreaFor(x => x.NotaDeCabecalho, new { maxlength = 255,rows=5 })
+            <p class="mensagemErro">
+                @Html.ValidationMessageFor(x => x.NotaDeCabecalho)    
+            </p>
+        </div>
+    </div>
+    <fieldset>
+        <legend>Gerar no SAP</legend>
+        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
+        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
+    </fieldset>
+</form>
+

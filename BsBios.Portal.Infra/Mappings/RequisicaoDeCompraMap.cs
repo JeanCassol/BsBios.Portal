@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
@@ -29,7 +25,10 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.NumeroItem);
             Map(x => x.Descricao);
             Map(x => x.Quantidade);
-
+            Map(x => x.CodigoGrupoDeCompra);
+            Map(x => x.Mrp);
+            Map(x => x.GerouProcessoDeCotacao);
+            Map(x => x.Status).CustomType<Enumeradores.StatusRequisicaoCompra>();
         }
     }
 }

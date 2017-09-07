@@ -88,7 +88,10 @@ namespace BsBios.Portal.Infra.Builders
         public MenuSuprimentos()
             : base("Cotações de Materiais")
         {
-            AdicionarItem("Listar", "ProcessoDeCotacaoDeMaterial", "Index");
+            AdicionarItem("Listar", "ProcessoCotacaoMaterial", "Index");
+            AdicionarItem("Adicionar", "ProcessoCotacaoMaterial", "NovoCadastro");
+            AdicionarItem("Eficiência de Negociação","EficienciaDeNegociacao","Index");
+
         }
     }
 

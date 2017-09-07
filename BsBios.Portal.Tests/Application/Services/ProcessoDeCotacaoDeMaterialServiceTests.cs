@@ -34,9 +34,10 @@ namespace BsBios.Portal.Tests.Application.Services
                                                }
                                            });
 
-            ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
-            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            //ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            var processoDeCotacaoDeMaterial = new ProcessoDeCotacaoDeMaterialParaAtualizacao();
+            //processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            //processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
             _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
                                    .Returns(_processosDeCotacaoMock.Object);
             _processosDeCotacaoMock.Setup(x => x.Single())
@@ -46,7 +47,8 @@ namespace BsBios.Portal.Tests.Application.Services
             _atualizacaoDoProcessoDeCotacaoVm = new ProcessoDeCotacaoAtualizarVm()
                 {
                     Id = 1,
-                    DataLimiteRetorno = DateTime.Today.AddDays(10)
+                    DataLimiteRetorno = DateTime.Today.AddDays(10),
+                    Requisitos = "requisitos do processo"
                 };
         }
 
@@ -79,6 +81,25 @@ namespace BsBios.Portal.Tests.Application.Services
             }
             
         }
+
+        [TestMethod]
+        public void QuandoCriaUmNovoProcessoAsPropriedadesSaoCriadasCorretamente()
+        {
+            _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
+                                   .Callback((ProcessoDeCotacao processoDeCotacao) =>
+                                   {
+                                       Assert.IsNotNull(processoDeCotacao);
+                                       Assert.IsNotInstanceOfType(processoDeCotacao, typeof(ProcessoDeCotacaoDeMaterialParaAtualizacao));
+                                       Assert.AreEqual(DateTime.Today.AddDays(10), processoDeCotacao.DataLimiteDeRetorno);
+                                       Assert.AreEqual("requisitos de criação", processoDeCotacao.Requisitos);
+                                   });
+            _processoDeCotacaoService.AtualizarProcesso(new ProcessoDeCotacaoAtualizarVm
+                {
+                    DataLimiteRetorno = DateTime.Today.AddDays(10),
+                    Requisitos = "requisitos de criação"
+                });
+            
+        }
         [TestMethod]
         public void QuandoOProcessoEAtualizadoComSucessoAsPropriedadesDoProcessoSaoAtualizadasCorretamente()
         {
@@ -86,9 +107,9 @@ namespace BsBios.Portal.Tests.Application.Services
                                    .Callback((ProcessoDeCotacao processoDeCotacao) =>
                                        {
                                            Assert.IsNotNull(processoDeCotacao);
-                                           Assert.AreEqual(DateTime.Today.AddDays(10),
-                                                           processoDeCotacao.DataLimiteDeRetorno);
-
+                                           Assert.IsInstanceOfType(processoDeCotacao, typeof(ProcessoDeCotacaoDeMaterialParaAtualizacao));
+                                           Assert.AreEqual(DateTime.Today.AddDays(10),processoDeCotacao.DataLimiteDeRetorno);
+                                           Assert.AreEqual("requisitos do processo", processoDeCotacao.Requisitos);
                                        });
             _processoDeCotacaoService.AtualizarProcesso(_atualizacaoDoProcessoDeCotacaoVm);
             _processosDeCotacaoMock.Verify(x => x.BuscaPorId(It.IsAny<int>()), Times.Once());
@@ -102,7 +123,14 @@ namespace BsBios.Portal.Tests.Application.Services
         [TestMethod]
         public void ServicoDeVerificacaoDeQuantidadeAdquiridaRetornaResultadoDaComparacao()
         {
-            VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(10, 1001);
+            var processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialAtualizado();
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+            processoDeCotacaoDeMaterial.AdicionarFornecedor(DefaultObjects.ObtemFornecedorPadrao());
+
+            _processosDeCotacaoMock.Setup(x => x.Single())
+                                   .Returns(processoDeCotacaoDeMaterial);
+
+            VerificacaoDeQuantidadeAdquiridaVm verificacaoVm = _processoDeCotacaoService.VerificarQuantidadeAdquirida(10,0, 1001);
             Assert.AreEqual(1000, verificacaoVm.QuantidadeSolicitadaNoProcessoDeCotacao);
             Assert.IsTrue(verificacaoVm.SuperouQuantidadeSolicitada);
 
@@ -111,7 +139,9 @@ namespace BsBios.Portal.Tests.Application.Services
 
         #endregion
 
+    }
 
-
+    internal class ProcessoDeCotacaoDeMaterialParaAtualizacao: ProcessoDeCotacaoDeMaterial
+    {
     }
 }

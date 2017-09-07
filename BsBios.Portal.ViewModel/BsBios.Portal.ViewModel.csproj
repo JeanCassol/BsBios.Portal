@@ -51,6 +51,16 @@
     <Compile Include="ConferenciaDeCargaFiltroVm.cs" />
     <Compile Include="ConferenciaDeCargaPesquisaResultadoVm.cs" />
     <Compile Include="ConhecimentoDeTransporteVm.cs" />
+    <Compile Include="EficienciaDeNegociacaoResumoVm.cs" />
+    <Compile Include="EficienciaNegociacaoFiltroVm.cs" />
+    <Compile Include="CotacaoMaterialConsultarVm.cs" />
+    <Compile Include="FornecedorCotacaoVm.cs" />
+    <Compile Include="FornecedorVm.cs" />
+    <Compile Include="ProcessoCotacaoCadastroPermissaoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
+    <Compile Include="TipoDeFreteVm.cs" />
+    <Compile Include="CotacaoMaterialItemCadastroVm.cs" />
+    <Compile Include="FileDownloadVm.cs" />
     <Compile Include="FornecedorFiltroVm.cs" />
     <Compile Include="MaterialDeCargaVm.cs" />
     <Compile Include="FluxoDeCargaVm.cs" />
@@ -71,6 +81,8 @@
     <Compile Include="ProcessoDeCotacaoDeFreteCabecalhoVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
     <Compile Include="QuotaListagemVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoVm.cs" />
     <Compile Include="QuotaCadastroVm.cs" />
     <Compile Include="QuotaConsultarVm.cs" />
     <Compile Include="QuotaPesoVm.cs" />
@@ -90,6 +102,7 @@
     <Compile Include="RelatorioDeUsuarioFiltroVm.cs" />
     <Compile Include="RelatorioDeUsuarioListagemVm.cs" />
     <Compile Include="RelatorioDeUsuarioVisualizacaoVm.cs" />
+    <Compile Include="RequisicaoDeCompraFiltroVm.cs" />
     <Compile Include="StatusProcessoCotacaoVm.cs" />
     <Compile Include="TerminalCadastroVm.cs" />
     <Compile Include="UnidadeDeMedidaCadastroVm.cs" />
@@ -99,7 +112,7 @@
     <Compile Include="CotacaoSelecionarVm.cs" />
     <Compile Include="PerfilVm.cs" />
     <Compile Include="ProcessoDeCotacaoAtualizarVm.cs" />
-    <Compile Include="ProcessoDeCotacaoFechamentoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSapVm.cs" />
     <Compile Include="ProcessoDeCotacaoFornecedoresAtualizarVm.cs" />
     <Compile Include="CentroCadastroVm.cs" />
     <Compile Include="CondicaoDePagamentoCadastroVm.cs" />
@@ -107,9 +120,9 @@
     <Compile Include="IncotermCadastroVm.cs" />
     <Compile Include="KendoGridVm.cs" />
     <Compile Include="ListagemVm.cs" />
-    <Compile Include="ProcessoCotacaoMaterialFiltroVm.cs" />
+    <Compile Include="ProcessoCotacaoFiltroVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialListagemVm.cs" />
-    <Compile Include="ProcessoDeCotacaoAberturaVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeMaterialAberturaComunicacaoSapVm.cs" />
     <Compile Include="ProcessoCotacaoMaterialCadastroVm.cs" />
     <Compile Include="ProcessoCotacaoFreteCadastroVm.cs" />
     <Compile Include="CotacaoFreteListagemVm.cs" />

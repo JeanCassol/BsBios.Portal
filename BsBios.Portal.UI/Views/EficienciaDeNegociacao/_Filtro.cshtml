@@ -1,0 +1,14 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model EficienciaNegociacaoFiltroVm
+@Html.LinhaComDuasColunas(new ColunaComTextBox<EficienciaNegociacaoFiltroVm,DateTime?>(x => x.DataDeFechamentoInicial,"campoDatePicker maskdata"),
+                              new ColunaComTextBox<EficienciaNegociacaoFiltroVm,DateTime?>(x => x.DataDeFechamentoFinal,"campoDatePicker maskdata"))
+<div class="linha">
+    <div class="coluna">
+        @Html.HiddenFor(x => x.LoginComprador)
+        @Html.Label("Comprador","Comprador")
+        @Html.TextBox("Comprador","",new{ @class="campoDesabilitado campogrande"})
+        <input type="button" id="btnSelecionarComprador" class="button16 button_visualize" />        
+    </div>
+</div>
+

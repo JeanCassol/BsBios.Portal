@@ -1,5 +1,6 @@
 ﻿using System;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.ViewModel;
@@ -22,7 +23,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public void Atualizar(CotacaoMaterialInformarVm cotacaoInformarVm)
+        public int AtualizarCotacao(CotacaoMaterialInformarVm cotacaoInformarVm)
         {
             try
             {
@@ -32,11 +33,35 @@ namespace BsBios.Portal.Application.Services.Implementations
                 Incoterm incoterm = _incoterms.BuscaPeloCodigo(cotacaoInformarVm.CodigoIncoterm).Single();
 
                 var cotacao = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,condicaoDePagamento, incoterm, 
-                    cotacaoInformarVm.DescricaoIncoterm, cotacaoInformarVm.ValorComImpostos.Value,
-                    cotacaoInformarVm.Mva, cotacaoInformarVm.QuantidadeDisponivel.Value, Convert.ToDateTime(cotacaoInformarVm.PrazoDeEntrega), 
-                    cotacaoInformarVm.ObservacoesDoFornecedor);
-                AtualizarImpostos(cotacao, cotacaoInformarVm.Impostos);
+                    cotacaoInformarVm.DescricaoIncoterm);
 
+                _processosDeCotacao.Save(processoDeCotacao);
+                _unitOfWork.Commit();
+                return cotacao.Id;
+            }
+            catch (Exception)
+            {
+                _unitOfWork.RollBack();
+                throw;
+            }
+            
+        }
+
+        public void AtualizarItemDaCotacao(CotacaoMaterialItemInformarVm cotacaoMaterialItemInformarVm)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                var processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(cotacaoMaterialItemInformarVm.IdProcessoCotacao).Single();
+                CotacaoItem cotacaoItem = processoDeCotacao.InformarCotacaoDeItem(cotacaoMaterialItemInformarVm.IdProcessoCotacaoItem,
+                                                        cotacaoMaterialItemInformarVm.IdCotacao,
+                                                        cotacaoMaterialItemInformarVm.Preco.Value,
+                                                        cotacaoMaterialItemInformarVm.Mva,
+                                                        cotacaoMaterialItemInformarVm.QuantidadeDisponivel.Value,
+                                                        Convert.ToDateTime(cotacaoMaterialItemInformarVm.PrazoDeEntrega),
+                                                        cotacaoMaterialItemInformarVm.ObservacoesDoFornecedor);
+
+                AtualizarImpostos(cotacaoItem, cotacaoMaterialItemInformarVm.Impostos);
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
             }
@@ -46,6 +71,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 throw;
             }
             
+
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
 using StructureMap;
@@ -14,7 +14,6 @@ namespace BsBios.Portal.UI.Controllers
     public class ProcessoDeCotacaoDeFreteController : Controller
     {
         private readonly IConsultaUnidadeDeMedida _consultaUnidadeDeMedida ;
-        private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
         private readonly IConsultaProcessoDeCotacaoDeFrete _consultaProcessoDeCotacaoDeFrete;
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
         private readonly IConsultaTerminal _consultaTerminal;
@@ -22,14 +21,10 @@ namespace BsBios.Portal.UI.Controllers
         public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
-            _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
             _consultaTerminal = consultaTerminal;
         }
-
-        //
-        // GET: /CotacaoFrete/
 
         [HttpGet]
         public ActionResult Index()
@@ -51,22 +46,23 @@ namespace BsBios.Portal.UI.Controllers
             
             ViewBag.TituloDaPagina = "Cotações de Frete";
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
+            ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Frete;
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
             return View("_ProcessoCotacaoIndex");
         }
 
         [HttpGet]
-        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             var usuarioConectado = ObjectFactory.GetInstance<UsuarioConectado>();
-            filtro.TipoDeCotacao = (int) Enumeradores.TipoDeCotacao.Frete;
             
             if (usuarioConectado.Perfis.Contains(Enumeradores.Perfil.Fornecedor))
             {
                 filtro.CodigoFornecedor = usuarioConectado.Login;
             }
 
-            var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
+            //var kendoGridVm = _consultaProcessoDeCotacaoDeMaterial.Listar(paginacaoVm, filtro);
+            var kendoGridVm = _consultaProcessoDeCotacaoDeFrete.Listar(paginacaoVm, filtro);
             return Json(new { registros = kendoGridVm.Registros, totalCount = kendoGridVm.QuantidadeDeRegistros }, JsonRequestBehavior.AllowGet);
         }
 
@@ -147,5 +143,10 @@ namespace BsBios.Portal.UI.Controllers
             }
         }
 
+        public JsonResult ListarCotacoesResumido(int idProcessoCotacao)
+        {
+            KendoGridVm kendoGridVm = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedoresResumido(idProcessoCotacao);
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
     }
 }

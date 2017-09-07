@@ -7,7 +7,7 @@ namespace BsBios.Portal.Infra.Mappings
     {
         public CotacaoMap()
         {
-            Table("COTACAO");
+            Table("Cotacao");
             //DynamicInsert();
             Id(x => x.Id).GeneratedBy.Sequence("COTACAO_ID_SEQUENCE");
 
@@ -26,18 +26,11 @@ namespace BsBios.Portal.Infra.Mappings
             //HasOne(x => x.FornecedorParticipante).Constrained().ForeignKey();
 
             //References(x => x.FornecedorParticipante).Column("IdFornecedorParticipante");
+
+            HasMany(x => x.Itens).KeyColumn("IdCotacao")
+                                 .Inverse()
+                                 .Cascade.AllDeleteOrphan();
             
-            Map(x => x.QuantidadeAdquirida);
-            Map(x => x.ValorLiquido);
-            Map(x => x.ValorComImpostos);
-            Map(x => x.Selecionada);
-            Map(x => x.QuantidadeDisponivel);
-            Map(x => x.Observacoes);
-            /*Importante: Sem a opção "Cascade.AllDeleteOrphan()" o NHibernate tenta sempre fazer um update mesmo quando é criado um imposto novo.
-             * Lembrar de usar esta opção sempre que mapear com "HasMany"*/
-            HasMany(x => x.Impostos).KeyColumn("IdCotacao")
-                .Inverse()
-                .Cascade.AllDeleteOrphan();
         }
     }
     public class CotacaoMaterialMap: SubclassMap<CotacaoMaterial>
@@ -47,11 +40,8 @@ namespace BsBios.Portal.Infra.Mappings
             Table("CotacaoMaterial");
             KeyColumn("Id");
             References(x => x.CondicaoDePagamento).Column("CodigoCondicaoPagamento");
-            References(x => x.Iva).Column("CodigoIva");
             References(x => x.Incoterm).Column("CodigoIncoterm");
             Map(x => x.DescricaoIncoterm);
-            Map(x => x.Mva);
-            Map(x => x.PrazoDeEntrega).Column("PrazoEntrega");
         }
     }
 

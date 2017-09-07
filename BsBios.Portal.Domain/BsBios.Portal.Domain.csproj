@@ -43,6 +43,8 @@
     <Compile Include="Entities\Coleta.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\ConhecimentoDeTransporte.cs" />
+    <Compile Include="Entities\CotacaoItem.cs" />
+    <Compile Include="Entities\HistoricoDePreco.cs" />
     <Compile Include="Entities\Imposto.cs" />
     <Compile Include="Entities\Itinerario.cs" />
     <Compile Include="Entities\Cotacao.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Entities\NotaFiscalDeConhecimentoDeTransporte.cs" />
     <Compile Include="Entities\OrdemDeTransporte.cs" />
     <Compile Include="Entities\ProcessoCotacaoIteracaoUsuario.cs" />
+    <Compile Include="Entities\ProcessoDeCotacaoItem.cs" />
     <Compile Include="Entities\ProcessoDeCotacao.cs" />
     <Compile Include="Entities\ProcessoDeCotacaoDeFrete.cs" />
     <Compile Include="Entities\ProcessoDeCotacaoDeMaterial.cs" />
@@ -101,6 +104,18 @@
     <Compile Include="Services\Implementations\ColetaFactory.cs" />
     <Compile Include="Services\Implementations\ProcessadorDeColeta.cs" />
     <Compile Include="Services\Implementations\ProcessadorDeNotaFiscalMiro.cs" />
+    <Compile Include="Services\CalculadorDeBaseDeCalculoFactory.cs" />
+    <Compile Include="Services\Contracts\IAgendamentoDeCargaFactory.cs" />
+    <Compile Include="Services\Contracts\ICalculadorDeBaseDeCalculo.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteFactory.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialFactory.cs" />
+    <Compile Include="Services\Contracts\IVerificaPermissaoAgendamento.cs" />
+    <Compile Include="Services\Implementations\AgendamentoDeCarregamentoFactory.cs" />
+    <Compile Include="Services\Implementations\AgendamentoDeDescarregamentoFactory.cs" />
+    <Compile Include="Services\Implementations\CalculadorDeBaseDeCalculoComCreditoDeImpostos.cs" />
+    <Compile Include="Services\Implementations\CalculadorDeBaseDeCalculoPadrao.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteFactory.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialFactory.cs" />
     <Compile Include="Services\Implementations\VerificaPermissaoAgendamento.cs" />
     <Compile Include="ValueObjects\CondicaoDoFechamentoNoSap.cs" />
     <Compile Include="ValueObjects\Municipio.cs" />

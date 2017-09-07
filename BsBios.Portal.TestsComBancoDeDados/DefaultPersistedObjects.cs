@@ -132,7 +132,17 @@ namespace BsBios.Portal.TestsComBancoDeDados
                 {
                     Session.BeginTransaction();
                 }
-                PersistirRequisicaoDeCompra(processoDeCotacaoDeMaterial.RequisicaoDeCompra);
+
+                foreach (ProcessoDeCotacaoDeMaterialItem processoDeCotacaoItem in processoDeCotacaoDeMaterial.Itens)
+                {
+                    PersistirRequisicaoDeCompra(processoDeCotacaoItem.RequisicaoDeCompra);
+                }
+
+                if (processoDeCotacaoDeMaterial.Comprador != null)
+                {
+                    PersistirUsuario(processoDeCotacaoDeMaterial.Comprador);    
+                }
+                
 
                 foreach (var fornecedorParticipante in processoDeCotacaoDeMaterial.FornecedoresParticipantes)
                 {
@@ -142,9 +152,14 @@ namespace BsBios.Portal.TestsComBancoDeDados
                         var cotacao = (CotacaoMaterial) fornecedorParticipante.Cotacao;
                         PersistirCondicaoDePagamento(cotacao.CondicaoDePagamento);
                         PersistirIncoterm(cotacao.Incoterm);
-                        if (cotacao.Iva != null)
+                        var ivas =
+                            cotacao.Itens.Where(x => ((CotacaoMaterialItem) x).Iva != null)
+                                   .Select(y => ((CotacaoMaterialItem) y).Iva)
+                                   .Distinct()
+                                   .ToList();
+                        foreach (var iva in ivas)
                         {
-                            PersistirIva(cotacao.Iva);    
+                            PersistirIva(iva);    
                         }
                         
                     }
@@ -196,13 +211,30 @@ namespace BsBios.Portal.TestsComBancoDeDados
                     Session.BeginTransaction();
                 }
 
+                if (processo.Comprador != null)
+                {
+                    PersistirUsuario(processo.Comprador);
+                }
+
+
                 foreach (var fornecedorParticipante in processo.FornecedoresParticipantes)
                 {
                     PersistirFornecedor(fornecedorParticipante.Fornecedor);
                 }
-
-                PersistirUnidadeDeMedida(processo.UnidadeDeMedida);
+                var unidadesDeMedida = processo.Itens.Select(x => x.UnidadeDeMedida).Distinct();
+                foreach (var unidadeDeMedida in unidadesDeMedida)
+                {
+                    PersistirUnidadeDeMedida(unidadeDeMedida);    
+                }
+                
                 PersistirItinerario(processo.Itinerario);
+                var produtos = processo.Itens.Select(x => x.Produto).Distinct();
+                foreach (var produto in produtos)
+                {
+                    PersistirProduto(produto);    
+                }
+                
+
                 PersistirProduto(processo.Produto);
                 if (processo.FornecedorDaMercadoria != null)
                 {

@@ -41,7 +41,7 @@
     </Reference>
     <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BsBios.Portal.UI\bin\StructureMap.dll</HintPath>
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -169,6 +169,10 @@
     <Compile Include="Services\Contracts\ICancelamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IConhecimentoDeTransporteComando.cs" />
     <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
+    <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoServiceFactory.cs" />
+    <Compile Include="Services\Contracts\IAlteradorDeRequisicaoDeCompra.cs" />
+    <Compile Include="Services\Contracts\IFechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Contracts\IAberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Contracts\IAgendamentoDeCargaService.cs" />
     <Compile Include="Services\Contracts\ICadastroQuota.cs" />
@@ -180,6 +184,7 @@
     <Compile Include="Services\Contracts\ICadastroItinerario.cs" />
     <Compile Include="Services\Contracts\IAtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeFreteService.cs" />
+    <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialSelecaoService.cs" />
     <Compile Include="Services\Contracts\ICadastroIncoterm.cs" />
     <Compile Include="Services\Contracts\ICadastroCondicaoPagamento.cs" />
@@ -194,10 +199,12 @@
     <Compile Include="Services\Contracts\IProcessoDeCotacaoDeMaterialService.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacao.cs" />
     <Compile Include="Services\Contracts\IReenviadorDeEmailDoProcessoDeCotacaoFactory.cs" />
+    <Compile Include="Services\Contracts\IServicoDeEficienciaDeNegociacao.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\AberturaDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\AgendamentoDeCargaService.cs" />
+    <Compile Include="Services\Implementations\AlteradorDeRequisicaoDeCompra.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeCotacaoDeMaterial.cs" />
     <Compile Include="Services\Implementations\AtualizadorDeImpostosDaCotacao.cs" />
     <Compile Include="Services\Implementations\CadastroDeNotaFiscalMiro.cs" />
@@ -210,10 +217,11 @@
     <Compile Include="Services\Implementations\CancelamentoDeProcessoDeCotacaoService.cs" />
     <Compile Include="Services\Implementations\ConhecimentoDeTransporteComando.cs" />
     <Compile Include="Services\Implementations\OrdemDeTransporteService.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialService.cs" />
+    <Compile Include="Services\Implementations\ProcessoDeCotacaoDeMaterialItensService.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeMaterialFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoService.cs" />
+    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteService.cs" />
     <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeFreteServiceFactory.cs" />
-    <Compile Include="Services\Implementations\FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteSelecaoService.cs" />
     <Compile Include="Services\Implementations\GerenciadorUsuario.cs" />
     <Compile Include="Services\Implementations\ProcessoDeCotacaoDeFreteService.cs" />
@@ -230,6 +238,7 @@
     <Compile Include="Services\Implementations\CadastroIncoterm.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacao.cs" />
     <Compile Include="Services\Implementations\ReenviadorDeEmailDoProcessoDeCotacaoDeFreteFactory.cs" />
+    <Compile Include="Services\Implementations\ServicoDeEficienciaDeNegociacao.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BsBios.Portal.Common\BsBios.Portal.Common.csproj">

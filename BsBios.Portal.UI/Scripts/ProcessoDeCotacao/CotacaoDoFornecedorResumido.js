@@ -1,5 +1,57 @@
 ﻿GridCotacaoResumida = {
-    Configurar: function(idProcessoCotacao) {
+    Configurar: function (configuracao) {
+        var arrayDeColunas = [
+            {
+                width: 60,
+                field: "Codigo",
+                title: "Código"
+            },
+            {
+                field: "Nome",
+                width: 195,
+                title: "Nome"
+            },
+            {
+                field: "VisualizadoPeloFornecedor",
+                width: 60,
+                title: "Visualizado?"
+            },
+            {
+                width: 65,
+                title: "Reenviar E-mail",
+                template: '<input type="button" class="button16 button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
+            },
+            {
+                field: 'Selecionado',
+                title: 'Selecionado?',
+                width: 60
+            }
+        ];
+
+        if (configuracao.ExibirDadosDeItens) {
+            arrayDeColunas = arrayDeColunas.concat(
+            {
+                field: "QuantidadeDisponivel",
+                width: 50,
+                title: "Disponivel",
+                format: "{0:n2}"
+            },
+            {
+                field: "ValorComImpostos",
+                width: 80,
+                title: "Valor Com Impostos",
+                format: "{0:n2}"
+            });
+        }
+        
+        if (configuracao.ExibirBotaoVisualizar) {
+            arrayDeColunas.unshift({
+                title: ' ',
+                width: 30,
+                template: '<input type="button" class="button16 button_visualize"></input>'
+            });
+        }
+
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
                 schema: {
@@ -22,15 +74,21 @@
                 serverPaging: true,
                 transport: {
                     read: {
-                        url: UrlPadrao.CotacaoResumida + '/?idProcessoCotacao=' + idProcessoCotacao,
+                        url: configuracao.Url,
                         type: 'GET',
-                        cache: false
+                        cache: false,
+                        data: function() {
+                            return { IdProcessoCotacao: $('#Id').val() };
+                        }
                     }
                 }
             },
             groupable: false,
             scrollable: true,
             selectable: 'row',
+            pageable: false,
+            autoBind: configuracao.autoBind,
+
             columns:
             [
                 {
@@ -86,7 +144,7 @@
             $.ajax({
                 url: UrlPadrao.EnviarEmail,
                 type: 'GET',
-                data: { IdProcessoCotacao: idProcessoCotacao, IdFornecedorParticipante: idFornecedorParticipante },
+                data: { IdProcessoCotacao: configuracao.IdProcessoCotacao, IdFornecedorParticipante: idFornecedorParticipante },
                 cache: false,
                 dataType: 'json',
                 success: function (data) {

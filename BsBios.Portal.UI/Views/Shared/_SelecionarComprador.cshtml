@@ -1,0 +1,28 @@
+﻿@model BsBios.Portal.ViewModel.UsuarioCadastroVm
+
+@{
+    Layout = null;
+}
+@Html.HiddenFor(x => x.Login)
+@Html.HiddenFor(x => x.Nome)
+<div class="divFiltros">
+    <fieldset>
+        <legend>Filtros</legend>
+        <form >
+            <div class="colunaFiltro">
+                @Html.Label("LoginFiltro","Login")
+                @Html.TextBox("LoginFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="colunaFiltro">
+                @Html.Label("NomeFiltro","Nome")
+                @Html.TextBox("NomeFiltro","", new{@class="campomedio"})
+            </div>
+            <div class="divBotao">
+                <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+                <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<div id="gridCompradores" class="divGrid"></div>
+

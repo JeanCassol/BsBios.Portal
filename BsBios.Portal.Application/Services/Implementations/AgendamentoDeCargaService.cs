@@ -1,5 +1,4 @@
 ﻿using System;
-using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;

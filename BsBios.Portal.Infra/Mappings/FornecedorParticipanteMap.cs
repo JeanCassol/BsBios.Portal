@@ -10,6 +10,9 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("FornecedorParticipante");
             Id(x => x.Id).GeneratedBy.Sequence("FORNECPARTICIPANTE_ID_SEQUENCE");
+
+            Map(x => x.NumeroDaCotacao, "NumeroCotacao");
+
             References(x => x.ProcessoDeCotacao).Column("IdProcessoCotacao");
             References(x => x.Fornecedor).Column("CodigoFornecedor").Not.Nullable();
             //HasOne(x => x.Cotacao)/*.PropertyRef("FornecedorParticipante")*/

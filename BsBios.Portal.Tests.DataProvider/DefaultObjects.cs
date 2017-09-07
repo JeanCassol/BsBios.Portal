@@ -25,8 +25,11 @@ namespace BsBios.Portal.Tests.DataProvider
         private static string GeraCodigo(int contador, int tamanho)
         {
             string contadorToString = Convert.ToString(contador);
+            if (contadorToString.Length == tamanho)
+            {
+                return contadorToString;
+            }
             return new string('0', tamanho - contadorToString.Length) + contador;
-
         }
 
         public static string ObtemSufixoCodigoFornecedor(string codigoFornecedor)
@@ -34,7 +37,34 @@ namespace BsBios.Portal.Tests.DataProvider
             return codigoFornecedor.Substring(9);
         }
 
+        private static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao(Produto produto)
+        {
+            var usuarioCriador = ObtemUsuarioPadrao();
+            var fornecedorPretendido = ObtemFornecedorPadrao();
+
+            var dataDeRemessa = DateTime.Today.AddDays(-2);
+            var dataDeLiberacao = DateTime.Today.AddDays(-1);
+            var dataDeSolicitacao = DateTime.Today;
+
+            _contadorRequisicaoCompra++;
+
+            string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
+            string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
+
+            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
+                dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
+                produto, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1", false);
+
+            return requisicaoDeCompra;
+            
+        }
+
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraPadrao()
+        {
+            return ObtemRequisicaoDeCompraPadrao(ObtemProdutoPadrao());
+        }
+
+        public static RequisicaoDeCompra ObtemRequisicaoDeCompraComId()
         {
             var usuarioCriador = ObtemUsuarioPadrao();
             var fornecedorPretendido = ObtemFornecedorPadrao();
@@ -49,12 +79,13 @@ namespace BsBios.Portal.Tests.DataProvider
             string numeroRequisicao = GeraCodigo(_contadorRequisicaoCompra, 10);
             string numeroItem = GeraCodigo(_contadorRequisicaoCompra, 5);
 
-            var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, "requisitante", fornecedorPretendido,
+            var requisicaoDeCompra = new RequisicaoDeCompraTeste(_contadorRequisicaoCompra, usuarioCriador, "requisitante", fornecedorPretendido,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", ObtemUnidadeDeMedidaPadrao(), 1000,
-                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao);
-            
+                material, "Requisição de Compra enviada pelo SAP", numeroItem, numeroRequisicao, "GC1", false);
+
             return requisicaoDeCompra;
         }
+
 
         public static RequisicaoDeCompra ObtemRequisicaoDeCompraSemRequisitanteEFornecedor()
         {
@@ -68,11 +99,21 @@ namespace BsBios.Portal.Tests.DataProvider
 
             var requisicaoDeCompra = new RequisicaoDeCompra(usuarioCriador, null, null,
                 dataDeRemessa, dataDeLiberacao, dataDeSolicitacao, "C001", unidadeDeMedida, 1000,
-                material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001");
+                material, "Requisição de Compra enviada pelo SAP", "00001", "REQ0001", "GC1", false);
 
             return requisicaoDeCompra;
         }
 
+        private static RequisicaoDeCompra ObtemRequisicaoDeMateriaPrima()
+        {
+            Produto produto = ObtemMateriaPrima();
+            return ObtemRequisicaoDeCompraPadrao(produto);
+        }
+
+        private static Produto ObtemMateriaPrima()
+        {
+            return  ObtemProdutoPadrao("ROH");
+        }
 
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialNaoIniciado()
         {
@@ -81,23 +122,40 @@ namespace BsBios.Portal.Tests.DataProvider
             return processo;
         }
 
-        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoAbertoPadrao()
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialAbertoPadrao()
+        {
+            return ObtemProcessoDeCotacaoDeMaterialAberto(ObtemUsuarioPadrao());
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialAberto(Usuario comprador)
         {
             ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAtualizado();
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(comprador);
             return processoDeCotacao;
         }
 
+
         public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialFechado()
         {
-            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoAbertoPadrao();
-            var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
-            Cotacao cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor,ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),"Descrição do Incotem",125,null, 100,DateTime.Today.AddMonths(1),"obs");
-            processoDeCotacao.SelecionarCotacao(cotacao.Id, 100, ObtemIvaPadrao());
-            processoDeCotacao.FecharProcesso();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
+            var cotacao = (CotacaoMaterial) processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
+            var processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, null, 100, DateTime.Today.AddMonths(1), "obs");
+            processoDeCotacao.SelecionarCotacao(cotacao.Id, processoDeCotacaoItem.Id, 100, ObtemIvaPadrao());
+            processoDeCotacao.Fechar();
             return processoDeCotacao;
+        }
+
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor()
+        {
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = ObtemProcessoDeCotacaoDeMaterialAbertoPadrao();
+            var codigoFornecedor = processoDeCotacao.FornecedoresParticipantes.First().Fornecedor.Codigo;
+            CotacaoMaterial cotacao = processoDeCotacao.InformarCotacao(codigoFornecedor, ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(), "Descrição do Incotem");
+            var processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, 125, 12, 100, DateTime.Today.AddMonths(1), "obs");
+            return processoDeCotacao;            
         }
 
         public static Fornecedor ObtemFornecedorPadrao()
@@ -129,13 +187,27 @@ namespace BsBios.Portal.Tests.DataProvider
             return usuario;
         }
 
+        public static Usuario ObtemCompradorDeSuprimentos()
+        {
+            var usuario = ObtemUsuarioPadrao();
+            usuario.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            return usuario;
+        }
+
+
         public static Produto ObtemProdutoPadrao()
+        {
+            return ObtemProdutoPadrao("01");
+        }
+
+        private static Produto ObtemProdutoPadrao(string tipoDeProduto)
         {
             _contadorProdutos++;
             var codigo = GeraCodigo(_contadorProdutos, 18);
-            var produto = new Produto(codigo, "PRODUTO " + codigo, "01");
+            var produto = new Produto(codigo, "PRODUTO " + codigo, tipoDeProduto);
             return produto;
         }
+
 
         public static Incoterm ObtemIncotermPadrao()
         {
@@ -158,13 +230,6 @@ namespace BsBios.Portal.Tests.DataProvider
             return new CondicaoDePagamento(codigo , "CONDIÇÃO " + codigo);
         }
 
-        public static CotacaoMaterial ObtemCotacaoDeMaterialPadrao()
-        {
-            var cotacao = new CotacaoMaterial(ObtemCondicaoDePagamentoPadrao(), ObtemIncotermPadrao(),
-                "Descrição do Incoterm", 100, 110, 150,DateTime.Today,"obs");
-            return cotacao;
-        }
-
         public static UsuarioConectado ObtemUsuarioConectado()
         {
             return new UsuarioConectado("comprador", "Usuário Comprador",new List<Enumeradores.Perfil>{Enumeradores.Perfil.CompradorSuprimentos});
@@ -180,6 +245,10 @@ namespace BsBios.Portal.Tests.DataProvider
         public static UnidadeDeMedida ObtemUnidadeDeMedidaPadrao()
         {
             _contadorUnidadeMedida++;
+            if (_contadorUnidadeMedida > 99)
+            {
+                _contadorUnidadeMedida = 0;
+            }
             string codigo = GeraCodigo(_contadorUnidadeMedida, 2);
             return new UnidadeDeMedida("I" +  codigo, "E" + codigo, "Unidade de Medida " + codigo);
         }
@@ -191,9 +260,19 @@ namespace BsBios.Portal.Tests.DataProvider
             return processo;
         }
 
-        public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
+        public static ProcessoDeCotacaoDeMaterial ObtemProcessoDeCotacaoDeMaterialDeMateriaPrima()
         {
-            return ObtemProcessoDeCotacaoDeFrete(ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
+            RequisicaoDeCompra requisicaoDeCompra = ObtemRequisicaoDeMateriaPrima();
+            ProcessoDeCotacaoDeMaterial processoDeCotacao = requisicaoDeCompra.GerarProcessoDeCotacaoDeMaterial();
+            processoDeCotacao.Atualizar(DateTime.Today.AddDays(10),"requisitos");
+            return processoDeCotacao;
+        }
+
+ public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete()
+        {
+            var processo= ObtemProcessoDeCotacaoDeFrete(ObtemMunicipioPadrao(), ObtemMunicipioPadrao());
+            processo.AdicionarItem(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao());
+			return processo;
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFrete(Municipio municipioOrigem, Municipio municipioDestino)
@@ -226,11 +305,14 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteSemNumeroDeContrato()
         {
-            return new ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
+            var processo = ProcessoDeCotacaoDeFrete(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
                 ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
                 ObtemTerminalPadrao(),100);
+            processo.AdicionarItem(ObtemProdutoPadrao(), 100, ObtemUnidadeDeMedidaPadrao());
+            return processo;
+
         }
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCadastrosExistentes()
@@ -239,11 +321,15 @@ namespace BsBios.Portal.Tests.DataProvider
             var unidadeDeMedida = new UnidadeDeMedida("TON", "TON", "Toneladas");
             var itinerario = new Itinerario("010330", "RS Rio Grande -> BA Formosa Do Rio Preto");
 
-            return new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
+            var processo = new ProcessoDeCotacaoDeFrete(produto, 100, unidadeDeMedida, 
                 "Requisitos do Processo de Cotação de Frete", null, DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), itinerario,
                 ObtemFornecedorPadrao(), 100, true, ObtemMunicipioPadrao(), ObtemMunicipioPadrao(),ObtemFornecedorPadrao(),
                 ObtemTerminalPadrao(),100);
+
+            processo.AdicionarItem(produto, 100, unidadeDeMedida);
+
+            return processo;
 
         }
 
@@ -251,7 +337,7 @@ namespace BsBios.Portal.Tests.DataProvider
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao  = ObtemProcessoDeCotacaoDeFrete();
             processoDeCotacao.AdicionarFornecedor(ObtemFornecedorPadrao());
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
             return processoDeCotacao;
         }
 
@@ -265,7 +351,7 @@ namespace BsBios.Portal.Tests.DataProvider
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFrete(municipioOrigem, municipioDestino);
             Fornecedor fornecedor = ObtemFornecedorPadrao();
             processoDeCotacao.AdicionarFornecedor(fornecedor);
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(ObtemUsuarioPadrao());
             processoDeCotacao.InformarCotacao(fornecedor.Codigo, 100, 10, "teste");
             return processoDeCotacao;
             
@@ -302,8 +388,8 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(decimal quantidadeAdquirida)
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada();
-            var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            cotacao.Selecionar(quantidadeAdquirida,0);
+            var cotacaoItem = (CotacaoFreteItem)processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Itens.First();
+            cotacaoItem.Selecionar(9);
             return processoDeCotacao;
         }
 
@@ -311,8 +397,8 @@ namespace BsBios.Portal.Tests.DataProvider
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComCotacaoSelecionada(Municipio municipioOrigem, Municipio municipioDestino)
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = ObtemProcessoDeCotacaoDeFreteComCotacaoNaoSelecionada(municipioOrigem, municipioDestino);
-            var cotacao = (CotacaoDeFrete)processoDeCotacao.FornecedoresParticipantes.First().Cotacao;
-            cotacao.Selecionar(9,0);
+            var cotacaoItem = (CotacaoFreteItem)processoDeCotacao.FornecedoresParticipantes.First().Cotacao.Itens.First();
+            cotacaoItem.Selecionar(9);
             return processoDeCotacao;
         }
 
@@ -349,11 +435,15 @@ namespace BsBios.Portal.Tests.DataProvider
 
         public static ProcessoDeCotacaoDeFrete ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(Produto produto, Municipio municipioOrigem, Municipio municipioDestino)
         {
-            return new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
+            var processo = new ProcessoDeCotacaoDeFrete(produto, 100, ObtemUnidadeDeMedidaPadrao(),
                 "Requisitos do Processo de Cotação de Frete", "1000", DateTime.Today.AddDays(10),
                 DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), ObtemItinerarioPadrao(),
                 ObtemFornecedorPadrao(), 100, true, municipioOrigem, municipioDestino, ObtemFornecedorPadrao(),
                 ObtemTerminalPadrao(),100);
+            
+			processo.AdicionarItem(produto, 100, ObtemUnidadeDeMedidaPadrao());
+            return processo;
+
         }
 
 
@@ -430,11 +520,22 @@ namespace BsBios.Portal.Tests.DataProvider
             return (AgendamentoDeCarregamento) factory.Construir(quota, "IOQ5338");
         }
 
+
         public static AgendamentoDeDescarregamento ObtemAgendamentoDeDescarregamento(Quota quota)
         {
             var factory = new AgendamentoDeDescarregamentoFactory();
             factory.AdicionarNotaFiscal(ObtemNotaFiscalVmPadrao());
             return (AgendamentoDeDescarregamento)factory.Construir(quota, "IOQ5338");
+        }
+
+        public static PaginacaoVm ObtemPaginacaoDefault()
+        {
+            return new PaginacaoVm
+                {
+                    Page = 1,
+                    PageSize = 10,
+                    Take = 10
+                };
         }
 
         public static OrdemDeTransporte ObtemOrdemDeTransporteComQuantidade(decimal quantidade)
@@ -508,4 +609,23 @@ namespace BsBios.Portal.Tests.DataProvider
 
         }
     }
+
+    internal class RequisicaoDeCompraTeste:RequisicaoDeCompra
+    {
+        internal RequisicaoDeCompraTeste(int id, Usuario criador, string requisitante, Fornecedor fornecedorPretendido,
+                                         DateTime dataDeRemessa, DateTime dataDeLiberacao, DateTime dataDeSolicitacao,
+                                         string centro,
+                                         UnidadeDeMedida unidadeMedida, decimal quantidade, Produto material,
+                                         string descricao, string numeroItem,
+                                         string numero, string codigoGrupoDeCompra, bool mrp)
+            : base(criador, requisitante, fornecedorPretendido, dataDeRemessa,
+                   dataDeLiberacao, dataDeSolicitacao, centro, unidadeMedida, quantidade, material, descricao,
+                   numeroItem, numero, codigoGrupoDeCompra, mrp)
+        {
+            Id = id;
+        }
+        
+    }
+
+        
 }

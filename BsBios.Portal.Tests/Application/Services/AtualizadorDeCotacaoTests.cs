@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
-using BsBios.Portal.Domain;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Tests.Common;
@@ -24,14 +24,15 @@ namespace BsBios.Portal.Tests.Application.Services
         private readonly IAtualizadorDeCotacaoDeMaterial _atualizadorDeCotacao;
         private static readonly CondicaoDePagamento CondicaoDePagamento = DefaultObjects.ObtemCondicaoDePagamentoPadrao();
         private static readonly Incoterm Incoterm = DefaultObjects.ObtemIncotermPadrao();
-        private static readonly ProcessoDeCotacao _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoAbertoPadrao() ;
+        private readonly ProcessoDeCotacao _processoDeCotacao ;
         private readonly CotacaoMaterialInformarVm _cotacaoAtualizarVm;
+        private readonly CotacaoMaterialItemInformarVm _cotacaoItemAtualizarVm;
         private Incoterm _incotermRetorno;
-
 
         public AtualizadorDeCotacaoTests()
         {
             _unitOfWorkMock = CommonMocks.DefaultUnitOfWorkMock();
+            _processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialComCotacaoDoFornecedor();
             _processosDeCotacaoMock = new Mock<IProcessosDeCotacao>(MockBehavior.Strict);
             _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
                                    .Callback(
@@ -46,10 +47,6 @@ namespace BsBios.Portal.Tests.Application.Services
                                            }
                                        });
 
-            //ProcessoDeCotacaoDeMaterial processoDeCotacaoDeMaterial = DefaultObjects.ObtemProcessoDeCotacaoDeMaterialNaoIniciado();
-            //processoDeCotacaoDeMaterial.Atualizar(DateTime.Today);
-            //processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0001", "FORNECEDOR 0001", "fornecedor0001@empresa.com.br"));
-            //processoDeCotacaoDeMaterial.AdicionarFornecedor(new Fornecedor("FORNEC0002", "FORNECEDOR 0002", "fornecedor0001@empresa.com.br"));
             _processosDeCotacaoMock.Setup(x => x.BuscaPorId(It.IsAny<int>()))
                                    .Returns(_processosDeCotacaoMock.Object)
                                    .Callback((int id) =>
@@ -91,37 +88,46 @@ namespace BsBios.Portal.Tests.Application.Services
                     CodigoCondicaoPagamento = CondicaoDePagamento.Codigo,
                     CodigoIncoterm = Incoterm.Codigo,
                     DescricaoIncoterm = "Desc Incoterm" ,
-                    ValorLiquido = 110 ,
-                    ValorComImpostos =  125,
-                    Mva = 0 ,
+                };
+
+            _cotacaoItemAtualizarVm = new CotacaoMaterialItemInformarVm
+                {
+                    IdProcessoCotacao = _processoDeCotacao.Id,
+                    IdCotacao = 0,
+                    IdProcessoCotacaoItem = _processoDeCotacao.Itens.First().Id,
+                    Preco = 110,
+                    Mva = 0,
                     QuantidadeDisponivel = 150,
-                    Impostos = new CotacaoImpostosVm()
-                        {
-                            IcmsAliquota = 17,
-                            IcmsValor = 12,
-                            IcmsStAliquota = 0,
-                            IcmsStValor = 0,
-                            IpiAliquota = 5,
-                            IpiValor = 4,
-                            PisCofinsAliquota = 3
-                        }
+                    Impostos = new CotacaoImpostosVm
+                    {
+                        IcmsAliquota = 17,
+                        IcmsValor = 12,
+                        IcmsStAliquota = 0,
+                        IcmsStValor = 0,
+                        IpiAliquota = 5,
+                        IpiValor = 4,
+                        PisCofinsAliquota = 3
+                    },
+                    ObservacoesDoFornecedor = "observações do fornecedor" ,
+                    PrazoDeEntrega = DateTime.Today.AddDays(15).ToShortDateString()
+                    
                 };
         }
 
         [TestMethod]
         public void QuandoAtualizarCotacaoDoFornecedorOcorrePersistencia()
         {
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+            _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
             _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
-        public void QuandoAtualizaCotacaoDoFornecedorComSucessoOcorreCommitNaTransacao()
+        public void QuandoAtualizoItemDaCotacaoDoFornecedorOcorrePersistencia()
         {
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
-            _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.Commit(), Times.Once());
-            _unitOfWorkMock.Verify(x => x.RollBack(), Times.Never());
+            _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
+            _processosDeCotacaoMock.Verify(x => x.Save(It.IsAny<ProcessoDeCotacao>()), Times.Once());
+            CommonVerifications.VerificaCommitDeTransacao(_unitOfWorkMock);
         }
 
         [TestMethod]
@@ -131,14 +137,12 @@ namespace BsBios.Portal.Tests.Application.Services
                 .Throws(new ExcecaoDeTeste("Erro ao consultar Processo de Cotação"));
             try
             {
-                _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+                _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
                 Assert.Fail("Deveria ter gerado exceção");
             }
             catch (ExcecaoDeTeste)
             {
-                _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
-                _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
-                _unitOfWorkMock.Verify(x => x.RollBack(), Times.Once());
+                CommonVerifications.VerificaRollBackDeTransacao(_unitOfWorkMock);
             }
            
         }
@@ -158,16 +162,34 @@ namespace BsBios.Portal.Tests.Application.Services
                         Assert.AreSame(CondicaoDePagamento, cotacao.CondicaoDePagamento);
                         Assert.AreSame(Incoterm, cotacao.Incoterm);
                         Assert.AreEqual("Desc Incoterm", cotacao.DescricaoIncoterm);
-                        Assert.AreEqual(109, cotacao.ValorLiquido);
-                        Assert.AreEqual(125, cotacao.ValorComImpostos);
-                        Assert.AreEqual(0, cotacao.Mva);
-                        Imposto icms = cotacao.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
-                        Assert.AreEqual(17, icms.Aliquota);
-                        Assert.AreEqual(12, icms.Valor);
 
                     });
-            _atualizadorDeCotacao.Atualizar(_cotacaoAtualizarVm);
+            _atualizadorDeCotacao.AtualizarCotacao(_cotacaoAtualizarVm);
             
+        }
+
+        [TestMethod]
+        public void QuandoAtualizaItemDaCotacaoDoFornecedorComSucessoAsPropriedadesSaoAlteradas()
+        {
+            _processosDeCotacaoMock.Setup(x => x.Save(It.IsAny<ProcessoDeCotacao>()))
+                .Callback((ProcessoDeCotacao processoDeCotacao) =>
+                {
+                    _unitOfWorkMock.Verify(x => x.BeginTransaction(), Times.Once());
+                    _unitOfWorkMock.Verify(x => x.Commit(), Times.Never());
+                    Assert.IsNotNull(processoDeCotacao);
+                    FornecedorParticipante fornecedorParticipante = processoDeCotacao.FornecedoresParticipantes.First();
+                    Assert.IsNotNull(fornecedorParticipante.Cotacao);
+                    var cotacaoItem = (CotacaoMaterialItem) fornecedorParticipante.Cotacao.Itens.First();
+
+                    Assert.AreEqual(110, cotacaoItem.Preco);
+                    Assert.AreEqual((decimal) 115.5, cotacaoItem.ValorComImpostos);
+                    Assert.AreEqual(0, cotacaoItem.Mva);
+                    Imposto icms = cotacaoItem.Impostos.Single(x => x.Tipo == Enumeradores.TipoDeImposto.Icms);
+                    Assert.AreEqual(17, icms.Aliquota);
+                    Assert.AreEqual((decimal) 18.7, icms.Valor);
+                });
+            _atualizadorDeCotacao.AtualizarItemDaCotacao(_cotacaoItemAtualizarVm);
+
         }
             
     }

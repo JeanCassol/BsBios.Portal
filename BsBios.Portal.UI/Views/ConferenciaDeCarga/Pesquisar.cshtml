@@ -4,9 +4,11 @@
 @{
     ViewBag.TituloDaPagina = "Conferência de Cargas";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 
 <fieldset>
     <legend>Filtros</legend>
@@ -23,6 +25,24 @@
                 @Html.TextBox("DataAgendamento", DateTime.Now.Date.ToShortDateString(), new { @class = "campoDatePicker maskdata" })
             </div>
         </div>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Placa")
+                @Html.TextBox("Placa")
+            </div>
+            <div class="coluna">
+                @Html.Label("Número NF")
+                @Html.TextBox("NumeroNf")
+            </div>
+        </div>
+        @Html.Label("Realização")
+        @Html.DropDownList("RealizacaoDeAgendamento", ((IList<RealizacaoDeAgendamentoVm>) ViewBag.RealizacoesDeAgendamento).Select(x =>
+            new SelectListItem
+            {
+            Value =  Convert.ToString(x.Codigo),
+            Text =  x.Descricao,
+            Selected =  x.Padrao
+            }),"Todos")
 
         @Html.LinhaComDuasColunas(new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.Placa, "campopequeno maskplaca"),
                 new ColunaComTextBox<ConferenciaDeCargaFiltroVm, string>(x => x.NumeroNf, "campopequeno"))
@@ -108,7 +128,7 @@
                         title: ' ', 
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_visualize"></input>'
+                        template: '<input type="button" class="button16 button_visualize" data-idquota="${IdQuota}" data-idagendamento="${IdAgendamento}"></input>'
                     },
                     {
                         width: 120,
@@ -161,7 +181,11 @@
             $('#gridAgendamentos').off('click','.button_visualize');
             $('#gridAgendamentos').on('click','.button_visualize', function(e) {
                 e.preventDefault();
-                var grid = $('#gridAgendamentos').data("kendoGrid");
+                $('#divRealizarAgendamento').customLoad({url:'@Url.Action("RealizarAgendamento", "AgendamentoDeCarga")' +
+                    '/?idQuota=' + $(this).attr('data-idquota') + '&idAgendamento=' + $(this).attr('data-idagendamento')
+                });
+
+                /*var grid = $('#gridAgendamentos').data("kendoGrid");
                 var registroSelecionado = grid.obterRegistroSelecionado();
                 
                 var url = '';
@@ -186,7 +210,7 @@
                     return;
                 }
                 
-                $(divParaCarregarModal).customLoad(url);
+                $(divParaCarregarModal).customLoad(url);*/
 
             });
 

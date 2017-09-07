@@ -21,6 +21,15 @@ namespace BsBios.Portal.IoC
             For<IProcessadorDeNotaFiscalMiro>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ProcessadorDeNotaFiscalMiro>();
+
+            For<IProcessoDeCotacaoDeFreteFactory>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeFreteFactory>();
+
+            For<IProcessoDeCotacaoDeMaterialFactory>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeMaterialFactory>();
+
         }
     }
 }

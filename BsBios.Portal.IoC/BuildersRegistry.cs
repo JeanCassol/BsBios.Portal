@@ -2,6 +2,7 @@
 using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.ViewModel;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -50,7 +51,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ItinerarioCadastroBuilder>();
 
-            For< IBuilder<Cotacao, CotacaoImpostosVm>>()
+            For< IBuilder<CotacaoItem, CotacaoImpostosVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<CotacaoImpostosBuilder>();
 
@@ -82,7 +83,7 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<NotaFiscalBuilder>();
 
-            For<IBuilder<Enumeradores.RealizacaoDeAgendamento, RealizacaoDeAgendamentoVm    >>()
+            For<IBuilder<Enumeradores.RealizacaoDeAgendamento, RealizacaoDeAgendamentoVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<RealizacaoDeAgendamentoBuilder>();
 
@@ -102,6 +103,10 @@ namespace BsBios.Portal.IoC
             For<IBuilder<Enumeradores.EscolhaSimples, ChaveValorVm>>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<EscolhaSimplesBuilder>();
+
+            For<IBuilder<RequisicaoDeCompra,RequisicaoDeCompraVm>>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<RequisicaoDeCompraBuilder>();
 
         }
     }

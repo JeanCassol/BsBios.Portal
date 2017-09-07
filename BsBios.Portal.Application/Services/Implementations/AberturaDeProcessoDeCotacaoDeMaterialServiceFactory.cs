@@ -21,11 +21,11 @@ namespace BsBios.Portal.Application.Services.Implementations
             IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory geradorDeEmailFactory = new GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterialFactory();
             IGeradorDeEmailDeAberturaDeProcessoDeCotacao geradorDeEmail = geradorDeEmailFactory.Construir();
 
-            var comunicacaoSap = ObjectFactory.GetNamedInstance<IComunicacaoSap>(Constantes.ComunicacaoAberturaProcessoCotacaoMaterial);
+            var comunicacaoSap = ObjectFactory.GetNamedInstance<IProcessoDeCotacaoComunicacaoSap>(Constantes.ComunicacaoAberturaProcessoCotacaoMaterial);
 
             return ObjectFactory
                 .With(typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacao), geradorDeEmail)
-                .With(typeof(IComunicacaoSap), comunicacaoSap)
+                .With(typeof(IProcessoDeCotacaoComunicacaoSap), comunicacaoSap)
                 .GetInstance<IAberturaDeProcessoDeCotacaoService>(/*Constantes.AberturaDeProcessoDeCotacaoDeMaterial*/);
         }
     }

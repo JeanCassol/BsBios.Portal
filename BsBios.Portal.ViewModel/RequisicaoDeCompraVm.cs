@@ -7,8 +7,9 @@ namespace BsBios.Portal.ViewModel
     /// Utilizada para receber a requisição de compra do SAP e também na partial view que mostra os dados da requisição para o usuário comprador
     /// </summary>
     [DataContract]
-    public class RequisicaoDeCompraVm
+    public class RequisicaoDeCompraVm:ListagemVm
     {
+        public int Id { get; set; }
         [DataMember]
         [DisplayName("Número da Requisição: ")]
         public string NumeroRequisicao { get; set; }
@@ -48,6 +49,11 @@ namespace BsBios.Portal.ViewModel
         [DataMember]
         [DisplayName("Criado por: ")]
         public string Criador { get; set; }
+        [DataMember]
+        [DisplayName("Grupo de Compras: ")]
+        public string CodigoGrupoDeCompra { get; set; }
+        [DataMember]
+        public string Mrp { get; set; }
     }
 
 }

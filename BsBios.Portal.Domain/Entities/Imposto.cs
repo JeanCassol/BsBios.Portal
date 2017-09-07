@@ -5,37 +5,45 @@ namespace BsBios.Portal.Domain.Entities
     public class Imposto
     {
 
-        public virtual Cotacao Cotacao { get; protected set; }
+        public virtual CotacaoItem CotacaoItem { get; protected set; }
         public virtual Enumeradores.TipoDeImposto Tipo { get; protected set; }
+        public virtual decimal BaseDeCalculo { get; protected set; }
         public virtual decimal Aliquota { get; protected set; }
         public virtual decimal Valor { get; protected set; }
 
         protected  Imposto(){}
-        public Imposto(Cotacao cotacao, Enumeradores.TipoDeImposto tipo, decimal aliquota, decimal valor)
+        public Imposto(CotacaoItem cotacaoItem, Enumeradores.TipoDeImposto tipo, decimal aliquota, decimal baseDeCalculo)
         {
-            Cotacao = cotacao;
+            CotacaoItem = cotacaoItem;
             Tipo = tipo;
             Aliquota = aliquota;
-            Valor = valor;
+            BaseDeCalculo = baseDeCalculo;
+            CalculaValor();
         }
 
-        public virtual void Atualizar(decimal aliquota, decimal valor)
+        private void CalculaValor()
+        {
+            Valor = Math.Round(BaseDeCalculo * (Aliquota/100),2);
+        }
+
+        public virtual void Atualizar(decimal aliquota, decimal baseDeCalculo)
         {
             Aliquota = aliquota;
-            Valor = valor;
+            BaseDeCalculo = baseDeCalculo;
+            CalculaValor();
         }
 
         #region override members
         protected bool Equals(Imposto other)
         {
-            return Equals(Cotacao, other.Cotacao) && Tipo == other.Tipo;
+            return Equals(CotacaoItem, other.CotacaoItem) && Tipo == other.Tipo;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((Cotacao != null ? Cotacao.GetHashCode() : 0) * 397) ^ (int)Tipo;
+                return ((CotacaoItem != null ? CotacaoItem.GetHashCode() : 0) * 397) ^ (int)Tipo;
             }
         }
 

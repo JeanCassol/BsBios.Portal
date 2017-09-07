@@ -1,10 +1,10 @@
 ﻿using System;
+using BsBios.Portal.Common;
 
 namespace BsBios.Portal.Domain.Entities
 {
     public class RequisicaoDeCompra: IAggregateRoot
     {
-
         public virtual int Id { get; protected set; }
         public virtual string Numero { get; protected set; }
         public virtual string NumeroItem { get; protected set; }
@@ -19,13 +19,17 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Fornecedor FornecedorPretendido { get; protected set; }
         public virtual string Requisitante { get; protected set; }
         public virtual Usuario Criador { get; protected set; }
+        public virtual string CodigoGrupoDeCompra { get; protected set; }
+        public virtual bool Mrp { get; protected set; }
+        public virtual bool GerouProcessoDeCotacao { get; protected set; }
+        public virtual Enumeradores.StatusRequisicaoCompra  Status { get; protected set; }
 
         protected RequisicaoDeCompra(){}
 
         public RequisicaoDeCompra(Usuario criador, string requisitante, Fornecedor fornecedorPretendido, 
             DateTime dataDeRemessa, DateTime dataDeLiberacao, DateTime dataDeSolicitacao, string centro, 
             UnidadeDeMedida unidadeMedida, decimal quantidade, Produto material, string descricao, string numeroItem, 
-            string numero)
+            string numero, string codigoGrupoDeCompra, bool mrp)
         {
             Criador = criador;
             Requisitante = requisitante;
@@ -40,13 +44,34 @@ namespace BsBios.Portal.Domain.Entities
             Descricao = descricao;
             NumeroItem = numeroItem;
             Numero = numero;
+            CodigoGrupoDeCompra = codigoGrupoDeCompra;
+            Mrp = mrp;
+            GerouProcessoDeCotacao = false;
+            Status = Enumeradores.StatusRequisicaoCompra.Ativo;
         }
 
         public virtual ProcessoDeCotacaoDeMaterial GerarProcessoDeCotacaoDeMaterial()
         {
-            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(this);
+            var processoDeCotacao = new ProcessoDeCotacaoDeMaterial(/*this*/);
+            processoDeCotacao.AdicionarItem(this);
             return processoDeCotacao;
         }
+
+        public virtual void VincularComProcessoDeCotacao()
+        {
+            GerouProcessoDeCotacao = true;
+        }
+
+        public virtual void DesvincularDeProcessoDeCotacao()
+        {
+            GerouProcessoDeCotacao = false;
+        }
+
+        public virtual void Bloquear()
+        {
+            Status = Enumeradores.StatusRequisicaoCompra.Bloqueado;
+        }
+
 
         #region Equals
 
@@ -71,5 +96,6 @@ namespace BsBios.Portal.Domain.Entities
             return Equals((RequisicaoDeCompra) obj);
         }
         #endregion
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿GridFornecedor = {
-    CarregarGrid: function (codigoProduto, divParaCarregar, url, incluirBotaoAdicionar, funcaoFiltros) {
+    CarregarGrid: function (divParaCarregar, url, incluirBotaoAdicionar, funcaoFiltros) {
         var arrayDeColunas = new Array();
         if (incluirBotaoAdicionar) {
             arrayDeColunas.push({
@@ -7,13 +7,13 @@
                 title: ' ', /*coloco um espaço para deixar o header sem título*/
                 width: 30,
                 sortable: false,
-                template: '<input type="button" class="button_add" data-codigofornecedor="${Codigo}"></input>'
+                template: '<input type="button" class="button16 button_add" data-codigofornecedor="${Codigo}"></input>'
             });
         }
         arrayDeColunas = arrayDeColunas.concat(
             {
                 field: "Codigo",
-                width: 80,
+                width: 90,
                 title: "Codigo"
             },
             {
@@ -73,9 +73,7 @@
                     }
                 }
             },
-            groupable: false,
             scrollable: true,
-            selectable: 'row',
             columns: arrayDeColunas
         });
 

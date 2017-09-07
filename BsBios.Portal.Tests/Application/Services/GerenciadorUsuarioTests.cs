@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using BsBios.Portal.Application.Queries.Builders;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Application.Services.Implementations;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra.Queries.Builders;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.Tests.Common;
 using BsBios.Portal.Tests.DataProvider;

@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -14,11 +13,11 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class ComunicacaoFechamentoProcessoCotacaoFreteOld : IComunicacaoSap
     {
-        private readonly CredencialSap _credencialSap;
+        private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
 
         public ComunicacaoFechamentoProcessoCotacaoFreteOld(CredencialSap credencialSap)
         {
-            _credencialSap = credencialSap;
+            _comunicacaoSap = comunicacaoSap;
         }
 
         private static void SerializeToString(object obj)
@@ -35,7 +34,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacao processo)
         {
-            if (processo.Produto.Tipo.ToUpper() == "NLAG")
+            ProcessoDeCotacaoItem item = processo.Itens.First();
+            if (item.Produto.NaoEstocavel)
             {
                 //Cotações de frete para empresas do grupo que não utilizam o SAP deverão ser realizadas com material NLAG 
                 //(Material não estocável). Para este tipo de material a cotação não deverá ser enviada para o SAP;
@@ -56,26 +56,28 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             var clientHandler = new HttpClientHandler {Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha)};
 
-            var httpClient = new HttpClient(clientHandler);
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
 
             var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete) processo.CastEntity();
 
             foreach (var fornecedorParticipante in processoDeCotacaoDeFrete.FornecedoresParticipantes)
             {
-                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Selecionada)
+                if (fornecedorParticipante.Cotacao != null && fornecedorParticipante.Cotacao.Itens.First().Selecionada)
                 {
+                    CotacaoItem itemDaCotacao = fornecedorParticipante.Cotacao.Itens.First();
                     mensagemParaEnviar.Add(new ProcessoDeCotacaoDeFreteFechamentoComunicacaoSapVm
                         {
                             NumeroDoProcessoDeCotacao = processoDeCotacaoDeFrete.Id,
                             CodigoTransportadora = fornecedorParticipante.Fornecedor.Codigo,
-                            CodigoMaterial = processoDeCotacaoDeFrete.Produto.Codigo,
-                            CodigoUnidadeMedida = processoDeCotacaoDeFrete.UnidadeDeMedida.CodigoInterno,
-                            CodigoItinerario = processoDeCotacaoDeFrete.Itinerario.Codigo,
-                            DataDeValidadeInicial = processoDeCotacaoDeFrete.DataDeValidadeInicial.ToString("yyyyMMdd"),
-                            DataDeValidaFinal = processoDeCotacaoDeFrete.DataDeValidadeFinal.ToString("yyyyMMdd"),
-                            NumeroDoContrato = processoDeCotacaoDeFrete.NumeroDoContrato ?? "",
-                            Valor = fornecedorParticipante.Cotacao.ValorComImpostos
+                            //CodigoMaterial = processoAuxiliar.Produto.Codigo,
+                            CodigoMaterial =  item.Produto.Codigo,
+                            //CodigoUnidadeMedida = processoAuxiliar.UnidadeDeMedida.CodigoInterno,
+                            CodigoUnidadeMedida = item.UnidadeDeMedida.CodigoInterno,
+                            CodigoItinerario = processoAuxiliar.Itinerario.Codigo,
+                            DataDeValidadeInicial = processoAuxiliar.DataDeValidadeInicial.ToString("yyyyMMdd"),
+                            DataDeValidaFinal = processoAuxiliar.DataDeValidadeFinal.ToString("yyyyMMdd"),
+                            NumeroDoContrato = processoAuxiliar.NumeroDoContrato ?? "",
+                            Valor = itemDaCotacao.ValorComImpostos
                         });
                 }
             }

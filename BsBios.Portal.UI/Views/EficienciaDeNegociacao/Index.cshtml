@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.TituloDaPagina = "Eficiência de Negociação";
+}
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" media="all" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" media="all" />
+}
+<fieldset>
+    <legend>Filtros</legend>
+    <form>
+        @Html.Partial("_Filtro")
+        <div class="divBotao">
+            <input type="button" id="btnCalcular" value="Calcular" class="blue" />
+            <input type="reset" id="btnLimpar" value="Limpar" class="blue"/>
+        </div>
+    </form>
+</fieldset>
+<div id="gridEficienciaDeNegociacao" class="divGrid" data-autobind="false"></div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarComprador.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            aplicaMascaraData();
+            SelecionarComprador.ConfigurarJanelaModal();
+
+            $("#gridEficienciaDeNegociacao").customKendoGrid({
+                autoBind:false,
+                dataSource: {
+                    schema: {
+                        data: 'Registros',
+                        model: {
+                            fields: {
+                                Comprador: { type: "string" },
+                                IdProcessoCotacao: { type: "number" },
+                                IdProcessoCotacaoItem: { type: "number" },
+                                NumeroDaRequisicao: { type: "string" },
+                                NumeroDoItem: { type: "string" },
+                                Produto: { type: "string" },
+                                PercentualDeEficiencia: { type: "number" },
+                                ValorDeEficiencia: { type: "number" }
+                            }
+                        },
+                        total: 'QuantidadeDeRegistros'
+                    },
+                    transport: {
+                        read: {
+                            url: '@Url.Action("CalcularResumo", "EficienciaDeNegociacaoCalculo")',
+                            type: 'GET',
+                            cache: false,
+                            data: function () {
+                                return {
+                                    DataDeFechamentoInicial: $('#DataDeFechamentoInicial').val(),
+                                    DataDeFechamentoFinal: $('#DataDeFechamentoFinal').val(),
+                                    LoginComprador: $('#LoginComprador').val()
+                                };
+                            }
+                        }
+                    }
+                },
+                columns: [
+                    { field: "Comprador", width: 150 },
+                    { field: "NumeroDaRequisicao", title: "Requisição", width:80 },
+                    { field: "NumeroDoItem", title: "Item", width: 80 },
+                    { field: "Produto", title: "Produto/Serviço", width: 250 },
+                    { field: "PercentualDeEficiencia", title: "Eficiência (%)", format: "{0:n2}" },
+                    { field: "ValorDeEficiencia", title: "Eficiência (R$)", format: "{0:n2}" }
+                ],
+                detailTemplate: '<div class="divGrid"></div>',
+                detailInit: detailInit
+            });
+            
+            function detailInit(e) {
+
+                $.ajax({
+                    url: '@Url.Action("ListarColunas","EficienciaDeNegociacaoCalculo")' + '/?idProcessoCotacao=' + e.data.IdProcessoCotacao ,
+                    type: 'GET',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrayDeColunas = [{ field: "Fornecedor" }];
+                        var arrayDeFields = new Array();
+                        arrayDeFields["Fornecedor"] = { type: "string" };
+                        $.each(data.Colunas, function(indice, coluna) {
+                            arrayDeColunas.push({ field: 'F' + coluna.Codigo, title: coluna.Nome, format: "{0:n2}" });
+                            arrayDeFields['F' + coluna.Codigo] = { type: "number"};
+                        });
+                        
+                        e.detailRow.find('.divGrid').customKendoGrid({
+                            dataSource: {
+                                schema: {
+                                    data: 'Registros',
+                                    model: {
+                                        fields: arrayDeFields
+                                    },
+                                    total: 'QuantidadeDeRegistros'
+                                },
+                                transport: {
+                                    read: {
+                                        dataType:'json',
+                                        url: '@Url.Action("CalcularDetalhe","EficienciaDeNegociacaoCalculo")' + 
+                                        '/?idProcessoCotacao=' + e.data.IdProcessoCotacao +
+                                        '&idProcessoCotacaoItem=' + e.data.IdProcessoCotacaoItem,
+                                        type: 'GET',
+                                        cache: false
+                                    }
+                                }
+                            },
+                            columns: arrayDeColunas,
+                            pageable:false
+                        });
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar os fornecedores do Processo de Cotação. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            }
+            
+            $('#btnCalcular').click(function (e) {
+                var grid = $("#gridEficienciaDeNegociacao").data("kendoGrid");
+                grid.bind("dataBound", function (event) {
+                    /*esconde o ícone de mostrar detalhes da última linha, pois esta linha é sempre um total e não precisa ser expandida*/
+                    var ultimaLinha = this.tbody.find("tr.k-master-row:last");
+                    ultimaLinha.find('.k-plus').hide();
+                    ultimaLinha.addClass('gridTotalizador');
+                });
+                grid.dataSource.fetch();
+            });
+
+            $('#btnLimpar').click(function() {
+                $('#LoginComprador').val('');
+            });
+        })
+    </script>
+}
+

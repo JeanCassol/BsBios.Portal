@@ -1,0 +1,19 @@
+1) Para obter unobstrusive validation em uma janela modal, antes de chamar
+$('#divId').dialog('open');
+colocar a seguinte linha
+jQuery.validator.unobtrusive.parse('#divId');
+
+
+2) Para mapear um relacionamento "um para muitos" unidirecional no NHibernate
+            //Para fazer relacionamento unidirecional sem que o NHibernate faça update adicionais desnecessários 
+            //(INSERT e depois UPDATE na chave estrangeira (IdCotacaoItem)) é necessário que as seguintes configurações
+            //sejam feitas:
+                //.Not.Inverse()
+                //.Not.KeyNullable()
+                //.Not.KeyUpdate()
+            HasMany(x => x.HistoricosDePreco)
+                .KeyColumn("IdCotacaoItem")
+                .Not.Inverse()
+                .Not.KeyNullable()
+                .Not.KeyUpdate()
+                .Cascade.All();

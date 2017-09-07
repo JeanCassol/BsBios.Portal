@@ -1,0 +1,181 @@
+﻿@using BsBios.Portal.Common
+@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model ProcessoCotacaoFreteCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Processo de Cotação de Frete";
+}
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+}
+<div class="paginaCadastro">
+    @using (Html.BeginForm()) {
+
+        <fieldset>
+            <legend>Processo de Cotação</legend>
+
+            @Html.HiddenFor(model => model.Id)
+            
+            <div class="coluna">
+                @Html.Label("Status:",new{@class="labelNaLinha"})
+                <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
+            </div>
+            
+            <div class="linha">
+                @Html.HiddenFor(x => x.CodigoMaterial)
+                @Html.LabelFor(x => x.DescricaoMaterial)
+                @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
+                <input type="button" id="btnSelecionarProduto" class="button16 button_visualize" />        
+                <p class="mensagemErro">
+                    @Html.ValidationMessageFor(x => x.DescricaoMaterial)    
+                </p>
+            </div>
+            @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
+                ((List<UnidadeDeMedidaSelecaoVm>) ViewBag.UnidadesDeMedida)
+                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
+                "CodigoUnidadeMedida");
+
+               var quantidadeMaterial = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial, "maskquantidade");
+            }
+            
+            @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
+            
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker maskdata"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker maskdata"),
+            new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))        
+
+            <div class="linha">
+                @Html.HiddenFor(x => x.CodigoItinerario)
+                @Html.LabelFor(x => x.DescricaoItinerario)
+                @Html.TextBoxFor(x => x.DescricaoItinerario,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
+                <input type="button"  id="btnSelecionarItinerario" class="button16 button_visualize" />        
+                <p class="mensagemErro">
+                    @Html.ValidationMessageFor(x => x.DescricaoItinerario)
+                </p>
+            </div>
+
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
+            new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
+
+            @Html.ValidationSummary(true)
+        <div class="error"></div>
+        <div class="divBotao">
+            <input type="button" id="btnSalvar" value="Salvar" class="@(Model == null || Model.PermiteSalvar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteSalvar? "disabled":"") />
+        </div>
+        </fieldset>
+    }
+    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
+        {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
+            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
+            new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", true),
+            new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
+            new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)            
+        })
+    <div id="divSelecionarProduto" class="janelaModal"></div>
+    <div id="divSelecionarItinerario" class="janelaModal"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
+            GridCotacaoResumida.Configurar(
+                {
+                    Url: UrlPadrao.CotacaoDeFreteResumida,
+                    ExibirDadosDeItens: true,
+                    autoBind: idProcessoCotacao > 0
+                });
+            ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
+
+            aplicaMascaraData();
+            aplicaMascaraQuantidade();
+            aplicaMascaraNumeroContrato();
+
+            function atualizaMensagemDeErro(mensagem) {
+                $('.error').html(mensagem);
+            }
+
+            $('#divSelecionarProduto').customDialog({
+                title: 'Selecionar Produto',
+                buttons: {
+                    "Confirmar": function() {
+                        if (produtoSelecionado == null) {
+                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Produto.");
+                            return;
+                        }
+                        $('#CodigoMaterial').val(produtoSelecionado.Codigo);
+                        $('#DescricaoMaterial').val(unescape(produtoSelecionado.Descricao));
+                        $(this).dialog("close");
+                    },
+                    "Cancelar": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $('#divSelecionarItinerario').customDialog({
+                title: 'Selecionar Itinerário',
+                buttons: {
+                    "Confirmar": function() {
+                        if (itinerarioSelecionado == null) {
+                            Mensagem.ExibirMensagemDeErro("É necessário selecionar um Itinerário.");
+                            return;
+                        }
+                        $('#CodigoItinerario').val(itinerarioSelecionado.Codigo);
+                        $('#DescricaoItinerario').val(unescape(itinerarioSelecionado.Descricao));
+                        $(this).dialog("close");
+
+                    },
+                    "Cancelar": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $('#btnSelecionarProduto').click(function() {
+                $('#divSelecionarProduto').customLoad({
+                        url: '@Url.Action("SelecionarProduto")'
+                            + '/?Codigo=' + $('#CodigoMaterial').val() + '&Descricao=' + escape($('#DescricaoMaterial').val())
+                    });
+            });
+
+            $('#btnSelecionarItinerario').click(function() {
+                $('#divSelecionarItinerario').customLoad({url: '@Url.Action("SelecionarItinerario")'
+                    + '/?Codigo=' + $('#CodigoItinerario').val() + '&Descricao=' + escape($('#DescricaoItinerario').val())});
+            });
+
+            $('#btnSalvar').click(function() {
+                $('.error').empty();
+                var form = $('form');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                var formData = $(form).serialize();
+                $.post('@Url.Action("Salvar", "ProcessoDeCotacaoDeFreteService")', formData,
+                    function(data) {
+                        if (data.Sucesso) {
+                            $('#Id').val(data.IdProcessoCotacao);
+                            habilitarBotao('#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
+                        } else {
+                            atualizaMensagemDeErro(data.Mensagem);
+                        }
+                    });
+            });
+        })
+    </script>
+}

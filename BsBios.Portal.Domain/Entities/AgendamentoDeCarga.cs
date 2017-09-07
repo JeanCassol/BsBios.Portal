@@ -6,7 +6,7 @@ using BsBios.Portal.ViewModel;
 
 namespace BsBios.Portal.Domain.Entities
 {
-    public abstract class AgendamentoDeCarga: IAggregateRoot
+    public abstract class AgendamentoDeCarga//: IAggregateRoot
     {
         public virtual int Id { get; protected set; }
         public virtual Quota Quota { get; protected set; }

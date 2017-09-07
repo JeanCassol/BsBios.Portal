@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Application.Services.Contracts;
-using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra.Queries.Contracts;
+using BsBios.Portal.Infra.Repositories.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StructureMap;
@@ -32,11 +32,21 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
 
             foreach (TypeInfo tipo in interfaces)
             {
-                var objeto = ObjectFactory.TryGetInstance(tipo);
-                if (objeto == null)
+                try
+                {
+                    var objeto = ObjectFactory.TryGetInstance(tipo);
+                    if (objeto == null)
+                    {
+                        interfacesNaoRegistradas++;
+                        Console.WriteLine("interface Não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    }
+
+                }
+                catch (Exception )
                 {
                     interfacesNaoRegistradas++;
-                    Console.WriteLine("interface Não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    Console.WriteLine("interface ou dependência não registrada: " + tipo.Namespace + "." + tipo.Name);
+                    
                 }
             }
 
@@ -60,7 +70,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
         [TestMethod]
         public void TodasQueriesEstaoRegistradas()
         {
-            VerificaInterfacesRegistradas(typeof(IConsultaCondicaoPagamento), "BsBios.Portal.Application.Queries.Contracts");
+            VerificaInterfacesRegistradas(typeof(IConsultaCondicaoPagamento), "BsBios.Portal.Infra.Queries.Contracts");
         }
 
         [TestMethod]
@@ -75,8 +85,9 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.IoC
             //removi IComunicacaoSap dos testes porque estão sendo instanciados manualmente. Se isto mudar tem que remover
             var interfacesDesconsideradas = new List<Type>()
                 {
-                    typeof (IComunicacaoSap),
-                    typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory)
+                    typeof (IProcessoDeCotacaoComunicacaoSap),
+                    typeof(IGeradorDeEmailDeAberturaDeProcessoDeCotacaoFactory),
+                    typeof(IComunicacaoSap<>)
                 };
             VerificaInterfacesRegistradas(typeof(IAccountService), "BsBios.Portal.Infra.Services.Contracts",interfacesDesconsideradas);
         }

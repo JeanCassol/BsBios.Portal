@@ -23,9 +23,5 @@ namespace BsBios.Portal.UI
             //config.Formatters.XmlFormatter.UseXmlSerializer = true;
         }
 
-        public static void Configure()
-        {
-            
-        }
     }
 }

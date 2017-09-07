@@ -39,6 +39,11 @@ namespace BsBios.Portal.Application.Services.Implementations
         {
             try
             {
+                foreach (var unidadeDeMedidaCadastroVm in unidadesDeMedida.Where(unidadeDeMedidaCadastroVm => 
+                    string.IsNullOrEmpty(unidadeDeMedidaCadastroVm.Descricao)))
+                {
+                    unidadeDeMedidaCadastroVm.Descricao = unidadeDeMedidaCadastroVm.CodigoExterno;
+                }
                 _unitOfWork.BeginTransaction();
                 _unidadesDeMedidaConsultadas =
                     _unidadesDeMedida.FiltraPorListaDeCodigosInternos(

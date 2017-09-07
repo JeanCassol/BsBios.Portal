@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Common;
+﻿using System;
+using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 
 namespace BsBios.Portal.Domain.Repositories
@@ -17,6 +18,10 @@ namespace BsBios.Portal.Domain.Repositories
         IProcessosDeCotacao DesconsideraCancelados();
         IProcessosDeCotacao SomenteComFornecedoresSelecionados();
         IProcessosDeCotacao SomenteComFornecedoresNaoSelecionados();
+        IProcessosDeCotacao Fechado();
+        IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador);
+        IProcessosDeCotacao FechadosAPartirDe(DateTime data);
+        IProcessosDeCotacao FechadosAte(DateTime data);
 
 
 

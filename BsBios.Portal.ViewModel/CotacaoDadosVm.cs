@@ -7,9 +7,13 @@ namespace BsBios.Portal.ViewModel
     {
 
         [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Valor com Impostos é obrigatório")]
+        //[Required(ErrorMessage = "Valor com Impostos é obrigatório")]
         [Display(Name = "Valor Com Impostos")]
         public decimal? ValorComImpostos { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Display(Name = "Custo")]
+        public decimal? Custo { get; set; }
 
         [DisplayName("Observações")]
         public string ObservacoesDoFornecedor { get; set; }

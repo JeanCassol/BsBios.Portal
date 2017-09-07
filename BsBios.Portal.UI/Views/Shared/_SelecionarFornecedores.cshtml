@@ -3,17 +3,7 @@
     Layout = null;
     var tipoDeCotacao = (Enumeradores.TipoDeCotacao) ViewData["TipoDeCotacao"];
 }
-<style type="text/css">
-     .separador {
-         margin-top: 10px;
-        background-color: #0095cd;
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-     }
- </style>
 <div id="divFornecedores" class="divGrid">
-    @Html.Hidden("CodigoProduto",ViewData["CodigoProduto"])
     @Html.Hidden("IdProcessoCotacao", ViewData["IdProcessoCotacao"])
     <div id="divFornecedoresParaSelecionar">
         <ul>
@@ -44,7 +34,7 @@
                         </div>
                         <div class="divBotao">
                             <input id="btnPesquisarFornecedorGeral" type="submit" value="Pesquisar" class="blue"/>
-                            <input id="btnLimparFornecedorGeral" type="button" value="Limpar" class="blue"/>
+                            <input id="btnLimparFornecedorGeral" type="reset" value="Limpar" class="blue"/>
                         </div>
                     </fieldset>
                 </div>
@@ -132,7 +122,6 @@
             atualizaGrid();
         });
 
-        var codigoProduto = $('#CodigoProduto').val();
         var idProcessoCotacao = $('#IdProcessoCotacao').val();
         $.ajax({
             url: '@Url.Action("ListarFornecedores","ProcessoDeCotacaoDeMaterial")',
@@ -158,19 +147,13 @@
             $("#divGridFornecedoresGerais").data("kendoGrid").dataSource.read();
         });
 
-        $('#btnLimparFornecedorGeral').click(function () {
-            $('#divFornecedoresGerais input[type!=button]').val('');
-        });
-
-
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDoProduto", "Produto")', true,
-            function () { return { CodigoProduto: codigoProduto }; });
-        GridFornecedor.CarregarGrid(codigoProduto, '#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "Fornecedor")', true,
+        GridFornecedor.CarregarGrid('#divGridFornecedoresDoProduto', '@Url.Action("FornecedoresDosProdutos", "ProcessoDeCotacaoFornecedor")', true,
+            function () { return { IdProcessoCotacao: idProcessoCotacao }; });
+        GridFornecedor.CarregarGrid('#divGridFornecedoresGerais', '@Url.Action("FornecedoresGerais", "ProcessoDeCotacaoFornecedor")', true,
         function () {
             var transportadora = '@(tipoDeCotacao == Enumeradores.TipoDeCotacao.Frete)'.boolean();
             return {
-                
-                CodigoProduto: codigoProduto, Transportadora: transportadora ,
+                IdProcessoCotacao: idProcessoCotacao, Transportadora: transportadora,
                 CodigoFornecedor: $('#CodigoFornecedorGeral').val(), NomeFornecedor: $('#NomeFornecedorGeral').val()
             };
         });
@@ -203,7 +186,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_remove" data-codigofornecedor="${Codigo}"></input>'
+                        template: '<input type="button" class="button16 button_remove" data-codigofornecedor="${Codigo}"></input>'
                     },
                     {
                         field: "Codigo",
@@ -237,8 +220,6 @@
                     }
                 ]
             });
-
         }
-
     });
 </script>

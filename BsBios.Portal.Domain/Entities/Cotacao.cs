@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BsBios.Portal.Common;
-using BsBios.Portal.Common.Exceptions;
 
 namespace BsBios.Portal.Domain.Entities
 {
     public abstract class Cotacao
     {
         public virtual int Id { get; protected set; }
-        public virtual bool Selecionada { get; protected set; }
-        public virtual decimal ValorLiquido { get; protected set; }
-        public virtual decimal ValorComImpostos { get; protected set;}
-        public virtual decimal? QuantidadeAdquirida { get; protected set; }
-        public virtual decimal QuantidadeDisponivel { get; protected set; }
-        public virtual string Observacoes { get; protected set; }
-        public virtual IList<Imposto> Impostos { get; protected set; }
+        public virtual IList<CotacaoItem> Itens { get; protected set; }
 
         protected Cotacao()
         {
-            Impostos = new List<Imposto>();
-            Selecionada = false;
+            Itens = new List<CotacaoItem>();
         }
 
+    }
 
-        protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
+  /*      protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
         {
             ValorComImpostos = valorTotalComImpostos;
             QuantidadeDisponivel = quantidadeDisponivel;
@@ -52,29 +44,23 @@ namespace BsBios.Portal.Domain.Entities
             QuantidadeDisponivel = quantidadeDisponivel;
             Observacoes = observacoes;
             CalculaValorLiquido();
-        }
+        }*/
+
 
         private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
         {
-            Imposto imposto = Impostos.FirstOrDefault(x => x.Tipo == tipoDeImposto);
-            if (imposto != null)
+            var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+            if (cotacaoItem != null)
             {
-                imposto.Atualizar(aliquota, valor);
+                cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
             }
             else
             {
-                imposto = new Imposto(this, tipoDeImposto, aliquota, valor);
-                Impostos.Add(imposto);
+                cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                Itens.Add(cotacaoItem);
             }
-            
-        }
 
-        public virtual void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
-        {
-            AtualizarImposto(tipoDeImposto, aliquota, valor);
-
-            CalculaValorLiquido();
-
+            return cotacaoItem;
         }
 
 
@@ -103,6 +89,23 @@ namespace BsBios.Portal.Domain.Entities
             : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
 
         protected CotacaoDeFrete(){}
+
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        {
+            var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+            if (cotacaoItem != null)
+            {
+                cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
+            }
+            else
+            {
+                cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                Itens.Add(cotacaoItem);
+            }
+
+            return cotacaoItem;
+        }
+
 
         public virtual decimal? Cadencia { get; protected set; }
         public virtual string NumeroDaCondicaoGeradaNoSap { get; protected set; }
@@ -135,62 +138,43 @@ namespace BsBios.Portal.Domain.Entities
 
     public class CotacaoMaterial: Cotacao
     {
-
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
-        public virtual decimal? Mva { get; protected set; }
-        public virtual Iva Iva { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
-        public virtual DateTime PrazoDeEntrega { get; protected set; }
 
         protected CotacaoMaterial(){}
 
-        public CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
-            decimal valorTotalComImpostos, decimal? mva, decimal quantidadeDisponivel,
-            DateTime prazoDeEntrega, string observacoes):base(valorTotalComImpostos, quantidadeDisponivel, observacoes)
+        internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            Mva = mva;
-            PrazoDeEntrega = prazoDeEntrega;
         }
 
-        public virtual void Atualizar(decimal valorTotalComImpostos, CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm, 
-            decimal? mva, decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
+        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
-            base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
-            Mva = mva;
-            PrazoDeEntrega = prazoDeEntrega;
         }
 
-
-        public virtual void Selecionar(decimal quantidadeAdquirida, Iva iva)
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal preco, decimal? mva, 
+            decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
-            base.Selecionar(quantidadeAdquirida);
-            Iva = iva;
-        }
-
-        public virtual void RemoverSelecao(Iva iva)
-        {
-            base.RemoverSelecao();
-            Iva = iva;
-        }
-
-        public override void InformarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
-        {
-            if (tipoDeImposto == Enumeradores.TipoDeImposto.IcmsSubstituicao
-            && valor > 0 && (!Mva.HasValue || Mva.Value == 0))
+            var cotacaoItem = (CotacaoMaterialItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+            if (cotacaoItem != null)
             {
-                throw new MvaNaoInformadoException();
+                cotacaoItem.Atualizar(preco, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
+            }
+            else
+            {
+                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, preco, quantidadeDisponivel, observacoes);
+                Itens.Add(cotacaoItem);
             }
 
-            base.InformarImposto(tipoDeImposto, aliquota, valor);
+            return cotacaoItem;
         }
+
     }
 
    

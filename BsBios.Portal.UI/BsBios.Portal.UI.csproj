@@ -22,6 +22,12 @@
     <IISExpressUseClassicPipelineMode />
     <Use64BitIISExpress />
     <UseGlobalApplicationHostFile />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -167,6 +173,11 @@
     <Compile Include="Controllers\OrdemDeTransporteController.cs" />
     <Compile Include="Controllers\OrdemDeTransporteServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoCancelamentoController.cs" />
+    <Compile Include="Controllers\ConfiguracaoController.cs" />
+    <Compile Include="Controllers\CotacaoMaterialItemController.cs" />
+    <Compile Include="Controllers\EficienciaDeNegociacaoCalculoController.cs" />
+    <Compile Include="Controllers\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoAnexoController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialEmailController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteEmailController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialFechamentoController.cs" />
@@ -180,6 +191,8 @@
     <Compile Include="Controllers\ItinerarioController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeFreteServiceController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialAberturaController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoFornecedorController.cs" />
+    <Compile Include="Controllers\ProcessoDeCotacaoItensServiceController.cs" />
     <Compile Include="Controllers\QuotaController.cs" />
     <Compile Include="Controllers\QuotaSalvarController.cs" />
     <Compile Include="Controllers\RelatorioDeOrdemDeTransporteVisualizacaoController.cs" />
@@ -188,6 +201,10 @@
     <Compile Include="Controllers\RelatorioAgendamentoController.cs" />
     <Compile Include="Controllers\RelatorioAgendamentoVisualizacaoController.cs" />
     <Compile Include="Controllers\RelatorioDeProcessoDeCotacaoDeFreteVisualizacaoController.cs" />
+    <Compile Include="Controllers\EficienciaDeNegociacaoController.cs" />
+    <Compile Include="Controllers\RequisicaoDeCompraAlteracaoController.cs" />
+    <Compile Include="Controllers\RequisicaoDeCompraController.cs" />
+    <Compile Include="Controllers\SelecionarCompradorController.cs" />
     <Compile Include="Controllers\SelecionarFornecedorController.cs" />
     <Compile Include="Controllers\UnidadeMedidaApiController.cs" />
     <Compile Include="Controllers\ItinerarioApiController.cs" />
@@ -201,6 +218,7 @@
     <Compile Include="Controllers\ProcessoDeCotacaoDeMaterialSelecionarController.cs" />
     <Compile Include="Controllers\ProcessoDeCotacaoServiceController.cs" />
     <Compile Include="Controllers\RequisicaoCompraApiController.cs" />
+    <Compile Include="Controllers\UploadApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\ProdutoFornecedorApiController.cs" />
     <Compile Include="Controllers\IvaApiController.cs" />
@@ -348,7 +366,9 @@
     <Content Include="Global.asax" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\icons\add_16.png" />
+    <Content Include="Images\icons\bloquear_16.png" />
     <Content Include="Images\icons\DeleteRed_16.png" />
+    <Content Include="Images\icons\download_16.png" />
     <Content Include="Images\icons\editar_16.png" />
     <Content Include="Images\icons\enviar_email_16.png" />
     <Content Include="Images\icons\information_16.png" />
@@ -357,6 +377,7 @@
     <Content Include="Images\icons\led_circle_red.png" />
     <Content Include="Images\icons\mag_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
+    <Content Include="Images\icons\select_16.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
@@ -367,6 +388,7 @@
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\ConhecimentoDeTransporte\Formulario.js" />
     <Content Include="Scripts\ConhecimentoDeTransporte\Index.js" />
+    <Content Include="Scripts\CotacaoMaterial\Cadastro.js" />
     <Content Include="Scripts\globalize.culture.pt-BR.js" />
     <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
@@ -436,11 +458,15 @@
     <Content Include="Scripts\methods_pt.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoAnexo.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoItensGrid.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\SelecionarItens.js" />
     <Content Include="Scripts\scriptsGerais.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoOperacoes.js" />
     <Content Include="Scripts\Shared\autoCompleteDeMunicipio.js" />
     <Content Include="Scripts\Shared\SelecionarItinerario.js" />
     <Content Include="Scripts\Shared\SelecionarProduto.js" />
+    <Content Include="Scripts\Shared\SelecionarComprador.js" />
     <Content Include="Scripts\Shared\SelecionarFornecedor.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -481,16 +507,16 @@
     <Content Include="Views\Shared\_SelecionarProduto.cshtml" />
     <Content Include="Views\Shared\_SelecionarItinerario.cshtml" />
     <Content Include="Views\Shared\_ProcessoDeCotacaoOperacoes.cshtml" />
-    <Content Include="Views\CotacaoMaterial\Cadastro.cshtml" />
+    <Content Include="Views\CotacaoMaterial\EditarCadastro.cshtml" />
     <Content Include="Views\CotacaoFrete\Cadastro.cshtml" />
     <Content Include="Views\Shared\_CotacaoImpostos.cshtml" />
     <Content Include="Views\ProcessoDeCotacaoDeFrete\_SelecionarCotacao.cshtml" />
     <Content Include="Views\Quota\Cadastro.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
-    <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
-    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
-    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
+    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
+    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
+    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
     <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
     <Content Include="Views\RelatorioAgendamento\_Filtro.cshtml" />
     <Content Include="Views\RelatorioAgendamento\Relatorio.cshtml" />
@@ -522,6 +548,13 @@
     <Content Include="Views\RelatorioDeUsuario\_Filtro.cshtml" />
     <Content Include="Views\RelatorioDeUsuarioVisualizacao\_Cabecalho.cshtml" />
     <Content Include="Views\RelatorioDeUsuarioVisualizacao\Relatorio.cshtml" />
+    <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
+    <Content Include="Views\Shared\_SelecionarItens.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
+    <Content Include="Views\CotacaoMaterial\_ConsultarCadastro.cshtml" />
+    <Content Include="Views\EficienciaDeNegociacao\Index.cshtml" />
+    <Content Include="Views\EficienciaDeNegociacao\_Filtro.cshtml" />
+    <Content Include="Views\Shared\_SelecionarComprador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,13 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BsBios.Portal.ViewModel
 {
-    public class CotacaoMaterialDadosVm: CotacaoDadosVm
+    public class CotacaoMaterialDadosVm
     {
-        [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Valor Líquido é obrigatório")]
-        [Display(Name = "Valor Líquido")]
-        public decimal? ValorLiquido { get; set; }
-
         [Required(ErrorMessage = "Condição de Pagamento é obrigatório")]
         [Display(Name = "Condição de Pagamento")]
         public string CodigoCondicaoPagamento { get; set; }
@@ -23,15 +18,22 @@ namespace BsBios.Portal.ViewModel
         [Display(Name = "Incoterm 2")]
         public string DescricaoIncoterm { get; set; }
 
+    }
+
+    public class CotacaoMaterialItemDadosVm:CotacaoDadosVm
+    {
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Valor Líquido é obrigatório")]
+        [Display(Name = "Preço")]
+        public decimal? Preco { get; set; }
+
         [Required(ErrorMessage = "Prazo de Entrega é obrigatório")]
         [DataType(DataType.Date)]
         [DisplayName("Prazo de Entrega")]
         public string PrazoDeEntrega { get; set; }
 
-
         [DataType(DataType.Currency)]
         [Display(Name = "MVA")]
         public decimal? Mva { get; set; }
-
     }
 }

@@ -1,0 +1,54 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model CotacaoMaterialConsultarCadastroVm
+
+@{
+    Layout = null;
+}
+<div class="paginaCadastro">
+    <fieldset>
+        <legend>Informações Gerais</legend>
+
+        @Html.HiddenFor(model => model.IdProcessoCotacao)
+        @Html.HiddenFor(model => model.CodigoFornecedor)
+        @Html.HiddenFor(model => model.IdCotacao)
+            
+        @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.Incoterm)
+                                  , new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.DescricaoIncoterm))
+            
+        @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialConsultarCadastroVm, string>(x => x.CondicaoPagamento))
+            
+    </fieldset>
+
+    <fieldset id="fieldSetItens">
+        <legend>Itens</legend>
+        <div id="divGridItensCotacao" class="divGrid"></div>
+    </fieldset>
+    <div id="divCotacaoItem" class="janelaModal"></div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/CotacaoMaterial/Cadastro.js")"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var idCotacao = $('#IdCotacao').val();
+        ProcessoDeCotacaoItensGrid.configurar({
+            schemaData: 'Registros',
+            transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+            transportData: function (){
+                return { IdProcessoCotacao: $('#IdProcessoCotacao').val() };
+            },
+            renderTo: '#divGridItensCotacao',
+            exibirBotaoVisualizar: (idCotacao > 0),
+            pageable: false
+        });
+
+        configurarEventoDeConsultaDoGrid();
+            
+        $('#divCotacaoItem').customDialog({
+            title: 'Cotação do Item'
+        });
+
+    });
+</script>
+
+

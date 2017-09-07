@@ -9,7 +9,7 @@ namespace BsBios.Portal.UI.Controllers
     [SecurityFilter]
     public class ProcessoDeCotacaoDeFreteFechamentoController : Controller
     {
-        private readonly IFechamentoDeProcessoDeCotacaoService _service;
+        private readonly IFechamentoDeProcessoDeCotacaoDeFreteService _service;
 
         public ProcessoDeCotacaoDeFreteFechamentoController(IFechamentoDeProcessoDeCotacaoServiceFactory serviceFactory)
         {
@@ -22,7 +22,12 @@ namespace BsBios.Portal.UI.Controllers
             try
             {
                 _service.Executar(idProcessoCotacao);
-                return Json(new { Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso." });
+                return Json(new {Sucesso = true, Mensagem = "O Processo de Cotação foi fechado com sucesso."});
+            }
+            catch (ComunicacaoSapException ex)
+            {
+                return Json(new { Sucesso = false, ex.MediaType, Mensagem = ex.Message });
+                
             }
             catch (ComunicacaoSapException ex)
             {

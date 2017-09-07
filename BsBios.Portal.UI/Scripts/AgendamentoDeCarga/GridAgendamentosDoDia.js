@@ -40,7 +40,7 @@ GridAgendamentosDeCarga = {
                     width: 40,
                     sortable: false,
                     template: function (dataItem) {
-                        return '<input type="button" class="' + (dataItem.PermiteEditar ? 'button_edit' : 'button_visualize') + '" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
+                        return '<input type="button" class="button16 ' + (dataItem.PermiteEditar ? 'button_edit' : 'button_visualize') + '" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
                     }
                 },
                 {
@@ -49,7 +49,7 @@ GridAgendamentosDeCarga = {
                     sortable: false,
                     template: function (dataItem) {
                         if (dataItem.PermiteEditar) {
-                            return '<input type="button" class="button_remove" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
+                            return '<input type="button" class="button16 button_remove" data-idagendamento="' + dataItem.IdAgendamento + '"></input>';
                         } else {
                             return '';
                         }

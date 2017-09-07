@@ -8,6 +8,7 @@ namespace BsBios.Portal.Domain.Repositories
         IFornecedores BuscaPeloCnpj(string cnpj);
         IFornecedores BuscaListaPorCodigo(string[] codigoDosFornecedores);
         IFornecedores FornecedoresNaoVinculadosAoProduto(string codigoProduto);
+        IFornecedores FornecedoresNaoVinculadosAosProdutos(string[] codigoDosProdutos);
         IFornecedores NomeContendo(string filtroNome);
         IFornecedores CodigoContendo(string filtroCodigo);
         IFornecedores SomenteTransportadoras();

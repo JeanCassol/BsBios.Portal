@@ -2,7 +2,7 @@
 {
     public interface IFechamentoDeProcessoDeCotacaoServiceFactory
     {
-        IFechamentoDeProcessoDeCotacaoService Construir();
+        IFechamentoDeProcessoDeCotacaoDeFreteService Construir();
     }
 
 }

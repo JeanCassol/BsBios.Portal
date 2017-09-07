@@ -26,6 +26,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.GeradorDeRelatorio", "BsBios.Portal.GeradorDeRelatorio\BsBios.Portal.GeradorDeRelatorio.csproj", "{A18C1781-A45A-43AC-9296-21385AFEE95F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.Infra.Email", "BsBios.Portal.Infra.Email\BsBios.Portal.Infra.Email.csproj", "{A5826B89-0971-47F4-94D4-8E60B9408699}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BsBios.Portal.ProcessoCotacaoMrp", "BsBios.Portal.ProcessoCotacaoMrp\BsBios.Portal.ProcessoCotacaoMrp.csproj", "{570670AF-E45C-428F-8292-4C339EFD3BBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +82,10 @@ Global
 		{A5826B89-0971-47F4-94D4-8E60B9408699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5826B89-0971-47F4-94D4-8E60B9408699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5826B89-0971-47F4-94D4-8E60B9408699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{570670AF-E45C-428F-8292-4C339EFD3BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

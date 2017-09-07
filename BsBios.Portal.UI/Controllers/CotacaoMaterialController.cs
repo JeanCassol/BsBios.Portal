@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
@@ -34,10 +34,13 @@ namespace BsBios.Portal.UI.Controllers
             _atualizadorDeIteracaoDoUsuario.Atualizar(viewModel.IdFornecedorParticipante);
             ViewBag.Incoterms = _consultaIncoterms.ListarTodos();
             ViewBag.CondicoesDePagamento = _consultaCondicaoPagamento.ListarTodas();
-
-            return View("Cadastro",viewModel);
+            return View(viewModel);
         }
 
-
+        public ActionResult ConsultarCadastro(int idProcessoCotacao, string codigoFornecedor)
+        {
+            CotacaoMaterialConsultarCadastroVm vm = _consultaCotacaoDoFornecedor.ConsultarCotacaoDeMaterialParaVisualizacao(idProcessoCotacao, codigoFornecedor);
+            return PartialView("_ConsultarCadastro",vm);
+        }
     }
 }

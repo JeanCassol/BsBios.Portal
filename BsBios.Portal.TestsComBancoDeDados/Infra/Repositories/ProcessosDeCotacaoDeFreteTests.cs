@@ -41,6 +41,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.IsNotNull(processoConsultado);
             Assert.AreEqual(processo.Terminal.Codigo, processoConsultado.Terminal.Codigo);
             //PARA O TESTE FICAR MAIS COMPLETO DEVE SER FEITO ASSERT DE TODAS AS OUTRAS PROPRIEDADES
+            Assert.AreEqual(1, processoConsultado.Itens.Count);
 
         }
 
@@ -86,7 +87,7 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
 
             processo.AdicionarFornecedor(fornecedor);
 
-            processo.Abrir();
+            processo.Abrir(DefaultObjects.ObtemUsuarioPadrao());
             processo.InformarCotacao(fornecedor.Codigo, 120, 100, "obs fornec");
 
             DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processo);
@@ -128,6 +129,51 @@ namespace BsBios.Portal.TestsComBancoDeDados.Infra.Repositories
             Assert.IsTrue(processos.All(x => x.Status != Enumeradores.StatusProcessoCotacao.Cancelado));
 
         }
+        [TestMethod]
+        public void FiltrarUmProcessoDeCotacaoPorCodigoDoProdutoRetornaProcessoEsperado()
+        {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
+            Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
+            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
+            Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
+            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+            IList<ProcessoDeCotacao> processosConsultados = processosDeCotacao.CodigoDoProdutoContendo(produto1.Codigo).List();
+
+            Assert.AreEqual(1, processosConsultados.Count());
+            Assert.AreEqual(produto1.Codigo, processosConsultados.First().Itens.First().Produto.Codigo);
+        }
+
+        [TestMethod]
+        public void FiltrarUmProcessoDeCotacaoPorDescricaoDoProdutoRetornaProcessoEsperado()
+        {
+            RemoveQueries.RemoverProcessosDeCotacaoCadastrados();
+
+            Produto produto1 = DefaultObjects.ObtemProdutoPadrao();
+            ProcessoDeCotacaoDeFrete processoDeCotacao1 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto1);
+            Produto produto2 = DefaultObjects.ObtemProdutoPadrao();
+            ProcessoDeCotacaoDeFrete processoDeCotacao2 = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComProdutoEspecifico(produto2);
+
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao1);
+            DefaultPersistedObjects.PersistirProcessoDeCotacaoDeFrete(processoDeCotacao2);
+
+            UnitOfWorkNh.Session.Clear();
+
+            var processosDeCotacao = ObjectFactory.GetInstance<IProcessosDeCotacao>();
+            IList<ProcessoDeCotacao> processosConsultados = processosDeCotacao.DescricaoDoProdutoContendo(produto2.Descricao).List();
+
+            Assert.AreEqual(1, processosConsultados.Count());
+            Assert.AreEqual(produto2.Descricao, processosConsultados.First().Itens.First().Produto.Descricao);
+
+        }
+
 
     }
 }

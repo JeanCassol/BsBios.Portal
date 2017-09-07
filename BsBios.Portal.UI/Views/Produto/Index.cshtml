@@ -2,27 +2,25 @@
 @{
     ViewBag.TituloDaPagina = "Produtos";
 }
-
+@section styles
+{
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-    <div id="cadastroProdutos">
-        <div id="divFiltros">
-            <fieldset>
-                <legend>Filtros</legend>
-                <div class="coluna">
-                    @Html.Label("Descrição")
-                    @Html.TextBox("Descricao","", new{@class="campogrande"})
-                </div>
-                <div class="divBotao">
-                    <input id="btnPesquisar" type="button" value="Pesquisar" class="blue"/>
-                    <input id="btnLimpar" type="button" value="Limpar" class="blue"/>
-                </div>
-            </fieldset>
+}
+<form>
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="coluna">
+            @Html.Label("Descricao","Descrição")
+            @Html.TextBox("Descricao","", new{@class="campogrande"})
         </div>
-        <div id="gridProdutos" class="divGrid"></div>
-
-    </div>
-
+        <div class="divBotao">
+            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+    </fieldset>
+</form>
+<div id="gridProdutos" class="divGrid"></div>
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
@@ -65,7 +63,7 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 30,
                         sortable: false,
-                        template: '<input type="button" class="button_visualize" data-codigoproduto="${Codigo}"></input>'
+                        template: '<input type="button" class="button16 button_visualize" data-codigoproduto="${Codigo}"></input>'
                     },
                     {
                         width: 150,
@@ -84,13 +82,8 @@
 
                 ]
             });
-
-            //$('#btnPesquisar').click(function() {
-            //    $("#gridProdutos").data("kendoGrid").dataSource.read();
-            //});
-
-            $('#btnLimpar').click(function() {
-                $('#divFiltros input[type!=button]').val('');
+            $('#btnPesquisar').click(function(e){
+                e.preventDefault();
             });
 
             $('.button_visualize').die("click");

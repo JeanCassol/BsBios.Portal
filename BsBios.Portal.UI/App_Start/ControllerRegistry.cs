@@ -23,11 +23,11 @@ namespace BsBios.Portal.UI.App_Start
              .Ctor<IAberturaDeProcessoDeCotacaoServiceFactory>()
              .Is<AberturaDeProcessoDeCotacaoDeFreteServiceFactory>();
 
-            For<ProcessoDeCotacaoDeMaterialFechamentoController>()
-             .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-             .Use<ProcessoDeCotacaoDeMaterialFechamentoController>()
-             .Ctor<IFechamentoDeProcessoDeCotacaoServiceFactory>()
-             .Is<FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory>();
+            //For<ProcessoDeCotacaoDeMaterialFechamentoController>()
+            // .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+            // .Use<ProcessoDeCotacaoDeMaterialFechamentoController>()
+            // .Ctor<IFechamentoDeProcessoDeCotacaoServiceFactory>()
+            // .Is<FechamentoDeProcessoDeCotacaoDeMaterialServiceFactory>();
 
             For<ProcessoDeCotacaoDeFreteFechamentoController>()
              .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))

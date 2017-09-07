@@ -10,7 +10,7 @@ namespace BsBios.Portal.Application.Services.Implementations
 {
     public class FechamentoDeProcessoDeCotacaoDeFreteServiceFactory : IFechamentoDeProcessoDeCotacaoServiceFactory
     {
-        public IFechamentoDeProcessoDeCotacaoService Construir()
+        public IFechamentoDeProcessoDeCotacaoDeFreteService Construir()
         {
             var emailService = ObjectFactory
                 .With(typeof(ContaDeEmail),
@@ -23,7 +23,7 @@ namespace BsBios.Portal.Application.Services.Implementations
             var geradorDeEmail = new GeradorDeEmailDeFechamentoDeProcessoDeCotacaoDeFrete(ObjectFactory.GetInstance<IGeradorDeMensagemDeEmail>(),emailService);
 
             var comunicacaoSap =
-                ObjectFactory.GetNamedInstance<IComunicacaoSap>(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
+                ObjectFactory.GetNamedInstance<IProcessoDeCotacaoComunicacaoSap>(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
 
             //return ObjectFactory
             //    .With(typeof(IGeradorDeEmailDeFechamentoDeProcessoDeCotacao), geradorDeEmail)

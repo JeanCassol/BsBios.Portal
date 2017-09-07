@@ -14,5 +14,7 @@ namespace BsBios.Portal.Domain.Repositories
         IUsuarios EmailContendo(string email);
         IUsuarios ComStatus(Enumeradores.StatusUsuario status);
         IUsuarios IncluirPerfis();
+        IUsuarios ContendoPerfil(Enumeradores.Perfil perfil);
+
     }
 }

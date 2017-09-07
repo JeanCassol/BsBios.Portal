@@ -35,6 +35,7 @@
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,7 +69,15 @@
     <Compile Include="Exceptions\QuantidadeLiberadaAbaixoDaQuantidadeColetadaException.cs" />
     <Compile Include="Exceptions\QuantidadeLiberadaSuperouQuantidadeAdquiridaException.cs" />
     <Compile Include="Exceptions\RealizacaoDeColetaRealizadaException.cs" />
+    <Compile Include="Exceptions\FileAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\OperacaoNaoPermitidaParaAgendamentoRealizadoException.cs" />
+    <Compile Include="Exceptions\PesoAgendadoSuperiorAoPesoDaQuotaException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoAlterarItensException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoSemItemException.cs" />
     <Compile Include="Exceptions\RealizacaoDeAgendamentoRealizadoException.cs" />
+    <Compile Include="Exceptions\RequisicaoDeCompraAssociadaAOutroProcessoDeCotacaoException.cs" />
+    <Compile Include="Exceptions\RequisicaoDeCompraComProcessoDeCotacaoBloqueioException.cs" />
+    <Compile Include="Exceptions\SelecionarRequisicaoDeCompraBloqueadaException.cs" />
     <Compile Include="Exceptions\UsuarioSemEmailException.cs" />
     <Compile Include="Exceptions\UsuarioSemPerfilException.cs" />
     <Compile Include="Exceptions\MvaNaoInformadoException.cs" />
@@ -77,7 +86,7 @@
     <Compile Include="Exceptions\ProcessoDeCotacaoFechadoAtualizacaoCotacaoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoIniciadoAtualizacaoFornecedorException.cs" />
     <Compile Include="Exceptions\ExceptionUtil.cs" />
-    <Compile Include="Exceptions\ProcessoDeCotacaoAbertoAtualizacaoDadosException.cs" />
+    <Compile Include="Exceptions\ProcessoDeCotacaoAtualizacaoDadosException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoFecharSemCotacaoSelecionadaException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemDataLimiteRetornoException.cs" />
     <Compile Include="Exceptions\ProcessoDeCotacaoSemFornecedoresException.cs" />

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BsBios.Portal.Application.Queries.Contracts;
 using BsBios.Portal.Infra.Model;
+using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Controllers;
 using BsBios.Portal.ViewModel;
@@ -46,7 +46,7 @@ namespace BsBios.Portal.Tests.UI.Controllers
         public void QuandoEditarACotacaoRetornaAViewCorretaComModelo()
         {
             ViewResult viewResult = _controller.EditarCadastro(10);
-            Assert.AreEqual("Cadastro", viewResult.ViewName);
+            Assert.AreEqual("", viewResult.ViewName);
             Assert.IsInstanceOfType(viewResult.Model, typeof(CotacaoMaterialCadastroVm));
 
             _consultaCotacaoDoFornecedorMock.Verify(x => x.ConsultarCotacaoDeMaterial(It.IsAny<int>(), It.IsAny<string>()), Times.Once());

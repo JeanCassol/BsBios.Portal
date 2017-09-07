@@ -4,6 +4,6 @@ namespace BsBios.Portal.Application.Services.Contracts
 {
     public interface IProcessoDeCotacaoDeFreteService
     {
-        void Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm);
+        int Salvar(ProcessoCotacaoFreteCadastroVm processoCotacaoFreteCadastroVm);
     }
 }

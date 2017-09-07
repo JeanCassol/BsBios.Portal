@@ -1,0 +1,214 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model CotacaoMaterialCadastroVm
+
+@{
+    ViewBag.TituloDaPagina = "Cotação de Material";
+}
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
+<div class="paginaCadastro">
+    <fieldset>
+        <legend>Processo de Cotação</legend>
+        @Html.LinhaComDuasColunas(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Status),
+                                  new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.DataLimiteDeRetorno))
+        @*@Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.DescricaoDoProcessoDeCotacao))*@
+        @Html.LinhaComUmaColuna(new ColunaComLabel<CotacaoMaterialCadastroVm, string>(x => x.Requisitos))
+    </fieldset>
+    
+    @using (Html.BeginForm("Salvar", "CotacaoDeMaterialAtualizar",FormMethod.Post,new{id="formCotacao"}))
+    {
+        @Html.HiddenFor(model => model.IdProcessoCotacao)
+        @Html.HiddenFor(model => model.CodigoFornecedor)
+        @Html.HiddenFor(model => model.IdCotacao)
+        
+        <fieldset>
+            <legend>Informações Gerais</legend>
+            
+            @{
+
+                var comboIncoterm = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoIncoterm,
+                                                                                             ((List<IncotermCadastroVm>)ViewBag.Incoterms)
+                                                                                                 .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoIncoterm }),
+                                                                                             "CodigoIncoterm");
+                
+            }
+                    
+            @Html.LinhaComDuasColunas(comboIncoterm, new ColunaComTextBox<CotacaoMaterialCadastroVm, string>(x => x.DescricaoIncoterm, "campogrande"))
+            
+            @{
+                var comboCondicaoDePagamento = new ColunaComDropDown<CotacaoMaterialCadastroVm, string>(x => x.CodigoCondicaoPagamento,
+                                                                                                        ((List<CondicaoDePagamentoCadastroVm>)ViewBag.CondicoesDePagamento)
+                                                                                                            .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoCondicaoPagamento }),
+                                                                                                        "CodigoCondicaoPagamento");
+
+
+                @Html.LinhaComUmaColuna(comboCondicaoDePagamento)
+                
+            }
+            
+            <div class="error linha"></div>
+            <div class="divBotao">
+                <input type="button" id="btnSalvarCotacao" value="Salvar" class="@(Model == null || Model.PermiteEditar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteEditar? "disabled":"") />
+            </div>
+        </fieldset>
+        
+        
+    }
+        
+    <fieldset id="fieldSetItens">
+        <legend>Itens</legend>
+        <div id="divGridItensCotacao" class="divGrid"></div>
+    </fieldset>
+        
+    <fieldset>
+        <legend>Anexos</legend>
+        <div id="divAnexos" class="divGrid"></div>            
+    </fieldset>
+
+    <div id="divCotacaoItem" class="janelaModal"></div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoItensGrid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/CotacaoMaterial/Cadastro.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript">
+        var permiteEditar = '@Model.PermiteEditar'.boolean();
+        function calculaValorLiquido() {
+            var valorComImpostos = Numero.GetFloat($('#ValorComImpostos').val());
+            if (valorComImpostos == 0) {
+                return;
+            }
+
+            var valorIcms = Numero.GetFloat($('#IcmsValor').val());
+            var valorIcmsSt = Numero.GetFloat($('#IcmsStValor').val());
+            var valorIpi = Numero.GetFloat($('#IpiValor').val());
+
+            var valorLiquido = valorComImpostos - valorIcms - valorIcmsSt - valorIpi;
+
+            $('#ValorLiquido').val(Globalize.format(valorLiquido, "n2"));
+
+        }
+        
+        function ocultaCamposDeValorDosImpostos() {
+            $('#formCotacaoItem').find('.campoDesabilitado').hide();
+        };
+
+        $(function() {
+            $('#DescricaoIncoterm').attr('maxlength', 255);
+            GridAnexo.Configurar('#IdProcessoCotacao', "#divAnexos", false);
+
+            ProcessoDeCotacaoItensGrid.configurar({
+                schemaData: 'Registros',
+                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+                transportData: function() {
+                    return {IdProcessoCotacao: $('#IdProcessoCotacao').val()};
+                },
+                renderTo: '#divGridItensCotacao',
+                exibirDetalhesDaRequisicao: false,
+                exibirBotaoAdicionar: false,
+                exibirBotaoRemover: false,
+                exibirBotaoEditar: permiteEditar,
+                exibirBotaoVisualizar: !permiteEditar,
+                exibirBotaoSelecionarCotacao: false,
+                pageable: false
+            });
+
+            if (permiteEditar) {
+                configurarEventoDeEdicaoDoGrid();
+            } else {
+                configurarEventoDeConsultaDoGrid();
+            }
+
+            aplicaMascaraData();
+            aplicaMascaraMoeda();
+            aplicaMascaraQuantidade();
+
+            function atualizaMensagemDeErro(mensagem) {
+                $('.error').html(mensagem);
+            }
+
+            //$('#ValorComImpostos').die("change");
+            //$('#ValorComImpostos').live("change", function() {
+            //    calculaValorLiquido();
+            //});
+
+            //$('#IcmsValor').die("change");
+            //$('#IcmsValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
+
+            //$('#IcmsStValor').die("change");
+            //$('#IcmsStValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
+
+            //$('#IpiValor').die("change");
+            //$('#IpiValor').live("change", function() {
+            //    calculaValorLiquido();
+            //});
+
+            $('#btnSalvarCotacao').click(function() {
+                $('.error').empty();
+                var form = $('#formCotacao');
+                if (!$(form).validate().form()) {
+                    return;
+                }
+
+                var formData = $(form).serialize();
+                $.post('@Url.Action("Salvar", "CotacaoDeMaterialAtualizar")', formData,
+                    function(data) {
+                        if (data.Sucesso) {
+                            $('#IdCotacao').val(data.IdCotacao);
+                            Mensagem.ExibirMensagemDeSucesso('A cotação foi salva com sucesso.');
+                        } else {
+                            atualizaMensagemDeErro(data.Mensagem);
+                        }
+                    });
+
+            });
+
+            var buttonsDialog = {};
+            if (permiteEditar) {
+                buttonsDialog = {
+                    "Confirmar": function() {
+                        var form = $('#formCotacaoItem');
+                        if (!$(form).validate().form()) {
+                            return;
+                        }
+
+                        var formData = $(form).serialize();
+                        $.post('@Url.Action("SalvarItem", "CotacaoDeMaterialAtualizar")', formData,
+                            function(data) {
+                                if (data.Sucesso) {
+                                    $('#divCotacaoItem').dialog("close");
+                                } else {
+                                    Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                                }
+                            });
+
+                    },
+                    "Cancelar": function() {
+                        $(this).dialog("close");
+                    }
+                };
+            }
+
+            $('#divCotacaoItem').customDialog({
+                title: 'Cotação do Item',
+                buttons: buttonsDialog
+            });
+
+        });
+    </script>
+}
+

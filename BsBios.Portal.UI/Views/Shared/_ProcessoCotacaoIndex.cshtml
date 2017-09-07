@@ -1,8 +1,11 @@
 @model ProcessoDeCotacaoDeFreteFiltroVm
 @using BsBios.Portal.UI.Helpers
 @using BsBios.Portal.ViewModel
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+@section styles
+{
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
 <fieldset class="divFiltros">
     <legend>Filtros</legend>
     <form>
@@ -18,6 +21,18 @@
         @Html.LinhaComDuasColunas(new ColunaComDropDown<ProcessoDeCotacaoDeFreteFiltroVm, int?>(x => x.CodigoStatusProcessoCotacao, listaDeStatus, "CodigoStatusProcessoCotacao"),
             new ColunaComTextBox<ProcessoDeCotacaoDeFreteFiltroVm, string>(x => x.NumeroDoContrato,"campopequeno"))
         
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("CodigoProduto","Código")
+                @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
+            </div>
+            <div class="coluna">
+                @Html.Label("DescricaoProduto","Material")
+                @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
+            </div>
+
+        </div>
+
         <div class="linha">
             <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
@@ -154,7 +169,7 @@
             $('.button_edit').die("click");
             $('.button_edit').live("click", function(e) {
                 e.preventDefault();
-                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao') ;
+                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao');
             });
 
         });

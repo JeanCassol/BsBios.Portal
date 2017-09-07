@@ -12,7 +12,7 @@ git push origin qas
 
 trocar de branch
 git checkout <nome da branch>
-git checkou qas
+git checkout qas
 
 Para fazer merge da branch "master" para a branch "qas" devem ser feitos os seguintes passos
 1) checkout na branch que vai receber a atualização
@@ -22,3 +22,8 @@ git merge <nome da branch atualizada>
 git merge master
 3) fazer o push da branch qas
 git push origin qas
+
+
+Para desfazer um merge
+git reset --hard origin/<branch>
+ex:git reset --hard origin/master

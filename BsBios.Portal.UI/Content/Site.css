@@ -15,25 +15,22 @@ a {
     padding-right: 3px;
     text-decoration: underline;
 }
+a,img {
+    border:none
+}
 
-    a:link, a:visited,
-    a:active, a:hover {
-        color: #333;
-    }
+a:link, a:visited,
+a:active, a:hover {
+    color: #333;
+}
 
-    a:hover {
-        background-color: #c7d1d6;
-    }
+a:hover {
+    background-color: #c7d1d6;
+}
 
 header, footer, hgroup,
 nav, section {
     display: block;
-}
-
-mark {
-    background-color: #a6dbed;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
 .float-left {
@@ -261,6 +258,11 @@ section.feature {
     padding: 10px;
 }
 
+/* ordered list */
+ol.round {
+    list-style-type: none;
+    padding-left: 0;
+}
 
 /* content */
 article {
@@ -306,8 +308,154 @@ article {
         width: auto;
     }
 
-#logoutForm {
+
+
+/* forms */
+fieldset {
+    /*border: none;*/
+    margin: 0;
+    padding: 2px 0 1px 8px;
+}
+
+fieldset > legend {
+    font-size: 12px;
+}
+
+fieldset ol {
+    padding: 0;
+    list-style: none;
+}
+
+    fieldset ol li {
+        padding-bottom: 5px;
+    }
+
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+label.checkbox {
     display: inline;
+}
+
+input, textarea {
+    border: 1px solid #e2e2e2;
+    background: #fff;
+    color: #333;
+    font-size: 12px;
+    margin: 5px 0 6px 0;
+    padding: 5px;
+}
+
+textarea {
+    width: 340px;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #7ac0da;
+}
+
+input[type="checkbox"] {
+    background: transparent;
+    border: inherit;
+    width: auto;
+}
+input[type="radio"] {
+    vertical-align: middle; 
+    margin: 0.2em;    
+}
+
+.divBotao {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    clear: both
+}
+.divBotao input[type="submit"],
+.divBotao input[type="button"],
+.divBotao input[type="reset"],
+.divBotao button,
+.divBotao a {
+    display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-decoration: none;
+	font: 12px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    width: 110px;
+}
+
+.divBotao a {
+    width: 50px;
+    color: #d9eef7;
+}
+
+/*.divBotao .button:hover {
+	text-decoration: none;
+}
+.divBotao .button:active {
+	position: relative;
+	top: 1px;
+}*/
+
+
+.blue:hover {
+	background: #007ead;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
+.blue {
+	color: #d9eef7;
+	border: solid 1px #0076a3;
+	background: #0095cd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+}
+
+.blue:active {
+	color: #80bed6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
+
+.gray {
+	color: white;
+	border: solid 1px #cad2d4;
+	background: #aaadae;
+	background: -webkit-gradient(linear, left top, left bottom, from(#babdbe), to(#aaadae));
+	background: -moz-linear-gradient(top,  #babdbe,  #aaadae);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#babdbe', endColorstr='#aaadae');
+    cursor: default!important;
+}
+
+
+.botaoMedio {
+    width: 140px!important
+}
+
+.botaoGrande {
+    width: 200px!important
+}
+
+td input[type="submit"],
+td input[type="button"],
+td button {
+    font-size: 1em;
+    padding: 4px;
+    margin-right: 4px;
 }
 
 /* info and errors */
@@ -340,6 +488,7 @@ article {
 .field-validation-error {
     color: #e80c4d;
     font-weight: bold;
+    font-size: 12px;
 }
 
 .field-validation-valid {
@@ -366,8 +515,39 @@ input[type="checkbox"].input-validation-error {
 .elementosCentralizados {
     margin: 0 auto;
     display: block;
-    text-align: center;
-    width:25%
+    text-align: center
+}
+.labelEsquerda {
+    text-align:left
+}
+.linha {
+    clear: both;
+}
+.coluna {
+    /*width: 380px;*/
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+.colunaFiltro {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+.campopequeno {
+    width: 150px;
+}
+.campomedio {
+    width: 250px;
+} 
+.campogrande, select {
+    width: 340px;
+}
+.campoextragrande {
+    width: 700px;
+}
+.campopequenogrid {
+    width: 70px;
 }
 
 .paginaCadastro {
@@ -466,6 +646,18 @@ input[type="checkbox"].input-validation-error {
 
 .button_information {
     background-image: url(/images/icons/information_16.png);
+}
+.button_download{
+    background-image: url(/images/icons/download_16.png);
+}
+.button_select{
+    background-image: url(/images/icons/select_16.png);
+}
+.button_block {
+    background-image: url(/images/icons/bloquear_16.png);
+}
+
+.button16 {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -476,6 +668,20 @@ input[type="checkbox"].input-validation-error {
     height: 1.5em;           /* make this the size of your image */
     width: 1.5em;
     vertical-align: middle;
+}
+
+
+.gradienteVerde{
+	background: #c9de96; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2M5ZGU5NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM4JSIgc3RvcC1jb2xvcj0iIzhhYjY2YiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzOTgyMzUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #c9de96 0%, #8ab66b 38%, #398235 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c9de96), color-stop(38%,#8ab66b), color-stop(100%,#398235)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #c9de96 0%,#8ab66b 38%,#398235 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #c9de96 0%,#8ab66b 38%,#398235 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #c9de96 0%,#8ab66b 38%,#398235 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #c9de96 0%,#8ab66b 38%,#398235 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=0 ); /* IE6-8 */
 }
 
 #tituloPagina {
@@ -499,6 +705,12 @@ input[type="checkbox"].input-validation-error {
 .labelNaLinha {
     display: inline;
 }
+.gridTotalizador {
+    font-size: 14px;
+    font-weight: bold;
+    background-color: darkturquoise!important;
+}
+
 
 .mensagemErro {
     margin: 0;
@@ -513,10 +725,15 @@ input[type="checkbox"].input-validation-error {
     font-weight: normal;
     line-height: 300%
 }
+
 .divGrid table > tbody > tr > td {
     padding-bottom: 0;
     padding-top: 0;
 }
+.alturaMinima {
+    min-height: 150px;
+}
+
 .campoDesabilitado {
     background-color: lightgray !important;
     border-color: black !important;
@@ -532,6 +749,15 @@ input[type="checkbox"].input-validation-error {
     margin-right: 0.8em;
     display: inline-block
 }
+.janelaModal .ui-dialog .ui-dialog-content {
+    padding: 0
+}
+.janelaModal  {
+    padding: 0!important;
+    font-size: 12px!important;
+    background-color: #efeeef!important
+}
+
 .gridPerfil {
     width: 93%;
     height: 87.5%
@@ -551,4 +777,16 @@ input[type="checkbox"].input-validation-error {
 .maskdata {
     
 }
+
+.ui-dialog-title {
+    font-size: 14px!important;
+}
+.separador {
+    margin-top: 10px;
+    background-color: #0095cd;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 

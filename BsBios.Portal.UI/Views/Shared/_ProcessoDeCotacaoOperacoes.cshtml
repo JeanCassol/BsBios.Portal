@@ -1,5 +1,8 @@
 ﻿@{
     Layout = null;
+    var blnExibirBotacaoSelecionarCotacoes = (bool) ViewData["ExibirBotacaoSelecionarCotacao"];
+    var permiteOutrasOperacoes = (bool)ViewData["PermiteOutrasOperacoes"];
+    var permiteFecharProcesso = (bool)ViewData["PermiteFecharProcesso"];
 }
 
 <fieldset>
@@ -8,6 +11,7 @@
         <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 27%" />
     </div>
     <div id="gridCotacaoFornecedor" class="divGrid"></div>
+    <div id="divFecharProcessoDeCotacaoDeMaterial" class="janelaModal"></div>
 </fieldset>
            
 @Html.ValidationSummary(true)

@@ -31,9 +31,16 @@ namespace BsBios.Portal.Tests.Domain.Entities
                 "10001",dataLimiteDeRetorno , dataValidadeInicial, dataValidadeFinal, itinerario,fornecedor, 1000,true,municipioOrigem, 
                 municipioDestino, deposito,terminal,150);
 
-            Assert.AreSame(produto, processo.Produto);
-            Assert.AreEqual(100, processo.Quantidade);
-            Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            processo.AdicionarItem(produto, 100, unidadeDeMedida);
+
+            var item = processo.Itens.First();
+            //Assert.AreSame(produto, processo.Produto);
+            //Assert.AreEqual(100, processo.Quantidade);
+            //Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            Assert.AreSame(produto, item.Produto);
+            Assert.AreEqual(100, item.Quantidade);
+            Assert.AreSame(unidadeDeMedida, item.UnidadeDeMedida);
+
             Assert.AreEqual("Requisitos do Processo de Cotação de Fretes",processo.Requisitos);
             Assert.AreEqual("10001", processo.NumeroDoContrato);
             Assert.AreEqual(dataLimiteDeRetorno, processo.DataLimiteDeRetorno);
@@ -72,9 +79,15 @@ namespace BsBios.Portal.Tests.Domain.Entities
                 dataValidadeInicial, dataValidadeFinal, itinerario, fornecedor, 2000, false, municipioOrigem, 
                 municipioDestino, deposito,terminal2,100);
 
-            Assert.AreSame(produto, processo.Produto);
-            Assert.AreEqual(1500, processo.Quantidade);
-            Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            processo.AtualizarItem(produto, 1500, unidadeDeMedida);
+
+            var item = processo.Itens.First();
+            //Assert.AreSame(produto, processo.Produto);
+            //Assert.AreEqual(1500, processo.Quantidade);
+            //Assert.AreSame(unidadeDeMedida, processo.UnidadeDeMedida);
+            Assert.AreSame(produto, item.Produto);
+            Assert.AreEqual(1500, item.Quantidade);
+            Assert.AreSame(unidadeDeMedida, item.UnidadeDeMedida);
             Assert.AreEqual("requisitos alterados", processo.Requisitos);
             Assert.AreEqual("1500", processo.NumeroDoContrato);
             Assert.AreEqual(dataLimiteDeRetorno, processo.DataLimiteDeRetorno);
@@ -140,7 +153,7 @@ namespace BsBios.Portal.Tests.Domain.Entities
 
 
         [TestMethod]
-        [ExpectedException(typeof(ProcessoDeCotacaoAbertoAtualizacaoDadosException))]
+        [ExpectedException(typeof(ProcessoDeCotacaoAtualizacaoDadosException))]
         public void AposOProcessoDeCotacaoSerAbertoNaoEPossivelAtualizarOsDadosComplementares()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacaoDeFrete = DefaultObjects.ObtemProcessoDeCotacaoDeFrete();
@@ -160,8 +173,8 @@ namespace BsBios.Portal.Tests.Domain.Entities
         public void QuandoTentarAbrirUmProcessoDeCotacaoQueJaEstaAbertoDeveGerarExcecao()
         {
             ProcessoDeCotacaoDeFrete processoDeCotacao = DefaultObjects.ObtemProcessoDeCotacaoDeFreteComFornecedor();
-            processoDeCotacao.Abrir();
-            processoDeCotacao.Abrir();
+            processoDeCotacao.Abrir(DefaultObjects.ObtemUsuarioPadrao());
+            processoDeCotacao.Abrir(DefaultObjects.ObtemUsuarioPadrao());
         }
 
         [TestMethod]

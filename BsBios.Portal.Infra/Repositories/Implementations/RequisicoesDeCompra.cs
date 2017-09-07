@@ -14,5 +14,40 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
         {
             return Query.SingleOrDefault(x => x.Id == id);
         }
+
+        public IRequisicoesDeCompra PertencentesAoGrupoDeCompra(string codigoDoGrupoDeCompras)
+        {
+            Query = Query.Where(x => x.CodigoGrupoDeCompra == codigoDoGrupoDeCompras);
+            return this;
+        }
+
+        public IRequisicoesDeCompra SolicitadasApartirDe(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeSolicitacao >= data);
+            return this;
+        }
+
+        public IRequisicoesDeCompra SolicitadasAte(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeSolicitacao <= data);
+            return this;
+        }
+
+        public IRequisicoesDeCompra SemProcessoDeCotacao()
+        {
+            Query = Query.Where(x => !x.GerouProcessoDeCotacao);
+            return this;
+        }
+
+        public IList<RequisicaoDeCompra> FiltraPorIds(int[] itensParaAdicionar)
+        {
+            return Query.Where(x => itensParaAdicionar.Contains(x.Id)).ToList();
+        }
+
+        public IRequisicoesDeCompra SomenteAtivas()
+        {
+            Query = Query.Where(req => req.Status == Enumeradores.StatusRequisicaoCompra.Ativo);
+            return this;
+        }
     }
 }

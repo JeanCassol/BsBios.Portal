@@ -108,6 +108,38 @@ Formato = {
 };
 
 $.fn.customKendoGrid = function (configuracao) {
+    var container = $(this);
+    if (!configuracao.dataBound && (!("autoBind" in configuracao) || configuracao.autoBind)) {
+        this.addClass('k-loading-image');
+        configuracao.dataBound = function () {
+            container.removeClass('k-loading-image alturaMinima');
+            $(container).find('.k-grid-content').css('height', 'auto');
+        };
+    }
+    configuracao.dataSource.schema.errors = "SessaoExpirada";
+    configuracao.dataSource.error = function(response) {
+        if (response.xhr) {
+            var responseType = getContentType(response.xhr);
+            if (responseType == ContentType.json) {
+                Mensagem.ExibirMensagemDeErro(response.xhr.responseText);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response.xhr.responseText);
+            }
+        } else {
+            Mensagem.ExibirMensagemDeErro('A sessão expirou.');
+            location.href = '/';
+        }
+    };
+
+    if (!("data" in configuracao.dataSource.schema)) {
+        configuracao.dataSource.schema.data = 'Registros';
+    }
+    
+    if (! ("total" in configuracao.dataSource.schema)) {
+        configuracao.dataSource.schema.total = 'QuantidadeDeRegistros';
+    }
+
+
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;
@@ -237,9 +269,15 @@ function atualizaMensagemDeErro(mensagem) {
     $('#divErro').html(mensagem);
 }
 
-function inicializaCamposDatePicker() {
+function inicializaCamposDatePicker(container) {
     /*seleciona todos os campos datepicker para inicializar o componente do jquery UI*/
-    var camposDatePicker = $('.campoDatePicker');
+    var camposDatePicker;
+    if (container) {
+        camposDatePicker = $(container).find('.campoDatePicker');
+    } else {
+        camposDatePicker = $('.campoDatePicker');
+    }
+    
     if ($(camposDatePicker).length > 0) {
         $(camposDatePicker).datepicker();
     }
@@ -325,8 +363,13 @@ function aplicaMascaraCnpj() {
     $(camposCnpj).mask("99.999.999/9999-99");
 }
 
-function aplicaMascaraMoeda() {
-    var campos = $('.maskmoeda');
+function aplicaMascaraMoeda(container) {
+    var campos;
+    if (container) {
+        campos = $(container).find('.maskmoeda');
+    } else {
+        campos = $('.maskmoeda');
+    }
     if ($(campos).length == 0) {
         return;
     }
@@ -340,8 +383,13 @@ function aplicaMascaraMoeda() {
     $(campos).setMask('moeda-portal');
 }
 
-function aplicaMascaraQuantidade() {
-    var campos = $('.maskquantidade');
+function aplicaMascaraQuantidade(container) {
+    var campos;
+    if (container) {
+        campos = $(container).find('.maskquantidade');
+    } else {
+        campos = $('.maskquantidade');
+    }
     if ($(campos).length == 0) {
         return;
     }
@@ -371,6 +419,8 @@ function aplicaMascaraData() {
     if ($(camposData).length == 0) {
         return;
     }
+
+    var camposData = $('.maskdata');
     $(camposData).mask("99/99/9999",
     {
         completed: function () {
@@ -425,7 +475,6 @@ function desbloqueiaPagina() {
 }
 
 UrlPadrao = {};
-
 TipoDeCotacao = {};
 
 function tratarMenusQueDevemSerAbertosEmOutraJanela() {
@@ -437,6 +486,7 @@ function tratarMenusQueDevemSerAbertosEmOutraJanela() {
 }
 
 $(function () {
+    $('.divGrid:not([data-autobind=false])').addClass('alturaMinima');
     tratarMenusQueDevemSerAbertosEmOutraJanela();
     inicializaCamposDatePicker();
     $('.campoDesabilitado').attr('readonly', true);
@@ -504,3 +554,71 @@ $(document).ajaxComplete(function (event, request, ajaxOptions) {
     }
     
 });
+
+$(document).ajaxComplete(function (event, request, ajaxOptions) {
+    if (ajaxOptions.dataType != "json") {
+        return;
+    }
+    verificaSessaoExpirada(request.responseText);
+});
+
+function verificaSessaoExpirada(responseText) {
+    var resposta = JSON.parse(responseText);
+    if (resposta.SessaoExpirada) {
+        Mensagem.ExibirMensagemDeErro(resposta.Mensagem);
+        location.href = resposta.ReturnUrl;
+        return true;
+    }
+    return false;
+}
+
+
+function getContentType(xhr) {
+    var type = xhr.getResponseHeader('Content-Type');
+    if (type.indexOf('json') > -1) {
+        return ContentType.json;
+    }
+    if (type.indexOf('html') > -1) {
+        return ContentType.html;
+    }
+    return ContentType.outro;
+}
+
+$.fn.customLoad = function (configuracao, functionBeforeOpen) {
+    $(this).load(configuracao.url,
+    function (response, status, xhr) {
+        var responseType = getContentType(xhr);
+        if (responseType == ContentType.json) {
+            if (verificaSessaoExpirada(response)) {
+                return;
+            }
+        }
+        if (status == "error") {
+            if (responseType == ContentType.json && response.Mensagem) {
+                Mensagem.ExibirMensagemDeErro(response.Mensagem);
+            } else {
+                Mensagem.ExibirJanelaComHtml(response);
+            }
+            return;
+        }
+        if (configuracao.validar) {
+            jQuery.validator.unobtrusive.parse(this);
+        }
+        if (functionBeforeOpen) {
+            functionBeforeOpen();
+        }
+        $(this).dialog('open');
+    });
+};
+
+function habilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('gray').addClass('blue').removeAttr('disabled');
+}
+
+function desabilitarBotao(seletor) {
+    ///<param name="seletor">string contendo o seletor que será utilizando para buscar os botões</param>
+    $(seletor).removeClass('blue').addClass('gray').attr('disabled', true);
+}
+
+

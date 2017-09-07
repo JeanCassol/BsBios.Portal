@@ -5,26 +5,19 @@
 
 @{
     ViewBag.TituloDaPagina = "Processo de Cotação de Material";
+    string dataAutoBind = Model != null ? "true" : "false";
 }
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
-
+@section styles
+{
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
+}
 <div class="paginaCadastro">
     @using (Html.BeginForm("AtualizarProcesso", "ProcessoDeCotacaoService"))
     {
-
-        <fieldset>
-            <legend>Requisição de Compra</legend>
-
-            @Html.HiddenFor(model => model.Id)
-            @Html.HiddenFor(model => model.CodigoMaterial)
-            
-            @if (Model != null && Model.RequisicaoDeCompraVm != null)
-            {
-                @Html.Partial("_RequisicaoDeCompra", Model.RequisicaoDeCompraVm)
-            }
-        </fieldset>
+        @Html.HiddenFor(model => model.Id)
+        
         <fieldset>
             <legend>Processo de Cotação</legend>
             <div class="coluna">
@@ -32,56 +25,194 @@
                 <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
             </div>
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoMaterialCadastroVm, string>(x => x.DataLimiteRetorno,"campoDatePicker maskdata"),
-            new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
-            <div class="error"></div>
+                                      new ColunaComTextArea<ProcessoCotacaoMaterialCadastroVm, string>(x => x.Requisitos))
+            <div id="divErro" class="error"></div>
             <div class="divBotao">
-                <input type="button" id="btnSalvarProcesso" value="Salvar" class="blue" />
+                <input type="button" id="btnSalvarProcesso" value="Salvar" class="@(Model == null || Model.PermiteSalvar ? Html.Raw("blue"): Html.Raw("gray"))" @(Model != null && !Model.PermiteSalvar? "disabled":"") />
             </div>
         </fieldset>
+
     }
+    <div id="divOutrasOperacoes">
+        <div id="divSelecionarItens" class="janelaModal" ></div>
+    
+        <fieldset>
+            <legend>Itens</legend>
+            <div class="divBotao">
+                <input type="button" id="btnSelecionarItens" value="Selecionar Itens" class="@(Model != null && Model.PermiteAlterarFornecedores ? Html.Raw("blue"): Html.Raw("gray")) botaoMedio" @(Model == null || !Model.PermiteAlterarFornecedores? "disabled":"") />
+            </div>
+            <div id="divGridItens" class="divGrid" data-autobind="@dataAutoBind"></div>
+        </fieldset>
 
-    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
-        {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
-            new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
-            new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail"))
-        })
-
+        @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
+            {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
+                new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Material),
+                new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeMaterialEmail")),
+                new KeyValuePair<string, object>("ExibirBotacaoSelecionarCotacao", false),
+                new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
+                new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)
+            })
+        <fieldset>
+            <legend>Enviar Anexos</legend>
+            <form>
+                <div>
+                    <div>
+                        <input name="files" id="files" type="file" />
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>Anexos Enviados</legend>
+            <div id="divAnexos" class="divGrid" data-autobind="@dataAutoBind"></div>            
+        </fieldset>
+    </div>
 </div>
-
+<div id="divVisualizarCotacaoDoFornecedor" class="janelaModal"></div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoItensGrid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/SelecionarItens.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoAnexo.js")"></script>
     <script type="text/javascript">
         $(function() {
             aplicaMascaraData();
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar(idProcessoCotacao);
-            ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
+            /// <param name="configuracao.schemaData" type="string">Nome da propriedade json que contém o array de registros ou uma função que retorne um array de registros</param>
+            /// <param name="configuracao.transportUrl" type="string">Url de leitura dos dados. Não deve ser informado quando utilizar um array local</param>
+            /// <param name="configuracao.transportData" type="string">Função que gera os filtros para que serão passados para a action que filtra os dados</param>
+            /// <param name="configuracao.renderTo">elemento html que o grid deve ser renderizado</param>
+            /// <param name="configuracao.exibirBotaoAdicionar">indica se deve ser exibida uma coluna com botão "Adicionar" para cada registro do grid</param>
+            /// <param name="configuracao.exibirBotaoRemover">indica se deve ser exibida uma coluna com botão "Remover" para cada registro do grid</param>
+            /// <param name="configuracao.pageable">true = para paginar o grid; false = para não paginar o grid</param>
 
-            $('#btnSalvar').click(function () {
-                $('.error').empty();
+            ProcessoDeCotacaoItensGrid.configurar({
+                schemaData: 'Registros',
+                transportUrl: UrlPadrao.ListarItensDoProcessoDeCotacao,
+                transportData: function() {
+                    return { IdProcessoCotacao: $('#Id').val() };
+                },
+                renderTo: '#divGridItens',
+                exibirDetalhesDaRequisicao: true,
+                exibirBotaoSelecionarCotacao: true,
+                exibirBotaoAdicionar: false,
+                exibirBotaoRemover: false,
+                pageable: false,
+                autoBind: idProcessoCotacao > 0
+            });
+            SelecionarItens.ConfigurarJanelaModal();
+            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeMaterialResumida, ExibirBotaoVisualizar: true, autoBind: idProcessoCotacao > 0 });
+            ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Material)');
+            GridAnexo.Configurar('#Id', "#divAnexos", true);
+
+            $('#divGridItens').off('click', '.button_select', false);
+            $('#divGridItens').on('click', '.button_select', function() {
+                var grid = $('#divGridItens').data("kendoGrid");
+                var dataItem = grid.dataItem(grid.select());
+                $('#divSelecionarCotacoes').customLoad({
+                    url: UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial
+                        + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem
+                });
+            });
+
+            $('#divVisualizarCotacaoDoFornecedor').customDialog({
+                title: 'Cotações do Fornecedor',
+                width: 815
+            });
+
+            $("#gridCotacaoFornecedor").find('.button_visualize').die("click");
+            $("#gridCotacaoFornecedor").find('.button_visualize').live("click", function() {
+                var grid = $("#gridCotacaoFornecedor").data("kendoGrid");
+                var dataItem = grid.dataItem($(this).parents('tr:first'));
+                $('#divVisualizarCotacaoDoFornecedor').customLoad({
+                    url: '@Url.Action("ConsultarCadastro", "CotacaoMaterial")'
+                        + '?idProcessoCotacao=' + $('#Id').val()
+                        + '&codigoFornecedor=' + dataItem.Codigo
+                });
+
+            });
+
+            $('#btnSalvarProcesso').click(function() {
+                $('#divErro').empty();
                 var form = $('form');
                 if (!$(form).validate().form()) {
                     return;
                 }
 
                 var formData = $(form).serialize();
-                $.post('@Url.Action("AtualizarProcesso","ProcessoDeCotacaoService" )', formData,
-                    function (data) {
+                $.post('@Url.Action("AtualizarProcesso", "ProcessoDeCotacaoService")', formData,
+                    function(data) {
                         if (data.Sucesso) {
-                            location.href = '@Url.Action("Index","ProcessoDeCotacaoDeMaterial")';
+                            $('#Id').val(data.IdProcessoCotacao);
+                            habilitarBotao('#btnSelecionarItens,#btnSelecionarFornecedores,#btnAbrirProcesso');
+                            var upload = $("#files").data("kendoUpload");
+                            upload.enable();
+                            Mensagem.ExibirMensagemDeSucesso("O Processo de Cotação foi salvo com sucesso.");
+
                         } else {
                             atualizaMensagemDeErro(data.Mensagem);
                         }
                     });
             });
 
-        })
+            var configuracao;
+            $.ajax({
+                url: '@Url.Action("Consultar", "Configuracao")',
+                type: 'GET',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (!data.Sucesso) {
+                        return;
+                    }
+                    configuracao = data.configuracao;
+                },
+                complete: function() {
+                    if (configuracao) {
+
+                    } else {
+                        configuracao = { TamanhoMaximoDaRequisicaoEmBytes: 4000000, TamanhoMaximoDaRequisicaoEmMegaBytes: 4 };
+                    }
+
+                    $("#files").kendoUpload({
+                        async: {
+                            //saveUrl: '/api/Upload/Upload',
+                            saveUrl: '@Url.HttpRouteUrl("ActionApi", new {controller = "Upload", action = "Upload"})',
+                            autoUpload: false
+                        },
+                        localization: {
+                            select: 'Selecione...',
+                            uploadSelectedFiles: 'Enviar arquivos'
+                        },
+                        enabled: idProcessoCotacao > 0,
+                        select: function(e) {
+                            $.each(e.files, function(index, file) {
+                                if (file.size > configuracao.TamanhoMaximoDaRequisicaoEmBytes) {
+                                    Mensagem.ExibirMensagemDeErro('O arquivo ' + file.name + ' não será adicionado, pois superou o tamanho máximo de ' + configuracao.TamanhoMaximoDaRequisicaoEmMegaBytes + ' MB.');
+                                    e.preventDefault();
+                                }
+                            });
+                        },
+                        upload: function(e) {
+                            e.data = { IdProcessoCotacao: $('#Id').val() };
+                        },
+                        success: function(e) {
+                            GridAnexo.Atualizar();
+                        },
+                        error: function(e) {
+                            Mensagem.ExibirMensagemDeErro(e.XMLHttpRequest.responseText);
+                        }
+                    });
+                }
+            });
+
+        });
     </script>
 }

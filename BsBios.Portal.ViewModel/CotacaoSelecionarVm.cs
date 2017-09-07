@@ -6,7 +6,9 @@
     public class CotacaoSelecionarVm
     {
         public int IdCotacao { get; set; }
+        public int IdProcessoCotacaoItem { get; set; }
         public bool Selecionada { get; set; }
+        public string CodigoFornecedor { get; set; }
         public string Fornecedor { get; set; }
         public string Cnpj { get; set; }
         public decimal? QuantidadeDisponivel { get; set; }
@@ -25,8 +27,11 @@
         public decimal? ValorIcms { get; set; }
         public decimal? ValorIcmsSt { get; set; }
         public decimal? ValorIpi { get; set; }
+        public decimal? ValorPisCofins { get; set; }
         //public decimal? ValorPis { get; set; }
         //public decimal? ValorCofins { get; set; }
-        public decimal? ValorLiquido { get; set; }
+        public decimal? Preco { get; set; }
+        public decimal Custo { get; set; }
+
     }
 }

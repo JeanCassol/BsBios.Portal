@@ -86,6 +86,14 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AberturaDeProcessoDeCotacaoService>();
 
+            For<IFechamentoDeProcessoDeCotacaoDeFreteService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FechamentoDeProcessoDeCotacaoDeFreteService>();
+
+            For<IFechamentoDeProcessoDeCotacaoDeMaterialService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FechamentoDeProcessoDeCotacaoDeMaterialService>();
+
             For<IFechamentoDeProcessoDeCotacaoService>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<FechamentoDeProcessoDeCotacaoDeMaterialService>();
@@ -118,6 +126,18 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConhecimentoDeTransporteComando>();
 
+
+            For<IProcessoDeCotacaoDeMaterialItensService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ProcessoDeCotacaoDeMaterialItensService>();
+
+            For<IServicoDeEficienciaDeNegociacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ServicoDeEficienciaDeNegociacao>();
+
+            For<IAlteradorDeRequisicaoDeCompra>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<AlteradorDeRequisicaoDeCompra>();
 
         }
     }

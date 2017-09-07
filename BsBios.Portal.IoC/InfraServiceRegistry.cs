@@ -64,30 +64,40 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<GeradorDeEmailDeFechamentoDeProcessoDeCotacao>();
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoAberturaProcessoCotacaoFrete>()
                 .Named(Constantes.ComunicacaoAberturaProcessoCotacaoFrete);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoAberturaProcessoCotacaoMaterial>()
                 .Named(Constantes.ComunicacaoAberturaProcessoCotacaoMaterial);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ComunicacaoFechamentoProcessoCotacaoFrete>()
                 .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoFrete);
 
-            For<IComunicacaoSap>()
+            For<IProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
-                .Use<ComunicacaoFechamentoProcessoCotacaoMaterial>()
-                .Named(Constantes.ComunicacaoFechamentoProcessoCotacaoMaterial);
+                .Use<ProcessoDeCotacaoDeMaterialFechamentoComunicacaoSap>();
 
             For<IAtualizadorDeIteracaoDoUsuario>()
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<AtualizadorDeIteracaoDoUsuario>();
 
+            For<IFileService>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FileService>();
+
+            For(typeof(IComunicacaoSap<>))
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use(typeof(ComunicacaoSap<>));
+
+            For<IServicoDeConfiguracao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ServicoDeConfiguracao>();
 
 
         }

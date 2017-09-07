@@ -1,0 +1,11 @@
+//Desligar / ligar eventos para múltiplos itens
+            $('#divGridItens').off('click', '.button_select', false);
+            $('#divGridItens').on('click', '.button_select', function () {
+                var grid = $('#divGridItens').data("kendoGrid");
+                var dataItem = grid.dataItem(grid.select());
+                $('#divSelecionarCotacoes').customLoad({
+                    url: UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial
+                        + "/?idProcessoCotacaoItem=" + dataItem.IdProcessoCotacaoItem
+                });
+            });
+

@@ -24,12 +24,11 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
-                _processoDeCotacaoDeFreteService.Salvar(processoCotacaoFreteCadastroVm);
-                return Json(new {Sucesso = true});
+                int idProcessoCotacao = _processoDeCotacaoDeFreteService.Salvar(processoCotacaoFreteCadastroVm);
+                return Json(new { Sucesso = true, IdProcessoCotacao = idProcessoCotacao });
             }
             catch (Exception ex)
             {
-
                 return Json(new {Sucesso = false, Mensagem = ex.Message});
             }
             

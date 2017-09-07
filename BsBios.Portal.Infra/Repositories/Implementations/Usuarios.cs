@@ -17,7 +17,7 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public Usuario BuscaPorLogin(string login)
         {
-            return Query.SingleOrDefault(u => u.Login.ToLower() == login.ToLower());
+            return Query.SingleOrDefault(u => u.Login.ToLower() == login.Trim().ToLower());
         }
 
         public IUsuarios NomeContendo(string filtroNome)
@@ -80,5 +80,11 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
             return this;
         }
+        public IUsuarios ContendoPerfil(Enumeradores.Perfil perfil)
+        {
+            Query = Query.Where(x => x.Perfis.Contains(perfil));
+            return this;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
@@ -63,19 +64,28 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao CodigoDoProdutoContendo(string codigo)
         {
+            //if (!string.IsNullOrEmpty(codigo))
+            //{
+            //    Query = Query.Where(x => x.Produto.Codigo.ToLower().Contains(codigo.ToLower()));
+            //}
             if (!string.IsNullOrEmpty(codigo))
             {
-                Query = Query.Where(x => x.Produto.Codigo.ToLower().Contains(codigo.ToLower()));
+                Query = Query.Where(x => x.Itens.Any(i => i.Produto.Codigo.ToLower().Contains(codigo.ToLower())));
             }
+
             return this;
         }
 
         public IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao)
         {
+            //if (!string.IsNullOrEmpty(descricao))
+            //{
+            //    Query = Query.Where(x => x.Produto.Descricao.ToLower().Contains(descricao.ToLower()));
+            //}
             if (!string.IsNullOrEmpty(descricao))
             {
-                Query = Query.Where(x => x.Produto.Descricao.ToLower().Contains(descricao.ToLower()));
-                
+                Query = Query.Where(x => x.Itens.Any(i => i.Produto.Descricao.ToLower().Contains(descricao.ToLower())));
+
             }
             return this;
         }
@@ -105,5 +115,29 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
             return this;
         }
+
+        public IProcessosDeCotacao Fechado()
+        {
+            return FiltraPorStatus(Enumeradores.StatusProcessoCotacao.Fechado);
+        }
+
+        public IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador)
+        {
+            Query = Query.Where(x => x.Comprador.Login == loginComprador);
+            return this;
+        }
+
+        public IProcessosDeCotacao FechadosAPartirDe(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeFechamento >= data);
+            return this;
+        }
+
+        public IProcessosDeCotacao FechadosAte(DateTime data)
+        {
+            Query = Query.Where(x => x.DataDeFechamento <= data);
+            return this;
+        }
+
     }
 }

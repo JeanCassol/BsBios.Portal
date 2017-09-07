@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.DataAccess;
 using BsBios.Portal.Infra.Email;
 using BsBios.Portal.Infra.Model;
@@ -22,6 +23,7 @@ namespace BsBios.Portal.TestsComBancoDeDados
 
             RemoveQueries.RemoverTodosCadastros();
 
+            CadastrarUsuarioConectado();
             RestaurarUsuarioConectado();
 
             var emailDoPortal = ConfigurationManager.GetSection("emailDoPortal") as EmailDoPortal;
@@ -44,6 +46,13 @@ namespace BsBios.Portal.TestsComBancoDeDados
                                                emailDoPortal.Porta, emailDoPortal.HabilitarSsl)).Named(Constantes.ContaDeEmailDeSuprimentos);
                     }
                 });
+        }
+
+        private static void CadastrarUsuarioConectado()
+        {
+            var usuarioConectado = new Usuario("Usuário de Teste", "teste", "teste@teste.com.br");
+            usuarioConectado.AdicionarPerfil(Enumeradores.Perfil.CompradorSuprimentos);
+            DefaultPersistedObjects.PersistirUsuario(usuarioConectado);
         }
 
         public static void RestaurarUsuarioConectado()
