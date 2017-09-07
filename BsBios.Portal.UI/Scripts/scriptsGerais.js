@@ -73,6 +73,13 @@ String.prototype.boolean = function () {
     return this.match(/^(true|True)$/i) !== null;
 };
 
+ContentType = {
+    html: 1,
+    xml: 2,
+    outro: 3,
+    json: 4
+};
+
 Numero = {
     GetFloat: function (valor) {
         var val = Globalize.parseFloat(valor);
@@ -214,39 +221,6 @@ $.fn.customDialog = function (configuracao) {
     }
     
     this.dialog(configuracao);
-};
-
-$.fn.customLoad = function (url, callBack) {
-
-    var divParaCarregar = this;
-    
-    var larguraDaViewPort = $(window).width();
-
-    if (larguraDaViewPort > 800) {
-        $(divParaCarregar).dialog("option", "width", 800);
-    } else {
-        $(divParaCarregar).dialog("option", "width", '99%');
-    }
-
-    if (!url) {
-        divParaCarregar.dialog("open");
-        return;
-    }
-    
-    this.load(url, function (responseText, textStatus, xmlHttpRequest) {
-        var contentType = xmlHttpRequest.getResponseHeader('Content-Type');
-        if (contentType.indexOf("json") > -1) {
-            if (sessaoEstaExpirada(xmlHttpRequest)) {
-                return;
-            }
-        }
-        if (callBack) {
-            callBack();
-        }
-        
-        divParaCarregar.dialog("open");
-    });
-    
 };
 
 $.fn.serializeObject = function() {
@@ -585,16 +559,32 @@ function getContentType(xhr) {
 }
 
 $.fn.customLoad = function (configuracao, functionBeforeOpen) {
+
+    var divParaCarregar = this;
+
+    var larguraDaViewPort = $(window).width();
+
+    if (larguraDaViewPort > 800) {
+        $(divParaCarregar).dialog("option", "width", 800);
+    } else {
+        $(divParaCarregar).dialog("option", "width", '99%');
+    }
+
+    if (!configuracao.url) {
+        divParaCarregar.dialog("open");
+        return;
+    }
+
     $(this).load(configuracao.url,
     function (response, status, xhr) {
         var responseType = getContentType(xhr);
-        if (responseType == ContentType.json) {
+        if (responseType === ContentType.json) {
             if (verificaSessaoExpirada(response)) {
                 return;
             }
         }
-        if (status == "error") {
-            if (responseType == ContentType.json && response.Mensagem) {
+        if (status === "error") {
+            if (responseType === ContentType.json && response.Mensagem) {
                 Mensagem.ExibirMensagemDeErro(response.Mensagem);
             } else {
                 Mensagem.ExibirJanelaComHtml(response);
@@ -607,7 +597,7 @@ $.fn.customLoad = function (configuracao, functionBeforeOpen) {
         if (functionBeforeOpen) {
             functionBeforeOpen();
         }
-        $(this).dialog('open');
+        divParaCarregar.dialog("open");
     });
 };
 

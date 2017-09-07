@@ -8,6 +8,8 @@
     ViewBag.TituloDaPagina = "Agendamentos";
     var fluxoDeCarga = (Enumeradores.FluxoDeCarga)Enum.Parse(typeof(Enumeradores.FluxoDeCarga), Convert.ToString(Model.CodigoFluxoDeCarga));
     IHtmlString urlDoNovoAgendamento = null;
+
+    String viewDeAgendamento = fluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento ? "NovoAgendamentoDeCarregamento" : "NovoAgendamentoDeDescarregamento";
 }
 @section styles
 {
@@ -66,6 +68,7 @@
                     UrlDeExclusao: '@Url.Action("Excluir", "AgendamentoDeCargaService")',
                     IdQuota: '@Model.IdQuota'
                 });
+            
 
             @if (fluxoDeCarga == Enumeradores.FluxoDeCarga.Carregamento)
             {
@@ -77,7 +80,7 @@
             }
 
             $('#btnAdicionarAgendamento').click(function() {
-                $('#divCadastroAgendamento').customLoad({ url: '@Html.Raw(Url.Action("NovoCadastro", "AgendamentoDeCarga", new {Model.IdQuota, Model.CodigoFluxoDeCarga}))', validar: true });
+                $('#divCadastroAgendamento').customLoad({ url: '@Html.Raw(Url.Action(viewDeAgendamento, "AgendamentoDeCarga", new {Model.IdQuota, Model.CodigoFluxoDeCarga}))', validar: true });
             });
 
         var parametrosDoNovoAgendamento = "";
@@ -108,7 +111,7 @@
 
 
         $('#btnAdicionarAgendamento').click(function () {
-            $('#divCadastroAgendamento').customLoad('@urlDoNovoAgendamento' + parametrosDoNovoAgendamento,
+            $('#divCadastroAgendamento').customLoad({ url: '@urlDoNovoAgendamento' + parametrosDoNovoAgendamento },
                 function () {
                     jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
                 });

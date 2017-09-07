@@ -114,8 +114,9 @@
                 };
             }
 
-            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarProduto
-                + '/?Codigo=' + codigoDoProduto + '&Nome=' + escape(descricaoDoProduto), configurarGridDeSelecao);
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad({url: UrlPadrao.SelecionarProduto
+                + '/?Codigo=' + codigoDoProduto + '&Nome=' + escape(descricaoDoProduto)
+            }, configurarGridDeSelecao);
         });
 
     };

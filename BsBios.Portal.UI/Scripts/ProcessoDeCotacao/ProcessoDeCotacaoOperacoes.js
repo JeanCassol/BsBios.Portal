@@ -184,10 +184,10 @@
                 Mensagem.ExibirMensagemDeErro("Não é possível selecionar Fornecedores antes de salvar o Processo de Cotação.");
                 return;
             }
-            $('#divSelecionarFornecedores').customLoad(UrlPadrao.SelecionarFornecedores
+            $('#divSelecionarFornecedores').customLoad({url: UrlPadrao.SelecionarFornecedores
                 + "/?codigoProduto=" + $('#CodigoMaterial').val()
                 + "&idProcessoCotacao=" + $('#Id').val()
-                + "&TipoDeCotacao=" + tipoDeCotacao);
+                + "&TipoDeCotacao=" + tipoDeCotacao});
            /* $('#divSelecionarFornecedores').customLoad({
                     url: UrlPadrao.SelecionarFornecedores
                         + "/?idProcessoCotacao=" + $('#Id').val()

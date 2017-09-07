@@ -110,8 +110,9 @@
                 };
             }
 
-            $('#' + idDaDivDaJanelaDeDialogo).customLoad(UrlPadrao.SelecionarItinerario
-                + '/?Codigo=' + codigoDoItinerario + '&Descricao=' + escape(descricaoDoItinerario), configurarGridDeSelecao);
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad({ url: UrlPadrao.SelecionarItinerario
+                + '/?Codigo=' + codigoDoItinerario + '&Descricao=' + escape(descricaoDoItinerario)
+            }, configurarGridDeSelecao);
         });
 
     }

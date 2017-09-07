@@ -78,10 +78,16 @@ GridAgendamentosDeCarga = {
             var gridAgendamento = $("#gridAgendamentosDeCarga").data("kendoGrid");
             var agendamentoSelecionado = gridAgendamento.obterRegistroSelecionado();          
 
-            $('#divCadastroAgendamento').customLoad(configuracao.UrlDeEdicao + '/?idQuota=' + configuracao.IdQuota + '&idAgendamento=' + agendamentoSelecionado.IdAgendamento
-            , function () {
+            $('#divCadastroAgendamento').customLoad(
+                {
+                    url: configuracao.UrlDeEdicao +
+                        '/?idQuota=' +
+                        configuracao.IdQuota +
+                        '&idAgendamento=' +
+                        agendamentoSelecionado.IdAgendamento
+                }, function () {
                 jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
-            });
+            })};
             
         });
         

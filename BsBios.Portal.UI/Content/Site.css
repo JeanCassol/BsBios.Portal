@@ -515,7 +515,8 @@ input[type="checkbox"].input-validation-error {
 .elementosCentralizados {
     margin: 0 auto;
     display: block;
-    text-align: center
+    text-align: center;
+    width: 25%;
 }
 .labelEsquerda {
     text-align:left

@@ -188,7 +188,7 @@
                 $("#FormularioDeFechamento").validate({
                     rules: {
                         Observacao: {
-                            required: true   
+                            required: true
                         }
                     },
                     messages: {
@@ -301,12 +301,13 @@
 
         var functionEditarColeta = function() {
             var coletaSelecionada = $('#gridColetas').data('kendoGrid').obterRegistroSelecionado();
-            $('#divCadastroColeta').customLoad('@Html.Raw(Url.Action("EditarColeta", "OrdemDeTransporte"))' +
-                '?idDaOrdemDeTransporte=' + coletaSelecionada.IdDaOrdemDeTransporte + '&idDaColeta=' + coletaSelecionada.IdColeta,
+            $('#divCadastroColeta').customLoad( {url: '@Html.Raw(Url.Action("EditarColeta", "OrdemDeTransporte"))' +
+                '?idDaOrdemDeTransporte=' + coletaSelecionada.IdDaOrdemDeTransporte + '&idDaColeta=' + coletaSelecionada.IdColeta
+                },
                 function() {
                     jQuery.validator.unobtrusive.parse('#divCadastroColeta');
-                });
-        };
+                })};
+
 
         var funcaoParaRemoverColeta = function() {
             Mensagem.ExibirMensagemDeConfirmacao("Confirma a exclusão da Coleta e todas as suas Notas Fiscais?", function() {
@@ -401,7 +402,7 @@
 
         $('#btnAdicionarColeta').click(function() {
             var divCadastroColeta = $('#divCadastroColeta');
-            $(divCadastroColeta).customLoad('@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte", new {Model.Cabecalho.UnidadeDeMedida}))',
+            $(divCadastroColeta).customLoad({ url: '@Html.Raw(Url.Action("NovaColeta", "OrdemDeTransporte", new {Model.Cabecalho.UnidadeDeMedida}))' },
                 function() {
                     $(divCadastroColeta).find('#UnidadeDeMedida').val('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Cabecalho.UnidadeDeMedida))');
                     $(divCadastroColeta).find('#PrecoUnitario').val(Globalize.format(Globalize.parseFloat('@Model.PrecoUnitario'), 'n2'));
