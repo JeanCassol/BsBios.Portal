@@ -133,7 +133,7 @@ namespace BsBios.Portal.Domain.Entities
             return FornecedoresParticipantes.First(x => x.Cotacao != null && x.Cotacao.Id == idCotacao).Cotacao;
         }
 
-        public void Fechar()
+        public virtual void Fechar()
         {
             if (Status == Enumeradores.StatusProcessoCotacao.Fechado)
             {

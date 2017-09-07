@@ -22,7 +22,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Terminal Terminal { get; protected set; }
         public virtual decimal? ValorPrevisto { get; protected set; }
 
-        public void InformarCotacao(string codigoFornecedor, decimal valorComImpostos, decimal quantidadeDisponivel, string observacoesDoFornecedor)
+        public virtual void InformarCotacao(string codigoFornecedor, decimal valorComImpostos, decimal quantidadeDisponivel, string observacoesDoFornecedor)
         {
             base.InformarCotacao();
             var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);

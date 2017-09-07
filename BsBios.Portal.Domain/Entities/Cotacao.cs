@@ -14,7 +14,7 @@ namespace BsBios.Portal.Domain.Entities
             Itens = new List<CotacaoItem>();
         }
 
-        public bool Selecionada => this.Itens.Any(x => x.Selecionada);
+        public virtual bool Selecionada => this.Itens.Any(x => x.Selecionada);
     }
 
   /*      protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
