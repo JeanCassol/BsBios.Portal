@@ -555,6 +555,7 @@
     <Content Include="Views\EficienciaDeNegociacao\Index.cshtml" />
     <Content Include="Views\EficienciaDeNegociacao\_Filtro.cshtml" />
     <Content Include="Views\Shared\_SelecionarComprador.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeMaterial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

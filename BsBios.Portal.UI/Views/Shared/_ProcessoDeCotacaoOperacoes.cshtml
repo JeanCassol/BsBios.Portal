@@ -8,7 +8,7 @@
 <fieldset>
     <legend>Fornecedores</legend>
     <div class="divBotao">
-        <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="blue" style="width: 27%" />
+        <input type="button" id="btnSelecionarFornecedores" value="Fornecedores Participantes" class="@(permiteOutrasOperacoes ? Html.Raw("blue"): Html.Raw("gray"))" @(!permiteOutrasOperacoes ? "disabled":"") style="width: 27%"/>
     </div>
     <div id="gridCotacaoFornecedor" class="divGrid"></div>
     <div id="divFecharProcessoDeCotacaoDeMaterial" class="janelaModal"></div>
@@ -19,9 +19,12 @@
 <fieldset>
     <legend>Ações</legend>
     <div class="divBotao">
-        <input type="button" id="btnAbrirProcesso" value="Abrir" class="blue" />
-        <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" class="blue" style="width: 175px" />
-        <input type="button" id="btnFecharProcesso" value="Fechar" class="blue" />
+        <input type="button" id="btnAbrirProcesso" value="Abrir" class="@(permiteOutrasOperacoes ? Html.Raw("blue"): Html.Raw("gray"))" @(!permiteOutrasOperacoes ? "disabled":"")  />
+        @if (blnExibirBotacaoSelecionarCotacoes)
+        {
+            <input type="button" id="btnSelecionarCotacoes" value="Selecionar Cotação" style="width: 175px" class="@(permiteFecharProcesso ? Html.Raw("blue"): Html.Raw("gray"))" @(!permiteFecharProcesso ? "disabled" : "") />
+        }
+        <input type="button" id="btnFecharProcesso" value="Fechar" class="@(permiteFecharProcesso ? Html.Raw("blue"): Html.Raw("gray"))" @(!permiteFecharProcesso ? "disabled":"") />
         <input type="button" id="btnCancelarProcesso" value="Cancelar" class="blue" />
     </div>
 </fieldset>

@@ -1,0 +1,117 @@
+@using BsBios.Portal.ViewModel
+@section styles
+{
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.common.min.css")" rel="stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
+}
+<fieldset class="divFiltros">
+    <legend>Filtros</legend>
+    <form>
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("CodigoProduto","Código")
+                @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
+            </div>
+            <div class="coluna">
+                @Html.Label("DescricaoProduto","Material")
+                @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
+            </div>
+        </div>
+
+        <div class="linha">
+            <div class="coluna">
+                @Html.Label("Status")
+                @Html.DropDownList("Status", ((IList<StatusProcessoCotacaoVm>)ViewBag.StatusProcessoCotacao)
+                .Select(x => new SelectListItem { Value = Convert.ToString(x.Codigo), Text = x.Descricao }), "Escolha >>")
+            </div>
+        </div>
+        <div class="divBotao">
+            <input id="btnPesquisar" type="submit" value="Pesquisar" class="blue"/>
+            <input id="btnLimpar" type="reset" value="Limpar" class="blue"/>
+        </div>
+    </form>
+</fieldset>
+<div id="gridCotacaoMaterial" class="divGrid" ></div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2012.3.1114/kendo.grid.min.js")"></script>
+    <script>
+        $(document).ready(function() {
+
+            var colunas = [{
+                field: 'Id',
+                title: ' ', /*coloco um espaço para deixar o header sem título*/
+                width: 40,
+                sortable: false,
+                template: '<input type="button" title="Editar Processo de Cotação" class="button16 button_edit" data-idprocessocotacao="${Id}"></input>'
+            }];
+
+            colunas.push({
+                field: "Material",
+                width: 250,
+                title: "Material"
+            });
+
+            colunas.push({
+                width: 100,
+                field: "Status",
+                title:"Status"
+            });
+            colunas.push({
+                width: 80,
+                field: "DataTermino",
+                title: "Retorno Até"
+            });
+
+            $("#gridCotacaoMaterial").customKendoGrid({
+                dataSource: {
+                    schema: {
+                        data: 'registros',
+                        model: {
+                            id: 'Id',
+                            fields: {
+                                Id: {
+                                    type: "number"
+                                },
+                                Material: {
+                                    type: "string"
+                                },
+                                Status: {
+                                    type: "string"
+                                },
+                                DataTermino: {
+                                    type: "string"
+                                }
+                            }
+                        },
+                        total: 'totalCount',
+                        type: 'json'
+                    },
+                    transport: {
+                        read: {
+                            url: '@ViewData["ActionListagem"]',
+                            type: 'GET',
+                            cache: false,
+                            data: function() {
+                                return {
+                                    CodigoProduto: $('#CodigoProduto').val(), DescricaoProduto: $('#DescricaoProduto').val(),
+                                    CodigoStatusProcessoCotacao: $('#Status :selected').val()
+                                };
+                            }
+                        }
+                    }
+                },
+                scrollable: true,
+                columns: colunas
+            });
+
+            $('.button_edit').die("click");
+            $('.button_edit').live("click", function(e) {
+                e.preventDefault();
+                location.href = '@ViewData["ActionEdicao"]' + '/?idProcessoCotacao=' + $(this).attr('data-idprocessocotacao');
+            });
+        });
+    </script>
+
+}

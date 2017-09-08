@@ -51,7 +51,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Frete;
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
 
-            return View("_ProcessoCotacaoIndex");
+            return View();
         }
         [HttpGet]
         public JsonResult Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)

@@ -103,7 +103,7 @@ SelecionarItens = {
 
         var idProcessoCotacao = $('#Id').val();
         $.ajax({
-            url: UrlPadrao.ListarItensDoProcessoDeCotacao + '/?idProcessoCotacao=' + idProcessoCotacao,
+            url: UrlPadrao.ListarItensDoProcessoDeCotacao,
             type: 'GET',
             cache: false,
             data: {

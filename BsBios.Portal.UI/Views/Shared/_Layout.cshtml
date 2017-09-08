@@ -79,22 +79,19 @@
                 TipoDeCotacao.Frete = '@((int) Enumeradores.TipoDeCotacao.Frete)';
 
             UrlPadrao.SelecionarComprador = '@Url.Action("Selecionar","SelecionarComprador")';
-            UrlPadrao.CotacaoDeMaterialResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoMaterial")';
-            UrlPadrao.CotacaoDeFreteResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoCotacaoFrete")';
+            UrlPadrao.CotacaoDeMaterialResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoDeCotacaoDeMaterial")';
+            UrlPadrao.CotacaoDeFreteResumida = '@Url.Action("ListarCotacoesResumido", "ProcessoDeCotacaoDeFrete")';
             UrlPadrao.EnviarEmail = '@Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")';
             UrlPadrao.AtualizarFornecedoresDoProcessoDeCotacao = '@Url.Action("AtualizarFornecedores", "ProcessoDeCotacaoFornecedoresService")';
             UrlPadrao.AtualizarItensDoProcessoDeCotacao = '@Url.Action("AtualizarItens","ProcessoDeCotacaoItensService")';
             UrlPadrao.VerificarQuantidadeAdquiridaNoProcessoDeCotacao = '@Url.Action("VerificarQuantidadeAdquirida","ProcessoDeCotacaoService")';
-            UrlPadrao.SelecionarFornecedores = '@Url.Action("SelecionarFornecedores", "ProcessoCotacaoMaterial")';
-            UrlPadrao.SelecionarItens = '@Url.Action("SelecionarItens","ProcessoCotacaoMaterial")';
+            UrlPadrao.SelecionarItens = '@Url.Action("SelecionarItens","ProcessoDeCotacaoDeMaterial")';
             
             UrlPadrao.SelecionarCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeMaterialSelecionar")';
-            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoMaterial")';
-            UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial = '@Url.Action("FecharProcesso", "ProcessoCotacaoMaterial")';
+            UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeMaterial")';
             UrlPadrao.AbrirProcessoDeCotacaoDeMaterial = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeMaterialAbertura")';
             UrlPadrao.FecharProcessoDeCotacaoDeMaterial = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeMaterialFechamento")';
             UrlPadrao.SelecionarCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoDeCotacaoDeFreteSelecionar")';
-            UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete = '@Url.Action("SelecionarCotacoes", "ProcessoCotacaoFrete")';
             UrlPadrao.AbrirProcessoDeCotacaoDeFrete = '@Url.Action("AbrirProcesso", "ProcessoDeCotacaoDeFreteAbertura")';
             UrlPadrao.FecharProcessoDeCotacaoDeFrete = '@Url.Action("FecharProcesso", "ProcessoDeCotacaoDeFreteFechamento")';
 
@@ -102,7 +99,7 @@
             UrlPadrao.ProcessoCotacaoDownloadAnexo = '@Url.Action("Download", "ProcessoDeCotacaoAnexo")';
             UrlPadrao.ProcessoCotacaoExcluirAnexo = '@Url.Action("Excluir","ProcessoDeCotacaoAnexo")';
             
-            UrlPadrao.ListarItensDoProcessoDeCotacao = '@Url.Action("ListarItens","ProcessoCotacaoMaterial")';
+            UrlPadrao.ListarItensDoProcessoDeCotacao = '@Url.Action("ListarItens", "ProcessoDeCotacaoDeMaterial")';
             UrlPadrao.ListarRequisicoesDeCompra = '@Url.Action("Listar","RequisicaoDeCompra")';
             UrlPadrao.BloquearRequisicaoDeCompra = '@Url.Action("Bloquear","RequisicaoDeCompraAlteracao")';
 
