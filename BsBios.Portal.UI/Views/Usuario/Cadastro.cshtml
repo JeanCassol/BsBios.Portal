@@ -206,7 +206,7 @@
             $('#divGridPerfisNaoAtribuidos').find('.button_add').die("click");
             $('#divGridPerfisNaoAtribuidos').find('.button_add').live("click", function () {
                 var grid = $('#divGridPerfisNaoAtribuidos').data("kendoGrid");
-                var dataItem = grid.dataItem(grid.select());
+                var dataItem = grid.dataItem($(this).parents('tr:first'));
                 perfisDoUsuario.push({ Codigo: dataItem.Codigo, Descricao: dataItem.Descricao });
                 removerPerfil(perfisNaoAtribuidos, dataItem.Codigo);
                 atualizaGrids();
@@ -216,7 +216,7 @@
             $('#divGridPerfisDoUsuario').find('.button_remove').die('click');
             $('#divGridPerfisDoUsuario').find('.button_remove').live('click', function () {
                 var grid = $('#divGridPerfisDoUsuario').data("kendoGrid");
-                var dataItem = grid.dataItem(grid.select());
+                var dataItem = grid.dataItem($(this).parents('tr:first'));
                 perfisNaoAtribuidos.push({ Codigo: dataItem.Codigo, Descricao: dataItem.Descricao });
                 removerPerfil(perfisDoUsuario, dataItem.Codigo);
                 atualizaGrids();

@@ -29,10 +29,13 @@
             </p>
         </div>
     </div>
-    <fieldset>
-        <legend>Gerar no SAP</legend>
-        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
-        @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
-    </fieldset>
+    <div class="linha">
+        <fieldset>
+            <legend>Gerar no SAP</legend>
+            @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Pedido",(int) Enumeradores.DocumentoDoSap.Pedido,true)
+            @Html.RadioButtonComLabel("DocumentoParaGerarNoSap","Contrato",(int) Enumeradores.DocumentoDoSap.Contrato,false)
+        </fieldset>
+        
+    </div>
 </form>
 

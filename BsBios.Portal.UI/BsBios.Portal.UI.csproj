@@ -548,7 +548,7 @@
     <Content Include="Views\RelatorioDeUsuario\_Filtro.cshtml" />
     <Content Include="Views\RelatorioDeUsuarioVisualizacao\_Cabecalho.cshtml" />
     <Content Include="Views\RelatorioDeUsuarioVisualizacao\Relatorio.cshtml" />
-    <Content Include="Views\ProcessoCotacaoMaterial\_FecharProcesso.cshtml" />
+    <Content Include="Views\ProcessoDeCotacaoDeMaterial\_FecharProcesso.cshtml" />
     <Content Include="Views\Shared\_SelecionarItens.cshtml" />
     <Content Include="Views\CotacaoMaterial\_CadastroItem.cshtml" />
     <Content Include="Views\CotacaoMaterial\_ConsultarCadastro.cshtml" />

@@ -29,7 +29,8 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 var processoDeCotacao = (ProcessoDeCotacaoDeMaterial)_processosDeCotacao.BuscaPorId(processoDeCotacaoFechamentoVm.IdProcessoCotacao).Single();
                 processoDeCotacao.Fechar();
-                _comunicacaoSap.EfetuarComunicacao(processoDeCotacao, processoDeCotacaoFechamentoVm);
+                //TODO COMENTADO PARA APRESENTACAO
+                //_comunicacaoSap.EfetuarComunicacao(processoDeCotacao, processoDeCotacaoFechamentoVm);
                 _processosDeCotacao.Save(processoDeCotacao);
 
                 _unitOfWork.Commit();

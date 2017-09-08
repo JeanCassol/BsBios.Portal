@@ -16,6 +16,10 @@
     padding: 0!important;
     background-color: #efeeef!important;    
 }
+
+.ui-dialog-buttonset button {
+    height: 30px;
+}
 .ui-button-text {
     font-size: 1.3em!important;
 }

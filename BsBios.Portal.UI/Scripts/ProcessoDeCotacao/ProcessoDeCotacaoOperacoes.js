@@ -199,7 +199,7 @@
         $('#btnSelecionarCotacoes').click(function () {
             var urlDaTela = (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
                 + "/?idProcessoCotacao=" + $('#Id').val();
-            $('#divSelecionarCotacoes').customLoad(urlDaTela);
+            $('#divSelecionarCotacoes').customLoad({ url: urlDaTela});
            /* $('#divSelecionarCotacoes').customLoad({
                     url: (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
                         + "/?idProcessoCotacao=" + $('#Id').val()});*/
