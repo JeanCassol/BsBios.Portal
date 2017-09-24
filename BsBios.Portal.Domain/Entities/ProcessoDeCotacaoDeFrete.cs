@@ -27,6 +27,11 @@ namespace BsBios.Portal.Domain.Entities
             base.InformarCotacao();
             var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
             var cotacao = (CotacaoDeFrete) fornecedorParticipante.Cotacao;
+            if (cotacao == null)
+            {
+                cotacao = new CotacaoDeFrete();
+                fornecedorParticipante.InformarCotacao(cotacao);
+            }
             var processoDeCotacaoItem = this.Itens.Single();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorComImpostos, quantidadeDisponivel,
                 observacoesDoFornecedor);

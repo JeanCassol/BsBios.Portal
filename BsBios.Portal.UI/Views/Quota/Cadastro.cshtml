@@ -113,9 +113,9 @@
                     if (indice == indiceEdicao) {
                         return;
                     }
-                    if (fornecedor.CodigoFornecedor == quota.CodigoFornecedor
-                        && fornecedor.CodigoFluxoCarga == quota.CodigoFluxoCarga
-                        && fornecedor.CodigoMaterial == quota.CodigoMaterial) {
+                    if (fornecedor.CodigoFornecedor === quota.CodigoFornecedor
+                        && fornecedor.CodigoFluxoCarga === quota.CodigoFluxoCarga
+                        && fornecedor.CodigoMaterial === quota.CodigoMaterial) {
                         quotaEncontrada = true;
                     }
                 });
@@ -286,7 +286,7 @@
                             return;
                         }
 
-                        if (data.Registros.length == 0) {
+                        if (data.Registros.length === 0) {
                             //caso seja uma data que não tenha registros tem que sair do método e manter os registros do grid,
                             //caso existam. Com isso os registros do copiar não serão excluidos quando os campos de terminal e data 
                             //forem preenchidos.
@@ -315,7 +315,7 @@
             });
 
             $('#btnSalvar').click(function() {
-                if (quantidadeDeFornecedoresIniciais == 0 && fornecedoresAdicionados.length == 0) {
+                if (quantidadeDeFornecedoresIniciais === 0 && fornecedoresAdicionados.length === 0) {
                     Mensagem.ExibirMensagemDeErro('Deve ser adicionado pelo menos um Fornecedor antes de salvar.');
                     return;
                 }
@@ -391,7 +391,7 @@
                 habilitarCamposPrincipais();
                 fornecedoresAdicionados = [];
                 atualizaGrid();
-                $('form').find('input[type!=button]').val();
+                $('form').find('input:not([type=button])').val();
             });
 
         });

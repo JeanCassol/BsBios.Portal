@@ -264,7 +264,7 @@
                         desabilitarBotao('#btnFecharProcesso,#btnSalvarProcesso');
                         Mensagem.ExibirMensagemDeSucesso(data.Mensagem);
                     } else {
-                        if (data.MediaType == "text/html") {
+                        if (data.MediaType === "text/html") {
                             Mensagem.ExibirJanelaComHtml(data.Mensagem);
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
@@ -298,10 +298,10 @@
         });
 
         $('#btnFecharProcesso').click(function () {
-            if (tipoDeCotacao == TipoDeCotacao.Material) {
+            if (tipoDeCotacao === TipoDeCotacao.Material) {
                 $('#divFecharProcessoDeCotacaoDeMaterial').customLoad({url:UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial, validar:true});
             }
-            if (tipoDeCotacao == TipoDeCotacao.Frete) {
+            if (tipoDeCotacao === TipoDeCotacao.Frete) {
                 fecharProcessoDeCotacao(UrlPadrao.FecharProcessoDeCotacaoDeFrete);
             }
         });

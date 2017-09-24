@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
@@ -24,8 +23,6 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 var processoDeCotacao = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
-
-                ProcessoDeCotacaoItem item = processoDeCotacao.Itens.First();
 
                 processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,cotacaoInformarVm.ValorComImpostos.Value,
                     cotacaoInformarVm.QuantidadeDisponivel.Value, cotacaoInformarVm.ObservacoesDoFornecedor);

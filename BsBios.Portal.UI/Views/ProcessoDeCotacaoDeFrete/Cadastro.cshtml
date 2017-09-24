@@ -160,7 +160,7 @@
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar(idProcessoCotacao);
+            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeFreteResumida, ExibirBotaoVisualizar: true, autoBind: idProcessoCotacao > 0 });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
 
             aplicaMascaraData();

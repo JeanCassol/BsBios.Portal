@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using BsBios.Portal.Infra.Mappings;
 using FluentNHibernate.Cfg;
@@ -6,6 +9,7 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Caches.SysCache2;
 using NHibernate.Cfg;
+using NHibernate.SqlCommand;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Cfg.Loquacious;
@@ -33,19 +37,16 @@ namespace BsBios.Portal.Infra.DataAccess
 
         private static void ConfigureDataAccess(ConfigurationExpression i, string connString)
         {
-            //ConfigureDataAccess(i,  OracleClientConfiguration.Oracle10.ConnectionString( c=> c.Is(connString)).ShowSql());
-
             ConfigureDataAccess(i, OracleDataClientConfiguration.Oracle10.ConnectionString(c => c.Is(connString)).ShowSql());
 
         }
 
         private static void ConfigureDataAccess(ConfigurationExpression i, IPersistenceConfigurer databaseConfigurer)
         {
-            ValidatorEngine validatorEngine;
             //Configura o IoC para session factory do nhibernate ser singleton por toda a aplicação
             i.For<ISessionFactory>()
                 .Singleton()
-                .Use(ConfigureNHibernate(databaseConfigurer, out validatorEngine));
+                .Use(ConfigureNHibernate(databaseConfigurer, out var validatorEngine));
 
             //Configura o IoC para criar uma nova sessão a cada requisição
             i.For<ISession>()
@@ -85,13 +86,15 @@ namespace BsBios.Portal.Infra.DataAccess
                         .ProviderClass<SysCacheProvider>()
                     )
                 .ExposeConfiguration(c =>
-                                         {
+                {
+                        c.SetInterceptor(new ShowSqlInterceptor());
                                              ve = ConfigureValidator(c);
                                              c.SetProperty("adonet.batch_size", "5");
                                              c.SetProperty("generate_statistics", "false");
                                              //c.SetProperty("cache.use_second_level_cache", "true");
                                          })
-                .BuildConfiguration().BuildSessionFactory();
+                
+                                         .BuildConfiguration().BuildSessionFactory();
 
             validatorEngine = ve;
             return factory;
@@ -105,6 +108,7 @@ namespace BsBios.Portal.Infra.DataAccess
         private static ValidatorEngine ConfigureValidator(Configuration nHibernateConfiguration)
         {
             var configure = new NHibernate.Validator.Cfg.Loquacious.FluentConfiguration();
+            
             configure.Register(
                 Assembly.GetExecutingAssembly().GetTypes()
                     .Where(t => t.Namespace != null && t.Namespace.Equals("BsBios.Portal.Domain.Entities"))
@@ -117,5 +121,17 @@ namespace BsBios.Portal.Infra.DataAccess
             nHibernateConfiguration.Initialize(ve);
             return ve;
         }
+    }
+
+    internal class ShowSqlInterceptor : EmptyInterceptor
+    {
+        public override SqlString OnPrepareStatement(SqlString sql)
+        {
+            Trace.WriteLine(sql.ToString());
+
+            return sql;
+        }
+
+
     }
 }

@@ -556,6 +556,9 @@
     <Content Include="Views\EficienciaDeNegociacao\_Filtro.cshtml" />
     <Content Include="Views\Shared\_SelecionarComprador.cshtml" />
     <Content Include="Views\ProcessoDeCotacaoDeMaterial\Index.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
+    <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

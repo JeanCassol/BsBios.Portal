@@ -1,0 +1,194 @@
+﻿@using BsBios.Portal.UI.Helpers
+@using BsBios.Portal.ViewModel
+@model AgendamentoDeDescarregamentoCadastroVm
+@{
+    Layout = null;
+}
+<div class="divFiltros">
+    <fieldset >
+        <legend>Agendamento de Descarregamento</legend>
+        <form id="formAgendamento">
+            @Html.HiddenFor(x => x.IdQuota)
+            @Html.HiddenFor(x => x.IdAgendamento)
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.Placa,"maskplaca"),
+             new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.DescricaoDoTerminal,"campoDesabilitado") )
+        </form>
+    </fieldset>
+    <fieldset id="fieldSetNotaFiscal">
+        <legend>Nota Fiscal</legend>
+        <form id="formNotaFiscal">
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Numero,"masknumeronf"),
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.Serie,"maskserienf"))
+
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.DataDeEmissao,Model.PermiteEditar ? "campoDatePicker maskdata":""))
+
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoEmitente, "maskcnpj"),
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoEmitente,"campogrande"))
+            
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.CnpjDoContratante,"maskcnpj"),
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NomeDoContratante,"campogrande"))
+  
+
+            @Html.LinhaComUmaColuna(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, string>(x => x.NotaFiscal.NumeroDoContrato,"masknumerocontrato"))
+
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Valor,"maskmoeda"),
+                                      new ColunaComTextBox<AgendamentoDeDescarregamentoCadastroVm, decimal>(x => x.NotaFiscal.Peso,"maskquantidade"))
+            
+            @if (Model.PermiteEditar)
+            {
+                <div class="divBotao">
+                    <input type="button" id="btnSalvarNotaFiscal" class="blue" value="Adicionar"/>
+                    <input type="reset" id="btnCancelarEdicao" value="Cancelar" class="blue" />
+                </div>
+            }
+
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Notas Fiscais adicionadas</legend>
+        <div id="divGridNotasFiscaisAdicionadas" class="divGrid" style="width: 780px"></div>
+    </fieldset>
+    <div id="divErro" class="message-error"></div>
+</div>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/AgendamentoDeCarga/GridNotasFiscais.js")"></script>
+<script type="text/javascript">
+    inicializaCamposDatePicker();
+    function limparCamposDaNota() {
+        $('#fieldSetNotaFiscal').find('input:not([type=button])').val('');
+    }
+
+    $(function () {
+        $('#btnCancelarEdicao').hide();
+        var permiteEditar = '@Model.PermiteEditar'.boolean();
+        if (permiteEditar || '@Model.PermiteRealizar'.boolean()) {
+            $('.ui-dialog-buttonpane').show();
+        } else {
+            $('.ui-dialog-buttonpane').hide();
+        }
+
+        if (!permiteEditar) {
+            $('#formAgendamento,#formNotaFiscal').find('input')
+                .attr('readonly', true)
+                .addClass('campoDesabilitado');
+        } else {
+            aplicaMascaraNumeroNf();
+            aplicaMascaraSerieNf();
+            aplicaMascaraNumeroContrato();
+            aplicaMascaraPlaca();
+            aplicaMascaraCnpj();
+            aplicaMascaraData();
+            aplicaMascaraQuantidade();
+            aplicaMascaraMoeda();
+
+            $('#NotaFiscal_NomeDoEmitente,#NotaFiscal_NomeDoContratante').attr('maxlength', 35);
+            $('#DescricaoDoTerminal').attr('readonly', true);
+        }
+
+
+        @if (Model.IdAgendamento > 0)
+        {
+            @: GridNotasFiscais.CarregarNotas('@Html.Raw(Url.Action("NotasFiscaisDoAgendamento", "Quota", new { Model.IdQuota, Model.IdAgendamento}))');
+        }
+        
+        var funcaoParaSalvarCamposEspecificosDaNota = function (notaFiscal) {
+
+            $('#NotaFiscal_CnpjDoEmitente').val(Formato.formataCnpj(notaFiscal.CnpjDoEmitente));
+            $('#NotaFiscal_NomeDoEmitente').val(notaFiscal.NomeDoEmitente);
+            $('#NotaFiscal_NumeroDoContrato').val(notaFiscal.NumeroDoContrato);
+            $('#NotaFiscal_CnpjDoContratante').val(Formato.formataCnpj(notaFiscal.CnpjDoContratante));
+            $('#NotaFiscal_NomeDoContratante').val(notaFiscal.NomeDoContratante);
+
+       };
+
+
+        GridNotasFiscais.ConfigurarGrid({
+            PermiteEditar: permiteEditar,
+            exibirEmitente: true,
+            funcaoParaSalvarCamposEspecificosDaNota: funcaoParaSalvarCamposEspecificosDaNota
+        });
+
+        $('#btnSalvarNotaFiscal').click(function () {
+            var form = $('#formNotaFiscal');
+            if (!$(form).validate().form()) {
+                return;
+            }
+
+            var notaFiscal = {
+                Numero: $('#NotaFiscal_Numero').val(),
+                Serie: $('#NotaFiscal_Serie').val(),
+                DataDeEmissao: $('#NotaFiscal_DataDeEmissao').val(),
+                CnpjDoEmitente: $('#NotaFiscal_CnpjDoEmitente').val().replace(/[^\d]+/g, ''),
+                NomeDoEmitente: $('#NotaFiscal_NomeDoEmitente').val(),
+                CnpjDoContratante: $('#NotaFiscal_CnpjDoContratante').val().replace(/[^\d]+/g, ''),
+                NomeDoContratante: $('#NotaFiscal_NomeDoContratante').val(),
+                NumeroDoContrato: $('#NotaFiscal_NumeroDoContrato').val(),
+                Valor: Globalize.parseFloat($('#NotaFiscal_Valor').val()),
+                Peso: Globalize.parseFloat($('#NotaFiscal_Peso').val())
+            };
+
+            try {
+                GridNotasFiscais.SalvarNotaFiscal(notaFiscal);
+                limparCamposDaNota();
+                $('#btnSalvarNotaFiscal').val('Adicionar');
+                $('#btnCancelarEdicao').hide();
+            } catch(err) {
+                Mensagem.ExibirMensagemDeErro(err);
+            }
+        });
+
+        if (!permiteEditar) {
+            GridNotasFiscais.CarregarCamposParaPrimeiraNota();
+        }
+
+        $('#btnCancelarEdicao').click(function() {
+            $('#btnSalvarNotaFiscal').val('Adicionar');
+            //limparCamposDaNota();
+            $(this).hide();
+        });
+
+        $('#NotaFiscal_CnpjDoEmitente,#NotaFiscal_CnpjDoContratante').blur(function() {
+            var cnpj = $(this).val();
+            cnpj = cnpj.replace(/[^\d]+/g, '');
+            if (cnpj == '') {
+                return;
+            }
+            var idCampoNome = "";
+            if ($(this)[0].name.indexOf("Emitente") >= 0) {
+                idCampoNome = "#NotaFiscal_NomeDoEmitente";
+            }
+            if ($(this)[0].name.indexOf("Contratante") >= 0) {
+                idCampoNome = "#NotaFiscal_NomeDoContratante";
+            }
+
+            if (validarCNPJ(cnpj)) {
+                $.ajax({
+                    url: '@Url.Action("ConsultaPeloCnpj","Fornecedor")',
+                    type: 'GET',
+                    data: { Cnpj: cnpj},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Sucesso) {
+                            $(idCampoNome).val(data.Nome);
+                        } else {
+                            Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + data.Mensagem);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar o nome do fornecedor. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
+            } else {
+                var campo = this;
+                Mensagem.ExibirMensagemDeErro("CNPJ inválido.", function () {
+                    $(campo).focus();
+                });
+                
+                
+            }
+        });
+    });
+</script>
+
+

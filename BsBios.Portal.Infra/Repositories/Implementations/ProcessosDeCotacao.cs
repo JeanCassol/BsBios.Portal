@@ -3,7 +3,6 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
-using NHibernate.Linq;
 
 namespace BsBios.Portal.Infra.Repositories.Implementations
 {
@@ -58,16 +57,12 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao DoProduto(string codigoDoProduto)
         {
-            //Query = Query.Where(x => x.Produto.Codigo == codigoDoProduto);
+            Query = Query.Where(x => x.Itens.Any(i => i.Produto.Codigo.ToLower() == codigoDoProduto.ToLower()));
             return this;
         }
 
         public IProcessosDeCotacao CodigoDoProdutoContendo(string codigo)
         {
-            //if (!string.IsNullOrEmpty(codigo))
-            //{
-            //    Query = Query.Where(x => x.Produto.Codigo.ToLower().Contains(codigo.ToLower()));
-            //}
             if (!string.IsNullOrEmpty(codigo))
             {
                 Query = Query.Where(x => x.Itens.Any(i => i.Produto.Codigo.ToLower().Contains(codigo.ToLower())));
@@ -78,10 +73,6 @@ namespace BsBios.Portal.Infra.Repositories.Implementations
 
         public IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao)
         {
-            //if (!string.IsNullOrEmpty(descricao))
-            //{
-            //    Query = Query.Where(x => x.Produto.Descricao.ToLower().Contains(descricao.ToLower()));
-            //}
             if (!string.IsNullOrEmpty(descricao))
             {
                 Query = Query.Where(x => x.Itens.Any(i => i.Produto.Descricao.ToLower().Contains(descricao.ToLower())));

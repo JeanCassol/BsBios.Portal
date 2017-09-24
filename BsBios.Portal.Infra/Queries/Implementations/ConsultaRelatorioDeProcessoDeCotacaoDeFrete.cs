@@ -5,7 +5,6 @@ using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Domain.ValueObjects;
-using BsBios.Portal.Infra;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.ViewModel;
@@ -15,7 +14,7 @@ using NHibernate.Criterion.Lambda;
 using NHibernate.Transform;
 using StructureMap;
 
-namespace BsBios.Portal.Application.Queries.Implementations
+namespace BsBios.Portal.Infra.Queries.Implementations
 {
 
     internal enum FuncaoDeAgrecacao
