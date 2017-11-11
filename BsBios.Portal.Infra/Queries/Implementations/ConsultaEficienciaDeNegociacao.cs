@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Domain.Repositories;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.Infra.Repositories;
 using BsBios.Portal.ViewModel;
@@ -14,10 +15,12 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 {
     public class ConsultaEficienciaDeNegociacao : IConsultaEficienciaDeNegociacao
     {
+        private readonly IProcessosDeCotacaoDeMaterial _processosDeCotacaoDeMaterial;
         private readonly IUnitOfWorkNh _unitOfWorkNh;
 
-        public ConsultaEficienciaDeNegociacao(IUnitOfWorkNh unitOfWorkNh)
+        public ConsultaEficienciaDeNegociacao(IProcessosDeCotacaoDeMaterial processosDeCotacaoDeMaterial, IUnitOfWorkNh unitOfWorkNh)
         {
+            _processosDeCotacaoDeMaterial = processosDeCotacaoDeMaterial;
             _unitOfWorkNh = unitOfWorkNh;
         }
 

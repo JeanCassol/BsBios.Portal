@@ -23,6 +23,18 @@
         
         <div class="linha">
             <div class="coluna">
+                @Html.Label("CodigoProduto","Código")
+                @Html.TextBox("CodigoProduto","", new { @class = "campomedio" })
+            </div>
+            <div class="coluna">
+                @Html.Label("DescricaoProduto","Material")
+                @Html.TextBox("DescricaoProduto","", new { @class = "campogrande" })
+            </div>
+
+        </div>
+
+        <div class="linha">
+            <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
                 @Html.LabelFor(x => x.CodigoDoMunicipioDeOrigem)
                 @Html.TextBox("NomeDoMunicipioDeOrigem", "",new {@class = "campogrande" })

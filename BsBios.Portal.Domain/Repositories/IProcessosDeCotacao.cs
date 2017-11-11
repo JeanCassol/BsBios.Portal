@@ -16,8 +16,8 @@ namespace BsBios.Portal.Domain.Repositories
         IProcessosDeCotacao DescricaoDoProdutoContendo(string descricao);
         IProcessosDeCotacao FiltraPorStatus(Enumeradores.StatusProcessoCotacao status);
         IProcessosDeCotacao DesconsideraCancelados();
-        IProcessosDeCotacao SomenteComFornecedoresSelecionados();
-        IProcessosDeCotacao SomenteComFornecedoresNaoSelecionados();
+        //IProcessosDeCotacao SomenteComFornecedoresSelecionados();
+        //IProcessosDeCotacao SomenteComFornecedoresNaoSelecionados();
         IProcessosDeCotacao Fechado();
         IProcessosDeCotacao EfetuadosPeloComprador(string loginComprador);
         IProcessosDeCotacao FechadosAPartirDe(DateTime data);

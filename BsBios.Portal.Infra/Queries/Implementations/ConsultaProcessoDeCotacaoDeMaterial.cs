@@ -4,6 +4,7 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
@@ -86,18 +87,18 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             var query = (from processo in _processosDeCotacao.GetQuery()
                 orderby processo.Id descending
                 let p = (ProcessoDeCotacaoDeFrete)processo
-                from fornecedorParticipante in processo.FornecedoresParticipantes
-                from itemDoProcesso in processo.Itens
+                from fornecedorParticipante in p.FornecedoresParticipantes
+                from itemDeCotacao in fornecedorParticipante.Cotacao.Itens
                 where fornecedorParticipante.Fornecedor.Codigo == filtro.CodigoFornecedor
                 select new
                 {
-                    CodigoMaterial = itemDoProcesso.Produto.Codigo,
-                    Material = itemDoProcesso.Produto.Descricao,
-                    DataTermino = processo.DataLimiteDeRetorno,
-                    processo.Id,
-                    itemDoProcesso.Quantidade,
-                    processo.Status,
-                    UnidadeDeMedida = itemDoProcesso.UnidadeDeMedida.Descricao,
+                    CodigoMaterial = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Codigo,
+                    Material = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Descricao,
+                    DataTermino = p.DataLimiteDeRetorno,
+                    p.Id,
+                    itemDeCotacao.ProcessoDeCotacaoItem.Quantidade,
+                    p.Status,
+                    UnidadeDeMedida = itemDeCotacao.ProcessoDeCotacaoItem.UnidadeDeMedida.Descricao,
                     Terminal = p.Terminal.Nome,
                     fornecedorParticipante.Resposta
                 }
@@ -112,7 +113,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     Id = x.Id,
                     CodigoMaterial = x.CodigoMaterial,
                     Material = x.Material,
-                    DataTermino = x.DataTermino?.ToShortDateString() ?? "",
+                    DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
                     Quantidade = x.Quantidade,
                     Status = x.Status.Descricao(),
                     UnidadeDeMedida = x.UnidadeDeMedida,

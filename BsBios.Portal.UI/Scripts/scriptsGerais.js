@@ -224,11 +224,11 @@ $.fn.customDialog = function (configuracao) {
 };
 
 $.fn.serializeObject = function() {
-    var inputs = $(this).find(":input:not([type=reset]):not([type=button])");
+    var inputs = $(this).find(":input:not([type=reset])");
     var object = {};
     $.each(inputs, function (index, input) {
         var valorDoInput;
-        if ($(input).attr('type') === 'checkbox') {
+        if ($(input).attr('type') == 'checkbox') {
             valorDoInput = $(input).is(':checked');
         } else {
             valorDoInput = $(input).val();
@@ -380,7 +380,7 @@ function aplicaMascaraQuantidade(container) {
 
 function aplicaMascaraInteiro() {
     var campos = $('.masknumerointeiro');
-    if ($(campos).length === 0) {
+    if ($(campos).length == 0) {
         return;
     }
 
@@ -413,28 +413,28 @@ function aplicaMascaraData() {
 }
 function aplicaMascaraPlaca() {
     var campos = $('.maskplaca');
-    if ($(campos).length === 0) {
+    if ($(campos).length == 0) {
         return;
     }
     $(campos).mask("aaa-9999");
 }
 function aplicaMascaraNumeroNf() {
     var campos = $('.masknumeronf');
-    if ($(campos).length === 0) {
+    if ($(campos).length == 0) {
         return;
     }
     $(campos).setMask('numeronf-portal');
 }
 function aplicaMascaraSerieNf() {
     var campos = $('.maskserienf');
-    if ($(campos).length === 0) {
+    if ($(campos).length == 0) {
         return;
     }
     $(campos).setMask('serienf-portal');
 }
 function aplicaMascaraNumeroContrato() {
     var campos = $('.masknumerocontrato');
-    if ($(campos).length === 0) {
+    if ($(campos).length == 0) {
         return;
     }
     $(campos).setMask('numerocontrato-portal');
@@ -489,7 +489,7 @@ $(function () {
 });
 
 function responseIsJsonDataType(ajaxOptions) {
-    return (ajaxOptions.dataType === "json")
+    return (ajaxOptions.dataType == "json")
         || (ajaxOptions.dataTypes && ajaxOptions.dataTypes.indexOf("json") > -1);
 }
 

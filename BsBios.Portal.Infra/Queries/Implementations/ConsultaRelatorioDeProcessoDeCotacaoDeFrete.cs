@@ -31,13 +31,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
     public class ConsultaRelatorioDeProcessoDeCotacaoDeFrete : IConsultaRelatorioDeProcessoDeCotacaoDeFrete
     {
-        private readonly IProcessosDeCotacaoDeFrete _processosDeCotacaoDeFrete;
-
-        public ConsultaRelatorioDeProcessoDeCotacaoDeFrete(IProcessosDeCotacaoDeFrete processosDeCotacaoDeFrete)
-        {
-            _processosDeCotacaoDeFrete = processosDeCotacaoDeFrete;
-        }
-
         //private IQueryable<ProcessoDeCotacao> AplicarFiltros(RelatorioDeProcessoDeCotacaoDeFreteFiltroVm filtro)
         //{
         //    _processosDeCotacaoDeFrete.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
@@ -186,6 +179,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 .Left.JoinAlias(x => fornecedorParticipante.Cotacao, () => cotacao)
                 .Left.JoinAlias(x => cotacao.Itens, () => cotacaoItem)
                 .JoinAlias(x => cotacaoItem.ProcessoDeCotacaoItem, () => processoCotacaoItem)
+                .JoinAlias(x => processoCotacaoItem.Produto, () => produto)
                 .JoinAlias(x => processoCotacaoItem.UnidadeDeMedida, () => unidadeDeMedida)
                 .Left.JoinAlias(x => fornecedorParticipante.Fornecedor, () => transportadora)
                 .Left.JoinAlias(x => x.Deposito, () => deposito)
@@ -200,18 +194,17 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             }
 
 
-            DateTime dataDeValidadeInicial, dataDeValidadeFinal, dataDeFechamento;
-            if (DateTime.TryParse(filtro.DataDeValidadeInicial, out dataDeValidadeInicial))
+            if (DateTime.TryParse(filtro.DataDeValidadeInicial, out var dataDeValidadeInicial))
             {
                 queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeFinal >= dataDeValidadeInicial);
 
             }
-            if (DateTime.TryParse(filtro.DataDeValidadeFinal, out dataDeValidadeFinal))
+            if (DateTime.TryParse(filtro.DataDeValidadeFinal, out var dataDeValidadeFinal))
             {
                 queryOver = queryOver.Where(() => processoDeCotacao.DataDeValidadeInicial <= dataDeValidadeFinal);
             }
 
-            if (DateTime.TryParse(filtro.DataDeFechamento, out dataDeFechamento))
+            if (DateTime.TryParse(filtro.DataDeFechamento, out var dataDeFechamento))
             {
                 //a propriedade data de fechamento é um datetime, mas o filtro é apenas uma data.
                 queryOver = queryOver.Where(() => processoDeCotacao.DataDeFechamento >= dataDeFechamento
@@ -237,16 +230,16 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             if (selecaoDeFornecedores == Enumeradores.SelecaoDeFornecedores.Selecionado)
             {
-                queryOver = queryOver.Where(x => cotacao.Selecionada);
+                queryOver = queryOver.Where(x => cotacaoItem.Selecionada);
             }
             else if (selecaoDeFornecedores == Enumeradores.SelecaoDeFornecedores.NaoSelecionado)
             {
-                queryOver = queryOver.Where(x => !cotacao.Selecionada);
+                queryOver = queryOver.Where(x => !cotacaoItem.Selecionada);
             }
 
             if (!string.IsNullOrEmpty(filtro.CodigoDoMaterial))
             {
-                //queryOver = queryOver.Where(x => x.Produto.Codigo == filtro.CodigoDoMaterial);
+                queryOver = queryOver.Where(x => produto.Codigo == filtro.CodigoDoMaterial);
             }
 
             if (!string.IsNullOrEmpty(filtro.DescricaoDoMaterial))
@@ -316,7 +309,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 .SelectGroup(x => itinerario.Descricao)
                 .SelectGroup(x => x.Classificacao)
                 .SelectGroup(x => transportadora.Nome)
-                .SelectGroup(x => cotacao.Selecionada)
+                .SelectGroup(x => cotacaoItem.Selecionada)
                 .SelectGroup(x => terminal.Nome);
 
 
@@ -425,7 +418,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     Projections.Cast(NHibernateUtil.Decimal, Projections.Constant(0)))).WithAlias(() => relatorio.QuantidadeLiberada)
                     
                     //.Select(x => cotacao != null && cotacao.Selecionada ? "Sim": "Não").WithAlias(() => relatorio.Selecionado)
-                    .Select(Projections.Conditional(Restrictions.Eq(Projections.Property(() => cotacao.Selecionada), true), 
+                    .Select(Projections.Conditional(Restrictions.Eq(Projections.Property(() => cotacaoItem.Selecionada), true), 
                     Projections.Constant("Sim"), Projections.Constant("Não"))).WithAlias(() => relatorio.Selecionado)
 
                     //.Select(x => cotacao != null ? cotacao.ValorComImpostos : 0).WithAlias(() => relatorio.ValorComImpostos)

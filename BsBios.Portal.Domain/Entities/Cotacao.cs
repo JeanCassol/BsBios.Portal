@@ -89,7 +89,7 @@ namespace BsBios.Portal.Domain.Entities
         //public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         //    : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
 
-        public CotacaoDeFrete(){}
+        protected CotacaoDeFrete(){}
 
         public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {

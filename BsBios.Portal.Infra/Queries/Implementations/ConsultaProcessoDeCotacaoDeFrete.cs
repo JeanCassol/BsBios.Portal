@@ -4,6 +4,7 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -11,11 +12,11 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 {
     public class ConsultaProcessoDeCotacaoDeFrete : IConsultaProcessoDeCotacaoDeFrete
     {
-        private readonly IProcessosDeCotacaoDeFrete _processosDeCotacao;
+        private readonly IProcessosDeCotacao _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
 
 
-        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacaoDeFrete processosDeCotacao, IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
+        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao, IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
             _iteracoesUsuario = iteracoesUsuario;
@@ -99,7 +100,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             return retorno;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
             if (filtro.CodigoFornecedor != null)
@@ -121,21 +122,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                                Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
             }
 
-            if (!string.IsNullOrEmpty(filtro.CodigoDoMunicipioDeOrigem))
-            {
-                _processosDeCotacao.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
-            {
-                _processosDeCotacao.DoFornecedorDaMercadoria(filtro.NomeDoFornecedorDaMercadoria);
-            }
-
-            if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
-            {
-                _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
-            }
-                
             var query = (from p in _processosDeCotacao.GetQuery()
                          from item in p.Itens
                          orderby p.Status
@@ -159,7 +145,8 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                                          Id = x.Id,
                                          CodigoMaterial = x.CodigoMaterial,
                                          Material = x.Material,
-                                         DataTermino =x.DataTermino?.ToShortDateString() ?? "",
+                                         DataTermino =
+                                             x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
                                          Quantidade = x.Quantidade,
                                          Status = x.Status.Descricao(),
                                          UnidadeDeMedida = x.UnidadeDeMedida
@@ -195,13 +182,17 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                         VisualizadoPeloFornecedor = iteracaoUsuario != null && iteracaoUsuario.VisualizadoPeloFornecedor ? "Sim" : "Não"
                     };
 
-                var cotacaoItem = fornecedorParticipante.Cotacao?.Itens.SingleOrDefault();
-                if (cotacaoItem != null)
+                if (fornecedorParticipante.Cotacao != null)
                 {
-                    vm.Selecionado = (cotacaoItem.Selecionada ? "Sim" : "Não");
-                    vm.ValorLiquido = cotacaoItem.Preco;
-                    vm.ValorComImpostos = cotacaoItem.ValorComImpostos;
-                    vm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
+                    var cotacaoItem = fornecedorParticipante.Cotacao.Itens.SingleOrDefault();
+                    if (cotacaoItem != null)
+                    {
+                        vm.Selecionado = (cotacaoItem.Selecionada ? "Sim" : "Não");
+                        vm.ValorLiquido = cotacaoItem.Preco;
+                        vm.ValorComImpostos = cotacaoItem.ValorComImpostos;
+                        vm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
+                    }
+
                 }
 
                 registros.Add(vm);
@@ -222,7 +213,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             return (from processo in _processosDeCotacao.GetQuery()
                 from participante in processo.FornecedoresParticipantes
                 from cotacaoItem in participante.Cotacao.Itens
-                where participante.Cotacao.Selecionada
+                where cotacaoItem.Selecionada
                 select cotacaoItem.QuantidadeAdquirida
             ).Sum() ?? 0;
 
