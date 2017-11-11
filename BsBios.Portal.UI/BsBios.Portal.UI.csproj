@@ -514,9 +514,6 @@
     <Content Include="Views\Quota\Cadastro.cshtml" />
     <Content Include="Views\Shared\_SelecionarFornecedor.cshtml" />
     <Content Include="Views\Quota\QuotaPorFornecedor.cshtml" />
-    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
-    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
-    <Content Include="Views\Account\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
     <Content Include="Views\ConferenciaDeCarga\Pesquisar.cshtml" />
     <Content Include="Views\RelatorioAgendamento\_Filtro.cshtml" />
     <Content Include="Views\RelatorioAgendamento\Relatorio.cshtml" />
