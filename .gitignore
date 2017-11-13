@@ -164,4 +164,5 @@ pip-log.txt
 .DS_Store
 /BsBios.Portal.UI/Download/Relatorio
 *uploads
-BsBios.Portal.UI\Uploads\
+BsBios.Portal.UI/Uploads
+BsBios.Portal.UI/Logs

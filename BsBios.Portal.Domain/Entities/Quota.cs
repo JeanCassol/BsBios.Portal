@@ -193,5 +193,11 @@ namespace BsBios.Portal.Domain.Entities
             agendamento.Realizar();
             CalculaPesoRealizado();
         }
+
+        public override string ToString()
+        {
+            return  $"{{Id: {this.Id}, Data: {this.Data.ToShortDateString()}, Terminal: {this.Terminal.Codigo}, Fluxo: {this.FluxoDeCarga}, " +
+                    $"Fornecedor: {this.Fornecedor.Codigo} , Material: {this.Material.Descricao}, Peso: {this.PesoTotal}}}";
+        }
     }
 }

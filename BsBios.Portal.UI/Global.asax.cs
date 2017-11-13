@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -6,6 +7,7 @@ using System.Web.Routing;
 using BsBios.Portal.UI.Controllers.ModelBinders;
 using StructureMap;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace BsBios.Portal.UI
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -15,6 +17,7 @@ namespace BsBios.Portal.UI
     {
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

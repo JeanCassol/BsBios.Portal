@@ -4,7 +4,6 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -12,11 +11,11 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 {
     public class ConsultaProcessoDeCotacaoDeFrete : IConsultaProcessoDeCotacaoDeFrete
     {
-        private readonly IProcessosDeCotacao _processosDeCotacao;
+        private readonly IProcessosDeCotacaoDeFrete _processosDeCotacao;
         private readonly IProcessoCotacaoIteracoesUsuario _iteracoesUsuario;
 
 
-        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacao processosDeCotacao, IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
+        public ConsultaProcessoDeCotacaoDeFrete(IProcessosDeCotacaoDeFrete processosDeCotacao, IProcessoCotacaoIteracoesUsuario iteracoesUsuario)
         {
             _processosDeCotacao = processosDeCotacao;
             _iteracoesUsuario = iteracoesUsuario;
@@ -29,29 +28,56 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             var processoDeCotacao = (ProcessoDeCotacaoDeFrete)  _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
             ProcessoDeCotacaoItem item = processoDeCotacao.Itens.First();
 
-            return new ProcessoCotacaoFreteCadastroVm()
-                {
-                    Id = processoDeCotacao.Id,
-                    DataLimiteRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
-                    DescricaoStatus = processoDeCotacao.Status.Descricao(),
-                    CodigoMaterial = item.Produto.Codigo,
-                    DescricaoMaterial = item.Produto.Descricao,
-                    QuantidadeMaterial = item.Quantidade,
-                    CodigoUnidadeMedida = item.UnidadeDeMedida.CodigoInterno,
-                    CodigoItinerario = processoDeCotacao.Itinerario.Codigo,
-                    DescricaoItinerario = processoDeCotacao.Itinerario.Descricao ,
-                    Requisitos = processoDeCotacao.Requisitos ,
-                    NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
-                    DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
-                    DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString() ,
+            var processoCotacaoFreteCadastroVm = new ProcessoCotacaoFreteCadastroVm()
+            {
+                Id = processoDeCotacao.Id,
+                DataLimiteRetorno = processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString(),
+                DescricaoStatus = processoDeCotacao.Status.Descricao(),
+                CodigoMaterial = item.Produto.Codigo,
+                DescricaoMaterial = item.Produto.Descricao,
+                QuantidadeMaterial = item.Quantidade,
+                CodigoUnidadeMedida = item.UnidadeDeMedida.CodigoInterno,
+                CodigoItinerario = processoDeCotacao.Itinerario.Codigo,
+                DescricaoItinerario = processoDeCotacao.Itinerario.Descricao ,
+                Requisitos = processoDeCotacao.Requisitos ,
+                NumeroDoContrato = processoDeCotacao.NumeroDoContrato ,
+                DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
+                DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString() ,
 
-                    PermiteAlterarFornecedores = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
-                    PermiteFecharProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
-                    PermiteSalvar = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
-                    PermitirAbrirProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
-                    PermiteSelecionarCotacoes = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                Cadencia = processoDeCotacao.Cadencia,
+                Classificacao = processoDeCotacao.Classificacao,
+                CodigoDoFornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria?.Codigo,
+                FornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria?.Nome,
+                CodigoDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem?.Codigo,
+                NomeDoMunicipioDeOrigem = processoDeCotacao.MunicipioDeOrigem != null ? $"{processoDeCotacao.MunicipioDeOrigem.Nome}/{processoDeCotacao.MunicipioDeOrigem.UF}": null,
+                CodigoDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino?.Codigo,
+                NomeDoMunicipioDeDestino = processoDeCotacao.MunicipioDeDestino != null ? $"{processoDeCotacao.MunicipioDeDestino.Nome}/{processoDeCotacao.MunicipioDeDestino.UF}": null,
+                CodigoDoDeposito = processoDeCotacao.Deposito?.Codigo,
+                Deposito = processoDeCotacao.Deposito?.Nome,
+                CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
+                TipoDePreco = (int)processoDeCotacao.TipoDePreco,
+                ValorPrevisto = processoDeCotacao.ValorPrevisto,
 
-                };
+                PermiteAlterarFornecedores = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                PermiteFecharProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                PermiteSalvar = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                PermitirAbrirProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
+                PermiteSelecionarCotacoes = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+
+            };
+
+            switch (processoDeCotacao.TipoDePreco)
+            {
+                case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado:
+                    //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Fechado";
+                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorFechado;
+                    break;
+                case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo:
+                    //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Máximo";
+                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorMaximo;
+                    break;
+            }
+            return processoCotacaoFreteCadastroVm;
         }
 
         public IList<CotacaoSelecionarVm> CotacoesDosFornecedores(int idProcessoCotacao)
@@ -95,12 +121,13 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
                 cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacaoItem.Observacoes;
+                cotacaoSelecionarVm.PermiteSelecionar = fornecedorParticipante.Resposta == Enumeradores.RespostaDaCotacao.Aceito;
             }
 
             return retorno;
         }
 
-        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoCotacaoFiltroVm filtro)
+        public KendoGridVm Listar(PaginacaoVm paginacaoVm, ProcessoDeCotacaoDeFreteFiltroVm filtro)
         {
             _processosDeCotacao.FiltraPorTipo(Enumeradores.TipoDeCotacao.Frete);
             if (filtro.CodigoFornecedor != null)
@@ -120,6 +147,27 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     (Enumeradores.StatusProcessoCotacao)
                     Enum.Parse(typeof (Enumeradores.StatusProcessoCotacao),
                                Convert.ToString(filtro.CodigoStatusProcessoCotacao.Value)));
+            }
+
+            if (!string.IsNullOrEmpty(filtro.NumeroDoContrato))
+            {
+                _processosDeCotacao.PertencentesAoContratoDeNumero(filtro.NumeroDoContrato);
+                
+            }
+            if (!string.IsNullOrEmpty(filtro.NomeDoFornecedorDaMercadoria))
+            {
+                _processosDeCotacao.NomeDoFornecedorDaMercadoriaContendo(filtro.NomeDoFornecedorDaMercadoria);
+                
+            }
+            if (!string.IsNullOrEmpty(filtro.CodigoDoMunicipioDeOrigem))
+            {
+                _processosDeCotacao.ComOrigemNoMunicipio(filtro.CodigoDoMunicipioDeOrigem);
+                
+            }
+
+            if (!string.IsNullOrEmpty(filtro.CodigoDoTerminal))
+            {
+                _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
             }
 
             var query = (from p in _processosDeCotacao.GetQuery()

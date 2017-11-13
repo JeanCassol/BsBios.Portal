@@ -90,6 +90,7 @@ namespace BsBios.Portal.Infra.DataAccess
                                              c.SetProperty("adonet.batch_size", "5");
                                              c.SetProperty("generate_statistics", "false");
                                              //c.SetProperty("cache.use_second_level_cache", "true");
+                                             c.SetInterceptor(new QuotaInterceptor());
                                          })
                 .BuildConfiguration().BuildSessionFactory();
 

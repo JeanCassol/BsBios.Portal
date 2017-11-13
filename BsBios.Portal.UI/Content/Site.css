@@ -518,39 +518,6 @@ input[type="checkbox"].input-validation-error {
     text-align: center;
     width: 25%;
 }
-.labelEsquerda {
-    text-align:left
-}
-.linha {
-    clear: both;
-}
-.coluna {
-    /*width: 380px;*/
-    width: 49%;
-    display: inline-block;
-    float: left;
-}
-.colunaFiltro {
-    width: 49%;
-    display: inline-block;
-    float: left;
-}
-.campopequeno {
-    width: 150px;
-}
-.campomedio {
-    width: 250px;
-} 
-.campogrande, select {
-    width: 340px;
-}
-.campoextragrande {
-    width: 700px;
-}
-.campopequenogrid {
-    width: 70px;
-}
-
 .paginaCadastro {
     width: 100%;
 }

@@ -57,6 +57,7 @@
     <Compile Include="FornecedorCotacaoVm.cs" />
     <Compile Include="FornecedorVm.cs" />
     <Compile Include="ProcessoCotacaoCadastroPermissaoVm.cs" />
+    <Compile Include="ProcessoDeCotacaoDeFreteFiltroVm.cs" />
     <Compile Include="ProcessoDeCotacaoDeMaterialItemVm.cs" />
     <Compile Include="TipoDeFreteVm.cs" />
     <Compile Include="CotacaoMaterialItemCadastroVm.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Services.Contracts;
+using BsBios.Portal.Domain.ValueObjects;
 
 namespace BsBios.Portal.Domain.Services.Implementations
 {
@@ -31,19 +32,20 @@ namespace BsBios.Portal.Domain.Services.Implementations
         }
 
         public ProcessoDeCotacaoDeFrete CriarProcesso(string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
-            DateTime dataDeValidadeFinal, Itinerario itinerario)
+            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, decimal cadencia, bool classificacao,
+            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal, decimal valorPrevisto)
         {
-            throw new Exception("Não implementado após o merge");
-            //var processoDeCotacao = new ProcessoDeCotacaoDeFrete(requisitos, numeroDoContrato, dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario);
-            //if (_itens.Count == 0)
-            //{
-            //    throw new ProcessoDeCotacaoSemItemException();
-            //}
-            //foreach (var item in _itens)
-            //{
-            //    processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida);
-            //}
-            //return processoDeCotacao;
+            var processoDeCotacao = new ProcessoDeCotacaoDeFrete(requisitos, numeroDoContrato, dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario,
+                fornecedorDaMercadoria, cadencia, classificacao, municipioDeOrigem, municipioDeDestino, deposito, terminal, valorPrevisto);
+            if (_itens.Count == 0)
+            {
+                throw new ProcessoDeCotacaoSemItemException();
+            }
+            foreach (var item in _itens)
+            {
+                processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida);
+            }
+            return processoDeCotacao;
         }
     }
 }

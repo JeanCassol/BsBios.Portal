@@ -103,6 +103,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ServicoDeConfiguracao>();
 
+            For<IFormatadorDeLog>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<FormatadorDeLog>();
+
 
         }
     }

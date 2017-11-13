@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using BsBios.Portal.Application.Services.Contracts;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
@@ -78,16 +77,14 @@ namespace BsBios.Portal.Application.Services.Implementations
                 }
                 else
                 {
-                   /* processo = new ProcessoDeCotacaoDeFrete(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,
-                        unidadeDeMedida, processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
-                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito,terminal, 
-                        processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);*/
 
-                    _processoDeCotacaoFactory.AdicionarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial,unidadeDeMedida);
-                    processo = _processoDeCotacaoFactory.CriarProcesso(processoCotacaoFreteCadastroVm.Requisitos,processoCotacaoFreteCadastroVm.NumeroDoContrato,
+                    _processoDeCotacaoFactory.AdicionarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial, unidadeDeMedida);
+
+                    processo = _processoDeCotacaoFactory.CriarProcesso(processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
                     Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataLimiteRetorno), Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoInicial),
-                    Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoFinal), itinerario);
+                    Convert.ToDateTime(processoCotacaoFreteCadastroVm.DataValidadeCotacaoFinal), itinerario, fornecedorDaMercadoria, cadencia,
+                        processoCotacaoFreteCadastroVm.Classificacao, municipioOrigem, municipioDestino, deposito, terminal,
+                     processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
 
                 }
 

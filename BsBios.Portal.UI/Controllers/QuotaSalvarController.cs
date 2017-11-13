@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using BsBios.Portal.Application.Services.Contracts;
+using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.UI.Filters;
 using BsBios.Portal.ViewModel;
+using log4net;
+using Newtonsoft.Json;
 
 namespace BsBios.Portal.UI.Controllers
 {
@@ -10,10 +13,13 @@ namespace BsBios.Portal.UI.Controllers
     public class QuotaSalvarController : Controller
     {
         private readonly ICadastroQuota _cadastroQuota;
+        private readonly IFormatadorDeLog _formatadorDeLog;
+        private static readonly ILog Log = LogManager.GetLogger("Quota");
 
-        public QuotaSalvarController(ICadastroQuota cadastroQuota)
+        public QuotaSalvarController(ICadastroQuota cadastroQuota, IFormatadorDeLog formatadorDeLog)
         {
             _cadastroQuota = cadastroQuota;
+            _formatadorDeLog = formatadorDeLog;
         }
 
         [HttpPost]
@@ -22,6 +28,7 @@ namespace BsBios.Portal.UI.Controllers
         {
             try
             {
+                Log.Info($"{_formatadorDeLog.FormatarUsuario()} - Requisicao Salvar Quota - {JsonConvert.SerializeObject(quotas)}");
                 _cadastroQuota.Salvar(quotas);
                 return Json(new {Sucesso = true});
             }

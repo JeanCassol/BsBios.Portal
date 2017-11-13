@@ -67,7 +67,7 @@
             },
             dataBound: function (e) {
                 if (SelecionarFornecedor.FornecedorSelecionado != null) {
-                    $('input[name=radioFornecedor][data-codigofornecedor=' + SelecionarFornecedor.FornecedorSelecionado.Codigo + ']').attr('checked', true);
+                    $('input[name=radioFornecedor][data-codigofornecedor="' + SelecionarFornecedor.FornecedorSelecionado.Codigo + '"]').attr('checked', true);
                 }
             },
             columns:

@@ -134,8 +134,13 @@
                 };
             }
 
-            $('#' + idDaDivDaJanelaDeDialogo).customLoad({url: UrlPadrao.SelecionarFornecedor
-                + '/?Codigo=' + codigoDoFornecedor + '&Nome=' + escape(nomeDoFornecedor), configurarGridDeSelecao});
+            $('#' + idDaDivDaJanelaDeDialogo).customLoad({
+                url: UrlPadrao.SelecionarFornecedor +
+                    '/?Codigo=' +
+                    codigoDoFornecedor +
+                    '&Nome=' +
+                    escape(nomeDoFornecedor)
+            }, configurarGridDeSelecao);
         });
 
     };

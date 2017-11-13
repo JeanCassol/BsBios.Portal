@@ -87,8 +87,7 @@ GridAgendamentosDeCarga = {
                         agendamentoSelecionado.IdAgendamento
                 }, function () {
                 jQuery.validator.unobtrusive.parse('#divCadastroAgendamento');
-            })};
-            
+            });
         });
         
         $("#gridAgendamentosDeCarga").find('.button_remove').die("click");
