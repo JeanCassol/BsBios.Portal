@@ -106,7 +106,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     continue;
                 }
 
-                var cotacao = fornecedorParticipante.Cotacao;
+                var cotacao = (CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
 
                 var cotacaoItem = cotacao.Itens.SingleOrDefault();
@@ -120,6 +120,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 cotacaoSelecionarVm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
+                cotacaoSelecionarVm.Cadencia = cotacao.Cadencia;
                 cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacaoItem.Observacoes;
                 cotacaoSelecionarVm.PermiteSelecionar = fornecedorParticipante.Resposta == Enumeradores.RespostaDaCotacao.Aceito;
             }

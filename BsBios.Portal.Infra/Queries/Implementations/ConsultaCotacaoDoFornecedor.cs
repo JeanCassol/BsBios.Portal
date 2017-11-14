@@ -2,6 +2,7 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Domain.Repositories;
+using BsBios.Portal.Domain.ValueObjects;
 using BsBios.Portal.Infra.Queries.Builders;
 using BsBios.Portal.Infra.Queries.Contracts;
 using BsBios.Portal.ViewModel;
@@ -228,40 +229,65 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             var fp = processo.FornecedoresParticipantes.Single(x => x.Fornecedor.Codigo == codigoFornecedor);
 
+            Fornecedor fornecedor = processo.FornecedorDaMercadoria;
+            Fornecedor deposito = processo.Deposito;
+            Municipio municipioDeOrigem = processo.MunicipioDeOrigem;
+            Municipio municipioDeDestino = processo.MunicipioDeDestino;
+
             var item = processo.Itens.First();
 
             var vm = new CotacaoFreteCadastroVm
             {
                 PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
+                PermiteAlterarPreco = !processo.ValorFechado.HasValue,
                 IdProcessoCotacao = processo.Id,
                 CodigoFornecedor = fp.Fornecedor.Codigo,
                 Status = processo.Status.Descricao(),
                 Requisitos = processo.Requisitos,
                 DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
-                //Material = processo.Produto.Descricao,
-                //Quantidade = processo.Quantidade,
-                //UnidadeDeMedida = processo.UnidadeDeMedida.Descricao,
                 Material = item.Produto.Descricao,
                 Quantidade = item.Quantidade,
                 UnidadeDeMedida = item.UnidadeDeMedida.Descricao,
                 DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
                 DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
                 Itinerario = processo.Itinerario.Descricao,
-                IdFornecedorParticipante = fp.Id
+                IdFornecedorParticipante = fp.Id,
+                Cabecalho = new ProcessoDeCotacaoDeFreteCabecalhoVm
+                {
+                    Numero = processo.Id,
+                    Status = processo.Status.Descricao(),
+                    Requisitos = processo.Requisitos,
+                    DataLimiteDeRetorno = processo.DataLimiteDeRetorno.Value.ToShortDateString(),
+                    Material = item.Produto.Descricao,
+                    Quantidade = item.Quantidade,
+                    UnidadeDeMedida = item.UnidadeDeMedida.Descricao,
+                    DataDeValidadeInicial = processo.DataDeValidadeInicial.ToShortDateString(),
+                    DataDeValidadeFinal = processo.DataDeValidadeFinal.ToShortDateString(),
+                    Itinerario = processo.Itinerario.Descricao,
+                    Classificacao = processo.Classificacao ? "Sim" : "Não",
+                    NumeroDoContrato = processo.NumeroDoContrato,
+                    NomeDoFornecedorDaMercadoria = fornecedor != null ? fornecedor.Nome : "Não informado",
+                    EnderecoDoFornecedor = fornecedor != null ? fornecedor.Endereco : "Não informado",
+                    NomeDoDeposito = deposito != null ? deposito.Nome : "Não informado",
+                    EnderecoDoDeposito = deposito != null ? deposito.Endereco : "Não informado",
+                    MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado",
+                    MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado",
+                    Resposta = fp.Resposta.Descricao(),
+                    ValorMaximo = processo.ValorMaximo,
+                    Terminal = processo.Terminal.Nome
+                }
             };
 
             if (fp.Cotacao != null)
             {
 
-                var cotacao = fp.Cotacao.CastEntity();
+                var cotacao = (CotacaoDeFrete) fp.Cotacao.CastEntity();
                 var itemDaCotacao = cotacao.Itens.First();
 
-                //vm.ValorComImpostos = cotacao.ValorComImpostos;
-                //vm.ObservacoesDoFornecedor = cotacao.Observacoes;
-                //vm.QuantidadeDisponivel = cotacao.QuantidadeDisponivel;
                 vm.ValorComImpostos = itemDaCotacao.ValorComImpostos;
                 vm.ObservacoesDoFornecedor = itemDaCotacao.Observacoes;
                 vm.QuantidadeDisponivel = itemDaCotacao.QuantidadeDisponivel;
+                vm.Cabecalho.Cadencia = cotacao.Cadencia ?? processo.Cadencia;
 
             }
 

@@ -105,7 +105,6 @@
   <ItemGroup>
     <Compile Include="Builders\MenuUsuarioBuilder.cs" />
     <Compile Include="DataAccess\CascadeConvention.cs" />
-    <Compile Include="DataAccess\ConfiguracaoDeLog.cs" />
     <Compile Include="DataAccess\QuotaInterceptor.cs" />
     <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Factory\StructureMapControllerFactory.cs" />

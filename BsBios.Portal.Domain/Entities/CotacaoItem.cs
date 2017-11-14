@@ -48,7 +48,7 @@ namespace BsBios.Portal.Domain.Entities
         public virtual decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
         {
             var imposto = Imposto(tipoDeImposto);
-            return imposto != null ? imposto.Valor : 0;
+            return imposto?.Valor ?? 0;
         }
 
         private void CalculaValorComImpostos()

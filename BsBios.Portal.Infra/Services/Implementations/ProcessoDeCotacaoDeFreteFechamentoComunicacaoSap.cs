@@ -40,7 +40,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
             var mensagemParaEnviar = new ListaProcessoDeCotacaoDeFreteFechamento();
 
-            var processoDeCotacaoDeFrete = (ProcessoDeCotacaoDeFrete)processo.CastEntity();
+            var processoDeCotacaoDeFrete = processo.CastEntity();
 
             foreach (var fornecedorParticipante in processoDeCotacaoDeFrete.FornecedoresParticipantes)
             {

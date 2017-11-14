@@ -62,9 +62,22 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 var processoDeCotacao = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
 
-                var retorno = (ProcessoDeCotacaoDeFreteFechamentoRetorno) _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
+                var retorno = (ProcessoDeCotacaoDeFreteFechamentoRetorno)_comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
 
                 _geradorDeEmail.GerarEmail(processoDeCotacao);
+
+                //var condicoes = new ListaDeCondicaoDoSap();
+                //condicoes.AddRange(processoDeCotacao.FornecedoresSelecionados.Select(x => new CondicaoDoSap() { CodigoDoFornecedor = x.Fornecedor.Codigo, Numero = x.Fornecedor.Codigo }));
+
+                //var retorno = new ProcessoDeCotacaoDeFreteFechamentoRetorno
+                //{
+                //    Retorno = new Retorno
+                //    {
+                //        Codigo = "100",
+                //        Texto = "OK"
+                //    },
+                //    Condicoes = condicoes
+                //};
 
                 IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento = retorno.Condicoes.Select(x => new CondicaoDoFechamentoNoSap
                 {

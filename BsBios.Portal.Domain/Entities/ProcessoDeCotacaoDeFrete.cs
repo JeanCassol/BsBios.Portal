@@ -26,7 +26,17 @@ namespace BsBios.Portal.Domain.Entities
         {
             base.InformarCotacao();
             var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
-            var cotacao = (CotacaoDeFrete) fornecedorParticipante.Cotacao;
+            CotacaoDeFrete cotacao;
+            if (fornecedorParticipante.Cotacao != null)
+            {
+                cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao;
+            }
+            else
+            {
+                cotacao = new CotacaoDeFrete();
+                fornecedorParticipante.InformarCotacao(cotacao);
+            }
+            
             var processoDeCotacaoItem = this.Itens.Single();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorComImpostos, quantidadeDisponivel,
                 observacoesDoFornecedor);
@@ -113,17 +123,16 @@ namespace BsBios.Portal.Domain.Entities
         public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, decimal cadencia)
         {
             this.Cadencia = cadencia;
-            var cotacao = BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = cotacao.Itens.First();
-
-            itemDaCotacao.Selecionar(quantidadeAdquirida);
+            var cotacao = (CotacaoDeFrete) BuscarPodId(idCotacao).CastEntity();
+            cotacao.Selecionar(quantidadeAdquirida, cadencia);
+            
         }
 
         public virtual void RemoverSelecaoDaCotacao(int idCotacao, int idProcessoCotacaoItem)
         {
-            var cotacao = BuscarPodId(idCotacao).CastEntity();
-            var itemDaCotacao = cotacao.Itens.First(item => item.ProcessoDeCotacaoItem.Id == idProcessoCotacaoItem);
-            itemDaCotacao.RemoverSelecao();
+            var cotacao = (CotacaoDeFrete) BuscarPodId(idCotacao).CastEntity();
+            cotacao.RemoverSelecao();
+
         }
 
         public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)

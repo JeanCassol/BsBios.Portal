@@ -87,18 +87,18 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             var query = (from processo in _processosDeCotacao.GetQuery()
                 orderby processo.Id descending
                 let p = (ProcessoDeCotacaoDeFrete)processo
+                from itemDeCotacao in processo.Itens
                 from fornecedorParticipante in p.FornecedoresParticipantes
-                from itemDeCotacao in fornecedorParticipante.Cotacao.Itens
                 where fornecedorParticipante.Fornecedor.Codigo == filtro.CodigoFornecedor
                 select new
                 {
-                    CodigoMaterial = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Codigo,
-                    Material = itemDeCotacao.ProcessoDeCotacaoItem.Produto.Descricao,
+                    CodigoMaterial = itemDeCotacao.Produto.Codigo,
+                    Material = itemDeCotacao.Produto.Descricao,
                     DataTermino = p.DataLimiteDeRetorno,
                     p.Id,
-                    itemDeCotacao.ProcessoDeCotacaoItem.Quantidade,
+                    itemDeCotacao.Quantidade,
                     p.Status,
-                    UnidadeDeMedida = itemDeCotacao.ProcessoDeCotacaoItem.UnidadeDeMedida.Descricao,
+                    UnidadeDeMedida = itemDeCotacao.UnidadeDeMedida.Descricao,
                     Terminal = p.Terminal.Nome,
                     fornecedorParticipante.Resposta
                 }
@@ -113,7 +113,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     Id = x.Id,
                     CodigoMaterial = x.CodigoMaterial,
                     Material = x.Material,
-                    DataTermino = x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
+                    DataTermino = x.DataTermino?.ToShortDateString() ?? "",
                     Quantidade = x.Quantidade,
                     Status = x.Status.Descricao(),
                     UnidadeDeMedida = x.UnidadeDeMedida,

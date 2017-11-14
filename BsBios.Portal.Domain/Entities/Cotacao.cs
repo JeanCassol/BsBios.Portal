@@ -89,8 +89,6 @@ namespace BsBios.Portal.Domain.Entities
         //public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         //    : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
 
-        protected CotacaoDeFrete(){}
-
         public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {
             var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
@@ -118,23 +116,27 @@ namespace BsBios.Portal.Domain.Entities
         //}
 
 
-        //public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
-        //{
-        //    base.Selecionar(quantidadeAdquirida);
-        //    Cadencia = cadencia;
-        //}
+        public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
+        {
+            Cadencia = cadencia;
+            var itemDaCotacao = this.Itens.Single();
+            itemDaCotacao.Selecionar(quantidadeAdquirida);
 
-        //public new virtual void RemoverSelecao()
-        //{
-        //    base.RemoverSelecao();
-        //    Cadencia = null;
-        //}
-        
+        }
+
+        public virtual void RemoverSelecao()
+        {
+            Cadencia = null;
+            var itemDaCotacao = this.Itens.Single();
+            itemDaCotacao.RemoverSelecao();
+
+        }
+
         protected internal virtual void InformarNumeroDaCondicao(string numeroGeradoNoSap)
         {
             NumeroDaCondicaoGeradaNoSap = numeroGeradoNoSap;
         }
-        
+
     }
 
     public class CotacaoMaterial: Cotacao
