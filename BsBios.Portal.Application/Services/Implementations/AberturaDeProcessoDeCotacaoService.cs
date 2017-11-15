@@ -37,9 +37,9 @@ namespace BsBios.Portal.Application.Services.Implementations
                 Usuario usuarioComprador = _usuarios.UsuarioConectado();
                 processoDeCotacao.Abrir(usuarioComprador);
                 //TODO COMENTADO PARA DEMONSTRACAO
-                //_comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
+                _comunicacaoSap.EfetuarComunicacao(processoDeCotacao);
                 _gerenciadorUsuario.CriarSenhaParaUsuariosSemSenha(processoDeCotacao.FornecedoresParticipantes.Select(x => x.Fornecedor.Codigo).ToArray());
-                //_geradorDeEmailDeProcessoDeAberturaDeCotacao.GerarEmail(processoDeCotacao);
+                _geradorDeEmailDeProcessoDeAberturaDeCotacao.GerarEmail(processoDeCotacao);
                 _processosDeCotacao.Save(processoDeCotacao);
                 _unitOfWork.Commit();
 
