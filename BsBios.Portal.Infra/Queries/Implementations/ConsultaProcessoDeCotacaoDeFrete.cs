@@ -26,7 +26,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
         {
              
             var processoDeCotacao = (ProcessoDeCotacaoDeFrete)  _processosDeCotacao.BuscaPorId(idProcessoCotacao).Single();
-            ProcessoDeCotacaoItem item = processoDeCotacao.Itens.First();
+            var item = (ProcessoDeCotacaoDeFreteItem) processoDeCotacao.Itens.First();
 
             var processoCotacaoFreteCadastroVm = new ProcessoCotacaoFreteCadastroVm()
             {
@@ -44,7 +44,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 DataValidadeCotacaoInicial = processoDeCotacao.DataDeValidadeInicial.ToShortDateString() ,
                 DataValidadeCotacaoFinal = processoDeCotacao.DataDeValidadeFinal.ToShortDateString() ,
 
-                Cadencia = processoDeCotacao.Cadencia,
+                Cadencia = item.Cadencia,
                 Classificacao = processoDeCotacao.Classificacao,
                 CodigoDoFornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria?.Codigo,
                 FornecedorDaMercadoria = processoDeCotacao.FornecedorDaMercadoria?.Nome,
@@ -55,8 +55,8 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 CodigoDoDeposito = processoDeCotacao.Deposito?.Codigo,
                 Deposito = processoDeCotacao.Deposito?.Nome,
                 CodigoDoTerminal = processoDeCotacao.Terminal.Codigo,
-                TipoDePreco = (int)processoDeCotacao.TipoDePreco,
-                ValorPrevisto = processoDeCotacao.ValorPrevisto,
+                TipoDePreco = (int)item.TipoDePreco,
+                ValorPrevisto = item.ValorPrevisto,
 
                 PermiteAlterarFornecedores = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.NaoIniciado,
                 PermiteFecharProcesso = processoDeCotacao.Status == Enumeradores.StatusProcessoCotacao.Aberto,
@@ -66,15 +66,15 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             };
 
-            switch (processoDeCotacao.TipoDePreco)
+            switch (item.TipoDePreco)
             {
                 case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado:
                     //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Fechado";
-                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorFechado;
+                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = item.ValorFechado;
                     break;
                 case Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo:
                     //processoCotacaoFreteCadastroVm.LabelDoTipoDePreco = "Valor Máximo";
-                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = processoDeCotacao.ValorMaximo;
+                    processoCotacaoFreteCadastroVm.ValorDoTipoDePreco = item.ValorMaximo;
                     break;
             }
             return processoCotacaoFreteCadastroVm;
@@ -109,7 +109,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 var cotacao = (CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
                 cotacaoSelecionarVm.IdCotacao = cotacao.Id;
 
-                var cotacaoItem = cotacao.Itens.SingleOrDefault();
+                var cotacaoItem = (CotacaoFreteItem) cotacao.Itens.SingleOrDefault();
 
                 if (cotacaoItem == null)
                 {
@@ -120,7 +120,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 cotacaoSelecionarVm.QuantidadeDisponivel = cotacaoItem.QuantidadeDisponivel;
                 cotacaoSelecionarVm.ValorComImpostos = cotacaoItem.ValorComImpostos;
                 cotacaoSelecionarVm.Selecionada = cotacaoItem.Selecionada;
-                cotacaoSelecionarVm.Cadencia = cotacao.Cadencia;
+                cotacaoSelecionarVm.Cadencia = cotacaoItem.Cadencia;
                 cotacaoSelecionarVm.ObservacaoDoFornecedor = cotacaoItem.Observacoes;
                 cotacaoSelecionarVm.PermiteSelecionar = fornecedorParticipante.Resposta == Enumeradores.RespostaDaCotacao.Aceito;
             }

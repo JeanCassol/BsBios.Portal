@@ -106,7 +106,6 @@ namespace BsBios.Portal.Domain.Entities
         }
 
 
-        public virtual decimal? Cadencia { get; protected set; }
         public virtual string NumeroDaCondicaoGeradaNoSap { get; protected set; }
 
 
@@ -118,16 +117,14 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
         {
-            Cadencia = cadencia;
-            var itemDaCotacao = this.Itens.Single();
-            itemDaCotacao.Selecionar(quantidadeAdquirida);
+            var itemDaCotacao =  (CotacaoFreteItem) this.Itens.Single();
+            itemDaCotacao.Selecionar(quantidadeAdquirida, cadencia);
 
         }
 
         public virtual void RemoverSelecao()
         {
-            Cadencia = null;
-            var itemDaCotacao = this.Itens.Single();
+            var itemDaCotacao = (CotacaoFreteItem) this.Itens.Single();
             itemDaCotacao.RemoverSelecao();
 
         }

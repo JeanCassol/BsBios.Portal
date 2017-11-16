@@ -24,8 +24,9 @@ namespace BsBios.Portal.Application.Services.Implementations
             {
                 _unitOfWork.BeginTransaction();
                 var processoDeCotacao = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
+                ProcessoDeCotacaoDeFreteItem item = processoDeCotacao.ObterItem();
 
-                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,cotacaoInformarVm.ValorComImpostos ?? (processoDeCotacao.ValorFechado ?? 0),
+                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,cotacaoInformarVm.ValorComImpostos ?? (item.ValorFechado ?? 0),
                     cotacaoInformarVm.QuantidadeDisponivel.Value, cotacaoInformarVm.ObservacoesDoFornecedor);
 
                 _processosDeCotacao.Save(processoDeCotacao);

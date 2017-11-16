@@ -757,4 +757,8 @@ input[type="checkbox"].input-validation-error {
     font-size: 14px;
 }
 
+.action-column {
+    text-align: center
+}
+
 

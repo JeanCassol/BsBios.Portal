@@ -291,7 +291,6 @@ namespace BsBios.Portal.Infra.Queries.Implementations
 
             ProcessoDeCotacaoDeFrete processoDeCotacao = null;
             Fornecedor transportadora = null;
-            CotacaoDeFrete cotacao = null;
             CotacaoFreteItem cotacaoItem = null;
             Produto produto = null;
             UnidadeDeMedida unidadeDeMedida = null;
@@ -387,9 +386,9 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 .OrderBy(Projections.Property(() => processoDeCotacao.Id)).Asc
                 .SelectList( lista => lista
                     .Select(x => terminal.Nome).WithAlias(() => relatorio.Terminal)
-                    .Select(Projections.Conditional(Restrictions.IsNull(Projections.Property(() => cotacao.Cadencia)), 
-                    Projections.Property(() => processoDeCotacao.Cadencia), 
-                    Projections.Property(() => cotacao.Cadencia)).WithAlias(() => relatorio.Cadencia)).WithAlias(() => relatorio.Cadencia)
+                    .Select(Projections.Conditional(Restrictions.IsNull(Projections.Property(() => cotacaoItem.Cadencia)), 
+                    Projections.Property(() => processoCotacaoItem.Cadencia), 
+                    Projections.Property(() => cotacaoItem.Cadencia)).WithAlias(() => relatorio.Cadencia)).WithAlias(() => relatorio.Cadencia)
 
                     .Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataDeValidadeInicial))).WithAlias(() => relatorio.DataDeValidadeInicial)
                     .Select(Projections.Cast(NHibernateUtil.AnsiString, Projections.Property(() => processoDeCotacao.DataDeValidadeFinal))).WithAlias(() => relatorio.DataDeValidadeFinal)

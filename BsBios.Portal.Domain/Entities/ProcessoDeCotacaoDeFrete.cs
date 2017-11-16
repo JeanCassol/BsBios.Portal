@@ -14,13 +14,11 @@ namespace BsBios.Portal.Domain.Entities
         public virtual DateTime DataDeValidadeFinal { get; protected set; }
         public virtual Itinerario Itinerario { get; protected set; }
         public virtual Fornecedor FornecedorDaMercadoria { get; protected set; }
-        public virtual decimal Cadencia { get; protected set; }
         public virtual bool Classificacao { get; protected set; }
         public virtual Municipio MunicipioDeOrigem { get; protected set; }
         public virtual Municipio MunicipioDeDestino { get; protected set; }
         public virtual Fornecedor Deposito { get; protected set; }
         public virtual Terminal Terminal { get; protected set; }
-        public virtual decimal? ValorPrevisto { get; protected set; }
 
         public virtual void InformarCotacao(string codigoFornecedor, decimal valorComImpostos, decimal quantidadeDisponivel, string observacoesDoFornecedor)
         {
@@ -42,15 +40,11 @@ namespace BsBios.Portal.Domain.Entities
                 observacoesDoFornecedor);
         }
 
-        public virtual Enumeradores.TipoDePrecoDoProcessoDeCotacao TipoDePreco { get; protected set; }
-        public virtual decimal? ValorFechado { get; protected set; }
-        public virtual decimal? ValorMaximo { get; protected set; }
-
         protected ProcessoDeCotacaoDeFrete() { }
-        public ProcessoDeCotacaoDeFrete(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida, */
+        public ProcessoDeCotacaoDeFrete(
             string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
-            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, decimal cadencia, bool classificacao,
-            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal, decimal valorPrevisto)//:base(produto, quantidade, unidadeDeMedida,requisitos, dataLimiteDeRetorno)
+            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedorDaMercadoria, bool classificacao,
+            Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal)
         {
             NumeroDoContrato = numeroDoContrato;
             DataDeValidadeInicial = dataDeValidadeInicial;
@@ -59,37 +53,29 @@ namespace BsBios.Portal.Domain.Entities
             Requisitos = requisitos;
             DataLimiteDeRetorno = dataLimiteDeRetorno;
             FornecedorDaMercadoria = fornecedorDaMercadoria;
-            Cadencia = cadencia;
             Classificacao = classificacao;
             MunicipioDeOrigem = municipioDeOrigem;
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
             Terminal = terminal;
-            ValorPrevisto = valorPrevisto;
         }
 
-        public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida)
+        public virtual ProcessoDeCotacaoItem AdicionarItem(Produto material, decimal quantidade, UnidadeDeMedida unidadeDeMedida, decimal cadencia, decimal? valorPrevisto)
         {
             AdicionarItem();
-            var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida);
+            var item = new ProcessoDeCotacaoDeFreteItem(this, material, quantidade, unidadeDeMedida, cadencia, valorPrevisto);
             Itens.Add(item);
             return item;
         }
 
-        public virtual void Atualizar(/*Produto produto, decimal quantidade, UnidadeDeMedida unidadeDeMedida,*/
-            string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial,
-            DateTime dataDeValidadeFinal, Itinerario itinerario, Fornecedor fornecedor,
-            decimal cadencia, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal,
-            decimal valorPrevisto)
+        public virtual void Atualizar(string requisitos, string numeroDoContrato, DateTime dataLimiteDeRetorno, DateTime dataDeValidadeInicial, DateTime dataDeValidadeFinal, 
+            Itinerario itinerario, Fornecedor fornecedor, bool classificacao, Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal)
         {
             if (Status != Enumeradores.StatusProcessoCotacao.NaoIniciado)
             {
                 throw new ProcessoDeCotacaoAtualizacaoDadosException(Status.Descricao());
             }
 
-            //Produto = produto;
-            //Quantidade = quantidade;
-            //UnidadeDeMedida = unidadeDeMedida;
             Requisitos = requisitos;
             NumeroDoContrato = numeroDoContrato;
             DataLimiteDeRetorno = dataLimiteDeRetorno;
@@ -97,13 +83,11 @@ namespace BsBios.Portal.Domain.Entities
             DataDeValidadeFinal = dataDeValidadeFinal;
             Itinerario = itinerario;
             FornecedorDaMercadoria = fornecedor;
-            Cadencia = cadencia;
             Classificacao = classificacao;
             MunicipioDeOrigem = municipioDeOrigem;
             MunicipioDeDestino = municipioDeDestino;
             Deposito = deposito;
             Terminal = terminal;
-            ValorPrevisto = valorPrevisto;
         }
 
         //public virtual void DesativarParticipante(string codigoDoFornecedor)
@@ -122,7 +106,6 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void SelecionarCotacao(int idCotacao, decimal quantidadeAdquirida, decimal cadencia)
         {
-            this.Cadencia = cadencia;
             var cotacao = (CotacaoDeFrete) BuscarPodId(idCotacao).CastEntity();
             cotacao.Selecionar(quantidadeAdquirida, cadencia);
             
@@ -135,10 +118,10 @@ namespace BsBios.Portal.Domain.Entities
 
         }
 
-        public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida)
+        public virtual void AtualizarItem(Produto produto, decimal quantidadeMaterial, UnidadeDeMedida unidadeDeMedida, decimal cadencia, decimal? valorPrevisto)
         {
-            var item = (ProcessoDeCotacaoDeFreteItem)Itens.First();
-            item.Atualizar(produto, quantidadeMaterial, unidadeDeMedida);
+            var item = (ProcessoDeCotacaoDeFreteItem)Itens.Single();
+            item.Atualizar(produto, quantidadeMaterial, unidadeDeMedida, cadencia, valorPrevisto);
         }
 
         public virtual IList<OrdemDeTransporte> FecharProcesso(IEnumerable<CondicaoDoFechamentoNoSap> condicoesDeFechamento)
@@ -161,31 +144,35 @@ namespace BsBios.Portal.Domain.Entities
             var ordensDeTransporte = (from fornecedorSelecionado in FornecedoresSelecionados
                 let cotacao = (CotacaoDeFrete)fornecedorSelecionado.Cotacao.CastEntity()
                 from cotacaoItem in cotacao.Itens
+                let cotacaoFreteItem = (CotacaoFreteItem) cotacaoItem
                 select new OrdemDeTransporte(this, fornecedorSelecionado.Fornecedor,
-                    cotacaoItem.QuantidadeAdquirida.Value, cotacaoItem.ValorComImpostos, cotacao.Cadencia.Value)).ToList();
+                    cotacaoFreteItem.QuantidadeAdquirida.Value, cotacaoFreteItem.ValorComImpostos, cotacaoFreteItem.Cadencia.Value)).ToList();
 
             return ordensDeTransporte;
         }
 
         public virtual void AbrirPreco()
         {
-            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorAberto;
-            ValorFechado = null;
-            ValorMaximo = null;
+            var item = (ProcessoDeCotacaoDeFreteItem)Itens.Single();
+            item.AbrirPreco();
         }
 
         public virtual void FecharPreco(decimal preco)
         {
-            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorFechado;
-            ValorFechado = preco;
-            ValorMaximo = null;
+            var item = (ProcessoDeCotacaoDeFreteItem)Itens.Single();
+            item.FecharPreco(preco);
         }
 
         public virtual void EstabelecerPrecoMaximo(decimal preco)
         {
-            TipoDePreco = Enumeradores.TipoDePrecoDoProcessoDeCotacao.ValorMaximo;
-            ValorFechado = null;
-            ValorMaximo = preco;
+            var item = (ProcessoDeCotacaoDeFreteItem)Itens.Single();
+            item.EstabelecerPrecoMaximo(preco);
+        }
+
+        public virtual ProcessoDeCotacaoDeFreteItem ObterItem()
+        {
+            return (ProcessoDeCotacaoDeFreteItem)Itens.Single();
+
         }
     }
 

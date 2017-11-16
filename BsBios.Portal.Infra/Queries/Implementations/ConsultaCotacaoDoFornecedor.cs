@@ -234,12 +234,12 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             Municipio municipioDeOrigem = processo.MunicipioDeOrigem;
             Municipio municipioDeDestino = processo.MunicipioDeDestino;
 
-            var item = processo.Itens.First();
+            var item = (ProcessoDeCotacaoDeFreteItem) processo.Itens.First();
 
             var vm = new CotacaoFreteCadastroVm
             {
                 PermiteEditar = processo.Status == Enumeradores.StatusProcessoCotacao.Aberto,
-                PermiteAlterarPreco = !processo.ValorFechado.HasValue,
+                PermiteAlterarPreco = !item.ValorFechado.HasValue,
                 IdProcessoCotacao = processo.Id,
                 CodigoFornecedor = fp.Fornecedor.Codigo,
                 Status = processo.Status.Descricao(),
@@ -273,7 +273,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                     MunicipioDeOrigem = municipioDeOrigem != null ? municipioDeOrigem.Nome + "/" + municipioDeOrigem.UF : "Não informado",
                     MunicipioDeDestino = municipioDeDestino != null ? municipioDeDestino.Nome + "/" + municipioDeDestino.UF : "Não informado",
                     Resposta = fp.Resposta.Descricao(),
-                    ValorMaximo = processo.ValorMaximo,
+                    ValorMaximo = item.ValorMaximo,
                     Terminal = processo.Terminal.Nome
                 }
             };
@@ -282,12 +282,12 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             {
 
                 var cotacao = (CotacaoDeFrete) fp.Cotacao.CastEntity();
-                var itemDaCotacao = cotacao.Itens.First();
+                var itemDaCotacao = (CotacaoFreteItem) cotacao.Itens.First();
 
                 vm.ValorComImpostos = itemDaCotacao.ValorComImpostos;
                 vm.ObservacoesDoFornecedor = itemDaCotacao.Observacoes;
                 vm.QuantidadeDisponivel = itemDaCotacao.QuantidadeDisponivel;
-                vm.Cabecalho.Cadencia = cotacao.Cadencia ?? processo.Cadencia;
+                vm.Cabecalho.Cadencia = itemDaCotacao.Cadencia ?? item.Cadencia;
 
             }
 

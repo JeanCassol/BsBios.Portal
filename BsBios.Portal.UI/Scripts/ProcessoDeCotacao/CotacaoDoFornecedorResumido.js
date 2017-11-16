@@ -1,56 +1,5 @@
 ﻿GridCotacaoResumida = {
     Configurar: function (configuracao) {
-        var arrayDeColunas = [
-            {
-                width: 60,
-                field: "Codigo",
-                title: "Código"
-            },
-            {
-                field: "Nome",
-                width: 195,
-                title: "Nome"
-            },
-            {
-                field: "VisualizadoPeloFornecedor",
-                width: 60,
-                title: "Visualizado?"
-            },
-            {
-                width: 65,
-                title: "Reenviar E-mail",
-                template: '<input type="button" class="button16 button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
-            },
-            {
-                field: 'Selecionado',
-                title: 'Selecionado?',
-                width: 60
-            }
-        ];
-
-        if (configuracao.ExibirDadosDeItens) {
-            arrayDeColunas = arrayDeColunas.concat(
-            {
-                field: "QuantidadeDisponivel",
-                width: 50,
-                title: "Disponivel",
-                format: "{0:n2}"
-            },
-            {
-                field: "ValorComImpostos",
-                width: 80,
-                title: "Valor Com Impostos",
-                format: "{0:n2}"
-            });
-        }
-        
-        if (configuracao.ExibirBotaoVisualizar) {
-            arrayDeColunas.unshift({
-                title: ' ',
-                width: 30,
-                template: '<input type="button" class="button16 button_visualize"></input>'
-            });
-        }
 
         $("#gridCotacaoFornecedor").customKendoGrid({
             dataSource: {
@@ -115,7 +64,10 @@
                 {
                     width: 50,
                     title: "Reenviar",
-                    template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>'
+                    template: '<input type="button" class="button_sendmail" data-idfornecedorparticipante="${IdFornecedorParticipante}"></input>',
+                    attributes: {
+                        "class": "action-column"
+                    }
                 },
                 {
                     field: 'Selecionado',

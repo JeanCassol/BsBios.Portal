@@ -74,7 +74,11 @@
                         title: ' ', /*coloco um espaço para deixar o header sem título*/
                         width: 60,
                         sortable: false,
-                        template: '<input type="button" class="button_edit" data-login="${Login}"></input>'
+                        template: '<input type="button" class="button_edit" data-login="${Login}"></input>',
+                        attributes: {
+                            "class": "action-column"
+                        }
+
                     },
                     {
                         width: 150,

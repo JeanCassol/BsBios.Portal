@@ -1,4 +1,5 @@
-﻿using BsBios.Portal.Domain.Entities;
+﻿using BsBios.Portal.Common;
+using BsBios.Portal.Domain.Entities;
 using FluentNHibernate.Mapping;
 
 namespace BsBios.Portal.Infra.Mappings
@@ -34,6 +35,12 @@ namespace BsBios.Portal.Infra.Mappings
         {
             Table("ProcessoCotacaoItemFrete");
             KeyColumn("Id");
+            Map(x => x.Cadencia);
+            Map(x => x.ValorPrevisto);
+            Map(x => x.TipoDePreco).CustomType<Enumeradores.TipoDePrecoDoProcessoDeCotacao>();
+            Map(x => x.ValorFechado).Nullable();
+            Map(x => x.ValorMaximo).Nullable();
+
         }
     }
 }

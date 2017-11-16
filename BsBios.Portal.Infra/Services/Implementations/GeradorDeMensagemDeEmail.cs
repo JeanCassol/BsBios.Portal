@@ -4,7 +4,6 @@ using System.Linq;
 using BsBios.Portal.Common;
 using BsBios.Portal.Domain.Entities;
 using BsBios.Portal.Infra.Email;
-using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 
 namespace BsBios.Portal.Infra.Services.Implementations
@@ -34,7 +33,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail AberturaDoProcessoDeCotacaoDeFrete(ProcessoDeCotacaoDeFrete processoDeCotacao)
         {
-            ProcessoDeCotacaoItem processoDeCotacaoItem = processoDeCotacao.Itens.First();
+            var processoDeCotacaoItem = (ProcessoDeCotacaoDeFreteItem) processoDeCotacao.Itens.First();
             string mensagem = "Prezado Fornecedor. " + Environment.NewLine +
                               "A BSBIOS convida a participar do nosso processo de cotação para o Produto/Serviço " +
                               "conforme informações descritas abaixo. " + Environment.NewLine +
@@ -43,12 +42,12 @@ namespace BsBios.Portal.Infra.Services.Implementations
                               "Material: " + processoDeCotacaoItem.Produto.Descricao + Environment.NewLine +
                               "Quantidade: " + processoDeCotacaoItem.Quantidade + Environment.NewLine +
                               "Unidade de Medida: " + processoDeCotacaoItem.UnidadeDeMedida.Descricao + Environment.NewLine +
-                              "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+                              "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno?.ToShortDateString() ?? "") + Environment.NewLine +
                               "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
                               "Itinerário: " + processoDeCotacao.Itinerario.Descricao + Environment.NewLine +
-                              "Município de Origem: " + (processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.ToString(): "") + Environment.NewLine +
-                              "Município de Destino: " + (processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.ToString(): "") + Environment.NewLine +
-                              "Cadência: " + processoDeCotacao.Cadencia  + Environment.NewLine +
+                              "Município de Origem: " + (processoDeCotacao.MunicipioDeOrigem?.ToString() ?? "") + Environment.NewLine +
+                              "Município de Destino: " + (processoDeCotacao.MunicipioDeDestino?.ToString() ?? "") + Environment.NewLine +
+                              "Cadência: " + processoDeCotacaoItem.Cadencia  + Environment.NewLine +
                               "Classificação: " + (processoDeCotacao.Classificacao ? "Sim" : "Não")  + Environment.NewLine +
                               "Fornecedor da Mercadoria: " + (processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Nome: "") + Environment.NewLine + 
                               "Depósito: " + (processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : "") + Environment.NewLine;
@@ -76,8 +75,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
             }
 
             mensagem +=
-                "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno.HasValue
-                     ? processoDeCotacao.DataLimiteDeRetorno.Value.ToShortDateString() : "") + Environment.NewLine +
+                "Data Limite de Retorno: " + (processoDeCotacao.DataLimiteDeRetorno?.ToShortDateString() ?? "") + Environment.NewLine +
                 "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
                 SeparadorDeItems + Environment.NewLine +
                 "Comprador" + Environment.NewLine +
@@ -113,7 +111,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public MensagemDeEmail FornecedoresSelecionadosNoProcessoDeCotacaoDeFrete(ProcessoDeCotacaoDeFrete processoDeCotacao, Cotacao cotacao)
         {
-            var processoCotacaoItem = processoDeCotacao.Itens.First();
+            var processoCotacaoItem = (ProcessoDeCotacaoDeFreteItem) processoDeCotacao.Itens.First();
             var cotacaoItem = cotacao.Itens.First();
             string mensagem = "Prezado Fornecedor." + Environment.NewLine +
                               "Estamos confirmando o fechamento da negociação referente ao Processo de Cotação nº " + processoDeCotacao.Id + "." + Environment.NewLine +
@@ -123,9 +121,9 @@ namespace BsBios.Portal.Infra.Services.Implementations
                               "Unidade de Medida: " + processoCotacaoItem.UnidadeDeMedida.Descricao + Environment.NewLine +
                               "Requisitos: " + processoDeCotacao.Requisitos + Environment.NewLine +
                               "Itinerário: " + processoDeCotacao.Itinerario.Descricao + Environment.NewLine +
-                              "Município de Origem: " + (processoDeCotacao.MunicipioDeOrigem != null ? processoDeCotacao.MunicipioDeOrigem.ToString() : "") + Environment.NewLine +
-                              "Município de Destino: " + (processoDeCotacao.MunicipioDeDestino != null ? processoDeCotacao.MunicipioDeDestino.ToString() : "") + Environment.NewLine +
-                              "Cadência: " + processoDeCotacao.Cadencia + Environment.NewLine +
+                              "Município de Origem: " + (processoDeCotacao.MunicipioDeOrigem?.ToString() ?? "") + Environment.NewLine +
+                              "Município de Destino: " + (processoDeCotacao.MunicipioDeDestino?.ToString() ?? "") + Environment.NewLine +
+                              "Cadência: " + processoCotacaoItem.Cadencia + Environment.NewLine +
                               "Classificação: " + (processoDeCotacao.Classificacao ? "Sim" : "Não") + Environment.NewLine +
                               "Fornecedor da Mercadoria: " + (processoDeCotacao.FornecedorDaMercadoria != null ? processoDeCotacao.FornecedorDaMercadoria.Nome : "") + Environment.NewLine +
                               "Depósito: " + (processoDeCotacao.Deposito != null ? processoDeCotacao.Deposito.Nome : "") + Environment.NewLine + Environment.NewLine +
@@ -161,10 +159,8 @@ namespace BsBios.Portal.Infra.Services.Implementations
             {
                 
                 var cotacaoDeFrete = (CotacaoDeFrete) fornecedorParticipante.Cotacao.CastEntity();
-                var cotacaoItem = cotacaoDeFrete.Itens.First();
-                mensagem += string.Format("Transportada: {0} - Quantidade: {1} - Unidade de Medida: {2} - Cadência: {3} - Classificação: {4} - Nº do Contrato: {5}",
-                    fornecedorParticipante.Fornecedor.Nome, cotacaoItem.QuantidadeAdquirida, descricaoDaUnidadeDeMedida,
-                    cotacaoDeFrete.Cadencia,processoDeCotacao.Classificacao ? "Sim": "Não", processoDeCotacao.NumeroDoContrato)
+                var cotacaoItem = (CotacaoFreteItem) cotacaoDeFrete.Itens.First();
+                mensagem += $"Transportada: {fornecedorParticipante.Fornecedor.Nome} - Quantidade: {cotacaoItem.QuantidadeAdquirida} - Unidade de Medida: {descricaoDaUnidadeDeMedida} - Cadência: {cotacaoItem.Cadencia} - Classificação: {(processoDeCotacao.Classificacao ? "Sim" : "Não")} - Nº do Contrato: {processoDeCotacao.NumeroDoContrato}"
                     + Environment.NewLine;
             }
 

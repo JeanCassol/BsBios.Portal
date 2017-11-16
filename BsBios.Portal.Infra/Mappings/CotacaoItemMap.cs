@@ -72,6 +72,8 @@ namespace BsBios.Portal.Infra.Mappings
             //KeyColumn("IdCotacao");
             //KeyColumn("IdProcessoCotacaoItem");
             KeyColumn("Id");
+            Map(x => x.Cadencia);
+
         }
     }
 }

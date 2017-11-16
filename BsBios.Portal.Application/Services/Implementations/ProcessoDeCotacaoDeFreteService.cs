@@ -70,10 +70,10 @@ namespace BsBios.Portal.Application.Services.Implementations
                     processo = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(processoCotacaoFreteCadastroVm.Id.Value).Single();
 
                     processo.Atualizar(processoCotacaoFreteCadastroVm.Requisitos, processoCotacaoFreteCadastroVm.NumeroDoContrato,
-                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, cadencia, 
-                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal, processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
+                        dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario, fornecedorDaMercadoria, 
+                        processoCotacaoFreteCadastroVm.Classificacao,municipioOrigem, municipioDestino,deposito,terminal);
 
-                    processo.AtualizarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial, unidadeDeMedida);
+                    processo.AtualizarItem(produto, processoCotacaoFreteCadastroVm.QuantidadeMaterial, unidadeDeMedida, cadencia, processoCotacaoFreteCadastroVm.ValorPrevisto ?? 0);
                 }
                 else
                 {

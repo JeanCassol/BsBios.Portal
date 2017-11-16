@@ -73,11 +73,6 @@ namespace BsBios.Portal.Infra.Mappings
             Map(x => x.DataDeValidadeFinal).Column("DataValidadeFinal");
             Map(x => x.NumeroDoContrato).Column("NumeroContrato");
             Map(x => x.Classificacao);
-            Map(x => x.Cadencia);
-            Map(x => x.ValorPrevisto);
-            Map(x => x.TipoDePreco).CustomType<Enumeradores.TipoDePrecoDoProcessoDeCotacao>();
-            Map(x => x.ValorFechado).Nullable();
-            Map(x => x.ValorMaximo).Nullable();
 
         }
     }

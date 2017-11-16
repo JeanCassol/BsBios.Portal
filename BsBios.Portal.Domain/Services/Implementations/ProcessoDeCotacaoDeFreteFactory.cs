@@ -36,14 +36,14 @@ namespace BsBios.Portal.Domain.Services.Implementations
             Municipio municipioDeOrigem, Municipio municipioDeDestino, Fornecedor deposito, Terminal terminal, decimal valorPrevisto)
         {
             var processoDeCotacao = new ProcessoDeCotacaoDeFrete(requisitos, numeroDoContrato, dataLimiteDeRetorno, dataDeValidadeInicial, dataDeValidadeFinal, itinerario,
-                fornecedorDaMercadoria, cadencia, classificacao, municipioDeOrigem, municipioDeDestino, deposito, terminal, valorPrevisto);
+                fornecedorDaMercadoria, classificacao, municipioDeOrigem, municipioDeDestino, deposito, terminal);
             if (_itens.Count == 0)
             {
                 throw new ProcessoDeCotacaoSemItemException();
             }
             foreach (var item in _itens)
             {
-                processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida);
+                processoDeCotacao.AdicionarItem(item.Produto, item.Quantidade, item.UnidadeDeMedida, cadencia, valorPrevisto);
             }
             return processoDeCotacao;
         }

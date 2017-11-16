@@ -120,6 +120,7 @@ namespace BsBios.Portal.Domain.Entities
         {
             Selecionada = false;
             QuantidadeAdquirida = null;
+
         }
 
         #region override members
@@ -210,11 +211,23 @@ namespace BsBios.Portal.Domain.Entities
 
     public class CotacaoFreteItem: CotacaoItem
     {
+        public virtual decimal? Cadencia { get; protected set; }
         protected CotacaoFreteItem(){}
         internal CotacaoFreteItem(Cotacao cotacao, ProcessoDeCotacaoItem processoDeCotacaoItem,decimal valorTotalComImpostos, 
             decimal quantidadeDisponivel, string observacoes) : base(cotacao, processoDeCotacaoItem,valorTotalComImpostos, quantidadeDisponivel, observacoes)
         {
         }
 
+        public override void RemoverSelecao()
+        {
+            base.RemoverSelecao();
+            Cadencia = null;
+        }
+
+        protected internal virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
+        {
+            base.Selecionar(quantidadeAdquirida);
+            this.Cadencia = cadencia;
+        }
     }
 }
