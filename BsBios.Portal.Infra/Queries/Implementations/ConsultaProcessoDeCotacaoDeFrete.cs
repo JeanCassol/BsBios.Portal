@@ -171,9 +171,10 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 _processosDeCotacao.DoTerminal(filtro.CodigoDoTerminal);
             }
 
-            var query = (from p in _processosDeCotacao.GetQuery()
-                         from item in p.Itens
-                         orderby p.Status
+            var query = (from x in _processosDeCotacao.GetQuery()
+                         from item in x.Itens
+                         orderby x.Id descending 
+                         let p = (ProcessoDeCotacaoDeFrete) x
                          select new
                              {
                                  CodigoMaterial = item.Produto.Codigo,
@@ -182,8 +183,10 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                                  Id = p.Id,
                                  Quantidade = item.Quantidade,
                                  Status = p.Status,
-                                 UnidadeDeMedida = item.UnidadeDeMedida.Descricao
-                             }
+                                 UnidadeDeMedida = item.UnidadeDeMedida.Descricao,
+                                 Terminal = p.Terminal.Nome,
+                                 
+                         }
                         );
 
             var quantidadeDeRegistros = query.Count();
@@ -194,12 +197,13 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                                          Id = x.Id,
                                          CodigoMaterial = x.CodigoMaterial,
                                          Material = x.Material,
-                                         DataTermino =
-                                             x.DataTermino.HasValue ? x.DataTermino.Value.ToShortDateString() : "",
+                                         DataTermino = x.DataTermino?.ToShortDateString() ?? "",
                                          Quantidade = x.Quantidade,
                                          Status = x.Status.Descricao(),
-                                         UnidadeDeMedida = x.UnidadeDeMedida
-                                     }).Cast<ListagemVm>().ToList();
+                                         UnidadeDeMedida = x.UnidadeDeMedida,
+                                         Terminal = x.Terminal
+                                         
+                                 }).Cast<ListagemVm>().ToList();
 
             var kendoGridVm = new KendoGridVm()
                 {

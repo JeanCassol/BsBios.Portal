@@ -66,13 +66,14 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             }
             
             var query = (from ordemDeTransporte in _ordensDeTransporte.GetQuery()
+                         from item in ordemDeTransporte.ProcessoDeCotacaoDeFrete.Itens
                          orderby ordemDeTransporte.Id descending
                          select new OrdemDeTransporteListagemVm
                          {
                              Id = ordemDeTransporte.Id,
                              CodigoDoFornecedor = usuarioLogadoEUmaTransportadora ? ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria.Codigo : ordemDeTransporte.Fornecedor.Codigo,
                              NomeDoFornecedor = usuarioLogadoEUmaTransportadora ? ordemDeTransporte.ProcessoDeCotacaoDeFrete.FornecedorDaMercadoria.Nome : ordemDeTransporte.Fornecedor.Nome,
-                             //Material = ordemDeTransporte.ProcessoDeCotacaoDeFrete.Produto.Descricao,
+                             Material = item.Produto.Descricao,
                              QuantidadeColetada = ordemDeTransporte.QuantidadeColetada,
                              QuantidadeLiberada = ordemDeTransporte.QuantidadeLiberada,
                              QuantidadeRealizada = ordemDeTransporte.QuantidadeRealizada
