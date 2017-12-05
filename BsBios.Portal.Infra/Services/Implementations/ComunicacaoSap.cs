@@ -6,6 +6,7 @@ using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
+using log4net;
 
 namespace BsBios.Portal.Infra.Services.Implementations
 {
@@ -13,6 +14,7 @@ namespace BsBios.Portal.Infra.Services.Implementations
     public class ComunicacaoSap<T> : IComunicacaoSap<T>
     {
         private readonly CredencialSap _credencialSap;
+        private static readonly ILog Log = LogManager.GetLogger("ComunicacaoSap");
 
         public ComunicacaoSap(CredencialSap credencialSap)
         {
@@ -21,14 +23,17 @@ namespace BsBios.Portal.Infra.Services.Implementations
 
         public ApiResponseMessage EnviarMensagem(string endereco, T mensagem)
         {
-            
             var clientHandler = new HttpClientHandler { Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha) };
             var httpClient = new HttpClient(clientHandler);
             var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor + endereco, mensagem);
 
+            string result = response.Result.Content.ReadAsStringAsync().Result;
+
+            Log.Info(result);
+
             if (!response.Result.IsSuccessStatusCode)
             {
-                string erro = response.Result.Content.ReadAsStringAsync().Result;
+                string erro = result;
                 throw new ComunicacaoSapException(response.Result.Content.Headers.ContentType.MediaType, erro);
             }
 

@@ -1,7 +1,12 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Xml.Serialization;
 using BsBios.Portal.Common;
 using BsBios.Portal.Common.Exceptions;
 using BsBios.Portal.Domain.Entities;
+using BsBios.Portal.Infra.Model;
 using BsBios.Portal.Infra.Services.Contracts;
 using BsBios.Portal.ViewModel;
 
@@ -9,11 +14,14 @@ namespace BsBios.Portal.Infra.Services.Implementations
 {
     public class ProcessoDeCotacaoDeFreteFechamentoComunicacaoSap : IProcessoDeCotacaoDeFreteFechamentoComunicacaoSap
     {
-        private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
+        //private readonly IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> _comunicacaoSap;
+        private readonly CredencialSap _credencialSap;
 
-        public ProcessoDeCotacaoDeFreteFechamentoComunicacaoSap(IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> comunicacaoSap)
+        public ProcessoDeCotacaoDeFreteFechamentoComunicacaoSap(CredencialSap credencialSap
+/*IComunicacaoSap<ListaProcessoDeCotacaoDeFreteFechamento> comunicacaoSap*/)
         {
-            _comunicacaoSap = comunicacaoSap;
+            _credencialSap = credencialSap;
+            //_comunicacaoSap = comunicacaoSap;
         }
 
         public ApiResponseMessage EfetuarComunicacao(ProcessoDeCotacaoDeFrete processo)
@@ -64,15 +72,54 @@ namespace BsBios.Portal.Infra.Services.Implementations
                 }
             }
 
-            ApiResponseMessage apiResponseMessage =
-                _comunicacaoSap.EnviarMensagem(
-                    "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
-                    , mensagemParaEnviar);
-            if (apiResponseMessage.Retorno.Codigo == "E")
+            SerializeToString(mensagemParaEnviar);
+
+            var clientHandler = new HttpClientHandler { Credentials = new NetworkCredential(_credencialSap.Usuario, _credencialSap.Senha) };
+
+            var httpClient = new HttpClient(clientHandler);
+
+            var response = httpClient.PostAsXmlAsync(_credencialSap.EnderecoDoServidor +
+                                                     "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+                , mensagemParaEnviar);
+
+            if (!response.Result.IsSuccessStatusCode)
             {
-                throw new ComunicacaoSapException("json", "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
+                string erro = response.Result.Content.ReadAsStringAsync().Result;
+                throw new ComunicacaoSapException(response.Result.Content.Headers.ContentType.MediaType, erro);
             }
-            return apiResponseMessage;
+            //ApiResponseMessage apiResponseMessage =
+            //    _comunicacaoSap.EnviarMensagem(
+            //        "/HttpAdapter/HttpMessageServlet?senderParty=PORTAL&senderService=HTTP&interfaceNamespace=http://portal.bsbios.com.br/&interface=si_cotacaoFreteFechamento_portal&qos=be"
+            //        , mensagemParaEnviar);
+            //if (apiResponseMessage.Retorno.Codigo == "E")
+            //{
+            //    throw new ComunicacaoSapException("json", "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: " + apiResponseMessage.Retorno.Texto);
+            //}
+            //return apiResponseMessage;
+
+            const string mensagemDaExcecao = "Ocorreu um erro ao comunicar o fechamento do Processo de Cotação de Frete para o SAP. Detalhes: ";
+
+            Stream content = response.Result.Content.ReadAsStreamAsync().Result;
+            var serializer = new XmlSerializer(typeof(ProcessoDeCotacaoDeFreteFechamentoRetorno));
+
+            var mensagem = (ProcessoDeCotacaoDeFreteFechamentoRetorno)serializer.Deserialize(content);
+
+            if (mensagem.Retorno.Codigo == "E")
+            {
+                throw new ComunicacaoSapException("json", mensagemDaExcecao + mensagem.Retorno.Texto);
+            }
+
+            return mensagem;
+
+        }
+
+        private static void SerializeToString(object obj)
+        {
+            XmlSerializer serializer = new XmlSerializer(obj.GetType());
+
+            StringWriter writer = new StringWriter();
+
+            serializer.Serialize(writer, obj);
 
         }
     }
