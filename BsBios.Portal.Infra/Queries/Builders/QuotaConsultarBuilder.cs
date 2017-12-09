@@ -10,6 +10,7 @@ namespace BsBios.Portal.Infra.Queries.Builders
         {
             return new QuotaConsultarVm
                 {
+                    IdQuota =  model.Id,
                     CodigoFornecedor = model.Fornecedor.Codigo ,
                     NomeFornecedor = model.Fornecedor.Nome,
                     CodigoMaterial = model.Material.Codigo ,

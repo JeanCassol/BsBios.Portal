@@ -40,10 +40,8 @@ namespace BsBios.Portal.Application.Services.Implementations
 
                 #region Remover Quotas
                 IList<Quota> quotasParaRemover = quotasSalvas
-                    .Where(qs => quotasSalvarVm.Quotas.All(qc => 
-                        qc.CodigoMaterial != qs.Material.Codigo
-                        || qc.CodigoFornecedor != qs.Fornecedor.Codigo
-                        || qc.FluxoDeCarga != (int) qs.FluxoDeCarga)).ToList();
+                    .Where(qs => quotasSalvarVm.QuotasParaRemover.Any(idQuota => qs.Id == idQuota))
+                    .ToList();
 
                 foreach (var quota in quotasParaRemover)
                 {

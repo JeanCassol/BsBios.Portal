@@ -93,7 +93,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script type="text/javascript">
-        var fornecedoresAdicionados = new Array();
+        var fornecedoresAdicionados = [];
+        var quotasRemovidas = [];
         var quantidadeDeFornecedoresIniciais = 0;
         var indiceEdicao = -1;
         $(function() {
@@ -110,12 +111,12 @@
                     if (quotaEncontrada) {
                         return;
                     }
-                    if (indice == indiceEdicao) {
+                    if (indice === indiceEdicao) {
                         return;
                     }
-                    if (fornecedor.CodigoFornecedor == quota.CodigoFornecedor
-                        && fornecedor.CodigoFluxoCarga == quota.CodigoFluxoCarga
-                        && fornecedor.CodigoMaterial == quota.CodigoMaterial) {
+                    if (fornecedor.CodigoFornecedor === quota.CodigoFornecedor
+                        && fornecedor.CodigoFluxoCarga === quota.CodigoFluxoCarga
+                        && fornecedor.CodigoMaterial === quota.CodigoMaterial) {
                         quotaEncontrada = true;
                     }
                 });
@@ -131,6 +132,52 @@
                 indiceEdicao = -1;
                 $('#btnAdicionarFornecedor').val('Adicionar');
                 $('#btnCancelarEdicao').hide();
+
+            }
+
+            function atualizarCotacoes() {
+                var dataPesquisa = $('#Data').val();
+                var codigoDoTerminal = $('#Terminal').val();
+                if (!dataPesquisa || !codigoDoTerminal) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ListarFornecedores", "Quota")',
+                    type: 'GET',
+                    cache: false,
+                    data: {
+                        DataDaQuota: dataPesquisa,
+                        CodigoDoTerminal: codigoDoTerminal
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (!data.Sucesso) {
+                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
+                            return;
+                        }
+
+                        if (data.Registros.length === 0) {
+                            //caso seja uma data que não tenha registros tem que sair do método e manter os registros do grid,
+                            //caso existam. Com isso os registros do copiar não serão excluidos quando os campos de terminal e data
+                            //forem preenchidos.
+                            return;
+                        }
+
+                        fornecedoresAdicionados = data.Registros;
+
+                        desabilitarCamposPrincipais();
+
+                        quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
+
+                        /* preencher os campos principais e carregar o grid via ajax*/
+                        atualizaGrid();
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
+                    }
+                });
 
             }
 
@@ -161,7 +208,7 @@
                     return;
                 }
 
-                if (indiceEdicao == -1) {
+                if (indiceEdicao === -1) {
                     fornecedoresAdicionados.push(fornecedor);
                 } else {
                     fornecedoresAdicionados[indiceEdicao] = fornecedor;
@@ -178,6 +225,7 @@
                         model: {
                             id: 'Codigo',
                             fields: {
+                                IdQuota: {type: "number"},
                                 CodigoFornecedor: { type: "string" },
                                 NomeFornecedor: { type: "string" },
                                 CodigoMaterial: { type: "number" },
@@ -195,13 +243,13 @@
                 columns:
                 [
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        title: ' ',
                         width: 40,
                         sortable: false,
                         template: '<input type="button" class="button_edit" data-codigofornecedor="${CodigoFornecedor}"></input>'
                     },
                     {
-                        title: ' ', /*coloco um espaço para deixar o header sem título*/
+                        title: ' ',
                         width: 40,
                         sortable: false,
                         template: '<input type="button" class="button16 button_remove" data-codigofornecedor="${CodigoFornecedor}"></input>'
@@ -242,8 +290,12 @@
             });
 
             $('#gridFornecedoresAdicionados').find('.button_remove').die('click');
-            $('#gridFornecedoresAdicionados').find('.button_remove').live('click', function() {
+            $('#gridFornecedoresAdicionados').find('.button_remove').live('click', function () {
                 var indice = $(this).parents('tr:first')[0].rowIndex;
+                var idQuota = fornecedoresAdicionados[indice].IdQuota;
+                if (idQuota) {
+                    quotasRemovidas.push(idQuota);    
+                }
                 fornecedoresAdicionados.splice(indice, 1);
                 atualizaGrid();
             });
@@ -264,53 +316,8 @@
             });
 
             $('#Data, #Terminal').change(function() {
-                var dataPesquisa = $('#Data').val();
-                var codigoDoTerminal = $('#Terminal').val();
-                if (!dataPesquisa || !codigoDoTerminal) {
-                    return;
-                }
 
-
-                $.ajax({
-                    url: '@Url.Action("ListarFornecedores", "Quota")',
-                    type: 'GET',
-                    cache: false,
-                    data: {
-                        DataDaQuota: dataPesquisa,
-                        CodigoDoTerminal: codigoDoTerminal
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (!data.Sucesso) {
-                            Mensagem.ExibirMensagemDeErro(data.Mensagem);
-                            return;
-                        }
-
-                        if (data.Registros.length == 0) {
-                            //caso seja uma data que não tenha registros tem que sair do método e manter os registros do grid,
-                            //caso existam. Com isso os registros do copiar não serão excluidos quando os campos de terminal e data 
-                            //forem preenchidos.
-                            return;
-                        }
-
-                        fornecedoresAdicionados = [];
-
-                        desabilitarCamposPrincipais();
-                                
-                        $.each(data.Registros, function (indice, quota) {
-                            fornecedoresAdicionados.push(quota);
-                        });
-
-                        quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
-
-                        /* preencher os campos principais e carregar o grid via ajax*/
-                        atualizaGrid();
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
-                    }
-                });
+                atualizarCotacoes();
 
             });
 
@@ -338,7 +345,8 @@
                 var quotasSalvarVm = {
                     Data: dataDaQuota,
                     CodigoDoTerminal: $('#Terminal').val(),
-                    Quotas: quotasParaSalvar
+                    Quotas: quotasParaSalvar,
+                    QuotasParaRemover: quotasRemovidas
                 };
 
                 $.ajax({
@@ -348,17 +356,17 @@
                     data: JSON.stringify(quotasSalvarVm),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.Sucesso) {
                             Mensagem.ExibirMensagemDeSucesso("As quotas foram salvas com sucesso.");
-                            quantidadeDeFornecedoresIniciais = fornecedoresAdicionados.length;
+                            atualizarCotacoes();
                             return;
                         } else {
                             Mensagem.ExibirMensagemDeErro(data.Mensagem);
                         }
 
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         Mensagem.ExibirMensagemDeErro('Ocorreu um erro ao consultar as quotas. Detalhe: ' + textStatus + errorThrown);
                     }
                 });
@@ -379,15 +387,15 @@
                     .attr('readonly', true)
                     .addClass('campoDesabilitado')
                     .attr('disabled', 'disabled');
-                
+
             }
 
-            $('#btnCopiar').click(function() {
+            $('#btnCopiar').click(function () {
                 habilitarCamposPrincipais();
-            });            
+            });
 
 
-            $('#btnNovo').click(function() {
+            $('#btnNovo').click(function () {
                 habilitarCamposPrincipais();
                 fornecedoresAdicionados = [];
                 atualizaGrid();

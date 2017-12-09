@@ -33,10 +33,7 @@ namespace BsBios.Portal.Domain.Entities
         /// <summary>
         /// Peso que ainda não foi agendado
         /// </summary>
-        public virtual decimal PesoDisponivel
-        {
-            get { return PesoTotal - PesoAgendado ; }
-        }
+        public virtual decimal PesoDisponivel => PesoTotal - PesoAgendado;
 
         protected Quota()
         {

@@ -44,7 +44,8 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 .FiltraPorData(data)
                 .DoTerminal(codigoDoTerminal)
                 .List();
-            return _builderQuota.BuildList(quotas);
+
+            return _builderQuota.BuildList(quotas.OrderBy(q => q.Id).ToList());
         }
 
         public KendoGridVm ListarQuotasDoFornecedor(PaginacaoVm paginacaoVm, string codigoDoFornecedor)

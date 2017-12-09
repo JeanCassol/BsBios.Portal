@@ -1,10 +1,8 @@
 ﻿namespace BsBios.Portal.ViewModel
 {
-    /// <summary>
-    /// Utilizada no grid de quotas da tela de cadastro
-    /// </summary>
     public class QuotaConsultarVm
     {
+        public int IdQuota { get; set; }
         public string CodigoFornecedor { get; set; }
         public string NomeFornecedor { get; set; }
         public int CodigoMaterial { get; set; }
