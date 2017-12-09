@@ -27,7 +27,7 @@ namespace BsBios.Portal.Domain.Entities
             CotacaoDeFrete cotacao;
             if (fornecedorParticipante.Cotacao != null)
             {
-                cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao;
+                cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
             }
             else
             {
