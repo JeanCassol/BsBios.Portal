@@ -43,6 +43,7 @@
     <Compile Include="Entities\Coleta.cs" />
     <Compile Include="Entities\CondicaoDePagamento.cs" />
     <Compile Include="Entities\ConhecimentoDeTransporte.cs" />
+    <Compile Include="Entities\CotacaoHistorico.cs" />
     <Compile Include="Entities\CotacaoItem.cs" />
     <Compile Include="Entities\HistoricoDePreco.cs" />
     <Compile Include="Entities\Imposto.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Repositories\ICompleteRepository.cs" />
     <Compile Include="Repositories\ICondicoesDePagamento.cs" />
     <Compile Include="Repositories\IConhecimentosDeTransporte.cs" />
+    <Compile Include="Repositories\ICotacaoHistoricoRepository.cs" />
     <Compile Include="Repositories\IFornecedores.cs" />
     <Compile Include="Repositories\IIncoterms.cs" />
     <Compile Include="Repositories\IItinerarios.cs" />

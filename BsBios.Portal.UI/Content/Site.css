@@ -601,13 +601,13 @@ input[type="checkbox"].input-validation-error {
 .button_sendmail {
     background-image: url(/images/icons/enviar_email_16.png); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0 0;  /* equivalent to 'top left' */
-    -ms-background-size:cover;
-    background-size:cover;
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 1.5em;           /* make this the size of your image */
+    background-repeat: no-repeat; /* make the background image appear only once */
+    background-position: 0 0; /* equivalent to 'top left' */
+    -ms-background-size: cover;
+    background-size: cover;
+    border: none; /* assuming we don't want any borders */
+    cursor: pointer; /* make the cursor like hovering over an <a> element */
+    height: 1.5em;  /* make this the size of your image */
     width: 1.5em;
     vertical-align: middle; /* align the text vertically centered */
 }
@@ -625,15 +625,22 @@ input[type="checkbox"].input-validation-error {
     background-image: url(/images/icons/bloquear_16.png);
 }
 
+.button_historico_cotacao {
+    background-image: url(/images/icons/ver_historico.png);
+}
+.button_liberar_cotacao {
+    background-image: url(/images/icons/liberar_cotacao_16.png);
+}
+
 .button16 {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: 0 0;
-    -ms-background-size:cover;
-    background-size:cover;
+    -ms-background-size: cover;
+    background-size: cover;
     border: none;
     cursor: pointer;
-    height: 1.5em;           /* make this the size of your image */
+    height: 1.5em;
     width: 1.5em;
     vertical-align: middle;
 }

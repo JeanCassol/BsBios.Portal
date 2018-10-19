@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using BsBios.Portal.Common;
 using BsBios.Portal.Infra.Model;
@@ -50,7 +51,7 @@ namespace BsBios.Portal.UI.Controllers
             ViewBag.StatusProcessoCotacao = _consultaStatusProcessoCotacao.Listar();
             ViewBag.TipoDeCotacao = Enumeradores.TipoDeCotacao.Frete;
             ViewBag.Terminais = _consultaTerminal.ListarTodos();
-            return View("_ProcessoCotacaoIndex");
+            return View("_ProcessoCotacaoIndex", new ProcessoDeCotacaoDeFreteFiltroVm());
         }
 
         [HttpGet]
@@ -149,6 +150,24 @@ namespace BsBios.Portal.UI.Controllers
         {
             KendoGridVm kendoGridVm = _consultaProcessoDeCotacaoDeFrete.CotacoesDosFornecedoresResumido(idProcessoCotacao);
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ListarHistorico()
+        {
+            var historico = new List<CotacaoHistoricoListagemVm>()
+            {
+                new CotacaoHistoricoListagemVm {Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.AddDays(-2).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 10, Preço = 100,00"},
+                new CotacaoHistoricoListagemVm {Usuario = "Fabiano Machado", Data = DateTime.Now.AddDays(-1).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Liberação para informar nova cotação"},
+                new CotacaoHistoricoListagemVm{Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 13, Preço = 110,00"}
+            };
+            var kendoGridVm = new KendoGridVm()
+            {
+                Registros = historico.Cast<ListagemVm>().ToList(),
+                QuantidadeDeRegistros = historico.Count
+            };
+
+            return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

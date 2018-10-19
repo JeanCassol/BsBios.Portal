@@ -88,6 +88,11 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<NotasFiscaisMiro>();
 
+            For<ICotacaoHistoricoRepository>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<CotacaoHistoricos>();
+
+
         }
     }
 }

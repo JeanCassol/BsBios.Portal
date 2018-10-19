@@ -33,7 +33,7 @@ namespace BsBios.Portal.UI.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.ReturnUrl = returnUrl;
-            return View("Login");
+            return View("Login", new LoginVm());
         }
 
 

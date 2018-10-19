@@ -378,9 +378,11 @@
     <Content Include="Images\icons\led-yellow-circle-th.png" />
     <Content Include="Images\icons\led_circle_green.png" />
     <Content Include="Images\icons\led_circle_red.png" />
+    <Content Include="Images\icons\liberar_cotacao_16.png" />
     <Content Include="Images\icons\mag_16.png" />
     <Content Include="Images\icons\schedule_16.png" />
     <Content Include="Images\icons\select_16.png" />
+    <Content Include="Images\icons\ver_historico.png" />
     <Content Include="Scripts\AgendamentoDeCarga\Cadastro.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridNotasFiscais.js" />
     <Content Include="Scripts\AgendamentoDeCarga\GridAgendamentosDoDia.js" />
@@ -462,6 +464,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\ProcessoDeCotacao\CotacaoDoFornecedorResumido.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoAnexo.js" />
+    <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoHistorico.js" />
     <Content Include="Scripts\ProcessoDeCotacao\ProcessoDeCotacaoItensGrid.js" />
     <Content Include="Scripts\ProcessoDeCotacao\SelecionarItens.js" />
     <Content Include="Scripts\scriptsGerais.js" />
@@ -559,6 +562,7 @@
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeCarregamento.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentoDeDescarregamento.cshtml" />
     <Content Include="Views\AgendamentoDeCarga\AgendamentosDaQuota.cshtml" />
+    <Content Include="Views\Shared\_ProcessoDeCotacaoHistorico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

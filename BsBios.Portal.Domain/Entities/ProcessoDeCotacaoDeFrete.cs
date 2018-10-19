@@ -172,8 +172,9 @@ namespace BsBios.Portal.Domain.Entities
         public virtual ProcessoDeCotacaoDeFreteItem ObterItem()
         {
             return (ProcessoDeCotacaoDeFreteItem)Itens.Single();
-
         }
+
+
     }
 
 }

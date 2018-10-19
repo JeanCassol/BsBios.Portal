@@ -10,71 +10,72 @@
 <link href="@Url.Content("~/Content/kendo/2012.3.1114/kendo.default.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/jquery.loadmask.css")" rel="stylesheet" />
 <div class="paginaCadastro">
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
 
         <fieldset>
             <legend>Processo de Cotação</legend>
 
             @Html.HiddenFor(model => model.Id)
-            
+
             <div class="coluna">
-                @Html.Label("Status:",new{@class="labelNaLinha"})
-                <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span> 
+                @Html.Label("Status:", new { @class = "labelNaLinha" })
+                <span id="spanStatus">@(Model != null ? Model.DescricaoStatus : "Não Iniciado")</span>
             </div>
-            
+
             <div class="linha">
                 @Html.HiddenFor(x => x.CodigoMaterial)
                 @Html.LabelFor(x => x.DescricaoMaterial)
-                @Html.TextBoxFor(x => x.DescricaoMaterial,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
-                <input type="button" id="btnSelecionarProduto" class="button_visualize" />        
+                @Html.TextBoxFor(x => x.DescricaoMaterial, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
+                <input type="button" id="btnSelecionarProduto" class="button_visualize" />
                 <p class="mensagemErro">
-                    @Html.ValidationMessageFor(x => x.DescricaoMaterial)    
+                    @Html.ValidationMessageFor(x => x.DescricaoMaterial)
                 </p>
             </div>
-            @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida, 
-                ((List<UnidadeDeMedidaSelecaoVm>) ViewBag.UnidadesDeMedida)
-                .Select(x => new SelectListItem() {Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida}),
-                "CodigoUnidadeMedida");
+            @{ var comboUnidadeDeMedida = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoUnidadeMedida,
+                 ((List<UnidadeDeMedidaSelecaoVm>)ViewBag.UnidadesDeMedida)
+                 .Select(x => new SelectListItem() { Text = x.Descricao, Value = Convert.ToString(x.CodigoInterno), Selected = Model != null && x.CodigoInterno == Model.CodigoUnidadeMedida }),
+                 "CodigoUnidadeMedida");
 
-               var quantidadeMaterial = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial, "maskquantidade");
+                var quantidadeMaterial = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.QuantidadeMaterial, "maskquantidade");
             }
-            
-            @Html.LinhaComDuasColunas(quantidadeMaterial,comboUnidadeDeMedida)
-            
-            @{ 
+
+            @Html.LinhaComDuasColunas(quantidadeMaterial, comboUnidadeDeMedida)
+
+            @{
                 var dataLimiteDeRetorno = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataLimiteRetorno, "campoDatePicker maskdata");
 
-                var comboDeTerminal = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoDoTerminal, 
-                ((List<TerminalCadastroVm>) ViewBag.Terminais)
-                .Select(x => new SelectListItem() {Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal}),
+                var comboDeTerminal = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, string>(x => x.CodigoDoTerminal,
+                ((List<TerminalCadastroVm>)ViewBag.Terminais)
+                .Select(x => new SelectListItem() { Text = x.Nome, Value = Convert.ToString(x.Codigo), Selected = Model != null && x.Codigo == Model.CodigoDoTerminal }),
                 "CodigoDoTerminal");
 
             }
 
             @Html.LinhaComDuasColunas(dataLimiteDeRetorno, comboDeTerminal)
-            
+
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoInicial, "campoDatePicker maskdata"),
-                new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))        
+                new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.DataValidadeCotacaoFinal, "campoDatePicker maskdata"))
 
             <div class="linha">
                 @Html.HiddenFor(x => x.CodigoItinerario)
                 @Html.LabelFor(x => x.DescricaoItinerario)
-                @Html.TextBoxFor(x => x.DescricaoItinerario,new{@readonly=true,@class="campoextragrande campoDesabilitado"})
-                <input type="button"  id="btnSelecionarItinerario" class="button_visualize" />        
+                @Html.TextBoxFor(x => x.DescricaoItinerario, new { @readonly = true, @class = "campoextragrande campoDesabilitado" })
+                <input type="button" id="btnSelecionarItinerario" class="button_visualize" />
                 <p class="mensagemErro">
                     @Html.ValidationMessageFor(x => x.DescricaoItinerario)
                 </p>
             </div>
-            
+
             @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorPrevisto,"campopequeno maskmoeda"),
                 new ColunaVazia<ProcessoCotacaoFreteCadastroVm, object>())
 
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"), 
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, string>(x => x.NumeroDoContrato,"campomedio masknumerocontrato"),
                 new ColunaComTextArea<ProcessoCotacaoFreteCadastroVm, string>(x => x.Requisitos))
-            
+
             @Html.LinhaComDuasColunas(new ColunaComCheckBox<ProcessoCotacaoFreteCadastroVm, bool>(x => x.Classificacao),
                 new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal>(x => x.Cadencia, "campopequeno maskquantidade"))
-            
+
             <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoFornecedorDaMercadoria)
                 @Html.LabelFor(x => x.FornecedorDaMercadoria)
@@ -82,19 +83,19 @@
                 <input type="button" id="btnSelecionarFornecedor" class="button_visualize" />
                 @Html.ValidationMessageFor(x => x.FornecedorDaMercadoria)
             </div>
-            
+
             <div class="coluna">
                 @Html.HiddenFor(x => x.CodigoDoDeposito)
                 @Html.LabelFor(x => x.Deposito)
                 @Html.TextBoxFor(x => x.Deposito, new { @readonly = true, @class = "campogrande campoDesabilitado" })
                 <input type="button" id="btnSelecionarDeposito" class="button_visualize" />
             </div>
-            
+
             <div class="linha">
                 <div class="coluna">
                     @Html.HiddenFor(x => x.CodigoDoMunicipioDeOrigem)
                     @Html.LabelFor(x => x.NomeDoMunicipioDeOrigem)
-                    @Html.TextBoxFor(x => x.NomeDoMunicipioDeOrigem, new {@class = "campogrande" })
+                    @Html.TextBoxFor(x => x.NomeDoMunicipioDeOrigem, new { @class = "campogrande" })
                     @Html.ValidationMessageFor(x => x.NomeDoMunicipioDeOrigem)
                 </div>
                 <div class="coluna">
@@ -105,7 +106,7 @@
                 </div>
 
             </div>
-            
+
             @{
                 var tiposDePreco = new List<SelectListItem>()
                 {
@@ -115,24 +116,24 @@
 
                 };
 
-                var comboTipoDePreco = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, int>(x => x.TipoDePreco,tiposDePreco, "TipoDePreco","",null);
-                  
+                var comboTipoDePreco = new ColunaComDropDown<ProcessoCotacaoFreteCadastroVm, int>(x => x.TipoDePreco, tiposDePreco, "TipoDePreco", "", null);
+
 
                 //var valorDoTipoDePreco = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorDoTipoDePreco, new { @class = "maskmoeda"}, Model.LabelDoTipoDePreco);
                 var valorDoTipoDePreco = new ColunaComTextBox<ProcessoCotacaoFreteCadastroVm, decimal?>(x => x.ValorDoTipoDePreco, new { @class = "maskmoeda" });
-                
+
             }
-            
+
             @Html.LinhaComDuasColunas(comboTipoDePreco, valorDoTipoDePreco)
-            
+
             @Html.ValidationSummary(true)
-        <div class="error"></div>
-        <div class="divBotao">
-            <input type="button" id="btnSalvar" value="Salvar" class="blue" />
-        </div>
+            <div class="error"></div>
+            <div class="divBotao">
+                <input type="button" id="btnSalvar" value="Salvar" class="blue" />
+            </div>
         </fieldset>
     }
-    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary() 
+    @Html.Partial("_ProcessoDeCotacaoOperacoes", new ViewDataDictionary()
         {   new KeyValuePair<string, object>("idProcessoCotacao", Model != null ? Model.Id : 0),
             new KeyValuePair<string, object>("TipoDeCotacao", Enumeradores.TipoDeCotacao.Frete),
             new KeyValuePair<string, object>("UrlEnviarEmail", Url.Action("EnviarEmailDeAbertura","ProcessoDeCotacaoDeFreteEmail")),
@@ -140,7 +141,7 @@
             new KeyValuePair<string, object>("PermiteOutrasOperacoes", Model != null && Model.PermitirAbrirProcesso),
             new KeyValuePair<string, object>("PermiteFecharProcesso", Model != null && Model.PermiteFecharProcesso)
         })
-    
+
 </div>
 
 @section Scripts {
@@ -151,6 +152,7 @@
     <script src="@Url.Content("~/Scripts/jquery.meio.mask.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.loadmask.js")"></script>
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/CotacaoDoFornecedorResumido.js")"></script>
+    <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoHistorico.js")"></script>
     <script src="@Url.Content("~/Scripts/ProcessoDeCotacao/ProcessoDeCotacaoOperacoes.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/SelecionarFornecedor.js")"></script>
     <script src="@Url.Content("~/Scripts/Shared/SelecionarProduto.js")"></script>
@@ -160,8 +162,15 @@
     <script type="text/javascript">
         $(function () {
             var idProcessoCotacao = '@(Model != null ? Model.Id : 0)';
-            GridCotacaoResumida.Configurar({ Url: UrlPadrao.CotacaoDeFreteResumida, ExibirBotaoVisualizar: true, autoBind: idProcessoCotacao > 0 });
+            GridCotacaoResumida.Configurar({
+                Url: UrlPadrao.CotacaoDeFreteResumida,
+                IdProcessoCotacao: idProcessoCotacao,
+                ExibirBotaoVisualizar: true,
+                autoBind: idProcessoCotacao > 0,
+                exibirLiberacaoCotacao: '@(Model != null && Model.DescricaoStatus == "Aberto")'.boolean()
+            });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
+            ProcessoCotacaoHistorico.configurarGrid();
 
             aplicaMascaraData();
             aplicaMascaraQuantidade();
@@ -201,7 +210,7 @@
 
             criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeOrigem', '#NomeDoMunicipioDeOrigem');
             criarAutoCompleteDeMunicipio('#CodigoDoMunicipioDeDestino', '#NomeDoMunicipioDeDestino');
-            
+
             $('#btnSalvar').click(function() {
                 $('.error').empty();
                 var form = $('form');

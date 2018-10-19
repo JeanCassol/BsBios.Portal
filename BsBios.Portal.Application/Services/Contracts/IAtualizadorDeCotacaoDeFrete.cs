@@ -7,6 +7,7 @@ namespace BsBios.Portal.Application.Services.Contracts
     {
         void Atualizar(CotacaoInformarVm cotacaoAtualizarVm);
         void SairDoProcesso(int idDoProcessoDeCotacao, string codigoDoFornecedor);
+        void Remover(int idDoProcessoDeCotacao, string codigoDoFornecedor);
 
     }
 }

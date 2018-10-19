@@ -48,5 +48,10 @@ namespace BsBios.Portal.Domain.Entities
         {
             this.Resposta = Enumeradores.RespostaDaCotacao.Aceito;
         }
+
+        public virtual void RemoverCotacao()
+        {
+            this.Cotacao = null;
+        }
     }
 }

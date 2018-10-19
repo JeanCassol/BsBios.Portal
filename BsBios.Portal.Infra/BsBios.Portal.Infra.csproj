@@ -114,6 +114,7 @@
     <Compile Include="Mappings\ConhecimentoDeTransporteMap.cs" />
     <Compile Include="Mappings\ColetaMap.cs" />
     <Compile Include="Mappings\CondicaoDePagamentoMap.cs" />
+    <Compile Include="Mappings\CotacaoHistoricoMap.cs" />
     <Compile Include="Mappings\MaterialDeCargaMap.cs" />
     <Compile Include="Mappings\MonitorDeOrdemDeTransporteMap.cs" />
     <Compile Include="Mappings\MunicipioMap.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Repositories\Implementations\CompleteRepositoryNh.cs" />
     <Compile Include="Repositories\Implementations\CondicoesDePagamento.cs" />
     <Compile Include="Repositories\Implementations\ConhecimentosDeTransporte.cs" />
+    <Compile Include="Repositories\Implementations\CotacaoHistoricos.cs" />
     <Compile Include="Repositories\Implementations\MateriaisDeCarga.cs" />
     <Compile Include="Repositories\Implementations\Municipios.cs" />
     <Compile Include="Repositories\Implementations\NotaFiscalMiro.cs" />

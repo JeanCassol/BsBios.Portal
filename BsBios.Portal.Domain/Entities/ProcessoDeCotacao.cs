@@ -232,6 +232,17 @@ namespace BsBios.Portal.Domain.Entities
                 throw new ProcessoDeCotacaoFechadoSelecaoCotacaoException();
             }
         }
+
+        public virtual FornecedorParticipante RemoverCotacao(string codigoDoFornecedor)
+        {
+            if (Status != Enumeradores.StatusProcessoCotacao.Aberto)
+            {
+                throw new Exception("O Processo de Cotação não está mais aberto. Não foi é possível remover Cotação.");
+            }
+            var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoDoFornecedor);
+            fornecedorParticipante.RemoverCotacao();
+            return fornecedorParticipante;
+        }
     }
 
     //public class ProcessoDeCotacaoDeMaterial: ProcessoDeCotacao

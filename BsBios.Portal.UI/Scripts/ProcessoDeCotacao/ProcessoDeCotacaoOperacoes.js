@@ -297,6 +297,16 @@
             }
         });
 
+        $('#divHistoricoCotacao').customDialog({
+            title: 'Histórico de Cotação',
+            position: {at: "center"},
+            buttons: {
+                "Cancelar": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
         $('#btnFecharProcesso').click(function () {
             if (tipoDeCotacao == TipoDeCotacao.Material) {
                 $('#divFecharProcessoDeCotacaoDeMaterial').customLoad({url:UrlPadrao.AbrirTelaDeFechamentoDeProcessoDeCotacaoDeMaterial, validar:true});

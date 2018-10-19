@@ -150,7 +150,7 @@ $.fn.customKendoGrid = function (configuracao) {
     configuracao.groupable = false;
     configuracao.resizable = true;
     //configuracao.sortable = true;
-    if (configuracao.pageable == undefined) {
+    if (configuracao.pageable === undefined) {
 
         var larguraDaViewPort = $(window).width();
         var buttonCount;
@@ -197,7 +197,7 @@ $.fn.customDialog = function (configuracao) {
     configuracao.autoOpen = false;
     configuracao.resizable = false;
     configuracao.modal = true;
-    configuracao.position = { at: "top" };
+    configuracao.position = configuracao.position || { at: "top" };
     configuracao.beforeClose = function () {
         $(this).empty();
     };

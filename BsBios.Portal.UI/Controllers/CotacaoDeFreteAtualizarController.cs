@@ -47,6 +47,23 @@ namespace BsBios.Portal.UI.Controllers
             }
             
         }
+
+        [HttpPost]
+        public JsonResult RemoverCotacao(int idProcessoCotacao, string codigoDoFornecedor)
+        {
+            try
+            {
+                _atualizadorDeCotacao.Remover(idProcessoCotacao, codigoDoFornecedor);
+                return Json(new { Sucesso = true });
+
+            }
+            catch (Exception exception)
+            {
+
+                return Json(new { Sucesso = false, Mensagem = exception.Message });
+            }
+
+        }
     }
 
 }

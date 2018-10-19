@@ -17,6 +17,7 @@
         public const string GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial = "GeradorDeEmailDeAberturaDeProcessoDeCotacaoDeMaterial";
         public const string FormatoDeCampoDeQuantidade = "0.000";
         public const string FormatoDeCampoDeValor = "0.00";
+        public const string FormatoDeCampoDataHora = "dd/MM/yyyy HH:mm:ss";
     }
 }
 
