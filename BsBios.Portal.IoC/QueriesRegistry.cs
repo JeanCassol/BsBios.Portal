@@ -138,6 +138,10 @@ namespace BsBios.Portal.IoC
                 .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
                 .Use<ConsultaEficienciaDeNegociacao>();
 
+            For<IConsultaHistoricoCotacao>()
+                .LifecycleIs(Lifecycles.GetLifecycle(InstanceScope.PerRequest))
+                .Use<ConsultaHistoricoCotacao>();
+            
         }
 
     }

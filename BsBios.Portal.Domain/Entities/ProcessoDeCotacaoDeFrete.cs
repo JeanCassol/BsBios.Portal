@@ -20,24 +20,24 @@ namespace BsBios.Portal.Domain.Entities
         public virtual Fornecedor Deposito { get; protected set; }
         public virtual Terminal Terminal { get; protected set; }
 
-        public virtual void InformarCotacao(string codigoFornecedor, decimal valorComImpostos, decimal quantidadeDisponivel, string observacoesDoFornecedor)
+        public virtual FornecedorParticipante InformarCotacao(string codigoFornecedor, decimal valorComImpostos, decimal quantidadeDisponivel, string observacoesDoFornecedor)
         {
             base.InformarCotacao();
             var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
-            CotacaoDeFrete cotacao;
             if (fornecedorParticipante.Cotacao != null)
             {
-                cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
+                //cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
+                throw new AlterarCotacaoDeFreteException();
             }
-            else
-            {
-                cotacao = new CotacaoDeFrete();
-                fornecedorParticipante.InformarCotacao(cotacao);
-            }
-            
+
+            var cotacao = new CotacaoDeFrete();
+            fornecedorParticipante.InformarCotacao(cotacao);
+
             var processoDeCotacaoItem = this.Itens.Single();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorComImpostos, quantidadeDisponivel,
                 observacoesDoFornecedor);
+
+            return fornecedorParticipante;
         }
 
         protected ProcessoDeCotacaoDeFrete() { }

@@ -31,10 +31,20 @@ namespace BsBios.Portal.Application.Services.Implementations
                 var processoDeCotacao = (ProcessoDeCotacaoDeFrete) _processosDeCotacao.BuscaPorId(cotacaoInformarVm.IdProcessoCotacao).Single();
                 ProcessoDeCotacaoDeFreteItem item = processoDeCotacao.ObterItem();
 
-                processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,cotacaoInformarVm.ValorComImpostos ?? (item.ValorFechado ?? 0),
-                    cotacaoInformarVm.QuantidadeDisponivel.Value, cotacaoInformarVm.ObservacoesDoFornecedor);
+                var valorComImpostos = cotacaoInformarVm.ValorComImpostos ?? (item.ValorFechado ?? 0);
+                var quantidadeDisponivel = cotacaoInformarVm.QuantidadeDisponivel ?? 0;
+                var fornecedorParticipante = processoDeCotacao.InformarCotacao(cotacaoInformarVm.CodigoFornecedor,valorComImpostos,
+                    quantidadeDisponivel, cotacaoInformarVm.ObservacoesDoFornecedor);
 
                 _processosDeCotacao.Save(processoDeCotacao);
+
+                //inserir histórico de remoção
+                var cotacaoHistorico = new CotacaoHistorico(fornecedorParticipante.Id, this._usuarioConectado.NomeCompleto,
+                     $"Cotação informada: Quantidade = {quantidadeDisponivel}, Preço = {valorComImpostos}");
+
+                this._cotacaoHistoricos.Save(cotacaoHistorico);
+
+
                 _unitOfWork.Commit();
             }
             catch (Exception)
