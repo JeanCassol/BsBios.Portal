@@ -188,22 +188,12 @@
                 + "/?codigoProduto=" + $('#CodigoMaterial').val()
                 + "&idProcessoCotacao=" + $('#Id').val()
                 + "&TipoDeCotacao=" + tipoDeCotacao});
-           /* $('#divSelecionarFornecedores').customLoad({
-                    url: UrlPadrao.SelecionarFornecedores
-                        + "/?idProcessoCotacao=" + $('#Id').val()
-                        + "&TipoDeCotacao=" + tipoDeCotacao
-                });*/
-
         });
 
         $('#btnSelecionarCotacoes').click(function () {
             var urlDaTela = (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
                 + "/?idProcessoCotacao=" + $('#Id').val();
             $('#divSelecionarCotacoes').customLoad({ url: urlDaTela});
-           /* $('#divSelecionarCotacoes').customLoad({
-                    url: (tipoDeCotacao == TipoDeCotacao.Material ? UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeMaterial : UrlPadrao.AbrirTelaDeSelecaoDeCotacoesDeFrete)
-                        + "/?idProcessoCotacao=" + $('#Id').val()});*/
-
         });
 
         $('#btnAbrirProcesso').click(function () {
@@ -299,7 +289,7 @@
 
         $('#divHistoricoCotacao').customDialog({
             title: 'Histórico de Cotação',
-            position: {at: "center"},
+            position: { at: "center" },
             buttons: {
                 "Cancelar": function () {
                     $(this).dialog("close");

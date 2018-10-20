@@ -18,10 +18,7 @@
                     read: {
                         url: UrlPadrao.ListarHistoricoProcessoCotacao,
                         type: 'GET',
-                        cache: false /*,
-                        data: function () {
-                            return { IdProcessoCotacao: $('#Id').val() };
-                        }*/
+                        cache: false
                     }
                 }
             },
@@ -29,12 +26,12 @@
             scrollable: true,
             //selectable: 'row',
             pageable: false,
-            autoBind: true,
-
+            autoBind: false,
+            noRecords: true,
             columns: [
                 {
                     field: "Data",
-                    width: 100,
+                    width: 80,
                     title: "Data"
                 },
                 {
@@ -44,14 +41,14 @@
                 },
                 {
                     field: "Acao",
-                    width: 195,
+                    width: 250,
                     title: "Ação"
                 }
             ]
         });
 
     },
-    carregarGrid: function() {
-        $("#gridCotacaoHistorico").data("kendoGrid").dataSource.read();
+    carregarGrid: function(idFornecedorParticipante) {
+        $("#gridCotacaoHistorico").data("kendoGrid").dataSource.read({IdFornecedorParticipante: idFornecedorParticipante});
     }
 }

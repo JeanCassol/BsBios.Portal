@@ -170,7 +170,6 @@
                 exibirLiberacaoCotacao: '@(Model != null && Model.DescricaoStatus == "Aberto")'.boolean()
             });
             ProcessoDeCotacaoOperacoes.Configurar('@((int) Enumeradores.TipoDeCotacao.Frete)');
-            ProcessoCotacaoHistorico.configurarGrid();
 
             aplicaMascaraData();
             aplicaMascaraQuantidade();

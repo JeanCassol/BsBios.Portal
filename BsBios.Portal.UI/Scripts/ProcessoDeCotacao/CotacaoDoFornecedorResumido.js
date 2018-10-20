@@ -118,10 +118,17 @@
 
         $("#gridCotacaoFornecedor").find('.button_historico_cotacao').die('click');
         $("#gridCotacaoFornecedor").find('.button_historico_cotacao').live('click',
-            function() {
+            function () {
+
+                $('#divHistoricoCotacao').append('<div id="gridCotacaoHistorico" class="divGrid"></div>');
+                    
+                ProcessoCotacaoHistorico.configurarGrid();
+
                 var grid = $('#gridCotacaoFornecedor').data("kendoGrid");
                 var fornecedorSelecionado = grid.obterRegistroSelecionado();
-                $('#divHistoricoCotacao').customLoad({}, ProcessoCotacaoHistorico.carregarGrid);
+                $('#divHistoricoCotacao').customLoad({}, function() {
+                    ProcessoCotacaoHistorico.carregarGrid(fornecedorSelecionado.IdFornecedorParticipante);
+                });
             });
 
         function obterColunas(exibirLiberacaoCotacao) {

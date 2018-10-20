@@ -571,6 +571,9 @@ $.fn.customLoad = function (configuracao, functionBeforeOpen) {
     }
 
     if (!configuracao.url) {
+        if (functionBeforeOpen) {
+            functionBeforeOpen();
+        }
         divParaCarregar.dialog("open");
         return;
     }

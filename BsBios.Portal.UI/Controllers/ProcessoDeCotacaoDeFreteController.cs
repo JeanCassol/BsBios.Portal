@@ -19,14 +19,16 @@ namespace BsBios.Portal.UI.Controllers
         private readonly IConsultaStatusProcessoCotacao _consultaStatusProcessoCotacao;
         private readonly IConsultaTerminal _consultaTerminal;
         private readonly IConsultaProcessoDeCotacaoDeMaterial _consultaProcessoDeCotacaoDeMaterial;
+        private readonly IConsultaHistoricoCotacao _consultaHistoricoCotacao;
 
-        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial1)
+        public ProcessoDeCotacaoDeFreteController(IConsultaUnidadeDeMedida consultaUnidadeDeMedida, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial, IConsultaProcessoDeCotacaoDeFrete consultaProcessoDeCotacaoDeFrete, IConsultaStatusProcessoCotacao consultaStatusProcessoCotacao, IConsultaTerminal consultaTerminal, IConsultaProcessoDeCotacaoDeMaterial consultaProcessoDeCotacaoDeMaterial1, IConsultaHistoricoCotacao consultaHistoricoCotacao)
         {
             _consultaUnidadeDeMedida = consultaUnidadeDeMedida;
             _consultaProcessoDeCotacaoDeFrete = consultaProcessoDeCotacaoDeFrete;
             _consultaStatusProcessoCotacao = consultaStatusProcessoCotacao;
             _consultaTerminal = consultaTerminal;
             _consultaProcessoDeCotacaoDeMaterial = consultaProcessoDeCotacaoDeMaterial1;
+            _consultaHistoricoCotacao = consultaHistoricoCotacao;
         }
 
         [HttpGet]
@@ -152,14 +154,16 @@ namespace BsBios.Portal.UI.Controllers
             return Json(kendoGridVm, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ListarHistorico()
+        public JsonResult ListarHistorico(int idFornecedorParticipante)
         {
-            var historico = new List<CotacaoHistoricoListagemVm>()
-            {
-                new CotacaoHistoricoListagemVm {Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.AddDays(-2).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 10, Preço = 100,00"},
-                new CotacaoHistoricoListagemVm {Usuario = "Fabiano Machado", Data = DateTime.Now.AddDays(-1).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Liberação para informar nova cotação"},
-                new CotacaoHistoricoListagemVm{Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 13, Preço = 110,00"}
-            };
+            //var historico = new List<CotacaoHistoricoListagemVm>()
+            //{
+            //    new CotacaoHistoricoListagemVm {Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.AddDays(-2).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 10, Preço = 100,00"},
+            //    new CotacaoHistoricoListagemVm {Usuario = "Fabiano Machado", Data = DateTime.Now.AddDays(-1).ToString(Constantes.FormatoDeCampoDataHora), Acao = "Liberação para informar nova cotação"},
+            //    new CotacaoHistoricoListagemVm{Usuario = "Mauro Sérgio da Costa Leal", Data = DateTime.Now.ToString(Constantes.FormatoDeCampoDataHora), Acao = "Cotação informada: Quantidade = 13, Preço = 110,00"}
+            //};
+
+            var historico = _consultaHistoricoCotacao.ListarPorCotacao(idFornecedorParticipante);
             var kendoGridVm = new KendoGridVm()
             {
                 Registros = historico.Cast<ListagemVm>().ToList(),
