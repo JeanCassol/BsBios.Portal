@@ -16,29 +16,73 @@
         <fieldset>
             <legend>Cotação do Fornecedor</legend>
             @{
-                string classe = "maskmoeda";
-                object atributos;
-                if (Model.PermiteAlterarPreco)
+                const string classeDesabilitado = " campoDesabilitado";
+
+                string classeQuantidade = "maskquantidade";
+                string classeObservacao = "";
+
+                object atributosQuantidade;
+                object atributosObservacao;
+
+                if (Model.SomenteLeitura)
                 {
-                    atributos = new
+                    classeQuantidade += classeDesabilitado;
+                    classeObservacao += classeDesabilitado;
+
+                    atributosQuantidade = new
                     {
-                        @class = classe
+                        @readonly = true,
+                        @class = classeQuantidade
+                    };
+
+                    atributosObservacao = new
+                    {
+                        @readonly = true,
+                        @class = classeObservacao,
+                        @rows = 5
+
                     };
                 }
                 else
                 {
-                    classe += " campoDesabilitado";
-                    atributos = new
+                    atributosQuantidade = new
                     {
-                        @readonly = true,
-                        @class = classe
+                        @class = classeQuantidade
+                    };
+
+                    atributosObservacao = new
+                    {
+                        @class = classeObservacao,
+                        @rows = 5
                     };
                 }
+
+                string classeValor = "maskmoeda";
+                object atributosValor;
+                if (Model.PermiteAlterarPreco && !Model.SomenteLeitura)
+                {
+                    atributosValor = new
+                    {
+                        @class = classeValor
+                    };
+                }
+                else
+                {
+                    classeValor += " campoDesabilitado";
+                    atributosValor = new
+                    {
+                        @readonly = true,
+                        @class = classeValor
+                    };
+
+                    
+                }
+
             }
-            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, atributos),
-                                      new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel,"maskquantidade"))
+            @Html.LinhaComDuasColunas(new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.ValorComImpostos, atributosValor),
+                                      new ColunaComTextBox<CotacaoFreteCadastroVm, decimal?>(x => x.QuantidadeDisponivel, atributosQuantidade))
             
-            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor))
+            @Html.LinhaComUmaColuna(new ColunaComTextArea<CotacaoFreteCadastroVm, string>(x => x.ObservacoesDoFornecedor, atributosObservacao))
 
         </fieldset>
         
@@ -52,11 +96,15 @@
         
         @Html.ValidationSummary(true)
 
-        <div class="divBotao">
-            <input type="button" id="btnAceitarCotacao" value="Aceitar" class="blue" />
-            <input type="button" id="btnRecusarCotacao" value="Recusar" class="blue" />
-            <a href="@Url.Action("Index","ProcessoDeCotacaoDeFrete")" class="blue">Sair</a>
-        </div>
+        if (!Model.SomenteLeitura)
+         {
+             <div class="divBotao">
+                 <input type="button" id="btnAceitarCotacao" value="Aceitar" class="blue" />
+                 <input type="button" id="btnRecusarCotacao" value="Recusar" class="blue" />
+                 <a href="@Url.Action("Index","ProcessoDeCotacaoDeFrete")" class="blue">Sair</a>
+             </div>
+             
+         }
     }
 </div>
 @section scripts

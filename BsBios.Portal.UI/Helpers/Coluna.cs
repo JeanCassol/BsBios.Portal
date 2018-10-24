@@ -118,13 +118,19 @@ namespace BsBios.Portal.UI.Helpers
     public class ColunaComTextArea<TModel, TValue> : Coluna<TModel, TValue>
     {
         public ColunaComTextArea(Expression<Func<TModel, TValue>> expressao)
-            : base(expressao, "","", true)
+            : base(expressao, new {@rows = "5" }, "", true)
         {
         }
 
+        public ColunaComTextArea(Expression<Func<TModel, TValue>> expressao, object atributos)
+            : base(expressao, atributos, "", true)
+        {
+        }
+
+
         public override MvcHtmlString GeraInput()
         {
-            return System.Web.Mvc.Html.TextAreaExtensions.TextAreaFor(HtmlHelper, Expressao, new {@rows = "5"});
+            return System.Web.Mvc.Html.TextAreaExtensions.TextAreaFor(HtmlHelper, Expressao, InputAttributes);
         }
     }
 

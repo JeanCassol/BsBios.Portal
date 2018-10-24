@@ -51,7 +51,7 @@ namespace BsBios.Portal.Domain.Entities
 
         public virtual void RemoverCotacao()
         {
-            this.Cotacao = null;
+            this.Cotacao.RemoverValores();
         }
     }
 }

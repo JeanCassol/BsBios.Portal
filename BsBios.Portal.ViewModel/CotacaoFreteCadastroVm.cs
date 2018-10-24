@@ -11,6 +11,7 @@ namespace BsBios.Portal.ViewModel
         /// </summary>
         public bool PermiteEditar { get; set; }
         public bool PermiteAlterarPreco { get; set; }
+        public bool SomenteLeitura { get; set; }
         public int IdFornecedorParticipante { get; set; }
 
         [DisplayName("Requisitos: ")]

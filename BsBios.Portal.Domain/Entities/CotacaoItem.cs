@@ -149,6 +149,11 @@ namespace BsBios.Portal.Domain.Entities
         #endregion
 
 
+        public virtual void RemoverValores()
+        {
+            this.QuantidadeDisponivel = 0;
+            this.ValorComImpostos = 0;
+        }
     }
 
     public class CotacaoMaterialItem: CotacaoItem

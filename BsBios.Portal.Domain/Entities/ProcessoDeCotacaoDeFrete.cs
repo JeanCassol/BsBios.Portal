@@ -24,15 +24,16 @@ namespace BsBios.Portal.Domain.Entities
         {
             base.InformarCotacao();
             var fornecedorParticipante = FornecedoresParticipantes.First(x => x.Fornecedor.Codigo == codigoFornecedor);
+            CotacaoDeFrete cotacao;
             if (fornecedorParticipante.Cotacao != null)
             {
-                //cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
-                throw new AlterarCotacaoDeFreteException();
+                cotacao = (CotacaoDeFrete)fornecedorParticipante.Cotacao.CastEntity();
             }
-
-            var cotacao = new CotacaoDeFrete();
-            fornecedorParticipante.InformarCotacao(cotacao);
-
+            else
+            {
+                cotacao = new CotacaoDeFrete();
+                fornecedorParticipante.InformarCotacao(cotacao);
+            }
             var processoDeCotacaoItem = this.Itens.Single();
             cotacao.InformarCotacaoDeItem(processoDeCotacaoItem, valorComImpostos, quantidadeDisponivel,
                 observacoesDoFornecedor);

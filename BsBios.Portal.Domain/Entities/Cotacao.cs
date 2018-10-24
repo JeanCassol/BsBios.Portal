@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BsBios.Portal.Common.Exceptions;
 
 namespace BsBios.Portal.Domain.Entities
 {
@@ -15,118 +16,48 @@ namespace BsBios.Portal.Domain.Entities
         }
 
         public virtual bool Selecionada => this.Itens.Any(x => x.Selecionada);
+
+        public abstract void RemoverValores();
     }
 
-  /*      protected Cotacao(decimal valorTotalComImpostos, decimal quantidadeDisponivel,string observacoes):this()
-        {
-            ValorComImpostos = valorTotalComImpostos;
-            QuantidadeDisponivel = quantidadeDisponivel;
-            Observacoes = observacoes;
-            CalculaValorLiquido();
-        }
-        
-        private decimal ValorDoImposto(Enumeradores.TipoDeImposto tipoDeImposto)
-        {
-            var imposto = Imposto(tipoDeImposto);
-            return imposto != null ? imposto.Valor : 0;
-        }
-
-        private void CalculaValorLiquido()
-        {
-            
-            ValorLiquido = ValorComImpostos - ValorDoImposto(Enumeradores.TipoDeImposto.Icms)
-                - ValorDoImposto(Enumeradores.TipoDeImposto.IcmsSubstituicao)
-                - ValorDoImposto(Enumeradores.TipoDeImposto.Ipi);
-        }
-
-        protected virtual void Atualizar(decimal valorTotalComImpostos,decimal quantidadeDisponivel, string observacoes)
-        {
-            ValorComImpostos = valorTotalComImpostos;
-            QuantidadeDisponivel = quantidadeDisponivel;
-            Observacoes = observacoes;
-            CalculaValorLiquido();
-        }*/
-
-
-        //private void AtualizarImposto(Enumeradores.TipoDeImposto tipoDeImposto, decimal aliquota, decimal valor)
-        //{
-        //    var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
-        //    if (cotacaoItem != null)
-        //    {
-        //        cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-        //    }
-        //    else
-        //    {
-        //        cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
-        //        Itens.Add(cotacaoItem);
-        //    }
-
-        //    return cotacaoItem;
-        //}
-
-
-        //public virtual Imposto Imposto(Enumeradores.TipoDeImposto tipo)
-        //{
-        //    return Impostos.SingleOrDefault(x => x.Tipo == tipo);
-        //}
-
-        //protected virtual void Selecionar(decimal quantidadeAdquirida)
-        //{
-        //    Selecionada = true;
-        //    QuantidadeAdquirida = quantidadeAdquirida;
-        //}
-
-        //protected virtual void RemoverSelecao()
-        //{
-        //    Selecionada = false;
-        //    QuantidadeAdquirida = null;
-        //}
-
-    
-
-    public class CotacaoDeFrete: Cotacao
+    public class CotacaoDeFrete : Cotacao
     {
-        //public CotacaoDeFrete(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
-        //    : base(valorTotalComImpostos, quantidadeDisponivel, observacoes){}
-
-        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem,
+            decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
         {
-            var cotacaoItem = (CotacaoFreteItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+            var cotacaoItem =
+                (CotacaoFreteItem) Itens.SingleOrDefault(item =>
+                    item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
             if (cotacaoItem != null)
             {
+                if (cotacaoItem.ValorComImpostos > 0)
+                {
+                    throw new AlterarCotacaoDeFreteException();
+                }
                 cotacaoItem.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
             }
             else
             {
-                cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos, quantidadeDisponivel, observacoes);
+                cotacaoItem = new CotacaoFreteItem(this, processoDeCotacaoItem, valorTotalComImpostos,
+                    quantidadeDisponivel, observacoes);
                 Itens.Add(cotacaoItem);
             }
 
             return cotacaoItem;
         }
 
-
         public virtual string NumeroDaCondicaoGeradaNoSap { get; protected set; }
-
-
-        //public new virtual void Atualizar(decimal valorTotalComImpostos, decimal quantidadeDisponivel, string observacoes)
-        //{
-        //    base.Atualizar(valorTotalComImpostos, quantidadeDisponivel, observacoes);
-        //}
-
 
         public virtual void Selecionar(decimal quantidadeAdquirida, decimal cadencia)
         {
-            var itemDaCotacao =  (CotacaoFreteItem) this.Itens.Single();
+            var itemDaCotacao = (CotacaoFreteItem) this.Itens.Single();
             itemDaCotacao.Selecionar(quantidadeAdquirida, cadencia);
-
         }
 
         public virtual void RemoverSelecao()
         {
             var itemDaCotacao = (CotacaoFreteItem) this.Itens.Single();
             itemDaCotacao.RemoverSelecao();
-
         }
 
         protected internal virtual void InformarNumeroDaCondicao(string numeroGeradoNoSap)
@@ -134,15 +65,22 @@ namespace BsBios.Portal.Domain.Entities
             NumeroDaCondicaoGeradaNoSap = numeroGeradoNoSap;
         }
 
+        public override void RemoverValores()
+        {
+            var itemDaCotacao = this.Itens.Single();
+            itemDaCotacao.RemoverValores();
+        }
     }
 
-    public class CotacaoMaterial: Cotacao
+    public class CotacaoMaterial : Cotacao
     {
         public virtual CondicaoDePagamento CondicaoDePagamento { get; protected set; }
         public virtual Incoterm Incoterm { get; protected set; }
         public virtual string DescricaoIncoterm { get; protected set; }
 
-        protected CotacaoMaterial(){}
+        protected CotacaoMaterial()
+        {
+        }
 
         internal CotacaoMaterial(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
         {
@@ -151,31 +89,38 @@ namespace BsBios.Portal.Domain.Entities
             DescricaoIncoterm = descricaoIncoterm;
         }
 
-        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm, string descricaoIncoterm)
+        public virtual void Atualizar(CondicaoDePagamento condicaoDePagamento, Incoterm incoterm,
+            string descricaoIncoterm)
         {
             CondicaoDePagamento = condicaoDePagamento;
             Incoterm = incoterm;
             DescricaoIncoterm = descricaoIncoterm;
         }
 
-        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal preco, decimal? mva, 
+        public virtual CotacaoItem InformarCotacaoDeItem(ProcessoDeCotacaoItem processoDeCotacaoItem, decimal preco,
+            decimal? mva,
             decimal quantidadeDisponivel, DateTime prazoDeEntrega, string observacoes)
         {
-            var cotacaoItem = (CotacaoMaterialItem)Itens.SingleOrDefault(item => item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
+            var cotacaoItem =
+                (CotacaoMaterialItem) Itens.SingleOrDefault(item =>
+                    item.ProcessoDeCotacaoItem.Id == processoDeCotacaoItem.Id);
             if (cotacaoItem != null)
             {
                 cotacaoItem.Atualizar(preco, mva, quantidadeDisponivel, prazoDeEntrega, observacoes);
             }
             else
             {
-                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, preco, quantidadeDisponivel, observacoes);
+                cotacaoItem = new CotacaoMaterialItem(this, processoDeCotacaoItem, mva, prazoDeEntrega, preco,
+                    quantidadeDisponivel, observacoes);
                 Itens.Add(cotacaoItem);
             }
 
             return cotacaoItem;
         }
 
+        public override void RemoverValores()
+        {
+            throw new NotImplementedException();
+        }
     }
-
-   
 }

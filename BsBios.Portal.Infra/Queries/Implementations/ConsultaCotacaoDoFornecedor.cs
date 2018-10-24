@@ -197,30 +197,7 @@ namespace BsBios.Portal.Infra.Queries.Implementations
             vm.PermiteVisualizarCustos = usuarioConectado.Permissao.PermiteVisualizarCustos;
 
             return vm;
-
-
-            //esta foi uma tentativa de fazer toda a consulta em uma única query, mas não chegou a ser testada
-            //var query = _processosDeCotacao.GetQuery();
-
-            //var vm = (from pc in query
-            //         from fp in pc.FornecedoresParticipantes
-            //         where fp.Fornecedor.Codigo == codigoFornecedor
-            //         from itemProcesso in pc.Itens
-            //         let itemProcessoMaterial = (ProcessoDeCotacaoDeMaterialItem) itemProcesso
-            //         where itemProcessoMaterial.RequisicaoDeCompra.Numero == numeroDaRequisicao
-            //               && itemProcessoMaterial.RequisicaoDeCompra.NumeroItem == numeroDoItemDaRequisicao
-            //         from cotacaoItem in fp.Cotacao.Itens
-            //         where itemProcessoMaterial.Id == cotacaoItem.ProcessoDeCotacaoItem.Id
-            //         select new CotacaoMaterialItemCadastroVm
-            //             {
-            //                 IdProcessoCotacao = idProcessoCotacao,
-            //                 IdCotacao = fp.Cotacao.Id,
-            //                 IdCotacaoItem = cotacaoItem.Id,
-            //                 IdProcessoCotacaoItem = itemProcessoMaterial.Id,
-            //                 Material = itemProcessoMaterial.Produto.Descricao
-            //             }
-            //        ).SingleOrDefault();
-
+            
         }
 
         public CotacaoFreteCadastroVm ConsultarCotacaoDeFrete(int idProcessoCotacao, string codigoFornecedor)
@@ -288,6 +265,8 @@ namespace BsBios.Portal.Infra.Queries.Implementations
                 vm.ObservacoesDoFornecedor = itemDaCotacao.Observacoes;
                 vm.QuantidadeDisponivel = itemDaCotacao.QuantidadeDisponivel;
                 vm.Cabecalho.Cadencia = itemDaCotacao.Cadencia ?? item.Cadencia;
+
+                vm.SomenteLeitura = itemDaCotacao.ValorComImpostos > 0;
 
             }
 
