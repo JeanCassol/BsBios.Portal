@@ -39,8 +39,8 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _processosDeCotacao.Save(processoDeCotacao);
 
                 //inserir histórico de remoção
-                var cotacaoHistorico = new CotacaoHistorico(fornecedorParticipante.Id, this._usuarioConectado.NomeCompleto,
-                     $"Cotação informada: Quantidade = {quantidadeDisponivel}, Preço = {valorComImpostos}");
+                var cotacaoHistorico = new CotacaoHistorico(fornecedorParticipante.Id,  _usuarioConectado.ToString(),
+                     $"Cotação informada: Quantidade = {quantidadeDisponivel}; Preço = {valorComImpostos}");
 
                 this._cotacaoHistoricos.Save(cotacaoHistorico);
 
@@ -89,7 +89,7 @@ namespace BsBios.Portal.Application.Services.Implementations
                 _processosDeCotacao.Save(processoDeCotacao);
 
                 //inserir histórico de remoção
-                var cotacaoHistorico = new CotacaoHistorico(fornecedorParticipante.Id, this._usuarioConectado.NomeCompleto,
+                var cotacaoHistorico = new CotacaoHistorico(fornecedorParticipante.Id, _usuarioConectado.ToString(),
                     "Liberação para informar nova cotação");
 
                 this._cotacaoHistoricos.Save(cotacaoHistorico);

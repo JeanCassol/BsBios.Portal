@@ -24,5 +24,10 @@ namespace BsBios.Portal.Infra.Model
         {
             return Perfis.Contains(Enumeradores.Perfil.Fornecedor);
         }
+
+        public override string ToString()
+        {
+            return $"{Login} - {NomeCompleto}";
+        }
     }
 }
